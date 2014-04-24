@@ -10,7 +10,7 @@ import java.net.Socket;
 import java.net.UnknownHostException;
 import java.util.LinkedList;
 
-import Requests.Request;
+import requests.*;
 
 public class Connection implements Runnable {
 	private String ip;
