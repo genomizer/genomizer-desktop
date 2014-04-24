@@ -1,5 +1,7 @@
 package genomizerdesktop;
 
+import Requests.LoginRequest;
+
 import com.google.gson.Gson;
 
 public class Genomizer {
@@ -13,9 +15,9 @@ public class Genomizer {
 	System.out.println("HUR GÅR DET DÅ ADAM /CAPS?");
 	/* Gson exempel */
 	Gson gson = new Gson();
-	LoginCommand login = new LoginCommand("kalle", "123");
+	LoginRequest login = new LoginRequest("kalle", "123");
 	String json = gson.toJson(login);
-	LoginCommand login2 = gson.fromJson(json, LoginCommand.class);
+	LoginRequest login2 = gson.fromJson(json, LoginRequest.class);
 	System.out.println(login2.username + " " + login2.password);
 	/* Gson exempel */
 	GUI gui = new GUI();
