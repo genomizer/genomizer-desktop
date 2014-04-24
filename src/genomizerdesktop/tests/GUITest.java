@@ -2,6 +2,7 @@ package genomizerdesktop.tests;
 
 import static org.junit.Assert.*;
 import genomizerdesktop.GUI;
+import genomizerdesktop.GenomizerView;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -20,4 +21,8 @@ public class GUITest {
 		assertNotNull(gui);
 	}
 
+	@Test
+	public void shouldImplementGenomizerView() {
+		assertTrue(gui instanceof GenomizerView);
+	}
 }
