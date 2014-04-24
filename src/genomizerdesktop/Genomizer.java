@@ -12,4 +12,5 @@ public class Genomizer {
 	System.out.println("anton e söt //Johan");
 	// Hur blir det nu då!!!?
     }
+
 }
