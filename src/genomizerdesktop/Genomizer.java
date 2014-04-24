@@ -5,7 +5,8 @@ public class Genomizer {
 		this.nrOfUsers = nrOfUsers;
 	}
 
-    public static void main(String args[]) {
-	System.out.println("Starting Genomizerk");
-    }
+	public static void main(String args[]) {
+		System.out.println("Starting Genomizerk");
+		Genomizer g = new Genomizer(1);
+	}
 }
