@@ -8,5 +8,6 @@ public class Genomizer {
 		//Lester
 
 		System.out.println("adam testar");
+		System.out.println("HUR GÅR DET DÅ ADAM /CAPS?");
 	}
 }
