@@ -9,5 +9,6 @@ public class Genomizer {
 		System.out.println("Starting Genomizerk");
 		/*Your scrum master was here*/
 		Genomizer g = new Genomizer(1);
+		//Lester
 	}
 }
