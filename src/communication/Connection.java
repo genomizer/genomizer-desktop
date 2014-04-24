@@ -1,4 +1,4 @@
-package genomizerdesktop;
+package communication;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -66,14 +66,19 @@ public class Connection implements Runnable {
 					socket.getInputStream()));
 
 			while (running) {
-				String s = in.readLine();
-				System.out.println(s);
-				incomingMessages.add(s);
+				String message = in.readLine();
+				if(message == null) {
+					running = false;
+					break;
+				}
+				System.out.println(message);
+				incomingMessages.add(message);
 				System.out.println(incomingMessages);
 
 			}
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
+			running = false;
 			e.printStackTrace();
 		}
 	}
