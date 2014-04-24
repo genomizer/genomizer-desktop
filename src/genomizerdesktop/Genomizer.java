@@ -7,6 +7,7 @@ public class Genomizer {
 
 	public static void main(String args[]) {
 		System.out.println("Starting Genomizerk");
+		/*Your scrum master was here*/
 		Genomizer g = new Genomizer(1);
 	}
 }
