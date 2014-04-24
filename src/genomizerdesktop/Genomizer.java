@@ -10,5 +10,6 @@ public class Genomizer {
 		System.out.println("adam testar");
 		System.out.println("HUR GÅR DET DÅ ADAM /CAPS?");
 		System.out.println("anton e söt //Johan");
+		//Hur blir det nu då!!!?
 	}
 }
