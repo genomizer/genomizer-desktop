@@ -6,5 +6,7 @@ public class Genomizer {
 		System.out.println("Starting Genomizerk");
 		/*Your scrum master was here*/
 		//Lester
+
+		System.out.println("adam testar");
 	}
 }
