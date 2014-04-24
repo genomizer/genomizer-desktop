@@ -1,6 +1,6 @@
 package genomizerdesktop;
 
-public class GUI {
+public class GUI implements GenomizerView {
 
 	public GUI() {
 
