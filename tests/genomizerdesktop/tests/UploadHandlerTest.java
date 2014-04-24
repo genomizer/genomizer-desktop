@@ -4,10 +4,11 @@ import static org.junit.Assert.*;
 
 import org.junit.Test;
 
-public class ModelTest {
+public class UploadHandlerTest {
 
     @Test
-    public void test() {
-	fail("Not yet implemented");
+    public void () {
+	
     }
+
 }

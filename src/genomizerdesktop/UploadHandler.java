@@ -1,5 +1,5 @@
 package genomizerdesktop;
 
-public class Model {
+public class UploadHandler {
     
 }
