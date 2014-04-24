@@ -7,8 +7,8 @@ import org.junit.Test;
 public class UploadHandlerTest {
 
     @Test
-    public void () {
-	
+    public void test() {
+
     }
 
 }
