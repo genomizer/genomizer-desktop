@@ -9,5 +9,7 @@ public class Genomizer {
 
 		System.out.println("adam testar");
 		System.out.println("HUR GÅR DET DÅ ADAM /CAPS?");
+
+		GUI gui = new GUI();
 	}
 }
