@@ -13,14 +13,15 @@ public class Genomizer {
         String json = gson.toJson(login);
 
         GUI gui = new GUI();
-        Model model = new Model();
-        model.attemptLogin("kalle", "123");
+
         SearchTab st = new SearchTab();
         UploadTab ut = new UploadTab();
         WorkspaceTab wt = new WorkspaceTab();
         gui.setSearchTab(st);
         gui.setUploadTab(ut);
         gui.setWorkspaceTab(wt);
+        Model model = new Model();
+        model.attemptLogin("kalle", "123");
         //Connection con = new Connection("genomizer.apiary-mock.com", 80);
         //con.sendRequest(login);
     }
