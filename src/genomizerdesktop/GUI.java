@@ -31,11 +31,13 @@ public class GUI implements GenomizerView {
 	tabPanel.add(new JButton("UPLOAD"));
 	frame.setSize(800, 800);
 
+
 	//sätter gui'et i mitten av skärmen
 	frame.setLocationRelativeTo(null);
-
+	
 	centerPanel = new JPanel();
 	mainPanel.add(centerPanel, BorderLayout.CENTER);
+
 	frame.setVisible(true);
     }
 
