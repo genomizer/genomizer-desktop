@@ -33,7 +33,7 @@ public class GUI implements GenomizerView {
 	processPanel = new JPanel();
 	uploadPanel = new JPanel();
 
-	
+	addPanelsToTabbedPane();
 
 	try {
 		UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
@@ -57,9 +57,9 @@ public class GUI implements GenomizerView {
 	frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	frame.setVisible(true);
     }
-    
-    
-    
+
+
+
     public void addPanelsToTabbedPane() {
     tabbedPane.add("SEARCH", searchPanel);
     tabbedPane.add("WORKSPACE", workspacePanel);
