@@ -2,7 +2,7 @@ package responses;
 
 public class SearchResponse extends Response {
 
-    public SearchResponse(String responseName, String type) {
-        super(responseName, type);
+    public SearchResponse(String responseName) {
+	super("search");
     }
 }

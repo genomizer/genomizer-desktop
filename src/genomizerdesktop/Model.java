@@ -2,6 +2,7 @@ package genomizerdesktop;
 
 import requests.LoginRequest;
 import requests.RequestFactory;
+import responses.ResponseParser;
 
 import communication.Connection;
 
@@ -13,13 +14,15 @@ public class Model {
     private Connection connection;
 
     public Model() {
-	    connection = new Connection(ip, port);
+	connection = new Connection(ip, port);
     }
 
     public void attemptLogin(String username, String password) {
 	LoginRequest request = RequestFactory.makeLoginRequest(username,
 		password);
-        System.out.println(connection.sendRequest(request));
+	String response = connection.sendRequest(request);
+	ResponseParser.parseLoginResponse(response);
+	System.out.println(response);
 
     }
 }

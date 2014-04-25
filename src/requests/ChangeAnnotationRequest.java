@@ -7,7 +7,7 @@ public class ChangeAnnotationRequest extends Request {
     public HashMap<String, String> annotations = new HashMap<String, String>();
 
     public ChangeAnnotationRequest(String id,
-	    HashMap<String, String> annotations, String uID) {
+	    HashMap<String, String> annotations) {
 	super("changeannotation", "/file/changeAnnotation", "GET");
 	this.id = id;
 	this.annotations = annotations;
