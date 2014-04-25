@@ -1,7 +1,10 @@
 package genomizerdesktop.tests;
 
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
+
+import javax.swing.JPanel;
 
 import genomizerdesktop.GUI;
 import genomizerdesktop.GenomizerView;
@@ -27,5 +30,12 @@ public class GUITest {
     @Test
     public void shouldImplementGenomizerView() {
 	assertTrue(gui instanceof GenomizerView);
+    }
+
+    @Test
+    public void shouldSetSearchPanel() {
+    JPanel oldPanel = gui.getSearchPanel();
+    gui.setSearchPanel(new JPanel());
+    assertFalse(oldPanel.equals(gui.getSearchPanel()));
     }
 }
