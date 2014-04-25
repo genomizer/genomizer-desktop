@@ -12,9 +12,10 @@ import javax.swing.UnsupportedLookAndFeelException;
 public class GUI implements GenomizerView {
 
 	private JFrame frame;
-	private JPanel mainPanel, searchPanel, workspacePanel;
+	private JPanel mainPanel, workspacePanel;
 	private JPanel analyzePanel, processPanel, uploadPanel;
 	private JTabbedPane tabbedPane;
+	private SearchTab searchPanel;
 
     public GUI() {
 	frame = new JFrame("Genomizer");
@@ -37,41 +38,42 @@ public class GUI implements GenomizerView {
     }
 
     private void createPanels() {
-    searchPanel = new JPanel();
-    workspacePanel = new JPanel();
-    analyzePanel = new JPanel();
-    processPanel = new JPanel();
-    uploadPanel = new JPanel();
-	}
-
-	private void addPanelsToTabbedPane() {
-    tabbedPane.add("SEARCH", searchPanel);
-    tabbedPane.add("WORKSPACE", workspacePanel);
-    tabbedPane.add("ANALYZE", analyzePanel);
-    tabbedPane.add("PROCESS", processPanel);
-    tabbedPane.add("UPLOAD", uploadPanel);
+        //searchPanel = new JPanel();
+        workspacePanel = new JPanel();
+        analyzePanel = new JPanel();
+        processPanel = new JPanel();
+        uploadPanel = new JPanel();
     }
 
-	private void setLookAndFeel() {
+    private void setLookAndFeel() {
 	try {
-		UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-	} catch (ClassNotFoundException  e) {
-		e.printStackTrace();
-	} catch (InstantiationException e) {
-		e.printStackTrace();
-	} catch (IllegalAccessException e) {
-		e.printStackTrace();
-	} catch (UnsupportedLookAndFeelException e) {
-		e.printStackTrace();
-	}
-	}
+    		UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+    	} catch (ClassNotFoundException  e) {
+    		e.printStackTrace();
+    	} catch (InstantiationException e) {
+    		e.printStackTrace();
+    	} catch (IllegalAccessException e) {
+    		e.printStackTrace();
+    	} catch (UnsupportedLookAndFeelException e) {
+    		e.printStackTrace();
+    	}
+    }
 
-    public void setSearchPanel(JPanel searchPanel) {
-    this.searchPanel = searchPanel;
+    public void addPanelsToTabbedPane() {
+//	tabbedPane.add("SEARCH", searchPanel);
+	tabbedPane.add("WORKSPACE", workspacePanel);
+	tabbedPane.add("ANALYZE", analyzePanel);
+	tabbedPane.add("PROCESS", processPanel);
+	tabbedPane.add("UPLOAD", uploadPanel);
+    }
+
+    public void setSearchPanel(SearchTab searchPanel) {
+    	this.searchPanel = searchPanel;
+    	tabbedPane.add("SEARCH", searchPanel);
     }
 
     public JPanel getSearchPanel() {
-    return searchPanel;
+	return searchPanel;
     }
 
     public JFrame getFrame() {
