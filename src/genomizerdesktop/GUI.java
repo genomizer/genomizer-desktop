@@ -12,7 +12,7 @@ import javax.swing.JPanel;
 public class GUI implements GenomizerView {
 
 	private JFrame frame;
-	private JPanel mainPanel, tabPanel;
+	private JPanel mainPanel, tabPanel, centerPanel;
 
     public GUI() {
 	frame = new JFrame("Genomizer");
@@ -30,6 +30,9 @@ public class GUI implements GenomizerView {
 	tabPanel.add(new JButton("PROCESS"));
 	tabPanel.add(new JButton("UPLOAD"));
 	frame.setSize(800, 800);
+
+	centerPanel = new JPanel();
+	tabPanel.add(centerPanel, BorderLayout.CENTER);
 
 	frame.setVisible(true);
     }
