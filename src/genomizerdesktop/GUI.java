@@ -38,29 +38,25 @@ public class GUI implements GenomizerView {
     }
 
     private void createPanels() {
-    //searchPanel = new JPanel();
-    workspacePanel = new JPanel();
-    analyzePanel = new JPanel();
-    processPanel = new JPanel();
-    uploadPanel = new JPanel();
-	}
+        //searchPanel = new JPanel();
+        workspacePanel = new JPanel();
+        analyzePanel = new JPanel();
+        processPanel = new JPanel();
+        uploadPanel = new JPanel();
+    }
 
-	private void setLookAndFeel() {
+    private void setLookAndFeel() {
 	try {
-		UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-	} catch (ClassNotFoundException  e) {
-		e.printStackTrace();
-	} catch (InstantiationException e) {
-		e.printStackTrace();
-	} catch (IllegalAccessException e) {
-		e.printStackTrace();
-	} catch (UnsupportedLookAndFeelException e) {
-		e.printStackTrace();
-	}
-	}
-	frame.setSize(800, 800);
-	frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-	frame.setVisible(true);
+    		UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+    	} catch (ClassNotFoundException  e) {
+    		e.printStackTrace();
+    	} catch (InstantiationException e) {
+    		e.printStackTrace();
+    	} catch (IllegalAccessException e) {
+    		e.printStackTrace();
+    	} catch (UnsupportedLookAndFeelException e) {
+    		e.printStackTrace();
+    	}
     }
 
     public void addPanelsToTabbedPane() {
@@ -74,9 +70,10 @@ public class GUI implements GenomizerView {
     public void setSearchPanel(SearchTab searchPanel) {
     	this.searchPanel = searchPanel;
     	tabbedPane.add("SEARCH", searchPanel);
+    }
 
     public JPanel getSearchPanel() {
-    return searchPanel;
+	return searchPanel;
     }
 
     public JFrame getFrame() {
