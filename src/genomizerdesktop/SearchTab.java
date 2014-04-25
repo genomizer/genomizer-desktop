@@ -10,35 +10,18 @@ import java.awt.GridBagLayout;
 
 import javax.swing.*;
 
-public class SearchTab {
+public class SearchTab extends JPanel {
 
-    /**
-     *
-     */
-    private static final long serialVersionUID = 1L;
-
-    // For test purpose
-//    private JFrame frame;
-
-    private JPanel mainPanel;
     private JPanel searchPanel;
 
 
     public SearchTab() {
-	// For test purpose
-//	frame = new JFrame("Genomizer");
-//	frame.setSize(800, 800);
-//	frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
 	BorderLayout bl = new BorderLayout();
-	mainPanel = new JPanel(bl);
-//	frame.add(mainPanel);
-	mainPanel.setBackground(Color.green);
+	setLayout(bl);
+	setBackground(Color.green);
 	createSearchPanel();
 	searchPanel.setBackground(Color.red);
-	mainPanel.add(searchPanel, BorderLayout.NORTH);
-
-//	frame.setVisible(true);
+	add(searchPanel, BorderLayout.NORTH);
     }
 
     private void createSearchPanel() {
@@ -95,7 +78,8 @@ public class SearchTab {
 
     public static void main(String args[]) {
 	GUI g = new GUI();
-//	g.setSearchTab(new SearchTab());
+	SearchTab st = new SearchTab();
+	g.setSearchPanel(st);
     }
 }
 

@@ -12,9 +12,10 @@ import javax.swing.UnsupportedLookAndFeelException;
 public class GUI implements GenomizerView {
 
 	private JFrame frame;
-	private JPanel mainPanel, searchPanel, workspacePanel;
+	private JPanel mainPanel, workspacePanel;
 	private JPanel analyzePanel, processPanel, uploadPanel;
 	private JTabbedPane tabbedPane;
+	private SearchTab searchPanel;
 
     public GUI() {
 	frame = new JFrame("Genomizer");
@@ -59,15 +60,16 @@ public class GUI implements GenomizerView {
     }
 
     public void addPanelsToTabbedPane() {
-    tabbedPane.add("SEARCH", searchPanel);
-    tabbedPane.add("WORKSPACE", workspacePanel);
-    tabbedPane.add("ANALYZE", analyzePanel);
-    tabbedPane.add("PROCESS", processPanel);
-    tabbedPane.add("UPLOAD", uploadPanel);
+//	tabbedPane.add("SEARCH", searchPanel);
+	tabbedPane.add("WORKSPACE", workspacePanel);
+	tabbedPane.add("ANALYZE", analyzePanel);
+	tabbedPane.add("PROCESS", processPanel);
+	tabbedPane.add("UPLOAD", uploadPanel);
     }
 
-    public void setSearchPanel(JPanel searchPanel) {
+    public void setSearchPanel(SearchTab searchPanel) {
     	this.searchPanel = searchPanel;
+    	tabbedPane.add("SEARCH", searchPanel);
     }
 
     public JPanel getSearchPanel() {
