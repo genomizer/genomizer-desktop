@@ -20,7 +20,7 @@ public class RequestFactoryTest {
     @Test
     public void shouldCreateNewLoginRequest() {
 
-	Request login = factory.makeLoginRequest();
+	Request login = factory.makeLoginRequest("Kalle", "123");
 	assertThat(login).toString().contains("Username");
 
     }
@@ -28,7 +28,7 @@ public class RequestFactoryTest {
     @Test
     public void shouldCreateNewDownloadFileRequest() {
 
-	Request downloadFile = factory.makeDownloadFileRequest();
+	Request login = factory.makeLoginRequest("Kalle", "123");
 
     }
 

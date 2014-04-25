@@ -18,7 +18,7 @@ public class ChangeAnnotationRequestTest {
 	HashMap map = new HashMap();
 	map.put("Sex", "F");
 	map.put("Species", "Xenomorph");
-	change = new ChangeAnnotationRequest("file1", map);
+	change = new ChangeAnnotationRequest("file1", map, "1");
     }
 
     @Test
