@@ -32,11 +32,9 @@ public class GUI implements GenomizerView {
 	frame.setSize(800, 800);
 
 
-	System.out.println("9213849218392");
-
 	//sätter gui'et i mitten av skärmen
 	frame.setLocationRelativeTo(null);
-
+	
 	centerPanel = new JPanel();
 	mainPanel.add(centerPanel, BorderLayout.CENTER);
 
