@@ -1,6 +1,7 @@
 package genomizerdesktop;
 
 import java.awt.BorderLayout;
+
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -47,7 +48,6 @@ public class GUI implements GenomizerView {
 	}
 
 	try {
-
 		ImageIcon icon = new ImageIcon("/resources/SearchTabImage");
 //		tabbedPane.setI
 	} catch(IllegalArgumentException e2) {

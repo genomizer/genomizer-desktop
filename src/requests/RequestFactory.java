@@ -12,12 +12,12 @@ public class RequestFactory {
     }
 
     public DownloadFileRequest makeDownloadFileRequest(String fileName,
-	    String fileFormat) {
-	return new DownloadFileRequest(fileName, fileFormat);
+	    String fileFormat, String uID) {
+	return new DownloadFileRequest(fileName, fileFormat, uID);
     }
 
     public ChangeAnnotationRequest makeChangeAnnotationRequest(String id,
-	    HashMap annotations) {
-	return new ChangeAnnotationRequest(id, annotations);
+	    HashMap annotations, String uID) {
+	return new ChangeAnnotationRequest(id, annotations, uID);
     }
 }
