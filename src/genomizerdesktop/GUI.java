@@ -31,8 +31,8 @@ public class GUI implements GenomizerView {
 	tabPanel.add(new JButton("UPLOAD"));
 	frame.setSize(400, 800);
 
-	panel = new JPanel();
-	frame.add(panel);
+	tabPanel = new JPanel();
+	frame.add(tabPanel);
 	frame.setLocationRelativeTo(null);
 	frame.setVisible(true);
     }
