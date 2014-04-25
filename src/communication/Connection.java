@@ -18,7 +18,7 @@ public class Connection {
 	this.port = port;
     }
 
-    public String sendRequest(Request request) {
+    public String sendRequest(Request request, String userID, String type) {
 	String message = null;
 	try {
 	    String targetUrl = "http://" + ip + ":" + port + request.url;
@@ -29,7 +29,10 @@ public class Connection {
 		    .openConnection();
 	    connection.setDoOutput(true);
 	    connection.setRequestMethod(request.type);
-	    connection.setRequestProperty("Content-Type", "application/json");
+	    connection.setRequestProperty("Content-Type", type);
+        if(!userID.isEmpty()) {
+            connection.setRequestProperty("Authorization", userID);
+        }
 	    PrintWriter outputStream = new PrintWriter(
 		    connection.getOutputStream(), true);
 	    outputStream.println(request.toJson());
