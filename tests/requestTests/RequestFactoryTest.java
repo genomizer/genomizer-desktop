@@ -1,7 +1,6 @@
 package requestTests;
 
 import static org.fest.assertions.Assertions.assertThat;
-import static org.fest.assertions.MapAssert.entry;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -9,34 +8,28 @@ import org.junit.Test;
 import requests.Request;
 import requests.RequestFactory;
 
-
-
 public class RequestFactoryTest {
 
-	private RequestFactory factory;
+    private RequestFactory factory;
 
-	@Before
-	public void setup(){
-		factory = new RequestFactory();
-	}
+    @Before
+    public void setup() {
+	factory = new RequestFactory();
+    }
 
-	@Test
-	public void shouldCreateNewLoginRequest() {
+    @Test
+    public void shouldCreateNewLoginRequest() {
 
-		Request login = factory.makeLoginRequest();
-		assertThat(login).toString().contains("Username");
+	Request login = factory.makeLoginRequest("Kalle", "123");
+	assertThat(login).toString().contains("Username");
 
-	}
+    }
 
+    @Test
+    public void shouldCreateNewDownloadFileRequest() {
 
-	@Test
-	public void shouldCreateNewDownloadFileRequest() {
+	Request login = factory.makeLoginRequest("Kalle", "123");
 
-		Request downloadFile = factory.makeDownloadFileRequest();
-
-	}
+    }
 
 }
-
-
-
