@@ -8,6 +8,7 @@ import javax.swing.*;
 
 public class SearchTab {
 
+
     // For test purpose
     private JFrame frame;
     private JPanel mainPanel;
@@ -42,3 +43,4 @@ public class SearchTab {
 	new SearchTab(new JPanel());
     }
 }
+
