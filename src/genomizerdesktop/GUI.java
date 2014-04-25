@@ -65,7 +65,7 @@ public class GUI implements GenomizerView {
 	try {
 
 		ImageIcon icon = new ImageIcon("/resources/SearchTabImage");
-		tabbedPane.setI
+//		tabbedPane.setI
 	} catch(IllegalArgumentException e2) {
 		System.err.println("Image Loading failed.");
 	}
@@ -74,7 +74,9 @@ public class GUI implements GenomizerView {
 	frame.setVisible(true);
     }
 
-
+    public void setSearchTab(JPanel searchPanel) {
+    	this.searchPanel = searchPanel;
+    }
 
     public JFrame getFrame() {
 	return frame;
