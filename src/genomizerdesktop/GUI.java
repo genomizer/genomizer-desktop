@@ -17,6 +17,7 @@ public class GUI implements GenomizerView {
 	private JTabbedPane tabbedPane;
 	private SearchTab searchTab;
 	private UploadTab uploadTab;
+	private WorkspaceTab workspaceTab;
 
     public GUI() {
 	frame = new JFrame("Genomizer");
@@ -77,6 +78,12 @@ public class GUI implements GenomizerView {
     	this.uploadTab = uploadTab;
     	tabbedPane.add("UPLOAD", uploadTab);
     }
+
+
+	public void setWorkspaceTab(WorkspaceTab wt) {
+		this.workspaceTab = workspaceTab;
+    	tabbedPane.add("UPLOAD", workspaceTab);
+	}
 
     public JPanel getSearchPanel() {
 	return searchTab;
