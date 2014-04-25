@@ -15,7 +15,8 @@ public class GUI implements GenomizerView {
 	private JPanel mainPanel, workspacePanel;
 	private JPanel analyzePanel, processPanel, uploadPanel;
 	private JTabbedPane tabbedPane;
-	private SearchTab searchPanel;
+	private SearchTab searchTab;
+	private UploadTab uploadTab;
 
     public GUI() {
 	frame = new JFrame("Genomizer");
@@ -42,7 +43,7 @@ public class GUI implements GenomizerView {
         workspacePanel = new JPanel();
         analyzePanel = new JPanel();
         processPanel = new JPanel();
-        uploadPanel = new JPanel();
+//        uploadPanel = new JPanel();
     }
 
     private void setLookAndFeel() {
@@ -64,16 +65,21 @@ public class GUI implements GenomizerView {
 	tabbedPane.add("WORKSPACE", workspacePanel);
 	tabbedPane.add("ANALYZE", analyzePanel);
 	tabbedPane.add("PROCESS", processPanel);
-	tabbedPane.add("UPLOAD", uploadPanel);
+//	tabbedPane.add("UPLOAD", uploadPanel);
     }
 
-    public void setSearchPanel(SearchTab searchPanel) {
-    	this.searchPanel = searchPanel;
-    	tabbedPane.add("SEARCH", searchPanel);
+    public void setSearchTab(SearchTab searchTab) {
+    	this.searchTab = searchTab;
+    	tabbedPane.add("SEARCH", searchTab);
+    }
+
+    public void setUploadTab(UploadTab uploadTab) {
+    	this.uploadTab = uploadTab;
+    	tabbedPane.add("UPLOAD", uploadTab);
     }
 
     public JPanel getSearchPanel() {
-	return searchPanel;
+	return searchTab;
     }
 
     public JFrame getFrame() {

@@ -14,6 +14,10 @@ public class Genomizer {
 	String json = gson.toJson(login);
 
 	GUI gui = new GUI();
+	SearchTab st = new SearchTab();
+	UploadTab ut = new UploadTab();
+	gui.setSearchTab(st);
+	gui.setUploadTab(ut);
 	Connection con = new Connection("127.0.0.1", 25652);
 	con.sendRequest(login);
     }
