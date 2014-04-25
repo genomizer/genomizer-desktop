@@ -30,8 +30,7 @@ public class SearchTab {
 	tabPanel.add(new JButton("ANALYZE"));
 	tabPanel.add(new JButton("PROCESS"));
 	tabPanel.add(new JButton("UPLOAD"));
-
-
+	frame.setVisible(true);
 
 	centerPanel = panel;
 
@@ -39,7 +38,7 @@ public class SearchTab {
 
     }
 
-//    public static void main(String args[]) {
-//	new SearchTab();
-//    }
+    public static void main(String args[]) {
+	new SearchTab(new JPanel());
+    }
 }
