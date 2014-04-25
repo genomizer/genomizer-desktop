@@ -5,7 +5,7 @@ public class DownloadFileRequest extends Request {
     public String fileFormat;
 
     public DownloadFileRequest(String fileName, String fileFormat) {
-	super("downloadfile");
+	super("downloadfile", "/file/downloadFile", "GET");
 	this.fileName = fileName;
 	this.fileFormat = fileFormat;
     }
