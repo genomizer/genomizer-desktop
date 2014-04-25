@@ -1,6 +1,7 @@
 package genomizerdesktop;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.GridBagLayout;
 import java.awt.GridLayout;
 import java.awt.Image;
@@ -63,7 +64,6 @@ public class GUI implements GenomizerView {
 	}
 
 	try {
-
 		ImageIcon icon = new ImageIcon("/resources/SearchTabImage");
 //		tabbedPane.setI
 	} catch(IllegalArgumentException e2) {
