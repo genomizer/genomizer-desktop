@@ -12,7 +12,7 @@ import javax.swing.JPanel;
 public class GUI implements GenomizerView {
 
 	private JFrame frame;
-	private JPanel mainPanel, tabPanel;
+	private JPanel mainPanel, tabPanel, centerPanel;
 
     public GUI() {
 	frame = new JFrame("Genomizer");
@@ -33,6 +33,9 @@ public class GUI implements GenomizerView {
 
 	//sätter gui'et i mitten av skärmen
 	frame.setLocationRelativeTo(null);
+
+	centerPanel = new JPanel();
+	mainPanel.add(centerPanel, BorderLayout.CENTER);
 	frame.setVisible(true);
     }
 
