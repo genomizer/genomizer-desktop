@@ -13,13 +13,13 @@ public class Model {
     private Connection connection;
 
     public Model() {
-	connection = new Connection(ip, port);
+	    connection = new Connection(ip, port);
     }
 
     public void attemptLogin(String username, String password) {
 	LoginRequest request = RequestFactory.makeLoginRequest(username,
 		password);
-	connection.sendRequest(request);
+        System.out.println(connection.sendRequest(request));
 
     }
 }

@@ -6,7 +6,7 @@ public class LoginRequest extends Request {
     public String password;
 
     public LoginRequest(String username, String password) {
-	super("login", "/connection/login", "POST");
+	super("login", "/login", "POST");
 	this.username = username;
 	this.password = password;
     }
