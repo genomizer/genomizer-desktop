@@ -1,21 +1,9 @@
 package genomizerdesktop;
 
 import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.GridBagLayout;
-import java.awt.GridLayout;
-import java.awt.Image;
-import java.awt.LayoutManager;
-import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
-import java.util.ArrayList;
 
-import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
-import javax.swing.JButton;
 import javax.swing.JFrame;
-import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
 import javax.swing.UIManager;
@@ -45,11 +33,7 @@ public class GUI implements GenomizerView {
 	processPanel = new JPanel();
 	uploadPanel = new JPanel();
 
-	tabbedPane.add("SEARCH", searchPanel);
-	tabbedPane.add("WORKSPACE", workspacePanel);
-	tabbedPane.add("ANALYZE", analyzePanel);
-	tabbedPane.add("PROCESS", processPanel);
-	tabbedPane.add("UPLOAD", uploadPanel);
+	
 
 	try {
 		UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
@@ -73,9 +57,23 @@ public class GUI implements GenomizerView {
 	frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	frame.setVisible(true);
     }
+    
+    
+    
+    public void addPanelsToTabbedPane() {
+    tabbedPane.add("SEARCH", searchPanel);
+    tabbedPane.add("WORKSPACE", workspacePanel);
+    tabbedPane.add("ANALYZE", analyzePanel);
+    tabbedPane.add("PROCESS", processPanel);
+    tabbedPane.add("UPLOAD", uploadPanel);
+    }
 
-    public void setSearchTab(JPanel searchPanel) {
+    public void setSearchPanel(JPanel searchPanel) {
     	this.searchPanel = searchPanel;
+    }
+
+    public JPanel getSearchPanel() {
+    	return searchPanel;
     }
 
     public JFrame getFrame() {
