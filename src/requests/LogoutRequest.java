@@ -1,6 +1,5 @@
 package requests;
 
-
 public class LogoutRequest extends Request {
 
     public LogoutRequest(int userID) {

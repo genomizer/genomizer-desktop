@@ -1,10 +1,8 @@
 package requests;
 
-
 public class RetrieveExperimentRequest extends Request {
-    public String id;
-
-    public RetrieveExperimentRequest(String id) {
-	super("retrieveexperiment", "experiment/" + id, "GET");
+    public RetrieveExperimentRequest(String experimentID, String userID) {
+	super("retrieveexperiment", "/" + userID + "/experiment/"
+		+ experimentID, "GET");
     }
 }
