@@ -14,7 +14,7 @@ public class GUI implements GenomizerView {
 	private JFrame frame;
 	private JPanel mainPanel, tabPanel;
 
-	public GUI() {
+    public GUI() {
 	frame = new JFrame("Genomizer");
 	frame.setSize(800, 800);
 
@@ -29,12 +29,15 @@ public class GUI implements GenomizerView {
 	tabPanel.add(new JButton("ANALYZE"));
 	tabPanel.add(new JButton("PROCESS"));
 	tabPanel.add(new JButton("UPLOAD"));
+	frame.setSize(400, 800);
 
+	panel = new JPanel();
+	frame.add(panel);
+	frame.setLocationRelativeTo(null);
 	frame.setVisible(true);
-	}
+    }
 
-	public JFrame getFrame() {
+    public JFrame getFrame() {
 	return frame;
-	}
-
+    }
 }
