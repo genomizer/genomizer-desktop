@@ -16,7 +16,5 @@ public class Genomizer {
 	GUI gui = new GUI();
 	Connection con = new Connection("127.0.0.1", 25652);
 	con.sendRequest(login);
-	Thread threadConnection = new Thread(con);
-	threadConnection.start();
     }
 }
