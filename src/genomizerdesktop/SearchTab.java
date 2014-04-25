@@ -1,5 +1,8 @@
 package genomizerdesktop;
 
+
+
+
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Container;
@@ -9,8 +12,13 @@ import javax.swing.*;
 
 public class SearchTab {
 
+    /**
+     *
+     */
+    private static final long serialVersionUID = 1L;
+
     // For test purpose
-    private JFrame frame;
+//    private JFrame frame;
 
     private JPanel mainPanel;
     private JPanel searchPanel;
@@ -18,19 +26,19 @@ public class SearchTab {
 
     public SearchTab() {
 	// For test purpose
-	frame = new JFrame("Genomizer");
-	frame.setSize(800, 800);
-	frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+//	frame = new JFrame("Genomizer");
+//	frame.setSize(800, 800);
+//	frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
 	BorderLayout bl = new BorderLayout();
 	mainPanel = new JPanel(bl);
-	frame.add(mainPanel);
+//	frame.add(mainPanel);
 	mainPanel.setBackground(Color.green);
 	createSearchPanel();
 	searchPanel.setBackground(Color.red);
 	mainPanel.add(searchPanel, BorderLayout.NORTH);
 
-	frame.setVisible(true);
+//	frame.setVisible(true);
     }
 
     private void createSearchPanel() {
@@ -86,7 +94,8 @@ public class SearchTab {
     }
 
     public static void main(String args[]) {
-	new SearchTab();
+	GUI g = new GUI();
+//	g.setSearchTab(new SearchTab());
     }
 }
 
