@@ -23,7 +23,7 @@ import javax.swing.UnsupportedLookAndFeelException;
 public class GUI implements GenomizerView {
 
 	private JFrame frame;
-	private JPanel mainPanel, centerPanel, searchPanel, workspacePanel;
+	private JPanel mainPanel, searchPanel, workspacePanel;
 	private JPanel analyzePanel, processPanel, uploadPanel;
 	private JLabel searchLabel, workspaceLabel, analyzeLabel;
 	private JLabel processLabel, uploadLabel;
@@ -38,7 +38,7 @@ public class GUI implements GenomizerView {
 	frame.add(mainPanel);
 
 	tabbedPane = new JTabbedPane();
-	mainPanel.add(tabbedPane, BorderLayout.NORTH);
+	mainPanel.add(tabbedPane);
 
 	searchLabel = new JLabel("SEARCH");
 	workspaceLabel = new JLabel("WORKSPACE");
@@ -51,12 +51,6 @@ public class GUI implements GenomizerView {
 	analyzePanel = new JPanel();
 	processPanel = new JPanel();
 	uploadPanel = new JPanel();
-
-	searchPanel.add(searchLabel);
-	workspacePanel.add(workspaceLabel);
-	analyzePanel.add(analyzeLabel);
-	processPanel.add(processLabel);
-	uploadPanel.add(uploadLabel);
 
 	tabbedPane.add("SEARCH", searchPanel);
 	tabbedPane.add("WORKSPACE", workspacePanel);
@@ -84,10 +78,7 @@ public class GUI implements GenomizerView {
 		System.err.println("Image Loading failed.");
 	}
 	frame.setSize(800, 800);
-
-	centerPanel = new JPanel();
-	mainPanel.add(centerPanel, BorderLayout.CENTER);
-
+	frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	frame.setVisible(true);
     }
 
