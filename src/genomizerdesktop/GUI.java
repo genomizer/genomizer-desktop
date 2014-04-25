@@ -32,7 +32,7 @@ public class GUI implements GenomizerView {
 	frame.setSize(800, 800);
 
 	centerPanel = new JPanel();
-	tabPanel.add(centerPanel, BorderLayout.CENTER);
+	mainPanel.add(centerPanel, BorderLayout.CENTER);
 
 	frame.setVisible(true);
     }
