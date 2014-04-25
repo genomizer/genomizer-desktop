@@ -1,26 +1,26 @@
 package genomizerdesktop;
 
 import java.awt.BorderLayout;
-import java.awt.GridBagLayout;
-
 import javax.swing.JButton;
 import javax.swing.JPanel;
-import javax.swing.JTextField;
+import javax.swing.JTextArea;
 
 public class UploadTab extends JPanel {
 
 	private static final long serialVersionUID = -2830290705724588252L;
 	private JButton uploadButton;
-	private JTextField directoryTextField;
-	private GridBagLayout gridBag;
+	private JTextArea directoryTextField;
+	private JPanel northPanel;
 
 	public UploadTab() {
 		this.setLayout(new BorderLayout());
 		
-		
-		directoryTextField = new JTextField();
-		this.add(directoryTextField, BorderLayout.NORTH);
+		directoryTextField = new JTextArea("File directory");
+		directoryTextField.setColumns(1);
+		northPanel = new JPanel();
+		this.add(northPanel, BorderLayout.NORTH);
+		northPanel.add(directoryTextField, BorderLayout.NORTH);
 		uploadButton = new JButton("UPLOAD");
-		this.add(uploadButton, BorderLayout.CENTER);
+		northPanel.add(uploadButton, BorderLayout.CENTER);
 	}
 }
