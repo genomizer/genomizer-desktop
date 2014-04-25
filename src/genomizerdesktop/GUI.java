@@ -25,8 +25,6 @@ public class GUI implements GenomizerView {
 	private JFrame frame;
 	private JPanel mainPanel, searchPanel, workspacePanel;
 	private JPanel analyzePanel, processPanel, uploadPanel;
-	private JLabel searchLabel, workspaceLabel, analyzeLabel;
-	private JLabel processLabel, uploadLabel;
 	private JTabbedPane tabbedPane;
 
     public GUI() {
@@ -40,12 +38,6 @@ public class GUI implements GenomizerView {
 	tabbedPane = new JTabbedPane();
 	mainPanel.add(tabbedPane);
 
-	searchLabel = new JLabel("SEARCH");
-	workspaceLabel = new JLabel("WORKSPACE");
-	analyzeLabel = new JLabel("ANALYZE");
-	processLabel = new JLabel("PROCESS");
-	uploadLabel = new JLabel("UPLOAD");
-
 	searchPanel = new JPanel();
 	workspacePanel = new JPanel();
 	analyzePanel = new JPanel();
@@ -57,7 +49,7 @@ public class GUI implements GenomizerView {
 	tabbedPane.add("ANALYZE", analyzePanel);
 	tabbedPane.add("PROCESS", processPanel);
 	tabbedPane.add("UPLOAD", uploadPanel);
-	
+
 	try {
 		UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
 	} catch (ClassNotFoundException  e) {
@@ -73,7 +65,7 @@ public class GUI implements GenomizerView {
 	try {
 
 		ImageIcon icon = new ImageIcon("/resources/SearchTabImage");
-		searchLabel.setIcon(icon);
+		tabbedPane.setI
 	} catch(IllegalArgumentException e2) {
 		System.err.println("Image Loading failed.");
 	}
@@ -81,6 +73,8 @@ public class GUI implements GenomizerView {
 	frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	frame.setVisible(true);
     }
+
+
 
     public JFrame getFrame() {
 	return frame;
