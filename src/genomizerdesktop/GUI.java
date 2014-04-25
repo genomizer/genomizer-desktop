@@ -34,14 +34,14 @@ public class GUI implements GenomizerView {
 	addPanelsToTabbedPane();
 	setLookAndFeel();
 
-	frame.setSize(800, 800);
+	frame.setSize(1200, 1200);
 	frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	frame.setVisible(true);
     }
 
     private void createPanels() {
         //searchPanel = new JPanel();
-        workspacePanel = new JPanel();
+ //       workspacePanel = new JPanel();
         analyzePanel = new JPanel();
         processPanel = new JPanel();
 //        uploadPanel = new JPanel();
@@ -63,7 +63,7 @@ public class GUI implements GenomizerView {
 
     public void addPanelsToTabbedPane() {
 //	tabbedPane.add("SEARCH", searchPanel);
-	tabbedPane.add("WORKSPACE", workspacePanel);
+//	tabbedPane.add("WORKSPACE", workspacePanel);
 	tabbedPane.add("ANALYZE", analyzePanel);
 	tabbedPane.add("PROCESS", processPanel);
 //	tabbedPane.add("UPLOAD", uploadPanel);
@@ -79,10 +79,9 @@ public class GUI implements GenomizerView {
     	tabbedPane.add("UPLOAD", uploadTab);
     }
 
-
-	public void setWorkspaceTab(WorkspaceTab wt) {
+	public void setWorkspaceTab(WorkspaceTab workspaceTab) {
 		this.workspaceTab = workspaceTab;
-    	tabbedPane.add("UPLOAD", workspaceTab);
+    	tabbedPane.add("WORKSPACE", workspaceTab);
 	}
 
     public JPanel getSearchPanel() {
