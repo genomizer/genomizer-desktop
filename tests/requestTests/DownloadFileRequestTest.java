@@ -14,7 +14,7 @@ public class DownloadFileRequestTest {
 
     @Before
     public void setUp() {
-	download = new DownloadFileRequest("file1", "wig");
+	download = new DownloadFileRequest("file1", "wig", "1");
     }
 
     @Test
