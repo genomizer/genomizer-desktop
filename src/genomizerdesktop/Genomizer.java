@@ -18,5 +18,6 @@ public class Genomizer {
 	con.sendRequest(login);
 	Thread threadConnection = new Thread(con);
 	threadConnection.start();
+
     }
 }
