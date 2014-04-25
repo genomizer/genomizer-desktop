@@ -5,14 +5,15 @@ package genomizerdesktop;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.Container;
-import java.awt.GridBagLayout;
-
 import javax.swing.*;
 
 public class SearchTab extends JPanel {
 
-    private JPanel searchPanel;
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = -5281551884688417212L;
+	private JPanel searchPanel;
 
 
     public SearchTab() {
@@ -123,7 +124,7 @@ public class SearchTab extends JPanel {
     public static void main(String args[]) {
 	GUI g = new GUI();
 	SearchTab st = new SearchTab();
-	g.setSearchPanel(st);
+	g.setSearchTab(st);
     }
 }
 

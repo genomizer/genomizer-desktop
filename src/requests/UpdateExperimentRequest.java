@@ -9,9 +9,8 @@ public class UpdateExperimentRequest extends Request {
     public HashMap<String, String> annotations = new HashMap<String, String>();
 
     public UpdateExperimentRequest(String experimentID, String name,
-	    String createdBy, HashMap<String, String> annotations, String userID) {
-	super("updateexperiment", "/" + userID + "/experiment/" + experimentID,
-		"PUT");
+	    String createdBy, HashMap<String, String> annotations) {
+	super("updateexperiment", "/experiment/" + experimentID, "PUT");
 	this.experimentID = experimentID;
 	this.name = name;
 	this.createdBy = createdBy;

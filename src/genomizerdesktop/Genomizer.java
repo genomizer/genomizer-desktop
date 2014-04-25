@@ -1,5 +1,8 @@
 package genomizerdesktop;
 
+import javax.swing.UIManager;
+import javax.swing.UnsupportedLookAndFeelException;
+
 import requests.*;
 
 import com.google.gson.Gson;
@@ -13,8 +16,15 @@ public class Genomizer {
 	Request login = new LoginRequest("kalle", "123");
 	String json = gson.toJson(login);
 
+
 	GUI gui = new GUI();
+	SearchTab st = new SearchTab();
+	UploadTab ut = new UploadTab();
+	WorkspaceTab wt = new WorkspaceTab();
+	gui.setSearchTab(st);
+	gui.setUploadTab(ut);
+	gui.setWorkspaceTab(wt);
 	Connection con = new Connection("127.0.0.1", 25652);
-	con.sendRequest(login);
+//	con.sendRequest(login);
     }
 }
