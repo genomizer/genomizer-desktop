@@ -7,6 +7,7 @@ import java.awt.GridBagLayout;
 import java.awt.Insets;
 
 import javax.swing.JButton;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 public class WorkspaceTab extends JPanel {
@@ -34,12 +35,18 @@ public class WorkspaceTab extends JPanel {
 		gbc.insets = new Insets(10, 10, 10, 10);
 		gbc.anchor = GridBagConstraints.NORTHWEST;
 
-		// buttonPanel.setBackground(Color.red);
+		buttonPanel.setBackground(Color.red);
 		filePanel.setBackground(Color.green);
 
 		createButtons();
 		addToButtonPanel();
 		buttonPanel.setVisible(true);
+		
+		filePanel.add(new JLabel("Name"), gbc);
+		filePanel.add(new JLabel("Date"), gbc);
+		filePanel.add(new JLabel("Uploaded by"), gbc);
+		filePanel.add(new JLabel("Data type"), gbc);
+		filePanel.add(new JLabel("Local"), gbc);
 		filePanel.setVisible(true);
 		setVisible(true);
 	}

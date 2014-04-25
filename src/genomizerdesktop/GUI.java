@@ -18,8 +18,19 @@ public class GUI implements GenomizerView {
 	private SearchTab searchTab;
 	private UploadTab uploadTab;
 	private WorkspaceTab workspaceTab;
-
+	
     public GUI() {
+	try {
+		UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+	} catch (ClassNotFoundException  e) {
+		e.printStackTrace();
+	} catch (InstantiationException e) {
+		e.printStackTrace();
+	} catch (IllegalAccessException e) {
+		e.printStackTrace();
+	} catch (UnsupportedLookAndFeelException e) {
+		e.printStackTrace();
+	}
 	frame = new JFrame("Genomizer");
 	frame.setSize(800, 800);
 
@@ -48,17 +59,7 @@ public class GUI implements GenomizerView {
     }
 
     private void setLookAndFeel() {
-	try {
-    		UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-    	} catch (ClassNotFoundException  e) {
-    		e.printStackTrace();
-    	} catch (InstantiationException e) {
-    		e.printStackTrace();
-    	} catch (IllegalAccessException e) {
-    		e.printStackTrace();
-    	} catch (UnsupportedLookAndFeelException e) {
-    		e.printStackTrace();
-    	}
+
     }
 
     public void addPanelsToTabbedPane() {
