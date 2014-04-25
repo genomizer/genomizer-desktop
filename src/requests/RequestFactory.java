@@ -20,4 +20,28 @@ public class RequestFactory {
 	    HashMap annotations, String uID) {
 	return new ChangeAnnotationRequest(id, annotations, uID);
     }
+
+    public AddExperimentRequest makeAddExperimentRequest(String experimentID,
+	    String userID, String name, String createdBy,
+	    HashMap<String, String> annotations) {
+	return new AddExperimentRequest(experimentID, userID, name, createdBy,
+		annotations);
+    }
+
+    public RetrieveExperimentRequest makeRetrieveExperimentRequest(
+	    String experimentID, String userID) {
+	return new RetrieveExperimentRequest(experimentID, userID);
+    }
+
+    public RemoveExperimentRequest makeRemoveExperimentRequest(
+	    String experimentID, String userID) {
+	return new RemoveExperimentRequest(experimentID, userID);
+    }
+
+    public UpdateExperimentRequest makeUpdateExperimentRequest(
+	    String experimentID, String userID, String name, String createdBy,
+	    HashMap<String, String> annotations) {
+	return new UpdateExperimentRequest(experimentID, name, createdBy,
+		annotations, userID);
+    }
 }
