@@ -9,14 +9,16 @@ public class Request {
     public String requestName;
     public String url;
     public String type;
+
     public Request(String requestName, String url, String type) {
 	this.requestName = requestName;
-        this.url = url;
-        this.type = type;
+	this.url = url;
+	this.type = type;
     }
 
     public String toJson() {
-	Gson gson = new GsonBuilder().excludeFieldsWithoutExposeAnnotation().create();
+	Gson gson = new GsonBuilder().excludeFieldsWithoutExposeAnnotation()
+		.create();
 	return gson.toJson(this);
     }
 
