@@ -18,8 +18,10 @@ public class Genomizer {
         model.attemptLogin("kalle", "123");
 	SearchTab st = new SearchTab();
 	UploadTab ut = new UploadTab();
+        WorkspaceTab wt = new WorkspaceTab();
 	gui.setSearchTab(st);
 	gui.setUploadTab(ut);
+        gui.setWorkspaceTab(wt);
 	//Connection con = new Connection("genomizer.apiary-mock.com", 80);
 	//con.sendRequest(login);
     }
