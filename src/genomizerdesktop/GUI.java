@@ -58,8 +58,6 @@ public class GUI implements GenomizerView {
 	frame.setVisible(true);
     }
 
-
-
     public void addPanelsToTabbedPane() {
     tabbedPane.add("SEARCH", searchPanel);
     tabbedPane.add("WORKSPACE", workspacePanel);
