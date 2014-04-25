@@ -2,6 +2,7 @@ package genomizerdesktop;
 
 import requests.LoginRequest;
 import requests.RequestFactory;
+import responses.LoginResponse;
 import responses.ResponseParser;
 
 import communication.Connection;
@@ -21,8 +22,8 @@ public class Model {
 	LoginRequest request = RequestFactory.makeLoginRequest(username,
 		password);
 	String response = connection.sendRequest(request);
-	ResponseParser.parseLoginResponse(response);
 	System.out.println(response);
-
+	LoginResponse login = ResponseParser.parseLoginResponse(response);
+	userID = login.userID;
     }
 }
