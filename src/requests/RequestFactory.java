@@ -7,38 +7,38 @@ public class RequestFactory {
     public RequestFactory() {
     }
 
-    public LoginRequest makeLoginRequest(String username, String password) {
+    public static LoginRequest makeLoginRequest(String username, String password) {
 	return new LoginRequest(username, password);
     }
 
-    public DownloadFileRequest makeDownloadFileRequest(String fileName,
+    public static DownloadFileRequest makeDownloadFileRequest(String fileName,
 	    String fileFormat, String uID) {
 	return new DownloadFileRequest(fileName, fileFormat, uID);
     }
 
-    public ChangeAnnotationRequest makeChangeAnnotationRequest(String id,
-	    HashMap annotations, String uID) {
+    public static ChangeAnnotationRequest makeChangeAnnotationRequest(
+	    String id, HashMap annotations, String uID) {
 	return new ChangeAnnotationRequest(id, annotations, uID);
     }
 
-    public AddExperimentRequest makeAddExperimentRequest(String experimentID,
-	    String userID, String name, String createdBy,
+    public static AddExperimentRequest makeAddExperimentRequest(
+	    String experimentID, String userID, String name, String createdBy,
 	    HashMap<String, String> annotations) {
 	return new AddExperimentRequest(experimentID, userID, name, createdBy,
 		annotations);
     }
 
-    public RetrieveExperimentRequest makeRetrieveExperimentRequest(
+    public static RetrieveExperimentRequest makeRetrieveExperimentRequest(
 	    String experimentID, String userID) {
 	return new RetrieveExperimentRequest(experimentID, userID);
     }
 
-    public RemoveExperimentRequest makeRemoveExperimentRequest(
+    public static RemoveExperimentRequest makeRemoveExperimentRequest(
 	    String experimentID, String userID) {
 	return new RemoveExperimentRequest(experimentID, userID);
     }
 
-    public UpdateExperimentRequest makeUpdateExperimentRequest(
+    public static UpdateExperimentRequest makeUpdateExperimentRequest(
 	    String experimentID, String userID, String name, String createdBy,
 	    HashMap<String, String> annotations) {
 	return new UpdateExperimentRequest(experimentID, name, createdBy,
