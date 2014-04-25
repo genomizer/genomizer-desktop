@@ -1,6 +1,7 @@
 package genomizerdesktop;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.GridBagLayout;
 import java.awt.GridLayout;
 import java.awt.LayoutManager;
@@ -34,10 +35,9 @@ public class GUI implements GenomizerView {
 
 	//sätter gui'et i mitten av skärmen
 	frame.setLocationRelativeTo(null);
-	
+
 	centerPanel = new JPanel();
 	mainPanel.add(centerPanel, BorderLayout.CENTER);
-
 	frame.setVisible(true);
     }
 
