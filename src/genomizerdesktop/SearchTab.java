@@ -32,48 +32,92 @@ public class SearchTab extends JPanel {
 	gl.setAutoCreateContainerGaps(true);
 
 
-	JLabel label = new JLabel("Test");
-	JTextField textField = new JTextField();
+	JLabel searchLabel = new JLabel("Search");
+	JLabel expLabel = new JLabel("Experiment ID");
+	JTextField expID = new JTextField();
 
-	JCheckBox caseCheckBox = new JCheckBox("TEST CASE");
+	String[] petStrings = { "Bird", "Cat", "Dog", "Rabbit", "Pig" };
+
+	JComboBox caseCheckBox = new JComboBox(petStrings);
 	JCheckBox wholeCheckBox = new JCheckBox("TEST WHOLE");
 	JCheckBox wrapCheckBox = new JCheckBox("TEST WRAP");
 	JCheckBox backCheckBox = new JCheckBox("BACK TEST");
-	JButton findButton = new JButton("Find");
-	JButton cancelButton = new JButton("Cancel");
+	JCheckBox nCheckBox = new JCheckBox("TEST n");
+	JCheckBox mCheckBox = new JCheckBox("m TEST");
+	JButton searchButton = new JButton("Search");
+//	JButton cancelButton = new JButton("Cancel");
 
 	gl.setHorizontalGroup(gl.createSequentialGroup()
-		    .addComponent(label)
+		    .addComponent(searchLabel)
 		    .addGroup(gl.createParallelGroup(GroupLayout.Alignment.LEADING)
-		        .addComponent(textField)
+		        .addComponent(expID)
 		        .addGroup(gl.createSequentialGroup()
 		            .addGroup(gl.createParallelGroup(GroupLayout.Alignment.LEADING)
 		                .addComponent(caseCheckBox)
 		                .addComponent(wholeCheckBox))
 		            .addGroup(gl.createParallelGroup(GroupLayout.Alignment.LEADING)
 		                .addComponent(wrapCheckBox)
-		                .addComponent(backCheckBox))))
-		    .addGroup(gl.createParallelGroup(GroupLayout.Alignment.LEADING)
-		        .addComponent(findButton)
-		        .addComponent(cancelButton))
+		                .addComponent(backCheckBox))
+		            .addGroup(gl.createParallelGroup(GroupLayout.Alignment.LEADING)
+		                .addComponent(nCheckBox)
+		                .addComponent(mCheckBox))))
+		     .addGroup(gl.createParallelGroup(GroupLayout.Alignment.LEADING)
+			     .addComponent(searchButton))
 		);
-		gl.linkSize(SwingConstants.HORIZONTAL, findButton, cancelButton);
+	gl.linkSize(SwingConstants.HORIZONTAL, searchButton);
 
-		gl.setVerticalGroup(gl.createSequentialGroup()
-		    .addGroup(gl.createParallelGroup(GroupLayout.Alignment.BASELINE)
-		        .addComponent(label)
-		        .addComponent(textField)
-		        .addComponent(findButton))
-		    .addGroup(gl.createParallelGroup(GroupLayout.Alignment.LEADING)
-		        .addGroup(gl.createSequentialGroup()
-		            .addGroup(gl.createParallelGroup(GroupLayout.Alignment.BASELINE)
-		                .addComponent(caseCheckBox)
-		                .addComponent(wrapCheckBox))
-		            .addGroup(gl.createParallelGroup(GroupLayout.Alignment.BASELINE)
-		                .addComponent(wholeCheckBox)
-		                .addComponent(backCheckBox)))
-		        .addComponent(cancelButton))
-		);
+	gl.setVerticalGroup(gl.createSequentialGroup()
+		.addGroup(gl.createParallelGroup(GroupLayout.Alignment.BASELINE)
+    			.addComponent(searchLabel)
+    			.addGroup(gl.createParallelGroup(GroupLayout.Alignment.LEADING)
+    		        .addGroup(gl.createSequentialGroup()
+    		            .addGroup(gl.createParallelGroup(GroupLayout.Alignment.BASELINE)
+    		        .addComponent(expID)
+    		    .addComponent(searchButton))
+    		    .addGroup(gl.createParallelGroup(GroupLayout.Alignment.LEADING)
+    		        .addGroup(gl.createSequentialGroup()
+    		            .addGroup(gl.createParallelGroup(GroupLayout.Alignment.BASELINE)
+    		                .addComponent(caseCheckBox)
+    		                .addComponent(wrapCheckBox)
+    		                .addComponent(nCheckBox))
+    		            .addGroup(gl.createParallelGroup(GroupLayout.Alignment.BASELINE)
+    		                .addComponent(wholeCheckBox)
+    		                .addComponent(backCheckBox)
+    		                .addComponent(mCheckBox)))))))
+    		);
+
+//	gl.setHorizontalGroup(gl.createSequentialGroup()
+//		    .addComponent(searchLabel)
+//		    .addComponent(expLabel)
+//		    .addGroup(gl.createParallelGroup(GroupLayout.Alignment.LEADING)
+//		        .addComponent(expID)
+//		        .addGroup(gl.createSequentialGroup()
+//		            .addGroup(gl.createParallelGroup(GroupLayout.Alignment.LEADING)
+//		                .addComponent(caseCheckBox)
+//		                .addComponent(wholeCheckBox))
+//		            .addGroup(gl.createParallelGroup(GroupLayout.Alignment.LEADING)
+//		                .addComponent(wrapCheckBox)
+//		                .addComponent(backCheckBox))))
+//		    .addGroup(gl.createParallelGroup(GroupLayout.Alignment.LEADING)
+//		        .addComponent(searchButton))
+//		);
+//		gl.linkSize(SwingConstants.HORIZONTAL, searchButton);
+//
+//		gl.setVerticalGroup(gl.createSequentialGroup()
+//		    .addGroup(gl.createParallelGroup(GroupLayout.Alignment.BASELINE)
+//		        .addComponent(searchLabel)
+//		        .addComponent(expLabel)
+//		        .addComponent(expID)
+//		        .addComponent(searchButton))
+//		    .addGroup(gl.createParallelGroup(GroupLayout.Alignment.LEADING)
+//		        .addGroup(gl.createSequentialGroup()
+//		            .addGroup(gl.createParallelGroup(GroupLayout.Alignment.BASELINE)
+//		                .addComponent(caseCheckBox)
+//		                .addComponent(wrapCheckBox))
+//		            .addGroup(gl.createParallelGroup(GroupLayout.Alignment.BASELINE)
+//		                .addComponent(wholeCheckBox)
+//		                .addComponent(backCheckBox))))
+//		);
     }
 
     public static void main(String args[]) {
