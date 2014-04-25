@@ -27,14 +27,32 @@ public class GUI implements GenomizerView {
 	tabbedPane = new JTabbedPane();
 	mainPanel.add(tabbedPane);
 
-//	searchPanel = new JPanel();
-	workspacePanel = new JPanel();
-	analyzePanel = new JPanel();
-	processPanel = new JPanel();
-	uploadPanel = new JPanel();
-
+	createPanels();
 	addPanelsToTabbedPane();
+	setLookAndFeel();
 
+	frame.setSize(800, 800);
+	frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+	frame.setVisible(true);
+    }
+
+    private void createPanels() {
+    searchPanel = new JPanel();
+    workspacePanel = new JPanel();
+    analyzePanel = new JPanel();
+    processPanel = new JPanel();
+    uploadPanel = new JPanel();
+	}
+
+	private void addPanelsToTabbedPane() {
+    tabbedPane.add("SEARCH", searchPanel);
+    tabbedPane.add("WORKSPACE", workspacePanel);
+    tabbedPane.add("ANALYZE", analyzePanel);
+    tabbedPane.add("PROCESS", processPanel);
+    tabbedPane.add("UPLOAD", uploadPanel);
+    }
+
+	private void setLookAndFeel() {
 	try {
 		UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
 	} catch (ClassNotFoundException  e) {
@@ -46,32 +64,14 @@ public class GUI implements GenomizerView {
 	} catch (UnsupportedLookAndFeelException e) {
 		e.printStackTrace();
 	}
-
-	try {
-		ImageIcon icon = new ImageIcon("/resources/SearchTabImage");
-//		tabbedPane.setI
-	} catch(IllegalArgumentException e2) {
-		System.err.println("Image Loading failed.");
 	}
-	frame.setSize(800, 800);
-	frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-	frame.setVisible(true);
-    }
-
-    public void addPanelsToTabbedPane() {
-    tabbedPane.add("SEARCH", searchPanel);
-    tabbedPane.add("WORKSPACE", workspacePanel);
-    tabbedPane.add("ANALYZE", analyzePanel);
-    tabbedPane.add("PROCESS", processPanel);
-    tabbedPane.add("UPLOAD", uploadPanel);
-    }
 
     public void setSearchPanel(JPanel searchPanel) {
-    	this.searchPanel = searchPanel;
+    this.searchPanel = searchPanel;
     }
 
     public JPanel getSearchPanel() {
-    	return searchPanel;
+    return searchPanel;
     }
 
     public JFrame getFrame() {
