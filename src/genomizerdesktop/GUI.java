@@ -27,7 +27,7 @@ public class GUI implements GenomizerView {
 	tabbedPane = new JTabbedPane();
 	mainPanel.add(tabbedPane);
 
-	searchPanel = new JPanel();
+//	searchPanel = new JPanel();
 	workspacePanel = new JPanel();
 	analyzePanel = new JPanel();
 	processPanel = new JPanel();
