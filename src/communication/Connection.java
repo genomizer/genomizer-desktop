@@ -29,6 +29,7 @@ public class Connection {
 			HttpURLConnection connection = (HttpURLConnection) url
 					.openConnection();
 			connection.setDoOutput(true);
+            connection.setReadTimeout(1000);
 			connection.setRequestMethod(request.type);
 			connection.setRequestProperty("Content-Type", type);
 			if(!userID.isEmpty()) {
