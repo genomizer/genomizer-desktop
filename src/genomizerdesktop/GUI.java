@@ -51,14 +51,6 @@ public class GUI implements GenomizerView {
 	frame.setVisible(true);
     }
 
-    private void createPanels() {
-	// searchPanel = new JPanel();
-	// workspacePanel = new JPanel();
-	//analyzePanel = new JPanel();
-	processPanel = new JPanel();
-	// uploadPanel = new JPanel();
-    }
-
     private void setLookAndFeel() {
     	try {
     	    UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
@@ -101,6 +93,14 @@ public class GUI implements GenomizerView {
 	tabbedPane.add("ANALYZE", analyzeTab);
     }
 
+    private void createPanels() {
+	// searchPanel = new JPanel();
+	// workspacePanel = new JPanel();
+//	analyzePanel = new JPanel();
+	processPanel = new JPanel();
+	// uploadPanel = new JPanel();
+    }
+
     public void addLoginListener(ActionListener listener) {
 	userPanel.addLoginButtonListener(listener);
     }
@@ -125,7 +125,7 @@ public class GUI implements GenomizerView {
 
     @Override
     public void addUploadFileListener(ActionListener listener) {
-	// TODO Auto-generated method stub
+	    uploadTab.addUploadBtnListener(listener);
     }
 
     @Override
@@ -135,11 +135,23 @@ public class GUI implements GenomizerView {
 
     @Override
     public String getPassword() {
-	return userPanel.getUsername();
+	return userPanel.getPasswordInput();
     }
 
     @Override
     public String getUsername() {
-	return userPanel.getUsername();
+	return userPanel.getUsernameInput();
+    }
+
+    @Override
+    public void updateLoginAccepted(String username, String pwd) {
+	System.out.println("login succesful with username " + username
+		+ " & pwd " + pwd);
+    }
+
+    @Override
+    public void updateLoginNeglected(String username, String pwd) {
+	System.out.println("login failed with username " + username + " & pwd "
+		+ pwd);
     }
 }
