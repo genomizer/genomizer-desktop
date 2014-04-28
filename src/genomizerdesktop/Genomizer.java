@@ -12,7 +12,8 @@ public class Genomizer {
         Request login = new LoginRequest("kalle", "123");
         String json = gson.toJson(login);
 
-        GUI gui = new GUI();
+        Controller controller = new Controller();
+        GUI gui = new GUI(controller);
 
         SearchTab st = new SearchTab();
         UploadTab ut = new UploadTab();

@@ -18,25 +18,31 @@ public class GUI implements GenomizerView {
 	private SearchTab searchTab;
 	private UploadTab uploadTab;
 	private WorkspaceTab workspaceTab;
+	private Controller controller;
 
-    public GUI() {
-	frame = new JFrame("Genomizer");
-	frame.setSize(800, 800);
+    public GUI(Controller controller) {
+    	this.controller = controller;
+    	init();
+    }
 
-	BorderLayout bl = new BorderLayout();
-	mainPanel = new JPanel(bl);
-	frame.add(mainPanel);
+    private void init(){
+		frame = new JFrame("Genomizer");
+		frame.setSize(800, 800);
 
-	tabbedPane = new JTabbedPane();
-	mainPanel.add(tabbedPane);
+		BorderLayout bl = new BorderLayout();
+		mainPanel = new JPanel(bl);
+		frame.add(mainPanel);
 
-	createPanels();
-	addPanelsToTabbedPane();
-	setLookAndFeel();
+		tabbedPane = new JTabbedPane();
+		mainPanel.add(tabbedPane);
 
-	frame.setSize(800, 800);
-	frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-	frame.setVisible(true);
+		createPanels();
+		addPanelsToTabbedPane();
+		setLookAndFeel();
+
+		frame.setSize(800, 800);
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frame.setVisible(true);
     }
 
     private void createPanels() {
