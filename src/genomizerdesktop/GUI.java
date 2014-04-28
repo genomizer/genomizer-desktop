@@ -1,6 +1,7 @@
 package genomizerdesktop;
 
 import java.awt.BorderLayout;
+import java.awt.event.ActionListener;
 
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
@@ -84,6 +85,10 @@ public class GUI implements GenomizerView {
 		this.workspaceTab = workspaceTab;
     	tabbedPane.add("WORKSPACE", workspaceTab);
 	}
+
+    public void addLoginListener(ActionListener listener) {
+        uploadTab.addUploadBtnListener(listener);
+    }
 
     public JPanel getSearchPanel() {
 	return searchTab;

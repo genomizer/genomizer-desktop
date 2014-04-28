@@ -1,6 +1,7 @@
 package genomizerdesktop;
 
 import java.awt.BorderLayout;
+import java.awt.event.ActionListener;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
@@ -23,4 +24,8 @@ public class UploadTab extends JPanel {
 		uploadButton = new JButton("UPLOAD");
 		northPanel.add(uploadButton, BorderLayout.CENTER);
 	}
+
+    public void addUploadBtnListener(ActionListener listener) {
+        uploadButton.addActionListener(listener);
+    }
 }
