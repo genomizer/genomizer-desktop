@@ -1,6 +1,5 @@
 package genomizerdesktop;
 
-import java.awt.Color;
 import java.awt.BorderLayout;
 import java.awt.event.ActionListener;
 
@@ -13,38 +12,33 @@ import javax.swing.UnsupportedLookAndFeelException;
 public class GUI implements GenomizerView {
 
     private JFrame frame;
-    private JPanel mainPanel, workspacePanel;
-    private JPanel analyzePanel, processPanel, uploadPanel;
+    private JPanel mainPanel;
+    private JPanel processPanel;
     private JTabbedPane tabbedPane;
     private SearchTab searchTab;
     private UserPanel userPanel;
     private UploadTab uploadTab;
+    private AnalyzeTab analyzeTab;
     private WorkspaceTab workspaceTab;
 
     public GUI() {
-	try {
-	    UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-	} catch (ClassNotFoundException e) {
-	    e.printStackTrace();
-	} catch (InstantiationException e) {
-	    e.printStackTrace();
-	} catch (IllegalAccessException e) {
-	    e.printStackTrace();
-	} catch (UnsupportedLookAndFeelException e) {
-	    e.printStackTrace();
-	}
+
+    setLookAndFeel();
+
 	frame = new JFrame("Genomizer");
 	frame.setSize(800, 800);
 
 	BorderLayout bl = new BorderLayout();
 	mainPanel = new JPanel(bl);
-        userPanel = new UserPanel();
+    userPanel = new UserPanel();
 	frame.add(mainPanel);
 
 	JPanel newPanel = new JPanel();
 
 	tabbedPane = new JTabbedPane();
 	mainPanel.add(tabbedPane);
+	mainPanel.add(tabbedPane);
+
 	//mainPanel.add(new UserPanel("kallekarlsson123",true),BorderLayout.NORTH);
 	mainPanel.add(userPanel, BorderLayout.NORTH);
 
@@ -57,22 +51,24 @@ public class GUI implements GenomizerView {
 	frame.setVisible(true);
     }
 
-    private void createPanels() {
-	// searchPanel = new JPanel();
-	// workspacePanel = new JPanel();
-	analyzePanel = new JPanel();
-	processPanel = new JPanel();
-	// uploadPanel = new JPanel();
-    }
-
     private void setLookAndFeel() {
-
+    	try {
+    	    UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+    	} catch (ClassNotFoundException e) {
+    	    e.printStackTrace();
+    	} catch (InstantiationException e) {
+    	    e.printStackTrace();
+    	} catch (IllegalAccessException e) {
+    	    e.printStackTrace();
+    	} catch (UnsupportedLookAndFeelException e) {
+    	    e.printStackTrace();
+    	}
     }
 
     public void addPanelsToTabbedPane() {
 	// tabbedPane.add("SEARCH", searchPanel);
 	// tabbedPane.add("WORKSPACE", workspacePanel);
-	tabbedPane.add("ANALYZE", analyzePanel);
+	//tabbedPane.add("ANALYZE", analyzePanel);
 	tabbedPane.add("PROCESS", processPanel);
 	// tabbedPane.add("UPLOAD", uploadPanel);
     }
@@ -92,6 +88,18 @@ public class GUI implements GenomizerView {
 	tabbedPane.add("WORKSPACE", workspaceTab);
     }
 
+    public void setAnalyzeTab(AnalyzeTab analyzeTab) {
+	this.analyzeTab = analyzeTab;
+	tabbedPane.add("ANALYZE", analyzeTab);
+    }
+
+    private void createPanels() {
+	// searchPanel = new JPanel();
+	// workspacePanel = new JPanel();
+//	analyzePanel = new JPanel();
+	processPanel = new JPanel();
+	// uploadPanel = new JPanel();
+    }
 
     public void addLoginListener(ActionListener listener) {
 	userPanel.addLoginButtonListener(listener);
@@ -117,7 +125,7 @@ public class GUI implements GenomizerView {
 
     @Override
     public void addUploadFileListener(ActionListener listener) {
-	// TODO Auto-generated method stub
+	    uploadTab.addUploadBtnListener(listener);
     }
 
     @Override
@@ -127,13 +135,23 @@ public class GUI implements GenomizerView {
 
     @Override
     public String getPassword() {
-	// TODO Auto-generated method stub
-	return null;
+	return userPanel.getPasswordInput();
     }
 
     @Override
     public String getUsername() {
-	// TODO Auto-generated method stub
-	return null;
+	return userPanel.getUsernameInput();
+    }
+
+    @Override
+    public void updateLoginAccepted(String username, String pwd) {
+	System.out.println("login succesful with username " + username
+		+ " & pwd " + pwd);
+    }
+
+    @Override
+    public void updateLoginNeglected(String username, String pwd) {
+	System.out.println("login failed with username " + username + " & pwd "
+		+ pwd);
     }
 }
