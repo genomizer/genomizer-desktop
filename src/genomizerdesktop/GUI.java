@@ -85,17 +85,16 @@ public class GUI implements GenomizerView {
 	tabbedPane.add("WORKSPACE", workspaceTab);
     }
 
+    public void addLoginListener(ActionListener listener) {
+	uploadTab.addUploadBtnListener(listener);
+    }
+
     public JPanel getSearchPanel() {
 	return searchTab;
     }
 
     public JFrame getFrame() {
 	return frame;
-    }
-
-    @Override
-    public void addLoginListener(ActionListener listener) {
-	// TODO Auto-generated method stub
     }
 
     @Override

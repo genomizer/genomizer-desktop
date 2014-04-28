@@ -4,8 +4,6 @@ import java.awt.event.ActionListener;
 
 public interface GenomizerView {
 
-    public void addLoginListener(ActionListener listener);
-
     public void addLogoutListener(ActionListener listener);
 
     public void addSearchListener(ActionListener listener);
@@ -17,5 +15,4 @@ public interface GenomizerView {
     public String getPassword();
 
     public String getUsername();
-
 }

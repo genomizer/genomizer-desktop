@@ -24,27 +24,33 @@ public class Controller {
 	this.view = view;
 	this.model = model;
 	this.conn = conn;
-	// view.addLoginListener
+	view.addLoginListener(new LoginListener());
 	// view.addLogoutListener
 	// view.addSearchListener
     }
 
     class LoginListener implements ActionListener {
 	public void actionPerformed(ActionEvent e) {
-	    // get username and pwd from view
-	    LoginRequest request = RequestFactory.makeLoginRequest("Kalle",
-		    "123");
-	    conn.sendRequest(request, model.getUserID(), "application/json");
-	    if (conn.getResponseCode() == 200) {
-		LoginResponse loginResponse = ResponseParser
-			.parseLoginResponse(conn.getResponseBody());
-		if (loginResponse != null) {
-		    model.setUserID(loginResponse.token);
-		    // update view with login
-		    return;
+
+	    new Thread(new Runnable() {
+		@Override
+		public void run() {
+		    // get username and pwd from view
+		    LoginRequest request = RequestFactory.makeLoginRequest(
+			    "Kalle", "123");
+		    conn.sendRequest(request, model.getUserID(),
+			    "application/json");
+		    if (conn.getResponseCode() == 200) {
+			LoginResponse loginResponse = ResponseParser
+				.parseLoginResponse(conn.getResponseBody());
+			if (loginResponse != null) {
+			    model.setUserID(loginResponse.token);
+			    // update view
+			}
+		    }
+		    // update view
 		}
-	    }
-	    // update view with login failed
+	    }).start();
 	}
     }
 
@@ -66,5 +72,4 @@ public class Controller {
 
 	}
     }
-
 }
