@@ -6,61 +6,33 @@ import java.awt.event.ActionListener;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.JTextField;
 
 public class UserPanel extends JPanel {
 
-    private String firstName, lastName, username, password;
+    private String name, username;
     private boolean admin;
-    JLabel usernameLabel, passwordLabel;
-    JTextField usernameField, passwordField;
-    JButton loginButton;
-
-    public UserPanel(String username, boolean admin) {
-	firstName = "Kalle";
-	lastName = "Karlsson";
-	this.username = username;
-	this.admin = admin;
-
-	setLayout(new GridBagLayout());
-
-	add(new JLabel("User: " + firstName + " " + lastName + "     "));
-	add(new JLabel("Username: " + username));
-
-	if (admin) {
-	    add(new JLabel("     Administrator"));
-
-	}
-    }
-
-    public void addLoginButtonListener(ActionListener listener) {
-	loginButton.addActionListener(listener);
-    }
+    JLabel usernameLabel, nameLabel;
+    JButton logoutButton;
 
     public UserPanel() {
-	usernameLabel = new JLabel("Username: ");
-	passwordLabel = new JLabel("  Password: ");
-	usernameField = new JTextField(20);
-	passwordField = new JTextField(20);
-	/* temporary info */
-	usernameField.setText("Kalle");
-	passwordField.setText("123");
-	/* temporary info */
-	loginButton = new JButton("Log in");
+	setLayout(new GridBagLayout());
+	logoutButton = new JButton("Log out");
+    }
 
+    public void setUserInfo(String username, String name, boolean admin) {
+	this.removeAll();
+	this.name = name;
+	this.username = username;
+	this.admin = admin;
+	nameLabel = new JLabel("Name: " + name + " | ");
+	usernameLabel = new JLabel("Username: " + username + " ");
+	add(nameLabel);
 	add(usernameLabel);
-	add(usernameField);
-	add(passwordLabel);
-	add(passwordField);
-	add(loginButton);
+	add(logoutButton);
     }
 
-    public String getUsernameInput() {
-	return usernameField.getText();
-    }
-
-    public String getPasswordInput() {
-	return passwordField.getText();
+    public void addLogoutButtonListener(ActionListener listener) {
+	logoutButton.addActionListener(listener);
     }
 
 }

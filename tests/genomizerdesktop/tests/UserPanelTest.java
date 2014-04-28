@@ -1,18 +1,18 @@
 package genomizerdesktop.tests;
 
 import static org.junit.Assert.*;
-import genomizerdesktop.UserPanel;
+import genomizerdesktop.LoginPanel;
 
 import org.junit.Before;
 import org.junit.Test;
 
 public class UserPanelTest {
 
-	UserPanel userPanel;
+	LoginPanel userPanel;
 
 	@Before
 	public void setUp() throws Exception {
-		userPanel = new UserPanel("arne", false);
+		userPanel = new LoginPanel("arne", false);
 	}
 
 	@Test
