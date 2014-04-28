@@ -19,10 +19,12 @@ public class UploadHandler implements Runnable {
     @Override
     public void run() {
         try {
+            sendSetupPackage();
             URL targetUrl = new URL(url);
             HttpURLConnection connection = (HttpURLConnection)
                     targetUrl.openConnection();
             connection.setDoOutput(true);
+            connection.setReadTimeout(1000);
             connection.setRequestMethod("POST");
             connection.setRequestProperty("Content-Type", "text/plain");
             connection.setRequestProperty("Authorization", userID);
@@ -33,6 +35,7 @@ public class UploadHandler implements Runnable {
                     new FileReader(file));
             while (reader.ready()) {
                 outputStream.println(reader.readLine());
+                outputStream.flush();
             }
             int responseCode;
             if ((responseCode = connection.getResponseCode()) != 200) {
@@ -43,9 +46,15 @@ public class UploadHandler implements Runnable {
 
         } catch (MalformedURLException e) {
             e.printStackTrace();
+        } catch(FileNotFoundException e) {
+            System.out.println("File was not found: " + fileName);
         } catch (IOException e) {
-            System.out.println("Connection refused");
+            System.out.println("Connection error: " + e.getMessage() + " " + url);
         }
+
+    }
+
+    public void sendSetupPackage() {
 
     }
 }
