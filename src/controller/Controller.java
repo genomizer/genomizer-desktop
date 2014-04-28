@@ -7,6 +7,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import requests.LoginRequest;
+import requests.LogoutRequest;
 import requests.RequestFactory;
 import responses.LoginResponse;
 import responses.ResponseParser;
@@ -39,20 +40,30 @@ public class Controller {
 			.parseLoginResponse(conn.getResponseBody());
 		if (loginResponse != null) {
 		    model.setUserID(loginResponse.token);
-		    // update view
+		    // update view with login
+		    return;
 		}
 	    }
-	    // update view
+	    // update view with login failed
 	}
     }
 
     class SearchListener implements ActionListener {
 	public void actionPerformed(ActionEvent e) {
+	    LogoutRequest request = RequestFactory.makeLogoutRequest();
+	    conn.sendRequest(request, model.getUserID(), "text/plain");
+	    if (conn.getResponseCode() == 200) {
+		model.setUserID("");
+		// update view with logout
+	    } else {
+		// update view with logout failed
+	    }
 	}
     }
 
     class LogoutListener implements ActionListener {
 	public void actionPerformed(ActionEvent e) {
+
 	}
     }
 

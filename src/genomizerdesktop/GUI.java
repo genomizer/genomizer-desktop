@@ -1,8 +1,8 @@
 package genomizerdesktop;
 
 import java.awt.BorderLayout;
+import java.awt.event.ActionListener;
 
-import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
@@ -11,25 +11,25 @@ import javax.swing.UnsupportedLookAndFeelException;
 
 public class GUI implements GenomizerView {
 
-	private JFrame frame;
-	private JPanel mainPanel, workspacePanel;
-	private JPanel analyzePanel, processPanel, uploadPanel;
-	private JTabbedPane tabbedPane;
-	private SearchTab searchTab;
-	private UploadTab uploadTab;
-	private WorkspaceTab workspaceTab;
-	
+    private JFrame frame;
+    private JPanel mainPanel, workspacePanel;
+    private JPanel analyzePanel, processPanel, uploadPanel;
+    private JTabbedPane tabbedPane;
+    private SearchTab searchTab;
+    private UploadTab uploadTab;
+    private WorkspaceTab workspaceTab;
+
     public GUI() {
 	try {
-		UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-	} catch (ClassNotFoundException  e) {
-		e.printStackTrace();
+	    UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+	} catch (ClassNotFoundException e) {
+	    e.printStackTrace();
 	} catch (InstantiationException e) {
-		e.printStackTrace();
+	    e.printStackTrace();
 	} catch (IllegalAccessException e) {
-		e.printStackTrace();
+	    e.printStackTrace();
 	} catch (UnsupportedLookAndFeelException e) {
-		e.printStackTrace();
+	    e.printStackTrace();
 	}
 	frame = new JFrame("Genomizer");
 	frame.setSize(800, 800);
@@ -51,11 +51,11 @@ public class GUI implements GenomizerView {
     }
 
     private void createPanels() {
-        //searchPanel = new JPanel();
- //       workspacePanel = new JPanel();
-        analyzePanel = new JPanel();
-        processPanel = new JPanel();
-//        uploadPanel = new JPanel();
+	// searchPanel = new JPanel();
+	// workspacePanel = new JPanel();
+	analyzePanel = new JPanel();
+	processPanel = new JPanel();
+	// uploadPanel = new JPanel();
     }
 
     private void setLookAndFeel() {
@@ -63,27 +63,27 @@ public class GUI implements GenomizerView {
     }
 
     public void addPanelsToTabbedPane() {
-//	tabbedPane.add("SEARCH", searchPanel);
-//	tabbedPane.add("WORKSPACE", workspacePanel);
+	// tabbedPane.add("SEARCH", searchPanel);
+	// tabbedPane.add("WORKSPACE", workspacePanel);
 	tabbedPane.add("ANALYZE", analyzePanel);
 	tabbedPane.add("PROCESS", processPanel);
-//	tabbedPane.add("UPLOAD", uploadPanel);
+	// tabbedPane.add("UPLOAD", uploadPanel);
     }
 
     public void setSearchTab(SearchTab searchTab) {
-    	this.searchTab = searchTab;
-    	tabbedPane.add("SEARCH", searchTab);
+	this.searchTab = searchTab;
+	tabbedPane.add("SEARCH", searchTab);
     }
 
     public void setUploadTab(UploadTab uploadTab) {
-    	this.uploadTab = uploadTab;
-    	tabbedPane.add("UPLOAD", uploadTab);
+	this.uploadTab = uploadTab;
+	tabbedPane.add("UPLOAD", uploadTab);
     }
 
-	public void setWorkspaceTab(WorkspaceTab workspaceTab) {
-		this.workspaceTab = workspaceTab;
-    	tabbedPane.add("WORKSPACE", workspaceTab);
-	}
+    public void setWorkspaceTab(WorkspaceTab workspaceTab) {
+	this.workspaceTab = workspaceTab;
+	tabbedPane.add("WORKSPACE", workspaceTab);
+    }
 
     public JPanel getSearchPanel() {
 	return searchTab;
@@ -91,5 +91,42 @@ public class GUI implements GenomizerView {
 
     public JFrame getFrame() {
 	return frame;
+    }
+
+    @Override
+    public void addLoginListener(ActionListener listener) {
+	// TODO Auto-generated method stub
+    }
+
+    @Override
+    public void addLogoutListener(ActionListener listener) {
+	// TODO Auto-generated method stub
+    }
+
+    @Override
+    public void addSearchListener(ActionListener listener) {
+	// TODO Auto-generated method stub
+    }
+
+    @Override
+    public void addUploadFileListener(ActionListener listener) {
+	// TODO Auto-generated method stub
+    }
+
+    @Override
+    public void addDownloadFileListener(ActionListener listener) {
+	// TODO Auto-generated method stub
+    }
+
+    @Override
+    public String getPassword() {
+	// TODO Auto-generated method stub
+	return null;
+    }
+
+    @Override
+    public String getUsername() {
+	// TODO Auto-generated method stub
+	return null;
     }
 }

@@ -11,6 +11,10 @@ public class RequestFactory {
 	return new LoginRequest(username, password);
     }
 
+    public static LogoutRequest makeLogoutRequest() {
+	return new LogoutRequest();
+    }
+
     public static DownloadFileRequest makeDownloadFileRequest(String fileName,
 	    String fileFormat) {
 	return new DownloadFileRequest(fileName, fileFormat);
