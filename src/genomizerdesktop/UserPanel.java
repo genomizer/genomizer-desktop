@@ -1,6 +1,7 @@
 package genomizerdesktop;
 
 import java.awt.GridBagLayout;
+import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
 import javax.swing.JLabel;
@@ -30,7 +31,9 @@ public class UserPanel extends JPanel {
 			add(new JLabel("     Administrator"));
 		}
 	}
-	
+	public void addLoginButtonListener(ActionListener listener) {
+        loginButton.addActionListener(listener);
+    }
 	public UserPanel() {
 		usernameLabel = new JLabel("Username: ");
 		passwordLabel = new JLabel("  Password: ");

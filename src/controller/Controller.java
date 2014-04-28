@@ -25,8 +25,8 @@ public class Controller {
         this.model = model;
         this.conn = conn;
         view.addLoginListener(new LoginListener());
-        // view.addLogoutListener
-        // view.addSearchListener
+        view.addLogoutListener(new LogoutListener());
+        view.addSearchListener(new SearchListener());
     }
 
     class LoginListener implements ActionListener, Runnable {
@@ -58,7 +58,6 @@ public class Controller {
         public void actionPerformed(ActionEvent e) {
 
         }
-
 
         @Override
         public void run() {
