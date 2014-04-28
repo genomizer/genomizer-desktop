@@ -1,5 +1,11 @@
 package genomizerdesktop;
 
+import gui.AnalyzeTab;
+import gui.GUI;
+import gui.ProcessTab;
+import gui.SearchTab;
+import gui.UploadTab;
+import gui.WorkspaceTab;
 import communication.Connection;
 
 import controller.Controller;

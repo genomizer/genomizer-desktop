@@ -1,6 +1,7 @@
-package genomizerdesktop;
+package gui;
 
-import gui.LoginDialog;
+import genomizerdesktop.GenomizerView;
+import genomizerdesktop.UserPanel;
 
 import java.awt.BorderLayout;
 import java.awt.event.ActionListener;
@@ -23,6 +24,7 @@ public class GUI extends JFrame implements GenomizerView {
     private AnalyzeTab analyzeTab;
     private WorkspaceTab workspaceTab;
     private LoginDialog loginWindow;
+    private ProcessTab processTab;
 
     public GUI() {
 
@@ -47,8 +49,6 @@ public class GUI extends JFrame implements GenomizerView {
 	// UserPanel("kallekarlsson123",true),BorderLayout.NORTH);
 	mainPanel.add(userPanel, BorderLayout.NORTH);
 
-	createPanels();
-	addPanelsToTabbedPane();
 	setLookAndFeel();
 	// tabbedPane.add("LOGIN", userPanel);
 	setSize(1200, 1200);
@@ -69,13 +69,6 @@ public class GUI extends JFrame implements GenomizerView {
 	}
     }
 
-    public void addPanelsToTabbedPane() {
-	// tabbedPane.add("SEARCH", searchPanel);
-	// tabbedPane.add("WORKSPACE", workspacePanel);
-	// tabbedPane.add("ANALYZE", analyzePanel);
-	tabbedPane.add("PROCESS", processPanel);
-	// tabbedPane.add("UPLOAD", uploadPanel);
-    }
 
     public void setSearchTab(SearchTab searchTab) {
 	this.searchTab = searchTab;
@@ -95,14 +88,6 @@ public class GUI extends JFrame implements GenomizerView {
     public void setAnalyzeTab(AnalyzeTab analyzeTab) {
 	this.analyzeTab = analyzeTab;
 	tabbedPane.add("ANALYZE", analyzeTab);
-    }
-
-    private void createPanels() {
-	// searchPanel = new JPanel();
-	// workspacePanel = new JPanel();
-	// analyzePanel = new JPanel();
-	processPanel = new JPanel();
-	// uploadPanel = new JPanel();
     }
 
     public void addLoginListener(ActionListener listener) {
@@ -180,4 +165,10 @@ public class GUI extends JFrame implements GenomizerView {
 	this.setVisible(false);
 	loginWindow.setVisible(true);
     }
+
+	public void setProcessTab(ProcessTab processTab) {
+		this.processTab = processTab;
+		tabbedPane.add("PROCESS", processTab);
+
+	}
 }
