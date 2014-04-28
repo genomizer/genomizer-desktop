@@ -91,7 +91,7 @@ public class GUI implements GenomizerView {
     }
 
     public void addLoginListener(ActionListener listener) {
-	uploadTab.addUploadBtnListener(listener);
+//	uploadTab.addUploadBtnListener(listener);
     }
 
     public JPanel getSearchPanel() {
