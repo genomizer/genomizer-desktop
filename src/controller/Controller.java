@@ -6,6 +6,7 @@ import genomizerdesktop.Model;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import requests.AddFileToExperiment;
 import requests.LogoutRequest;
 import requests.RequestFactory;
 
@@ -94,11 +95,20 @@ public class Controller {
 
 	@Override
 	public void run() {
+
+	    AddFileToExperiment request = RequestFactory.makeAddFile("test",
+		    "test", "1.3GB", "raw");
+	    conn.sendRequest(request, model.getUserID(), "application/json");
+	    String url = conn.getResponseBody();
+	    if (url != null) {
+		System.out.println(url);
+	    }
 	    UploadHandler handler = new UploadHandler(
 		    "http://127.0.0.1:25652/test",
 		    "/home/dv12/dv12csr/edu/test321", model.getUserID());
 	    Thread thread = new Thread(handler);
 	    thread.start();
+
 	}
     }
 

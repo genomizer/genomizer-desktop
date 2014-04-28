@@ -1,13 +1,12 @@
 package requests;
 
-import com.google.gson.annotations.Expose;
 
 /**
  * Created by worfox on 2014-04-25.
  *
  */
 
-public class AddFileToExperiment {
+public class AddFileToExperiment extends Request {
     public String experimentId;
     public String fileName;
     public String size;
@@ -15,10 +14,12 @@ public class AddFileToExperiment {
 
     public AddFileToExperiment(String experimentId, String fileName,
                                String size, String type) {
+        super("addfile", "/file/" + fileName, "POST");
         this.experimentId = experimentId;
         this.fileName = fileName;
         this.size = size;
         this.type = type;
 
     }
+
 }
