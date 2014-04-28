@@ -10,6 +10,7 @@ import javax.swing.table.TableModel;
 
 public class DownloadWindow extends JFrame {
 
+	private static final long serialVersionUID = -7647204230941649167L;
 	JTable table;
 
 	//Tar in ArrayList med de filer som valdes
@@ -21,7 +22,7 @@ public class DownloadWindow extends JFrame {
 
 		};
 
-		table = new JTable();
+		table = new JTable(tableModel);
 
 		setVisible(true);
 	}
