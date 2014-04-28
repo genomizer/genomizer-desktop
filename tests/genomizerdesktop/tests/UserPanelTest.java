@@ -17,7 +17,7 @@ public class UserPanelTest {
 
 	@Test
 	public void shouldGetUsername() {
-		assertEquals("arne", userPanel.getUsername());
+		assertEquals("arne", userPanel.getUsernameInput());
 	}
 
 }

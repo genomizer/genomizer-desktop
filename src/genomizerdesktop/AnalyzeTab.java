@@ -36,22 +36,8 @@ public class AnalyzeTab extends JPanel {
 		add(southPanel, BorderLayout.SOUTH);
 		southPanel.add(southWestPanel, BorderLayout.WEST);
 		southPanel.add(southEastPanel, BorderLayout.EAST);
-
-		filesLabel = new JLabel("Files");
-		filesLabel.setBackground(Color.CYAN);
-		filesLabel.setOpaque(true);
-
-		overlapLabel = new JLabel("Overlap");
-		overlapLabel.setBackground(Color.CYAN);
-		overlapLabel.setOpaque(true);
-
-		regionAnalysisLabel = new JLabel("Region analysis");
-		regionAnalysisLabel.setBackground(Color.CYAN);
-		regionAnalysisLabel.setOpaque(true);
-
-		profileAnalysisLabel = new JLabel("Profile analysis");
-		profileAnalysisLabel.setBackground(Color.CYAN);
-		profileAnalysisLabel.setOpaque(true);
+		
+		createLabels();
 
 		DefaultListModel listModel = new DefaultListModel();
 		
@@ -74,5 +60,23 @@ public class AnalyzeTab extends JPanel {
 		southEastPanel.add(new JLabel("Number of jobs currently in queue: "
 				+ numberOfJobs + " est. time until empty: N/A)."),
 				BorderLayout.SOUTH);
+	}
+	
+	private void createLabels() {
+		filesLabel = new JLabel("Files");
+		filesLabel.setBackground(Color.CYAN);
+		filesLabel.setOpaque(true);
+
+		overlapLabel = new JLabel("Overlap");
+		overlapLabel.setBackground(Color.CYAN);
+		overlapLabel.setOpaque(true);
+
+		regionAnalysisLabel = new JLabel("Region analysis");
+		regionAnalysisLabel.setBackground(Color.CYAN);
+		regionAnalysisLabel.setOpaque(true);
+
+		profileAnalysisLabel = new JLabel("Profile analysis");
+		profileAnalysisLabel.setBackground(Color.CYAN);
+		profileAnalysisLabel.setOpaque(true);
 	}
 }
