@@ -20,5 +20,6 @@ public class Genomizer {
 	Connection con = new Connection("127.0.0.1", 25652);
 	Model model = new Model();
 	Controller controller = new Controller(gui, model, con);
+	gui.showLoginWindow();
     }
 }
