@@ -7,8 +7,9 @@ import java.awt.GridBagLayout;
 import java.awt.Insets;
 
 import javax.swing.JButton;
-import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JTable;
+import javax.swing.table.DefaultTableModel;
 
 public class WorkspaceTab extends JPanel {
 
@@ -41,12 +42,24 @@ public class WorkspaceTab extends JPanel {
 		createButtons();
 		addToButtonPanel();
 		buttonPanel.setVisible(true);
-		
-		filePanel.add(new JLabel("Name"), gbc);
-		filePanel.add(new JLabel("Date"), gbc);
-		filePanel.add(new JLabel("Uploaded by"), gbc);
-		filePanel.add(new JLabel("Data type"), gbc);
-		filePanel.add(new JLabel("Local"), gbc);
+
+		DefaultTableModel dataModel = new DefaultTableModel() {
+			private static final long serialVersionUID = -4408712463905415472L;
+			public int getColumnCount() { return 6; }
+	        public int getRowCount() { return 10;}
+	    };
+
+	    JTable table = new JTable(dataModel);
+	    table.setBackground(Color.CYAN);
+	    table.getColumnModel().getColumn(2).setPreferredWidth(100);
+	    
+	    table.setValueAt("Name", 0, 0);
+	    table.setValueAt("Date", 0, 1);
+	    table.setValueAt("Uploaded by", 0, 2);
+	    table.setValueAt("Data type", 0, 3);
+	    table.setValueAt("Local", 0, 4);
+
+	    filePanel.add(table);
 		filePanel.setVisible(true);
 		setVisible(true);
 	}
