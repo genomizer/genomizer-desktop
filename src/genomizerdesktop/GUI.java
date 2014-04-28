@@ -116,7 +116,7 @@ public class GUI implements GenomizerView {
 
     @Override
     public void addUploadFileListener(ActionListener listener) {
-	// TODO Auto-generated method stub
+	    uploadTab.addUploadBtnListener(listener);
     }
 
     @Override
