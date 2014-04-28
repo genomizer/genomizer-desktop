@@ -133,4 +133,17 @@ public class GUI implements GenomizerView {
     public String getUsername() {
 	return userPanel.getUsernameInput();
     }
+
+    @Override
+    public void updateLoginAccepted(String username, String pwd) {
+	System.out.println("login succesful with username " + username
+		+ " & pwd " + pwd);
+    }
+
+    @Override
+    public void updateLoginNeglected(String username, String pwd) {
+	System.out.println("login failed with username " + username + " & pwd "
+		+ pwd);
+
+    }
 }

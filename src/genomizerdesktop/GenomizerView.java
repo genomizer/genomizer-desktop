@@ -17,4 +17,9 @@ public interface GenomizerView {
     public String getPassword();
 
     public String getUsername();
+
+    public void updateLoginAccepted(String username, String pwd);
+
+    public void updateLoginNeglected(String username, String pwd);
+
 }

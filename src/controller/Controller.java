@@ -39,7 +39,6 @@ public class Controller {
 	public void run() {
 	    String username = view.getUsername();
 	    String pwd = view.getPassword();
-	    System.out.println("username: " + username + " pwd: " + pwd);
 	    if (!username.isEmpty() && !pwd.isEmpty()) {
 		LoginRequest request = RequestFactory.makeLoginRequest(
 			username, pwd);
@@ -49,12 +48,11 @@ public class Controller {
 			    .parseLoginResponse(conn.getResponseBody());
 		    if (loginResponse != null) {
 			model.setUserID(loginResponse.token);
-			// update view with login
+			view.updateLoginAccepted(username, pwd);
 		    }
 		}
-		// update view with login failed
 	    }
-	    // update view with empty strings error
+	    view.updateLoginNeglected(username, pwd);
 	}
     }
 
