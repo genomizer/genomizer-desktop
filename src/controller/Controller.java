@@ -97,7 +97,8 @@ public class Controller {
         @Override
         public void run() {
             UploadHandler handler = new UploadHandler(
-                    "http://127.0.0.1:25652/test", "/home/dv12/dv12csr/edu/test123", "worfox");
+                    "http://127.0.0.1:25652/test",
+                    "/home/dv12/dv12csr/edu/test321", model.getUserID());
             Thread thread = new Thread(handler);
             thread.start();
         }
