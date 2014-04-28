@@ -33,6 +33,7 @@ public class UploadHandler implements Runnable {
                     new FileReader(file));
             while (reader.ready()) {
                 outputStream.println(reader.readLine());
+                outputStream.flush();
             }
             int responseCode;
             if ((responseCode = connection.getResponseCode()) != 200) {
@@ -43,8 +44,10 @@ public class UploadHandler implements Runnable {
 
         } catch (MalformedURLException e) {
             e.printStackTrace();
+        } catch(FileNotFoundException e) {
+            System.out.println("File was not found: " + fileName);
         } catch (IOException e) {
-            System.out.println("Connection refused");
+            System.out.println("Connection refused: " + url);
         }
 
     }
