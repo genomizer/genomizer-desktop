@@ -12,36 +12,36 @@ public class RequestFactory {
     }
 
     public static DownloadFileRequest makeDownloadFileRequest(String fileName,
-	    String fileFormat, String uID) {
-	return new DownloadFileRequest(fileName, fileFormat, uID);
+	    String fileFormat) {
+	return new DownloadFileRequest(fileName, fileFormat);
     }
 
     public static ChangeAnnotationRequest makeChangeAnnotationRequest(
-	    String id, HashMap annotations, String uID) {
-	return new ChangeAnnotationRequest(id, annotations, uID);
+	    String id, HashMap annotations) {
+	return new ChangeAnnotationRequest(id, annotations);
     }
 
     public static AddExperimentRequest makeAddExperimentRequest(
-	    String experimentID, String userID, String name, String createdBy,
+	    String experimentID, String name, String createdBy,
 	    HashMap<String, String> annotations) {
-	return new AddExperimentRequest(experimentID, userID, name, createdBy,
+	return new AddExperimentRequest(experimentID, name, createdBy,
 		annotations);
     }
 
     public static RetrieveExperimentRequest makeRetrieveExperimentRequest(
-	    String experimentID, String userID) {
-	return new RetrieveExperimentRequest(experimentID, userID);
+	    String experimentID) {
+	return new RetrieveExperimentRequest(experimentID);
     }
 
     public static RemoveExperimentRequest makeRemoveExperimentRequest(
-	    String experimentID, String userID) {
-	return new RemoveExperimentRequest(experimentID, userID);
+	    String experimentID) {
+	return new RemoveExperimentRequest(experimentID);
     }
 
     public static UpdateExperimentRequest makeUpdateExperimentRequest(
-	    String experimentID, String userID, String name, String createdBy,
+	    String experimentID, String name, String createdBy,
 	    HashMap<String, String> annotations) {
 	return new UpdateExperimentRequest(experimentID, name, createdBy,
-		annotations, userID);
+		annotations);
     }
 }
