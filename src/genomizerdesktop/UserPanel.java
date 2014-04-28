@@ -10,41 +10,55 @@ import javax.swing.JTextField;
 
 public class UserPanel extends JPanel {
 
-	private String firstName, lastName, username;
-	private boolean admin;
-	JLabel usernameLabel, passwordLabel;
-	JTextField usernameField, passwordField;
-	JButton loginButton;
+    private String firstName, lastName, username;
+    private boolean admin;
+    JLabel usernameLabel, passwordLabel;
+    JTextField usernameField, passwordField;
+    JButton loginButton;
 
-	public UserPanel(String username, boolean admin) {
-		firstName = "Kalle";
-		lastName = "Karlsson";
-		this.username = username;
-		this.admin = admin;
-		
-		setLayout(new GridBagLayout());
-		
-		add(new JLabel("User: " + firstName + " " + lastName + "     "));
-		add(new JLabel("Username: " + username));
-		
-		if (admin) {
-			add(new JLabel("     Administrator"));
-		}
+    public UserPanel(String username, boolean admin) {
+	firstName = "Kalle";
+	lastName = "Karlsson";
+	this.username = username;
+	this.admin = admin;
+
+	setLayout(new GridBagLayout());
+
+	add(new JLabel("User: " + firstName + " " + lastName + "     "));
+	add(new JLabel("Username: " + username));
+
+	if (admin) {
+	    add(new JLabel("     Administrator"));
 	}
-	public void addLoginButtonListener(ActionListener listener) {
-        loginButton.addActionListener(listener);
     }
-	public UserPanel() {
-		usernameLabel = new JLabel("Username: ");
-		passwordLabel = new JLabel("  Password: ");
-		usernameField = new JTextField(20);
-		passwordField = new JTextField(20);
-		loginButton = new JButton("Log in");
-		
-		add(usernameLabel);
-		add(usernameField);
-		add(passwordLabel);
-		add(passwordField);
-		add(loginButton);
-	}
+
+    public void addLoginButtonListener(ActionListener listener) {
+	loginButton.addActionListener(listener);
+    }
+
+    public UserPanel() {
+	usernameLabel = new JLabel("Username: ");
+	passwordLabel = new JLabel("  Password: ");
+	usernameField = new JTextField(20);
+	passwordField = new JTextField(20);
+	/* temporary info */
+	usernameField.setText("Kalle");
+	passwordField.setText("123");
+	/* temporary info */
+	loginButton = new JButton("Log in");
+
+	add(usernameLabel);
+	add(usernameField);
+	add(passwordLabel);
+	add(passwordField);
+	add(loginButton);
+    }
+
+    public String getUsernameInput() {
+	return usernameField.getText();
+    }
+
+    public String getPasswordInput() {
+	return passwordField.getText();
+    }
 }

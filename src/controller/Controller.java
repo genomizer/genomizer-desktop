@@ -21,91 +21,95 @@ public class Controller {
     private Connection conn;
 
     public Controller(GenomizerView view, Model model, Connection conn) {
-        this.view = view;
-        this.model = model;
-        this.conn = conn;
-        view.addLoginListener(new LoginListener());
-        view.addLogoutListener(new LogoutListener());
-        view.addSearchListener(new SearchListener());
+	this.view = view;
+	this.model = model;
+	this.conn = conn;
+	view.addLoginListener(new LoginListener());
+	view.addLogoutListener(new LogoutListener());
+	view.addSearchListener(new SearchListener());
     }
 
     class LoginListener implements ActionListener, Runnable {
-        @Override
-        public void actionPerformed(ActionEvent e) {
-            new Thread(this).start();
+	@Override
+	public void actionPerformed(ActionEvent e) {
+	    new Thread(this).start();
+	}
 
-        }
-
-        @Override
-        public void run() {
-            // get username and pwd from view
-            LoginRequest request = RequestFactory.makeLoginRequest("Kalle",
-                    "123");
-            conn.sendRequest(request, model.getUserID(), "application/json");
-            if (conn.getResponseCode() == 200) {
-                LoginResponse loginResponse = ResponseParser
-                        .parseLoginResponse(conn.getResponseBody());
-                if (loginResponse != null) {
-                    model.setUserID(loginResponse.token);
-                    // update view
-                }
-            }
-            // update view
-        }
+	@Override
+	public void run() {
+	    String username = view.getUsername();
+	    String pwd = view.getPassword();
+	    System.out.println("username: " + username + " pwd: " + pwd);
+	    if (!username.isEmpty() && !pwd.isEmpty()) {
+		LoginRequest request = RequestFactory.makeLoginRequest(
+			username, pwd);
+		conn.sendRequest(request, model.getUserID(), "application/json");
+		if (conn.getResponseCode() == 200) {
+		    LoginResponse loginResponse = ResponseParser
+			    .parseLoginResponse(conn.getResponseBody());
+		    if (loginResponse != null) {
+			model.setUserID(loginResponse.token);
+			// update view with login
+		    }
+		}
+		// update view with login failed
+	    }
+	    // update view with empty strings error
+	}
     }
 
     class SearchListener implements ActionListener, Runnable {
-        public void actionPerformed(ActionEvent e) {
+	public void actionPerformed(ActionEvent e) {
 
-        }
+	}
 
-        @Override
-        public void run() {
+	@Override
+	public void run() {
 
-        }
+	}
     }
 
     class LogoutListener implements ActionListener, Runnable {
-        public void actionPerformed(ActionEvent e) {
-            new Thread(this).start();
-        }
+	public void actionPerformed(ActionEvent e) {
+	    new Thread(this).start();
+	}
 
-        @Override
-        public void run() {
-            LogoutRequest request = RequestFactory.makeLogoutRequest();
-            conn.sendRequest(request, model.getUserID(), "text/plain");
-            if (conn.getResponseCode() == 200) {
-                model.setUserID("");
-                // update view with logout
-            } else {
-                // update view with logout failed
-            }
-        }
+	@Override
+	public void run() {
+	    LogoutRequest request = RequestFactory.makeLogoutRequest();
+	    conn.sendRequest(request, model.getUserID(), "text/plain");
+	    if (conn.getResponseCode() == 200) {
+		model.setUserID("");
+		// update view with logout
+	    } else {
+		// update view with logout failed
+	    }
+	}
     }
 
     class UploadListener implements ActionListener, Runnable {
 
-        @Override
-        public void actionPerformed(ActionEvent actionEvent) {
+	@Override
+	public void actionPerformed(ActionEvent actionEvent) {
 
-        }
+	}
 
-        @Override
-        public void run() {
+	@Override
+	public void run() {
 
-        }
+	}
     }
 
     class DownloadListener implements ActionListener, Runnable {
 
-        @Override
-        public void actionPerformed(ActionEvent actionEvent) {
+	@Override
+	public void actionPerformed(ActionEvent actionEvent) {
 
-        }
+	}
 
-        @Override
-        public void run() {
+	@Override
+	public void run() {
 
-        }
+	}
     }
 }

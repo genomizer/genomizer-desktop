@@ -1,6 +1,5 @@
 package genomizerdesktop;
 
-import java.awt.Color;
 import java.awt.BorderLayout;
 import java.awt.event.ActionListener;
 
@@ -38,20 +37,21 @@ public class GUI implements GenomizerView {
 
 	BorderLayout bl = new BorderLayout();
 	mainPanel = new JPanel(bl);
-        userPanel = new UserPanel();
+	userPanel = new UserPanel();
 	frame.add(mainPanel);
 
 	JPanel newPanel = new JPanel();
 
 	tabbedPane = new JTabbedPane();
 	mainPanel.add(tabbedPane);
-	//mainPanel.add(new UserPanel("kallekarlsson123",true),BorderLayout.NORTH);
+	// mainPanel.add(new
+	// UserPanel("kallekarlsson123",true),BorderLayout.NORTH);
 	mainPanel.add(userPanel, BorderLayout.NORTH);
 
 	createPanels();
 	addPanelsToTabbedPane();
 	setLookAndFeel();
-    //tabbedPane.add("LOGIN", userPanel);
+	// tabbedPane.add("LOGIN", userPanel);
 	frame.setSize(1200, 1200);
 	frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	frame.setVisible(true);
@@ -92,7 +92,6 @@ public class GUI implements GenomizerView {
 	tabbedPane.add("WORKSPACE", workspaceTab);
     }
 
-
     public void addLoginListener(ActionListener listener) {
 	userPanel.addLoginButtonListener(listener);
     }
@@ -127,13 +126,11 @@ public class GUI implements GenomizerView {
 
     @Override
     public String getPassword() {
-	// TODO Auto-generated method stub
-	return null;
+	return userPanel.getPasswordInput();
     }
 
     @Override
     public String getUsername() {
-	// TODO Auto-generated method stub
-	return null;
+	return userPanel.getUsernameInput();
     }
 }
