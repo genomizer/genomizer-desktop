@@ -8,6 +8,7 @@ import javax.swing.JPanel;
 
 import genomizerdesktop.GUI;
 import genomizerdesktop.GenomizerView;
+import genomizerdesktop.SearchTab;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -35,7 +36,7 @@ public class GUITest {
     @Test
     public void shouldSetSearchPanel() {
     JPanel oldPanel = gui.getSearchPanel();
-    gui.setSearchPanel(new JPanel());
+    gui.setSearchTab(new SearchTab());
     assertFalse(oldPanel.equals(gui.getSearchPanel()));
     }
 }

@@ -41,7 +41,8 @@ public class GUI implements GenomizerView {
 	tabbedPane = new JTabbedPane();
 	mainPanel.add(tabbedPane);
 	mainPanel.add(tabbedPane);
-	mainPanel.add(new UserPanel("kallekarlsson123",true),BorderLayout.NORTH);
+//	mainPanel.add(new UserPanel("kallekarlsson123",true),BorderLayout.NORTH);
+	mainPanel.add(new UserPanel());
 
 	createPanels();
 	addPanelsToTabbedPane();

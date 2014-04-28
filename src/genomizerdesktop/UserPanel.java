@@ -2,13 +2,18 @@ package genomizerdesktop;
 
 import java.awt.GridBagLayout;
 
+import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JTextField;
 
 public class UserPanel extends JPanel {
 
 	private String firstName, lastName, username;
 	private boolean admin;
+	JLabel usernameLabel, passwordLabel;
+	JTextField usernameField, passwordField;
+	JButton loginButton;
 
 	public UserPanel(String username, boolean admin) {
 		firstName = "Kalle";
@@ -24,5 +29,19 @@ public class UserPanel extends JPanel {
 		if (admin) {
 			add(new JLabel("     Administrator"));
 		}
+	}
+	
+	public UserPanel() {
+		usernameLabel = new JLabel("Username: ");
+		passwordLabel = new JLabel("  Password: ");
+		usernameField = new JTextField(20);
+		passwordField = new JTextField(20);
+		loginButton = new JButton("Log in");
+		
+		add(usernameLabel);
+		add(usernameField);
+		add(passwordLabel);
+		add(passwordField);
+		add(loginButton);
 	}
 }
