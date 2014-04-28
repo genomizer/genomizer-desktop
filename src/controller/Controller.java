@@ -56,20 +56,20 @@ public class Controller {
 
     class SearchListener implements ActionListener {
 	public void actionPerformed(ActionEvent e) {
-	    LogoutRequest request = RequestFactory.makeLogoutRequest();
-	    conn.sendRequest(request, model.getUserID(), "text/plain");
-	    if (conn.getResponseCode() == 200) {
-		model.setUserID("");
-		// update view with logout
-	    } else {
-		// update view with logout failed
-	    }
+
 	}
-    }
 
-    class LogoutListener implements ActionListener {
-	public void actionPerformed(ActionEvent e) {
-
+	class LogoutListener implements ActionListener {
+	    public void actionPerformed(ActionEvent e) {
+		LogoutRequest request = RequestFactory.makeLogoutRequest();
+		conn.sendRequest(request, model.getUserID(), "text/plain");
+		if (conn.getResponseCode() == 200) {
+		    model.setUserID("");
+		    // update view with logout
+		} else {
+		    // update view with logout failed
+		}
+	    }
 	}
     }
 }
