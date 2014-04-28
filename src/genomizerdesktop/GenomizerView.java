@@ -2,6 +2,8 @@ package genomizerdesktop;
 
 import java.awt.event.ActionListener;
 
+import javax.swing.JFrame;
+
 public interface GenomizerView {
 
     public void addLoginListener(ActionListener listener);
@@ -21,5 +23,9 @@ public interface GenomizerView {
     public void updateLoginAccepted(String username, String pwd);
 
     public void updateLoginNeglected(String username, String pwd);
+
+    public void updateLogout();
+
+    public JFrame getFrame();
 
 }

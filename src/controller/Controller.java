@@ -78,7 +78,7 @@ public class Controller {
 	    conn.sendRequest(request, model.getUserID(), "text/plain");
 	    if (conn.getResponseCode() == 200) {
 		model.setUserID("");
-		// update view with logout
+        view.updateLogout();
 	    } else {
 		// update view with logout failed
 	    }
@@ -87,10 +87,10 @@ public class Controller {
 
     class UploadListener implements ActionListener, Runnable {
 
-        @Override
-        public void actionPerformed(ActionEvent actionEvent) {
-            new Thread(this).start();
-        }
+	@Override
+	public void actionPerformed(ActionEvent actionEvent) {
+	    new Thread(this).start();
+	}
 
         @Override
         public void run() {
@@ -113,14 +113,14 @@ public class Controller {
 
     class DownloadListener implements ActionListener, Runnable {
 
-        @Override
-        public void actionPerformed(ActionEvent actionEvent) {
+	@Override
+	public void actionPerformed(ActionEvent actionEvent) {
 
-        }
+	}
 
-        @Override
-        public void run() {
+	@Override
+	public void run() {
 
-        }
+	}
     }
 }
