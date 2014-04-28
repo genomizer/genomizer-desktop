@@ -56,20 +56,34 @@ public class Controller {
 
     class SearchListener implements ActionListener {
 	public void actionPerformed(ActionEvent e) {
+	    new Thread(new Runnable() {
+		@Override
+		public void run() {
 
-	}
-
-	class LogoutListener implements ActionListener {
-	    public void actionPerformed(ActionEvent e) {
-		LogoutRequest request = RequestFactory.makeLogoutRequest();
-		conn.sendRequest(request, model.getUserID(), "text/plain");
-		if (conn.getResponseCode() == 200) {
-		    model.setUserID("");
-		    // update view with logout
-		} else {
-		    // update view with logout failed
 		}
-	    }
+	    }).start();
+
 	}
+    }
+
+    class LogoutListener implements ActionListener {
+	public void actionPerformed(ActionEvent e) {
+
+	    new Thread(new Runnable() {
+		@Override
+		public void run() {
+		    LogoutRequest request = RequestFactory.makeLogoutRequest();
+		    conn.sendRequest(request, model.getUserID(), "text/plain");
+		    if (conn.getResponseCode() == 200) {
+			model.setUserID("");
+			// update view with logout
+		    } else {
+			// update view with logout failed
+		    }
+		}
+	    }).start();
+
+	}
+
     }
 }
