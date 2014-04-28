@@ -18,7 +18,6 @@ public class GUI implements GenomizerView {
 	private SearchTab searchTab;
 	private UploadTab uploadTab;
 	private WorkspaceTab workspaceTab;
-	private Controller controller;
 
     public GUI() {
 	frame = new JFrame("Genomizer");
