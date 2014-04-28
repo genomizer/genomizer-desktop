@@ -17,6 +17,7 @@ public class Controller {
     private GenomizerView view;
     private Model model;
     private Connection conn;
+    private int a = 0;
 
     public Controller(GenomizerView view, Model model, Connection conn) {
 	this.view = view;
@@ -38,7 +39,13 @@ public class Controller {
 	public void run() {
 	    String username = view.getUsername();
 	    String pwd = view.getPassword();
-	    view.updateLoginAccepted(username, pwd);
+	    if(a == 0) {
+	    	view.updateLoginNeglected("Test fail, login again");
+	    	a = 1;
+	    } else {
+	    	view.updateLoginAccepted(username, pwd, "Yuri Gagarin");
+	    	a = 0;
+	    }
 	    // if (!username.isEmpty() && !pwd.isEmpty()) {
 	    // LoginRequest request = RequestFactory.makeLoginRequest(
 	    // username, pwd);
