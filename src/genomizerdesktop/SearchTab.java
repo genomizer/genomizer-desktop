@@ -36,6 +36,8 @@ public class SearchTab extends JPanel {
 	JLabel searchLabel = new JLabel("Search");
 	JLabel expLabel = new JLabel("Experiment ID");
 	JLabel pubLabel = new JLabel("Publication ID");
+	JLabel dataLabel = new JLabel("Data to display");
+
 	JTextField expID = new JTextField();
 	JTextField pubID = new JTextField();
 
@@ -75,6 +77,10 @@ public class SearchTab extends JPanel {
 
 	JButton searchButton = new JButton("Search");
 
+	JCheckBox rawCheckBox = new JCheckBox("Raw");
+	JCheckBox regionCheckBox = new JCheckBox("Region");
+	JCheckBox profileCheckBox = new JCheckBox("Profile");
+
 	gl.setHorizontalGroup(gl.createParallelGroup()
 		.addComponent(searchLabel)
 		.addGroup(gl.createSequentialGroup()
@@ -110,8 +116,13 @@ public class SearchTab extends JPanel {
                 				.addComponent(pubBox7)
                 				.addComponent(pubBox8))))
                 	.addGroup(gl.createParallelGroup(GroupLayout.Alignment.LEADING)
-                		.addComponent(searchButton)))
+                		.addComponent(searchButton)
+                		.addComponent(dataLabel)
+                		.addComponent(rawCheckBox)
+                		.addComponent(regionCheckBox)
+                		.addComponent(profileCheckBox)))
 		);
+
 	gl.linkSize(SwingConstants.HORIZONTAL, searchButton);
 
 	gl.setVerticalGroup(gl.createSequentialGroup()
@@ -132,21 +143,28 @@ public class SearchTab extends JPanel {
    		        			.addComponent(wrapCheckBox)
    		        			.addComponent(pubBox0)
                 				.addComponent(pubBox3)
-                				.addComponent(pubBox6))
+                				.addComponent(pubBox6)
+                				.addComponent(dataLabel))
    		        		.addGroup(gl.createParallelGroup(GroupLayout.Alignment.BASELINE)
                 		                .addComponent(backCheckBox)
                 		                .addComponent(nCheckBox)
                 		                .addComponent(mCheckBox)
                 		                .addComponent(pubBox1)
                 				.addComponent(pubBox4)
-                				.addComponent(pubBox7))
+                				.addComponent(pubBox7)
+                				.addComponent(rawCheckBox))
                 			.addGroup(gl.createParallelGroup(GroupLayout.Alignment.BASELINE)
                         			.addComponent(pubBox2)
                         			.addComponent(pubBox5)
-                        			.addComponent(pubBox8)))))
+                        			.addComponent(pubBox8)
+                        			.addComponent(regionCheckBox))
+                        		.addGroup(gl.createParallelGroup(GroupLayout.Alignment.BASELINE)
+                        			.addComponent(profileCheckBox)))))
 
     		);
     }
+
+
 
     public static void main(String args[]) {
 	GUI g = new GUI();
