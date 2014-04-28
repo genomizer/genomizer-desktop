@@ -9,7 +9,6 @@ public class Genomizer {
     public static void main(String args[]) {
 
 	GUI gui = new GUI();
-
 	SearchTab st = new SearchTab();
 	UploadTab ut = new UploadTab();
 	ProcessTab pt = new ProcessTab();
