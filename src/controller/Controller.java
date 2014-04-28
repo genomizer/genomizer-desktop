@@ -7,7 +7,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import requests.AddFileToExperiment;
-import requests.LogoutRequest;
 import requests.RequestFactory;
 
 import communication.Connection;
@@ -75,14 +74,15 @@ public class Controller {
 
 	@Override
 	public void run() {
-	    LogoutRequest request = RequestFactory.makeLogoutRequest();
-	    conn.sendRequest(request, model.getUserID(), "text/plain");
-	    if (conn.getResponseCode() == 200) {
-		model.setUserID("");
-		view.updateLogout();
-	    } else {
-		// update view with logout failed
-	    }
+	    view.updateLogout();
+	    // LogoutRequest request = RequestFactory.makeLogoutRequest();
+	    // conn.sendRequest(request, model.getUserID(), "text/plain");
+	    // if (conn.getResponseCode() == 200) {
+	    // model.setUserID("");
+	    // view.updateLogout();
+	    // } else {
+	    // // update view with logout failed
+	    // }
 	}
     }
 

@@ -159,12 +159,13 @@ public class GUI extends JFrame implements GenomizerView {
 	userPanel.setUserInfo(username, "Kalle Karlsson", false);
 	refreshGUI();
 	this.setVisible(true);
-	loginWindow.dispose();
+	loginWindow.setVisible(false);
     }
 
     @Override
     public void updateLoginNeglected(String username, String pwd) {
 	loginWindow.updateLoginFailed(username, pwd);
+
     }
 
     public void refreshGUI() {
@@ -176,5 +177,7 @@ public class GUI extends JFrame implements GenomizerView {
     @Override
     public void updateLogout() {
 	System.out.println("logout success");
+	this.setVisible(false);
+	loginWindow.setVisible(true);
     }
 }

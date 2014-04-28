@@ -9,13 +9,14 @@ import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 
 public class LoginDialog extends JDialog {
 
     private JButton loginButton;
     private JTextField usernameField;
-    private JTextField passwordField;
+    private JPasswordField passwordField;
     private JPanel mainPanel;
     private JPanel failPanel;
 
@@ -23,7 +24,7 @@ public class LoginDialog extends JDialog {
 
 	setTitle("Login");
 	setDefaultCloseOperation(DISPOSE_ON_CLOSE);
-	setSize(800, 400);
+	setSize(800, 200);
 	setResizable(false);
 	failPanel = new JPanel();
 	mainPanel = new JPanel();
@@ -32,7 +33,7 @@ public class LoginDialog extends JDialog {
 	JLabel passwordLabel = new JLabel("password");
 
 	usernameField = new JTextField(20);
-	passwordField = new JTextField(20);
+	passwordField = new JPasswordField(20);
 	/* temporary info */
 	usernameField.setText("Kalle");
 	passwordField.setText("123");
