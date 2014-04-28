@@ -5,6 +5,7 @@ import java.awt.event.ActionListener;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 
 public class LoginPanel extends JPanel {
@@ -35,7 +36,7 @@ public class LoginPanel extends JPanel {
 	usernameLabel = new JLabel("Username: ");
 	passwordLabel = new JLabel("  Password: ");
 	usernameField = new JTextField(20);
-	passwordField = new JTextField(20);
+	passwordField = new JPasswordField(20);
 	/* temporary info */
 	usernameField.setText("Kalle");
 	passwordField.setText("123");
