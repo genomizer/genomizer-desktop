@@ -19,7 +19,8 @@ public class GUI implements GenomizerView {
 	private SearchTab searchTab;
 	private UploadTab uploadTab;
 	private WorkspaceTab workspaceTab;
-	
+	private ProcessTab processTab;
+
     public GUI() {
 	try {
 		UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
@@ -55,7 +56,7 @@ public class GUI implements GenomizerView {
         //searchPanel = new JPanel();
  //       workspacePanel = new JPanel();
         analyzePanel = new JPanel();
-        processPanel = new JPanel();
+  //      processPanel = new JPanel();
 //        uploadPanel = new JPanel();
     }
 
@@ -67,7 +68,7 @@ public class GUI implements GenomizerView {
 //	tabbedPane.add("SEARCH", searchPanel);
 //	tabbedPane.add("WORKSPACE", workspacePanel);
 	tabbedPane.add("ANALYZE", analyzePanel);
-	tabbedPane.add("PROCESS", processPanel);
+//	tabbedPane.add("PROCESS", processPanel);
 //	tabbedPane.add("UPLOAD", uploadPanel);
     }
 
@@ -84,6 +85,11 @@ public class GUI implements GenomizerView {
 	public void setWorkspaceTab(WorkspaceTab workspaceTab) {
 		this.workspaceTab = workspaceTab;
     	tabbedPane.add("WORKSPACE", workspaceTab);
+	}
+
+	public void setProcessTab(ProcessTab processTab){
+		this.processTab = processTab;
+    	tabbedPane.add("PROCESS", processTab);
 	}
 
     public void addLoginListener(ActionListener listener) {
