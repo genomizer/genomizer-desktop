@@ -21,55 +21,92 @@ public class Controller {
     private Connection conn;
 
     public Controller(GenomizerView view, Model model, Connection conn) {
-	this.view = view;
-	this.model = model;
-	this.conn = conn;
-	view.addLoginListener(new LoginListener());
-	// view.addLogoutListener
-	// view.addSearchListener
+        this.view = view;
+        this.model = model;
+        this.conn = conn;
+        view.addLoginListener(new LoginListener());
+        // view.addLogoutListener
+        // view.addSearchListener
     }
 
-    class LoginListener implements ActionListener {
-	public void actionPerformed(ActionEvent e) {
+    class LoginListener implements ActionListener, Runnable {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            new Thread(this).start();
 
-	    new Thread(new Runnable() {
-		@Override
-		public void run() {
-		    // get username and pwd from view
-		    LoginRequest request = RequestFactory.makeLoginRequest(
-			    "Kalle", "123");
-		    conn.sendRequest(request, model.getUserID(),
-			    "application/json");
-		    if (conn.getResponseCode() == 200) {
-			LoginResponse loginResponse = ResponseParser
-				.parseLoginResponse(conn.getResponseBody());
-			if (loginResponse != null) {
-			    model.setUserID(loginResponse.token);
-			    // update view
-			}
-		    }
-		    // update view
-		}
-	    }).start();
-	}
+        }
+
+        @Override
+        public void run() {
+            // get username and pwd from view
+            LoginRequest request = RequestFactory.makeLoginRequest("Kalle",
+                    "123");
+            conn.sendRequest(request, model.getUserID(), "application/json");
+            if (conn.getResponseCode() == 200) {
+                LoginResponse loginResponse = ResponseParser
+                        .parseLoginResponse(conn.getResponseBody());
+                if (loginResponse != null) {
+                    model.setUserID(loginResponse.token);
+                    // update view
+                }
+            }
+            // update view
+        }
     }
 
-    class SearchListener implements ActionListener {
-	public void actionPerformed(ActionEvent e) {
+    class SearchListener implements ActionListener, Runnable {
+        public void actionPerformed(ActionEvent e) {
 
-	}
+        }
 
-	class LogoutListener implements ActionListener {
-	    public void actionPerformed(ActionEvent e) {
-		LogoutRequest request = RequestFactory.makeLogoutRequest();
-		conn.sendRequest(request, model.getUserID(), "text/plain");
-		if (conn.getResponseCode() == 200) {
-		    model.setUserID("");
-		    // update view with logout
-		} else {
-		    // update view with logout failed
-		}
-	    }
-	}
+
+        @Override
+        public void run() {
+
+        }
+    }
+
+    class LogoutListener implements ActionListener, Runnable {
+        public void actionPerformed(ActionEvent e) {
+            new Thread(this).start();
+        }
+
+        @Override
+        public void run() {
+            LogoutRequest request = RequestFactory.makeLogoutRequest();
+            conn.sendRequest(request, model.getUserID(), "text/plain");
+            if (conn.getResponseCode() == 200) {
+                model.setUserID("");
+                // update view with logout
+            } else {
+                // update view with logout failed
+            }
+        }
+    }
+
+    class UploadListener implements ActionListener, Runnable {
+
+        @Override
+        public void actionPerformed(ActionEvent actionEvent) {
+
+        }
+
+        @Override
+        public void run() {
+
+        }
+    }
+
+    class DownloadListener implements ActionListener, Runnable {
+
+        @Override
+        public void actionPerformed(ActionEvent actionEvent) {
+
+        }
+
+        @Override
+        public void run() {
+
+        }
     }
 }
