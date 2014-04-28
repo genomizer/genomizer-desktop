@@ -1,6 +1,6 @@
 package genomizerdesktop;
 
-import gui.LoginFailedDialog;
+import gui.LoginDialog;
 
 import java.awt.BorderLayout;
 import java.awt.event.ActionListener;
@@ -17,11 +17,12 @@ public class GUI extends JFrame implements GenomizerView {
     private JPanel processPanel;
     private JTabbedPane tabbedPane;
     private SearchTab searchTab;
-    private LoginPanel loginPanel;
+    // rivate LoginPanel loginPanel;
     private UserPanel userPanel;
     private UploadTab uploadTab;
     private AnalyzeTab analyzeTab;
     private WorkspaceTab workspaceTab;
+    private LoginDialog loginWindow;
 
     public GUI() {
 
@@ -31,8 +32,9 @@ public class GUI extends JFrame implements GenomizerView {
 
 	BorderLayout bl = new BorderLayout();
 	mainPanel = new JPanel(bl);
-	loginPanel = new LoginPanel();
 	userPanel = new UserPanel();
+	loginWindow = new LoginDialog(this);
+
 	add(mainPanel);
 
 	JPanel newPanel = new JPanel();
@@ -43,7 +45,7 @@ public class GUI extends JFrame implements GenomizerView {
 
 	// mainPanel.add(new
 	// UserPanel("kallekarlsson123",true),BorderLayout.NORTH);
-	mainPanel.add(loginPanel, BorderLayout.NORTH);
+	mainPanel.add(userPanel, BorderLayout.NORTH);
 
 	createPanels();
 	addPanelsToTabbedPane();
@@ -51,7 +53,6 @@ public class GUI extends JFrame implements GenomizerView {
 	// tabbedPane.add("LOGIN", userPanel);
 	setSize(1200, 1200);
 	setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-	setVisible(true);
     }
 
     private void setLookAndFeel() {
@@ -105,7 +106,7 @@ public class GUI extends JFrame implements GenomizerView {
     }
 
     public void addLoginListener(ActionListener listener) {
-	loginPanel.addLoginButtonListener(listener);
+	loginWindow.addLoginListener(listener);
     }
 
     public JPanel getSearchPanel() {
@@ -114,6 +115,10 @@ public class GUI extends JFrame implements GenomizerView {
 
     public JFrame getFrame() {
 	return this;
+    }
+
+    public void showLoginWindow() {
+	loginWindow.setVisible(true);
     }
 
     @Override
@@ -139,12 +144,12 @@ public class GUI extends JFrame implements GenomizerView {
 
     @Override
     public String getPassword() {
-	return loginPanel.getPasswordInput();
+	return loginWindow.getPasswordInput();
     }
 
     @Override
     public String getUsername() {
-	return loginPanel.getUsernameInput();
+	return loginWindow.getUsernameInput();
     }
 
     @Override
@@ -152,16 +157,14 @@ public class GUI extends JFrame implements GenomizerView {
 	System.out.println("login succesful with username " + username
 		+ " & pwd " + pwd);
 	userPanel.setUserInfo(username, "Kalle Karlsson", false);
-	mainPanel.remove(loginPanel);
-	mainPanel.add(userPanel, BorderLayout.NORTH);
 	refreshGUI();
+	this.setVisible(true);
+	loginWindow.dispose();
     }
 
     @Override
     public void updateLoginNeglected(String username, String pwd) {
-	System.out.println("login failed with username " + username + " & pwd "
-		+ pwd);
-	new LoginFailedDialog(this, username, pwd);
+	loginWindow.updateLoginFailed(username, pwd);
     }
 
     public void refreshGUI() {
@@ -172,9 +175,6 @@ public class GUI extends JFrame implements GenomizerView {
 
     @Override
     public void updateLogout() {
-	System.out.println("logout succesul");
-	mainPanel.remove(userPanel);
-	mainPanel.add(loginPanel, BorderLayout.NORTH);
-	refreshGUI();
+	System.out.println("logout success");
     }
 }

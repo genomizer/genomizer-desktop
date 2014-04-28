@@ -6,11 +6,8 @@ import genomizerdesktop.Model;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-import requests.LoginRequest;
 import requests.LogoutRequest;
 import requests.RequestFactory;
-import responses.LoginResponse;
-import responses.ResponseParser;
 
 import communication.Connection;
 import communication.UploadHandler;
@@ -41,20 +38,21 @@ public class Controller {
 	public void run() {
 	    String username = view.getUsername();
 	    String pwd = view.getPassword();
-	    if (!username.isEmpty() && !pwd.isEmpty()) {
-		LoginRequest request = RequestFactory.makeLoginRequest(
-			username, pwd);
-		conn.sendRequest(request, model.getUserID(), "application/json");
-		if (conn.getResponseCode() == 200) {
-		    LoginResponse loginResponse = ResponseParser
-			    .parseLoginResponse(conn.getResponseBody());
-		    if (loginResponse != null) {
-			model.setUserID(loginResponse.token);
-			view.updateLoginAccepted(username, pwd);
-		    }
-		}
-	    }
-	    view.updateLoginNeglected(username, pwd);
+	    view.updateLoginAccepted(username, pwd);
+	    // if (!username.isEmpty() && !pwd.isEmpty()) {
+	    // LoginRequest request = RequestFactory.makeLoginRequest(
+	    // username, pwd);
+	    // conn.sendRequest(request, model.getUserID(), "application/json");
+	    // if (conn.getResponseCode() == 200) {
+	    // LoginResponse loginResponse = ResponseParser
+	    // .parseLoginResponse(conn.getResponseBody());
+	    // if (loginResponse != null) {
+	    // model.setUserID(loginResponse.token);
+	    // view.updateLoginAccepted(username, pwd);
+	    // }
+	    // }
+	    // }
+	    // view.updateLoginNeglected(username, pwd);
 	}
     }
 
