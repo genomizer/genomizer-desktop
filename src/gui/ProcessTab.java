@@ -141,16 +141,15 @@ public class ProcessTab extends JPanel {
 
 	public ArrayList<JCheckBox> getAllMarkedFiles(){
 
-		JCheckBox checkbox;
 		ArrayList<JCheckBox> arrayCheck = new ArrayList<JCheckBox>();
 
 
 		for(int i = 0; i < fileListModel.size();i++){
 
-			checkbox = (JCheckBox) fileList.getModel().getElementAt(i);
+			JCheckBox checkbox = (JCheckBox) fileList.getModel().getElementAt(i);
+
 			if(checkbox.isSelected()){
 				arrayCheck.add(checkbox);
-				System.out.println("Bajs");
 			}
 		}
 		return arrayCheck;
