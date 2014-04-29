@@ -97,6 +97,12 @@ public class GUI extends JFrame implements GenomizerView {
 		processTab.addConvertFileListener(listener);
 	}
 
+	public int[] getAllMarkedFiles(){
+
+		return processTab.getAllMarkedFiles();
+
+	}
+
 	public JPanel getSearchPanel() {
 		return searchTab;
 	}

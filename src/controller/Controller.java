@@ -39,6 +39,9 @@ public class Controller {
 
 		//SKICKAR REQUEST MED ALLA FILER SOM SKALL CONVERTERAS
 		System.out.println("CONVERT");
+		for(int i = 0; i < view.getAllMarkedFiles().length; i++) {
+			System.out.println( view.getAllMarkedFiles().length + " " + view.getAllMarkedFiles()[i]);
+		}
 	}
     }
 

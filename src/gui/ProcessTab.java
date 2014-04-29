@@ -100,7 +100,7 @@ public class ProcessTab extends JPanel {
 
 		Object[] cbArray = new Object[16];
     	for(int i = 0; i < 16; i++) {
-    		cbArray[i] = new JCheckBox("Protein223_A5_2014.WIG");
+    		cbArray[i] = new JCheckBox("[" + i + "] Protein223_A5_2014.WIG");
     	}
     	fileList.setListData(cbArray);
         filesPanel.add( scrollFiles );
@@ -132,6 +132,21 @@ public class ProcessTab extends JPanel {
 		queueLabel.setOpaque(true);
 		procQueuePanel.add(queueLabel);
 
+	}
+
+	public int[] getAllMarkedFiles(){
+
+		ArrayList<Object> markedFiles = new ArrayList <Object>();
+
+	//	for(int i = 0 ; i < fileList.getSelectedIndices().length; i++){
+
+			//markedFiles.add(fileList.getComponent(fileList.getSelectedIndices()[i]));
+
+	//	}
+		//System.out.println("number of files: " + fileList.getSelectedIndices().length);
+
+
+		return fileList.getSelectedIndices();
 	}
 
     public void addConvertFileListener(ActionListener listener) {

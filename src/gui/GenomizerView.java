@@ -20,6 +20,8 @@ public interface GenomizerView {
 
 	public void addConvertFileListener(ActionListener listener);
 
+	public int[] getAllMarkedFiles();
+
     public String getPassword();
 
     public String getUsername();
