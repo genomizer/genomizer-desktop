@@ -3,6 +3,7 @@ package gui;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.util.ArrayList;
+import java.util.Vector;
 
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
@@ -12,6 +13,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableColumn;
 import javax.swing.table.TableModel;
 
 public class DownloadWindow extends JFrame {
@@ -21,35 +23,41 @@ public class DownloadWindow extends JFrame {
 	JTable table;
 
 	//Tar in ArrayList med de filer som valdes
-	public DownloadWindow(Object[][] files) {
+	public DownloadWindow(String[] files) {
 
-    	Object[][] data = files;
-
-		setUp(data);
+		setUp(files);
 	}
 
 	public DownloadWindow() {
-		Object[][] data = {
-	    	{ "Protein123_A5_2014.WIG", new JComboBox() },
-	    	{ "Protein123_A5_2014.RAW", new JComboBox() },
-	    	{ "Protein123_A5_2014.WIG", new JComboBox() } };
+		String[] data = {
+	    	 "Protein123_A5_2014.WIG"  ,
+	    	 "Protein123_A5_2014.RAW"  ,
+	    	 "Protein123_A5_2014.WIG"   };
 
 		setUp(data);
 	}
 
-	private void setUp(Object[][] data) {
-
-		for(int i=0; i<data[0].length; i++) {
-			data[1][i] = new JComboBox();
-		}
+	private void setUp(String[] data) {
 
 		panel = new JPanel(new BorderLayout(3,3));
 		add(panel);
 		panel.add(new JLabel("test"), BorderLayout.NORTH);
-
-		String[] columnNames = { "File name", "Format conversion" };
-
-    	table = new JTable(data, columnNames);
+		
+		DefaultTableModel tableModel = new DefaultTableModel();
+		table = new JTable(tableModel);
+		
+		TableColumn fileNameColumn, formatConversionColumn;
+		fileNameColumn = new TableColumn();
+		formatConversionColumn = new TableColumn();
+		fileNameColumn.setHeaderValue("File name");
+		formatConversionColumn.setHeaderValue("Format conversion");
+		table.addColumn(fileNameColumn);
+		table.addColumn(formatConversionColumn);
+		
+		for(int i=0; i<data.length; i++) {
+			table.add(new JLabel(data[i]));
+		}
+		
     	table.setBackground(Color.blue);
     	table.setRowHeight(30);
 
