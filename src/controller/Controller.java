@@ -5,12 +5,16 @@ import gui.GenomizerView;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import javax.swing.JFileChooser;
+import javax.swing.JPanel;
+
 import model.GenomizerModel;
 
 public class Controller {
 
     private GenomizerView view;
     private GenomizerModel model;
+    private final JFileChooser fc = new JFileChooser();
 
     public Controller(GenomizerView view, GenomizerModel model) {
 	this.view = view;
@@ -19,6 +23,7 @@ public class Controller {
 	view.addLogoutListener(new LogoutListener());
 	view.addSearchListener(new SearchListener());
 	view.addUploadFileListener(new UploadListener());
+	view.addBrowseListener(new BrowseListener());
     }
 
     class LoginListener implements ActionListener, Runnable {
@@ -88,12 +93,13 @@ public class Controller {
     class BrowseListener implements ActionListener, Runnable {
     	@Override
     	public void actionPerformed(ActionEvent actionEvent) {
-
+    		new Thread(this).start();
     	}
 
     	@Override
     	public void run() {
-
+    		System.out.println("hej");
+    		int returnVal = fc.showOpenDialog(new JPanel());
     	}
     }
 
@@ -101,13 +107,12 @@ public class Controller {
 
 	@Override
 	public void actionPerformed(ActionEvent actionEvent) {
+
 		new Thread(this).start();
 	}
 
 	@Override
 	public void run() {
-		//Open file browser
-
 	}
     }
 }
