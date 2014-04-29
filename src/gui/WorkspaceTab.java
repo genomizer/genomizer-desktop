@@ -4,8 +4,16 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
+import java.awt.Image;
 import java.awt.Insets;
+import java.awt.Toolkit;
+import java.awt.image.BufferedImage;
+import java.io.IOException;
+import java.net.URL;
 
+import javax.imageio.ImageIO;
+import javax.swing.Icon;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.JTable;
@@ -64,19 +72,38 @@ public class WorkspaceTab extends JPanel {
 	}
 
 	private void createButtons() {
-		deleteButton = new JButton("Delete from database");
 		removeButton = new JButton("Remove selected");
 		downloadButton = new JButton("Download selected");
 		analyzeButton = new JButton("Analyze selected");
 		browseButton = new JButton("Browse local files");
+		deleteButton = new JButton();
+
+
+
+		ImageIcon deleteIcon = new ImageIcon("src/icons/deleteButton.png");
+		deleteIcon = new ImageIcon(deleteIcon.getImage().getScaledInstance(225, 45,
+				BufferedImage.SCALE_SMOOTH));
+
+		deleteButton.setBorderPainted(true);
+		deleteButton.setContentAreaFilled(false);
+		deleteButton.setFocusable(true);
+		deleteButton.setIcon(deleteIcon);
+
+
+
 	}
 
 	private void addToButtonPanel() {
+
+
+
+
+
 		gbc.gridx = 0;
 		gbc.gridy = 0;
-		deleteButton.setOpaque(true);
-		deleteButton.setBackground(Color.BLUE);
-		deleteButton.setForeground(Color.WHITE);
+//		deleteButton.setOpaque(true);
+//		deleteButton.setBackground(Color.BLUE);
+//		deleteButton.setForeground(Color.WHITE);
 		buttonPanel.add(deleteButton, gbc);
 
 		gbc.gridx = 1;
