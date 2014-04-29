@@ -1,7 +1,5 @@
 package gui;
 
-import genomizerdesktop.GenomizerView;
-import genomizerdesktop.UserPanel;
 
 import java.awt.BorderLayout;
 import java.awt.event.ActionListener;
