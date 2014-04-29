@@ -10,10 +10,12 @@ public class RequestFactory {
     public static LoginRequest makeLoginRequest(String username, String password) {
 	return new LoginRequest(username, password);
     }
+
     public static AddFileToExperiment makeAddFile(String experimentID,
-                                                  String fileName, String size, String type) {
-        return new AddFileToExperiment(experimentID, fileName, size, type);
+	    String fileName, String size, String type) {
+	return new AddFileToExperiment(experimentID, fileName, size, type);
     }
+
     public static LogoutRequest makeLogoutRequest() {
 	return new LogoutRequest();
     }
@@ -50,5 +52,9 @@ public class RequestFactory {
 	    HashMap<String, String> annotations) {
 	return new UpdateExperimentRequest(experimentID, name, createdBy,
 		annotations);
+    }
+
+    public static SearchRequest makeSearchRequest(String annotationString) {
+	return new SearchRequest(annotationString);
     }
 }

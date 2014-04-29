@@ -1,9 +1,12 @@
 package model;
 
+import java.util.HashMap;
+
 import requests.AddFileToExperiment;
 import requests.LoginRequest;
 import requests.LogoutRequest;
 import requests.RequestFactory;
+import requests.SearchRequest;
 import responses.LoginResponse;
 import responses.ResponseParser;
 
@@ -77,6 +80,18 @@ public class Model implements GenomizerModel {
 	Thread thread = new Thread(handler);
 	thread.start();
 	return true;
+    }
+
+    public boolean search(HashMap annotations) {
+	String annotationString = "";
+	SearchRequest request = RequestFactory
+		.makeSearchRequest(annotationString);
+	conn.sendRequest(request, userID, "text/plain");
+	if (conn.getResponseCode() == 200) {
+	    return true; // return search results?
+	} else {
+	    return false;
+	}
     }
 
 }
