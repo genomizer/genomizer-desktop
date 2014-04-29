@@ -6,6 +6,7 @@ import java.awt.GridBagLayout;
 
 import javax.swing.BorderFactory;
 import javax.swing.Box;
+import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -88,8 +89,9 @@ public class QuerySearchTab extends JPanel {
 	    add(field);
 	    textField = new JTextField(50);
 	    add(textField);
+	    Icon imgicon = new ImageIcon("deleteButton.png");
 	    minus = new JButton("Minus");
-	    minus.setIcon(new ImageIcon("minus.png"));
+	    minus.setIcon(imgicon);
 	    add(minus);
 	    if(lastRow) {
 		plus = new JButton("Plus");
