@@ -82,24 +82,18 @@ public class ProcessTab extends JPanel {
 
 	private void initFileList(){
 
-//		fileList = (JCheckBoxList) new JList(fileListModel);
         scrollFiles = new JScrollPane( fileList );
 
         fileList.setBorder(BorderFactory.createTitledBorder("FILES"));
     	fileList.setModel(fileListModel);
     	fileList.setFixedCellWidth(265);
     	fileList.setFixedCellHeight(40);
-    	fileList.setSize(new Dimension(300,100));
-
-    	//setMouseListeners(1);
 
 		Object[] cbArray = new Object[16];
     	for(int i = 0; i < 16; i++) {
-    		//fileListModel.addElement("Protein223_A5_2014.WIG");
     		cbArray[i] = new JCheckBox("Protein223_A5_2014.WIG");
     	}
     	fileList.setListData(cbArray);
-
         filesPanel.add( scrollFiles );
 	}
 
