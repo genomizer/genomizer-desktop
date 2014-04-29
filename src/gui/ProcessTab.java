@@ -6,10 +6,13 @@ import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
+import java.awt.List;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.util.ArrayList;
+import java.util.Queue;
 
 import javax.swing.BorderFactory;
 import javax.swing.DefaultListModel;
@@ -39,6 +42,9 @@ public class ProcessTab extends JPanel {
 	private JPanel leftPanel = new JPanel(new GridLayout(2,1));
 	private JCheckBox button = new JCheckBox("Button");
 
+	//SKA VARA JLIST
+	private ArrayList processQueue = new ArrayList();
+
 	private DefaultListModel fileListModel = new DefaultListModel();
 	private JCheckBoxList fileList = new JCheckBoxList();
 
@@ -57,12 +63,31 @@ public class ProcessTab extends JPanel {
 		initTimePanel();
 		initFileList();
 
+		//Test
+		for(int i = 0; i < 12; i++){
+			processQueue.add("Elem" + i);
+		}
+		//
+		printTimePanel();
+
 	}
 
 	private void initTimePanel() {
 		this.add(timePanel,BorderLayout.SOUTH);
-		timePanel.setBorder( BorderFactory.createTitledBorder("Number of jobs currently in queue: 12 (est. time until empty : 450min )"));
+		//timePanel.setBorder( BorderFactory.createTitledBorder("Number of jobs currently in queue: 12 (est. time until empty : 450min )"));
 		timePanel.setPreferredSize(new Dimension(300,30));
+
+	}
+
+	private void printTimePanel(){
+
+		JTextArea timeArea = new JTextArea();
+		timeArea.setText("");
+		timeArea.append("Number of jobs currently in queue: " + getNumberOfJobsInQueue() + " (est. time until empty : " + getTimeApprox() + " min )");
+		timeArea.setEditable(false);
+
+
+		timePanel.add(timeArea);
 
 	}
 
@@ -122,6 +147,14 @@ public class ProcessTab extends JPanel {
 		queueLabel.setOpaque(true);
 		procQueuePanel.add(queueLabel);
 
+	}
+
+	private int getNumberOfJobsInQueue(){
+		return this.processQueue.size();
+	}
+
+	private int getTimeApprox(){
+		return 450;
 	}
 
 }
