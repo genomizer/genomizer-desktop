@@ -24,6 +24,21 @@ public class Controller {
 	view.addSearchListener(new SearchListener());
 	view.addUploadFileListener(new UploadListener());
 	view.addBrowseListener(new BrowseListener());
+	view.addConvertFileListener(new ConvertFileListener());
+
+    }
+
+    class ConvertFileListener implements ActionListener, Runnable {
+	@Override
+	public void actionPerformed(ActionEvent e) {
+	    new Thread(this).start();
+	}
+
+	@Override
+	public void run() {
+
+		//SKICKAR REQUEST MED ALLA FILER SOM SKALL CONVERTERAS
+	}
     }
 
     class LoginListener implements ActionListener, Runnable {
@@ -44,6 +59,7 @@ public class Controller {
 	    // }
 	}
     }
+
 
     class SearchListener implements ActionListener, Runnable {
 	public void actionPerformed(ActionEvent e) {

@@ -127,6 +127,11 @@ public class GUI extends JFrame implements GenomizerView {
 	}
 
 	@Override
+	public void addConvertFileListener(ActionListener listener) {
+
+	}
+
+	@Override
 	public String getPassword() {
 		return loginWindow.getPasswordInput();
 	}
