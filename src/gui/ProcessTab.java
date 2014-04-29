@@ -2,16 +2,22 @@ package gui;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.GridLayout;
+import java.awt.event.ActionListener;
 import java.util.ArrayList;
+
+import javax.swing.AbstractButton;
 import javax.swing.BorderFactory;
 import javax.swing.DefaultListModel;
+import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
+import javax.swing.ListModel;
 
 public class ProcessTab extends JPanel {
 
@@ -26,7 +32,8 @@ public class ProcessTab extends JPanel {
 	private JPanel timePanel = new JPanel();
 	private JPanel middelPanel = new JPanel(new GridLayout(3,1));
 	private JPanel leftPanel = new JPanel(new GridLayout(2,1));
-	private JCheckBox button = new JCheckBox("Button");
+	private JButton convertButton = new JButton("CONVERT");
+	private ArrayList convertList = new ArrayList();
 
 	//SKA VARA JLIST
 	private ArrayList processQueue = new ArrayList();
@@ -98,7 +105,7 @@ public class ProcessTab extends JPanel {
 
 		Object[] cbArray = new Object[16];
     	for(int i = 0; i < 16; i++) {
-    		cbArray[i] = new JCheckBox("Protein223_A5_2014.WIG");
+    		cbArray[i] = new JCheckBox("[" + i + "] Protein223_A5_2014.WIG");
     	}
     	fileList.setListData(cbArray);
         filesPanel.add( scrollFiles );
@@ -117,6 +124,7 @@ public class ProcessTab extends JPanel {
 
 		middelPanel.add(convertFilesPanel);
 		convertFilesPanel.setBorder( BorderFactory.createTitledBorder("CONVERT FILES"));
+		convertFilesPanel.add(convertButton);
 
 	}
 
@@ -130,6 +138,28 @@ public class ProcessTab extends JPanel {
 		procQueuePanel.add(queueLabel);
 
 	}
+
+	public ArrayList<JCheckBox> getAllMarkedFiles(){
+
+		ArrayList<JCheckBox> arrayCheck = new ArrayList<JCheckBox>();
+
+
+		for(int i = 0; i < fileListModel.size();i++){
+
+			JCheckBox checkbox = (JCheckBox) fileList.getModel().getElementAt(i);
+
+			if(checkbox.isSelected()){
+				arrayCheck.add(checkbox);
+			}
+		}
+		return arrayCheck;
+		//return fileList.getSelectedIndex();
+		//return fileList.getSelectionModel().isSelectedIndex(0);
+	}
+
+    public void addConvertFileListener(ActionListener listener) {
+    	convertButton.addActionListener(listener);
+    }
 
 	private int getNumberOfJobsInQueue(){
 		return this.processQueue.size();

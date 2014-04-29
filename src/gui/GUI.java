@@ -2,6 +2,9 @@ package gui;
 
 import java.awt.BorderLayout;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
+
+import javax.swing.JCheckBox;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
@@ -93,6 +96,16 @@ public class GUI extends JFrame implements GenomizerView {
 		loginWindow.addLoginListener(listener);
 	}
 
+	public void addConvertFileListener(ActionListener listener) {
+		processTab.addConvertFileListener(listener);
+	}
+
+	public ArrayList<JCheckBox> getAllMarkedFiles(){
+
+		return processTab.getAllMarkedFiles();
+
+	}
+
 	public JPanel getSearchPanel() {
 		return searchTab;
 	}
@@ -124,11 +137,6 @@ public class GUI extends JFrame implements GenomizerView {
 	@Override
 	public void addDownloadFileListener(ActionListener listener) {
 		// TODO Auto-generated method stub
-	}
-
-	@Override
-	public void addConvertFileListener(ActionListener listener) {
-
 	}
 
 	@Override
