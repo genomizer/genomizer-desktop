@@ -14,7 +14,7 @@ public class Controller {
 
     private GenomizerView view;
     private GenomizerModel model;
-    private final JFileChooser fc = new JFileChooser();
+    private final JFileChooser fileChooser = new JFileChooser();
 
     public Controller(GenomizerView view, GenomizerModel model) {
 	this.view = view;
@@ -98,8 +98,13 @@ public class Controller {
 
     	@Override
     	public void run() {
-    		System.out.println("hej");
-    		int returnVal = fc.showOpenDialog(new JPanel());
+    		int returnVal = fileChooser.showOpenDialog(new JPanel());
+    		if(returnVal == JFileChooser.APPROVE_OPTION) {
+    			String fileName = fileChooser.getSelectedFile().getName();
+    		    System.out.println("You chose this file: " + fileName);
+
+    		    view.updateFileChosen(fileName);
+    		}
     	}
     }
 

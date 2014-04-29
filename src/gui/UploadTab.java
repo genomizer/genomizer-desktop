@@ -6,6 +6,7 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
+import javax.swing.JTextField;
 
 public class UploadTab extends JPanel {
 
@@ -35,5 +36,9 @@ public class UploadTab extends JPanel {
 
     public void addUploadBtnListener(ActionListener listener) {
         uploadButton.addActionListener(listener);
+    }
+
+    public JTextArea getDirectoryTextField() {
+    	return directoryTextField;
     }
 }

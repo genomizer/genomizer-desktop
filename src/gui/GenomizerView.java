@@ -30,4 +30,6 @@ public interface GenomizerView {
 
     public JFrame getFrame();
 
+	public void updateFileChosen(String directoryAsString);
+
 }
