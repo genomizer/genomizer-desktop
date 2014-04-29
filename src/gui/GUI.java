@@ -1,6 +1,8 @@
 package gui;
 
 
+
+
 import java.awt.BorderLayout;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
@@ -25,6 +27,7 @@ public class GUI extends JFrame implements GenomizerView {
 	private WorkspaceTab workspaceTab;
 	private LoginWindow loginWindow;
 	private ProcessTab processTab;
+	private SysadminTab sysadminTab;
 
 	public GUI() {
 
@@ -171,5 +174,10 @@ public class GUI extends JFrame implements GenomizerView {
 		this.processTab = processTab;
 		tabbedPane.add("PROCESS", processTab);
 
+	}
+
+	public void setSysAdminTab(SysadminTab sat) {
+		this.sysadminTab = sat;
+		tabbedPane.add("ADMINISTRATION", sysadminTab);
 	}
 }
