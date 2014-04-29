@@ -6,7 +6,6 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
 
-import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.JTable;
@@ -75,26 +74,36 @@ public class WorkspaceTab extends JPanel {
 	private void addToButtonPanel() {
 		gbc.gridx = 0;
 		gbc.gridy = 0;
-		deleteButton.setIcon(new ImageIcon("deleteButton.png"));
+		deleteButton.setOpaque(true);
+		deleteButton.setBackground(Color.BLUE);
+		deleteButton.setForeground(Color.WHITE);
 		buttonPanel.add(deleteButton, gbc);
 
 		gbc.gridx = 1;
 		gbc.gridy = 0;
+		removeButton.setOpaque(true);
+		removeButton.setBackground(Color.BLUE);
 		removeButton.setForeground(Color.white);
 		buttonPanel.add(removeButton, gbc);
 
 		gbc.gridx = 2;
 		gbc.gridy = 0;
+		downloadButton.setOpaque(true);
+		downloadButton.setBackground(Color.BLUE);
 		downloadButton.setForeground(Color.white);
 		buttonPanel.add(downloadButton, gbc);
 
 		gbc.gridx = 3;
 		gbc.gridy = 0;
+		analyzeButton.setOpaque(true);
+		analyzeButton.setBackground(Color.BLUE);
 		analyzeButton.setForeground(Color.white);
 		buttonPanel.add(analyzeButton, gbc);
 
 		gbc.gridx = 4;
 		gbc.gridy = 0;
+		browseButton.setOpaque(true);
+		browseButton.setBackground(Color.BLUE);
 		browseButton.setForeground(Color.white);
 		buttonPanel.add(browseButton, gbc);
 	}
