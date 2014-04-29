@@ -1,20 +1,10 @@
 package model;
 
-public class Model {
+public interface Model {
 
-    private String userID = "";
+    public boolean loginUser(String username, String password);
 
-    // workspaces??
+    public boolean logoutUser();
 
-    public Model() {
-    }
-
-    public String getUserID() {
-	return userID;
-    }
-
-    public void setUserID(String userID) {
-	this.userID = userID;
-    }
-
+    public boolean uploadFile();
 }

@@ -2,18 +2,18 @@ package genomizerdesktop.tests;
 
 import static org.junit.Assert.*;
 
-import model.Model;
+import model.GenomizerModel;
 
 import org.junit.Before;
 import org.junit.Test;
 
 public class ModelTest {
 
-    Model m;
+    GenomizerModel m;
 
     @Before
     public void setUp() {
-	 m = new Model();
+	 m = new GenomizerModel();
     }
 
     @Test
