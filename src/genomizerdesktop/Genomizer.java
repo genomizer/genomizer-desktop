@@ -4,6 +4,7 @@ import gui.AnalyzeTab;
 import gui.GUI;
 import gui.ProcessTab;
 import gui.SearchTab;
+import gui.SysadminTab;
 import gui.UploadTab;
 import gui.WorkspaceTab;
 import model.Model;
