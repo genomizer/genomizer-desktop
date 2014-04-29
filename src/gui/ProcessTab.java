@@ -70,7 +70,7 @@ public class ProcessTab extends JPanel {
 		this.add(leftPanel,BorderLayout.WEST);
 
 		leftPanel.add(filesPanel);
-		filesPanel.setBorder( BorderFactory.createTitledBorder("FILES"));
+		//filesPanel.setBorder( BorderFactory.createTitledBorder("FILES"));
 		filesPanel.setPreferredSize(new Dimension(300,100));
 
 		leftPanel.add(scheduleProcPanel);
@@ -85,12 +85,17 @@ public class ProcessTab extends JPanel {
         fileList = new JList(fileListModel);
         scrollFiles = new JScrollPane( fileList );
 
+        fileList.setBorder(BorderFactory.createTitledBorder("FILES"));
     	fileList.setModel(fileListModel);
-    	fileList.setFixedCellWidth(250);
-    	fileList.setFixedCellHeight(60);
-    //	fileList.setPreferredSize(new Dimension(10,150));
-    //	fileList.setDragEnabled(true);
+    	fileList.setFixedCellWidth(265);
+    	fileList.setFixedCellHeight(40);
+    	fileList.setSize(new Dimension(300,100));
+
     	//setMouseListeners(1);
+
+    	for(int i = 0; i < 12; i++) {
+    		fileListModel.addElement("Protein223_A5_2014.WIG");
+    	}
 
         filesPanel.add( scrollFiles);
 	}
@@ -120,18 +125,6 @@ public class ProcessTab extends JPanel {
 		queueLabel.setOpaque(true);
 		procQueuePanel.add(queueLabel);
 
-	}
-
-	public void addCheckbox(JCheckBox checkBox) {
-
-	 /*   ListModel currentList = this.getModel();
-	    JCheckBox[] newList = new JCheckBox[currentList.getSize() + 1];
-	    for (int i = 0; i < currentList.getSize(); i++) {
-	        newList[i] = (JCheckBox) currentList.getElementAt(i);
-	    }
-	    newList[newList.length - 1] = checkBox;
-	    setListData(newList);
-	*/
 	}
 
 }
