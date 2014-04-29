@@ -22,11 +22,13 @@ public class Genomizer {
 	ProcessTab pt = new ProcessTab();
 	WorkspaceTab wt = new WorkspaceTab();
 	AnalyzeTab at = new AnalyzeTab();
+	SysadminTab sat = new SysadminTab();
 	gui.setSearchTab(st);
 	gui.setUploadTab(ut);
 	gui.setProcessTab(pt);
 	gui.setWorkspaceTab(wt);
 	gui.setAnalyzeTab(at);
+	gui.setSysAdminTab(sat);
 	Connection con = new Connection("127.0.0.1", 25652);
 	Model model = new Model(con);
 	Controller controller = new Controller(gui, model);
