@@ -1,14 +1,14 @@
 package gui;
 
-import java.awt.BorderLayout;
 import java.awt.FlowLayout;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 
-import javax.swing.BoxLayout;
+import javax.swing.BorderFactory;
+import javax.swing.Box;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
-import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
@@ -17,31 +17,20 @@ public class QuerySearchTab extends JPanel {
     private JPanel searchPanel;
     private JPanel builderPanel;
     private JTextArea searchArea;
-    private JLabel advancedSearch;
 
     public QuerySearchTab() {
 	createSearchPanel();
-	BoxLayout bl = new BoxLayout(this, BoxLayout.Y_AXIS);
-	setLayout(bl);
 	add(searchPanel);
 	addRows(2);
     }
 
     private void createSearchPanel() {
-	GridBagLayout gb = new GridBagLayout();
-	searchPanel =  new JPanel(gb);
-	GridBagConstraints gbc = new GridBagConstraints();
-	gbc.fill = GridBagConstraints.VERTICAL;
-	gbc.anchor = GridBagConstraints.NORTH;
-	gbc.gridx = 0;
-	gbc.gridy = 0;
+	setBorder(BorderFactory.createTitledBorder("Genomizer Advanced Search Builder"));
+	searchPanel =  new JPanel();
 	searchArea = new JTextArea("Use the builder below to create your search");
-	advancedSearch = new JLabel("Genomizer Advanced Search Builder");
 	searchArea.setLineWrap(true);
 	searchArea.setSize(1000,20);
-	searchPanel.add(advancedSearch, gbc);
-	gbc.gridy++;
-	searchPanel.add(searchArea, gbc);
+	searchPanel.add(searchArea);
     }
 
     private void addRows(int nrOfRows) {
@@ -50,8 +39,8 @@ public class QuerySearchTab extends JPanel {
 	GridBagConstraints gbc = new GridBagConstraints();
 	gbc.fill = GridBagConstraints.VERTICAL;
 	gbc.anchor = GridBagConstraints.FIRST_LINE_START;
-	gbc.gridx = 0;
 	gbc.gridy = 0;
+	gbc.gridx = 0;
 	for(int i = 0 ; i < nrOfRows ; i++) {
 	    boolean firstRow;
 	    boolean lastRow;
@@ -92,12 +81,15 @@ public class QuerySearchTab extends JPanel {
 	    if(!firstRow) {
 		setLogicBox();
 		add(logic);
+	    } else {
+		add(Box.createHorizontalStrut(73));
 	    }
 	    setFieldBox();
 	    add(field);
 	    textField = new JTextField(50);
 	    add(textField);
 	    minus = new JButton("Minus");
+	    minus.setIcon(new ImageIcon("minus.png"));
 	    add(minus);
 	    if(lastRow) {
 		plus = new JButton("Plus");
