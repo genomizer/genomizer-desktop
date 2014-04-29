@@ -1,28 +1,21 @@
 package controller;
 
-import genomizerdesktop.GenomizerView;
-import genomizerdesktop.Model;
+import gui.GenomizerView;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-import requests.AddFileToExperiment;
-import requests.RequestFactory;
-
-import communication.Connection;
-import communication.UploadHandler;
+import model.GenomizerModel;
 
 public class Controller {
 
     private GenomizerView view;
-    private Model model;
-    private Connection conn;
+    private GenomizerModel model;
     private int a = 0;
 
-    public Controller(GenomizerView view, Model model, Connection conn) {
+    public Controller(GenomizerView view, GenomizerModel model) {
 	this.view = view;
 	this.model = model;
-	this.conn = conn;
 	view.addLoginListener(new LoginListener());
 	view.addLogoutListener(new LogoutListener());
 	view.addSearchListener(new SearchListener());
@@ -39,27 +32,12 @@ public class Controller {
 	public void run() {
 	    String username = view.getUsername();
 	    String pwd = view.getPassword();
-	    if(a == 0) {
-	    	view.updateLoginNeglected("Test fail, login again");
-	    	a = 1;
+	    if (model.loginUser(username, pwd)) {
+		view.updateLoginAccepted(username, pwd, "Yuri Gagarin");
 	    } else {
-	    	view.updateLoginAccepted(username, pwd, "Yuri Gagarin");
-	    	a = 0;
+		view.updateLoginAccepted(username, pwd, "Yuri Gagarin");
+		// view.updateLoginNeglected("Login not accepted");
 	    }
-	    // if (!username.isEmpty() && !pwd.isEmpty()) {
-	    // LoginRequest request = RequestFactory.makeLoginRequest(
-	    // username, pwd);
-	    // conn.sendRequest(request, model.getUserID(), "application/json");
-	    // if (conn.getResponseCode() == 200) {
-	    // LoginResponse loginResponse = ResponseParser
-	    // .parseLoginResponse(conn.getResponseBody());
-	    // if (loginResponse != null) {
-	    // model.setUserID(loginResponse.token);
-	    // view.updateLoginAccepted(username, pwd);
-	    // }
-	    // }
-	    // }
-	    // view.updateLoginNeglected(username, pwd);
 	}
     }
 
@@ -81,15 +59,12 @@ public class Controller {
 
 	@Override
 	public void run() {
-	    view.updateLogout();
-	    // LogoutRequest request = RequestFactory.makeLogoutRequest();
-	    // conn.sendRequest(request, model.getUserID(), "text/plain");
-	    // if (conn.getResponseCode() == 200) {
-	    // model.setUserID("");
-	    // view.updateLogout();
-	    // } else {
-	    // // update view with logout failed
-	    // }
+	    if (model.logoutUser()) {
+		view.updateLogout();
+	    } else {
+		view.updateLogout();
+	    }
+
 	}
     }
 
@@ -103,18 +78,9 @@ public class Controller {
 	@Override
 	public void run() {
 
-	    AddFileToExperiment request = RequestFactory.makeAddFile("test",
-		    "test", "1.3GB", "raw");
-	    conn.sendRequest(request, model.getUserID(), "application/json");
-	    String url = conn.getResponseBody();
-	    if (url != null) {
-		System.out.println(url);
+	    if (model.uploadFile()) {
+		// update view?
 	    }
-	    UploadHandler handler = new UploadHandler(
-		    "http://127.0.0.1:25652/test",
-		    "/home/dv12/dv12csr/edu/test321", model.getUserID());
-	    Thread thread = new Thread(handler);
-	    thread.start();
 
 	}
     }

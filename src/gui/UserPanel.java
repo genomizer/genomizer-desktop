@@ -1,4 +1,4 @@
-package genomizerdesktop;
+package gui;
 
 import java.awt.GridBagLayout;
 import java.awt.event.ActionListener;

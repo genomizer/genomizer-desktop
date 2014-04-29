@@ -6,6 +6,8 @@ import gui.ProcessTab;
 import gui.SearchTab;
 import gui.UploadTab;
 import gui.WorkspaceTab;
+import model.Model;
+
 import communication.Connection;
 
 import controller.Controller;
@@ -26,8 +28,8 @@ public class Genomizer {
 	gui.setWorkspaceTab(wt);
 	gui.setAnalyzeTab(at);
 	Connection con = new Connection("127.0.0.1", 25652);
-	Model model = new Model();
-	Controller controller = new Controller(gui, model, con);
+	Model model = new Model(con);
+	Controller controller = new Controller(gui, model);
 	gui.showLoginWindow();
     }
 }
