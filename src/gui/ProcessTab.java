@@ -37,9 +37,10 @@ public class ProcessTab extends JPanel {
 	private JPanel timePanel = new JPanel();
 	private JPanel middelPanel = new JPanel(new GridLayout(3,1));
 	private JPanel leftPanel = new JPanel(new GridLayout(2,1));
+	private JCheckBox button = new JCheckBox("Button");
 
 	private DefaultListModel fileListModel = new DefaultListModel();
-	private JList fileList = new JList();
+	private JCheckBoxList fileList = new JCheckBoxList();
 
 	private JScrollPane scrollFiles = new JScrollPane();
 
@@ -77,12 +78,11 @@ public class ProcessTab extends JPanel {
 		scheduleProcPanel.setBorder( BorderFactory.createTitledBorder("SCHEDULE PROCESSING"));
 		scheduleProcPanel.setPreferredSize(new Dimension(300,100));
 
-
 	}
 
 	private void initFileList(){
 
-        fileList = new JList(fileListModel);
+//		fileList = (JCheckBoxList) new JList(fileListModel);
         scrollFiles = new JScrollPane( fileList );
 
         fileList.setBorder(BorderFactory.createTitledBorder("FILES"));
@@ -93,11 +93,14 @@ public class ProcessTab extends JPanel {
 
     	//setMouseListeners(1);
 
-    	for(int i = 0; i < 12; i++) {
-    		fileListModel.addElement("Protein223_A5_2014.WIG");
+		Object[] cbArray = new Object[16];
+    	for(int i = 0; i < 16; i++) {
+    		//fileListModel.addElement("Protein223_A5_2014.WIG");
+    		cbArray[i] = new JCheckBox("Protein223_A5_2014.WIG");
     	}
+    	fileList.setListData(cbArray);
 
-        filesPanel.add( scrollFiles);
+        filesPanel.add( scrollFiles );
 	}
 
 	private void initMiddlePanel(){
