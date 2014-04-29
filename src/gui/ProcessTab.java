@@ -7,14 +7,22 @@ import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 import javax.swing.BorderFactory;
 import javax.swing.DefaultListModel;
 import javax.swing.JButton;
+import javax.swing.JCheckBox;
+import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
+import javax.swing.ListCellRenderer;
+import javax.swing.ListModel;
+import javax.swing.ListSelectionModel;
 
 public class ProcessTab extends JPanel {
 
@@ -87,10 +95,6 @@ public class ProcessTab extends JPanel {
         filesPanel.add( scrollFiles);
 	}
 
-	public void addElementFileList(/*Element som ska läggas till i listan*/){
-	//	new JCheckBox("Chin");
-	}
-
 	private void initMiddlePanel(){
 
 
@@ -109,8 +113,24 @@ public class ProcessTab extends JPanel {
 
 	private void initEastPanels(){
 		this.add(procQueuePanel,BorderLayout.EAST);
-		procQueuePanel.setBorder( BorderFactory.createTitledBorder("PROCESSING IN QUEUE"));
 		procQueuePanel.setPreferredSize(new Dimension(300,100));
+
+		JLabel queueLabel = new JLabel("PROCESSING IN QUEUE");
+		queueLabel.setBackground(Color.CYAN);
+		queueLabel.setOpaque(true);
+		procQueuePanel.add(queueLabel);
+
+	}
+	
+	public void addCheckbox(JCheckBox checkBox) {
+		
+	    ListModel currentList = this.getModel();
+	    JCheckBox[] newList = new JCheckBox[currentList.getSize() + 1];
+	    for (int i = 0; i < currentList.getSize(); i++) {
+	        newList[i] = (JCheckBox) currentList.getElementAt(i);
+	    }
+	    newList[newList.length - 1] = checkBox;
+	    setListData(newList);
 	}
 
 }
