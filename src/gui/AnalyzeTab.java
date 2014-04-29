@@ -5,6 +5,7 @@ import java.awt.Color;
 import java.awt.Dimension;
 
 import javax.swing.DefaultListModel;
+import javax.swing.JCheckBox;
 import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JPanel;
@@ -18,7 +19,7 @@ public class AnalyzeTab extends JPanel {
 	private JPanel southWestPanel, southEastPanel;
 	private JLabel filesLabel, overlapLabel, regionAnalysisLabel;
 	private JLabel profileAnalysisLabel;
-	private JList list;
+	private JCheckBoxList list;
 
 	public AnalyzeTab() {
 
@@ -29,26 +30,29 @@ public class AnalyzeTab extends JPanel {
 		northEastPanel = new JPanel(new BorderLayout());
 		southWestPanel = new JPanel(new BorderLayout());
 		southEastPanel = new JPanel(new BorderLayout());
-		
+
 		add(northPanel, BorderLayout.NORTH);
 		northPanel.add(northWestPanel, BorderLayout.WEST);
 		northPanel.add(northEastPanel, BorderLayout.EAST);
 		add(southPanel, BorderLayout.SOUTH);
 		southPanel.add(southWestPanel, BorderLayout.WEST);
 		southPanel.add(southEastPanel, BorderLayout.EAST);
-		
+
 		createLabels();
 
 		DefaultListModel listModel = new DefaultListModel();
 		
-		int numberOfJobs;
-		
-		for(numberOfJobs=0; numberOfJobs<12; numberOfJobs++) {
-			listModel.addElement("Protein223_A5_2014.WIG");
-		}
-
-		list = new JList(listModel);
+		list = new JCheckBoxList();
+		list.setModel(listModel);
 		list.setPreferredSize(new Dimension(300,400));
+		
+		int numberOfJobs;
+
+		for(numberOfJobs=0; numberOfJobs<12; numberOfJobs++) {
+			listModel.add(numberOfJobs,
+					new JCheckBox("Protein223_A5_2014.WIG"));
+			
+		}
 
 		JScrollPane scrollPane = new JScrollPane(list);
 
@@ -61,7 +65,7 @@ public class AnalyzeTab extends JPanel {
 				+ numberOfJobs + " est. time until empty: N/A)."),
 				BorderLayout.SOUTH);
 	}
-	
+
 	private void createLabels() {
 		filesLabel = new JLabel("Files");
 		filesLabel.setBackground(Color.CYAN);
