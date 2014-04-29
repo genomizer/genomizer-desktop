@@ -100,10 +100,9 @@ public class Controller {
     	public void run() {
     		int returnVal = fileChooser.showOpenDialog(new JPanel());
     		if(returnVal == JFileChooser.APPROVE_OPTION) {
-    			String fileName = fileChooser.getSelectedFile().getName();
-    		    System.out.println("You chose this file: " + fileName);
+    			String filePath = fileChooser.getSelectedFile().getAbsolutePath();
 
-    		    view.updateFileChosen(fileName);
+    		    view.updateFileChosen(filePath);
     		}
     	}
     }
