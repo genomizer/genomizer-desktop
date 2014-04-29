@@ -1,10 +1,11 @@
 package controller;
 
-import genomizerdesktop.GenomizerView;
-import genomizerdesktop.Model;
+import gui.GenomizerView;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+
+import model.Model;
 
 import requests.AddFileToExperiment;
 import requests.RequestFactory;

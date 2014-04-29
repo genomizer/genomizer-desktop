@@ -1,7 +1,8 @@
 package genomizerdesktop.tests;
 
 import static org.junit.Assert.*;
-import genomizerdesktop.Model;
+
+import model.Model;
 
 import org.junit.Before;
 import org.junit.Test;

@@ -1,4 +1,4 @@
-package genomizerdesktop;
+package model;
 
 public class Model {
 

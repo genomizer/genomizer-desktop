@@ -1,4 +1,4 @@
-package genomizerdesktop;
+package gui;
 
 import java.awt.event.ActionListener;
 

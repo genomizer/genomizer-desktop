@@ -1,5 +1,6 @@
 package genomizerdesktop;
 
+import model.Model;
 import gui.AnalyzeTab;
 import gui.GUI;
 import gui.ProcessTab;
