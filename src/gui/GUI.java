@@ -93,6 +93,10 @@ public class GUI extends JFrame implements GenomizerView {
 		loginWindow.addLoginListener(listener);
 	}
 
+	public void addConvertFileListener(ActionListener listener) {
+		processTab.addConvertFileListener(listener);
+	}
+
 	public JPanel getSearchPanel() {
 		return searchTab;
 	}
@@ -124,11 +128,6 @@ public class GUI extends JFrame implements GenomizerView {
 	@Override
 	public void addDownloadFileListener(ActionListener listener) {
 		// TODO Auto-generated method stub
-	}
-
-	@Override
-	public void addConvertFileListener(ActionListener listener) {
-
 	}
 
 	@Override

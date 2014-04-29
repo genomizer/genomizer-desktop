@@ -38,6 +38,7 @@ public class Controller {
 	public void run() {
 
 		//SKICKAR REQUEST MED ALLA FILER SOM SKALL CONVERTERAS
+		System.out.println("CONVERT");
 	}
     }
 

@@ -4,9 +4,11 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.GridLayout;
+import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import javax.swing.BorderFactory;
 import javax.swing.DefaultListModel;
+import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -26,7 +28,7 @@ public class ProcessTab extends JPanel {
 	private JPanel timePanel = new JPanel();
 	private JPanel middelPanel = new JPanel(new GridLayout(3,1));
 	private JPanel leftPanel = new JPanel(new GridLayout(2,1));
-	private JCheckBox button = new JCheckBox("Button");
+	private JButton convertButton = new JButton("CONVERT");
 
 	//SKA VARA JLIST
 	private ArrayList processQueue = new ArrayList();
@@ -117,6 +119,7 @@ public class ProcessTab extends JPanel {
 
 		middelPanel.add(convertFilesPanel);
 		convertFilesPanel.setBorder( BorderFactory.createTitledBorder("CONVERT FILES"));
+		convertFilesPanel.add(convertButton);
 
 	}
 
@@ -130,6 +133,10 @@ public class ProcessTab extends JPanel {
 		procQueuePanel.add(queueLabel);
 
 	}
+
+    public void addConvertFileListener(ActionListener listener) {
+    	convertButton.addActionListener(listener);
+    }
 
 	private int getNumberOfJobsInQueue(){
 		return this.processQueue.size();
