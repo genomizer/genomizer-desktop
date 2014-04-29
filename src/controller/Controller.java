@@ -11,7 +11,6 @@ public class Controller {
 
     private GenomizerView view;
     private GenomizerModel model;
-    private int a = 0;
 
     public Controller(GenomizerView view, GenomizerModel model) {
 	this.view = view;
@@ -32,12 +31,12 @@ public class Controller {
 	public void run() {
 	    String username = view.getUsername();
 	    String pwd = view.getPassword();
-	    if (model.loginUser(username, pwd)) {
-		view.updateLoginAccepted(username, pwd, "Yuri Gagarin");
-	    } else {
-		view.updateLoginAccepted(username, pwd, "Yuri Gagarin");
-		// view.updateLoginNeglected("Login not accepted");
-	    }
+	    view.updateLoginAccepted(username, pwd, "Yuri Gagarin");
+	    // if (model.loginUser(username, pwd)) {
+	    // view.updateLoginAccepted(username, pwd, "Yuri Gagarin");
+	    // } else {
+	    // view.updateLoginNeglected("Login not accepted");
+	    // }
 	}
     }
 
@@ -59,11 +58,12 @@ public class Controller {
 
 	@Override
 	public void run() {
-	    if (model.logoutUser()) {
-		view.updateLogout();
-	    } else {
-		view.updateLogout();
-	    }
+	    view.updateLogout();
+	    // if (model.logoutUser()) {
+	    // view.updateLogout();
+	    // } else {
+	    // view.updateLogout();
+	    // }
 
 	}
     }
