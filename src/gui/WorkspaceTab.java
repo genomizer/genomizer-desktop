@@ -6,6 +6,7 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
 
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.JTable;
@@ -20,48 +21,47 @@ public class WorkspaceTab extends JPanel {
 	GridBagConstraints gbc;
 
 	public WorkspaceTab() {
-		setLayout(new BorderLayout());
-		buttonPanel = new JPanel();
-		filePanel = new JPanel();
+        	setLayout(new BorderLayout());
+        	buttonPanel = new JPanel();
+        	filePanel = new JPanel(new BorderLayout());
 
-		add(buttonPanel, BorderLayout.NORTH);
-		add(filePanel, BorderLayout.CENTER);
+        	add(buttonPanel, BorderLayout.NORTH);
+        	add(filePanel, BorderLayout.CENTER);
 
-		GridBagLayout layout = new GridBagLayout();
-		gbc = new GridBagConstraints();
+        	GridBagLayout layout = new GridBagLayout();
+        	gbc = new GridBagConstraints();
 
-		buttonPanel.setLayout(layout);
-		gbc.ipadx = 60;
-		gbc.ipady = 10;
-		gbc.insets = new Insets(10, 10, 10, 10);
-		gbc.anchor = GridBagConstraints.NORTHWEST;
+        	buttonPanel.setLayout(layout);
+        	gbc.ipadx = 60;
+        	gbc.ipady = 10;
+        	gbc.insets = new Insets(10, 10, 10, 10);
+        	gbc.anchor = GridBagConstraints.NORTHWEST;
 
-		buttonPanel.setBackground(Color.red);
-		filePanel.setBackground(Color.green);
+        	buttonPanel.setBackground(Color.white);
+        	filePanel.setBackground(Color.white);
 
-		createButtons();
-		addToButtonPanel();
-		buttonPanel.setVisible(true);
+        	createButtons();
+        	addToButtonPanel();
+        	buttonPanel.setVisible(true);
 
-		DefaultTableModel dataModel = new DefaultTableModel() {
-			private static final long serialVersionUID = -4408712463905415472L;
-			public int getColumnCount() { return 6; }
-	        public int getRowCount() { return 10;}
-	    };
+        	// DefaultTableModel dataModel = new DefaultTableModel() {
+        	// private static final long serialVersionUID = -4408712463905415472L;
+        	// public int getColumnCount() { return 6; }
+        	// public int getRowCount() { return 10;}
+        	// };
 
-	    JTable table = new JTable(dataModel);
-	    table.setBackground(Color.CYAN);
-	    table.getColumnModel().getColumn(2).setPreferredWidth(100);
-	    
-	    table.setValueAt("Name", 0, 0);
-	    table.setValueAt("Date", 0, 1);
-	    table.setValueAt("Uploaded by", 0, 2);
-	    table.setValueAt("Data type", 0, 3);
-	    table.setValueAt("Local", 0, 4);
+        	String[] columnNames = { "Name", "Date", "Uploaded by", "Data type" };
+        	Object[][] data = {
+        		{ "Protein123_A5_2014.WIG", "2014-04-29", "Per", "Profile" },
+        		{ "Protein123_A5_2014.RAW", "2014-04-29", "Per", "RAW" },
+        		{ "Protein123_A5_2014.WIG", "2014-04-29", "Per", "Region" } };
 
-	    filePanel.add(table);
-		filePanel.setVisible(true);
-		setVisible(true);
+        	JTable table = new JTable(data, columnNames);
+        	table.setBackground(Color.CYAN);
+
+        	filePanel.add(table.getTableHeader(), BorderLayout.PAGE_START);
+        	filePanel.add(table, BorderLayout.CENTER);
+        	setVisible(true);
 	}
 
 	private void createButtons() {
@@ -75,22 +75,27 @@ public class WorkspaceTab extends JPanel {
 	private void addToButtonPanel() {
 		gbc.gridx = 0;
 		gbc.gridy = 0;
+		deleteButton.setIcon(new ImageIcon("deleteButton.png"));
 		buttonPanel.add(deleteButton, gbc);
 
 		gbc.gridx = 1;
 		gbc.gridy = 0;
+		removeButton.setForeground(Color.white);
 		buttonPanel.add(removeButton, gbc);
 
 		gbc.gridx = 2;
 		gbc.gridy = 0;
+		downloadButton.setForeground(Color.white);
 		buttonPanel.add(downloadButton, gbc);
 
 		gbc.gridx = 3;
 		gbc.gridy = 0;
+		analyzeButton.setForeground(Color.white);
 		buttonPanel.add(analyzeButton, gbc);
 
 		gbc.gridx = 4;
 		gbc.gridy = 0;
+		browseButton.setForeground(Color.white);
 		buttonPanel.add(browseButton, gbc);
 	}
 }

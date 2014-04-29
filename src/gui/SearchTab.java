@@ -221,6 +221,7 @@ public class SearchTab extends JPanel {
 	initiateTable();
 	resultPanel.add(resultTable.getTableHeader());
 	resultScroll = new JScrollPane(resultTable);
+	resultScroll.setBackground(Color.blue);
 	resultPanel.add(resultScroll);
     }
 
