@@ -18,6 +18,8 @@ public interface GenomizerView {
 
     public void addBrowseListener(ActionListener listener);
 
+	public void addConvertFileListener(ActionListener listener);
+
     public String getPassword();
 
     public String getUsername();
@@ -31,5 +33,6 @@ public interface GenomizerView {
     public JFrame getFrame();
 
 	public void updateFileChosen(String directoryAsString);
+
 
 }
