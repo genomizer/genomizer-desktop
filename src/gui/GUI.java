@@ -28,6 +28,7 @@ public class GUI extends JFrame implements GenomizerView {
 	private LoginWindow loginWindow;
 	private ProcessTab processTab;
 	private SysadminTab sysadminTab;
+	private QuerySearchTab querySearchTab;
 
 	public GUI() {
 
@@ -179,5 +180,10 @@ public class GUI extends JFrame implements GenomizerView {
 	public void setSysAdminTab(SysadminTab sat) {
 		this.sysadminTab = sat;
 		tabbedPane.add("ADMINISTRATION", sysadminTab);
+	}
+
+	public void setQuerySearchTab(QuerySearchTab qst) {
+		this.querySearchTab = qst;
+		tabbedPane.add("QuerySearchTab", querySearchTab);
 	}
 }
