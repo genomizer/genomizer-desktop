@@ -16,6 +16,8 @@ public interface GenomizerView {
 
     public void addDownloadFileListener(ActionListener listener);
 
+    public void addBrowseListener(ActionListener listener);
+
     public String getPassword();
 
     public String getUsername();

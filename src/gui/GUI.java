@@ -5,9 +5,6 @@ package gui;
 
 import java.awt.BorderLayout;
 import java.awt.event.ActionListener;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
-
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
@@ -16,6 +13,7 @@ import javax.swing.UnsupportedLookAndFeelException;
 
 public class GUI extends JFrame implements GenomizerView {
 
+	private static final long serialVersionUID = 6659839768426124853L;
 	private JPanel mainPanel;
 	private JPanel processPanel;
 	private JTabbedPane tabbedPane;
@@ -185,5 +183,10 @@ public class GUI extends JFrame implements GenomizerView {
 	public void setQuerySearchTab(QuerySearchTab qst) {
 		this.querySearchTab = qst;
 		tabbedPane.add("QuerySearchTab", querySearchTab);
+	}
+
+	@Override
+	public void addBrowseListener(ActionListener listener) {
+		uploadTab.addUploadBtnListener(listener);
 	}
 }

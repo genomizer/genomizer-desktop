@@ -85,15 +85,28 @@ public class Controller {
 	}
     }
 
+    class BrowseListener implements ActionListener, Runnable {
+    	@Override
+    	public void actionPerformed(ActionEvent actionEvent) {
+
+    	}
+
+    	@Override
+    	public void run() {
+
+    	}
+    }
+
     class DownloadListener implements ActionListener, Runnable {
 
 	@Override
 	public void actionPerformed(ActionEvent actionEvent) {
-
+		new Thread(this).start();
 	}
 
 	@Override
 	public void run() {
+		//Open file browser
 
 	}
     }
