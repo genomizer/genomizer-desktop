@@ -7,5 +7,6 @@
 	<classpathentry kind="lib" path="lib/google-gson-2.2.4/gson-2.2.4.jar"/>
 	<classpathentry kind="lib" path="lib/fest-assert-1.4/fest-assert-1.4.jar"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/4"/>
+	<classpathentry kind="lib" path="lib/swingx-all-1.6.4.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
