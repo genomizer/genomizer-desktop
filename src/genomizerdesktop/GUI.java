@@ -22,6 +22,7 @@ public class GUI extends JFrame implements GenomizerView {
     private UploadTab uploadTab;
     private AnalyzeTab analyzeTab;
     private WorkspaceTab workspaceTab;
+    private SysadminTab sysadminTab;
 
     public GUI() {
 
@@ -177,4 +178,9 @@ public class GUI extends JFrame implements GenomizerView {
 	mainPanel.add(loginPanel, BorderLayout.NORTH);
 	refreshGUI();
     }
+
+	public void setSysAdminTab(SysadminTab sat) {
+		this.sysadminTab = sat;
+		tabbedPane.add("ADMINISTRATION", sysadminTab);
+	}
 }
