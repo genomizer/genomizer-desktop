@@ -298,6 +298,7 @@ public class SearchTab extends JPanel {
 	initiateTable();
 	resultPanel.add(resultTable.getTableHeader());
 	resultScroll = new JScrollPane(resultTable);
+	resultScroll.setBackground(Color.blue);
 	resultPanel.add(resultScroll);
     }
 
@@ -317,44 +318,6 @@ public class SearchTab extends JPanel {
 	    column = resultTable.getColumnModel().getColumn(i);
 	    column.setPreferredWidth(200);
 	}
-
-	/*
-	 * Försökte göra så man kunde expanda i tabellen med hjälp av en
-	 * JXTreeTable,
-	 * men fick inte till det. Om nån annan vill försöka så varsågod:
-	 *
- 	List<String> columnNames = new ArrayList<String>();
-	columnNames.add("Experiment ID");
-	columnNames.add("Publication ID");
-	columnNames.add("Species");
-	columnNames.add("Sex");
-
-	Object[][] data = { { "0", "1", "Human", "F" },
-		{ "1", "1", "Human", "M" }, { "2", "1", "Human", "M" },
-		{ "3", "1", "Humanoid", "F" }, { "4", "none", "Human", "M" } };
-
-    TreeTableModel treeTableModel = new DefaultTreeTableModel(
-    		new DefaultMutableTreeTableNode(), columnNames);
-	JXTreeTable resultTable = new JXTreeTable(treeTableModel);
-	JScrollPane scrollpane = new JScrollPane(resultTable);
-
-	for(int i=0; i<data.length; i++) {
-
-		treeTableModel.insertNodeInto();
-	}
-
-//	resultTable = new JTable(data, columnNames);
-
-	resultTable.setBackground(Color.blue);
-	resultTable.setForeground(Color.white);
-	resultTable.setFont(new Font("Arial", Font.PLAIN, 24));
-	TableColumn column = new TableColumn();
-	column = null;
-	for (int i = 0; i < columnNames.size(); i++) {
-	    column = resultTable.getColumnModel().getColumn(i);
-	    column.setPreferredWidth(200);
-	}
-	 */
     }
 
     public static void main(String args[]) {
