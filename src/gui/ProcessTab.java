@@ -2,10 +2,13 @@ package gui;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
+
+import javax.swing.AbstractButton;
 import javax.swing.BorderFactory;
 import javax.swing.DefaultListModel;
 import javax.swing.JButton;
@@ -14,6 +17,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
+import javax.swing.ListModel;
 
 public class ProcessTab extends JPanel {
 
@@ -29,6 +33,7 @@ public class ProcessTab extends JPanel {
 	private JPanel middelPanel = new JPanel(new GridLayout(3,1));
 	private JPanel leftPanel = new JPanel(new GridLayout(2,1));
 	private JButton convertButton = new JButton("CONVERT");
+	private ArrayList convertList = new ArrayList();
 
 	//SKA VARA JLIST
 	private ArrayList processQueue = new ArrayList();
@@ -134,19 +139,23 @@ public class ProcessTab extends JPanel {
 
 	}
 
-	public int[] getAllMarkedFiles(){
+	public ArrayList<JCheckBox> getAllMarkedFiles(){
 
-		ArrayList<Object> markedFiles = new ArrayList <Object>();
-
-	//	for(int i = 0 ; i < fileList.getSelectedIndices().length; i++){
-
-			//markedFiles.add(fileList.getComponent(fileList.getSelectedIndices()[i]));
-
-	//	}
-		//System.out.println("number of files: " + fileList.getSelectedIndices().length);
+		JCheckBox checkbox;
+		ArrayList<JCheckBox> arrayCheck = new ArrayList<JCheckBox>();
 
 
-		return fileList.getSelectedIndices();
+		for(int i = 0; i < fileListModel.size();i++){
+
+			checkbox = (JCheckBox) fileList.getModel().getElementAt(i);
+			if(checkbox.isSelected()){
+				arrayCheck.add(checkbox);
+				System.out.println("Bajs");
+			}
+		}
+		return arrayCheck;
+		//return fileList.getSelectedIndex();
+		//return fileList.getSelectionModel().isSelectedIndex(0);
 	}
 
     public void addConvertFileListener(ActionListener listener) {

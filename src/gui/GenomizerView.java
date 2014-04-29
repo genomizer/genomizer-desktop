@@ -1,7 +1,9 @@
 package gui;
 
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 
+import javax.swing.JCheckBox;
 import javax.swing.JFrame;
 
 public interface GenomizerView {
@@ -20,7 +22,7 @@ public interface GenomizerView {
 
 	public void addConvertFileListener(ActionListener listener);
 
-	public int[] getAllMarkedFiles();
+	public ArrayList<JCheckBox> getAllMarkedFiles();
 
     public String getPassword();
 

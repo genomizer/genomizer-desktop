@@ -2,6 +2,9 @@ package gui;
 
 import java.awt.BorderLayout;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
+
+import javax.swing.JCheckBox;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
@@ -97,7 +100,7 @@ public class GUI extends JFrame implements GenomizerView {
 		processTab.addConvertFileListener(listener);
 	}
 
-	public int[] getAllMarkedFiles(){
+	public ArrayList<JCheckBox> getAllMarkedFiles(){
 
 		return processTab.getAllMarkedFiles();
 
