@@ -30,7 +30,7 @@ public class UploadTab extends JPanel {
 	}
 
 	public void addBrowseBtnListener(ActionListener listener) {
-
+		browseButton.addActionListener(listener);
 	}
 
     public void addUploadBtnListener(ActionListener listener) {

@@ -1,8 +1,5 @@
 package gui;
 
-
-
-
 import java.awt.BorderLayout;
 import java.awt.event.ActionListener;
 import javax.swing.JFrame;
@@ -187,6 +184,6 @@ public class GUI extends JFrame implements GenomizerView {
 
 	@Override
 	public void addBrowseListener(ActionListener listener) {
-		uploadTab.addUploadBtnListener(listener);
+		uploadTab.addBrowseBtnListener(listener);
 	}
 }
