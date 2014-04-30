@@ -3,6 +3,7 @@ package genomizerdesktop.tests;
 import static org.junit.Assert.*;
 
 import model.Model;
+import communication.Connection;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -13,7 +14,8 @@ public class ModelTest {
 
     @Before
     public void setUp() {
-	 m = new Model();
+	Connection conn = null;
+	 m = new Model(conn);
     }
 
     @Test
