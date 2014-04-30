@@ -188,7 +188,7 @@ public class Controller {
 	@Override
 	public void run() {
 		/*
-		 * TODO När vi har faktiska filer som ska nedladdas: använd den andra konstruktorn new DownloadWindow(ArrayList<String> files) istället.
+		 * TODO När vi har faktiska filer som ska nedladdas: använd den andra konstruktorn new DownloadWindow(ArrayList<String>) istället
 		 */
 		new DownloadWindow();
 	}
