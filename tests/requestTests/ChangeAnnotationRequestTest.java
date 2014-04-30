@@ -15,10 +15,10 @@ public class ChangeAnnotationRequestTest {
 
     @Before
     public void setUp() throws Exception {
-	HashMap map = new HashMap();
+	HashMap map = new HashMap<String, String>();
 	map.put("Sex", "F");
 	map.put("Species", "Xenomorph");
-	change = new ChangeAnnotationRequest("file1", map, "1");
+	change = new ChangeAnnotationRequest("file1", map);
     }
 
     @Test

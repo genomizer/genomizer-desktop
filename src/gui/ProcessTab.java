@@ -82,6 +82,11 @@ public class ProcessTab extends JPanel {
 		menuPanel.add(profileButton);
 		menuPanel.add(regionButton);
 		menuPanel.add(scheduleButton);
+
+		convertButton.setEnabled(false);
+		regionButton.setEnabled(false);
+		scheduleButton.setEnabled(false);
+
 	}
 
 	private void initTimePanel() {
@@ -177,7 +182,6 @@ public class ProcessTab extends JPanel {
 		procQueuePanel.setPreferredSize(new Dimension(300,100));
 
 		JLabel queueLabel = new JLabel("PROCESSING IN QUEUE");
-		queueLabel.setBackground(Color.CYAN);
 		queueLabel.setOpaque(true);
 		procQueuePanel.add(queueLabel);
 

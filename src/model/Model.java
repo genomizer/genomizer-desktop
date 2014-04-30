@@ -1,6 +1,7 @@
 package model;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import requests.AddFileToExperiment;
 import requests.LoginRequest;
@@ -19,8 +20,10 @@ public class Model implements GenomizerModel {
 
     private String userID = "";
     private Connection conn;
+    private SearchHistory searchHistory;
 
     public Model(Connection conn) {
+	searchHistory = new SearchHistory();
 	this.setConn(conn);
     }
 
@@ -40,28 +43,32 @@ public class Model implements GenomizerModel {
 	this.conn = conn;
     }
 
-    public boolean rawToProfile(ArrayList<String> markedFiles){
+    public boolean rawToProfile(ArrayList<String> markedFiles) {
 
-    	if(!markedFiles.isEmpty()){
+	if (!markedFiles.isEmpty()) {
 
-    		for(int i = 0; i < markedFiles.size(); i++){
+	    for (int i = 0; i < markedFiles.size(); i++) {
 
-    			rawToProfileRequest rawToProfilerequest = RequestFactory.makeRawToProfileRequest(markedFiles.get(i));
+		rawToProfileRequest rawToProfilerequest = RequestFactory
+			.makeRawToProfileRequest(markedFiles.get(i));
 
-    			conn.sendRequest(rawToProfilerequest, userID, "text/plain");
-    		    if (conn.getResponseCode() == 201) {
-    		    	return true;
-    		    }else {
-    		    	return false;
-    		    	//TODO Fixa felmeddelande i gui ifall det inte gick att convertera till profile
-    		    	//TODO Köra nån timer för response.
-    		    }
+		conn.sendRequest(rawToProfilerequest, userID, "text/plain");
+		if (conn.getResponseCode() == 201) {
+		    return true;
+		    // TODO Fixa så att det syns bör användaren att filen gick
+		    // attt konverteras.
+		} else {
+		    return false;
+		    // TODO Fixa felmeddelande i gui ifall det inte gick att
+		    // convertera till profile.
+		    // TODO Köra nån timer för response.
+		}
 
-    		}
+	    }
 
-    	}
+	}
 
-		return false;
+	return false;
     }
 
     public boolean loginUser(String username, String password) {
@@ -108,14 +115,28 @@ public class Model implements GenomizerModel {
 	return true;
     }
 
-    public String search(String pubmedString) {
+    public ArrayList<HashMap<String, String>> search(String pubmedString) {
 	SearchRequest request = RequestFactory.makeSearchRequest(pubmedString);
 	conn.sendRequest(request, userID, "text/plain");
 	if (conn.getResponseCode() == 200) {
 	    SearchResponse[] searchResponses = ResponseParser
 		    .parseSearchResponse(conn.getResponseBody());
 	    if (searchResponses != null && searchResponses.length > 0) {
-		return searchResponses[0].name;
+		searchHistory.addSearchToHistory(searchResponses);
+		ArrayList<HashMap<String, String>> annotationsList = new ArrayList<HashMap<String, String>>();
+		for (int i = 0; i < searchResponses.length; i++) {
+		    HashMap<String, String> annotationsMap = new HashMap<String, String>();
+		    SearchResponse searchResponse = searchResponses[i];
+		    for (int j = 0; j < searchResponse.annotations.length; j++) {
+			String id = searchResponse.annotations[j].id;
+			String name = searchResponse.annotations[j].name;
+			String value = searchResponse.annotations[j].value;
+			annotationsMap.put(name, value);
+		    }
+		    annotationsList.add(annotationsMap);
+
+		}
+		return annotationsList;
 	    }
 	}
 	return null;

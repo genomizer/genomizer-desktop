@@ -4,16 +4,9 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
-import java.awt.Image;
 import java.awt.Insets;
-import java.awt.Toolkit;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
-import java.io.IOException;
-import java.net.URL;
-
-import javax.imageio.ImageIO;
-import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JPanel;
@@ -28,10 +21,9 @@ public class WorkspaceTab extends JPanel {
 	private ImageIcon analyseIcon = new ImageIcon("src/icons/AnalyzeSelectedButton.png");
 	private ImageIcon browseIcon = new ImageIcon("src/icons/BrowseLocalFilesButton.png");
 	private ImageIcon deleteIcon = new ImageIcon("src/icons/DeleteSelectedButton.png");
-	private ImageIcon downloadIcon = new ImageIcon("src/icons/DownloadButton.png");
 	private ImageIcon downloadSelectedIcon = new ImageIcon("src/icons/DownloadSelectedButton.png");
 	private ImageIcon removeFromDBIcon = new ImageIcon("src/icons/RemoveFromDatabaseButton.png");
-	GridBagConstraints gbc;
+	private GridBagConstraints gbc;
 
 	public WorkspaceTab() {
         	setLayout(new BorderLayout());
@@ -57,17 +49,11 @@ public class WorkspaceTab extends JPanel {
         	addToButtonPanel();
         	buttonPanel.setVisible(true);
 
-        	// DefaultTableModel dataModel = new DefaultTableModel() {
-        	// private static final long serialVersionUID = -4408712463905415472L;
-        	// public int getColumnCount() { return 6; }
-        	// public int getRowCount() { return 10;}
-        	// };
-
-        	String[] columnNames = { "Name", "Date", "Uploaded by", "Data type" };
+        	String[] columnNames = { "Name", "Date", "Uploaded by", "Data type", "Local" };
         	Object[][] data = {
-        		{ "Protein123_A5_2014.WIG", "2014-04-29", "Per", "Profile" },
-        		{ "Protein123_A5_2014.RAW", "2014-04-29", "Per", "RAW" },
-        		{ "Protein123_A5_2014.WIG", "2014-04-29", "Per", "Region" } };
+        		{ "Protein123_A5_2014.WIG", "2014-04-29", "Per", "Profile" , new Boolean(false)},
+        		{ "Protein123_A5_2014.RAW", "2014-04-29", "Per", "RAW" ,  new Boolean(false)},
+        		{ "Protein123_A5_2014.WIG", "2014-04-29", "Per", "Region" , new Boolean(false)} };
 
         	JTable table = new JTable(data, columnNames);
         	table.setBackground(new Color(210,210,210));
@@ -91,7 +77,7 @@ public class WorkspaceTab extends JPanel {
 		gbc.gridy = 0;
 		deleteIcon = new ImageIcon(deleteIcon.getImage().getScaledInstance(175, 30, BufferedImage.SCALE_SMOOTH));
 		deleteButton.setBorderPainted(true);
-//		deleteButton.setContentAreaFilled(false);
+		deleteButton.setContentAreaFilled(false);
 		deleteButton.setIcon(deleteIcon);
 		buttonPanel.add(deleteButton, gbc);
 
