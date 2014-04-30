@@ -33,11 +33,14 @@ public class ProcessTab extends JPanel {
 	private JPanel genRegionDataPanel = new JPanel();
 	private JPanel convertFilesPanel = new JPanel();
 	private JPanel procQueuePanel= new JPanel();
+	private JPanel menuPanel = new JPanel();
 	private JPanel timePanel = new JPanel();
 	private JPanel middelPanel = new JPanel(new GridLayout(3,1));
 	private JPanel leftPanel = new JPanel(new GridLayout(2,1));
-	private JButton convertButton = new JButton("CONVERT");
-	private ArrayList convertList = new ArrayList();
+	private JButton convertButton = new JButton("CONVERT TO WIG");
+	private JButton profileButton = new JButton("CREATE PROFILE DATA");
+	private JButton regionButton = new JButton("CREATE REGION DATA");
+	private JButton scheduleButton = new JButton("SCHEDULE");
 
 	//SKA VARA JLIST
 	private ArrayList processQueue = new ArrayList();
@@ -57,6 +60,7 @@ public class ProcessTab extends JPanel {
 
 	private void initPanels(){
 
+		initNorthPanel();
 		initWestPanels();
 		initMiddlePanel();
 		initEastPanels();
@@ -67,6 +71,17 @@ public class ProcessTab extends JPanel {
 
 		printTimePanel();
 
+	}
+
+	private void initNorthPanel() {
+
+		this.add(menuPanel,BorderLayout.NORTH);
+		menuPanel.setPreferredSize(new Dimension(300,100));
+
+		menuPanel.add(convertButton);
+		menuPanel.add(profileButton);
+		menuPanel.add(regionButton);
+		menuPanel.add(scheduleButton);
 	}
 
 	private void initTimePanel() {
@@ -154,7 +169,6 @@ public class ProcessTab extends JPanel {
 
 		middelPanel.add(convertFilesPanel);
 		convertFilesPanel.setBorder( BorderFactory.createTitledBorder("CONVERT FILES"));
-		convertFilesPanel.add(convertButton);
 
 	}
 
