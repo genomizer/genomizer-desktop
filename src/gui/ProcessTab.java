@@ -182,7 +182,6 @@ public class ProcessTab extends JPanel {
 		procQueuePanel.setPreferredSize(new Dimension(300,100));
 
 		JLabel queueLabel = new JLabel("PROCESSING IN QUEUE");
-		queueLabel.setBackground(Color.CYAN);
 		queueLabel.setOpaque(true);
 		procQueuePanel.add(queueLabel);
 
