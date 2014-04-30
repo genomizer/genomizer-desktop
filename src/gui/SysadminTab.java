@@ -207,7 +207,7 @@ public class SysadminTab extends JPanel {
 	}
 
 	private void popup(){
-		AnnotationPopup pop = new AnnotationPopup();
+		SysadminAnnotationPopup pop = new SysadminAnnotationPopup();
 		pop.setBackground(Color.WHITE);
 		JFrame popupFrame = new JFrame("Add new Annotation");
 		popupFrame.setLayout(new BorderLayout());

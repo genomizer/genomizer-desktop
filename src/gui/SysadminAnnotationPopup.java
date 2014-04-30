@@ -30,14 +30,14 @@ import requests.RequestFactory;
 import responses.LoginResponse;
 import responses.ResponseParser;
 
-public class AnnotationPopup extends JPanel {
+public class SysadminAnnotationPopup extends JPanel {
 
 	private static final long serialVersionUID = -626744436260839622L;
 	private JPanel addCategoriesPanel;
 	private JTextField nameField;
 	private ArrayList<String> categories = new ArrayList<String>();
 
-	public AnnotationPopup() {
+	public SysadminAnnotationPopup() {
 		this.setLayout(new BorderLayout());
 		JTabbedPane optionsPane = new JTabbedPane();
 		nameField = new JTextField();
@@ -138,8 +138,8 @@ public class AnnotationPopup extends JPanel {
 	private void createAddCategoryButton(final JPanel categoryHolderPanel,
 			JPanel baseCatPanel, final JTextField annotationTextField) {
 
-		ImageIcon addIcon = new ImageIcon("src/icons/Plus-icon.png");
-		addIcon = new ImageIcon(addIcon.getImage().getScaledInstance(30, 30,
+		ImageIcon addIcon = new ImageIcon("src/icons/plus.png");
+		addIcon = new ImageIcon(addIcon.getImage().getScaledInstance(20, 20,
 				BufferedImage.SCALE_SMOOTH));
 		JButton addButton = new JButton("");
 
@@ -163,9 +163,9 @@ public class AnnotationPopup extends JPanel {
 	}
 
 	private void createRemoveCategoryButton(final JPanel categoryPanel) {
-		ImageIcon removeIcon = new ImageIcon("src/icons/minusIcon.png");
-		removeIcon = new ImageIcon(removeIcon.getImage().getScaledInstance(20,
-				20, BufferedImage.SCALE_SMOOTH));
+		ImageIcon removeIcon = new ImageIcon("src/icons/minus.png");
+		removeIcon = new ImageIcon(removeIcon.getImage().getScaledInstance(15,
+				15, BufferedImage.SCALE_SMOOTH));
 		JButton removeButton = new JButton("");
 
 		removeButton.setBorderPainted(false);
