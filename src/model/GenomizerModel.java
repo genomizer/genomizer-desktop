@@ -13,4 +13,5 @@ public interface GenomizerModel {
 
     public ArrayList<HashMap<String, String>> search(String pubmedString);
 
+    public boolean rawToProfile(ArrayList<String> markedFiles);
 }

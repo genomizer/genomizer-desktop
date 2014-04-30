@@ -62,6 +62,8 @@ public class Controller {
 
 	    System.out.println("RAW TO PROFILE");
 	    System.out.println(view.getAllMarkedFiles());
+	    System.out.println("Has converted RAW TO PROFILE: "
+		    + model.rawToProfile(view.getAllMarkedFiles()));
 
 	}
     }
@@ -193,6 +195,10 @@ public class Controller {
 
 	@Override
 	public void run() {
+	    /*
+	     * TODO När vi har faktiska filer som ska nedladdas: använd den
+	     * andra konstruktorn new DownloadWindow(ArrayList<String>) istället
+	     */
 	    new DownloadWindow();
 	}
     }

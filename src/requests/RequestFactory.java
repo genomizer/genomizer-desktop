@@ -57,4 +57,8 @@ public class RequestFactory {
     public static SearchRequest makeSearchRequest(String annotationString) {
 	return new SearchRequest(annotationString);
     }
+
+    public static rawToProfileRequest makeRawToProfileRequest(String fileName) {
+	return new rawToProfileRequest(fileName);
+    }
 }

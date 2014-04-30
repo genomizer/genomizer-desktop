@@ -8,6 +8,7 @@ import requests.LoginRequest;
 import requests.LogoutRequest;
 import requests.RequestFactory;
 import requests.SearchRequest;
+import requests.rawToProfileRequest;
 import responses.LoginResponse;
 import responses.ResponseParser;
 import responses.SearchResponse;
@@ -40,6 +41,34 @@ public class Model implements GenomizerModel {
 
     public void setConn(Connection conn) {
 	this.conn = conn;
+    }
+
+    public boolean rawToProfile(ArrayList<String> markedFiles) {
+
+	if (!markedFiles.isEmpty()) {
+
+	    for (int i = 0; i < markedFiles.size(); i++) {
+
+		rawToProfileRequest rawToProfilerequest = RequestFactory
+			.makeRawToProfileRequest(markedFiles.get(i));
+
+		conn.sendRequest(rawToProfilerequest, userID, "text/plain");
+		if (conn.getResponseCode() == 201) {
+		    return true;
+		    // TODO Fixa så att det syns bör användaren att filen gick
+		    // attt konverteras.
+		} else {
+		    return false;
+		    // TODO Fixa felmeddelande i gui ifall det inte gick att
+		    // convertera till profile.
+		    // TODO Köra nån timer för response.
+		}
+
+	    }
+
+	}
+
+	return false;
     }
 
     public boolean loginUser(String username, String password) {
