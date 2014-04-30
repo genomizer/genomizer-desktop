@@ -61,4 +61,9 @@ public class RequestFactory {
     public static rawToProfileRequest makeRawToProfileRequest(String fileName) {
 	return new rawToProfileRequest(fileName);
     }
+    
+	public static AddAnnotationRequest makeAddAnnotationRequest(String name,
+			String[] categories, Boolean forced) {
+		return new AddAnnotationRequest(name, categories, forced);
+	}
 }
