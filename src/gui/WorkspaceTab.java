@@ -24,6 +24,12 @@ public class WorkspaceTab extends JPanel {
 	private JPanel buttonPanel, filePanel;
 	private JButton deleteButton, removeButton, downloadButton;
 	private JButton analyzeButton, browseButton;
+	private ImageIcon analyseIcon = new ImageIcon("src/icons/AnalyzeSelectedButton.png");
+	private ImageIcon browseIcon = new ImageIcon("src/icons/BrowseLocalFilesButton.png");
+	private ImageIcon deleteIcon = new ImageIcon("src/icons/DeleteSelectedButton.png");
+	private ImageIcon downloadIcon = new ImageIcon("src/icons/DownloadButton.png");
+	private ImageIcon downloadSelectedIcon = new ImageIcon("src/icons/DownloadSelectedButton.png");
+	private ImageIcon removeFromDBIcon = new ImageIcon("src/icons/RemoveFromDatabaseButton.png");
 	GridBagConstraints gbc;
 
 	public WorkspaceTab() {
@@ -38,12 +44,12 @@ public class WorkspaceTab extends JPanel {
         	gbc = new GridBagConstraints();
 
         	buttonPanel.setLayout(layout);
-        	gbc.ipadx = 60;
+        	gbc.ipadx = 10;
         	gbc.ipady = 10;
-        	gbc.insets = new Insets(10, 10, 10, 10);
+        	gbc.insets = new Insets(1, 1, 1, 1);
         	gbc.anchor = GridBagConstraints.NORTHWEST;
 
-        	buttonPanel.setBackground(Color.white);
+        	buttonPanel.setBackground(new Color(210,210,210));
         	filePanel.setBackground(Color.white);
 
         	createButtons();
@@ -63,7 +69,7 @@ public class WorkspaceTab extends JPanel {
         		{ "Protein123_A5_2014.WIG", "2014-04-29", "Per", "Region" } };
 
         	JTable table = new JTable(data, columnNames);
-        	table.setBackground(Color.CYAN);
+        	table.setBackground(new Color(210,210,210));
 
         	filePanel.add(table.getTableHeader(), BorderLayout.PAGE_START);
         	filePanel.add(table, BorderLayout.CENTER);
@@ -71,66 +77,53 @@ public class WorkspaceTab extends JPanel {
 	}
 
 	private void createButtons() {
-		removeButton = new JButton("Remove selected");
-		downloadButton = new JButton("Download selected");
-		analyzeButton = new JButton("Analyze selected");
-		browseButton = new JButton("Browse local files");
+		removeButton = new JButton();
+		downloadButton = new JButton();
+		analyzeButton = new JButton();
+		browseButton = new JButton();
 		deleteButton = new JButton();
-
-
-
-		ImageIcon deleteIcon = new ImageIcon("src/icons/deleteButton.png");
-		deleteIcon = new ImageIcon(deleteIcon.getImage().getScaledInstance(225, 45,
-				BufferedImage.SCALE_SMOOTH));
-
-		deleteButton.setBorderPainted(true);
-		deleteButton.setContentAreaFilled(false);
-		deleteButton.setFocusable(true);
-		deleteButton.setIcon(deleteIcon);
-
-
-
 	}
 
 	private void addToButtonPanel() {
 
-
-
-
-
 		gbc.gridx = 0;
 		gbc.gridy = 0;
-//		deleteButton.setOpaque(true);
-//		deleteButton.setBackground(Color.BLUE);
-//		deleteButton.setForeground(Color.WHITE);
+		deleteIcon = new ImageIcon(deleteIcon.getImage().getScaledInstance(175, 30, BufferedImage.SCALE_SMOOTH));
+		deleteButton.setBorderPainted(true);
+//		deleteButton.setContentAreaFilled(false);
+		deleteButton.setIcon(deleteIcon);
 		buttonPanel.add(deleteButton, gbc);
 
 		gbc.gridx = 1;
 		gbc.gridy = 0;
-		removeButton.setOpaque(true);
-		removeButton.setBackground(Color.BLUE);
-		removeButton.setForeground(Color.white);
+		removeFromDBIcon = new ImageIcon(removeFromDBIcon.getImage().getScaledInstance(175, 30, BufferedImage.SCALE_SMOOTH));
+		removeButton.setBorderPainted(true);
+		removeButton.setContentAreaFilled(false);
+		removeButton.setIcon(removeFromDBIcon);
 		buttonPanel.add(removeButton, gbc);
 
 		gbc.gridx = 2;
 		gbc.gridy = 0;
-		downloadButton.setOpaque(true);
-		downloadButton.setBackground(Color.BLUE);
-		downloadButton.setForeground(Color.white);
+		downloadSelectedIcon = new ImageIcon(downloadSelectedIcon.getImage().getScaledInstance(175, 30, BufferedImage.SCALE_SMOOTH));
+		downloadButton.setBorderPainted(true);
+		downloadButton.setContentAreaFilled(false);
+		downloadButton.setIcon(downloadSelectedIcon);
 		buttonPanel.add(downloadButton, gbc);
 
 		gbc.gridx = 3;
 		gbc.gridy = 0;
-		analyzeButton.setOpaque(true);
-		analyzeButton.setBackground(Color.BLUE);
-		analyzeButton.setForeground(Color.white);
+		analyseIcon = new ImageIcon(analyseIcon.getImage().getScaledInstance(175, 30, BufferedImage.SCALE_SMOOTH));
+		analyzeButton.setBorderPainted(true);
+		analyzeButton.setContentAreaFilled(false);
+		analyzeButton.setIcon(analyseIcon);
 		buttonPanel.add(analyzeButton, gbc);
 
 		gbc.gridx = 4;
 		gbc.gridy = 0;
-		browseButton.setOpaque(true);
-		browseButton.setBackground(Color.BLUE);
-		browseButton.setForeground(Color.white);
+		browseIcon = new ImageIcon(browseIcon.getImage().getScaledInstance(175, 30, BufferedImage.SCALE_SMOOTH));
+		browseButton.setBorderPainted(true);
+		browseButton.setContentAreaFilled(false);
+		browseButton.setIcon(browseIcon);
 		buttonPanel.add(browseButton, gbc);
 	}
 
