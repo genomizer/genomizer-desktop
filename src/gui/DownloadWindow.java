@@ -58,20 +58,20 @@ public class DownloadWindow extends JFrame {
 		
 		tableModel.addColumn(fileNameColumn);
 		tableModel.addColumn(formatConversionColumn);
+		
+		table.getTableHeader().getColumnModel().getColumn(0).setHeaderValue(
+				fileNameColumn.getHeaderValue());
+		table.getTableHeader().getColumnModel().getColumn(1).setHeaderValue(
+				formatConversionColumn.getHeaderValue());
 
 		for(int i=0; i<data.size(); i++) {
-			
 			tableModel.addRow(new Object[]{data.get(i),null});
-			System.out.println(tableModel.getValueAt(i, 0));
-			System.out.println(tableModel.getValueAt(i, 1));
-			System.out.println("   number of rows: "+tableModel.getRowCount());
 		}
 		
 		JComboBox comboBox = new JComboBox();
 		comboBox.addItem("Format1");
 		comboBox.addItem("Format2");
 		comboBox.addItem("Format3");
-		comboBox.setMinimumSize(new Dimension(70,20));
 		formatConversionColumn.setCellEditor(new DefaultCellEditor(comboBox));
 
     	table.setBackground(Color.blue);
@@ -80,6 +80,9 @@ public class DownloadWindow extends JFrame {
     	JScrollPane scrollPane = new JScrollPane(table);
     	panel.add(scrollPane, BorderLayout.CENTER);
     	panel.add(table.getTableHeader(), BorderLayout.NORTH);
+    	
+/*    	System.out.println(
+    			table.getTableHeader().getColumnModel().getColumn(0).getHeaderValue()); */
 
     	setTitle("DOWNLOAD FILES");
     	setSize(500,500);
