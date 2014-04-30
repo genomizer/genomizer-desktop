@@ -1,0 +1,371 @@
+package gui;
+
+import java.awt.BorderLayout;
+import java.awt.Component;
+import java.awt.Dimension;
+import java.awt.GridLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.image.BufferedImage;
+import java.util.ArrayList;
+
+import javax.swing.BorderFactory;
+import javax.swing.ButtonGroup;
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JCheckBox;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTabbedPane;
+import javax.swing.JTextField;
+import javax.swing.ScrollPaneConstants;
+import javax.swing.SwingUtilities;
+
+import communication.Connection;
+import requests.LoginRequest;
+import requests.Request;
+import requests.RequestFactory;
+import responses.LoginResponse;
+import responses.ResponseParser;
+
+public class AnnotationPopup extends JPanel {
+
+	private static final long serialVersionUID = -626744436260839622L;
+	private JPanel addCategoriesPanel;
+	private JTextField nameField;
+	private ArrayList<String> categories = new ArrayList<String>();
+
+	public AnnotationPopup() {
+		this.setLayout(new BorderLayout());
+		JTabbedPane optionsPane = new JTabbedPane();
+		nameField = new JTextField();
+		optionsPane.addTab("DropDownLists", buildFirstTab());
+		optionsPane.addTab("Free Text", buildSecondTab());
+
+		this.add(optionsPane, BorderLayout.CENTER);
+	}
+
+	private JPanel buildSecondTab() {
+
+		JPanel secondTab = new JPanel(new GridLayout(0, 1));
+
+		/* Create the top panel for the second tab */
+		JPanel topPanelInSecondTab = new JPanel();
+
+		JLabel name = new JLabel("Name:");
+		JTextField nameField2 = new JTextField(nameField.getDocument(), "", 0);
+		nameField2.setPreferredSize(new Dimension(250, 30));
+		topPanelInSecondTab.add(name);
+		topPanelInSecondTab.add(nameField2);
+
+		/* Create bottom panel for the second tab */
+		JPanel botPanelInSecondTab = buildBotPanelInFirstTab();
+
+		/*
+		 * JLabel forced = new JLabel("Forced Annotation:"); JPanel
+		 * checkBoxPanel = createCheckBoxPanel();
+		 * 
+		 * botPanelInSecondTab.add(forced);
+		 * botPanelInSecondTab.add(checkBoxPanel);
+		 * buildCreateNewAnnotationButton(checkBoxPanel);
+		 */
+		secondTab.add(topPanelInSecondTab);
+		secondTab.add(botPanelInSecondTab);
+		return secondTab;
+	}
+
+	private JScrollPane buildFirstTab() {
+
+		JPanel firstTab = new JPanel(new BorderLayout());
+		JScrollPane scrollPane = new JScrollPane(firstTab);
+		scrollPane
+				.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
+
+		JPanel topPanelInFirstTab = buildTopPanelInFirstTab();
+		JPanel midPanelInFirstTab = buildMidPanelInFirstTab();
+		JPanel botPanelInFirstTab = buildBotPanelInFirstTab();
+
+		/* Add all complete panels to the first tab */
+		firstTab.add(topPanelInFirstTab, BorderLayout.NORTH);
+		firstTab.add(midPanelInFirstTab, BorderLayout.CENTER);
+		firstTab.add(botPanelInFirstTab, BorderLayout.SOUTH);
+
+		return scrollPane;
+
+	}
+
+	private JPanel buildMidPanelInFirstTab() {
+
+		JPanel midPanelInFirstTab = new JPanel(new BorderLayout());
+		final JCheckBox catCheckBox = new JCheckBox("Add Categories", true);
+		catCheckBox.setFocusPainted(false);
+
+		final JPanel categoryPanel = new JPanel(new BorderLayout());
+
+		addCategoriesPanel = new JPanel(new GridLayout(0, 1));
+
+		JPanel baseCatPanel = createDeafultCategoryPanel(addCategoriesPanel);
+		addCategoriesPanel.add(baseCatPanel);
+
+		categoryPanel.add(addCategoriesPanel, BorderLayout.NORTH);
+
+		ComponentTitledBorder componentBorder = createDynamicBorder(
+				categoryPanel, catCheckBox);
+		categoryPanel.setBorder(componentBorder);
+
+		midPanelInFirstTab.add(categoryPanel, BorderLayout.CENTER);
+
+		return midPanelInFirstTab;
+	}
+
+	private JPanel createDeafultCategoryPanel(final JPanel addCategoriesPanel) {
+		JPanel baseCatPanel = new JPanel();
+
+		JLabel categorylabel = new JLabel("Category:");
+		final JTextField annotationTextField = new JTextField();
+		annotationTextField.setPreferredSize(new Dimension(200, 20));
+
+		baseCatPanel.add(categorylabel);
+		baseCatPanel.add(annotationTextField);
+
+		createAddCategoryButton(addCategoriesPanel, baseCatPanel,
+				annotationTextField);
+		return baseCatPanel;
+	}
+
+	private void createAddCategoryButton(final JPanel categoryHolderPanel,
+			JPanel baseCatPanel, final JTextField annotationTextField) {
+
+		ImageIcon addIcon = new ImageIcon("src/icons/Plus-icon.png");
+		addIcon = new ImageIcon(addIcon.getImage().getScaledInstance(30, 30,
+				BufferedImage.SCALE_SMOOTH));
+		JButton addButton = new JButton("");
+
+		addButton.setBorderPainted(false);
+		addButton.setContentAreaFilled(false);
+
+		addButton.setIcon(addIcon);
+
+		addButton.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				if (!annotationTextField.getText().equals("")) {
+					addAddedCategoryPanel(categoryHolderPanel,
+							annotationTextField);
+				}
+			}
+
+		});
+		baseCatPanel.add(addButton);
+	}
+
+	private void createRemoveCategoryButton(final JPanel categoryPanel) {
+		ImageIcon removeIcon = new ImageIcon("src/icons/minusIcon.png");
+		removeIcon = new ImageIcon(removeIcon.getImage().getScaledInstance(20,
+				20, BufferedImage.SCALE_SMOOTH));
+		JButton removeButton = new JButton("");
+
+		removeButton.setBorderPainted(false);
+		removeButton.setContentAreaFilled(false);
+
+		removeButton.setIcon(removeIcon);
+
+		removeButton.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				categoryPanel.getParent().remove(categoryPanel);
+				repaint();
+
+			}
+
+		});
+		categoryPanel.add(removeButton);
+	}
+
+	private JPanel buildBotPanelInFirstTab() {
+		JPanel botPanelInFirstTab = new JPanel();
+		JLabel forced = new JLabel("Forced Annotation:");
+		JCheckBox yesBox = new JCheckBox("Yes");
+		// JPanel checkboxPanel = createCheckBoxPanel();
+		botPanelInFirstTab.add(forced);
+		// botPanelInFirstTab.add(checkboxPanel);
+		botPanelInFirstTab.add(yesBox);
+		buildCreateNewAnnotationButton(botPanelInFirstTab);
+
+		return botPanelInFirstTab;
+	}
+
+	private void buildCreateNewAnnotationButton(JPanel botPanelInFirstTab) {
+		JButton createNewAnnotationButton = new JButton("Create annotation");
+		botPanelInFirstTab.add(createNewAnnotationButton);
+
+		createNewAnnotationButton.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO: add a "are you really 100% super duper sure? popup?
+				sendNewAnnotation();
+				
+				if (loginUser("sysadmin", "123")) {
+					System.out.println("succes");
+				}
+				
+				closeWindow();
+
+			}
+		});
+	}
+
+	private JPanel createCheckBoxPanel() {
+		ButtonGroup checkgroup = new ButtonGroup();
+		JPanel checkboxPanel = new JPanel();
+		JCheckBox yesBox = new JCheckBox("Yes");
+		JCheckBox noBox = new JCheckBox("No");
+		noBox.setSelected(true);
+		checkgroup.add(yesBox);
+		checkgroup.add(noBox);
+
+		/* Add the check boxes to the box panel */
+		checkboxPanel.add(yesBox);
+		checkboxPanel.add(noBox);
+		return checkboxPanel;
+	}
+
+	private JPanel buildTopPanelInFirstTab() {
+		JPanel topPanelInFirstTab = new JPanel(new BorderLayout());
+		JLabel name = new JLabel("Name:");
+
+		// nameField = new JTextField();
+		nameField.setPreferredSize(new Dimension(250, 30));
+
+		JPanel nameFieldPanel = new JPanel();
+		nameFieldPanel.add(name);
+		nameFieldPanel.add(nameField);
+
+		topPanelInFirstTab.add(nameFieldPanel);
+		JLabel infoLabel = new JLabel(
+				"Not adding any categories will result in a Yes/No/Unknown annotation");
+		topPanelInFirstTab.add(infoLabel, BorderLayout.SOUTH);
+		return topPanelInFirstTab;
+	}
+
+	private ComponentTitledBorder createDynamicBorder(
+			final JPanel categoryPanel, final JCheckBox catCheckBox) {
+
+		ComponentTitledBorder componentBorder = new ComponentTitledBorder(
+				catCheckBox, categoryPanel, BorderFactory.createEtchedBorder());
+
+		catCheckBox.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				setBorderEnabled(categoryPanel, catCheckBox);
+			}
+		});
+
+		return componentBorder;
+	}
+
+	private void setBorderEnabled(final JPanel categoryPanel,
+			final JCheckBox catCheckBox) {
+		boolean enable = catCheckBox.isSelected();
+		Component components[] = categoryPanel.getComponents();
+		for (int i = 0; i < components.length; i++) {
+			Component component = components[i];
+			component.setEnabled(enable);
+			if (component instanceof JPanel) {
+				setBorderEnabled((JPanel) component, catCheckBox);
+			}
+		}
+	}
+
+	protected void addAddedCategoryPanel(JPanel categoryHolderPanel,
+			JTextField annotationTextField) {
+
+		JPanel newCategoryPanel = new JPanel();
+		JLabel categoryLabel = new JLabel("Category:");
+		final JTextField textField = new JTextField();
+		textField.setText(annotationTextField.getText());
+		textField.setEditable(false);
+		textField.setPreferredSize(new Dimension(200, 20));
+
+		newCategoryPanel.add(categoryLabel);
+		newCategoryPanel.add(textField);
+
+		categories.add(textField.getText());
+
+		createRemoveCategoryButton(newCategoryPanel);
+		categoryHolderPanel.add(newCategoryPanel);
+		annotationTextField.setText("");
+		repaint();
+	}
+
+	protected void sendNewAnnotation() {
+		String annotationName = nameField.getText(); // name of new annotation
+		Boolean forced = null;
+
+		if (categories.isEmpty()) {
+			categories.add("Yes");
+			categories.add("No");
+		}
+
+		String[] stringArray = categories.toArray(new String[categories.size()]);
+		
+		RequestFactory.makeAddAnnotationRequest(annotationName, stringArray, forced);
+
+	}
+
+	protected void mocksendNewAnnotation(Request request) {
+		String username = null; 
+		String password = null;
+		String ip = "genomizer.apiary-mock.com";
+		int port = 80;
+		String userID = "";
+		Connection conn = new Connection(ip, port);
+		if (!username.isEmpty() && !password.isEmpty()) {
+			LoginRequest loginRequest = RequestFactory.makeLoginRequest(username,
+					password);
+			conn.sendRequest(loginRequest, userID, "application/json");
+			if (conn.getResponseCode() == 200) {
+				LoginResponse loginResponse = ResponseParser
+						.parseLoginResponse(conn.getResponseBody());
+				if (loginResponse != null) {
+					userID = loginResponse.token;
+					
+					
+
+				}
+			}
+		}
+	}
+
+	public boolean loginUser(String username, String password) {
+		String ip = "genomizer.apiary-mock.com";
+		int port = 80;
+		String userID = "";
+		Connection conn = new Connection(ip, port);
+		if (!username.isEmpty() && !password.isEmpty()) {
+			LoginRequest request = RequestFactory.makeLoginRequest(username,
+					password);
+			conn.sendRequest(request, userID, "application/json");
+			if (conn.getResponseCode() == 200) {
+				LoginResponse loginResponse = ResponseParser
+						.parseLoginResponse(conn.getResponseBody());
+				if (loginResponse != null) {
+					userID = loginResponse.token;
+					return true;
+				}
+			}
+		}
+		return false;
+	}
+
+	protected void closeWindow() {
+		JFrame frame = (JFrame) SwingUtilities
+				.getWindowAncestor(addCategoriesPanel); // UGLY?!?
+		frame.setVisible(false);
+	}
+
+}
