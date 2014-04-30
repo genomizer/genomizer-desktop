@@ -21,10 +21,11 @@ public class Controller {
 	this.model = model;
 	view.addLoginListener(new LoginListener());
 	view.addLogoutListener(new LogoutListener());
-	view.addSearchListener(new SearchListener());
+	view.addSearchListener(new QuerySearchListener());
 	view.addUploadFileListener(new UploadListener());
 	view.addBrowseListener(new BrowseListener());
 	view.addConvertFileListener(new ConvertFileListener());
+	view.addQuerySearchListener(new QuerySearchListener());
 
     }
 
@@ -37,9 +38,9 @@ public class Controller {
 	@Override
 	public void run() {
 
-		//SKICKAR REQUEST MED ALLA FILER SOM SKALL CONVERTERAS
-		System.out.println("CONVERT");
-		System.out.println(view.getAllMarkedFiles());
+	    // SKICKAR REQUEST MED ALLA FILER SOM SKALL CONVERTERAS
+	    System.out.println("CONVERT");
+	    System.out.println(view.getAllMarkedFiles());
 
 	}
     }
@@ -63,15 +64,15 @@ public class Controller {
 	}
     }
 
-
-    class SearchListener implements ActionListener, Runnable {
+    class QuerySearchListener implements ActionListener, Runnable {
 	public void actionPerformed(ActionEvent e) {
-
+	    new Thread(this).start();
 	}
 
 	@Override
 	public void run() {
-
+	    String pubmed = view.getQuerySearchString();
+	    model.search(pubmed);
 	}
     }
 
@@ -110,21 +111,21 @@ public class Controller {
     }
 
     class BrowseListener implements ActionListener, Runnable {
-    	@Override
-    	public void actionPerformed(ActionEvent actionEvent) {
-    		new Thread(this).start();
-    	}
+	@Override
+	public void actionPerformed(ActionEvent actionEvent) {
+	    new Thread(this).start();
+	}
 
-    	@Override
-    	public void run() {
-    		int returnVal = fileChooser.showOpenDialog(new JPanel());
-    		if(returnVal == JFileChooser.APPROVE_OPTION) {
-    			String filePath =
-    					fileChooser.getSelectedFile().getAbsolutePath();
+	@Override
+	public void run() {
+	    int returnVal = fileChooser.showOpenDialog(new JPanel());
+	    if (returnVal == JFileChooser.APPROVE_OPTION) {
+		String filePath = fileChooser.getSelectedFile()
+			.getAbsolutePath();
 
-    		    view.updateFileChosen(filePath);
-    		}
-    	}
+		view.updateFileChosen(filePath);
+	    }
+	}
     }
 
     class DownloadListener implements ActionListener, Runnable {
@@ -132,7 +133,7 @@ public class Controller {
 	@Override
 	public void actionPerformed(ActionEvent actionEvent) {
 
-		new Thread(this).start();
+	    new Thread(this).start();
 	}
 
 	@Override

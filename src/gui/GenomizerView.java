@@ -20,9 +20,11 @@ public interface GenomizerView {
 
     public void addBrowseListener(ActionListener listener);
 
-	public void addConvertFileListener(ActionListener listener);
+    public void addConvertFileListener(ActionListener listener);
 
-	public ArrayList<JCheckBox> getAllMarkedFiles();
+    public ArrayList<JCheckBox> getAllMarkedFiles();
+
+    public void addQuerySearchListener(ActionListener listener);
 
     public String getPassword();
 
@@ -36,7 +38,8 @@ public interface GenomizerView {
 
     public JFrame getFrame();
 
-	public void updateFileChosen(String directoryAsString);
+    public void updateFileChosen(String directoryAsString);
 
+    public String getQuerySearchString();
 
 }
