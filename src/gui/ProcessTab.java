@@ -82,6 +82,11 @@ public class ProcessTab extends JPanel {
 		menuPanel.add(profileButton);
 		menuPanel.add(regionButton);
 		menuPanel.add(scheduleButton);
+
+		convertButton.setEnabled(false);
+		regionButton.setEnabled(false);
+		scheduleButton.setEnabled(false);
+
 	}
 
 	private void initTimePanel() {
@@ -203,6 +208,18 @@ public class ProcessTab extends JPanel {
 
     public void addConvertFileListener(ActionListener listener) {
     	convertButton.addActionListener(listener);
+    }
+
+    public void addRawToProfileDataListener(ActionListener listener) {
+    	profileButton.addActionListener(listener);
+    }
+
+    public void addRawToRegionDataListener(ActionListener listener) {
+    	regionButton.addActionListener(listener);
+    }
+
+    public void addScheduleFileListener(ActionListener listener) {
+    	scheduleButton.addActionListener(listener);
     }
 
 	private int getNumberOfJobsInQueue(){

@@ -57,7 +57,7 @@ public class SearchResponse extends Response {
 	}
     }
 
-    public static void main(String args[]) {
+    public static String getJsonExample() {
 	SearchResponse response = new SearchResponse("s", "df", null, null);
 	Gson gson = new Gson();
 	AnnotationData[] annotationData = new AnnotationData[1];
@@ -78,13 +78,8 @@ public class SearchResponse extends Response {
 
 	}
 	String json = gson.toJson(searchResponses);
-	System.out.println(json);
-
-	SearchResponse[] responses2 = gson.fromJson(json,
-		SearchResponse[].class);
-	for (int i = 0; i < responses2.length; i++) {
-	    System.out.println(responses2[i]);
-	}
+	// System.out.println(json);
+	return json;
 
     }
 
