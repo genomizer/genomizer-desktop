@@ -1,17 +1,11 @@
 package controller;
 
 import gui.GenomizerView;
-import gui.CheckListItem;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import java.util.ArrayList;
 
-import javax.swing.JCheckBox;
 import javax.swing.JFileChooser;
-import javax.swing.JList;
 import javax.swing.JPanel;
 
 import model.GenomizerModel;
@@ -31,7 +25,7 @@ public class Controller {
 	view.addUploadFileListener(new UploadListener());
 	view.addBrowseListener(new BrowseListener());
 	view.addConvertFileListener(new ConvertFileListener());
-	//view.addFileListMouseListener(new MouseAdapter(mouseClicked(MouseEvent event) );
+	view.addQuerySearchListener(new QuerySearchListener());
 
     }
 
@@ -44,10 +38,9 @@ public class Controller {
 	@Override
 	public void run() {
 
-		//SKICKAR REQUEST MED ALLA FILER SOM SKALL CONVERTERAS
-		for(int i = 0; i < view.getAllMarkedFiles().size(); i++){
-			System.out.println("CONVERTING [" + view.getAllMarkedFiles().get(i) + "]");
-		}
+	    // SKICKAR REQUEST MED ALLA FILER SOM SKALL CONVERTERAS
+	    System.out.println("CONVERT");
+	    System.out.println(view.getAllMarkedFiles());
 
 	}
     }
@@ -146,24 +139,5 @@ public class Controller {
 	@Override
 	public void run() {
 	}
-    }
-
-    public void mouseClicked(MouseEvent event)
-    {
-       JList list = (JList) event.getSource();
-
-       // Get index of item clicked
-
-       int index = list.locationToIndex(event.getPoint());
-       CheckListItem item = (CheckListItem)
-          list.getModel().getElementAt(index);
-
-       // Toggle selected state
-
-       item.setSelected(! item.isSelected());
-
-       // Repaint cell
-
-       list.repaint(list.getCellBounds(index, index));
     }
 }
