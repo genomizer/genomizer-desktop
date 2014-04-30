@@ -1,5 +1,6 @@
 package controller;
 
+import gui.DownloadWindow;
 import gui.GenomizerView;
 
 import java.awt.event.ActionEvent;
@@ -26,7 +27,8 @@ public class Controller {
 	view.addBrowseListener(new BrowseListener());
 	view.addConvertFileListener(new ConvertFileListener());
 	view.addQuerySearchListener(new QuerySearchListener());
-
+	view.addDownloadFileListener(new DownloadListener());
+	
     }
 
     class ConvertFileListener implements ActionListener, Runnable {
@@ -138,6 +140,7 @@ public class Controller {
 
 	@Override
 	public void run() {
+		new DownloadWindow();
 	}
     }
 }

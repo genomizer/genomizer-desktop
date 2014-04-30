@@ -94,10 +94,4 @@ public class DownloadWindow extends JFrame {
     	setSize(500,500);
 		setVisible(true);
 	}
-
-    public static void main(String args[]) {
-
-    	new DownloadWindow();
-
-    }
 }

@@ -139,7 +139,7 @@ public class GUI extends JFrame implements GenomizerView {
 
     @Override
     public void addDownloadFileListener(ActionListener listener) {
-	// TODO Auto-generated method stub
+		workspaceTab.addDownloadFileListener(listener);
     }
 
     @Override
