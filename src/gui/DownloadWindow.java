@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.Vector;
 
 import javax.swing.DefaultCellEditor;
+import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -24,6 +25,7 @@ public class DownloadWindow extends JFrame {
 	private static final long serialVersionUID = -7647204230941649167L;
 	JPanel panel;
 	JTable table;
+	JButton downloadButton;
 
 	//Tar in ArrayList med de filer som valdes
 	public DownloadWindow(ArrayList<String> files) {
@@ -36,7 +38,10 @@ public class DownloadWindow extends JFrame {
 
 		data.add("Protein123_A5_2014.WIG");
 		data.add("Protein123_A5_2014.RAW");
-		data.add("Protein123_A5_2014.WIG");
+		data.add("Protein231_A5_2014.WIG");
+		data.add("Protein211_A5_2014.WIG");
+		data.add("Protein223_A5_2014.RAW");
+		data.add("Protein112_A5_2014.WIG");
 
 		setUp(data);
 	}
@@ -68,18 +73,22 @@ public class DownloadWindow extends JFrame {
 		}
 
 		JComboBox comboBox = new JComboBox();
-		comboBox.addItem("Format1");
-		comboBox.addItem("Format2");
-		comboBox.addItem("Format3");
+		comboBox.addItem("RAW");
+		comboBox.addItem("WIG");
 		DefaultCellEditor cellEditor = new DefaultCellEditor(comboBox);
 		formatConversionColumn.setCellEditor(cellEditor);
 
-    	table.setBackground(Color.blue);
+    	table.setBackground(Color.cyan);
     	table.setRowHeight(30);
 
     	JScrollPane scrollPane = new JScrollPane(table);
     	panel.add(scrollPane, BorderLayout.CENTER);
     	panel.add(table.getTableHeader(), BorderLayout.NORTH);
+
+    	downloadButton = new JButton("Download");
+    	JPanel flowSouth = new JPanel();
+    	flowSouth.add(downloadButton);
+    	panel.add(flowSouth, BorderLayout.SOUTH);
 
     	setTitle("DOWNLOAD FILES");
     	setSize(500,500);
