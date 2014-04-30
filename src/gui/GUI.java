@@ -98,6 +98,18 @@ public class GUI extends JFrame implements GenomizerView {
 	processTab.addConvertFileListener(listener);
     }
 
+    public void addRawToProfileDataListener(ActionListener listener) {
+   	processTab.addRawToProfileDataListener(listener);
+    }
+
+    public void addRawToRegionDataListener(ActionListener listener) {
+    processTab.addRawToRegionDataListener(listener);
+    }
+
+    public void addScheduleFileListener(ActionListener listener) {
+    processTab.addScheduleFileListener(listener);
+    }
+
     public ArrayList<String> getAllMarkedFiles() {
 
 	return processTab.getAllMarkedFiles();
@@ -139,7 +151,7 @@ public class GUI extends JFrame implements GenomizerView {
 
     @Override
     public void addDownloadFileListener(ActionListener listener) {
-	// TODO Auto-generated method stub
+		workspaceTab.addDownloadFileListener(listener);
     }
 
     @Override

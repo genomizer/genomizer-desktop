@@ -26,7 +26,11 @@ public class Controller {
 	view.addBrowseListener(new BrowseListener());
 	view.addConvertFileListener(new ConvertFileListener());
 	view.addQuerySearchListener(new QuerySearchListener());
-
+	view.addRawToProfileDataListener(new RawToProfileDataListener());
+	view.addRawToRegionDataListener(new RawToRegionDataListener());
+	view.addScheduleFileListener(new ScheduleFileListener());
+	view.addDownloadFileListener(new DownloadListener());
+	
     }
 
     class ConvertFileListener implements ActionListener, Runnable {
@@ -38,11 +42,55 @@ public class Controller {
 	@Override
 	public void run() {
 
-	    // SKICKAR REQUEST MED ALLA FILER SOM SKALL CONVERTERAS
 	    System.out.println("CONVERT");
 	    System.out.println(view.getAllMarkedFiles());
 
 	}
+    }
+
+    class RawToProfileDataListener implements ActionListener, Runnable {
+    	@Override
+    	public void actionPerformed(ActionEvent e) {
+    	    new Thread(this).start();
+    	}
+
+    	@Override
+    	public void run() {
+
+    	    System.out.println("RAW TO PROFILE");
+    	    System.out.println(view.getAllMarkedFiles());
+
+    	}
+    }
+
+    class RawToRegionDataListener implements ActionListener, Runnable {
+    	@Override
+    	public void actionPerformed(ActionEvent e) {
+    	    new Thread(this).start();
+    	}
+
+    	@Override
+    	public void run() {
+
+    	    System.out.println("RAW TO REGION");
+    	    System.out.println(view.getAllMarkedFiles());
+
+    	}
+    }
+
+    class ScheduleFileListener implements ActionListener, Runnable {
+    	@Override
+    	public void actionPerformed(ActionEvent e) {
+    	    new Thread(this).start();
+    	}
+
+    	@Override
+    	public void run() {
+
+    	    System.out.println("SCHEDULEING FILE");
+    	    System.out.println(view.getAllMarkedFiles());
+
+    	}
     }
 
     class LoginListener implements ActionListener, Runnable {
@@ -138,6 +186,7 @@ public class Controller {
 
 	@Override
 	public void run() {
+		new DownloadWindow();
 	}
     }
 }

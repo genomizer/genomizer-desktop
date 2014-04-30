@@ -42,4 +42,10 @@ public interface GenomizerView {
 
     public String getQuerySearchString();
 
+	public void addScheduleFileListener(ActionListener listener);
+
+	public void addRawToProfileDataListener(ActionListener listener);
+
+	public void addRawToRegionDataListener(ActionListener listener);
+
 }
