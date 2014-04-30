@@ -3,12 +3,10 @@ package model;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import requests.AddFileToExperiment;
-import requests.LoginRequest;
-import requests.LogoutRequest;
-import requests.RequestFactory;
-import requests.SearchRequest;
-import requests.rawToProfileRequest;
+import com.google.gson.Gson;
+import communication.DownloadHandler;
+import requests.*;
+import responses.DownloadFileResponse;
 import responses.LoginResponse;
 import responses.ResponseParser;
 import responses.SearchResponse;
@@ -55,13 +53,13 @@ public class Model implements GenomizerModel {
 		conn.sendRequest(rawToProfilerequest, userID, "text/plain");
 		if (conn.getResponseCode() == 201) {
 		    return true;
-		    // TODO Fixa så att det syns bör användaren att filen gick
+		    // TODO Fixa sï¿½ att det syns bï¿½r anvï¿½ndaren att filen gick
 		    // attt konverteras.
 		} else {
 		    return false;
 		    // TODO Fixa felmeddelande i gui ifall det inte gick att
 		    // convertera till profile.
-		    // TODO Köra nån timer för response.
+		    // TODO Kï¿½ra nï¿½n timer fï¿½r response.
 		}
 
 	    }
@@ -109,10 +107,22 @@ public class Model implements GenomizerModel {
 	}
 	UploadHandler handler = new UploadHandler(
 		"http://127.0.0.1:25652/test",
-		"/home/dv12/dv12csr/edu/test321", userID);
+		"/home/dv12/dv12csr/edu/test321", userID, "pvt:pvt");
 	Thread thread = new Thread(handler);
 	thread.start();
 	return true;
+    }
+
+    public boolean downloadFile() {
+        DownloadFileRequest request = RequestFactory.makeDownloadFileRequest("test.wig", ".wig");
+        conn.sendRequest(request, userID, "text/plain");
+        Gson gson = new Gson();
+        DownloadFileResponse response = gson.fromJson(conn.getResponseBody(), DownloadFileResponse.class);
+        DownloadHandler handler = new DownloadHandler("pvt", "pvt");
+        String homeDir = System.getProperty("user.home");
+        handler.download("http://sterner.cc", homeDir + "/testFile.txt", userID);
+        System.out.println("Test");
+        return true;
     }
 
     public ArrayList<HashMap<String, String>> search(String pubmedString) {

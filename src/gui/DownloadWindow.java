@@ -3,6 +3,7 @@ package gui;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.Vector;
 
@@ -102,4 +103,8 @@ public class DownloadWindow extends JFrame {
     	setLocationRelativeTo(null);
 		setVisible(true);
 	}
+
+    public void addDownloadFileListener(ActionListener listener) {
+        downloadButton.addActionListener(listener);
+    }
 }

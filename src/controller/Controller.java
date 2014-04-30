@@ -1,5 +1,6 @@
 package controller;
 
+import communication.DownloadHandler;
 import gui.DownloadWindow;
 import gui.GenomizerView;
 
@@ -32,7 +33,7 @@ public class Controller {
 	view.addRawToProfileDataListener(new RawToProfileDataListener());
 	view.addRawToRegionDataListener(new RawToRegionDataListener());
 	view.addScheduleFileListener(new ScheduleFileListener());
-	view.addDownloadFileListener(new DownloadListener());
+	view.addDownloadFileListener(new DownloadWindowListener());
 
     }
 
@@ -185,7 +186,7 @@ public class Controller {
 	}
     }
 
-    class DownloadListener implements ActionListener, Runnable {
+    class DownloadWindowListener implements ActionListener, Runnable {
 
 	@Override
 	public void actionPerformed(ActionEvent actionEvent) {
@@ -196,10 +197,25 @@ public class Controller {
 	@Override
 	public void run() {
 	    /*
-	     * TODO När vi har faktiska filer som ska nedladdas: använd den
-	     * andra konstruktorn new DownloadWindow(ArrayList<String>) istället
+	     * TODO Nï¿½r vi har faktiska filer som ska nedladdas: anvï¿½nd den
+	     * andra konstruktorn new DownloadWindow(ArrayList<String>) istï¿½llet
 	     */
-	    new DownloadWindow();
-	}
+        DownloadWindow downloadWindow = new DownloadWindow();
+        downloadWindow.addDownloadFileListener(new DownloadFileListener());
+        }
+    }
+
+    class DownloadFileListener implements ActionListener, Runnable {
+
+        @Override
+        public void actionPerformed(ActionEvent actionEvent) {
+
+            new Thread(this).start();
+        }
+
+        @Override
+        public void run() {
+            model.downloadFile();
+        }
     }
 }

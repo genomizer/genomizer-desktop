@@ -1,5 +1,7 @@
 package communication;
 
+import org.apache.commons.codec.binary.Base64;
+
 import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
@@ -9,25 +11,30 @@ public class UploadHandler implements Runnable {
     private String url;
     private String fileName;
     private String userID;
+    private String authString;
 
-    public UploadHandler(String url, String fileName, String userID) {
+    public UploadHandler(String url, String fileName, String userID, String authString) {
         this.url = url;
         this.fileName = fileName;
         this.userID = userID;
+        this.authString = authString;
     }
 
     @Override
     public void run() {
         try {
             sendSetupPackage();
-            URL targetUrl = new URL(url);
+            URL targetUrl = new URL("http://scratchy.cs.umu.se:8090/html/upload.php");
             HttpURLConnection connection = (HttpURLConnection)
                     targetUrl.openConnection();
             connection.setDoOutput(true);
+            byte[] authEncBytes = Base64.encodeBase64(authString.getBytes());
+            String authStringEnc = new String(authEncBytes);
             connection.setReadTimeout(1000);
             connection.setRequestMethod("POST");
+            connection.setRequestProperty("path", url);
             connection.setRequestProperty("Content-Type", "text/plain");
-            connection.setRequestProperty("Authorization", userID);
+            connection.setRequestProperty("Authorization", "Basic " + authStringEnc);
             PrintWriter outputStream = new PrintWriter(
                     connection.getOutputStream(), true);
             File file = new File(fileName);
