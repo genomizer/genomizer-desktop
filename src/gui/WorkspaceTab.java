@@ -7,6 +7,7 @@ import java.awt.GridBagLayout;
 import java.awt.Image;
 import java.awt.Insets;
 import java.awt.Toolkit;
+import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.net.URL;
@@ -136,5 +137,9 @@ public class WorkspaceTab extends JPanel {
 	        System.err.println("Couldn't find file: " + path);
 	        return null;
 	    }
+	}
+
+	public void addDownloadFileListener(ActionListener listener) {
+		downloadButton.addActionListener(listener);
 	}
 }

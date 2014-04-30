@@ -1,6 +1,5 @@
 package model;
 
-import java.util.HashMap;
 
 public interface GenomizerModel {
 
@@ -10,5 +9,5 @@ public interface GenomizerModel {
 
     public boolean uploadFile();
 
-    public boolean search(HashMap annotations);
+    public boolean search(String pubmedString);
 }

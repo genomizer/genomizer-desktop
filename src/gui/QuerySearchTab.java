@@ -1,11 +1,10 @@
 package gui;
 
 import java.awt.BorderLayout;
-import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
+import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
@@ -26,13 +25,19 @@ import javax.swing.event.DocumentListener;
 public class QuerySearchTab extends JPanel {
     private JPanel searchPanel;
     private JPanel builderPanel;
+    private JPanel rowsPanel;
     private JButton clearButton;
+    private JButton searchButton;
     private JTextArea searchArea;
     private ArrayList<RowBuilder> rowList;
     private GridBagConstraints gbc;
+    private static final String[] logicOperators = { "AND", "NOT", "OR" };
+    private static final String[] annotations = { "Uploader", "Date", "Sex",
+	    "Species", "ExperimentID", "Value", "Name" };
 
     public QuerySearchTab() {
 	this.setLayout(new BorderLayout());
+	setPreferredSize(new Dimension(700, 700));
 	createSearchPanel();
 	add(searchPanel, BorderLayout.NORTH);
 	createBuilderPanel();
@@ -45,7 +50,7 @@ public class QuerySearchTab extends JPanel {
 		.createTitledBorder("Genomizer Advanced Search Builder"));
 	FlowLayout fl = new FlowLayout();
 	searchPanel = new JPanel(fl);
-	searchPanel.setBackground(Color.BLUE);
+	searchButton = new JButton("Search");
 	clearButton = new JButton("Clear");
 	clearButton.addActionListener(new ActionListener() {
 
@@ -57,31 +62,22 @@ public class QuerySearchTab extends JPanel {
 	searchArea = new JTextArea(
 		"Use the builder below to create your search");
 	searchArea.setLineWrap(true);
-	searchArea.setBorder(BorderFactory.createLineBorder(Color.LIGHT_GRAY));
 	searchArea.setSize(1000, 20);
 	searchPanel.add(searchArea);
 	searchPanel.add(clearButton);
+	searchPanel.add(searchButton);
     }
 
     private void createBuilderPanel() {
-	GridBagLayout gb = new GridBagLayout();
+	builderPanel = new JPanel(new BorderLayout());
+	rowsPanel = new JPanel(new GridLayout(0, 1));
+	builderPanel.add(rowsPanel, BorderLayout.NORTH);
 	JScrollPane scroll = new JScrollPane(builderPanel);
-	// scroll.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
-	builderPanel = new JPanel(gb);
-	builderPanel.setBackground(Color.RED);
-	gbc = new GridBagConstraints();
-	gbc.fill = GridBagConstraints.VERTICAL;
-	gbc.anchor = GridBagConstraints.WEST;
-	gbc.gridy = 0;
-	gbc.gridx = 0;
-	// add(scroll, BorderLayout.CENTER);
-	add(builderPanel);
+	add(scroll, BorderLayout.CENTER);
     }
 
     private void clearSearchFields() {
-
 	rowList = new ArrayList<RowBuilder>();
-	addRow();
 	addRow();
 	searchArea.setText("Use the builder below to create your search");
 	builderPanel.repaint();
@@ -101,12 +97,10 @@ public class QuerySearchTab extends JPanel {
     }
 
     private void showRows() {
-	builderPanel.removeAll();
-	gbc.gridy = 0;
+	rowsPanel.removeAll();
 	for (int i = 0; i < rowList.size(); i++) {
 	    RowBuilder row = rowList.get(i);
 	    if (i == 0 && i == (rowList.size() - 1)) {
-		System.out.println("both");
 		row.setAs(true, true);
 	    } else if (i == 0 && i != (rowList.size() - 1)) {
 		row.setAs(true, false);
@@ -115,11 +109,10 @@ public class QuerySearchTab extends JPanel {
 	    } else {
 		row.setAs(false, false);
 	    }
-	    builderPanel.add(row, gbc);
-	    gbc.gridy++;
+	    rowsPanel.add(row);
 	}
-	builderPanel.repaint();
-	builderPanel.revalidate();
+	rowsPanel.repaint();
+	rowsPanel.revalidate();
     }
 
     public synchronized void updateSearchArea() {
@@ -143,9 +136,15 @@ public class QuerySearchTab extends JPanel {
 		i++;
 	    }
 	}
-	if (i != 0) {
-	    searchArea.setText(searchString);
-	}
+	searchArea.setText(searchString);
+    }
+
+    public void addSearchButtonListener(ActionListener listener) {
+	searchButton.addActionListener(listener);
+    }
+
+    public String getSearchString() {
+	return searchArea.getText();
     }
 
     private class RowBuilder extends JPanel {
@@ -158,8 +157,7 @@ public class QuerySearchTab extends JPanel {
 
 	public RowBuilder(QuerySearchTab parent) {
 	    this.parent = parent;
-	    FlowLayout fl = new FlowLayout();
-	    setLayout(fl);
+	    setLayout(new FlowLayout());
 	    setPlusButton();
 	    setMinus();
 	    setLogicBox();
@@ -169,19 +167,30 @@ public class QuerySearchTab extends JPanel {
 
 	public void setAs(Boolean firstRow, Boolean lastRow) {
 	    removeAll();
-	    if (firstRow) {
+
+	    if (firstRow && lastRow) {
 		add(Box.createHorizontalStrut(73));
+		add(annotationField);
+		add(textField);
+		add(plusButton);
+		add(Box.createHorizontalStrut(20));
+	    } else if (firstRow && !lastRow) {
+		add(Box.createHorizontalStrut(73));
+		add(annotationField);
+		add(textField);
+		add(Box.createHorizontalStrut(45));
+	    } else if (!firstRow && !lastRow) {
+		add(logicField);
+		add(annotationField);
+		add(textField);
+		add(minusButton);
+		add(Box.createHorizontalStrut(20));
 	    } else {
 		add(logicField);
-	    }
-	    add(annotationField);
-	    add(textField);
-	    if (!firstRow) {
+		add(annotationField);
+		add(textField);
 		add(minusButton);
-	    }
-	    if (lastRow) {
 		add(plusButton);
-
 	    }
 	}
 
@@ -243,8 +252,7 @@ public class QuerySearchTab extends JPanel {
 	}
 
 	private void setFieldBox() {
-	    String[] fields = { "Author", "Book" };
-	    annotationField = new JComboBox(fields);
+	    annotationField = new JComboBox(annotations);
 	    annotationField.addActionListener(new ActionListener() {
 		public void actionPerformed(ActionEvent e) {
 		    parent.updateSearchArea();
@@ -253,8 +261,7 @@ public class QuerySearchTab extends JPanel {
 	}
 
 	private void setLogicBox() {
-	    String[] logics = { "AND", "OR", "NOT" };
-	    logicField = new JComboBox(logics);
+	    logicField = new JComboBox(logicOperators);
 	    logicField.addActionListener(new ActionListener() {
 		public void actionPerformed(ActionEvent e) {
 		    parent.updateSearchArea();

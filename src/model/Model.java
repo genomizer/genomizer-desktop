@@ -1,7 +1,5 @@
 package model;
 
-import java.util.HashMap;
-
 import requests.AddFileToExperiment;
 import requests.LoginRequest;
 import requests.LogoutRequest;
@@ -82,10 +80,9 @@ public class Model implements GenomizerModel {
 	return true;
     }
 
-    public boolean search(HashMap annotations) {
-	String annotationString = "";
-	SearchRequest request = RequestFactory
-		.makeSearchRequest(annotationString);
+    public boolean search(String pubmedString) {
+	System.out.println("search sent");
+	SearchRequest request = RequestFactory.makeSearchRequest(pubmedString);
 	conn.sendRequest(request, userID, "text/plain");
 	if (conn.getResponseCode() == 200) {
 	    return true; // return search results?

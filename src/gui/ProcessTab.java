@@ -6,6 +6,8 @@ import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 
 import javax.swing.AbstractButton;
@@ -14,10 +16,12 @@ import javax.swing.DefaultListModel;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JLabel;
+import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.ListModel;
+import javax.swing.ListSelectionModel;
 
 public class ProcessTab extends JPanel {
 
@@ -29,19 +33,25 @@ public class ProcessTab extends JPanel {
 	private JPanel genRegionDataPanel = new JPanel();
 	private JPanel convertFilesPanel = new JPanel();
 	private JPanel procQueuePanel= new JPanel();
+	private JPanel menuPanel = new JPanel();
 	private JPanel timePanel = new JPanel();
 	private JPanel middelPanel = new JPanel(new GridLayout(3,1));
 	private JPanel leftPanel = new JPanel(new GridLayout(2,1));
-	private JButton convertButton = new JButton("CONVERT");
-	private ArrayList convertList = new ArrayList();
+	private JButton convertButton = new JButton("CONVERT TO WIG");
+	private JButton profileButton = new JButton("CREATE PROFILE DATA");
+	private JButton regionButton = new JButton("CREATE REGION DATA");
+	private JButton scheduleButton = new JButton("SCHEDULE");
 
 	//SKA VARA JLIST
 	private ArrayList processQueue = new ArrayList();
 
 	private DefaultListModel fileListModel = new DefaultListModel();
-	private JCheckBoxList fileList = new JCheckBoxList();
+	//private JCheckBoxList fileList = new JCheckBoxList();
+	private JList fileList = new JList();
 
 	private JScrollPane scrollFiles = new JScrollPane();
+
+	private ArrayList<JCheckBox> arrayCheck = new ArrayList<JCheckBox>();
 
 	public ProcessTab(){
 		this.setLayout(new BorderLayout());
@@ -50,6 +60,7 @@ public class ProcessTab extends JPanel {
 
 	private void initPanels(){
 
+		initNorthPanel();
 		initWestPanels();
 		initMiddlePanel();
 		initEastPanels();
@@ -60,6 +71,17 @@ public class ProcessTab extends JPanel {
 
 		printTimePanel();
 
+	}
+
+	private void initNorthPanel() {
+
+		this.add(menuPanel,BorderLayout.NORTH);
+		menuPanel.setPreferredSize(new Dimension(300,100));
+
+		menuPanel.add(convertButton);
+		menuPanel.add(profileButton);
+		menuPanel.add(regionButton);
+		menuPanel.add(scheduleButton);
 	}
 
 	private void initTimePanel() {
@@ -96,19 +118,42 @@ public class ProcessTab extends JPanel {
 
 	private void initFileList(){
 
+        fileList = new JList(new CheckListItem[] {
+        		new CheckListItem("[0] Protein223_A5_2014.RAW"),
+                new CheckListItem("[1] Protein223_A5_2014.RAW"),
+                new CheckListItem("[2] Protein223_A5_2014.RAW"),
+                new CheckListItem("[3] Protein223_A5_2014.RAW"),
+                new CheckListItem("[4] Protein223_A5_2014.RAW")});
+
+          fileList.setCellRenderer(new CheckListRenderer());
+          fileList.setSelectionMode(
+             ListSelectionModel.SINGLE_SELECTION);
+
+
+          fileList.addMouseListener(new MouseAdapter()
+          {
+             public void mouseClicked(MouseEvent event)
+             {
+                JList list = (JList) event.getSource();
+
+                int index = list.locationToIndex(event.getPoint());
+                CheckListItem item = (CheckListItem)
+                   list.getModel().getElementAt(index);
+
+                item.setSelected(! item.isSelected());
+
+
+                list.repaint(list.getCellBounds(index, index));
+             }
+          });
+
         scrollFiles = new JScrollPane( fileList );
 
-        fileList.setBorder(BorderFactory.createTitledBorder("FILES"));
-    	fileList.setModel(fileListModel);
-    	fileList.setFixedCellWidth(265);
-    	fileList.setFixedCellHeight(40);
+        scrollFiles.setBorder(BorderFactory.createTitledBorder("FILES"));
+        fileList.setFixedCellWidth(265);
+        fileList.setFixedCellHeight(40);
 
-		Object[] cbArray = new Object[16];
-    	for(int i = 0; i < 16; i++) {
-    		cbArray[i] = new JCheckBox("[" + i + "] Protein223_A5_2014.WIG");
-    	}
-    	fileList.setListData(cbArray);
-        filesPanel.add( scrollFiles );
+        filesPanel.add(scrollFiles);
 	}
 
 	private void initMiddlePanel(){
@@ -124,7 +169,6 @@ public class ProcessTab extends JPanel {
 
 		middelPanel.add(convertFilesPanel);
 		convertFilesPanel.setBorder( BorderFactory.createTitledBorder("CONVERT FILES"));
-		convertFilesPanel.add(convertButton);
 
 	}
 
@@ -139,22 +183,22 @@ public class ProcessTab extends JPanel {
 
 	}
 
-	public ArrayList<JCheckBox> getAllMarkedFiles(){
+	public ArrayList<String> getAllMarkedFiles(){
 
-		ArrayList<JCheckBox> arrayCheck = new ArrayList<JCheckBox>();
+		ArrayList<String> arr = new ArrayList<String>();
 
+		for(int i = 0; i < fileList.getModel().getSize();i++){
+			CheckListItem checkItem = (CheckListItem) fileList.getModel().getElementAt(i);
 
-		for(int i = 0; i < fileListModel.size();i++){
-
-			JCheckBox checkbox = (JCheckBox) fileList.getModel().getElementAt(i);
-
-			if(checkbox.isSelected()){
-				arrayCheck.add(checkbox);
+			if(checkItem.isSelected()){
+				arr.add(checkItem.toString());
 			}
 		}
-		return arrayCheck;
-		//return fileList.getSelectedIndex();
-		//return fileList.getSelectionModel().isSelectedIndex(0);
+		return arr;
+	}
+
+	public void addFileListMouseListener(MouseAdapter mouseAdapter){
+		//fileList.addMouseListener(mouseAdapter);
 	}
 
     public void addConvertFileListener(ActionListener listener) {

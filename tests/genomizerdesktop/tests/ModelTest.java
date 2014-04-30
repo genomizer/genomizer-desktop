@@ -1,11 +1,13 @@
 package genomizerdesktop.tests;
 
-import static org.junit.Assert.*;
-
+import static org.junit.Assert.assertTrue;
+import model.GenomizerModel;
 import model.Model;
 
 import org.junit.Before;
 import org.junit.Test;
+
+import communication.Connection;
 
 public class ModelTest {
 
@@ -13,11 +15,17 @@ public class ModelTest {
 
     @Before
     public void setUp() {
-	 m = new Model();
+	Connection conn = null;
+	 m = new Model(conn);
     }
 
     @Test
     public void ShouldHandleUploadRequests() {
 
+    }
+
+    @Test
+    public void shouldImplementGenomizerView() {
+	assertTrue(m instanceof GenomizerModel);
     }
 }

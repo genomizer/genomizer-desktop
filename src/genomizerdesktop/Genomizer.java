@@ -37,5 +37,6 @@ public class Genomizer {
 	Model model = new Model(con);
 	Controller controller = new Controller(gui, model);
 	gui.showLoginWindow();
+	gui.pack();
     }
 }
