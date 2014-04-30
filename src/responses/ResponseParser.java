@@ -5,7 +5,7 @@ import com.google.gson.JsonParseException;
 
 public class ResponseParser {
 
-	private static Gson gson = new Gson();
+    private static Gson gson = new Gson();
 
     public static LoginResponse parseLoginResponse(String json) {
 	LoginResponse loginResponse = null;
@@ -17,11 +17,14 @@ public class ResponseParser {
 	return loginResponse;
     }
 
-    private static String getHttpPart(String response) {
-	return "http";
+    public static SearchResponse[] parseSearchResponse(String json) {
+	SearchResponse[] searchResponses = null;
+	try {
+	    searchResponses = gson.fromJson(json, SearchResponse[].class);
+	} catch (JsonParseException e) {
+	    return null;
+	}
+	return searchResponses;
     }
 
-    private static String getJsonPart(String response) {
-	return "json";
-    }
 }

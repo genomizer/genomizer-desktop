@@ -1,6 +1,5 @@
 package responses;
 
-import com.google.gson.Gson;
 
 public class SearchResponse extends Response {
 
@@ -56,36 +55,36 @@ public class SearchResponse extends Response {
 	    this.value = value;
 	}
     }
-
-    public static void main(String args[]) {
-	SearchResponse response = new SearchResponse("s", "df", null, null);
-	Gson gson = new Gson();
-	AnnotationData[] annotationData = new AnnotationData[1];
-	for (int i = 0; i < 1; i++) {
-	    annotationData[i] = response.new AnnotationData("1", "Species",
-		    "Human");
-	}
-	FileData[] fileData = new FileData[1];
-	for (int i = 0; i < 1; i++) {
-	    fileData[i] = response.new FileData("2", "wig", "file", "kalle",
-		    "12-12-12", "12GB", "///");
-	}
-
-	SearchResponse[] searchResponses = new SearchResponse[3];
-	for (int i = 0; i < 3; i++) {
-	    searchResponses[i] = new SearchResponse("Experiment" + i, "Kalle",
-		    fileData, annotationData);
-
-	}
-	String json = gson.toJson(searchResponses);
-	System.out.println(json);
-
-	SearchResponse[] responses2 = gson.fromJson(json,
-		SearchResponse[].class);
-	for (int i = 0; i < responses2.length; i++) {
-	    System.out.println(responses2[i]);
-	}
-
-    }
+    //
+    // public static void main(String args[]) {
+    // SearchResponse response = new SearchResponse("s", "df", null, null);
+    // Gson gson = new Gson();
+    // AnnotationData[] annotationData = new AnnotationData[1];
+    // for (int i = 0; i < 1; i++) {
+    // annotationData[i] = response.new AnnotationData("1", "Species",
+    // "Human");
+    // }
+    // FileData[] fileData = new FileData[1];
+    // for (int i = 0; i < 1; i++) {
+    // fileData[i] = response.new FileData("2", "wig", "file", "kalle",
+    // "12-12-12", "12GB", "///");
+    // }
+    //
+    // SearchResponse[] searchResponses = new SearchResponse[3];
+    // for (int i = 0; i < 3; i++) {
+    // searchResponses[i] = new SearchResponse("Experiment" + i, "Kalle",
+    // fileData, annotationData);
+    //
+    // }
+    // String json = gson.toJson(searchResponses);
+    // System.out.println(json);
+    //
+    // SearchResponse[] responses2 = gson.fromJson(json,
+    // SearchResponse[].class);
+    // for (int i = 0; i < responses2.length; i++) {
+    // System.out.println(responses2[i]);
+    // }
+    //
+    // }
 
 }

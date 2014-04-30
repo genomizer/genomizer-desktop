@@ -1,11 +1,9 @@
 package requests;
 
 import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-
 
 public class Request {
-    public String requestName;
+    public transient String requestName;
     public transient String url;
     public transient String type;
 

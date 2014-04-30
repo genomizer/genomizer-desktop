@@ -1,6 +1,5 @@
 package model;
 
-
 public interface GenomizerModel {
 
     public boolean loginUser(String username, String password);
@@ -9,5 +8,5 @@ public interface GenomizerModel {
 
     public boolean uploadFile();
 
-    public boolean search(String pubmedString);
+    public String search(String pubmedString);
 }

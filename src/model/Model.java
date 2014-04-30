@@ -7,6 +7,7 @@ import requests.RequestFactory;
 import requests.SearchRequest;
 import responses.LoginResponse;
 import responses.ResponseParser;
+import responses.SearchResponse;
 
 import communication.Connection;
 import communication.UploadHandler;
@@ -80,15 +81,17 @@ public class Model implements GenomizerModel {
 	return true;
     }
 
-    public boolean search(String pubmedString) {
-	System.out.println("search sent");
+    public String search(String pubmedString) {
 	SearchRequest request = RequestFactory.makeSearchRequest(pubmedString);
 	conn.sendRequest(request, userID, "text/plain");
 	if (conn.getResponseCode() == 200) {
-	    return true; // return search results?
-	} else {
-	    return false;
+	    SearchResponse[] searchResponses = ResponseParser
+		    .parseSearchResponse(conn.getResponseBody());
+	    if (searchResponses != null && searchResponses.length > 0) {
+		return searchResponses[0].name;
+	    }
 	}
+	return null;
     }
 
 }
