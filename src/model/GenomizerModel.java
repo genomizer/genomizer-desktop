@@ -1,5 +1,7 @@
 package model;
 
+import java.util.ArrayList;
+
 public interface GenomizerModel {
 
     public boolean loginUser(String username, String password);
@@ -9,4 +11,6 @@ public interface GenomizerModel {
     public boolean uploadFile();
 
     public String search(String pubmedString);
+
+    public boolean rawToProfile(ArrayList<String> markedFiles);
 }

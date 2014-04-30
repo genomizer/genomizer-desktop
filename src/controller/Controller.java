@@ -31,7 +31,7 @@ public class Controller {
 	view.addRawToRegionDataListener(new RawToRegionDataListener());
 	view.addScheduleFileListener(new ScheduleFileListener());
 	view.addDownloadFileListener(new DownloadListener());
-	
+
     }
 
     class ConvertFileListener implements ActionListener, Runnable {
@@ -60,6 +60,8 @@ public class Controller {
 
     	    System.out.println("RAW TO PROFILE");
     	    System.out.println(view.getAllMarkedFiles());
+
+    	    System.out.println(model.rawToProfile(view.getAllMarkedFiles()));
 
     	}
     }
@@ -187,6 +189,9 @@ public class Controller {
 
 	@Override
 	public void run() {
+		/*
+		 * TODO När vi har faktiska filer som ska nedladdas: använd den andra konstruktorn new DownloadWindow(ArrayList<String>) istället
+		 */
 		new DownloadWindow();
 	}
     }
