@@ -6,7 +6,7 @@ import static org.junit.Assert.assertTrue;
 
 import javax.swing.JPanel;
 
-import genomizerdesktop.GenomizerView;
+import gui.GenomizerView;
 import gui.GUI;
 import gui.SearchTab;
 
