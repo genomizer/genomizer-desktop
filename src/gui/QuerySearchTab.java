@@ -12,11 +12,13 @@ import java.util.ArrayList;
 
 import javax.swing.BorderFactory;
 import javax.swing.Box;
+import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.JTable;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.event.DocumentEvent;
@@ -26,9 +28,13 @@ public class QuerySearchTab extends JPanel {
     private JPanel searchPanel;
     private JPanel builderPanel;
     private JPanel rowsPanel;
+    private JPanel searchEast;
+    private JPanel searchWest;
+    private JScrollPane searchScroll;
     private JButton clearButton;
     private JButton searchButton;
     private JTextArea searchArea;
+    private JTable searchResult;
     private ArrayList<RowBuilder> rowList;
     private GridBagConstraints gbc;
     private static final String[] logicOperators = { "AND", "NOT", "OR" };
@@ -44,12 +50,17 @@ public class QuerySearchTab extends JPanel {
 	clearSearchFields();
     }
 
+    private void addSearchResult() {
+
+    }
+
     private void createSearchPanel() {
 	rowList = new ArrayList<RowBuilder>();
 	setBorder(BorderFactory
 		.createTitledBorder("Genomizer Advanced Search Builder"));
-	FlowLayout fl = new FlowLayout();
-	searchPanel = new JPanel(fl);
+//	FlowLayout fl = new FlowLayout();
+	BorderLayout bl = new BorderLayout();
+	searchPanel = new JPanel(bl);
 	searchButton = new JButton("Search");
 	clearButton = new JButton("Clear");
 	clearButton.addActionListener(new ActionListener() {
@@ -62,10 +73,19 @@ public class QuerySearchTab extends JPanel {
 	searchArea = new JTextArea(
 		"Use the builder below to create your search");
 	searchArea.setLineWrap(true);
-	searchArea.setSize(1000, 20);
-	searchPanel.add(searchArea);
-	searchPanel.add(clearButton);
-	searchPanel.add(searchButton);
+	searchArea.setSize(850, 2);
+	searchWest = new JPanel();
+	searchWest.add(searchArea);
+	searchScroll = new JScrollPane(searchWest);
+	searchScroll.setSize(850, 20);
+//	searchPanel.add(searchArea);
+	searchPanel.add(searchScroll, BorderLayout.WEST);
+	searchEast = new JPanel(new FlowLayout());
+	searchEast.add(clearButton);
+	searchEast.add(searchButton);
+	searchPanel.add(searchEast, BorderLayout.EAST);
+//	searchPanel.add(clearButton);
+//	searchPanel.add(searchButton);
     }
 
     private void createBuilderPanel() {
@@ -82,6 +102,8 @@ public class QuerySearchTab extends JPanel {
 	searchArea.setText("Use the builder below to create your search");
 	builderPanel.repaint();
 	builderPanel.revalidate();
+	searchPanel.repaint();
+	searchPanel.revalidate();
     }
 
     public void addRow() {
