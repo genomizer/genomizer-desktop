@@ -6,6 +6,7 @@ import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
+import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
@@ -65,17 +66,16 @@ public class QuerySearchTab extends JPanel {
 
     private void createBuilderPanel() {
 	GridBagLayout gb = new GridBagLayout();
-	JScrollPane scroll = new JScrollPane(builderPanel);
+
 	// scroll.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
-	builderPanel = new JPanel(gb);
-	builderPanel.setBackground(Color.RED);
+	builderPanel = new JPanel(new GridLayout(0, 1));
+	builderPanel.setBackground(Color.cyan);
+	builderPanel.setPreferredSize(new Dimension(700, 700));
 	gbc = new GridBagConstraints();
-	gbc.fill = GridBagConstraints.VERTICAL;
-	gbc.anchor = GridBagConstraints.WEST;
-	gbc.gridy = 0;
-	gbc.gridx = 0;
-	// add(scroll, BorderLayout.CENTER);
-	add(builderPanel);
+	JScrollPane scroll = new JScrollPane(builderPanel);
+	scroll.setPreferredSize(new Dimension(600, 600));
+	add(scroll, BorderLayout.CENTER);
+	// add(builderPanel, BorderLayout.CENTER);
     }
 
     private void clearSearchFields() {
@@ -102,7 +102,6 @@ public class QuerySearchTab extends JPanel {
 
     private void showRows() {
 	builderPanel.removeAll();
-	gbc.gridy = 0;
 	for (int i = 0; i < rowList.size(); i++) {
 	    RowBuilder row = rowList.get(i);
 	    if (i == 0 && i == (rowList.size() - 1)) {
@@ -115,8 +114,8 @@ public class QuerySearchTab extends JPanel {
 	    } else {
 		row.setAs(false, false);
 	    }
-	    builderPanel.add(row, gbc);
-	    gbc.gridy++;
+	    builderPanel.add(row);
+	    System.out.println("hej");
 	}
 	builderPanel.repaint();
 	builderPanel.revalidate();
@@ -165,6 +164,8 @@ public class QuerySearchTab extends JPanel {
 	    setLogicBox();
 	    setFieldBox();
 	    setTextField();
+	    this.setBackground(Color.green);
+	    setPreferredSize(new Dimension(20, 20));
 	}
 
 	public void setAs(Boolean firstRow, Boolean lastRow) {
