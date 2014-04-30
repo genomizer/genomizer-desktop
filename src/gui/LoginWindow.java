@@ -49,7 +49,7 @@ public class LoginWindow extends JDialog {
 
 	usernameField = new JTextField(20);
 	usernameField.setBounds(100, 10, 160, 25);
-	usernameField.setText("DNAh4xx0R_98");
+	usernameField.setText("Genome researcher 1");
 	mainPanel.add(usernameField);
 
 	JLabel passwordLabel = new JLabel("Password");
