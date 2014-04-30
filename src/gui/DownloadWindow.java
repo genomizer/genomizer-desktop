@@ -53,26 +53,26 @@ public class DownloadWindow extends JFrame {
 		TableColumn fileNameColumn, formatConversionColumn;
 		fileNameColumn = new TableColumn();
 		formatConversionColumn = new TableColumn();
-		fileNameColumn.setHeaderValue("File name");
-		formatConversionColumn.setHeaderValue("Format conversion");
-		
+
 		tableModel.addColumn(fileNameColumn);
 		tableModel.addColumn(formatConversionColumn);
-		
-		table.getTableHeader().getColumnModel().getColumn(0).setHeaderValue(
-				fileNameColumn.getHeaderValue());
-		table.getTableHeader().getColumnModel().getColumn(1).setHeaderValue(
-				formatConversionColumn.getHeaderValue());
+
+		fileNameColumn = table.getTableHeader().getColumnModel().getColumn(0);
+		formatConversionColumn = table.getTableHeader().getColumnModel().getColumn(1);
+
+		fileNameColumn.setHeaderValue("File name");
+		formatConversionColumn.setHeaderValue("Format conversion");
 
 		for(int i=0; i<data.size(); i++) {
 			tableModel.addRow(new Object[]{data.get(i),null});
 		}
-		
+
 		JComboBox comboBox = new JComboBox();
 		comboBox.addItem("Format1");
 		comboBox.addItem("Format2");
 		comboBox.addItem("Format3");
-		formatConversionColumn.setCellEditor(new DefaultCellEditor(comboBox));
+		DefaultCellEditor cellEditor = new DefaultCellEditor(comboBox);
+		formatConversionColumn.setCellEditor(cellEditor);
 
     	table.setBackground(Color.blue);
     	table.setRowHeight(30);
@@ -80,9 +80,6 @@ public class DownloadWindow extends JFrame {
     	JScrollPane scrollPane = new JScrollPane(table);
     	panel.add(scrollPane, BorderLayout.CENTER);
     	panel.add(table.getTableHeader(), BorderLayout.NORTH);
-    	
-/*    	System.out.println(
-    			table.getTableHeader().getColumnModel().getColumn(0).getHeaderValue()); */
 
     	setTitle("DOWNLOAD FILES");
     	setSize(500,500);
