@@ -205,6 +205,18 @@ public class ProcessTab extends JPanel {
     	convertButton.addActionListener(listener);
     }
 
+    public void addRawToProfileDataListener(ActionListener listener) {
+    	profileButton.addActionListener(listener);
+    }
+
+    public void addRawToRegionDataListener(ActionListener listener) {
+    	regionButton.addActionListener(listener);
+    }
+
+    public void addScheduleFileListener(ActionListener listener) {
+    	scheduleButton.addActionListener(listener);
+    }
+
 	private int getNumberOfJobsInQueue(){
 		return this.processQueue.size();
 	}
