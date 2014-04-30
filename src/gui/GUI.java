@@ -98,7 +98,7 @@ public class GUI extends JFrame implements GenomizerView {
 	processTab.addConvertFileListener(listener);
     }
 
-    public ArrayList<JCheckBox> getAllMarkedFiles() {
+    public ArrayList<String> getAllMarkedFiles() {
 
 	return processTab.getAllMarkedFiles();
 
@@ -139,7 +139,7 @@ public class GUI extends JFrame implements GenomizerView {
 
     @Override
     public void addDownloadFileListener(ActionListener listener) {
-	// TODO Auto-generated method stub
+		workspaceTab.addDownloadFileListener(listener);
     }
 
     @Override

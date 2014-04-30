@@ -22,7 +22,7 @@ public interface GenomizerView {
 
     public void addConvertFileListener(ActionListener listener);
 
-    public ArrayList<JCheckBox> getAllMarkedFiles();
+    public ArrayList<String> getAllMarkedFiles();
 
     public void addQuerySearchListener(ActionListener listener);
 
