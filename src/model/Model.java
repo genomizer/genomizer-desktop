@@ -51,9 +51,10 @@ public class Model implements GenomizerModel {
     			conn.sendRequest(rawToProfilerequest, userID, "text/plain");
     		    if (conn.getResponseCode() == 201) {
     		    	return true;
+    		    	//TODO Fixa så att det syns bör användaren att filen gick attt konverteras.
     		    }else {
     		    	return false;
-    		    	//TODO Fixa felmeddelande i gui ifall det inte gick att convertera till profile
+    		    	//TODO Fixa felmeddelande i gui ifall det inte gick att convertera till profile.
     		    	//TODO Köra nån timer för response.
     		    }
 
