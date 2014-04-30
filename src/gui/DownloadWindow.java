@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.Vector;
 
 import javax.swing.DefaultCellEditor;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
@@ -23,9 +24,10 @@ import javax.swing.table.TableModel;
 public class DownloadWindow extends JFrame {
 
 	private static final long serialVersionUID = -7647204230941649167L;
-	JPanel panel;
-	JTable table;
-	JButton downloadButton;
+	private JPanel panel;
+	private JTable table;
+	private JButton downloadButton;
+	private ImageIcon downloadIcon = new ImageIcon("src/icons/DownloadButton.png");
 
 	//Tar in ArrayList med de filer som valdes
 	public DownloadWindow(ArrayList<String> files) {
@@ -85,13 +87,19 @@ public class DownloadWindow extends JFrame {
     	panel.add(scrollPane, BorderLayout.CENTER);
     	panel.add(table.getTableHeader(), BorderLayout.NORTH);
 
-    	downloadButton = new JButton("Download");
+    	downloadButton = new JButton();
+
+    	downloadButton.setBorderPainted(true);
+    	downloadButton.setContentAreaFilled(false);
+    	downloadButton.setIcon(downloadIcon);
+
     	JPanel flowSouth = new JPanel();
     	flowSouth.add(downloadButton);
     	panel.add(flowSouth, BorderLayout.SOUTH);
 
     	setTitle("DOWNLOAD FILES");
     	setSize(500,500);
+    	setLocationRelativeTo(null);
 		setVisible(true);
 	}
 }
