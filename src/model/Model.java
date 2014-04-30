@@ -53,6 +53,8 @@ public class Model implements GenomizerModel {
     		    	return true;
     		    }else {
     		    	return false;
+    		    	//TODO Fixa felmeddelande i gui ifall det inte gick att convertera till profile
+    		    	//TODO Köra nån timer för response.
     		    }
 
     		}
