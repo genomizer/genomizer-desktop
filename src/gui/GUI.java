@@ -73,7 +73,7 @@ public class GUI extends JFrame implements GenomizerView {
 
     public void setSearchTab(SearchTab searchTab) {
 	this.searchTab = searchTab;
-	tabbedPane.add("SEARCH", searchTab);
+//	tabbedPane.add("SEARCH", searchTab);
     }
 
     public void setUploadTab(UploadTab uploadTab) {
@@ -208,7 +208,7 @@ public class GUI extends JFrame implements GenomizerView {
 
     public void setQuerySearchTab(QuerySearchTab qst) {
 	this.querySearchTab = qst;
-	tabbedPane.add("QuerySearchTab", querySearchTab);
+	tabbedPane.add("SEARCH", querySearchTab);
     }
 
     @Override
