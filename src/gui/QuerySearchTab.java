@@ -31,6 +31,9 @@ public class QuerySearchTab extends JPanel {
     private JTextArea searchArea;
     private ArrayList<RowBuilder> rowList;
     private GridBagConstraints gbc;
+    private static final String[] logicOperators = { "AND", "NOT", "OR" };
+    private static final String[] annotations = { "Uploader", "Date", "Sex",
+	    "Species", "ExperimentID", "Value", "Name" };
 
     public QuerySearchTab() {
 	this.setLayout(new BorderLayout());
@@ -249,8 +252,7 @@ public class QuerySearchTab extends JPanel {
 	}
 
 	private void setFieldBox() {
-	    String[] fields = { "Author", "Book" };
-	    annotationField = new JComboBox(fields);
+	    annotationField = new JComboBox(annotations);
 	    annotationField.addActionListener(new ActionListener() {
 		public void actionPerformed(ActionEvent e) {
 		    parent.updateSearchArea();
@@ -259,8 +261,7 @@ public class QuerySearchTab extends JPanel {
 	}
 
 	private void setLogicBox() {
-	    String[] logics = { "AND", "OR", "NOT" };
-	    logicField = new JComboBox(logics);
+	    logicField = new JComboBox(logicOperators);
 	    logicField.addActionListener(new ActionListener() {
 		public void actionPerformed(ActionEvent e) {
 		    parent.updateSearchArea();

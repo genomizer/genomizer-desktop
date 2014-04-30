@@ -1,5 +1,6 @@
 package controller;
 
+import gui.DownloadWindow;
 import gui.GenomizerView;
 
 import java.awt.event.ActionEvent;
