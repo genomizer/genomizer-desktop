@@ -98,7 +98,7 @@ public class GUI extends JFrame implements GenomizerView {
 	processTab.addConvertFileListener(listener);
     }
 
-    public ArrayList<JCheckBox> getAllMarkedFiles() {
+    public ArrayList<String> getAllMarkedFiles() {
 
 	return processTab.getAllMarkedFiles();
 
