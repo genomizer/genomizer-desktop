@@ -108,7 +108,7 @@ public class Controller {
 	public void run() {
 	    String username = view.getUsername();
 	    String pwd = view.getPassword();
-	    view.updateLoginAccepted(username, pwd, "Yuri Gagarin");
+	    view.updateLoginAccepted(username, pwd, "Anna Andersson");
 	    // if (model.loginUser(username, pwd)) {
 	    // view.updateLoginAccepted(username, pwd, "Yuri Gagarin");
 	    // } else {
