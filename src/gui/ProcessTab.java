@@ -82,6 +82,11 @@ public class ProcessTab extends JPanel {
 		menuPanel.add(profileButton);
 		menuPanel.add(regionButton);
 		menuPanel.add(scheduleButton);
+
+		convertButton.setEnabled(false);
+		regionButton.setEnabled(false);
+		scheduleButton.setEnabled(false);
+
 	}
 
 	private void initTimePanel() {

@@ -2,8 +2,8 @@ package gui;
 
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
+import java.util.HashMap;
 
-import javax.swing.JCheckBox;
 import javax.swing.JFrame;
 
 public interface GenomizerView {
@@ -40,12 +40,15 @@ public interface GenomizerView {
 
     public void updateFileChosen(String directoryAsString);
 
+    public void updateQuerySearchResults(
+	    ArrayList<HashMap<String, String>> searchResults);
+
     public String getQuerySearchString();
 
-	public void addScheduleFileListener(ActionListener listener);
+    public void addScheduleFileListener(ActionListener listener);
 
-	public void addRawToProfileDataListener(ActionListener listener);
+    public void addRawToProfileDataListener(ActionListener listener);
 
-	public void addRawToRegionDataListener(ActionListener listener);
+    public void addRawToRegionDataListener(ActionListener listener);
 
 }

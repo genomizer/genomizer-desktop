@@ -3,8 +3,9 @@ package gui;
 import java.awt.BorderLayout;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
 
-import javax.swing.JCheckBox;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
@@ -99,15 +100,15 @@ public class GUI extends JFrame implements GenomizerView {
     }
 
     public void addRawToProfileDataListener(ActionListener listener) {
-   	processTab.addRawToProfileDataListener(listener);
+	processTab.addRawToProfileDataListener(listener);
     }
 
     public void addRawToRegionDataListener(ActionListener listener) {
-    processTab.addRawToRegionDataListener(listener);
+	processTab.addRawToRegionDataListener(listener);
     }
 
     public void addScheduleFileListener(ActionListener listener) {
-    processTab.addScheduleFileListener(listener);
+	processTab.addScheduleFileListener(listener);
     }
 
     public ArrayList<String> getAllMarkedFiles() {
@@ -151,7 +152,7 @@ public class GUI extends JFrame implements GenomizerView {
 
     @Override
     public void addDownloadFileListener(ActionListener listener) {
-		workspaceTab.addDownloadFileListener(listener);
+	workspaceTab.addDownloadFileListener(listener);
     }
 
     @Override
@@ -222,5 +223,22 @@ public class GUI extends JFrame implements GenomizerView {
 
     public String getQuerySearchString() {
 	return querySearchTab.getSearchString();
+    }
+
+    @Override
+    public void updateQuerySearchResults(
+	    ArrayList<HashMap<String, String>> searchResults) {
+	int i = 0;
+	System.out.println("searchResult: ");
+	for (HashMap<String, String> resultMap : searchResults) {
+	    System.out.println(i);
+	    Iterator it = resultMap.keySet().iterator();
+	    while (it.hasNext()) {
+		System.out.println("value: " + resultMap.get(it.next()));
+	    }
+	    i++;
+	}
+	System.out.println("");
+
     }
 }

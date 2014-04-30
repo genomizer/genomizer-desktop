@@ -26,5 +26,4 @@ public class ResponseParser {
 	}
 	return searchResponses;
     }
-
 }

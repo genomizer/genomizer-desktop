@@ -5,6 +5,8 @@ import gui.GenomizerView;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
+import java.util.HashMap;
 
 import javax.swing.JFileChooser;
 import javax.swing.JPanel;
@@ -31,7 +33,7 @@ public class Controller {
 	view.addRawToRegionDataListener(new RawToRegionDataListener());
 	view.addScheduleFileListener(new ScheduleFileListener());
 	view.addDownloadFileListener(new DownloadListener());
-	
+
     }
 
     class ConvertFileListener implements ActionListener, Runnable {
@@ -50,48 +52,50 @@ public class Controller {
     }
 
     class RawToProfileDataListener implements ActionListener, Runnable {
-    	@Override
-    	public void actionPerformed(ActionEvent e) {
-    	    new Thread(this).start();
-    	}
+	@Override
+	public void actionPerformed(ActionEvent e) {
+	    new Thread(this).start();
+	}
 
-    	@Override
-    	public void run() {
+	@Override
+	public void run() {
 
-    	    System.out.println("RAW TO PROFILE");
-    	    System.out.println(view.getAllMarkedFiles());
+	    System.out.println("RAW TO PROFILE");
+	    System.out.println(view.getAllMarkedFiles());
+	    System.out.println("Has converted RAW TO PROFILE: "
+		    + model.rawToProfile(view.getAllMarkedFiles()));
 
-    	}
+	}
     }
 
     class RawToRegionDataListener implements ActionListener, Runnable {
-    	@Override
-    	public void actionPerformed(ActionEvent e) {
-    	    new Thread(this).start();
-    	}
+	@Override
+	public void actionPerformed(ActionEvent e) {
+	    new Thread(this).start();
+	}
 
-    	@Override
-    	public void run() {
+	@Override
+	public void run() {
 
-    	    System.out.println("RAW TO REGION");
-    	    System.out.println(view.getAllMarkedFiles());
+	    System.out.println("RAW TO REGION");
+	    System.out.println(view.getAllMarkedFiles());
 
-    	}
+	}
     }
 
     class ScheduleFileListener implements ActionListener, Runnable {
-    	@Override
-    	public void actionPerformed(ActionEvent e) {
-    	    new Thread(this).start();
-    	}
+	@Override
+	public void actionPerformed(ActionEvent e) {
+	    new Thread(this).start();
+	}
 
-    	@Override
-    	public void run() {
+	@Override
+	public void run() {
 
-    	    System.out.println("SCHEDULEING FILE");
-    	    System.out.println(view.getAllMarkedFiles());
+	    System.out.println("SCHEDULEING FILE");
+	    System.out.println(view.getAllMarkedFiles());
 
-    	}
+	}
     }
 
     class LoginListener implements ActionListener, Runnable {
@@ -121,7 +125,11 @@ public class Controller {
 	@Override
 	public void run() {
 	    String pubmed = view.getQuerySearchString();
-	    model.search(pubmed);
+	    ArrayList<HashMap<String, String>> searchResults = model
+		    .search(pubmed);
+	    if (searchResults != null) {
+		view.updateQuerySearchResults(searchResults);
+	    }
 	}
     }
 
@@ -187,7 +195,11 @@ public class Controller {
 
 	@Override
 	public void run() {
-		new DownloadWindow();
+	    /*
+	     * TODO När vi har faktiska filer som ska nedladdas: använd den
+	     * andra konstruktorn new DownloadWindow(ArrayList<String>) istället
+	     */
+	    new DownloadWindow();
 	}
     }
 }
