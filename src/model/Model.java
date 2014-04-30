@@ -1,5 +1,8 @@
 package model;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+
 import requests.AddFileToExperiment;
 import requests.LoginRequest;
 import requests.LogoutRequest;
@@ -16,8 +19,10 @@ public class Model implements GenomizerModel {
 
     private String userID = "";
     private Connection conn;
+    private SearchHistory searchHistory;
 
     public Model(Connection conn) {
+	searchHistory = new SearchHistory();
 	this.setConn(conn);
     }
 
@@ -81,14 +86,28 @@ public class Model implements GenomizerModel {
 	return true;
     }
 
-    public String search(String pubmedString) {
+    public ArrayList<HashMap<String, String>> search(String pubmedString) {
 	SearchRequest request = RequestFactory.makeSearchRequest(pubmedString);
 	conn.sendRequest(request, userID, "text/plain");
 	if (conn.getResponseCode() == 200) {
 	    SearchResponse[] searchResponses = ResponseParser
 		    .parseSearchResponse(conn.getResponseBody());
 	    if (searchResponses != null && searchResponses.length > 0) {
-		return searchResponses[0].name;
+		searchHistory.addSearchToHistory(searchResponses);
+		ArrayList<HashMap<String, String>> annotationsList = new ArrayList<HashMap<String, String>>();
+		for (int i = 0; i < searchResponses.length; i++) {
+		    HashMap<String, String> annotationsMap = new HashMap<String, String>();
+		    SearchResponse searchResponse = searchResponses[i];
+		    for (int j = 0; j < searchResponse.annotations.length; j++) {
+			String id = searchResponse.annotations[j].id;
+			String name = searchResponse.annotations[j].name;
+			String value = searchResponse.annotations[j].value;
+			annotationsMap.put(name, value);
+		    }
+		    annotationsList.add(annotationsMap);
+
+		}
+		return annotationsList;
 	    }
 	}
 	return null;
