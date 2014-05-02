@@ -28,17 +28,23 @@ public class Connection {
 	    URL url = new URL(targetUrl);
 	    HttpURLConnection connection = (HttpURLConnection) url
 		    .openConnection();
-	    connection.setDoOutput(true);
+	    if (type.equals("application/json")) {
+		connection.setDoOutput(true);
+	    }
+
 	    connection.setReadTimeout(1000);
 	    connection.setRequestMethod(request.type);
 	    connection.setRequestProperty("Content-Type", type);
 	    if (!userID.isEmpty()) {
 		connection.setRequestProperty("Authorization", userID);
 	    }
-	    PrintWriter outputStream = new PrintWriter(
-		    connection.getOutputStream(), true);
-	    outputStream.println(request.toJson());
-	    outputStream.flush();
+
+	    if (type.equals("application/json")) {
+		PrintWriter outputStream = new PrintWriter(
+			connection.getOutputStream(), true);
+		outputStream.println(request.toJson());
+		outputStream.flush();
+	    }
 	    responseCode = connection.getResponseCode();
 	    if (responseCode >= 300) {
 		System.out.println("Connection error: " + responseCode);

@@ -246,7 +246,7 @@ public class QuerySearchTab extends JPanel {
 
 	private void setPlusButton() {
 	    plusButton = new JButton();
-	    ImageIcon plusIcon = new ImageIcon("resources/plus.png");
+	    ImageIcon plusIcon = new ImageIcon("src/icons/plus.png");
 	    plusIcon = new ImageIcon(plusIcon.getImage().getScaledInstance(15,
 		    15, BufferedImage.SCALE_SMOOTH));
 	    plusButton.setBorderPainted(true);
@@ -265,7 +265,7 @@ public class QuerySearchTab extends JPanel {
 
 	private void setMinusButton() {
 	    minusButton = new JButton();
-	    ImageIcon minusIcon = new ImageIcon("resources/minus.png");
+	    ImageIcon minusIcon = new ImageIcon("src/icons/minus.png");
 	    minusIcon = new ImageIcon(minusIcon.getImage().getScaledInstance(
 		    15, 15, BufferedImage.SCALE_SMOOTH));
 	    minusButton.setBorderPainted(true);
