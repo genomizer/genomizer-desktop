@@ -41,7 +41,7 @@ public class ComponentTitledBorder implements Border, MouseListener,
 		Insets borderInsets = border.getBorderInsets(c);
 		Insets insets = getBorderInsets(c);
 		int temp = (insets.top - borderInsets.top) / 2;
-		border.paintBorder(c, g, x, y + temp, width, height - temp);
+		border.paintBorder(c, g, x, y + 10  + temp, width, height - temp); //TODO:  "y + 10 " is an ugly ugly quick fix. Before this is done it must be fixed properly :)
 		Dimension size = comp.getPreferredSize();
 		rect = new Rectangle(offset, 0, size.width, size.height);
 		SwingUtilities.paintComponent(g, comp, (Container) c, rect);

@@ -214,7 +214,7 @@ public class SysadminTab extends JPanel {
 		popupFrame.add(pop, BorderLayout.CENTER);
 		popupFrame.pack();
 		popupFrame.setLocationRelativeTo(null);
-		popupFrame.setSize(new Dimension(600, 600));
+		popupFrame.setSize(new Dimension(800, 800));
 		popupFrame.setVisible(true);
 	}
 	
