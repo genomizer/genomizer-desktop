@@ -5,6 +5,7 @@ import java.util.HashMap;
 
 import com.google.gson.Gson;
 import communication.DownloadHandler;
+import communication.HTTPURLUpload;
 import requests.*;
 import responses.DownloadFileResponse;
 import responses.LoginResponse;
@@ -105,11 +106,14 @@ public class Model implements GenomizerModel {
 	if (url != null) {
 	    System.out.println(url);
 	}
-	UploadHandler handler = new UploadHandler(
-		"http://127.0.0.1:25652/test",
+        HTTPURLUpload handler = new HTTPURLUpload("/var/www/html/uploads/test321.txt",
+                "/home/dv12/dv12csr/edu/test321");
+        handler.sendFile("pvt", "pvt");
+	/*UploadHandler handler = new UploadHandler(
+		"/var/www/html/uploads/test321.txt",
 		"/home/dv12/dv12csr/edu/test321", userID, "pvt:pvt");
 	Thread thread = new Thread(handler);
-	thread.start();
+	thread.start();*/
 	return true;
     }
 

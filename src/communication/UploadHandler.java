@@ -25,31 +25,44 @@ public class UploadHandler implements Runnable {
         try {
             sendSetupPackage();
             URL targetUrl = new URL("http://scratchy.cs.umu.se:8090/html/upload.php");
-            HttpURLConnection connection = (HttpURLConnection)
+            HttpURLConnection conn = (HttpURLConnection)
                     targetUrl.openConnection();
-            connection.setDoOutput(true);
+            conn.setDoOutput(true);
             byte[] authEncBytes = Base64.encodeBase64(authString.getBytes());
             String authStringEnc = new String(authEncBytes);
-            connection.setReadTimeout(1000);
-            connection.setRequestMethod("POST");
-            connection.setRequestProperty("path", url);
-            connection.setRequestProperty("Content-Type", "text/plain");
-            connection.setRequestProperty("Authorization", "Basic " + authStringEnc);
+            conn.setReadTimeout(1000);
+            conn.setRequestMethod("POST");
+            //conn.setRequestProperty("path", url);
+            String boundary = "WgiloelqGufNYwj9e2TMztCZON694FV";
+            conn.setRequestProperty("Content-Type", "multipart-formdata; boundary="+boundary);
+            conn.setRequestProperty("Authorization", "Basic " + authStringEnc);
             PrintWriter outputStream = new PrintWriter(
-                    connection.getOutputStream(), true);
+                    conn.getOutputStream(), true);
             File file = new File(fileName);
             BufferedReader reader = new BufferedReader(
                     new FileReader(file));
+            outputStream.println("--"+boundary);
+            outputStream.println("Content-Disposition: form-data; name=\"path\"");
+            outputStream.println(url);
+            outputStream.println("--"+boundary);
+            outputStream.println("Content-Disposition: form-data; name=\"uploadfile\"; filename=\"test321.txt\"\n" +
+                    "Content-Type: application/octet-stream\n");
             while (reader.ready()) {
                 outputStream.println(reader.readLine());
                 outputStream.flush();
             }
+            outputStream.println("--"+boundary+"--");
             int responseCode;
-            if ((responseCode = connection.getResponseCode()) != 200) {
+            if ((responseCode = conn.getResponseCode()) != 200) {
                 System.out.println("Error wrong response code: "
                         + responseCode);
             }
-            connection.disconnect();
+            BufferedReader in = new BufferedReader(new InputStreamReader(
+                    conn.getInputStream()));
+            while(in.ready()) {
+                System.out.println(in.readLine());
+            }
+            conn.disconnect();
 
         } catch (MalformedURLException e) {
             e.printStackTrace();
