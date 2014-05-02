@@ -3,17 +3,22 @@ package model;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import com.google.gson.Gson;
-import communication.DownloadHandler;
-import communication.HTTPURLUpload;
-import requests.*;
+import requests.AddFileToExperiment;
+import requests.DownloadFileRequest;
+import requests.LoginRequest;
+import requests.LogoutRequest;
+import requests.RequestFactory;
+import requests.SearchRequest;
+import requests.rawToProfileRequest;
 import responses.DownloadFileResponse;
 import responses.LoginResponse;
 import responses.ResponseParser;
 import responses.SearchResponse;
 
+import com.google.gson.Gson;
 import communication.Connection;
-import communication.UploadHandler;
+import communication.DownloadHandler;
+import communication.HTTPURLUpload;
 
 public class Model implements GenomizerModel {
 
@@ -54,7 +59,8 @@ public class Model implements GenomizerModel {
 		conn.sendRequest(rawToProfilerequest, userID, "text/plain");
 		if (conn.getResponseCode() == 201) {
 		    return true;
-		    // TODO Fixa s� att det syns b�r anv�ndaren att filen gick
+		    // TODO Fixa s� att det syns b�r anv�ndaren att filen
+		    // gick
 		    // attt konverteras.
 		} else {
 		    return false;
@@ -72,6 +78,7 @@ public class Model implements GenomizerModel {
 
     public boolean loginUser(String username, String password) {
 	if (!username.isEmpty() && !password.isEmpty()) {
+	    System.out.println("login test");
 	    LoginRequest request = RequestFactory.makeLoginRequest(username,
 		    password);
 	    conn.sendRequest(request, userID, "application/json");
@@ -80,6 +87,7 @@ public class Model implements GenomizerModel {
 			.parseLoginResponse(conn.getResponseBody());
 		if (loginResponse != null) {
 		    userID = loginResponse.token;
+		    System.out.println(userID);
 		    return true;
 		}
 	    }
@@ -106,27 +114,31 @@ public class Model implements GenomizerModel {
 	if (url != null) {
 	    System.out.println(url);
 	}
-        HTTPURLUpload handler = new HTTPURLUpload("/var/www/html/uploads/test321.txt",
-                "/home/dv12/dv12csr/edu/test321");
-        handler.sendFile("pvt", "pvt");
-	/*UploadHandler handler = new UploadHandler(
+	HTTPURLUpload handler = new HTTPURLUpload(
 		"/var/www/html/uploads/test321.txt",
-		"/home/dv12/dv12csr/edu/test321", userID, "pvt:pvt");
-	Thread thread = new Thread(handler);
-	thread.start();*/
+		"/home/dv12/dv12csr/edu/test321");
+	handler.sendFile("pvt", "pvt");
+	/*
+	 * UploadHandler handler = new UploadHandler(
+	 * "/var/www/html/uploads/test321.txt",
+	 * "/home/dv12/dv12csr/edu/test321", userID, "pvt:pvt"); Thread thread =
+	 * new Thread(handler); thread.start();
+	 */
 	return true;
     }
 
     public boolean downloadFile() {
-        DownloadFileRequest request = RequestFactory.makeDownloadFileRequest("test.wig", ".wig");
-        conn.sendRequest(request, userID, "text/plain");
-        Gson gson = new Gson();
-        DownloadFileResponse response = gson.fromJson(conn.getResponseBody(), DownloadFileResponse.class);
-        DownloadHandler handler = new DownloadHandler("pvt", "pvt");
-        String homeDir = System.getProperty("user.home");
-        handler.download("http://sterner.cc", homeDir + "/testFile.txt", userID);
-        System.out.println("Test");
-        return true;
+	DownloadFileRequest request = RequestFactory.makeDownloadFileRequest(
+		"test.wig", ".wig");
+	conn.sendRequest(request, userID, "text/plain");
+	Gson gson = new Gson();
+	DownloadFileResponse response = gson.fromJson(conn.getResponseBody(),
+		DownloadFileResponse.class);
+	DownloadHandler handler = new DownloadHandler("pvt", "pvt");
+	String homeDir = System.getProperty("user.home");
+	handler.download("http://sterner.cc", homeDir + "/testFile.txt", userID);
+	System.out.println("Test");
+	return true;
     }
 
     public ArrayList<HashMap<String, String>> search(String pubmedString) {

@@ -33,7 +33,7 @@ public class Genomizer {
 	gui.setWorkspaceTab(wt);
 	gui.setAnalyzeTab(at);
 	gui.setSysAdminTab(sat);
-	Connection con = new Connection("127.0.0.1", 25652);
+	Connection con = new Connection("plankarta.cs.umu.se", 8080);
 	Model model = new Model(con);
 	Controller controller = new Controller(gui, model);
 	gui.showLoginWindow();
