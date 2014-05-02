@@ -274,4 +274,10 @@ public class GUI extends JFrame implements GenomizerView {
 	public boolean getNewAnnotationForcedValue(){
 		return sysadminTab.getNewAnnotationForcedValue();
 	}
+
+	@Override
+	public void closePopup() {
+		// TODO Auto-generated method stub
+		sysadminTab.closePopup();
+	}
 }

@@ -10,7 +10,6 @@ import java.awt.image.BufferedImage;
 import java.net.URL;
 import java.util.ArrayList;
 
-import javax.swing.AbstractButton;
 import javax.swing.BorderFactory;
 import javax.swing.ButtonModel;
 import javax.swing.ImageIcon;
@@ -25,13 +24,6 @@ import javax.swing.JTextField;
 import javax.swing.ScrollPaneConstants;
 import javax.swing.SwingUtilities;
 
-import requests.LoginRequest;
-import requests.Request;
-import requests.RequestFactory;
-import responses.LoginResponse;
-import responses.ResponseParser;
-import communication.Connection;
-
 public class SysadminAnnotationPopup extends JPanel {
 
 	private static final long serialVersionUID = -626744436260839622L;
@@ -42,7 +34,6 @@ public class SysadminAnnotationPopup extends JPanel {
 	private ArrayList<String> categories = new ArrayList<String>();
 	private boolean forced = false;
 	private JCheckBox forcedBox;
-	private Object lockobject = new Object();
 
 	public SysadminAnnotationPopup() {
 		this.setLayout(new BorderLayout());
@@ -292,27 +283,6 @@ public class SysadminAnnotationPopup extends JPanel {
 		repaint();
 	}
 
-	protected void sendNewAnnotation() {
-		String annotationName = nameField.getText();
-		Boolean forced = null;
-
-		if (categories.isEmpty()) {
-			categories.add("Yes");
-			categories.add("No");
-		}
-
-		String[] stringArray = categories
-				.toArray(new String[categories.size()]);
-
-		Request request = RequestFactory.makeAddAnnotationRequest(
-				annotationName, stringArray, forced);
-		if (mocksendNewAnnotation(request)) {
-			System.out.println("YAY!");
-		} else {
-			System.out.println("NAY!!");
-		}
-	}
-
 	protected String getNewAnnotationName() {
 		return nameField.getText();
 	}
@@ -335,39 +305,6 @@ public class SysadminAnnotationPopup extends JPanel {
 		}
 		
 		return newCategories;
-	}
-
-	protected boolean mocksendNewAnnotation(Request request) {
-		String username = "sysadmin";
-		String password = "qwerty";
-		String ip = "genomizer.apiary-mock.com";
-		String userID = "";
-		Connection conn = new Connection(ip);
-		if (!username.isEmpty() && !password.isEmpty()) {
-			LoginRequest loginRequest = RequestFactory.makeLoginRequest(
-					username, password);
-			conn.sendRequest(loginRequest, userID, "application/json");
-			if (conn.getResponseCode() == 200) {
-				LoginResponse loginResponse = ResponseParser
-						.parseLoginResponse(conn.getResponseBody());
-				if (loginResponse != null) {
-					userID = loginResponse.token;
-
-					conn.sendRequest(request, userID, "application/json");
-					if (conn.getResponseCode() == 201) {
-						System.out.println("addAnnotation sent succesfully!");
-
-						return true;
-					} else {
-						System.out
-								.println("addAnnotaion FAILURE, did not recive 200 response");
-						return false;
-					}
-
-				}
-			}
-		}
-		return false;
 	}
 
 	public void closeWindow() {

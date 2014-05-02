@@ -65,4 +65,6 @@ public interface GenomizerView {
 
 	public boolean getNewAnnotationForcedValue();
 
+	public void closePopup();
+
 }

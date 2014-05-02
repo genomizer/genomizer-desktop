@@ -254,6 +254,11 @@ public class SysadminTab extends JPanel {
 	public boolean getNewAnnotationForcedValue(){
 		return pop.getNewAnnotationForcedValue();
 	}
+
+	public void closePopup() {
+		pop.closeWindow();
+		
+	}
 	
 
 }
