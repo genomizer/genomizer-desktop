@@ -63,14 +63,6 @@ public class SysadminAnnotationPopup extends JPanel {
 		/* Create bottom panel for the second tab */
 		JPanel botPanelInSecondTab = buildBotPanelInFirstTab();
 
-		/*
-		 * JLabel forced = new JLabel("Forced Annotation:"); JPanel
-		 * checkBoxPanel = createCheckBoxPanel();
-		 * 
-		 * botPanelInSecondTab.add(forced);
-		 * botPanelInSecondTab.add(checkBoxPanel);
-		 * buildCreateNewAnnotationButton(checkBoxPanel);
-		 */
 		secondTab.add(topPanelInSecondTab);
 		secondTab.add(botPanelInSecondTab);
 		return secondTab;
@@ -125,7 +117,7 @@ public class SysadminAnnotationPopup extends JPanel {
 
 		JLabel categorylabel = new JLabel("Category:");
 		final JTextField annotationTextField = new JTextField();
-		annotationTextField.setPreferredSize(new Dimension(200, 20));
+		annotationTextField.setPreferredSize(new Dimension(200, 30));
 
 		baseCatPanel.add(categorylabel);
 		baseCatPanel.add(annotationTextField);
@@ -209,11 +201,7 @@ public class SysadminAnnotationPopup extends JPanel {
 			public void actionPerformed(ActionEvent e) {
 				// TODO: add a "are you really 100% super duper sure? popup?
 				sendNewAnnotation();
-				
-				if (loginUser("sysadmin", "123")) {
-					System.out.println("succes");
-				}
-				
+
 				closeWindow();
 
 			}
@@ -289,7 +277,7 @@ public class SysadminAnnotationPopup extends JPanel {
 		final JTextField textField = new JTextField();
 		textField.setText(annotationTextField.getText());
 		textField.setEditable(false);
-		textField.setPreferredSize(new Dimension(200, 20));
+		textField.setPreferredSize(new Dimension(200, 30));
 
 		newCategoryPanel.add(categoryLabel);
 		newCategoryPanel.add(textField);
@@ -311,34 +299,51 @@ public class SysadminAnnotationPopup extends JPanel {
 			categories.add("No");
 		}
 
-		String[] stringArray = categories.toArray(new String[categories.size()]);
-		
-		RequestFactory.makeAddAnnotationRequest(annotationName, stringArray, forced);
+		String[] stringArray = categories
+				.toArray(new String[categories.size()]);
+
+		Request request = RequestFactory.makeAddAnnotationRequest(
+				annotationName, stringArray, forced);
+		if (mocksendNewAnnotation(request)) {
+			System.out.println("YAY!");
+		} else {
+			System.out.println("NAY!!");
+		}
 
 	}
 
-	protected void mocksendNewAnnotation(Request request) {
-		String username = null; 
-		String password = null;
+	protected boolean mocksendNewAnnotation(Request request) {
+		String username = "sysadmin";
+		String password = "qwerty";
 		String ip = "genomizer.apiary-mock.com";
 		int port = 80;
 		String userID = "";
 		Connection conn = new Connection(ip, port);
 		if (!username.isEmpty() && !password.isEmpty()) {
-			LoginRequest loginRequest = RequestFactory.makeLoginRequest(username,
-					password);
+			LoginRequest loginRequest = RequestFactory.makeLoginRequest(
+					username, password);
 			conn.sendRequest(loginRequest, userID, "application/json");
 			if (conn.getResponseCode() == 200) {
 				LoginResponse loginResponse = ResponseParser
 						.parseLoginResponse(conn.getResponseBody());
 				if (loginResponse != null) {
 					userID = loginResponse.token;
-					
-					
+
+					conn.sendRequest(request, userID, "application/json");
+					if (conn.getResponseCode() == 200) {
+						System.out.println("addAnnotation sent succesfully!");
+
+						return true;
+					} else {
+						System.out
+								.println("addAnnotaion FAILURE, did not recive 200 response");
+						return false;
+					}
 
 				}
 			}
 		}
+		return false;
 	}
 
 	public boolean loginUser(String username, String password) {
