@@ -330,7 +330,7 @@ public class SysadminAnnotationPopup extends JPanel {
 					userID = loginResponse.token;
 
 					conn.sendRequest(request, userID, "application/json");
-					if (conn.getResponseCode() == 200) {
+					if (conn.getResponseCode() == 201) {
 						System.out.println("addAnnotation sent succesfully!");
 
 						return true;
