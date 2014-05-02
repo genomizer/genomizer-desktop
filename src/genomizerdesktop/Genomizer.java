@@ -26,7 +26,7 @@ public class Genomizer {
 	AnalyzeTab at = new AnalyzeTab();
 	SysadminTab sat = new SysadminTab();
 	QuerySearchTab qst = new QuerySearchTab();
-//	gui.setSearchTab(st);
+	// gui.setSearchTab(st);
 	gui.setQuerySearchTab(qst);
 	gui.setUploadTab(ut);
 	gui.setProcessTab(pt);
