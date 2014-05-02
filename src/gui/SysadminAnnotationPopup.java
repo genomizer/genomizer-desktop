@@ -321,7 +321,7 @@ public class SysadminAnnotationPopup extends JPanel {
 		String ip = "genomizer.apiary-mock.com";
 		int port = 80;
 		String userID = "";
-		Connection conn = new Connection(ip, port);
+		Connection conn = new Connection(ip);
 		if (!username.isEmpty() && !password.isEmpty()) {
 			LoginRequest loginRequest = RequestFactory.makeLoginRequest(
 					username, password);
@@ -353,7 +353,7 @@ public class SysadminAnnotationPopup extends JPanel {
 		String ip = "genomizer.apiary-mock.com";
 		int port = 80;
 		String userID = "";
-		Connection conn = new Connection(ip, port);
+		Connection conn = new Connection(ip);
 		if (!username.isEmpty() && !password.isEmpty()) {
 			LoginRequest request = RequestFactory.makeLoginRequest(username,
 					password);
