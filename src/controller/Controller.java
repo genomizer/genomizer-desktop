@@ -34,7 +34,7 @@ public class Controller {
 		view.addRawToRegionDataListener(new RawToRegionDataListener());
 		view.addScheduleFileListener(new ScheduleFileListener());
 		view.addDownloadFileListener(new DownloadWindowListener());
-		//view.addAddAnnotationListener(new AddNewAnnotationListener());
+		// view.addAddAnnotationListener(new AddNewAnnotationListener());
 		view.addAddPopupListener(new AddPopupListener());
 
 	}
@@ -47,13 +47,13 @@ public class Controller {
 
 		@Override
 		public void run() {
-			//TODO: add A popup!
 			view.annotationPopup();
 			view.addAddAnnotationListener(new AddNewAnnotationListener());
 		}
 	}
-	
+
 	class AddNewAnnotationListener implements ActionListener, Runnable {
+
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			new Thread(this).start();
@@ -61,9 +61,14 @@ public class Controller {
 
 		@Override
 		public void run() {
-			//TODO: Add annotation!!!!
-			model.addNewAnnotation(view.getNewAnnotationName(), view.getNewAnnotionCategories(), view.getNewAnnotationForcedValue());
-			
+			String name = view.getNewAnnotationName();
+			if (name == null) {
+				// TODO: fix popupwarning?
+				System.err.println("You must specify a name for a new annotation!");
+			} else {
+				model.addNewAnnotation(name, view.getNewAnnotionCategories(),
+						view.getNewAnnotationForcedValue());
+			}
 		}
 	}
 
@@ -227,8 +232,7 @@ public class Controller {
 		public void run() {
 			/*
 			 * TODO När vi har faktiska filer som ska nedladdas: använd den
-			 * andra konstruktorn new DownloadWindow(ArrayList<String>)
-			 * istället
+			 * andra konstruktorn new DownloadWindow(ArrayList<String>) istället
 			 */
 			DownloadWindow downloadWindow = new DownloadWindow();
 			downloadWindow.addDownloadFileListener(new DownloadFileListener());

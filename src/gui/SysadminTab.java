@@ -236,8 +236,7 @@ public class SysadminTab extends JPanel {
 	}
 
 	public void addAddAnnotationListener(ActionListener addAnnotationListener) {
-		pop.addAddAnnotation(addAnnotationListener);
-
+		pop.addAddAnnotationListener(addAnnotationListener);
 	}
 	
 	public void addAddPopupListener(ActionListener addPopupListener) {
