@@ -7,6 +7,7 @@ import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
+import java.net.URL;
 import java.util.ArrayList;
 
 import javax.swing.BorderFactory;
@@ -130,7 +131,8 @@ public class SysadminAnnotationPopup extends JPanel {
 	private void createAddCategoryButton(final JPanel categoryHolderPanel,
 			JPanel baseCatPanel, final JTextField annotationTextField) {
 
-		ImageIcon addIcon = new ImageIcon("src/icons/plus.png");
+		URL imageUrl = getClass().getResource("/icons/plus.png");
+		ImageIcon addIcon = new ImageIcon (imageUrl);
 		addIcon = new ImageIcon(addIcon.getImage().getScaledInstance(20, 20,
 				BufferedImage.SCALE_SMOOTH));
 		JButton addButton = new JButton("");
@@ -155,7 +157,8 @@ public class SysadminAnnotationPopup extends JPanel {
 	}
 
 	private void createRemoveCategoryButton(final JPanel categoryPanel) {
-		ImageIcon removeIcon = new ImageIcon("src/icons/minus.png");
+		URL imageUrl = getClass().getResource("/icons/minus.png");
+		ImageIcon removeIcon = new ImageIcon (imageUrl);
 		removeIcon = new ImageIcon(removeIcon.getImage().getScaledInstance(15,
 				15, BufferedImage.SCALE_SMOOTH));
 		JButton removeButton = new JButton("");

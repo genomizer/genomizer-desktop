@@ -8,6 +8,7 @@ import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -246,7 +247,8 @@ public class QuerySearchTab extends JPanel {
 
 	private void setPlusButton() {
 	    plusButton = new JButton();
-	    ImageIcon plusIcon = new ImageIcon("resources/plus.png");
+		URL imageUrl = getClass().getResource("/icons/plus.png");
+		ImageIcon plusIcon = new ImageIcon (imageUrl);
 	    plusIcon = new ImageIcon(plusIcon.getImage().getScaledInstance(15,
 		    15, BufferedImage.SCALE_SMOOTH));
 	    plusButton.setBorderPainted(true);
@@ -265,7 +267,8 @@ public class QuerySearchTab extends JPanel {
 
 	private void setMinusButton() {
 	    minusButton = new JButton();
-	    ImageIcon minusIcon = new ImageIcon("resources/minus.png");
+		URL imageUrl = getClass().getResource("/icons/minus.png");
+		ImageIcon minusIcon = new ImageIcon (imageUrl);
 	    minusIcon = new ImageIcon(minusIcon.getImage().getScaledInstance(
 		    15, 15, BufferedImage.SCALE_SMOOTH));
 	    minusButton.setBorderPainted(true);
