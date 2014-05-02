@@ -18,11 +18,11 @@ public class WorkspaceTab extends JPanel {
 	private JPanel buttonPanel, filePanel;
 	private JButton deleteButton, removeButton, downloadButton;
 	private JButton analyzeButton, browseButton;
-	private ImageIcon analyseIcon = new ImageIcon("src/icons/AnalyzeSelectedButton.png");
-	private ImageIcon browseIcon = new ImageIcon("src/icons/BrowseLocalFilesButton.png");
-	private ImageIcon deleteIcon = new ImageIcon("src/icons/DeleteSelectedButton.png");
-	private ImageIcon downloadSelectedIcon = new ImageIcon("src/icons/DownloadSelectedButton.png");
-	private ImageIcon removeFromDBIcon = new ImageIcon("src/icons/RemoveFromDatabaseButton.png");
+	private ImageIcon analyseIcon = new ImageIcon(getClass().getResource("/icons/AnalyzeSelectedButton.png"));
+	private ImageIcon browseIcon = new ImageIcon(getClass().getResource("/icons/BrowseLocalFilesButton.png"));
+	private ImageIcon deleteIcon = new ImageIcon(getClass().getResource("/icons/DeleteSelectedButton.png"));
+	private ImageIcon downloadSelectedIcon = new ImageIcon(getClass().getResource("/icons/DownloadSelectedButton.png"));
+	private ImageIcon removeFromDBIcon = new ImageIcon(getClass().getResource("/icons/RemoveFromDatabaseButton.png"));
 	private GridBagConstraints gbc;
 
 	public WorkspaceTab() {
