@@ -1,6 +1,5 @@
 package controller;
 
-import communication.DownloadHandler;
 import gui.DownloadWindow;
 import gui.GenomizerView;
 
@@ -109,12 +108,11 @@ public class Controller {
 	public void run() {
 	    String username = view.getUsername();
 	    String pwd = view.getPassword();
-	    view.updateLoginAccepted(username, pwd, "Anna Andersson");
-	    // if (model.loginUser(username, pwd)) {
-	    // view.updateLoginAccepted(username, pwd, "Yuri Gagarin");
-	    // } else {
-	    // view.updateLoginNeglected("Login not accepted");
-	    // }
+	    if (model.loginUser(username, pwd)) {
+		view.updateLoginAccepted(username, pwd, "Yuri Gagarin");
+	    } else {
+		view.updateLoginAccepted(username, pwd, "Yuri Gagarin");
+	    }
 	}
     }
 
@@ -141,12 +139,11 @@ public class Controller {
 
 	@Override
 	public void run() {
-	    view.updateLogout();
-	    // if (model.logoutUser()) {
-	    // view.updateLogout();
-	    // } else {
-	    // view.updateLogout();
-	    // }
+	    if (model.logoutUser()) {
+		view.updateLogout();
+	    } else {
+		view.updateLogout();
+	    }
 
 	}
     }
@@ -198,24 +195,25 @@ public class Controller {
 	public void run() {
 	    /*
 	     * TODO N�r vi har faktiska filer som ska nedladdas: anv�nd den
-	     * andra konstruktorn new DownloadWindow(ArrayList<String>) ist�llet
+	     * andra konstruktorn new DownloadWindow(ArrayList<String>)
+	     * ist�llet
 	     */
-        DownloadWindow downloadWindow = new DownloadWindow();
-        downloadWindow.addDownloadFileListener(new DownloadFileListener());
-        }
+	    DownloadWindow downloadWindow = new DownloadWindow();
+	    downloadWindow.addDownloadFileListener(new DownloadFileListener());
+	}
     }
 
     class DownloadFileListener implements ActionListener, Runnable {
 
-        @Override
-        public void actionPerformed(ActionEvent actionEvent) {
+	@Override
+	public void actionPerformed(ActionEvent actionEvent) {
 
-            new Thread(this).start();
-        }
+	    new Thread(this).start();
+	}
 
-        @Override
-        public void run() {
-            model.downloadFile();
-        }
+	@Override
+	public void run() {
+	    model.downloadFile();
+	}
     }
 }

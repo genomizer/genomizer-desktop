@@ -1,6 +1,7 @@
 package gui;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.GridBagConstraints;
@@ -9,6 +10,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import javax.swing.BorderFactory;
 import javax.swing.Box;
@@ -29,11 +31,13 @@ public class QuerySearchTab extends JPanel {
     private JPanel rowsPanel;
     private JPanel searchEast;
     private JPanel searchWest;
+    private JPanel resultPanel;
     private JScrollPane searchScroll;
+    private JScrollPane resultScroll;
     private JButton clearButton;
     private JButton searchButton;
     private JTextArea searchArea;
-    private JTable searchResult;
+    private JTable resultTable;
     private ArrayList<RowBuilder> rowList;
     private GridBagConstraints gbc;
     private static final String[] logicOperators = { "AND", "NOT", "OR" };
@@ -47,9 +51,17 @@ public class QuerySearchTab extends JPanel {
 	add(searchPanel, BorderLayout.NORTH);
 	createBuilderPanel();
 	clearSearchFields();
+	createResultPanel();
+	add(resultScroll, BorderLayout.SOUTH);
     }
 
-    private void addSearchResult() {
+    private void createResultPanel() {
+	resultPanel = new JPanel();
+	resultPanel.setBackground(Color.green);
+	resultScroll = new JScrollPane(resultPanel);
+    }
+
+    private void addSearchResult(ArrayList<HashMap<String, String>> searchResult) {
 
     }
 
@@ -180,7 +192,7 @@ public class QuerySearchTab extends JPanel {
 	    this.parent = parent;
 	    setLayout(new FlowLayout());
 	    setPlusButton();
-	    setMinus();
+	    setMinusButton();
 	    setLogicBox();
 	    setFieldBox();
 	    setTextField();
@@ -235,7 +247,7 @@ public class QuerySearchTab extends JPanel {
 	    });
 	}
 
-	private void setMinus() {
+	private void setMinusButton() {
 	    minusButton = new JButton();
 	    ImageIcon minusIcon = new ImageIcon("resources/minus.png");
 	    minusIcon = new ImageIcon(minusIcon.getImage().getScaledInstance(
