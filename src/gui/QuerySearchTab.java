@@ -12,7 +12,6 @@ import java.util.ArrayList;
 
 import javax.swing.BorderFactory;
 import javax.swing.Box;
-import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -58,7 +57,7 @@ public class QuerySearchTab extends JPanel {
 	rowList = new ArrayList<RowBuilder>();
 	setBorder(BorderFactory
 		.createTitledBorder("Genomizer Advanced Search Builder"));
-//	FlowLayout fl = new FlowLayout();
+	// FlowLayout fl = new FlowLayout();
 	BorderLayout bl = new BorderLayout();
 	searchPanel = new JPanel(bl);
 	searchButton = new JButton("Search");
@@ -73,19 +72,19 @@ public class QuerySearchTab extends JPanel {
 	searchArea = new JTextArea(
 		"Use the builder below to create your search");
 	searchArea.setLineWrap(true);
-	searchArea.setSize(850, 2);
+	searchArea.setSize(850, 20);
 	searchWest = new JPanel();
 	searchWest.add(searchArea);
 	searchScroll = new JScrollPane(searchWest);
 	searchScroll.setSize(850, 20);
-//	searchPanel.add(searchArea);
-	searchPanel.add(searchScroll, BorderLayout.WEST);
+	// searchPanel.add(searchArea);
+	searchPanel.add(searchScroll, BorderLayout.CENTER);
 	searchEast = new JPanel(new FlowLayout());
 	searchEast.add(clearButton);
 	searchEast.add(searchButton);
 	searchPanel.add(searchEast, BorderLayout.EAST);
-//	searchPanel.add(clearButton);
-//	searchPanel.add(searchButton);
+	// searchPanel.add(clearButton);
+	// searchPanel.add(searchButton);
     }
 
     private void createBuilderPanel() {
@@ -200,7 +199,8 @@ public class QuerySearchTab extends JPanel {
 		add(Box.createHorizontalStrut(73));
 		add(annotationField);
 		add(textField);
-		add(Box.createHorizontalStrut(45));
+		add(minusButton);
+		add(Box.createHorizontalStrut(20));
 	    } else if (!firstRow && !lastRow) {
 		add(logicField);
 		add(annotationField);
