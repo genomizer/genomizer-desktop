@@ -11,7 +11,6 @@ import java.net.URL;
 import java.util.ArrayList;
 
 import javax.swing.BorderFactory;
-import javax.swing.ButtonGroup;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
@@ -24,19 +23,23 @@ import javax.swing.JTextField;
 import javax.swing.ScrollPaneConstants;
 import javax.swing.SwingUtilities;
 
-import communication.Connection;
 import requests.LoginRequest;
 import requests.Request;
 import requests.RequestFactory;
 import responses.LoginResponse;
 import responses.ResponseParser;
 
+import communication.Connection;
+
 public class SysadminAnnotationPopup extends JPanel {
 
 	private static final long serialVersionUID = -626744436260839622L;
 	private JPanel addCategoriesPanel;
+	private JButton addButton, removeButton, createNewAnnotationButton;
 	private JTextField nameField;
 	private ArrayList<String> categories = new ArrayList<String>();
+	private boolean forced = false;
+	private JCheckBox forcedBox;
 
 	public SysadminAnnotationPopup() {
 		this.setLayout(new BorderLayout());
@@ -132,10 +135,10 @@ public class SysadminAnnotationPopup extends JPanel {
 			JPanel baseCatPanel, final JTextField annotationTextField) {
 
 		URL imageUrl = getClass().getResource("/icons/plus.png");
-		ImageIcon addIcon = new ImageIcon (imageUrl);
+		ImageIcon addIcon = new ImageIcon(imageUrl);
 		addIcon = new ImageIcon(addIcon.getImage().getScaledInstance(20, 20,
 				BufferedImage.SCALE_SMOOTH));
-		JButton addButton = new JButton("");
+		addButton = new JButton("");
 
 		addButton.setBorderPainted(false);
 		addButton.setContentAreaFilled(false);
@@ -158,10 +161,10 @@ public class SysadminAnnotationPopup extends JPanel {
 
 	private void createRemoveCategoryButton(final JPanel categoryPanel) {
 		URL imageUrl = getClass().getResource("/icons/minus.png");
-		ImageIcon removeIcon = new ImageIcon (imageUrl);
+		ImageIcon removeIcon = new ImageIcon(imageUrl);
 		removeIcon = new ImageIcon(removeIcon.getImage().getScaledInstance(15,
 				15, BufferedImage.SCALE_SMOOTH));
-		JButton removeButton = new JButton("");
+		removeButton = new JButton("");
 
 		removeButton.setBorderPainted(false);
 		removeButton.setContentAreaFilled(false);
@@ -184,20 +187,33 @@ public class SysadminAnnotationPopup extends JPanel {
 	private JPanel buildBotPanelInFirstTab() {
 		JPanel botPanelInFirstTab = new JPanel();
 		JLabel forced = new JLabel("Forced Annotation:");
-		JCheckBox yesBox = new JCheckBox("Yes");
+		forcedBox = new JCheckBox("Yes");
+		forcedBox.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				switchForced();
+				
+			}
+		});
 		// JPanel checkboxPanel = createCheckBoxPanel();
 		botPanelInFirstTab.add(forced);
 		// botPanelInFirstTab.add(checkboxPanel);
-		botPanelInFirstTab.add(yesBox);
+		botPanelInFirstTab.add(forcedBox);
 		buildCreateNewAnnotationButton(botPanelInFirstTab);
 
 		return botPanelInFirstTab;
 	}
 
+	protected void switchForced() {
+		forced = (forced == true) ? false: true;
+	}
+
 	private void buildCreateNewAnnotationButton(JPanel botPanelInFirstTab) {
-		JButton createNewAnnotationButton = new JButton("Create annotation");
+		createNewAnnotationButton = new JButton("Create annotation");
 		botPanelInFirstTab.add(createNewAnnotationButton);
 
+		// TODO: This should be done via model/controller...
 		createNewAnnotationButton.addActionListener(new ActionListener() {
 
 			@Override
@@ -211,20 +227,20 @@ public class SysadminAnnotationPopup extends JPanel {
 		});
 	}
 
-	private JPanel createCheckBoxPanel() {
-		ButtonGroup checkgroup = new ButtonGroup();
-		JPanel checkboxPanel = new JPanel();
-		JCheckBox yesBox = new JCheckBox("Yes");
-		JCheckBox noBox = new JCheckBox("No");
-		noBox.setSelected(true);
-		checkgroup.add(yesBox);
-		checkgroup.add(noBox);
-
-		/* Add the check boxes to the box panel */
-		checkboxPanel.add(yesBox);
-		checkboxPanel.add(noBox);
-		return checkboxPanel;
-	}
+//	private JPanel createCheckBoxPanel() {
+//		ButtonGroup checkgroup = new ButtonGroup();
+//		JPanel checkboxPanel = new JPanel();
+//		JCheckBox yesBox = new JCheckBox("Yes");
+//		JCheckBox noBox = new JCheckBox("No");
+//		noBox.setSelected(true);
+//		checkgroup.add(yesBox);
+//		checkgroup.add(noBox);
+//
+//		/* Add the check boxes to the box panel */
+//		checkboxPanel.add(yesBox);
+//		checkboxPanel.add(noBox);
+//		return checkboxPanel;
+//	}
 
 	private JPanel buildTopPanelInFirstTab() {
 		JPanel topPanelInFirstTab = new JPanel(new BorderLayout());
@@ -294,7 +310,7 @@ public class SysadminAnnotationPopup extends JPanel {
 	}
 
 	protected void sendNewAnnotation() {
-		String annotationName = nameField.getText(); // name of new annotation
+		String annotationName = nameField.getText();
 		Boolean forced = null;
 
 		if (categories.isEmpty()) {
@@ -312,14 +328,24 @@ public class SysadminAnnotationPopup extends JPanel {
 		} else {
 			System.out.println("NAY!!");
 		}
+	}
 
+	protected String getNewAnnotationName() {
+		return nameField.getText();
+	}
+
+	protected Boolean getNewAnnotationForcedValue() {
+		return forced;
+	}
+	
+	protected String[] getNewAnnotationCategories(){
+		return categories.toArray(new String[categories.size()]);
 	}
 
 	protected boolean mocksendNewAnnotation(Request request) {
 		String username = "sysadmin";
 		String password = "qwerty";
 		String ip = "genomizer.apiary-mock.com";
-		int port = 80;
 		String userID = "";
 		Connection conn = new Connection(ip);
 		if (!username.isEmpty() && !password.isEmpty()) {
@@ -351,7 +377,6 @@ public class SysadminAnnotationPopup extends JPanel {
 
 	public boolean loginUser(String username, String password) {
 		String ip = "genomizer.apiary-mock.com";
-		int port = 80;
 		String userID = "";
 		Connection conn = new Connection(ip);
 		if (!username.isEmpty() && !password.isEmpty()) {
@@ -370,10 +395,14 @@ public class SysadminAnnotationPopup extends JPanel {
 		return false;
 	}
 
-	protected void closeWindow() {
+	public void closeWindow() {
 		JFrame frame = (JFrame) SwingUtilities
 				.getWindowAncestor(addCategoriesPanel); // UGLY?!?
 		frame.setVisible(false);
+	}
+
+	public void addAddAnnotation(ActionListener listener) {
+		createNewAnnotationButton.addActionListener(listener);
 	}
 
 }

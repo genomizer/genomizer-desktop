@@ -3,6 +3,7 @@ package model;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import requests.AddAnnotationRequest;
 import requests.AddFileToExperiment;
 import requests.DownloadFileRequest;
 import requests.LoginRequest;
@@ -16,6 +17,7 @@ import responses.ResponseParser;
 import responses.SearchResponse;
 
 import com.google.gson.Gson;
+
 import communication.Connection;
 import communication.DownloadHandler;
 import communication.HTTPURLUpload;
@@ -172,8 +174,20 @@ public class Model implements GenomizerModel {
 		conn.setIp(ip);
 	}
 
-	public boolean addNewAnnotation() {
-		return false;
+	@Override
+	public boolean addNewAnnotation(String name, String[] categories, boolean forced) {
+		
+		AddAnnotationRequest request = RequestFactory.makeAddAnnotationRequest(name, categories, forced);
+		conn.sendRequest(request, userID, "application/json");
+		if (conn.getResponseCode() == 201) {
+			System.out.println("addAnnotation sent succesfully!");
+
+			return true;
+		} else {
+			System.out
+					.println("addAnnotaion FAILURE, did not recive 200 response");
+			return false;
+		}
 	}
 
 }

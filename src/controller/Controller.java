@@ -10,6 +10,7 @@ import java.util.HashMap;
 
 import javax.swing.JFileChooser;
 import javax.swing.JPanel;
+import javax.swing.SwingUtilities;
 
 import model.GenomizerModel;
 
@@ -33,7 +34,37 @@ public class Controller {
 		view.addRawToRegionDataListener(new RawToRegionDataListener());
 		view.addScheduleFileListener(new ScheduleFileListener());
 		view.addDownloadFileListener(new DownloadWindowListener());
+		//view.addAddAnnotationListener(new AddNewAnnotationListener());
+		view.addAddPopupListener(new AddPopupListener());
 
+	}
+
+	class AddPopupListener implements ActionListener, Runnable {
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			new Thread(this).start();
+		}
+
+		@Override
+		public void run() {
+			//TODO: add A popup!
+			view.annotationPopup();
+			view.addAddAnnotationListener(new AddNewAnnotationListener());
+		}
+	}
+	
+	class AddNewAnnotationListener implements ActionListener, Runnable {
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			new Thread(this).start();
+		}
+
+		@Override
+		public void run() {
+			//TODO: Add annotation!!!!
+			model.addNewAnnotation(view.getNewAnnotationName(), view.getNewAnnotionCategories(), view.getNewAnnotationForcedValue());
+			
+		}
 	}
 
 	class ConvertFileListener implements ActionListener, Runnable {
