@@ -19,7 +19,7 @@ public class GUI extends JFrame implements GenomizerView {
     private JPanel processPanel;
     private JTabbedPane tabbedPane;
     private SearchTab searchTab;
-    // rivate LoginPanel loginPanel;
+    // private LoginPanel loginPanel;
     private UserPanel userPanel;
     private UploadTab uploadTab;
     private AnalyzeTab analyzeTab;
