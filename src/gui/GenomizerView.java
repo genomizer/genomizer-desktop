@@ -49,6 +49,8 @@ public interface GenomizerView {
 
     public void addRawToProfileDataListener(ActionListener listener);
 
+    public String getIp();
+
     public void addRawToRegionDataListener(ActionListener listener);
 
 }

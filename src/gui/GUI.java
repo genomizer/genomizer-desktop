@@ -165,6 +165,10 @@ public class GUI extends JFrame implements GenomizerView {
 	return loginWindow.getUsernameInput();
     }
 
+    public String getIp() {
+	return loginWindow.getIPInput();
+    }
+
     @Override
     public void updateLoginAccepted(String username, String pwd, String name) {
 	System.out.println("login succesful with username " + username

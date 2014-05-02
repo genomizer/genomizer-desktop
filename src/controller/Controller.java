@@ -106,6 +106,7 @@ public class Controller {
 
 	@Override
 	public void run() {
+	    model.setIp(view.getIp());
 	    String username = view.getUsername();
 	    String pwd = view.getPassword();
 	    if (model.loginUser(username, pwd)) {

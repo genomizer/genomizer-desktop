@@ -1,6 +1,5 @@
 package gui;
 
-
 import java.awt.GridBagLayout;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
@@ -19,6 +18,7 @@ public class LoginWindow extends JDialog {
     private JButton loginButton;
     private JTextField usernameField;
     private JPasswordField passwordField;
+    private JTextField ipField;
     private JPanel mainPanel;
     private JLabel errorLabel;
 
@@ -31,7 +31,7 @@ public class LoginWindow extends JDialog {
 	});
 	setTitle("Genomizer Login");
 	setDefaultCloseOperation(DISPOSE_ON_CLOSE);
-	setSize(300, 150);
+	setSize(300, 300);
 	setResizable(false);
 	this.setLocationRelativeTo(parent.getFrame());
 	placeComponents();
@@ -61,8 +61,17 @@ public class LoginWindow extends JDialog {
 	passwordField.setText("superhemligt");
 	mainPanel.add(passwordField);
 
+	JLabel ipLabel = new JLabel("IP");
+	ipLabel.setBounds(10, 70, 80, 25);
+	mainPanel.add(ipLabel);
+
+	ipField = new JTextField(20);
+	ipField.setBounds(100, 70, 160, 25);
+	ipField.setText("plankarta.cs.umu.se:8080");
+	mainPanel.add(ipField);
+
 	loginButton = new JButton("login");
-	loginButton.setBounds(10, 80, 80, 25);
+	loginButton.setBounds(10, 100, 80, 25);
 	mainPanel.add(loginButton);
 
     }
@@ -79,6 +88,10 @@ public class LoginWindow extends JDialog {
 	return passwordField.getText();
     }
 
+    public String getIPInput() {
+	return ipField.getText();
+    }
+
     public void updateLoginFailed(String errorMessage) {
 	paintErrorMessage(errorMessage);
     }
@@ -86,7 +99,7 @@ public class LoginWindow extends JDialog {
     public void paintErrorMessage(String message) {
 	errorLabel = new JLabel(message);
 	errorLabel.setIcon(UIManager.getIcon("OptionPane.warningIcon"));
-	errorLabel.setBounds(120, 80, 160, 25);
+	errorLabel.setBounds(120, 100, 160, 25);
 	mainPanel.add(errorLabel);
 	repaint();
     }

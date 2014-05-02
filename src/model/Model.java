@@ -168,4 +168,8 @@ public class Model implements GenomizerModel {
 	return null;
     }
 
+    public void setIp(String ip) {
+	conn.setIp(ip);
+    }
+
 }

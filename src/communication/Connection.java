@@ -15,14 +15,14 @@ public class Connection {
     private int responseCode;
     private String responseBody;
 
-    public Connection(String ip, int port) {
+    public Connection(String ip) {
 	this.ip = ip;
 	this.port = port;
     }
 
     public boolean sendRequest(Request request, String userID, String type) {
 	try {
-	    String targetUrl = "http://" + ip + ":" + port + request.url;
+	    String targetUrl = "http://" + ip + request.url;
 
 	    System.out.println(targetUrl);
 	    URL url = new URL(targetUrl);
@@ -76,6 +76,10 @@ public class Connection {
 
     public void checkType(String output) {
 
+    }
+
+    public void setIp(String ip) {
+	this.ip = ip;
     }
 
 }
