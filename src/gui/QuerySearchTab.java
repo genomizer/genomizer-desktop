@@ -1,7 +1,6 @@
 package gui;
 
 import java.awt.BorderLayout;
-import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.GridBagConstraints;
@@ -11,6 +10,7 @@ import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 
 import javax.swing.BorderFactory;
 import javax.swing.Box;
@@ -40,6 +40,7 @@ public class QuerySearchTab extends JPanel {
     private JTable resultTable;
     private ArrayList<RowBuilder> rowList;
     private GridBagConstraints gbc;
+    private JTextArea resultTest;
     private static final String[] logicOperators = { "AND", "NOT", "OR" };
     private static final String[] annotations = { "Uploader", "Date", "Sex",
 	    "Species", "ExperimentID", "Value", "Name" };
@@ -57,12 +58,27 @@ public class QuerySearchTab extends JPanel {
 
     private void createResultPanel() {
 	resultPanel = new JPanel();
-	resultPanel.setBackground(Color.green);
 	resultScroll = new JScrollPane(resultPanel);
+	// Test purpose
+	resultTest = new JTextArea();
+	resultPanel.add(resultTest);
     }
 
-    private void addSearchResult(ArrayList<HashMap<String, String>> searchResult) {
-
+    public void addSearchResult(ArrayList<HashMap<String, String>> searchResults) {
+	resultTest.setText("");
+	int i = 0;
+	String key;
+	resultTest.append("searchResult: \n");
+	for (HashMap<String, String> resultMap : searchResults) {
+	    resultTest.append(i + "\n");
+	    Iterator it = resultMap.keySet().iterator();
+	    while (it.hasNext()) {
+		key = (String) it.next();
+		resultTest.append("key: " + key + " value: "
+			+ resultMap.get(key) + "\n\n");
+	    }
+	    i++;
+	}
     }
 
     private void createSearchPanel() {
