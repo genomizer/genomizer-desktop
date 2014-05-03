@@ -179,13 +179,12 @@ public class Model implements GenomizerModel {
 	@Override
 	public boolean addNewAnnotation(String name, String[] categories,
 			boolean forced) {
-
+		
 		AddAnnotationRequest request = RequestFactory.makeAddAnnotationRequest(
 				name, categories, forced);
 		conn.sendRequest(request, userID, "application/json");
 		if (conn.getResponseCode() == 201) {
 			System.err.println("addAnnotation sent succesfully!");
-
 			return true;
 		} else {
 			System.err
