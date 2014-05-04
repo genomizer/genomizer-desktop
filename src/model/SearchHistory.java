@@ -3,16 +3,17 @@ package model;
 import java.util.ArrayList;
 
 import responses.SearchResponse;
+import data.ExperimentData;
 
 public class SearchHistory {
 
-    private ArrayList<SearchResponse[]> searchHistory;
+    private ArrayList<ExperimentData[]> searchHistory;
 
     public void searchHistory() {
-	searchHistory = new ArrayList<SearchResponse[]>();
+	searchHistory = new ArrayList<ExperimentData[]>();
     }
 
-    public void addSearchToHistory(SearchResponse[] searchResponses) {
+    public void addSearchToHistory(ExperimentData[] searchResponses) {
 	// searchHistory.add(searchResponses);
     }
 

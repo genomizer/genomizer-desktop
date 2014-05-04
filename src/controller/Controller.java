@@ -5,14 +5,12 @@ import gui.GenomizerView;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.ArrayList;
-import java.util.HashMap;
 
 import javax.swing.JFileChooser;
 import javax.swing.JPanel;
-import javax.swing.SwingUtilities;
 
 import model.GenomizerModel;
+import data.ExperimentData;
 
 public class Controller {
 
@@ -163,8 +161,7 @@ public class Controller {
 		@Override
 		public void run() {
 			String pubmed = view.getQuerySearchString();
-			ArrayList<HashMap<String, String>> searchResults = model
-					.search(pubmed);
+			ExperimentData[] searchResults = model.search(pubmed);
 			if (searchResults != null) {
 				view.updateQuerySearchResults(searchResults);
 			}

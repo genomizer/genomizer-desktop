@@ -3,6 +3,8 @@ package responses;
 import com.google.gson.Gson;
 import com.google.gson.JsonParseException;
 
+import data.ExperimentData;
+
 public class ResponseParser {
 
     private static Gson gson = new Gson();
@@ -17,10 +19,10 @@ public class ResponseParser {
 	return loginResponse;
     }
 
-    public static SearchResponse[] parseSearchResponse(String json) {
-	SearchResponse[] searchResponses = null;
+    public static ExperimentData[] parseSearchResponse(String json) {
+    	ExperimentData[] searchResponses = null;
 	try {
-	    searchResponses = gson.fromJson(json, SearchResponse[].class);
+	    searchResponses = gson.fromJson(json, ExperimentData[].class);
 	} catch (JsonParseException e) {
 	    return null;
 	}

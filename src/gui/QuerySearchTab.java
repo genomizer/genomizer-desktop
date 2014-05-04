@@ -1,338 +1,313 @@
 package gui;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
-import java.awt.GridBagConstraints;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Iterator;
 
 import javax.swing.BorderFactory;
-import javax.swing.Box;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
-import javax.swing.JComboBox;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextArea;
-import javax.swing.JTextField;
-import javax.swing.event.DocumentEvent;
-import javax.swing.event.DocumentListener;
+import javax.swing.ListSelectionModel;
+import javax.swing.table.DefaultTableModel;
+
+import data.AnnotationData;
+import data.ExperimentData;
+import data.FileData;
 
 public class QuerySearchTab extends JPanel {
-    private JPanel searchPanel;
-    private JPanel builderPanel;
-    private JPanel rowsPanel;
-    private JPanel searchEast;
-    private JPanel searchWest;
-    private JPanel resultPanel;
-    private JScrollPane searchScroll;
-    private JScrollPane resultScroll;
-    private JButton clearButton;
-    private JButton searchButton;
-    private JTextArea searchArea;
-    private JTable resultTable;
-    private ArrayList<RowBuilder> rowList;
-    private GridBagConstraints gbc;
-    private JTextArea resultTest;
-    private static final String[] logicOperators = { "AND", "NOT", "OR" };
-    private static final String[] annotations = { "Uploader", "Date", "Sex",
-	    "Species", "ExperimentID", "Value", "Name" };
+	private JPanel topPanel;
+	private JPanel bottomPanel;
+	private JPanel rowsPanel;
+	private JPanel searchPanel;
+	private JPanel resultsHeaderPanel;
+	private JPanel filesHeaderPanel;
+	private JButton clearButton;
+	private JButton searchButton;
+	private JButton workspaceButton;
+	private JTextArea searchArea;
+	private ArrayList<QueryBuilderRow> rowList;
+	private JTable resultsTable;
+	private JTable filesTable;
+	private ExperimentData[] currentSearchResult;
 
-    public QuerySearchTab() {
-	this.setLayout(new BorderLayout());
-	setPreferredSize(new Dimension(700, 700));
-	createSearchPanel();
-	add(searchPanel, BorderLayout.NORTH);
-	createBuilderPanel();
-	clearSearchFields();
-	createResultPanel();
-	add(resultScroll, BorderLayout.SOUTH);
-    }
 
-    private void createResultPanel() {
-	resultPanel = new JPanel();
-	resultScroll = new JScrollPane(resultPanel);
-	// Test purpose
-	resultTest = new JTextArea();
-	resultPanel.add(resultTest);
-    }
-
-    public void addSearchResult(ArrayList<HashMap<String, String>> searchResults) {
-	resultTest.setText("");
-	int i = 0;
-	String key;
-	resultTest.append("searchResult: \n");
-	for (HashMap<String, String> resultMap : searchResults) {
-	    resultTest.append(i + "\n");
-	    Iterator it = resultMap.keySet().iterator();
-	    while (it.hasNext()) {
-		key = (String) it.next();
-		resultTest.append("key: " + key + " value: "
-			+ resultMap.get(key) + "\n\n");
-	    }
-	    i++;
+	public QuerySearchTab() {
+		setUpQuerySearchTab();
+		setUpSearchHeader();
+		setUpRowsPanel();
+		setUpResultsTable();
+		setUpFilesTable();
+		setUpResultsHeaderPanel();
+		setUpFilesHeaderPanel();
+		showSearchView();
 	}
-    }
 
-    private void createSearchPanel() {
-	rowList = new ArrayList<RowBuilder>();
-	setBorder(BorderFactory
-		.createTitledBorder("Genomizer Advanced Search Builder"));
-	// FlowLayout fl = new FlowLayout();
-	BorderLayout bl = new BorderLayout();
-	searchPanel = new JPanel(bl);
-	searchButton = new JButton("Search");
-	clearButton = new JButton("Clear");
-	clearButton.addActionListener(new ActionListener() {
+	private void showSearchView() {
+		topPanel.removeAll();
+		bottomPanel.removeAll();
+		topPanel.add(searchPanel);
+		bottomPanel.add(rowsPanel, BorderLayout.NORTH);
+		repaint();
+		revalidate();
+	}
 
-	    @Override
-	    public void actionPerformed(ActionEvent e) {
+	private void showResultsView() {
+		topPanel.removeAll();
+		bottomPanel.removeAll();
+		topPanel.add(resultsHeaderPanel);
+		bottomPanel.add(resultsTable.getTableHeader(), BorderLayout.NORTH);
+		bottomPanel.add(resultsTable, BorderLayout.CENTER);
+		repaint();
+		revalidate();
+	}
+
+	private void showFilesView() {
+		topPanel.removeAll();
+		bottomPanel.removeAll();
+		topPanel.add(filesHeaderPanel);
+		bottomPanel.add(filesTable.getTableHeader(), BorderLayout.NORTH);
+		bottomPanel.add(filesTable, BorderLayout.CENTER);
+		repaint();
+		revalidate();	
+	}
+
+	private void setUpQuerySearchTab() {
+		rowList = new ArrayList<QueryBuilderRow>();
+		currentSearchResult = new ExperimentData[0];
+		setBorder(BorderFactory
+				.createTitledBorder("Genomizer Advanced Search Builder"));
+		this.setLayout(new BorderLayout());
+		bottomPanel = new JPanel(new BorderLayout());
+		topPanel = new JPanel(new BorderLayout());
+		JScrollPane bottomScroll = new JScrollPane(bottomPanel);
+		bottomScroll.setBorder(BorderFactory.createEmptyBorder());
+		add(topPanel, BorderLayout.NORTH);
+		add(bottomScroll, BorderLayout.CENTER);
+	}
+
+	private void setUpResultsTable() {
+		resultsTable = new JTable();
+		resultsTable.setBackground(new Color(210,210,210));
+		resultsTable.setBackground(new Color(210,210,210));
+		resultsTable.setAutoCreateRowSorter(true);
+		resultsTable.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+		resultsTable.addMouseListener(new MouseAdapter() {
+			public void mouseClicked(MouseEvent e) {
+				if (e.getClickCount() == 2) { // check if a double click
+					int row = resultsTable.getSelectedRow();
+					int column  = resultsTable.getColumnModel().getColumnIndex("Experiment Name");
+					System.out.println(row + " " + column);
+					String expName = (String) resultsTable.getValueAt(row, column);
+					for(int i=0; i < currentSearchResult.length; i++) {
+						if(currentSearchResult[i].name.equals(expName)) {
+							filesTable.setModel(getFilesModel(currentSearchResult[i].files));
+							showFilesView();
+						}
+					}
+				}
+			}
+		});
+	}
+
+	private void setUpFilesTable() {
+		filesTable = new JTable();
+		filesTable.setBackground(new Color(210,210,210));
+		filesTable.setBackground(new Color(210,210,210));
+		filesTable.setAutoCreateRowSorter(true);
+	}
+
+	private void setUpSearchHeader() {
+		searchPanel = new JPanel();
+		searchButton = new JButton("Search");
+		clearButton = new JButton("Clear");
+		clearButton.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				clearSearchFields();
+			}
+		});
+		searchArea = new JTextArea(
+				"Use the builder below to create your search");
+		searchArea.setLineWrap(true);
+		searchArea.setSize(850, 20);
+		JPanel searchWestPanel = new JPanel();
+		searchWestPanel.add(searchArea);
+		JScrollPane searchScroll = new JScrollPane(searchWestPanel);
+		searchScroll.setSize(850, 20);
+		searchPanel.add(searchScroll, BorderLayout.CENTER);
+		JPanel searchEastPanel = new JPanel(new FlowLayout());
+		searchEastPanel.add(clearButton);
+		searchEastPanel.add(searchButton);
+		searchPanel.add(searchEastPanel, BorderLayout.EAST);
+	}
+
+	private void setUpResultsHeaderPanel() {
+		resultsHeaderPanel = new JPanel(new BorderLayout());
+		JButton backButton = new JButton("Back");
+		backButton.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				showSearchView();
+			}
+		});
+		resultsHeaderPanel.add(backButton,BorderLayout.WEST);
+	}
+
+	private void setUpFilesHeaderPanel() {
+		filesHeaderPanel = new JPanel(new BorderLayout());
+		JButton backButton = new JButton("Back");
+		backButton.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				showResultsView();
+			}
+		});
+		workspaceButton = new JButton("Add selected files to workspace");
+		filesHeaderPanel.add(workspaceButton,BorderLayout.EAST);
+		filesHeaderPanel.add(backButton,BorderLayout.WEST);
+	}
+
+	private void setUpRowsPanel() {
+		rowsPanel = new JPanel(new GridLayout(0, 1));
 		clearSearchFields();
-	    }
-	});
-	searchArea = new JTextArea(
-		"Use the builder below to create your search");
-	searchArea.setLineWrap(true);
-	searchArea.setSize(850, 20);
-	searchWest = new JPanel();
-	searchWest.add(searchArea);
-	searchScroll = new JScrollPane(searchWest);
-	searchScroll.setSize(850, 20);
-	// searchPanel.add(searchArea);
-	searchPanel.add(searchScroll, BorderLayout.CENTER);
-	searchEast = new JPanel(new FlowLayout());
-	searchEast.add(clearButton);
-	searchEast.add(searchButton);
-	searchPanel.add(searchEast, BorderLayout.EAST);
-	// searchPanel.add(clearButton);
-	// searchPanel.add(searchButton);
-    }
-
-    private void createBuilderPanel() {
-	builderPanel = new JPanel(new BorderLayout());
-	rowsPanel = new JPanel(new GridLayout(0, 1));
-	builderPanel.add(rowsPanel, BorderLayout.NORTH);
-	JScrollPane scroll = new JScrollPane(builderPanel);
-	add(scroll, BorderLayout.CENTER);
-    }
-
-    private void clearSearchFields() {
-	rowList = new ArrayList<RowBuilder>();
-	addRow();
-	searchArea.setText("Use the builder below to create your search");
-	builderPanel.repaint();
-	builderPanel.revalidate();
-	searchPanel.repaint();
-	searchPanel.revalidate();
-    }
-
-    public void addRow() {
-	rowList.add(new RowBuilder(this));
-	showRows();
-    }
-
-    public void removeRow(RowBuilder row) {
-	if (rowList.contains(row)) {
-	    rowList.remove(row);
 	}
-	showRows();
-    }
 
-    private void showRows() {
-	rowsPanel.removeAll();
-	for (int i = 0; i < rowList.size(); i++) {
-	    RowBuilder row = rowList.get(i);
-	    if (i == 0 && i == (rowList.size() - 1)) {
-		row.setAs(true, true);
-	    } else if (i == 0 && i != (rowList.size() - 1)) {
-		row.setAs(true, false);
-	    } else if (i != 0 && i == (rowList.size() - 1)) {
-		row.setAs(false, true);
-	    } else {
-		row.setAs(false, false);
-	    }
-	    rowsPanel.add(row);
-	}
-	rowsPanel.repaint();
-	rowsPanel.revalidate();
-    }
-
-    public synchronized void updateSearchArea() {
-	String searchString = "";
-	int i = 0;
-	for (RowBuilder row : rowList) {
-	    if (!row.getText().isEmpty()) {
-		String logic = "";
-		String endParantesis = "";
-		if (i == 0) {
-		    logic = "";
-		} else {
-		    logic = row.getLogic() + " ";
-		    searchString = "(" + searchString;
-		    endParantesis = ") ";
+	private DefaultTableModel getExperimentModel() {
+		String[] columnNames = new String[2 + currentSearchResult[0].annotations.length];
+		Object[][] data = new String[currentSearchResult.length][2 + currentSearchResult[0].annotations.length];
+		columnNames[0] = "Experiment Name";
+		columnNames[1] = "Experiment Creator";
+		for(int i=0; i<currentSearchResult.length; i++) {
+			String experimentName = currentSearchResult[i].name;
+			String experimentCreator = currentSearchResult[i].createdBy;
+			data[i][0] = experimentName;
+			data[i][1] = experimentCreator;
+			AnnotationData[] annotations = currentSearchResult[i].annotations;
+			for(int j=0; j<annotations.length; j++) {
+				columnNames[2+j] = annotations[j].name;
+				data[i][2+j] = annotations[j].value;
+			}
 		}
-		String text = row.getText();
-		String annotation = row.getAnnotation();
-		searchString = searchString + endParantesis + logic + text
-			+ "[" + annotation + "]";
-		i++;
-	    }
+		DefaultTableModel model = new DefaultTableModel(data, columnNames) {
+			public boolean isCellEditable(int row, int column){return false;}
+		};
+		return model;
 	}
-	searchArea.setText(searchString);
-    }
-
-    public void addSearchButtonListener(ActionListener listener) {
-	searchButton.addActionListener(listener);
-    }
-
-    public String getSearchString() {
-	return searchArea.getText();
-    }
-
-    private class RowBuilder extends JPanel {
-	private JComboBox annotationField;
-	private JTextField textField;
-	private JButton plusButton;
-	private JButton minusButton;
-	private JComboBox logicField;
-	private QuerySearchTab parent;
-
-	public RowBuilder(QuerySearchTab parent) {
-	    this.parent = parent;
-	    setLayout(new FlowLayout());
-	    setPlusButton();
-	    setMinusButton();
-	    setLogicBox();
-	    setFieldBox();
-	    setTextField();
-	}
-
-	public void setAs(Boolean firstRow, Boolean lastRow) {
-	    removeAll();
-
-	    if (firstRow && lastRow) {
-		add(Box.createHorizontalStrut(73));
-		add(annotationField);
-		add(textField);
-		add(plusButton);
-		add(Box.createHorizontalStrut(20));
-	    } else if (firstRow && !lastRow) {
-		add(Box.createHorizontalStrut(73));
-		add(annotationField);
-		add(textField);
-		add(minusButton);
-		add(Box.createHorizontalStrut(20));
-	    } else if (!firstRow && !lastRow) {
-		add(logicField);
-		add(annotationField);
-		add(textField);
-		add(minusButton);
-		add(Box.createHorizontalStrut(20));
-	    } else {
-		add(logicField);
-		add(annotationField);
-		add(textField);
-		add(minusButton);
-		add(plusButton);
-	    }
-	}
-
-	private void setPlusButton() {
-	    plusButton = new JButton();
-
-	    URL imageUrl = getClass().getResource("/icons/plus.png");
-	    ImageIcon plusIcon = new ImageIcon(imageUrl);
-	    plusIcon = new ImageIcon(plusIcon.getImage().getScaledInstance(15,
-		    15, BufferedImage.SCALE_SMOOTH));
-	    plusButton.setBorderPainted(true);
-	    plusButton.setContentAreaFilled(false);
-	    plusButton.setPreferredSize(new Dimension(20, 20));
-	    plusButton.setFocusable(true);
-	    plusButton.setFocusPainted(false);
-	    plusButton.setIcon(plusIcon);
-	    plusButton.addActionListener(new ActionListener() {
-
-		public void actionPerformed(ActionEvent e) {
-		    parent.addRow();
+	private DefaultTableModel getFilesModel(FileData[] files) {
+		String[] columnNames = new String[4];
+		Object[][] data = new String[files.length][4];
+		columnNames[0] = "File Name";
+		columnNames[1] = "Size";
+		columnNames[2] = "Uploader";
+		columnNames[3] = "Upload Date";
+		for(int i=0; i<files.length; i++) {
+			data[i][0] = files[i].name + "." + files[i].type;
+			data[i][1] = files[i].size;
+			data[i][2] = files[i].uploadedBy;
+			data[i][3] = files[i].date;
 		}
-	    });
+		DefaultTableModel model = new DefaultTableModel(data, columnNames) {
+			public boolean isCellEditable(int row, int column){return false;}
+		};
+		return model;
 	}
 
-	private void setMinusButton() {
-	    minusButton = new JButton();
-	    URL imageUrl = getClass().getResource("/icons/minus.png");
-	    ImageIcon minusIcon = new ImageIcon(imageUrl);
-	    minusIcon = new ImageIcon(minusIcon.getImage().getScaledInstance(
-		    15, 15, BufferedImage.SCALE_SMOOTH));
-	    minusButton.setBorderPainted(true);
-	    minusButton.setContentAreaFilled(false);
-	    minusButton.setPreferredSize(new Dimension(20, 20));
-	    minusButton.setFocusable(true);
-	    minusButton.setFocusPainted(false);
-	    minusButton.setIcon(minusIcon);
-	    final RowBuilder row = this;
-	    minusButton.addActionListener(new ActionListener() {
-		public void actionPerformed(ActionEvent e) {
-		    parent.removeRow(row);
-		    parent.updateSearchArea();
+	public void updateSearchResults(ExperimentData[] searchResults) {
+		if(searchResults != null) {
+			currentSearchResult = searchResults;
+			if(searchResults.length > 0) {
+				resultsTable.setModel(this.getExperimentModel());
+			}
+			showResultsView();
 		}
-	    });
-
 	}
 
-	private void setTextField() {
-	    textField = new JTextField(50);
-	    textField.getDocument().addDocumentListener(new DocumentListener() {
-		public void changedUpdate(DocumentEvent e) {
-		    parent.updateSearchArea();
+	private void clearSearchFields() {
+		rowList.clear();
+		addRow();
+		searchArea.setText("Use the builder below to create your search");
+		repaint();
+		revalidate();
+	}
+
+	public void addRow() {
+		rowList.add(new QueryBuilderRow(this));
+		paintRows();
+	}
+
+	public void removeRow(QueryBuilderRow row) {
+		if (rowList.contains(row)) {
+			rowList.remove(row);
 		}
+		paintRows();
+	}
 
-		public void removeUpdate(DocumentEvent e) {
-		    parent.updateSearchArea();
+	private void paintRows() {
+		rowsPanel.removeAll();
+		for (int i = 0; i < rowList.size(); i++) {
+			QueryBuilderRow row = rowList.get(i);
+			if (i == 0 && i == (rowList.size() - 1)) {
+				row.setAs(true, true);
+			} else if (i == 0 && i != (rowList.size() - 1)) {
+				row.setAs(true, false);
+			} else if (i != 0 && i == (rowList.size() - 1)) {
+				row.setAs(false, true);
+			} else {
+				row.setAs(false, false);
+			}
+			rowsPanel.add(row);
 		}
+		rowsPanel.repaint();
+		rowsPanel.revalidate();
+	}
 
-		public void insertUpdate(DocumentEvent e) {
-		    parent.updateSearchArea();
+	public synchronized void updateSearchArea() {
+		String searchString = "";
+		int i = 0;
+		for (QueryBuilderRow row : rowList) {
+			if (!row.getText().isEmpty()) {
+				String logic = "";
+				String endParantesis = "";
+				if (i == 0) {
+					logic = "";
+				} else {
+					logic = row.getLogic() + " ";
+					searchString = "(" + searchString;
+					endParantesis = ") ";
+				}
+				String text = row.getText();
+				String annotation = row.getAnnotation();
+				searchString = searchString + endParantesis + logic + text
+						+ "[" + annotation + "]";
+				i++;
+			}
 		}
-	    });
+		searchArea.setText(searchString);
 	}
 
-	private void setFieldBox() {
-	    annotationField = new JComboBox(annotations);
-	    annotationField.addActionListener(new ActionListener() {
-		public void actionPerformed(ActionEvent e) {
-		    parent.updateSearchArea();
-		}
-	    });
+	public void addSearchButtonListener(ActionListener listener) {
+		searchButton.addActionListener(listener);
 	}
 
-	private void setLogicBox() {
-	    logicField = new JComboBox(logicOperators);
-	    logicField.addActionListener(new ActionListener() {
-		public void actionPerformed(ActionEvent e) {
-		    parent.updateSearchArea();
-		}
-	    });
+	public void addWorkspaceButtonListener(ActionListener listener) {
+		workspaceButton.addActionListener(listener);
 	}
 
-	public String getText() {
-	    return textField.getText();
+	public String getSearchString() {
+		return searchArea.getText();
 	}
 
-	public String getLogic() {
-	    return (String) logicField.getSelectedItem();
-	}
-
-	public String getAnnotation() {
-	    return (String) annotationField.getSelectedItem();
-	}
-    }
 }

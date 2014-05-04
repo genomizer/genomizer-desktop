@@ -1,7 +1,8 @@
 package model;
 
 import java.util.ArrayList;
-import java.util.HashMap;
+
+import data.ExperimentData;
 
 public interface GenomizerModel {
 
@@ -11,7 +12,7 @@ public interface GenomizerModel {
 
 	public boolean uploadFile();
 
-	public ArrayList<HashMap<String, String>> search(String pubmedString);
+	public ExperimentData[] search(String pubmedString);
 
 	public boolean rawToProfile(ArrayList<String> markedFiles);
 

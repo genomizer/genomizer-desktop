@@ -1,9 +1,7 @@
 package model;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-
-import javax.swing.SwingUtilities;
+import java.util.LinkedHashMap;
 
 import requests.AddAnnotationRequest;
 import requests.AddFileToExperiment;
@@ -19,10 +17,11 @@ import responses.ResponseParser;
 import responses.SearchResponse;
 
 import com.google.gson.Gson;
-
 import communication.Connection;
 import communication.DownloadHandler;
 import communication.HTTPURLUpload;
+
+import data.ExperimentData;
 
 public class Model implements GenomizerModel {
 
@@ -145,28 +144,16 @@ public class Model implements GenomizerModel {
 		return true;
 	}
 
-	public ArrayList<HashMap<String, String>> search(String pubmedString) {
+	public ExperimentData[] search(String pubmedString) {
 		SearchRequest request = RequestFactory.makeSearchRequest(pubmedString);
 		conn.sendRequest(request, userID, "text/plain");
-		if (conn.getResponseCode() == 200) {
-			SearchResponse[] searchResponses = ResponseParser
-					.parseSearchResponse(conn.getResponseBody());
+		if (200 == 200) { //if(conn.getResponseCode == 200) {
+			ExperimentData[] searchResponses = ResponseParser
+					.parseSearchResponse(SearchResponse.getJsonExampleTest());
+			//parseSearchResponse(conn.getResponseBody); 
 			if (searchResponses != null && searchResponses.length > 0) {
 				searchHistory.addSearchToHistory(searchResponses);
-				ArrayList<HashMap<String, String>> annotationsList = new ArrayList<HashMap<String, String>>();
-				for (int i = 0; i < searchResponses.length; i++) {
-					HashMap<String, String> annotationsMap = new HashMap<String, String>();
-					SearchResponse searchResponse = searchResponses[i];
-					for (int j = 0; j < searchResponse.annotations.length; j++) {
-						String id = searchResponse.annotations[j].id;
-						String name = searchResponse.annotations[j].name;
-						String value = searchResponse.annotations[j].value;
-						annotationsMap.put(name, value);
-					}
-					annotationsList.add(annotationsMap);
-
-				}
-				return annotationsList;
+				return searchResponses;
 			}
 		}
 		return null;
