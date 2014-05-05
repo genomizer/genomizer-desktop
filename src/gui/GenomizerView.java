@@ -41,8 +41,7 @@ public interface GenomizerView {
 
 	public void updateFileChosen(String directoryAsString);
 
-	public void updateQuerySearchResults(
-			ExperimentData[] searchResults);
+	public void updateQuerySearchResults(ExperimentData[] searchResults);
 
 	public String getQuerySearchString();
 
