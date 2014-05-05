@@ -91,16 +91,15 @@ public class TreeTable {
 		model = new DefaultTreeTableModel(root, Arrays.asList(headings));
 		table = new JXTreeTable(model);
 		table.setShowGrid(true, true);
-		table.setColumnControlVisible(true);
 		table.packAll();
 		return table;
 	}
 
 	public JXTreeTable updateTreeTable() {
-		TableModel treeModel = table.getModel();
-		String[][] experimentContent = new String[treeModel.getRowCount()][treeModel.getColumnCount()];
-		for(int i=0; i<treeModel.getRowCount(); i++) {
-			for(int j=0; j<treeModel.getColumnCount(); j++) {
+		table.collapseAll();
+		String[][] experimentContent = new String[table.getRowCount()][table.getColumnCount()];
+		for(int i=0; i<table.getRowCount(); i++) {
+			for(int j=0; j<table.getColumnCount(); j++) {
 				experimentContent[i][j] = (String) table.getValueAt(i, j);
 			}
 		}
@@ -108,7 +107,7 @@ public class TreeTable {
 		for(int i=0; i<table.getColumnCount(); i++) {
 			newHeadings[i] = table.getColumnName(i);
 		}
-
+		
 		experimentContent = sortMatrix(experimentContent, sortByColumn, desc);
 		ArrayList<String[]> totalContent = new ArrayList<String[]>();
 		int mainIndex = 0;
@@ -144,7 +143,6 @@ public class TreeTable {
 		model = new DefaultTreeTableModel(root, Arrays.asList(newHeadings));
 		table = new JXTreeTable(model);
 		table.setShowGrid(true, true);
-		table.setColumnControlVisible(true);
 		table.packAll();
 		return table;
 	}
