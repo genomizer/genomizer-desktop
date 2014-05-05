@@ -3,7 +3,7 @@ package model;
 import java.util.ArrayList;
 
 import responses.SearchResponse;
-import data.ExperimentData;
+import util.ExperimentData;
 
 public class SearchHistory {
 

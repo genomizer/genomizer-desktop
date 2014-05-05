@@ -10,7 +10,7 @@ import javax.swing.JTabbedPane;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 
-import data.ExperimentData;
+import util.ExperimentData;
 
 public class GUI extends JFrame implements GenomizerView {
 

@@ -1,43 +1,57 @@
 package gui;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.awt.image.BufferedImage;
+import java.net.URL;
 import java.util.ArrayList;
-import java.util.List;
 
 import javax.swing.BorderFactory;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.JTable;
 import javax.swing.JTextArea;
+import javax.swing.ListSelectionModel;
+import javax.swing.table.DefaultTableModel;
 
+import util.AnnotationData;
 import util.ExperimentData;
 import util.FileData;
-import util.TreeTable;
 
-public class QuerySearchTab extends JPanel {
+public class QuerySearchTabVersion2 extends JPanel {
 	private JPanel topPanel;
 	private JPanel bottomPanel;
 	private JPanel rowsPanel;
 	private JPanel searchPanel;
 	private JPanel resultsHeaderPanel;
+	private JPanel filesHeaderPanel;
 	private JButton clearButton;
 	private JButton searchButton;
 	private JButton workspaceButton;
 	private JTextArea searchArea;
 	private ArrayList<QueryBuilderRow> rowList;
-	private TreeTable resultsTable;
+	private JTable resultsTable;
+	private JTable filesTable;
 	private ExperimentData[] currentSearchResult;
-	
-	public QuerySearchTab() {
+
+
+	public QuerySearchTabVersion2() {
 		setUpQuerySearchTab();
 		setUpSearchHeader();
 		setUpRowsPanel();
 		setUpResultsTable();
+		setUpFilesTable();
 		setUpResultsHeaderPanel();
+		setUpFilesHeaderPanel();
 		showSearchView();
 	}
 
@@ -54,9 +68,20 @@ public class QuerySearchTab extends JPanel {
 		topPanel.removeAll();
 		bottomPanel.removeAll();
 		topPanel.add(resultsHeaderPanel);
-		bottomPanel.add(new JScrollPane(resultsTable.getTreeTable()), BorderLayout.CENTER);
+		bottomPanel.add(resultsTable.getTableHeader(), BorderLayout.NORTH);
+		bottomPanel.add(resultsTable, BorderLayout.CENTER);
 		repaint();
 		revalidate();
+	}
+
+	private void showFilesView() {
+		topPanel.removeAll();
+		bottomPanel.removeAll();
+		topPanel.add(filesHeaderPanel);
+		bottomPanel.add(filesTable.getTableHeader(), BorderLayout.NORTH);
+		bottomPanel.add(filesTable, BorderLayout.CENTER);
+		repaint();
+		revalidate();	
 	}
 
 	private void setUpQuerySearchTab() {
@@ -74,9 +99,35 @@ public class QuerySearchTab extends JPanel {
 	}
 
 	private void setUpResultsTable() {
-		resultsTable = new TreeTable();
+		resultsTable = new JTable();
+		resultsTable.setBackground(new Color(210,210,210));
+		resultsTable.setBackground(new Color(210,210,210));
+		resultsTable.setAutoCreateRowSorter(true);
+		resultsTable.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+		resultsTable.addMouseListener(new MouseAdapter() {
+			public void mouseClicked(MouseEvent e) {
+				if (e.getClickCount() == 2) { // check if a double click
+					int row = resultsTable.getSelectedRow();
+					int column  = resultsTable.getColumnModel().getColumnIndex("Experiment Name");
+					System.out.println(row + " " + column);
+					String expName = (String) resultsTable.getValueAt(row, column);
+					for(int i=0; i < currentSearchResult.length; i++) {
+						if(currentSearchResult[i].name.equals(expName)) {
+							filesTable.setModel(getFilesModel(currentSearchResult[i].files));
+							showFilesView();
+						}
+					}
+				}
+			}
+		});
 	}
 
+	private void setUpFilesTable() {
+		filesTable = new JTable();
+		filesTable.setBackground(new Color(210,210,210));
+		filesTable.setBackground(new Color(210,210,210));
+		filesTable.setAutoCreateRowSorter(true);
+	}
 
 	private void setUpSearchHeader() {
 		searchPanel = new JPanel();
@@ -115,46 +166,71 @@ public class QuerySearchTab extends JPanel {
 		resultsHeaderPanel.add(backButton,BorderLayout.WEST);
 	}
 
+	private void setUpFilesHeaderPanel() {
+		filesHeaderPanel = new JPanel(new BorderLayout());
+		JButton backButton = new JButton("Back");
+		backButton.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				showResultsView();
+			}
+		});
+		workspaceButton = new JButton("Add selected files to workspace");
+		filesHeaderPanel.add(workspaceButton,BorderLayout.EAST);
+		filesHeaderPanel.add(backButton,BorderLayout.WEST);
+	}
 
 	private void setUpRowsPanel() {
 		rowsPanel = new JPanel(new GridLayout(0, 1));
 		clearSearchFields();
 	}
 
+	private DefaultTableModel getExperimentModel() {
+		String[] columnNames = new String[2 + currentSearchResult[0].annotations.length];
+		Object[][] data = new String[currentSearchResult.length][2 + currentSearchResult[0].annotations.length];
+		columnNames[0] = "Experiment Name";
+		columnNames[1] = "Experiment Creator";
+		for(int i=0; i<currentSearchResult.length; i++) {
+			String experimentName = currentSearchResult[i].name;
+			String experimentCreator = currentSearchResult[i].createdBy;
+			data[i][0] = experimentName;
+			data[i][1] = experimentCreator;
+			AnnotationData[] annotations = currentSearchResult[i].annotations;
+			for(int j=0; j<annotations.length; j++) {
+				columnNames[2+j] = annotations[j].name;
+				data[i][2+j] = annotations[j].value;
+			}
+		}
+		DefaultTableModel model = new DefaultTableModel(data, columnNames) {
+			public boolean isCellEditable(int row, int column){return false;}
+		};
+		return model;
+	}
+	private DefaultTableModel getFilesModel(FileData[] files) {
+		String[] columnNames = new String[4];
+		Object[][] data = new String[files.length][4];
+		columnNames[0] = "File Name";
+		columnNames[1] = "Size";
+		columnNames[2] = "Uploader";
+		columnNames[3] = "Upload Date";
+		for(int i=0; i<files.length; i++) {
+			data[i][0] = files[i].name + "." + files[i].type;
+			data[i][1] = files[i].size;
+			data[i][2] = files[i].uploadedBy;
+			data[i][3] = files[i].date;
+		}
+		DefaultTableModel model = new DefaultTableModel(data, columnNames) {
+			public boolean isCellEditable(int row, int column){return false;}
+		};
+		return model;
+	}
+
 	public void updateSearchResults(ExperimentData[] searchResults) {
-		String[] headings = null;
-		List<String[]> content = new ArrayList<String[]>();
 		if(searchResults != null) {
 			currentSearchResult = searchResults;
 			if(searchResults.length > 0) {
-				//headings
-				int nrOfColumns = 2+searchResults[0].annotations.length;
-				headings = new String[nrOfColumns];
-				headings[0] = "Experiment Name";
-				headings[1] = "Experiment Created By";
-				for(int i=0; i<searchResults[0].annotations.length; i++) {
-					ExperimentData expData = searchResults[i];
-					headings[2+i] = expData.annotations[i].name;
-				}
-				//content
-				for(int i=0; i<searchResults.length; i++) {
-					ExperimentData expData = searchResults[i];
-					String[] rowContent = new String[nrOfColumns];
-					rowContent[0] = expData.name;
-					rowContent[1] = expData.createdBy;
-					for(int j=0; j<expData.annotations.length; j++) {
-						rowContent[2+j] =  expData.annotations[j].value;
-					}
-					content.add(rowContent);
-					FileData[] files = expData.files;
-					for(int j=0; j<files.length; j++) {
-						String[] fileContent = new String[1];
-						fileContent[0] = expData.files[j].name + "." + expData.files[j].type;
-						content.add(fileContent);
-					}
-				}
+				resultsTable.setModel(this.getExperimentModel());
 			}
-			resultsTable.setContent(headings, content);
 			showResultsView();
 		}
 	}

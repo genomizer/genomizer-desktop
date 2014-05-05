@@ -2,7 +2,7 @@ package model;
 
 import java.util.ArrayList;
 
-import data.ExperimentData;
+import util.ExperimentData;
 
 public interface GenomizerModel {
 

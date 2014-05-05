@@ -1,9 +1,9 @@
 package responses;
 
+import util.ExperimentData;
+
 import com.google.gson.Gson;
 import com.google.gson.JsonParseException;
-
-import data.ExperimentData;
 
 public class ResponseParser {
 

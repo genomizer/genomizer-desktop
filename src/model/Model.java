@@ -15,13 +15,13 @@ import responses.DownloadFileResponse;
 import responses.LoginResponse;
 import responses.ResponseParser;
 import responses.SearchResponse;
+import util.ExperimentData;
 
 import com.google.gson.Gson;
+
 import communication.Connection;
 import communication.DownloadHandler;
 import communication.HTTPURLUpload;
-
-import data.ExperimentData;
 
 public class Model implements GenomizerModel {
 

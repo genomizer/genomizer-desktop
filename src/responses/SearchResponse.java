@@ -104,8 +104,16 @@ public class SearchResponse extends Response {
 
 		SearchResponse[] searchResponses = new SearchResponse[10];
 		for (int i = 0; i < 10; i++) {
-			AnnotationData[] annotationData = new AnnotationData[1];
+			AnnotationData[] annotationData = new AnnotationData[5];
 			annotationData[0] = response.new AnnotationData("2", "Species",
+					species[rand.nextInt(5)]);
+			annotationData[1] = response.new AnnotationData("2", "Species2",
+					species[rand.nextInt(5)]);
+			annotationData[2] = response.new AnnotationData("2", "Species3",
+					species[rand.nextInt(5)]);
+			annotationData[3] = response.new AnnotationData("2", "Species4",
+					species[rand.nextInt(5)]);
+			annotationData[4] = response.new AnnotationData("2", "Species5",
 					species[rand.nextInt(5)]);
 			searchResponses[i] = new SearchResponse("Experiment" + i, names[rand.nextInt(5)],
 					fileData, annotationData);

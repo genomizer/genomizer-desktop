@@ -9,8 +9,8 @@ import java.awt.event.ActionListener;
 import javax.swing.JFileChooser;
 import javax.swing.JPanel;
 
+import util.ExperimentData;
 import model.GenomizerModel;
-import data.ExperimentData;
 
 public class Controller {
 

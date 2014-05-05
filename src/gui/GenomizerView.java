@@ -5,7 +5,7 @@ import java.util.ArrayList;
 
 import javax.swing.JFrame;
 
-import data.ExperimentData;
+import util.ExperimentData;
 
 public interface GenomizerView {
 
