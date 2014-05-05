@@ -5,6 +5,7 @@ import java.util.LinkedHashMap;
 
 import requests.AddAnnotationRequest;
 import requests.AddFileToExperiment;
+import requests.DeleteAnnotationRequest;
 import requests.DownloadFileRequest;
 import requests.LoginRequest;
 import requests.LogoutRequest;
@@ -15,13 +16,13 @@ import responses.DownloadFileResponse;
 import responses.LoginResponse;
 import responses.ResponseParser;
 import responses.SearchResponse;
+import util.ExperimentData;
 
 import com.google.gson.Gson;
+
 import communication.Connection;
 import communication.DownloadHandler;
 import communication.HTTPURLUpload;
-
-import data.ExperimentData;
 
 public class Model implements GenomizerModel {
 
@@ -147,10 +148,10 @@ public class Model implements GenomizerModel {
 	public ExperimentData[] search(String pubmedString) {
 		SearchRequest request = RequestFactory.makeSearchRequest(pubmedString);
 		conn.sendRequest(request, userID, "text/plain");
-		if (200 == 200) { //if(conn.getResponseCode == 200) {
+		if (200 == 200) { // if(conn.getResponseCode == 200) {
 			ExperimentData[] searchResponses = ResponseParser
 					.parseSearchResponse(SearchResponse.getJsonExampleTest());
-			//parseSearchResponse(conn.getResponseBody); 
+			// parseSearchResponse(conn.getResponseBody);
 			if (searchResponses != null && searchResponses.length > 0) {
 				searchHistory.addSearchToHistory(searchResponses);
 				return searchResponses;
@@ -166,7 +167,7 @@ public class Model implements GenomizerModel {
 	@Override
 	public boolean addNewAnnotation(String name, String[] categories,
 			boolean forced) {
-		
+
 		AddAnnotationRequest request = RequestFactory.makeAddAnnotationRequest(
 				name, categories, forced);
 		conn.sendRequest(request, userID, "application/json");
@@ -180,4 +181,20 @@ public class Model implements GenomizerModel {
 		}
 	}
 
+	@Override
+	public boolean deleteAnnotation(String[] strings) {
+
+		DeleteAnnotationRequest request = RequestFactory
+				.makeDeleteAnnotationRequest(strings);
+		conn.sendRequest(request, userID, "application/json");
+		if (conn.getResponseCode() == 200) {
+			System.err.println("Annotation named " + strings
+					+ " deleted succesfully");
+			return true;
+		} else {
+			System.err.println("Could not delete annotation name " + strings
+					+ "!");
+		}
+		return false;
+	}
 }

@@ -66,4 +66,9 @@ public class RequestFactory {
 			String[] categories, Boolean forced) {
 		return new AddAnnotationRequest(name, categories, forced);
 	}
+
+	public static DeleteAnnotationRequest makeDeleteAnnotationRequest(
+			String[] names) {
+		return new DeleteAnnotationRequest(names);
+	}
 }
