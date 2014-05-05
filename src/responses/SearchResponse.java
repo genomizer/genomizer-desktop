@@ -95,15 +95,15 @@ public class SearchResponse extends Response {
 		SearchResponse response = new SearchResponse("s", "df", null, null);
 		Gson gson = new Gson();
 
-		FileData[] fileData = new FileData[5];
-		for (int i = 0; i < 5; i++) {
-			fileData[i] = response.new FileData("2", fileTypes[rand.nextInt(5)], fileNames[rand.nextInt(5)]
-					, names[rand.nextInt(5)],
-						dates[rand.nextInt(5)], fileSizes[rand.nextInt(5)], "-");
-		}
 
 		SearchResponse[] searchResponses = new SearchResponse[10];
 		for (int i = 0; i < 10; i++) {
+			FileData[] fileData = new FileData[5];
+			for (int j = 0; j < 5; j++) {
+				fileData[j] = response.new FileData("2", fileTypes[rand.nextInt(5)], "exp" + i +"_file"+j
+						, names[rand.nextInt(5)],
+							dates[rand.nextInt(5)], fileSizes[rand.nextInt(5)], "-");
+			}
 			AnnotationData[] annotationData = new AnnotationData[5];
 			annotationData[0] = response.new AnnotationData("2", "Species",
 					species[rand.nextInt(5)]);

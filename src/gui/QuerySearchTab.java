@@ -5,6 +5,8 @@ import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -13,9 +15,11 @@ import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
+import javax.swing.table.TableColumnModel;
+
+import org.jdesktop.swingx.JXTreeTable;
 
 import util.ExperimentData;
-import util.FileData;
 import util.TreeTable;
 
 public class QuerySearchTab extends JPanel {
@@ -31,6 +35,7 @@ public class QuerySearchTab extends JPanel {
 	private ArrayList<QueryBuilderRow> rowList;
 	private TreeTable resultsTable;
 	private ExperimentData[] currentSearchResult;
+	private boolean desc;
 	
 	public QuerySearchTab() {
 		setUpQuerySearchTab();
@@ -54,7 +59,20 @@ public class QuerySearchTab extends JPanel {
 		topPanel.removeAll();
 		bottomPanel.removeAll();
 		topPanel.add(resultsHeaderPanel);
-		bottomPanel.add(new JScrollPane(resultsTable.getTreeTable()), BorderLayout.CENTER);
+		final JXTreeTable treeTable = resultsTable.updateTreeTable();
+		treeTable.getTableHeader().addMouseListener(new MouseAdapter() {
+		      @Override
+		      public void mouseClicked(MouseEvent e) {
+		    	  if (e.getClickCount() == 1) {
+		    		  TableColumnModel cModel = treeTable.getColumnModel();//cModel - column model
+		    	        int column = cModel.getColumnIndexAtX(e.getX());
+		    	        desc = !desc;
+		    	        resultsTable.setSorting(column, desc);
+		    	        showResultsView();
+		    	  }
+		      };
+		    });
+		bottomPanel.add(new JScrollPane(treeTable), BorderLayout.CENTER);
 		repaint();
 		revalidate();
 	}
@@ -136,25 +154,9 @@ public class QuerySearchTab extends JPanel {
 					ExperimentData expData = searchResults[i];
 					headings[2+i] = expData.annotations[i].name;
 				}
-				//content
-				for(int i=0; i<searchResults.length; i++) {
-					ExperimentData expData = searchResults[i];
-					String[] rowContent = new String[nrOfColumns];
-					rowContent[0] = expData.name;
-					rowContent[1] = expData.createdBy;
-					for(int j=0; j<expData.annotations.length; j++) {
-						rowContent[2+j] =  expData.annotations[j].value;
-					}
-					content.add(rowContent);
-					FileData[] files = expData.files;
-					for(int j=0; j<files.length; j++) {
-						String[] fileContent = new String[1];
-						fileContent[0] = expData.files[j].name + "." + expData.files[j].type;
-						content.add(fileContent);
-					}
-				}
 			}
-			resultsTable.setContent(headings, content);
+			resultsTable.setContent(headings, searchResults);
+			resultsTable.getTreeTable();
 			showResultsView();
 		}
 	}
