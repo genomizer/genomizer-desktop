@@ -181,6 +181,9 @@ public class Model implements GenomizerModel {
 		}
 
 		AnnotationData[] annotations = getAnnotations();
+		if (annotations == null) {
+			return false;
+		}
 		for (int i = 0; i < annotations.length; i++) {
 			AnnotationData a = annotations[i];
 			if (a.getName().equalsIgnoreCase(name)) {
