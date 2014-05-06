@@ -82,7 +82,7 @@ public class TreeTable {
 	    totalContent.add(expContent[i]);
 	    for (int j = 0; j < expContent.length; j++) {
 		if (content[j].name.equals(expContent[i][mainIndex])) {
-		    fileNames = content[j].getFileListString();
+		    fileNames = content[j].getProfileFileList();
 		    for (int k = 0; k < fileNames.length; k++) {
 			totalContent.add(new String[] { fileNames[k] });
 		    }
