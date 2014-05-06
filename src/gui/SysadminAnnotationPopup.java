@@ -294,7 +294,9 @@ public class SysadminAnnotationPopup extends JPanel {
 	protected String[] getNewAnnotationCategories() {
 
 		String[] newCategories;
-		
+
+		// TODO: make a model for popup? this should not be in a pure view
+		// class.
 		synchronized (categories) {
 
 			if (categories.isEmpty()) {
@@ -303,7 +305,7 @@ public class SysadminAnnotationPopup extends JPanel {
 			}
 			newCategories = categories.toArray(new String[categories.size()]);
 		}
-		
+
 		return newCategories;
 	}
 

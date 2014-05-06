@@ -5,13 +5,11 @@ import gui.GenomizerView;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.ArrayList;
-import java.util.HashMap;
 
 import javax.swing.JFileChooser;
 import javax.swing.JPanel;
-import javax.swing.SwingUtilities;
 
+import util.ExperimentData;
 import model.GenomizerModel;
 
 public class Controller {
@@ -64,12 +62,13 @@ public class Controller {
 			String name = view.getNewAnnotationName();
 			if (name == null) {
 				// TODO: fix popupwarning?
-				System.err.println("You must specify a name for a new annotation!");
+				System.err
+						.println("You must specify a name for a new annotation!");
 			} else {
 				model.addNewAnnotation(name, view.getNewAnnotionCategories(),
 						view.getNewAnnotationForcedValue());
-				view.closePopup(); //Is this needed here?
-				//TODO: Update annoationsearch?
+				view.closePopup(); // Is this needed here?
+				// Update annoationsearch?
 			}
 		}
 	}
@@ -163,8 +162,7 @@ public class Controller {
 		@Override
 		public void run() {
 			String pubmed = view.getQuerySearchString();
-			ArrayList<HashMap<String, String>> searchResults = model
-					.search(pubmed);
+			ExperimentData[] searchResults = model.search(pubmed);
 			if (searchResults != null) {
 				view.updateQuerySearchResults(searchResults);
 			}

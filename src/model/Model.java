@@ -1,12 +1,11 @@
 package model;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-
-import javax.swing.SwingUtilities;
+import java.util.LinkedHashMap;
 
 import requests.AddAnnotationRequest;
 import requests.AddFileToExperiment;
+import requests.DeleteAnnotationRequest;
 import requests.DownloadFileRequest;
 import requests.LoginRequest;
 import requests.LogoutRequest;
@@ -17,6 +16,7 @@ import responses.DownloadFileResponse;
 import responses.LoginResponse;
 import responses.ResponseParser;
 import responses.SearchResponse;
+import util.ExperimentData;
 
 import com.google.gson.Gson;
 
@@ -145,28 +145,16 @@ public class Model implements GenomizerModel {
 		return true;
 	}
 
-	public ArrayList<HashMap<String, String>> search(String pubmedString) {
+	public ExperimentData[] search(String pubmedString) {
 		SearchRequest request = RequestFactory.makeSearchRequest(pubmedString);
 		conn.sendRequest(request, userID, "text/plain");
-		if (conn.getResponseCode() == 200) {
-			SearchResponse[] searchResponses = ResponseParser
-					.parseSearchResponse(conn.getResponseBody());
+		if (200 == 200) { // if(conn.getResponseCode == 200) {
+			ExperimentData[] searchResponses = ResponseParser
+					.parseSearchResponse(SearchResponse.getJsonExampleTest());
+			// parseSearchResponse(conn.getResponseBody);
 			if (searchResponses != null && searchResponses.length > 0) {
 				searchHistory.addSearchToHistory(searchResponses);
-				ArrayList<HashMap<String, String>> annotationsList = new ArrayList<HashMap<String, String>>();
-				for (int i = 0; i < searchResponses.length; i++) {
-					HashMap<String, String> annotationsMap = new HashMap<String, String>();
-					SearchResponse searchResponse = searchResponses[i];
-					for (int j = 0; j < searchResponse.annotations.length; j++) {
-						String id = searchResponse.annotations[j].id;
-						String name = searchResponse.annotations[j].name;
-						String value = searchResponse.annotations[j].value;
-						annotationsMap.put(name, value);
-					}
-					annotationsList.add(annotationsMap);
-
-				}
-				return annotationsList;
+				return searchResponses;
 			}
 		}
 		return null;
@@ -185,7 +173,6 @@ public class Model implements GenomizerModel {
 		conn.sendRequest(request, userID, "application/json");
 		if (conn.getResponseCode() == 201) {
 			System.err.println("addAnnotation sent succesfully!");
-
 			return true;
 		} else {
 			System.err
@@ -194,4 +181,20 @@ public class Model implements GenomizerModel {
 		}
 	}
 
+	@Override
+	public boolean deleteAnnotation(String[] strings) {
+
+		DeleteAnnotationRequest request = RequestFactory
+				.makeDeleteAnnotationRequest(strings);
+		conn.sendRequest(request, userID, "application/json");
+		if (conn.getResponseCode() == 200) {
+			System.err.println("Annotation named " + strings
+					+ " deleted succesfully");
+			return true;
+		} else {
+			System.err.println("Could not delete annotation name " + strings
+					+ "!");
+		}
+		return false;
+	}
 }

@@ -2,9 +2,10 @@ package gui;
 
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
-import java.util.HashMap;
 
 import javax.swing.JFrame;
+
+import util.ExperimentData;
 
 public interface GenomizerView {
 
@@ -40,8 +41,7 @@ public interface GenomizerView {
 
 	public void updateFileChosen(String directoryAsString);
 
-	public void updateQuerySearchResults(
-			ArrayList<HashMap<String, String>> searchResults);
+	public void updateQuerySearchResults(ExperimentData[] searchResults);
 
 	public String getQuerySearchString();
 
