@@ -1,4 +1,4 @@
-package gui;
+package gui.sysadmin;
 
 import javax.swing.table.AbstractTableModel;
 
