@@ -1,4 +1,6 @@
-package responses;
+package responses.sysadmin;
+
+import responses.Response;
 
 public class GetAnnotationsResponse extends Response {
 
