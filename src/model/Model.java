@@ -176,9 +176,8 @@ public class Model implements GenomizerModel {
 		}
 
 		AnnotationData[] annotations = getAnnotations();
-		ArrayList<AnnotationData> annotationList = new ArrayList<AnnotationData>(
-				Arrays.asList(annotations));
-		for (AnnotationData a : annotationList) {
+		for (int i = 0; i < annotations.length; i++) {
+			AnnotationData a = annotations[i];
 			if (a.getName().equalsIgnoreCase(name)) {
 				throw new IllegalArgumentException("Annotations must have a unique name, "
 						+ name + " already exists");

@@ -21,6 +21,9 @@ public class Connection {
 	}
 
 	public boolean sendRequest(Request request, String userID, String type) {
+		if (ip.startsWith("http://")) {
+			ip = ip.substring(7);
+		}
 		try {
 			String targetUrl = "http://" + ip + request.url;
 
