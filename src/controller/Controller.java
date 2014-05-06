@@ -69,7 +69,7 @@ public class Controller {
 				model.addNewAnnotation(name, view.getNewAnnotionCategories(),
 						view.getNewAnnotationForcedValue());
 				view.closePopup(); //Is this needed here?
-				//Update annoationsearch?
+				//TODO: Update annoationsearch?
 			}
 		}
 	}
