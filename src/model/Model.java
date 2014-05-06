@@ -1,6 +1,7 @@
 package model;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 import requests.AddAnnotationRequest;
 import requests.AddFileToExperiment;
@@ -174,6 +175,16 @@ public class Model implements GenomizerModel {
 					"Must have a name for the annotation!");
 		}
 
+		AnnotationData[] annotations = getAnnotations();
+		ArrayList<AnnotationData> annotationList = new ArrayList<AnnotationData>(
+				Arrays.asList(annotations));
+		for (AnnotationData a : annotationList) {
+			if (a.getName().equalsIgnoreCase(name)) {
+				throw new IllegalArgumentException("Annotations must have a unique name, "
+						+ name + " already exists");
+			}
+		}
+
 		if (categories == null || categories.length == 0) {
 			categories = new String[] { "Yes", "No", "Unknown" };
 		}
@@ -218,7 +229,7 @@ public class Model implements GenomizerModel {
 					.parseGetAnnotationResponse(conn.getResponseBody());
 			return annotations;
 		} else {
-			System.out.println("responsecode: " +conn.getResponseCode());
+			System.out.println("responsecode: " + conn.getResponseCode());
 			System.err.println("Could not get annotations!");
 		}
 		return null;

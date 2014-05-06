@@ -72,5 +72,15 @@ public class AnnotationTest {
 		assertThat(expected).isNull();
 	}
 	
-	
+	@Test
+	public void shouldOnlyAddUniqueAnnotations(){
+		String name = model.getAnnotations()[2].getName();
+		try {
+			model.addNewAnnotation(name, null, false);
+			fail("This is not a unique annotation");
+		} catch (IllegalArgumentException e) {
+			assertThat(e).hasMessage("Annotations must have a unique name, "
+					+ name + " already exists");
+		}
+	}
 }

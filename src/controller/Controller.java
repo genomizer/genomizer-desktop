@@ -74,7 +74,7 @@ public class Controller {
 				JOptionPane.showMessageDialog(null,
 						e.getMessage());
 			}
-			// Update annoationsearch?
+			// Update annotationsearch?
 		}
 	}
 
