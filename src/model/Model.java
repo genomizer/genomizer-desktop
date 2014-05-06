@@ -211,14 +211,14 @@ public class Model implements GenomizerModel {
 	public AnnotationData[] getAnnotations() {
 		GetAnnotationRequest request = RequestFactory
 				.makeGetAnnotationRequest();
-		conn.sendRequest(request, userID, "application/json");
-		if (conn.getResponseCode() == 201) {
+		conn.sendRequest(request, userID, "text/plain");
+		if (conn.getResponseCode() == 200) {
 			System.err.println("Sent getAnnotionrequestsuccess!");
 			AnnotationData[] annotations = ResponseParser
 					.parseGetAnnotationResponse(conn.getResponseBody());
 			return annotations;
 		} else {
-			System.out.println(conn.getResponseCode());
+			System.out.println("responsecode: " +conn.getResponseCode());
 			System.err.println("Could not get annotations!");
 		}
 		return null;

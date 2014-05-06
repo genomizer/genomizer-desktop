@@ -18,4 +18,20 @@ public class AnnotationData {
 	public String toString(){
 		return name;
 	}
+
+	public String getId() {
+		return id;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public String[] getValue() {
+		return value;
+	}
+
+	public boolean isForced() {
+		return forced;
+	}
 }

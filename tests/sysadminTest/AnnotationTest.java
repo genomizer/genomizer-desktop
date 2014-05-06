@@ -4,6 +4,8 @@ import model.Model;
 
 import org.junit.Before;
 import org.junit.Test;
+
+import responses.sysadmin.AnnotationData;
 import static org.fest.assertions.api.Assertions.*;
 import communication.Connection;
 
@@ -18,9 +20,23 @@ public class AnnotationTest {
 		model = new Model(con);
 	}
 
-	/*
-	 * This is how TDD is done!
-	 */
+	@Test
+	public void shouldGetAnnotationsShouldNotBeNull() {
+		assertThat(model.getAnnotations()).isNotNull();
+	}
+	
+	@Test
+	public void shouldGetPubmedAnnotation(){
+		assertThat(model.getAnnotations()[0].toString()).isEqualTo("pubmedId");
+	}
+	
+	@Test
+	public void shouldGetSpeciesValues(){
+		String[] actual = model.getAnnotations()[2].getValue();
+		String[] expected = new String[] {"fly", "human", "rat"};
+		assertThat(actual).isEqualTo(expected);
+	}
+	
 	@Test
 	public void shouldAddNewAnnotation() {
 		assertThat(
@@ -51,9 +67,10 @@ public class AnnotationTest {
 	}
 
 	@Test
-	public void shouldGetAnnotationsShouldNotBeNull() {
-		System.out.println(model.getAnnotations()[0].toString());
-		assertThat(model.getAnnotations()).isNotNull();
+	public void shouldOnlyDeleteExistingAnnotation(){
+		AnnotationData expected = model.getAnnotations()[0];
+		assertThat(expected).isNull();
 	}
-
+	
+	
 }
