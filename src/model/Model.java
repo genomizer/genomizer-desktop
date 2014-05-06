@@ -1,14 +1,12 @@
 package model;
 
 import java.util.ArrayList;
-import java.util.LinkedHashMap;
-
-import javax.swing.JOptionPane;
 
 import requests.AddAnnotationRequest;
 import requests.AddFileToExperiment;
 import requests.DeleteAnnotationRequest;
 import requests.DownloadFileRequest;
+import requests.GetAnnotationRequest;
 import requests.LoginRequest;
 import requests.LogoutRequest;
 import requests.RequestFactory;
@@ -18,6 +16,7 @@ import responses.DownloadFileResponse;
 import responses.LoginResponse;
 import responses.ResponseParser;
 import responses.SearchResponse;
+import responses.sysadmin.AnnotationData;
 import util.ExperimentData;
 
 import com.google.gson.Gson;
@@ -171,11 +170,12 @@ public class Model implements GenomizerModel {
 			boolean forced) throws IllegalArgumentException {
 
 		if (name.isEmpty()) {
-			throw new IllegalArgumentException("Must have a name for the annotation!");
+			throw new IllegalArgumentException(
+					"Must have a name for the annotation!");
 		}
 
 		if (categories == null || categories.length == 0) {
-			categories = new String[] {"Yes", "No", "Unknown"};
+			categories = new String[] { "Yes", "No", "Unknown" };
 		}
 
 		AddAnnotationRequest request = RequestFactory.makeAddAnnotationRequest(
@@ -206,5 +206,21 @@ public class Model implements GenomizerModel {
 					+ "!");
 		}
 		return false;
+	}
+
+	public AnnotationData[] getAnnotations() {
+		GetAnnotationRequest request = RequestFactory
+				.makeGetAnnotationRequest();
+		conn.sendRequest(request, userID, "application/json");
+		if (conn.getResponseCode() == 201) {
+			System.err.println("Sent getAnnotionrequestsuccess!");
+			AnnotationData[] annotations = ResponseParser
+					.parseGetAnnotationResponse(conn.getResponseBody());
+			return annotations;
+		} else {
+			System.out.println(conn.getResponseCode());
+			System.err.println("Could not get annotations!");
+		}
+		return null;
 	}
 }

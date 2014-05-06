@@ -1,5 +1,6 @@
 package responses;
 
+import responses.sysadmin.AnnotationData;
 import util.ExperimentData;
 
 import com.google.gson.Gson;
@@ -27,5 +28,15 @@ public class ResponseParser {
 			return null;
 		}
 		return searchResponses;
+	}
+	
+	public static AnnotationData[] parseGetAnnotationResponse(String json) {
+		AnnotationData[] annotationResponses = null;
+		try {
+			annotationResponses = gson.fromJson(json, AnnotationData[].class);
+		} catch (JsonParseException e) {
+			return null;
+		}
+		return annotationResponses;
 	}
 }
