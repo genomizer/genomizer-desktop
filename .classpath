@@ -16,5 +16,11 @@
 	<classpathentry kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/4"/>
 	<classpathentry kind="lib" path="lib/swingx-all-1.6.4.jar"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/fest"/>
+	<classpathentry kind="lib" path="lib/fest-assert-2.1.0/fest-assert-core-2.0M8.jar"/>
+	<classpathentry kind="lib" path="lib/fest-assert-2.1.0/fest-test-2.1.0.jar"/>
+	<classpathentry kind="lib" path="lib/fest-assert-2.1.0/fest-util-1.2.5.jar"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/FEST-assert"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/FEST-test"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/FEST-util"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

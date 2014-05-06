@@ -40,5 +40,4 @@ public class AnnotationTest {
 		assertThat(model.deleteAnnotation(new String[] { "SpeciesTEST" }))
 				.isTrue();
 	}
-
 }

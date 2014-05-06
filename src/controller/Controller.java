@@ -60,13 +60,14 @@ public class Controller {
 		@Override
 		public void run() {
 			String name = view.getNewAnnotationName();
+			String[] categories = view.getNewAnnotionCategories();
+			boolean forced = view.getNewAnnotationForcedValue();
 			if (name == null) {
 				// TODO: fix popupwarning?
 				System.err
 						.println("You must specify a name for a new annotation!");
 			} else {
-				model.addNewAnnotation(name, view.getNewAnnotionCategories(),
-						view.getNewAnnotationForcedValue());
+				model.addNewAnnotation(name, categories, forced);
 				view.closePopup(); // Is this needed here?
 				// Update annoationsearch?
 			}
