@@ -3,6 +3,8 @@ package model;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 
+import javax.swing.JOptionPane;
+
 import requests.AddAnnotationRequest;
 import requests.AddFileToExperiment;
 import requests.DeleteAnnotationRequest;
@@ -166,7 +168,15 @@ public class Model implements GenomizerModel {
 
 	@Override
 	public boolean addNewAnnotation(String name, String[] categories,
-			boolean forced) {
+			boolean forced) throws IllegalArgumentException {
+
+		if (name.isEmpty()) {
+			throw new IllegalArgumentException("Must have a name for the annotation!");
+		}
+
+		if (categories == null || categories.length == 0) {
+			categories = new String[] {"Yes", "No", "Unknown"};
+		}
 
 		AddAnnotationRequest request = RequestFactory.makeAddAnnotationRequest(
 				name, categories, forced);

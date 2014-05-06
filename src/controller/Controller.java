@@ -7,6 +7,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.JFileChooser;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 import util.ExperimentData;
@@ -62,15 +63,18 @@ public class Controller {
 			String name = view.getNewAnnotationName();
 			String[] categories = view.getNewAnnotionCategories();
 			boolean forced = view.getNewAnnotationForcedValue();
-			if (name == null) {
-				// TODO: fix popupwarning?
-				System.err
-						.println("You must specify a name for a new annotation!");
-			} else {
-				model.addNewAnnotation(name, categories, forced);
-				view.closePopup(); // Is this needed here?
-				// Update annoationsearch?
+			try {
+				if (model.addNewAnnotation(name, categories, forced)) {
+					view.closePopup(); // Is this needed here?
+				} else {
+					JOptionPane.showMessageDialog(null,
+							"Could not create new annotation, check server?");
+				}
+			} catch (IllegalArgumentException e) {
+				JOptionPane.showMessageDialog(null,
+						e.getMessage());
 			}
+			// Update annoationsearch?
 		}
 	}
 

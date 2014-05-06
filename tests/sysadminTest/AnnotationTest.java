@@ -31,13 +31,25 @@ public class AnnotationTest {
 	@Test
 	public void shouldNotAddNewAnnotation() {
 		assertThat(model.addNewAnnotation("SpeciesTEST", null, false))
-				.isFalse(); // TODO: ask communication if this is OK?!? (I don't
-							// think it should...)
+				.isTrue();
 	}
+	
+	@Test
+	public void shouldNotAddNewAnnotationDueToEmptyString() {
+		try {
+			model.addNewAnnotation("", new String[] { "manTEST",
+			"mouseTEST" }, false);
+			fail("This should throw an illegalargumentexception");
+		} catch (IllegalArgumentException e) {
+			assertThat(e).hasMessage("Must have a name for the annotation!");
+		}
+	}
+	
 
 	@Test
 	public void shouldDeleteAnnotation() { // TODO: how do you delete data???
 		assertThat(model.deleteAnnotation(new String[] { "SpeciesTEST" }))
 				.isTrue();
 	}
+	
 }
