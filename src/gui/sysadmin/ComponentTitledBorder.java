@@ -1,4 +1,4 @@
-package gui;
+package gui.sysadmin;
 
 import java.awt.Component;
 import java.awt.Container;

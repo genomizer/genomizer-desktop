@@ -71,4 +71,8 @@ public class RequestFactory {
 			String[] names) {
 		return new DeleteAnnotationRequest(names);
 	}
+
+	public static GetAnnotationRequest makeGetAnnotationRequest() {
+		return new GetAnnotationRequest();
+	}
 }

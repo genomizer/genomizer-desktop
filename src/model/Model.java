@@ -1,12 +1,13 @@
 package model;
 
 import java.util.ArrayList;
-import java.util.LinkedHashMap;
+import java.util.Arrays;
 
 import requests.AddAnnotationRequest;
 import requests.AddFileToExperiment;
 import requests.DeleteAnnotationRequest;
 import requests.DownloadFileRequest;
+import requests.GetAnnotationRequest;
 import requests.LoginRequest;
 import requests.LogoutRequest;
 import requests.RequestFactory;
@@ -16,6 +17,7 @@ import responses.DownloadFileResponse;
 import responses.LoginResponse;
 import responses.ResponseParser;
 import responses.SearchResponse;
+import responses.sysadmin.AnnotationData;
 import util.ExperimentData;
 
 import com.google.gson.Gson;
@@ -166,7 +168,25 @@ public class Model implements GenomizerModel {
 
 	@Override
 	public boolean addNewAnnotation(String name, String[] categories,
-			boolean forced) {
+			boolean forced) throws IllegalArgumentException {
+
+		if (name.isEmpty()) {
+			throw new IllegalArgumentException(
+					"Must have a name for the annotation!");
+		}
+
+		AnnotationData[] annotations = getAnnotations();
+		for (int i = 0; i < annotations.length; i++) {
+			AnnotationData a = annotations[i];
+			if (a.getName().equalsIgnoreCase(name)) {
+				throw new IllegalArgumentException("Annotations must have a unique name, "
+						+ name + " already exists");
+			}
+		}
+
+		if (categories == null || categories.length == 0) {
+			categories = new String[] { "Yes", "No", "Unknown" };
+		}
 
 		AddAnnotationRequest request = RequestFactory.makeAddAnnotationRequest(
 				name, categories, forced);
@@ -196,5 +216,21 @@ public class Model implements GenomizerModel {
 					+ "!");
 		}
 		return false;
+	}
+
+	public AnnotationData[] getAnnotations() {
+		GetAnnotationRequest request = RequestFactory
+				.makeGetAnnotationRequest();
+		conn.sendRequest(request, userID, "text/plain");
+		if (conn.getResponseCode() == 200) {
+			System.err.println("Sent getAnnotionrequestsuccess!");
+			AnnotationData[] annotations = ResponseParser
+					.parseGetAnnotationResponse(conn.getResponseBody());
+			return annotations;
+		} else {
+			System.out.println("responsecode: " + conn.getResponseCode());
+			System.err.println("Could not get annotations!");
+		}
+		return null;
 	}
 }

@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<eclipse-userlibraries version="2">
+    <library name="FEST-assert" systemlibrary="false">
+        <archive javadoc="jar:file:/home/c12/c12jvr/edu/pvt/genomizer/genomizer-desktop/lib/fest-assert-2.1.0/fest-assert-core-2.0M8-javadoc.jar!/" path="/genomizerdesktop/lib/fest-assert-2.1.0/fest-assert-core-2.0M8.jar" source="/genomizerdesktop/lib/fest-assert-2.1.0/fest-assert-core-2.0M8-sources.jar"/>
+    </library>
+</eclipse-userlibraries>
