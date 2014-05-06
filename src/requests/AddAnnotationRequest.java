@@ -13,7 +13,6 @@ public class AddAnnotationRequest extends Request {
 		this.type = categories;
 		this.defaultType = "unknown";
 		this.forced = forced;
-		
 	}
 
 }

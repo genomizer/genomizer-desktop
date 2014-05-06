@@ -29,8 +29,10 @@ import javax.swing.table.TableRowSorter;
 public class SysadminTab extends JPanel {
 
 	private TableRowSorter<TableModel> rowSorter;
+	private SysadminAnnotationPopup pop;
 
 	private static final long serialVersionUID = 3718367832670081148L;
+	private JButton addButton;
 
 	/**
 	 * Create the panel.
@@ -78,19 +80,9 @@ public class SysadminTab extends JPanel {
 
 	private void buildButtonPanel(JPanel buttonPanel) {
 		buttonPanel.setBackground(new Color(215, 200, 200));
-		buttonPanel.setLayout(new GridLayout(20,1));
+		buttonPanel.setLayout(new GridLayout(20, 1));
 		JButton modifyButton = new JButton("Modify"); // TODO: load from a list
-														// of
-		// function/buttons
-		JButton addButton = new JButton("Add");
-		addButton.addActionListener(new ActionListener() {
-			
-			@Override
-			public void actionPerformed(ActionEvent arg0) {
-				// TODO Auto-generated method stub
-				popup();
-			}
-		});
+		addButton = new JButton("Add");
 		JButton removeButton = new JButton("Remove");
 		buttonPanel.add(modifyButton);
 		buttonPanel.add(addButton);
@@ -101,11 +93,10 @@ public class SysadminTab extends JPanel {
 		JTextField searchField = buildSearchField();
 		searchPanel.setLayout(new BorderLayout());
 		JPanel paneception = new JPanel(new GridLayout(1, 1));
-		
-		JButton searchButton = new JButton("Search");
-		
 
-		//searchPanel.setPreferredSize(new Dimension(600, 40));
+		JButton searchButton = new JButton("Search");
+
+		// searchPanel.setPreferredSize(new Dimension(600, 40));
 		searchPanel.setBackground(new Color(245, 245, 245));
 		searchPanel.add(searchField, BorderLayout.CENTER);
 		paneception.add(searchButton);
@@ -131,16 +122,11 @@ public class SysadminTab extends JPanel {
 
 	private Component buildMockTable() {
 		JPanel panel = new JPanel(new BorderLayout());
-		
+
 		String[] attributes = { "Name", "Type", "Forced" };
 
-		
-		Object[][] data = { { "", "", "" },
-				{ "", "", "" }
-		};
-		 
-		
-		
+		Object[][] data = { { "", "", "" }, { "", "", "" } };
+
 		JTable table = new JTable(data, attributes);
 		table.setPreferredSize(panel.getSize());
 
@@ -162,16 +148,16 @@ public class SysadminTab extends JPanel {
 
 		return scroll;
 	}
-	
+
 	private Component buildSearchTable() {
-		
+
 		JPanel panel = new JPanel(new BorderLayout());
-		TableModel tableModel = null; //TODO: fix this add a new class?
+		TableModel tableModel = null; // TODO: fix this add a new class?
 		JTable table = new JTable(tableModel);
 		table.setPreferredSize(panel.getSize());
 
 		table.setShowGrid(false);
-		
+
 		JTableHeader header = table.getTableHeader();
 
 		panel.add(header, BorderLayout.NORTH);
@@ -182,13 +168,12 @@ public class SysadminTab extends JPanel {
 
 		TableRowSorter<TableModel> rowSorter = new TableRowSorter<TableModel>(
 				tableModel);
-		
+
 		this.rowSorter = rowSorter;
-		
+
 		table.setRowSorter(rowSorter);
 		return null;
 	}
-	
 
 	/**
 	 * Update the row filter regular expression from the expression in the text
@@ -206,18 +191,18 @@ public class SysadminTab extends JPanel {
 		rowSorter.setRowFilter(rf);
 	}
 
-	private void popup(){
-		SysadminAnnotationPopup pop = new SysadminAnnotationPopup();
+	public void popup() {
+		pop = new SysadminAnnotationPopup();
 		pop.setBackground(Color.WHITE);
 		JFrame popupFrame = new JFrame("Add new Annotation");
 		popupFrame.setLayout(new BorderLayout());
 		popupFrame.add(pop, BorderLayout.CENTER);
 		popupFrame.pack();
 		popupFrame.setLocationRelativeTo(null);
-		popupFrame.setSize(new Dimension(800, 800));
+		popupFrame.setSize(new Dimension(600, 600));
 		popupFrame.setVisible(true);
 	}
-	
+
 	private class SearchDocumentListener implements DocumentListener {
 
 		private TableRowSorter<TableModel> rowSorter;
@@ -249,5 +234,31 @@ public class SysadminTab extends JPanel {
 		}
 
 	}
+
+	public void addAddAnnotationListener(ActionListener addAnnotationListener) {
+		pop.addAddAnnotationListener(addAnnotationListener);
+	}
+	
+	public void addAddPopupListener(ActionListener addPopupListener) {
+		addButton.addActionListener(addPopupListener);
+	}
+	
+	public String getNewAnnotationName() {
+		return pop.getNewAnnotationName();
+	}
+	
+	public String[] getNewAnnotationCategories(){
+		return pop.getNewAnnotationCategories();
+	}
+	
+	public boolean getNewAnnotationForcedValue(){
+		return pop.getNewAnnotationForcedValue();
+	}
+
+	public void closePopup() {
+		pop.closeWindow();
+		
+	}
+	
 
 }

@@ -31,7 +31,7 @@ public class LoginWindow extends JDialog {
 	});
 	setTitle("Genomizer Login");
 	setDefaultCloseOperation(DISPOSE_ON_CLOSE);
-	setSize(300, 300);
+	setSize(300, 170);
 	setResizable(false);
 	this.setLocationRelativeTo(parent.getFrame());
 	placeComponents();
