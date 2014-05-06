@@ -11,7 +11,7 @@ import java.net.URL;
 import java.util.ArrayList;
 
 import javax.swing.BorderFactory;
-import javax.swing.ButtonGroup;
+import javax.swing.ButtonModel;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
@@ -24,19 +24,16 @@ import javax.swing.JTextField;
 import javax.swing.ScrollPaneConstants;
 import javax.swing.SwingUtilities;
 
-import communication.Connection;
-import requests.LoginRequest;
-import requests.Request;
-import requests.RequestFactory;
-import responses.LoginResponse;
-import responses.ResponseParser;
-
 public class SysadminAnnotationPopup extends JPanel {
 
 	private static final long serialVersionUID = -626744436260839622L;
 	private JPanel addCategoriesPanel;
+	private JButton addButton, removeButton;
+	private ButtonModel createNewAnnotationButtonModel;
 	private JTextField nameField;
 	private ArrayList<String> categories = new ArrayList<String>();
+	private boolean forced = false;
+	private JCheckBox forcedBox;
 
 	public SysadminAnnotationPopup() {
 		this.setLayout(new BorderLayout());
@@ -44,7 +41,6 @@ public class SysadminAnnotationPopup extends JPanel {
 		nameField = new JTextField();
 		optionsPane.addTab("DropDownLists", buildFirstTab());
 		optionsPane.addTab("Free Text", buildSecondTab());
-
 		this.add(optionsPane, BorderLayout.CENTER);
 	}
 
@@ -132,10 +128,10 @@ public class SysadminAnnotationPopup extends JPanel {
 			JPanel baseCatPanel, final JTextField annotationTextField) {
 
 		URL imageUrl = getClass().getResource("/icons/plus.png");
-		ImageIcon addIcon = new ImageIcon (imageUrl);
+		ImageIcon addIcon = new ImageIcon(imageUrl);
 		addIcon = new ImageIcon(addIcon.getImage().getScaledInstance(20, 20,
 				BufferedImage.SCALE_SMOOTH));
-		JButton addButton = new JButton("");
+		addButton = new JButton("");
 
 		addButton.setBorderPainted(false);
 		addButton.setContentAreaFilled(false);
@@ -158,10 +154,10 @@ public class SysadminAnnotationPopup extends JPanel {
 
 	private void createRemoveCategoryButton(final JPanel categoryPanel) {
 		URL imageUrl = getClass().getResource("/icons/minus.png");
-		ImageIcon removeIcon = new ImageIcon (imageUrl);
+		ImageIcon removeIcon = new ImageIcon(imageUrl);
 		removeIcon = new ImageIcon(removeIcon.getImage().getScaledInstance(15,
 				15, BufferedImage.SCALE_SMOOTH));
-		JButton removeButton = new JButton("");
+		removeButton = new JButton("");
 
 		removeButton.setBorderPainted(false);
 		removeButton.setContentAreaFilled(false);
@@ -184,46 +180,40 @@ public class SysadminAnnotationPopup extends JPanel {
 	private JPanel buildBotPanelInFirstTab() {
 		JPanel botPanelInFirstTab = new JPanel();
 		JLabel forced = new JLabel("Forced Annotation:");
-		JCheckBox yesBox = new JCheckBox("Yes");
+		forcedBox = new JCheckBox("Yes");
+		forcedBox.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				switchForced();
+
+			}
+		});
 		// JPanel checkboxPanel = createCheckBoxPanel();
 		botPanelInFirstTab.add(forced);
 		// botPanelInFirstTab.add(checkboxPanel);
-		botPanelInFirstTab.add(yesBox);
+		botPanelInFirstTab.add(forcedBox);
 		buildCreateNewAnnotationButton(botPanelInFirstTab);
 
 		return botPanelInFirstTab;
 	}
 
-	private void buildCreateNewAnnotationButton(JPanel botPanelInFirstTab) {
-		JButton createNewAnnotationButton = new JButton("Create annotation");
-		botPanelInFirstTab.add(createNewAnnotationButton);
-
-		createNewAnnotationButton.addActionListener(new ActionListener() {
-
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				// TODO: add a "are you really 100% super duper sure? popup?
-				sendNewAnnotation();
-
-				closeWindow();
-
-			}
-		});
+	protected void switchForced() {
+		forced = (forced == true) ? false : true;
 	}
 
-	private JPanel createCheckBoxPanel() {
-		ButtonGroup checkgroup = new ButtonGroup();
-		JPanel checkboxPanel = new JPanel();
-		JCheckBox yesBox = new JCheckBox("Yes");
-		JCheckBox noBox = new JCheckBox("No");
-		noBox.setSelected(true);
-		checkgroup.add(yesBox);
-		checkgroup.add(noBox);
+	private void buildCreateNewAnnotationButton(JPanel botPanelInFirstTab) {
 
-		/* Add the check boxes to the box panel */
-		checkboxPanel.add(yesBox);
-		checkboxPanel.add(noBox);
-		return checkboxPanel;
+		JButton createNewAnnotationButton = new JButton("Create annotation");
+
+		if (createNewAnnotationButtonModel == null) {
+			createNewAnnotationButtonModel = createNewAnnotationButton
+					.getModel();
+		} else {
+			createNewAnnotationButton.setModel(createNewAnnotationButtonModel);
+		}
+
+		botPanelInFirstTab.add(createNewAnnotationButton);
 	}
 
 	private JPanel buildTopPanelInFirstTab() {
@@ -293,87 +283,40 @@ public class SysadminAnnotationPopup extends JPanel {
 		repaint();
 	}
 
-	protected void sendNewAnnotation() {
-		String annotationName = nameField.getText(); // name of new annotation
-		Boolean forced = null;
-
-		if (categories.isEmpty()) {
-			categories.add("Yes");
-			categories.add("No");
-		}
-
-		String[] stringArray = categories
-				.toArray(new String[categories.size()]);
-
-		Request request = RequestFactory.makeAddAnnotationRequest(
-				annotationName, stringArray, forced);
-		if (mocksendNewAnnotation(request)) {
-			System.out.println("YAY!");
-		} else {
-			System.out.println("NAY!!");
-		}
-
+	protected String getNewAnnotationName() {
+		return nameField.getText();
 	}
 
-	protected boolean mocksendNewAnnotation(Request request) {
-		String username = "sysadmin";
-		String password = "qwerty";
-		String ip = "genomizer.apiary-mock.com";
-		int port = 80;
-		String userID = "";
-		Connection conn = new Connection(ip);
-		if (!username.isEmpty() && !password.isEmpty()) {
-			LoginRequest loginRequest = RequestFactory.makeLoginRequest(
-					username, password);
-			conn.sendRequest(loginRequest, userID, "application/json");
-			if (conn.getResponseCode() == 200) {
-				LoginResponse loginResponse = ResponseParser
-						.parseLoginResponse(conn.getResponseBody());
-				if (loginResponse != null) {
-					userID = loginResponse.token;
+	protected Boolean getNewAnnotationForcedValue() {
+		return forced;
+	}
 
-					conn.sendRequest(request, userID, "application/json");
-					if (conn.getResponseCode() == 201) {
-						System.out.println("addAnnotation sent succesfully!");
+	protected String[] getNewAnnotationCategories() {
 
-						return true;
-					} else {
-						System.out
-								.println("addAnnotaion FAILURE, did not recive 200 response");
-						return false;
-					}
+		String[] newCategories;
 
-				}
+		// TODO: make a model for popup? this should not be in a pure view
+		// class.
+		synchronized (categories) {
+
+			if (categories.isEmpty()) {
+				categories.add("Yes");
+				categories.add("No");
 			}
+			newCategories = categories.toArray(new String[categories.size()]);
 		}
-		return false;
+
+		return newCategories;
 	}
 
-	public boolean loginUser(String username, String password) {
-		String ip = "genomizer.apiary-mock.com";
-		int port = 80;
-		String userID = "";
-		Connection conn = new Connection(ip, port);
-		if (!username.isEmpty() && !password.isEmpty()) {
-			LoginRequest request = RequestFactory.makeLoginRequest(username,
-					password);
-			conn.sendRequest(request, userID, "application/json");
-			if (conn.getResponseCode() == 200) {
-				LoginResponse loginResponse = ResponseParser
-						.parseLoginResponse(conn.getResponseBody());
-				if (loginResponse != null) {
-					userID = loginResponse.token;
-					return true;
-				}
-			}
-		}
-		return false;
-	}
-
-	protected void closeWindow() {
+	public void closeWindow() {
 		JFrame frame = (JFrame) SwingUtilities
 				.getWindowAncestor(addCategoriesPanel); // UGLY?!?
 		frame.setVisible(false);
+	}
+
+	public void addAddAnnotationListener(ActionListener listener) {
+		createNewAnnotationButtonModel.addActionListener(listener);
 	}
 
 }
