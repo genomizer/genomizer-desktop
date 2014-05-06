@@ -1,12 +1,14 @@
 package sysadminTest;
 
+import static org.fest.assertions.api.Assertions.assertThat;
+import static org.fest.assertions.api.Assertions.fail;
 import model.Model;
 
 import org.junit.Before;
 import org.junit.Test;
 
 import responses.sysadmin.AnnotationData;
-import static org.fest.assertions.api.Assertions.*;
+
 import communication.Connection;
 
 public class AnnotationTest {
@@ -24,19 +26,19 @@ public class AnnotationTest {
 	public void shouldGetAnnotationsShouldNotBeNull() {
 		assertThat(model.getAnnotations()).isNotNull();
 	}
-	
+
 	@Test
-	public void shouldGetPubmedAnnotation(){
+	public void shouldGetPubmedAnnotation() {
 		assertThat(model.getAnnotations()[0].toString()).isEqualTo("pubmedId");
 	}
-	
+
 	@Test
-	public void shouldGetSpeciesValues(){
+	public void shouldGetSpeciesValues() {
 		String[] actual = model.getAnnotations()[2].getValue();
-		String[] expected = new String[] {"fly", "human", "rat"};
+		String[] expected = new String[] { "fly", "human", "rat" };
 		assertThat(actual).isEqualTo(expected);
 	}
-	
+
 	@Test
 	public void shouldAddNewAnnotation() {
 		assertThat(
@@ -67,20 +69,21 @@ public class AnnotationTest {
 	}
 
 	@Test
-	public void shouldOnlyDeleteExistingAnnotation(){
+	public void shouldOnlyDeleteExistingAnnotation() {
 		AnnotationData expected = model.getAnnotations()[0];
 		assertThat(expected).isNull();
 	}
-	
+
 	@Test
-	public void shouldOnlyAddUniqueAnnotations(){
+	public void shouldOnlyAddUniqueAnnotations() {
 		String name = model.getAnnotations()[2].getName();
 		try {
 			model.addNewAnnotation(name, null, false);
 			fail("This is not a unique annotation");
 		} catch (IllegalArgumentException e) {
-			assertThat(e).hasMessage("Annotations must have a unique name, "
-					+ name + " already exists");
+			assertThat(e).hasMessage(
+					"Annotations must have a unique name, " + name
+							+ " already exists");
 		}
 	}
 }

@@ -93,26 +93,32 @@ public class GUI extends JFrame implements GenomizerView {
 		tabbedPane.add("ANALYZE", analyzeTab);
 	}
 
+	@Override
 	public void addLoginListener(ActionListener listener) {
 		loginWindow.addLoginListener(listener);
 	}
 
+	@Override
 	public void addConvertFileListener(ActionListener listener) {
 		processTab.addConvertFileListener(listener);
 	}
 
+	@Override
 	public void addRawToProfileDataListener(ActionListener listener) {
 		processTab.addRawToProfileDataListener(listener);
 	}
 
+	@Override
 	public void addRawToRegionDataListener(ActionListener listener) {
 		processTab.addRawToRegionDataListener(listener);
 	}
 
+	@Override
 	public void addScheduleFileListener(ActionListener listener) {
 		processTab.addScheduleFileListener(listener);
 	}
 
+	@Override
 	public ArrayList<String> getAllMarkedFiles() {
 
 		return processTab.getAllMarkedFiles();
@@ -123,6 +129,7 @@ public class GUI extends JFrame implements GenomizerView {
 		return searchTab;
 	}
 
+	@Override
 	public JFrame getFrame() {
 		return this;
 	}
@@ -167,6 +174,7 @@ public class GUI extends JFrame implements GenomizerView {
 		return loginWindow.getUsernameInput();
 	}
 
+	@Override
 	public String getIp() {
 		return loginWindow.getIPInput();
 	}
@@ -241,7 +249,7 @@ public class GUI extends JFrame implements GenomizerView {
 	public void addAddAnnotationListener(ActionListener addAnnotationListener) {
 		sysadminTab.addAddAnnotationListener(addAnnotationListener);
 	}
-	
+
 	@Override
 	public void addAddPopupListener(ActionListener addPopupListener) {
 		sysadminTab.addAddPopupListener(addPopupListener);
@@ -251,17 +259,19 @@ public class GUI extends JFrame implements GenomizerView {
 	public void annotationPopup() {
 		sysadminTab.popup();
 	}
-	
+
 	@Override
 	public String getNewAnnotationName() {
 		return sysadminTab.getNewAnnotationName();
 	}
-	@Override	
-	public String[] getNewAnnotionCategories(){
+
+	@Override
+	public String[] getNewAnnotionCategories() {
 		return sysadminTab.getNewAnnotationCategories();
 	}
+
 	@Override
-	public boolean getNewAnnotationForcedValue(){
+	public boolean getNewAnnotationForcedValue() {
 		return sysadminTab.getNewAnnotationForcedValue();
 	}
 

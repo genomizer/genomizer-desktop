@@ -10,31 +10,31 @@ import requests.DownloadFileRequest;
 
 public class DownloadFileRequestTest {
 
-    private DownloadFileRequest download;
+	private DownloadFileRequest download;
 
-    @Before
-    public void setUp() {
-	download = new DownloadFileRequest("file1", "wig");
-    }
+	@Before
+	public void setUp() {
+		download = new DownloadFileRequest("file1", "wig");
+	}
 
-    @Test
-    public void testCreateDownloadRequest() {
-	assertThat(download).isNotNull();
-    }
+	@Test
+	public void testCreateDownloadRequest() {
+		assertThat(download).isNotNull();
+	}
 
-    @Test
-    public void testGetFileName() {
-	assertEquals("file1", download.fileName);
-    }
+	@Test
+	public void testGetFileName() {
+		assertEquals("file1", download.fileName);
+	}
 
-    @Test
-    public void testGetFileFormat() {
-	assertEquals("wig", download.fileFormat);
-    }
+	@Test
+	public void testGetFileFormat() {
+		assertEquals("wig", download.fileFormat);
+	}
 
-    @Test
-    public void testGetRequestName() {
-	assertEquals("downloadfile", download.requestName);
-    }
+	@Test
+	public void testGetRequestName() {
+		assertEquals("downloadfile", download.requestName);
+	}
 
 }

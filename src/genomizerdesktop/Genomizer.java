@@ -9,7 +9,9 @@ import gui.UploadTab;
 import gui.WorkspaceTab;
 import gui.sysadmin.SysadminTab;
 import model.Model;
+
 import communication.Connection;
+
 import controller.Controller;
 
 public class Genomizer {

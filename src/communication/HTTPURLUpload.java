@@ -36,11 +36,9 @@ public class HTTPURLUpload {
 
 		URI postReceiverUrl = null;
 		try {
-			postReceiverUrl = new URIBuilder()
-			.setScheme("http")
-			.setHost("scratchy.cs.umu.se:8090")
-			.setPath("/html/upload.php")
-			.build();
+			postReceiverUrl = new URIBuilder().setScheme("http")
+					.setHost("scratchy.cs.umu.se:8090")
+					.setPath("/html/upload.php").build();
 		} catch (URISyntaxException e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
@@ -51,13 +49,12 @@ public class HTTPURLUpload {
 
 		CloseableHttpClient httpClient = hcBuilder.build();
 
-		//Authentication information
+		// Authentication information
 		CredentialsProvider credentialsProvider = new BasicCredentialsProvider();
-		credentialsProvider.setCredentials(AuthScope.ANY, new UsernamePasswordCredentials(username + ":" + password));
+		credentialsProvider.setCredentials(AuthScope.ANY,
+				new UsernamePasswordCredentials(username + ":" + password));
 		HttpClientContext localContext = HttpClientContext.create();
 		localContext.setCredentialsProvider(credentialsProvider);
-
-
 
 		// post header
 		HttpPost httpPost = new HttpPost(postReceiverUrl);
@@ -67,7 +64,7 @@ public class HTTPURLUpload {
 		MultipartEntityBuilder reqEntity = MultipartEntityBuilder.create();
 		reqEntity.setMode(HttpMultipartMode.BROWSER_COMPATIBLE);
 
-		//add the location on the server where the file should be saved
+		// add the location on the server where the file should be saved
 		reqEntity.addTextBody("path", uploadPath);
 
 		reqEntity.addBinaryBody("uploadfile", file);
@@ -80,8 +77,8 @@ public class HTTPURLUpload {
 			HttpEntity resEntity = response.getEntity();
 			if (resEntity != null) {
 
-			   // String responseStr = EntityUtils.toString(resEntity).trim();
-			    //System.out.println("Response: " +  responseStr);
+				// String responseStr = EntityUtils.toString(resEntity).trim();
+				// System.out.println("Response: " + responseStr);
 			}
 		} catch (ClientProtocolException e) {
 			// TODO Auto-generated catch block
@@ -91,15 +88,15 @@ public class HTTPURLUpload {
 			e.printStackTrace();
 		}
 
-
-
-
 	}
+
 	/**
 	 * @param args
 	 */
 	public static void main(String[] args) {
-		HTTPURLUpload uploader = new HTTPURLUpload("/var/www/html/uploads/test111.txt", "/home/c11/c11vlg/Downloads/test.txt");
+		HTTPURLUpload uploader = new HTTPURLUpload(
+				"/var/www/html/uploads/test111.txt",
+				"/home/c11/c11vlg/Downloads/test.txt");
 		uploader.sendFile("pvt", "pvt");
 	}
 

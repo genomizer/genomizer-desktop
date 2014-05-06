@@ -29,7 +29,7 @@ public class ResponseParser {
 		}
 		return searchResponses;
 	}
-	
+
 	public static AnnotationData[] parseGetAnnotationResponse(String json) {
 		AnnotationData[] annotationResponses = null;
 		try {

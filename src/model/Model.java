@@ -1,7 +1,6 @@
 package model;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 
 import requests.AddAnnotationRequest;
 import requests.AddFileToExperiment;
@@ -21,7 +20,6 @@ import responses.sysadmin.AnnotationData;
 import util.ExperimentData;
 
 import com.google.gson.Gson;
-
 import communication.Connection;
 import communication.DownloadHandler;
 import communication.HTTPURLUpload;
@@ -53,6 +51,7 @@ public class Model implements GenomizerModel {
 		this.conn = conn;
 	}
 
+	@Override
 	public boolean rawToProfile(ArrayList<String> markedFiles) {
 
 		if (!markedFiles.isEmpty()) {
@@ -82,6 +81,7 @@ public class Model implements GenomizerModel {
 		return false;
 	}
 
+	@Override
 	public boolean loginUser(String username, String password) {
 		if (!username.isEmpty() && !password.isEmpty()) {
 			System.out.println("login test");
@@ -101,6 +101,7 @@ public class Model implements GenomizerModel {
 		return false;
 	}
 
+	@Override
 	public boolean logoutUser() {
 		LogoutRequest request = RequestFactory.makeLogoutRequest();
 		conn.sendRequest(request, userID, "text/plain");
@@ -112,6 +113,7 @@ public class Model implements GenomizerModel {
 		}
 	}
 
+	@Override
 	public boolean uploadFile() {
 		AddFileToExperiment request = RequestFactory.makeAddFile("test",
 				"test", "1.3GB", "raw");
@@ -133,6 +135,7 @@ public class Model implements GenomizerModel {
 		return true;
 	}
 
+	@Override
 	public boolean downloadFile() {
 		DownloadFileRequest request = RequestFactory.makeDownloadFileRequest(
 				"test.wig", ".wig");
@@ -147,6 +150,7 @@ public class Model implements GenomizerModel {
 		return true;
 	}
 
+	@Override
 	public ExperimentData[] search(String pubmedString) {
 		SearchRequest request = RequestFactory.makeSearchRequest(pubmedString);
 		conn.sendRequest(request, userID, "text/plain");
@@ -162,6 +166,7 @@ public class Model implements GenomizerModel {
 		return null;
 	}
 
+	@Override
 	public void setIp(String ip) {
 		conn.setIp(ip);
 	}
@@ -179,8 +184,9 @@ public class Model implements GenomizerModel {
 		for (int i = 0; i < annotations.length; i++) {
 			AnnotationData a = annotations[i];
 			if (a.getName().equalsIgnoreCase(name)) {
-				throw new IllegalArgumentException("Annotations must have a unique name, "
-						+ name + " already exists");
+				throw new IllegalArgumentException(
+						"Annotations must have a unique name, " + name
+								+ " already exists");
 			}
 		}
 

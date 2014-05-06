@@ -20,7 +20,8 @@ public interface GenomizerModel {
 
 	public void setIp(String ip);
 
-	public boolean addNewAnnotation(String name, String[] categories, boolean forced);
+	public boolean addNewAnnotation(String name, String[] categories,
+			boolean forced);
 
 	boolean deleteAnnotation(String[] strings);
 }
