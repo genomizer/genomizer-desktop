@@ -19,7 +19,7 @@ import javax.swing.table.TableColumnModel;
 
 import org.jdesktop.swingx.JXTreeTable;
 
-import util.AnnotationDataTypes;
+import util.AnnotationDataType;
 import util.ExperimentData;
 import util.FileData;
 import util.TreeTable;
@@ -38,7 +38,7 @@ public class QuerySearchTab extends JPanel {
     private ArrayList<QueryBuilderRow> rowList;
     private TreeTable resultsTable;
     private ExperimentData[] currentSearchResult;
-    private AnnotationDataTypes[] annotationTypes;
+    private AnnotationDataType[] annotationTypes;
 
     public QuerySearchTab() {
         setUpQuerySearchTab();
@@ -82,7 +82,7 @@ public class QuerySearchTab extends JPanel {
     }
 
     private void setUpQuerySearchTab() {
-        annotationTypes = new AnnotationDataTypes[0];
+        annotationTypes = new AnnotationDataType[0];
         rowList = new ArrayList<QueryBuilderRow>();
         currentSearchResult = new ExperimentData[0];
         setBorder(BorderFactory
@@ -249,7 +249,7 @@ public class QuerySearchTab extends JPanel {
         updateAnnotationsButton.addActionListener(listener);
     }
 
-    public void setAnnotationTypes(AnnotationDataTypes[] annotationTypes) {
+    public void setAnnotationTypes(AnnotationDataType[] annotationTypes) {
         this.annotationTypes = annotationTypes;
         updateRows();
         paintRows();

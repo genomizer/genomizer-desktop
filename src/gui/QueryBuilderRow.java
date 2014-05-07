@@ -7,7 +7,6 @@ import java.awt.FlowLayout;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.image.BufferedImage;
 import java.net.URL;
 
 import javax.swing.Box;
@@ -179,19 +178,24 @@ public class QueryBuilderRow extends JPanel {
         annotationField.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                dropdown = false;
+
                String annotation = (String)annotationField.getSelectedItem();
                 for(int i=0; i<annotationTypes.length; i++) {
                     if(annotation.equals(annotationTypes[i].getName())) {
-                        String[] values = annotationTypes[i].getValue();
-                        if(!values[0].equals("freetext")) {
-                            dropdown = true;
-                            setAnnotationAlternatives(values);
+                        String[] values = annotationTypes[i].getValues();
+                        if(values != null) {
+                            if (!values[0].equals("freetext")) {
+                                dropdown = true;
+                                setAnnotationAlternatives(values);
+                            } else {
+                                dropdown = false;
+                            }
+                            setAs(firstRow, lastRow);
+                            parent.updateSearchArea();
+                            repaint();
+                            revalidate();
                         }
-                        setAs(firstRow, lastRow);
-                        parent.updateSearchArea();
-                        repaint();
-                        revalidate();
+                        System.out.println("null");
                     }
                 }
             }
