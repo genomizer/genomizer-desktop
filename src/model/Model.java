@@ -1,7 +1,5 @@
 package model;
 
-import java.util.ArrayList;
-
 import requests.AddAnnotationRequest;
 import requests.AddFileToExperiment;
 import requests.DeleteAnnotationRequest;
@@ -15,20 +13,14 @@ import requests.rawToProfileRequest;
 import responses.DownloadFileResponse;
 import responses.LoginResponse;
 import responses.ResponseParser;
-import responses.SearchResponse;
-import util.AnnotationData;
 import util.AnnotationDataType;
 import util.DeleteAnnoationData;
 import util.ExperimentData;
 
 import com.google.gson.Gson;
-
 import communication.Connection;
 import communication.DownloadHandler;
 import communication.HTTPURLUpload;
-import util.FileData;
-
-import javax.swing.*;
 
 public class Model implements GenomizerModel {
 
@@ -156,9 +148,8 @@ public class Model implements GenomizerModel {
 	public ExperimentData[] search(String pubmedString) {
 		SearchRequest request = RequestFactory.makeSearchRequest(pubmedString);
 		conn.sendRequest(request, userID, "text/plain");
-        if(conn.getResponseCode() == 200) { // if (200 == 200) {
+        if(conn.getResponseCode() == 200) {
 			ExperimentData[] searchResponses = ResponseParser.parseSearchResponse(conn.getResponseBody());
-			//		.parseSearchResponse(SearchResponse.getJsonExampleTest());
 			if (searchResponses != null && searchResponses.length > 0) {
 				searchHistory.addSearchToHistory(searchResponses);
 				return searchResponses;

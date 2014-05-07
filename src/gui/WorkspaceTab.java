@@ -7,12 +7,13 @@ import java.awt.GridBagLayout;
 import java.awt.Image;
 import java.awt.Insets;
 import java.awt.event.ActionListener;
-import java.awt.image.BufferedImage;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JPanel;
-import javax.swing.JTable;
+
+import util.ExperimentData;
+import util.TreeTable;
 
 public class WorkspaceTab extends JPanel {
 
@@ -56,20 +57,21 @@ public class WorkspaceTab extends JPanel {
         addToButtonPanel();
         buttonPanel.setVisible(true);
 
-        String[] columnNames = {"Name", "Date", "Uploaded by", "Data type",
-                "Local"};
-        Object[][] data = {
-                {"Protein123_A5_2014.WIG", "2014-04-29", "Per", "Profile",
-                        new Boolean(false)},
-                {"Protein123_A5_2014.RAW", "2014-04-29", "Per", "RAW",
-                        new Boolean(false)},
-                {"Protein123_A5_2014.WIG", "2014-04-29", "Per", "Region",
-                        new Boolean(false)}};
+//        String[] columnNames = {"Name", "Date", "Uploaded by", "Data type",
+//                "Local"};
+//        Object[][] data = {
+//                {"Protein123_A5_2014.WIG", "2014-04-29", "Per", "Profile",
+//                        new Boolean(false)},
+//                {"Protein123_A5_2014.RAW", "2014-04-29", "Per", "RAW",
+//                        new Boolean(false)},
+//                {"Protein123_A5_2014.WIG", "2014-04-29", "Per", "Region",
+//                        new Boolean(false)}};
+//
+//        JTable table = new JTable(data, columnNames);
+//        table.setBackground(new Color(210, 210, 210));
 
-        JTable table = new JTable(data, columnNames);
-        table.setBackground(new Color(210, 210, 210));
-
-        filePanel.add(table.getTableHeader(), BorderLayout.PAGE_START);
+        TreeTable table = new TreeTable(ExperimentData.getExample());
+       // filePanel.add(table.getTableHeader(), BorderLayout.PAGE_START);
         filePanel.add(table, BorderLayout.CENTER);
         setVisible(true);
     }

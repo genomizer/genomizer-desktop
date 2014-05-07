@@ -62,21 +62,7 @@ public class QuerySearchTab extends JPanel {
         topPanel.removeAll();
         bottomPanel.removeAll();
         topPanel.add(resultsHeaderPanel);
-        final JXTreeTable treeTable = resultsTable.getTreeTable();
-        treeTable.getTableHeader().addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseClicked(MouseEvent e) {
-                if (e.getClickCount() == 1) {
-                    TableColumnModel cModel = treeTable.getColumnModel();
-                    int column = cModel.getColumnIndexAtX(e.getX());
-                    resultsTable.setSorting(column);
-                    showResultsView();
-                }
-            }
-
-            ;
-        });
-        bottomPanel.add(new JScrollPane(treeTable), BorderLayout.CENTER);
+        bottomPanel.add(resultsTable, BorderLayout.CENTER);
         repaint();
         revalidate();
     }
@@ -147,24 +133,8 @@ public class QuerySearchTab extends JPanel {
     }
 
     public void updateSearchResults(ExperimentData[] searchResults) {
-        String[] headings = null;
-        List<String[]> content = new ArrayList<String[]>();
-        if (searchResults != null) {
-            currentSearchResult = searchResults;
-            if (searchResults.length > 0) {
-                // headings
-                int nrOfColumns = 2 + searchResults[0].annotations.length;
-                headings = new String[nrOfColumns];
-                headings[0] = "Experiment Name";
-                headings[1] = "Experiment Created By";
-                for (int i = 0; i < searchResults[0].annotations.length; i++) {
-                    ExperimentData expData = searchResults[i];
-                    headings[2 + i] = expData.annotations[i].name;
-                }
-            }
-            resultsTable.setContent(headings, searchResults);
+            resultsTable.setContent(searchResults);
             showResultsView();
-        }
     }
 
     private void clearSearchFields() {
