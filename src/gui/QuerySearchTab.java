@@ -47,7 +47,6 @@ public class QuerySearchTab extends JPanel {
         setUpResultsTable();
         setUpResultsHeaderPanel();
         showSearchView();
-        updateAnnotationsButton.doClick();
     }
 
     private void showSearchView() {
@@ -248,6 +247,7 @@ public class QuerySearchTab extends JPanel {
 
     public void addUpdateAnnotationsListener(ActionListener listener) {
         updateAnnotationsButton.addActionListener(listener);
+        updateAnnotationsButton.doClick();
     }
 
     public void setAnnotationTypes(AnnotationDataType[] annotationTypes) {

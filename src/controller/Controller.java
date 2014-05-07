@@ -218,7 +218,10 @@ public class Controller {
 			ExperimentData[] searchResults = model.search(pubmed);
 			if (searchResults != null) {
 				view.updateQuerySearchResults(searchResults);
-			}
+			} else {
+                JOptionPane.showMessageDialog(null, "No search results!", "Search Warning",
+                        JOptionPane.WARNING_MESSAGE);
+            }
 		}
 	}
 
