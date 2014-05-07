@@ -36,6 +36,8 @@ public class Controller {
 		// view.addAddAnnotationListener(new AddNewAnnotationListener());
 		view.addAddPopupListener(new AddPopupListener());
         view.addAddToExistingExpButtonListener(new AddToExistingExpButtonListener());
+        view.addSelectFilesToUploadButtonListener(new SelectFilesToUploadButtonListener());
+        view.addUploadToExperimentButtonListener(new UploadToExperimentButtonListener());
 	}
 
 	class AddPopupListener implements ActionListener, Runnable {
@@ -269,7 +271,35 @@ public class Controller {
 
         @Override
         public void run() {
-            System.out.println("hej");
+            view.getUploadTab().addExistingExpPanel();
+        }
+    }
+
+    class SelectFilesToUploadButtonListener implements ActionListener, Runnable {
+
+        @Override
+        public void actionPerformed(ActionEvent actionEvent) {
+
+            new Thread(this).start();
+        }
+
+        @Override
+        public void run() {
+            fileChooser.showOpenDialog(new JPanel());
+        }
+    }
+
+    class UploadToExperimentButtonListener implements ActionListener, Runnable {
+
+        @Override
+        public void actionPerformed(ActionEvent actionEvent) {
+
+            new Thread(this).start();
+        }
+
+        @Override
+        public void run() {
+
         }
     }
 }

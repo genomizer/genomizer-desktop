@@ -29,11 +29,13 @@ public class UploadTab extends JPanel {
 	private JScrollPane uploadScroll;
 	private JComboBox comboBox1;
 	private DefaultTableModel tableModel;
+    private UploadToExistingExpPanel uploadToExistingExpPanel;
 
 	public UploadTab() {
 		setLayout(new BorderLayout());
 		directoryTextField = new JTextArea();
 		directoryTextField.setColumns(30);
+        uploadToExistingExpPanel = new UploadToExistingExpPanel();
 		northPanel = new JPanel();
 		add(northPanel, BorderLayout.NORTH);
 		northPanel.add(new JLabel("File directory:"));
@@ -45,50 +47,22 @@ public class UploadTab extends JPanel {
 		northPanel.add(uploadButton, BorderLayout.CENTER);
         northPanel.add(addToExistingExpButton, BorderLayout.EAST);
 		createUploadPanel();
-		add(uploadPanel, BorderLayout.CENTER);
 	}
 
 	public void createUploadPanel() {
 		uploadPanel = new JPanel(new GridLayout());
-		initiateTable();
-		uploadPanel.add(uploadTable.getTableHeader());
-		uploadScroll = new JScrollPane(uploadTable);
-		uploadScroll.setBackground(Color.blue);
-		uploadPanel.add(uploadScroll);
+        add(uploadPanel);
 	}
 
-	public void initiateTable() {
-		tableModel = new DefaultTableModel();
-		uploadTable = new JTable(tableModel);
-		uploadTable.setBackground(Color.blue);
-		uploadTable.setForeground(Color.white);
-		uploadTable.setFont(new Font("Arial", Font.PLAIN, 24));
-	}
+    public void addExistingExpPanel() {
+        uploadPanel.add(uploadToExistingExpPanel, BorderLayout.CENTER);
+        uploadPanel.repaint();
+        uploadPanel.revalidate();
+    }
 
-	public void createNewAnnotation(String annotation, int nrOfCurrAnnotations) {
-		TableColumn sportColumn = new TableColumn(nrOfCurrAnnotations);
-		// TableColumn sportColumn =
-		// uploadTable.getColumnModel().getColumn(nrOfCurrAnnotations);
-		comboBox1 = new JComboBox();
-		comboBox1.addItem("Snowboarding");
-		comboBox1.addItem("Rowing");
-		comboBox1.addItem("Chasing toddlers");
-		comboBox1.addItem("Speed reading");
-		comboBox1.addItem("Teaching high school");
-		comboBox1.addItem("None");
-		sportColumn.setCellEditor(new DefaultCellEditor(comboBox1));
-		sportColumn.setHeaderValue(annotation);
-		uploadTable.addColumn(sportColumn);
-	}
-
-	private void addEntry() {
-		Vector<String> entry = new Vector<String>();
-		for (int i = 0; i < uploadTable.getColumnCount(); i++) {
-			entry.add(i, "Choose annotation..");
-		}
-		tableModel.addRow(entry);
-
-	}
+    public UploadToExistingExpPanel getUploadToExistingExpPanel() {
+        return uploadToExistingExpPanel;
+    }
 
 	public void addBrowseBtnListener(ActionListener listener) {
 		browseButton.addActionListener(listener);

@@ -235,6 +235,15 @@ public class GUI extends JFrame implements GenomizerView {
 		uploadTab.addBrowseBtnListener(listener);
 	}
 
+    public void addSelectFilesToUploadButtonListener(ActionListener listener) {
+        uploadTab.getUploadToExistingExpPanel().addSelectFilesToUploadButtonListener(listener);
+    }
+
+    @Override
+    public void addUploadToExperimentButtonListener(ActionListener listener) {
+        uploadTab.getUploadToExistingExpPanel().addUploadToExperimentButtonListener(listener);
+    }
+
 	@Override
 	public void updateFileChosen(String directoryAsString) {
 		uploadTab.getDirectoryTextField().setText(directoryAsString);
@@ -280,9 +289,12 @@ public class GUI extends JFrame implements GenomizerView {
 		return sysadminTab.getNewAnnotationForcedValue();
 	}
 
+    public UploadTab getUploadTab() {
+        return uploadTab;
+    }
+
 	@Override
 	public void closePopup() {
-		// TODO Auto-generated method stub
 		sysadminTab.closePopup();
 	}
 }
