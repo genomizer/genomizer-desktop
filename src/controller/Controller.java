@@ -153,8 +153,6 @@ public class Controller {
 
 			System.out.println("RAW TO PROFILE");
 			System.out.println(view.getAllMarkedFiles());
-			System.out.println("Has converted RAW TO PROFILE: "
-					+ model.rawToProfile(view.getAllMarkedFiles()));
 
 			ArrayList<FileData> allMarked = null;//view.getAllMarkedFileData();
 			int markedSize = 1;//allMarked.size();
