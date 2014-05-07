@@ -322,14 +322,12 @@ public class GUI extends JFrame implements GenomizerView {
 
 	@Override
 	public ArrayList<FileData> getAllMarkedFileData() {
-		// TODO Auto-generated method stub
-		return null;
+		return processTab.getAllMarkedFileData();
 	}
 
 	@Override
 	public void addProcessFileListener(ActionListener listener) {
-		// TODO Auto-generated method stub
-
+		workspaceTab.addProcessFileListener(listener);
 	}
 
 	@Override

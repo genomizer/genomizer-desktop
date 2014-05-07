@@ -63,7 +63,7 @@ public class ProcessTab extends JPanel {
 		writeToTimePanel();
 
         // BARA TILLFï¿½LLIG
-        JList list = new JList(new CheckListItem[]{
+     /*   JList list = new JList(new CheckListItem[]{
                 new CheckListItem("[0] Protein223_A5_2014.RAW"),
                 new CheckListItem("[1] Protein223_A5_2014.RAW"),
                 new CheckListItem("[2] Protein223_A5_2014.RAW"),
@@ -71,7 +71,7 @@ public class ProcessTab extends JPanel {
                 new CheckListItem("[4] Protein223_A5_2014.RAW")});
 
         initList(list);
-        initFileList();
+        initFileList(); */
         writeToTimePanel();
 
     }
@@ -268,7 +268,6 @@ public class ProcessTab extends JPanel {
         return arr;
     }
 
-	//Oanvänd
 	public ArrayList<FileData> getAllMarkedFileData(){
 
 		ArrayList<FileData> allMarked = new ArrayList<FileData>();
