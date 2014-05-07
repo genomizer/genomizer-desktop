@@ -84,4 +84,6 @@ public interface GenomizerView {
 
 	int getSelectedRowAtAnnotationTable();
 
+	public AnnotationDataType getSelectedAnnoationAtAnnotationTable();
+
 }

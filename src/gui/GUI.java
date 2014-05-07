@@ -307,9 +307,16 @@ public class GUI extends JFrame implements GenomizerView {
 	public void setAnnotationTableData(AnnotationDataType[] annotations) {
 		sysadminTab.setAnnotationTableData(annotations);
 	}
-	
+
 	@Override
-	public int getSelectedRowAtAnnotationTable(){
-		return sysadminTab.getSelectedRow();
+	public AnnotationDataType getSelectedAnnoationAtAnnotationTable() {
+		// TODO Auto-generated method stub
+		return sysadminTab.getSelectedAnnotationAtAnnotationTable();
+	}
+
+	@Override
+	public int getSelectedRowAtAnnotationTable() {
+		// TODO Auto-generated method stub
+		return 0;
 	}
 }

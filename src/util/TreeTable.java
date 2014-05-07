@@ -1,8 +1,11 @@
 package util;
 
+import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import org.jdesktop.swingx.JXTreeTable;
 import org.jdesktop.swingx.treetable.DefaultTreeTableModel;
@@ -17,6 +20,8 @@ public class TreeTable {
     private ExperimentData[] experiments;
     private int sortByColumn;
     private ArrayList<Boolean> descs;
+    private static final Pattern PATTERN = Pattern.compile("(\\D*)(\\d*)");
+
 
     public TreeTable() {
         this.headings = new String[0];
@@ -53,14 +58,48 @@ public class TreeTable {
         Arrays.sort(matrix, new Comparator<String[]>() {
             @Override
             public int compare(final String[] entry1, final String[] entry2) {
-                final String time1 = entry1[sortByColumn];
-                final String time2 = entry2[sortByColumn];
+                Matcher m1 = PATTERN.matcher(entry1[sortByColumn]);
+                Matcher m2 = PATTERN.matcher(entry2[sortByColumn]);
 
-                if (descs.get(sortByColumn)) {
-                    return time2.compareTo(time1);
-                } else {
-                    return time1.compareTo(time2);
+                // The only way find() could fail is at the end of a string
+                while (m1.find() && m2.find()) {
+                    // matcher.group(1) fetches any non-digits captured by the
+                    // first parentheses in PATTERN.
+                    int nonDigitCompare;
+                    if (descs.get(sortByColumn)) {
+                        nonDigitCompare = m2.group(1).compareTo(m1.group(1));
+                    } else {
+                        nonDigitCompare = m1.group(1).compareTo(m2.group(1));
+                    }
+                    if (0 != nonDigitCompare) {
+                        return nonDigitCompare;
+                    }
+
+                    // matcher.group(2) fetches any digits captured by the
+                    // second parentheses in PATTERN.
+                    if (m1.group(2).isEmpty()) {
+                        return m2.group(2).isEmpty() ? 0 : -1;
+                    } else if (m2.group(2).isEmpty()) {
+                        return +1;
+                    }
+
+                    BigInteger n1 = new BigInteger(m1.group(2));
+                    BigInteger n2 = new BigInteger(m2.group(2));
+                    int numberCompare;
+                    if (descs.get(sortByColumn)) {
+                        numberCompare = n2.compareTo(n1);
+                    } else {
+                        numberCompare = n1.compareTo(n2);
+                    }
+                    if (0 != numberCompare) {
+                        return numberCompare;
+                    }
                 }
+
+                // Handle if one string is a prefix of the other.
+                // Nothing comes before something.
+                return m1.hitEnd() && m2.hitEnd() ? 0 :
+                        m1.hitEnd()                ? -1 : +1;
             }
         });
         return matrix;

@@ -65,7 +65,7 @@ public class Controller {
                 System.out.println("You chose " + filename);
                 path = fileChooser.getSelectedFile().getAbsolutePath();
             }
-
+            
             System.out.println(path);
             if(fileData == null) {
                 System.err.println("No files selected");
@@ -275,7 +275,8 @@ public class Controller {
 		public void run() {
 			/*
 			 * TODO N�r vi har faktiska filer som ska nedladdas: anv�nd den
-			 * andra konstruktorn new DownloadWindow(ArrayList<String>) ist�llet
+			 * andra konstruktorn new DownloadWindow(ArrayList<String>)
+			 * ist�llet
 			 */
 			DownloadWindow downloadWindow = new DownloadWindow();
 			downloadWindow.addDownloadFileListener(new DownloadFileListener());
@@ -296,70 +297,70 @@ public class Controller {
 		}
 	}
 
-    class AddToExistingExpButtonListener implements ActionListener, Runnable {
+	class AddToExistingExpButtonListener implements ActionListener, Runnable {
 
-        @Override
-        public void actionPerformed(ActionEvent actionEvent) {
+		@Override
+		public void actionPerformed(ActionEvent actionEvent) {
 
-            new Thread(this).start();
-        }
+			new Thread(this).start();
+		}
 
-        @Override
-        public void run() {
-            view.getUploadTab().addExistingExpPanel();
-        }
-    }
+		@Override
+		public void run() {
+			view.getUploadTab().addExistingExpPanel();
+		}
+	}
 
-    class SelectFilesToUploadButtonListener implements ActionListener, Runnable {
+	class SelectFilesToUploadButtonListener implements ActionListener, Runnable {
 
-        @Override
-        public void actionPerformed(ActionEvent actionEvent) {
+		@Override
+		public void actionPerformed(ActionEvent actionEvent) {
 
-            new Thread(this).start();
-        }
+			new Thread(this).start();
+		}
 
-        @Override
-        public void run() {
-            new java.awt.FileDialog((java.awt.Frame) null).setVisible(true);
+		@Override
+		public void run() {
+			new java.awt.FileDialog((java.awt.Frame) null).setVisible(true);
 
-//      Old fileChooser:        fileChooser.showOpenDialog(new JPanel());
-        }
-    }
+			// Old fileChooser: fileChooser.showOpenDialog(new JPanel());
+		}
+	}
 
-    class UploadToExperimentButtonListener implements ActionListener, Runnable {
+	class UploadToExperimentButtonListener implements ActionListener, Runnable {
 
-        @Override
-        public void actionPerformed(ActionEvent actionEvent) {
+		@Override
+		public void actionPerformed(ActionEvent actionEvent) {
 
-            new Thread(this).start();
-        }
+			new Thread(this).start();
+		}
 
-        @Override
-        public void run() {
-            //Get list of files to upload
+		@Override
+		public void run() {
+			// Get list of files to upload
 
-            //Upload them.
+			// Upload them.
 
-            //Move to where the check if upload is complete will be.
-            JOptionPane.showMessageDialog(null, "Upload complete.");
-        }
-    }
+			// Move to where the check if upload is complete will be.
+			JOptionPane.showMessageDialog(null, "Upload complete.");
+		}
+	}
 
-    class updateSearchAnnotationsListener implements ActionListener, Runnable {
+	class updateSearchAnnotationsListener implements ActionListener, Runnable {
 
-        @Override
-        public void actionPerformed(ActionEvent actionEvent) {
+		@Override
+		public void actionPerformed(ActionEvent actionEvent) {
 
-            new Thread(this).start();
-        }
+			new Thread(this).start();
+		}
 
-        @Override
-        public void run() {
-            System.out.println("updateSearchAnnotations");
-            AnnotationDataType[] annotations = model.getAnnotations();
-            if(annotations != null) {
-                view.setSearchAnnotationTypes(annotations);
-            }
-        }
-    }
+		@Override
+		public void run() {
+			System.out.println("updateSearchAnnotations");
+			AnnotationDataType[] annotations = model.getAnnotations();
+			if (annotations != null) {
+				view.setSearchAnnotationTypes(annotations);
+			}
+		}
+	}
 }
