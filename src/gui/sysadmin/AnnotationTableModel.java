@@ -2,13 +2,13 @@ package gui.sysadmin;
 
 import javax.swing.table.AbstractTableModel;
 
-import responses.sysadmin.AnnotationData;
+import util.AnnotationDataTypes;
 
 public class AnnotationTableModel extends AbstractTableModel {
 
     private static final long serialVersionUID = 1414328728572140752L;
 
-    AnnotationData[] annotations;
+    AnnotationDataTypes[] annotations;
 
     @Override
     public int getRowCount() {
@@ -28,7 +28,7 @@ public class AnnotationTableModel extends AbstractTableModel {
         return null;
     }
 
-    public void setAnnotations(AnnotationData[] annotations) {
+    public void setAnnotations(AnnotationDataTypes[] annotations) {
         synchronized (annotations) {
             this.annotations = annotations;
         }

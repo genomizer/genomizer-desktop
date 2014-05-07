@@ -29,10 +29,10 @@ public class DownloadHandler {
 	public boolean download(String url, String localFilePath, String userID) {
 		try {
 			// Use this url in the real version. vvv
-			URL targetUrl = new URL(
+			/*URL targetUrl = new URL(
 					"http://scratchy.cs.umu.se:8090/html/download.php?path="
-							+ url);
-			// URL targetUrl = new URL(url);
+							+ url);*/
+			URL targetUrl = new URL(url);
 			String authString = username + ":" + password;
 			byte[] authEncBytes = Base64.encodeBase64(authString.getBytes());
 			String authStringEnc = new String(authEncBytes);

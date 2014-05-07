@@ -16,7 +16,7 @@ public interface GenomizerModel {
 
 	public boolean rawToProfile(ArrayList<String> markedFiles);
 
-	public boolean downloadFile();
+	public boolean downloadFile(String fileID, String path);
 
 	public void setIp(String ip);
 

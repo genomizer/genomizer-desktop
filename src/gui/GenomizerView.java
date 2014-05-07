@@ -59,13 +59,7 @@ public interface GenomizerView {
 
     public void addAddToExistingExpButtonListener(ActionListener addToExistingExpButtonListener);
 
-    public void addSelectFilesToUploadButtonListener(ActionListener listener);
-
-    public void addUploadToExperimentButtonListener(ActionListener listener);
-
 	public void annotationPopup();
-
-    public UploadTab getUploadTab();
 
 	public String getNewAnnotationName();
 
