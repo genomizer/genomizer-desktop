@@ -155,11 +155,6 @@ public class GUI extends JFrame implements GenomizerView {
 	}
 
 	@Override
-	public void addUploadFileListener(ActionListener listener) {
-		uploadTab.addUploadBtnListener(listener);
-	}
-
-	@Override
 	public void addDownloadFileListener(ActionListener listener) {
 		workspaceTab.addDownloadFileListener(listener);
 	}
@@ -230,11 +225,6 @@ public class GUI extends JFrame implements GenomizerView {
 		tabbedPane.add("SEARCH", querySearchTab);
 	}
 
-	@Override
-	public void addBrowseListener(ActionListener listener) {
-		uploadTab.addBrowseBtnListener(listener);
-	}
-
     public void addSelectFilesToUploadButtonListener(ActionListener listener) {
         uploadTab.getUploadToExistingExpPanel().addSelectFilesToUploadButtonListener(listener);
     }
@@ -243,11 +233,6 @@ public class GUI extends JFrame implements GenomizerView {
     public void addUploadToExperimentButtonListener(ActionListener listener) {
         uploadTab.getUploadToExistingExpPanel().addUploadToExperimentButtonListener(listener);
     }
-
-	@Override
-	public void updateFileChosen(String directoryAsString) {
-		uploadTab.getDirectoryTextField().setText(directoryAsString);
-	}
 
 	@Override
 	public String getQuerySearchString() {

@@ -26,15 +26,13 @@ public class Controller {
 		view.addLoginListener(new LoginListener());
 		view.addLogoutListener(new LogoutListener());
 		view.addSearchListener(new QuerySearchListener());
-		view.addUploadFileListener(new UploadListener());
-		view.addBrowseListener(new BrowseListener());
 		view.addConvertFileListener(new ConvertFileListener());
 		view.addQuerySearchListener(new QuerySearchListener());
 		view.addRawToProfileDataListener(new RawToProfileDataListener());
 		view.addRawToRegionDataListener(new RawToRegionDataListener());
 		view.addScheduleFileListener(new ScheduleFileListener());
 		view.addDownloadFileListener(new DownloadWindowListener());
-        view.addSearchResultsDownloadListener(new DownloadSearchListener());
+//        view.addSearchResultsDownloadListener(new DownloadSearchListener());
 		// view.addAddAnnotationListener(new AddNewAnnotationListener());
 		view.addAddPopupListener(new AddPopupListener());
         view.addAddToExistingExpButtonListener(new AddToExistingExpButtonListener());
@@ -49,7 +47,7 @@ public class Controller {
 
         @Override
         public void run() {
-            FileData[] fileData = view.getSelectedFilesInSearch();
+/*            FileData[] fileData = view.getSelectedFilesInSearch();
             JFileChooser fileChooser = new JFileChooser();
             fileChooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
             int ret = fileChooser.showSaveDialog(new JPanel());
@@ -70,7 +68,7 @@ public class Controller {
 
                 model.downloadFile(data.id, path + "/" + data.name);
             }
-
+*/
         }
     }
 
@@ -241,24 +239,6 @@ public class Controller {
 				// update view?
 			}
 
-		}
-	}
-
-	class BrowseListener implements ActionListener, Runnable {
-		@Override
-		public void actionPerformed(ActionEvent actionEvent) {
-			new Thread(this).start();
-		}
-
-		@Override
-		public void run() {
-			int returnVal = fileChooser.showOpenDialog(new JPanel());
-			if (returnVal == JFileChooser.APPROVE_OPTION) {
-				String filePath = fileChooser.getSelectedFile()
-						.getAbsolutePath();
-
-				view.updateFileChosen(filePath);
-			}
 		}
 	}
 
