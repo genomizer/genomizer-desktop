@@ -152,6 +152,9 @@ public class Controller {
 		public void run() {
 
 			System.out.println("RAW TO PROFILE");
+			System.out.println(view.getAllMarkedFiles());
+			System.out.println("Has converted RAW TO PROFILE: "
+					+ model.rawToProfile(view.getAllMarkedFiles()));
 
 			ArrayList<FileData> allMarked = null;//view.getAllMarkedFileData();
 			int markedSize = 1;//allMarked.size();
@@ -358,9 +361,11 @@ public class Controller {
             new Thread(this).start();
         }
 
-        @Override
-        public void run() {
-            new java.awt.FileDialog((java.awt.Frame) null).setVisible(true);
+		@Override
+		public void run() {
+            FileDialog fileDialog = new java.awt.FileDialog((java.awt.Frame) null);
+            fileDialog.setVisible(true);
+            fileDialog.setMultipleMode(true);
 
 //      Old fileChooser:        fileChooser.showOpenDialog(new JPanel());
         }
