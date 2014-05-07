@@ -52,8 +52,15 @@ public class Controller {
             FileData[] fileData = view.getSelectedFilesInSearch();
             JFileChooser fileChooser = new JFileChooser();
             fileChooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
-            fileChooser.showSaveDialog(new JPanel());
-            String path = fileChooser.getSelectedFile().getAbsolutePath();
+            int ret = fileChooser.showSaveDialog(new JPanel());
+            String path;
+            if(ret == JFileChooser.APPROVE_OPTION) {
+                path = fileChooser.getSelectedFile().getAbsolutePath();
+            } else {
+                System.out.println("No directories selected");
+                return;
+            }
+
             System.out.println(path);
             if(fileData == null) {
                 System.err.println("No files selected");
