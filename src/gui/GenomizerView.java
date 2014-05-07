@@ -101,4 +101,6 @@ public interface GenomizerView {
 	public void printToConvertText(String message);
 	
 
+	public void addDeleteAnnotationListener(ActionListener listener);
+
 }

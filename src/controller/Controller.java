@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.SwingUtilities;
 
 import gui.UploadTab;
 import model.GenomizerModel;
@@ -47,6 +48,7 @@ public class Controller {
         view.addUpdateSearchAnnotationsListener(new updateSearchAnnotationsListener());
         view.addProcessFileListener(new ProcessFileListener());
         view.addSearchToWorkspaceListener(new SearchToWorkspaceListener());
+        view.addDeleteAnnotationListener(new DeleteAnnotationListener());
 	}
     class DownloadSearchListener implements ActionListener, Runnable {
         @Override
@@ -84,8 +86,27 @@ public class Controller {
 		@Override
 		public void run() {
 			AnnotationDataType annotationDataType = null;
-			//view.getSelectedAnnoationAtAnnotationTable();
-			model.deleteAnnotation(new DeleteAnnoationData(annotationDataType));
+			try {
+				annotationDataType = view.getSelectedAnnoationAtAnnotationTable();
+				if (JOptionPane.showConfirmDialog(null, "Are you sure you want to delete the" + annotationDataType.name) == JOptionPane.YES_OPTION) {
+					if (model.deleteAnnotation(new DeleteAnnoationData(annotationDataType))) {
+						JOptionPane.showMessageDialog(null, annotationDataType.name + " has been remove!");
+						SwingUtilities.invokeLater(new Runnable() {
+							
+							@Override
+							public void run() {
+								view.setAnnotationTableData(model.getAnnotations());
+							}
+						});
+					} else {
+						JOptionPane.showMessageDialog(null, "Could not remove annotation");
+					}
+				}
+			} catch (IllegalArgumentException e) {
+				JOptionPane.showMessageDialog(null,
+						e.getMessage());
+			}
+			
 		}
     }
 
