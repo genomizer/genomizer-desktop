@@ -12,6 +12,7 @@ import javax.swing.JTabbedPane;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 
+import util.AnnotationDataTypes;
 import util.ExperimentData;
 import util.FileData;
 
@@ -262,6 +263,10 @@ public class GUI extends JFrame implements GenomizerView {
 
     public void addUpdateSearchAnnotationsListener(ActionListener listener) {
         querySearchTab.addUpdateAnnotationsListener(listener);
+    }
+
+    public void setSearchAnnotationTypes(AnnotationDataTypes[] annotationTypes) {
+        querySearchTab.setAnnotationTypes(annotationTypes);
     }
 
 	@Override

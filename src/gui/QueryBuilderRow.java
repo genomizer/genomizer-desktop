@@ -114,6 +114,11 @@ public class QueryBuilderRow extends JPanel {
 
     }
 
+    public void updateTextfield(AnnotationDataTypes[] annotationTypes) {
+        this.annotationTypes = annotationTypes;
+        setFieldBox();
+    }
+
     private void setTextField() {
         textField = new JTextField(50);
         textField.getDocument().addDocumentListener(new DocumentListener() {
@@ -134,18 +139,13 @@ public class QueryBuilderRow extends JPanel {
         });
     }
 
+
     private void setFieldBox() {
         String[] annotationNames = new String[annotationTypes.length];
         for(int i=0; i<annotationTypes.length; i++) {
             annotationNames[i] = annotationTypes[i].getName();
         }
         annotationField = new JComboBox(annotationNames);
-        annotationField.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                parent.updateSearchArea();
-            }
-        });
         annotationField.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {

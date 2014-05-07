@@ -178,7 +178,6 @@ public class QuerySearchTab extends JPanel {
     }
 
     public void addRow() {
-        updateAnnotationsButton.doClick();
         rowList.add(new QueryBuilderRow(this, annotationTypes));
         paintRows();
     }
@@ -192,6 +191,7 @@ public class QuerySearchTab extends JPanel {
 
     private void paintRows() {
         rowsPanel.removeAll();
+
         for (int i = 0; i < rowList.size(); i++) {
             QueryBuilderRow row = rowList.get(i);
             if (i == 0 && i == (rowList.size() - 1)) {
@@ -207,6 +207,12 @@ public class QuerySearchTab extends JPanel {
         }
         rowsPanel.repaint();
         rowsPanel.revalidate();
+    }
+
+    private void updateRows() {
+        for (int i = 0; i < rowList.size(); i++) {
+            rowList.get(i).updateTextfield(annotationTypes);
+        }
     }
 
     public synchronized void updateSearchArea() {
@@ -247,6 +253,8 @@ public class QuerySearchTab extends JPanel {
 
     public void setAnnotationTypes(AnnotationDataTypes[] annotationTypes) {
         this.annotationTypes = annotationTypes;
+        updateRows();
+        paintRows();
     }
 
     public FileData[] getSelectedFiles() {

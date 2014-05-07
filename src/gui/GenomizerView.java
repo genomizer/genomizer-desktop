@@ -5,6 +5,7 @@ import java.util.ArrayList;
 
 import javax.swing.*;
 
+import util.AnnotationDataTypes;
 import util.ExperimentData;
 import util.FileData;
 
@@ -75,5 +76,7 @@ public interface GenomizerView {
 	public boolean getNewAnnotationForcedValue();
 
 	public void closePopup();
+
+    public void setSearchAnnotationTypes(AnnotationDataTypes[] annotationTypes);
 
 }

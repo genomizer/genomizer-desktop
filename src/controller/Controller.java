@@ -11,6 +11,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 import model.GenomizerModel;
+import util.AnnotationDataTypes;
 import util.ExperimentData;
 import util.FileData;
 
@@ -38,6 +39,7 @@ public class Controller {
         view.addAddToExistingExpButtonListener(new AddToExistingExpButtonListener());
         view.addSelectFilesToUploadButtonListener(new SelectFilesToUploadButtonListener());
         view.addUploadToExperimentButtonListener(new UploadToExperimentButtonListener());
+        view.addUpdateSearchAnnotationsListener(new updateSearchAnnotationsListener());
 	}
     class DownloadSearchListener implements ActionListener, Runnable {
         @Override
@@ -314,6 +316,24 @@ public class Controller {
         @Override
         public void run() {
 
+        }
+    }
+
+    class updateSearchAnnotationsListener implements ActionListener, Runnable {
+
+        @Override
+        public void actionPerformed(ActionEvent actionEvent) {
+
+            new Thread(this).start();
+        }
+
+        @Override
+        public void run() {
+            System.out.println("updateSearchAnnotations");
+            AnnotationDataTypes[] annotations = model.getAnnotations();
+            if(annotations != null) {
+                view.setSearchAnnotationTypes(annotations);
+            }
         }
     }
 }
