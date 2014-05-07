@@ -5,13 +5,17 @@ import gui.GenomizerView;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
+import gui.UploadTab;
 import model.GenomizerModel;
+import util.AnnotationDataTypes;
 import util.ExperimentData;
+import util.FileData;
 
 public class Controller {
 
@@ -25,18 +29,53 @@ public class Controller {
 		view.addLoginListener(new LoginListener());
 		view.addLogoutListener(new LogoutListener());
 		view.addSearchListener(new QuerySearchListener());
-		view.addUploadFileListener(new UploadListener());
-		view.addBrowseListener(new BrowseListener());
 		view.addConvertFileListener(new ConvertFileListener());
 		view.addQuerySearchListener(new QuerySearchListener());
 		view.addRawToProfileDataListener(new RawToProfileDataListener());
 		view.addRawToRegionDataListener(new RawToRegionDataListener());
 		view.addScheduleFileListener(new ScheduleFileListener());
 		view.addDownloadFileListener(new DownloadWindowListener());
+        view.addSearchResultsDownloadListener(new DownloadSearchListener());
 		// view.addAddAnnotationListener(new AddNewAnnotationListener());
 		view.addAddPopupListener(new AddPopupListener());
         view.addAddToExistingExpButtonListener(new AddToExistingExpButtonListener());
+        view.addProcessFileListener(new ProcessFileListener());
+        view.addSelectFilesToUploadButtonListener(new SelectFilesToUploadButtonListener());
+        view.addUploadToExperimentButtonListener(new UploadToExperimentButtonListener());
+        view.addUpdateSearchAnnotationsListener(new updateSearchAnnotationsListener());
 	}
+    class DownloadSearchListener implements ActionListener, Runnable {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            new Thread(this).start();
+        }
+
+        @Override
+        public void run() {
+            FileData[] fileData = view.getSelectedFilesInSearch();
+            JFileChooser fileChooser = new JFileChooser();
+            fileChooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+            int ret = fileChooser.showSaveDialog(new JPanel());
+            String path;
+            if(ret == JFileChooser.APPROVE_OPTION) {
+                path = fileChooser.getSelectedFile().getAbsolutePath();
+            } else {
+                System.out.println("No directories selected");
+                return;
+            }
+
+            System.out.println(path);
+            if(fileData == null) {
+                System.err.println("No files selected");
+                return;
+            }
+            for(FileData data: fileData) {
+
+                model.downloadFile(data.id, path + "/" + data.name);
+            }
+
+        }
+    }
 
 	class AddPopupListener implements ActionListener, Runnable {
 		@Override
@@ -102,10 +141,36 @@ public class Controller {
 		public void run() {
 
 			System.out.println("RAW TO PROFILE");
-			System.out.println(view.getAllMarkedFiles());
-			System.out.println("Has converted RAW TO PROFILE: "
-					+ model.rawToProfile(view.getAllMarkedFiles()));
 
+			ArrayList<FileData> allMarked = null;//view.getAllMarkedFileData();
+			int markedSize = 1;//allMarked.size();
+
+			for(int i = 0; i < markedSize; i++){
+
+				String fileName = null;//allMarked.get(i).name;
+				String filePath = null;//allMarked.get(i).URL;
+				String author = view.getUsername();
+
+				//ProcessTab
+				String[] parameters = null;
+
+				//WorkspaceTab
+				String metadata = null;
+				String genomeRelease = null;
+				String expid = null;
+
+				Boolean converted = model.rawToProfile(fileName,filePath,metadata, genomeRelease, author, expid, parameters);
+
+				if(converted.equals(true)){
+					System.out.println("Has converted RAW TO PROFILE: " + fileName + " "
+							+ converted);
+					//view
+
+				}else {
+					System.out.println("Has NOT converted RAW TO PROFILE: " + fileName + " "
+							+ converted);
+				}
+			}
 		}
 	}
 
@@ -135,6 +200,21 @@ public class Controller {
 
 			System.out.println("SCHEDULEING FILE");
 			System.out.println(view.getAllMarkedFiles());
+
+		}
+	}
+
+	class ProcessFileListener implements ActionListener, Runnable {
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			new Thread(this).start();
+		}
+
+		@Override
+		public void run() {
+
+			System.out.println("Process");
+			view.setProccessFileList();
 
 		}
 	}
@@ -208,24 +288,6 @@ public class Controller {
 		}
 	}
 
-	class BrowseListener implements ActionListener, Runnable {
-		@Override
-		public void actionPerformed(ActionEvent actionEvent) {
-			new Thread(this).start();
-		}
-
-		@Override
-		public void run() {
-			int returnVal = fileChooser.showOpenDialog(new JPanel());
-			if (returnVal == JFileChooser.APPROVE_OPTION) {
-				String filePath = fileChooser.getSelectedFile()
-						.getAbsolutePath();
-
-				view.updateFileChosen(filePath);
-			}
-		}
-	}
-
 	class DownloadWindowListener implements ActionListener, Runnable {
 
 		@Override
@@ -255,7 +317,7 @@ public class Controller {
 
 		@Override
 		public void run() {
-			model.downloadFile();
+			model.downloadFile("<fileid>", "filename");
 		}
 	}
 
@@ -269,7 +331,60 @@ public class Controller {
 
         @Override
         public void run() {
-            System.out.println("hej");
+            view.getUploadTab().addExistingExpPanel();
+        }
+    }
+
+    class SelectFilesToUploadButtonListener implements ActionListener, Runnable {
+
+        @Override
+        public void actionPerformed(ActionEvent actionEvent) {
+
+            new Thread(this).start();
+        }
+
+        @Override
+        public void run() {
+            new java.awt.FileDialog((java.awt.Frame) null).setVisible(true);
+
+//      Old fileChooser:        fileChooser.showOpenDialog(new JPanel());
+        }
+    }
+
+    class UploadToExperimentButtonListener implements ActionListener, Runnable {
+
+        @Override
+        public void actionPerformed(ActionEvent actionEvent) {
+
+            new Thread(this).start();
+        }
+
+        @Override
+        public void run() {
+            //Get list of files to upload
+
+            //Upload them.
+
+            //Move to where the check if upload is complete will be.
+            JOptionPane.showMessageDialog(null, "Upload complete.");
+        }
+    }
+
+    class updateSearchAnnotationsListener implements ActionListener, Runnable {
+
+        @Override
+        public void actionPerformed(ActionEvent actionEvent) {
+
+            new Thread(this).start();
+        }
+
+        @Override
+        public void run() {
+            System.out.println("updateSearchAnnotations");
+            AnnotationDataTypes[] annotations = model.getAnnotations();
+            if(annotations != null) {
+                view.setSearchAnnotationTypes(annotations);
+            }
         }
     }
 }

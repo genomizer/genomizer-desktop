@@ -12,6 +12,7 @@ import javax.swing.JTabbedPane;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 
+import util.AnnotationDataTypes;
 import util.ExperimentData;
 import util.FileData;
 
@@ -100,6 +101,11 @@ public class GUI extends JFrame implements GenomizerView {
     }
 
     @Override
+    public FileData[] getSelectedFilesInSearch() {
+        return querySearchTab.getSelectedFiles();
+    }
+    
+    @Override
     public void addConvertFileListener(ActionListener listener) {
         processTab.addConvertFileListener(listener);
     }
@@ -153,11 +159,6 @@ public class GUI extends JFrame implements GenomizerView {
     @Override
     public void addQuerySearchListener(ActionListener listener) {
         querySearchTab.addSearchButtonListener(listener);
-    }
-
-    @Override
-    public void addUploadFileListener(ActionListener listener) {
-        uploadTab.addUploadBtnListener(listener);
     }
 
     @Override
@@ -230,39 +231,47 @@ public class GUI extends JFrame implements GenomizerView {
         this.querySearchTab = qst;
         tabbedPane.add("SEARCH", querySearchTab);
     }
-
-    @Override
-    public void addBrowseListener(ActionListener listener) {
-        uploadTab.addBrowseBtnListener(listener);
+    
+    public void addSelectFilesToUploadButtonListener(ActionListener listener) {
+        uploadTab.getUploadToExistingExpPanel().addSelectFilesToUploadButtonListener(listener);
     }
 
     @Override
-    public void updateFileChosen(String directoryAsString) {
-        uploadTab.getDirectoryTextField().setText(directoryAsString);
+    public void addUploadToExperimentButtonListener(ActionListener listener) {
+        uploadTab.getUploadToExistingExpPanel().addUploadToExperimentButtonListener(listener);
+    }
+
+    @Override
+    public void addSearchResultsDownloadListener(ActionListener listener) {
+        querySearchTab.addDownloadButtonListener(listener);
     }
 
     @Override
     public String getQuerySearchString() {
         return querySearchTab.getSearchString();
     }
-
-    @Override
-    public void updateQuerySearchResults(ExperimentData[] searchResults) {
-        querySearchTab.updateSearchResults(searchResults);
-    }
+    
+	@Override
+	public void updateQuerySearchResults(ExperimentData[] searchResults) {
+		querySearchTab.updateSearchResults(searchResults);
+	}
 
     @Override
     public void addAddAnnotationListener(ActionListener addAnnotationListener) {
         sysadminTab.addAddAnnotationListener(addAnnotationListener);
     }
+    
+    public void addUpdateSearchAnnotationsListener(ActionListener listener) {
+        querySearchTab.addUpdateAnnotationsListener(listener);
+    }
+    
+    public void setSearchAnnotationTypes(AnnotationDataTypes[] annotationTypes) {
+        querySearchTab.setAnnotationTypes(annotationTypes);
+    }
 
     @Override
     public void addAddPopupListener(ActionListener addPopupListener) {
         sysadminTab.addAddPopupListener(addPopupListener);
-    }
-    @Override
-    public void addSearchResultsDownloadListener(ActionListener listener) {
-        querySearchTab.addDownloadButtonListener(listener);
     }
 
     @Override
@@ -284,15 +293,44 @@ public class GUI extends JFrame implements GenomizerView {
     public boolean getNewAnnotationForcedValue() {
         return sysadminTab.getNewAnnotationForcedValue();
     }
-    @Override
-    public FileData[] getSelectedFilesInSearch() {
-        return querySearchTab.getSelectedFiles();
+
+    public UploadTab getUploadTab() {
+        return uploadTab;
     }
-
-
+    
     @Override
     public void closePopup() {
-        // TODO Auto-generated method stub
         sysadminTab.closePopup();
     }
+
+	@Override
+	public void addProcessFileListener(ActionListener listener) {
+		workspaceTab.addProcessFileListener(listener);
+
+	}
+
+	@Override
+	public void setProccessFileList() {
+
+		FileData[] fileArray = new FileData[11];
+		FileData fileData;
+
+		//TODO
+		//TESTING
+		for(int i = 0;i < 10; i++){
+
+		 fileData = new FileData(null, null, "[" + i + "] Protein223_A5_2014.RAW", null, null, null, null);
+
+		 fileArray[i] = fileData;
+
+		}
+		processTab.setFileInfo(fileArray);
+
+	}
+
+	@Override
+	public ArrayList<FileData> getAllMarkedFileData() {
+		return processTab.getAllMarkedFileData();
+	}
+
 }

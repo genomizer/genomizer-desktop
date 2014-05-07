@@ -19,7 +19,7 @@ public class WorkspaceTab extends JPanel {
 	private static final long serialVersionUID = -7278768268151806081L;
 	private JPanel buttonPanel, filePanel;
 	private JButton deleteButton, removeButton, downloadButton;
-	private JButton analyzeButton, browseButton;
+	private JButton analyzeButton, browseButton, processButton;
 	private ImageIcon analyseIcon = new ImageIcon(getClass().getResource(
 			"/icons/AnalyzeSelectedButton.png"));
 	private ImageIcon browseIcon = new ImageIcon(getClass().getResource(
@@ -80,6 +80,7 @@ public class WorkspaceTab extends JPanel {
 		analyzeButton = new JButton();
 		browseButton = new JButton();
 		deleteButton = new JButton();
+		processButton = new JButton();
 	}
 
 	private void addToButtonPanel() {
@@ -128,6 +129,12 @@ public class WorkspaceTab extends JPanel {
 		browseButton.setContentAreaFilled(false);
 		browseButton.setIcon(browseIcon);
 		buttonPanel.add(browseButton, gbc);
+
+		gbc.gridx = 5;
+		gbc.gridy = 0;
+
+		processButton.setText("Process selected");
+		buttonPanel.add(processButton, gbc);
 	}
 
 	/** Returns an ImageIcon, or null if the path was invalid. */
@@ -144,5 +151,10 @@ public class WorkspaceTab extends JPanel {
 	public void addDownloadFileListener(ActionListener listener) {
 		downloadButton.addActionListener(listener);
 	}
+
+	public void addProcessFileListener(ActionListener listener) {
+		processButton.addActionListener(listener);
+	}
+
 }
 
