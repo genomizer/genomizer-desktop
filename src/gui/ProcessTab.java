@@ -43,7 +43,7 @@ public class ProcessTab extends JPanel {
     private DefaultListModel fileListModel = new DefaultListModel();
     private JList fileList = new JList();
     // TODO SKA VARA JLIST
-    private ArrayList processQueue = new ArrayList();	
+    private ArrayList processQueue = new ArrayList();
 	private FileData[] fileData;
 
     public ProcessTab() {
@@ -61,7 +61,7 @@ public class ProcessTab extends JPanel {
 
 		//initFileList();
 		writeToTimePanel();
-		
+
         // BARA TILLF�LLIG
         JList list = new JList(new CheckListItem[]{
                 new CheckListItem("[0] Protein223_A5_2014.RAW"),
@@ -292,13 +292,6 @@ public class ProcessTab extends JPanel {
 		}
 	}
 
-	private void checkItemIsSelected(ArrayList<String> arr,
-			CheckListItem checkItem) {
-		if (checkItem.isSelected()) {
-			arr.add(checkItem.toString());
-		}
-	}
-	
     private void checkItemIsSelected(ArrayList<String> arr,
                                      CheckListItem checkItem) {
         if (checkItem.isSelected()) {

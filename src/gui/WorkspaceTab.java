@@ -82,14 +82,6 @@ public class WorkspaceTab extends JPanel {
 		deleteButton = new JButton();
 		processButton = new JButton();
 	}
-	
-    private void createButtons() {
-        removeButton = new JButton();
-        downloadButton = new JButton();
-        analyzeButton = new JButton();
-        browseButton = new JButton();
-        deleteButton = new JButton();
-    }
 
     private void addToButtonPanel() {
 

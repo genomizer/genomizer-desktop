@@ -44,8 +44,8 @@ public class Controller {
         view.addSelectFilesToUploadButtonListener(new SelectFilesToUploadButtonListener());
         view.addUploadToExperimentButtonListener(new UploadToExperimentButtonListener());
         view.setAnnotationTableData(model.getAnnotations());
-        view.addUpdateSearchAnnotationsListener(new updateSearchAnnotationsListener());      
-        view.addProcessFileListener(new ProcessFileListener());        
+        view.addUpdateSearchAnnotationsListener(new updateSearchAnnotationsListener());
+        view.addProcessFileListener(new ProcessFileListener());
 	}
     class DownloadSearchListener implements ActionListener, Runnable {
         @Override
@@ -402,63 +402,4 @@ public class Controller {
             }
         }
     }
-    
-		@Override
-		public void run() {
-			view.getUploadTab().addExistingExpPanel();
-		}
-	}
-
-	class SelectFilesToUploadButtonListener implements ActionListener, Runnable {
-
-		@Override
-		public void actionPerformed(ActionEvent actionEvent) {
-
-			new Thread(this).start();
-		}
-
-		@Override
-		public void run() {
-			new java.awt.FileDialog((java.awt.Frame) null).setVisible(true);
-
-			// Old fileChooser: fileChooser.showOpenDialog(new JPanel());
-		}
-	}
-
-	class UploadToExperimentButtonListener implements ActionListener, Runnable {
-
-		@Override
-		public void actionPerformed(ActionEvent actionEvent) {
-
-			new Thread(this).start();
-		}
-
-		@Override
-		public void run() {
-			// Get list of files to upload
-
-			// Upload them.
-
-			// Move to where the check if upload is complete will be.
-			JOptionPane.showMessageDialog(null, "Upload complete.");
-		}
-	}
-
-	class updateSearchAnnotationsListener implements ActionListener, Runnable {
-
-		@Override
-		public void actionPerformed(ActionEvent actionEvent) {
-
-			new Thread(this).start();
-		}
-
-		@Override
-		public void run() {
-			System.out.println("updateSearchAnnotations");
-			AnnotationDataType[] annotations = model.getAnnotations();
-			if (annotations != null) {
-				view.setSearchAnnotationTypes(annotations);
-			}
-		}
-	}
 }
