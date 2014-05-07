@@ -95,7 +95,8 @@ public class TreeTable {
 	for (int i = 0; i < rows.length; i++) {
 	    for (int j = 0; j < experiments.length; j++) {
 		for (int k = 0; k < experiments[j].files.length; k++) {
-		    if (experiments[j].files[k].name.equals(table.getValueAt(
+            String fileRow = experiments[j].files[k].name + " (" + experiments[j].files[k].size + ")";
+		    if (fileRow.equals(table.getValueAt(
 			    rows[i], 0))) {
 			files.add(experiments[j].files[k]);
 		    }
@@ -125,7 +126,7 @@ public class TreeTable {
 	    FileData[] fileData = currentExperiment.files;
 	    for (int j = 0; j < fileData.length; j++) {
 		FileData currentFile = fileData[j];
-		Object[] rowContent = { currentFile.name };
+		Object[] rowContent = { currentFile.name + " (" + currentFile.size + ")" };
 		if (currentFile.type.equals("raw")) {
 		    rawFiles.add(new Node(rowContent));
 		} else if (currentFile.type.equals("region")) {
