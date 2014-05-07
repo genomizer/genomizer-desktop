@@ -18,11 +18,7 @@ public interface GenomizerView {
 
 	public void addSearchListener(ActionListener listener);
 
-	public void addUploadFileListener(ActionListener listener);
-
 	public void addDownloadFileListener(ActionListener listener);
-
-	public void addBrowseListener(ActionListener listener);
 
 	public void addConvertFileListener(ActionListener listener);
 
@@ -41,8 +37,6 @@ public interface GenomizerView {
 	public void updateLogout();
 
 	public JFrame getFrame();
-
-	public void updateFileChosen(String directoryAsString);
 
 	public void updateQuerySearchResults(ExperimentData[] searchResults);
 
@@ -64,7 +58,7 @@ public interface GenomizerView {
 
     public void addUploadToExperimentButtonListener(ActionListener listener);
 
-    public void addSearchResultsDownloadListener(ActionListener listener);
+//    public void addSearchResultsDownloadListener(ActionListener listener);
 
     public void addSelectFilesToUploadButtonListener(ActionListener listener);
 
