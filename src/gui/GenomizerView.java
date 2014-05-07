@@ -63,7 +63,6 @@ public interface GenomizerView {
 
 	public void annotationPopup();
 
-    public void annotationPopup();
 
     public String getNewAnnotationName();
 
