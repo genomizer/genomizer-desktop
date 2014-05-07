@@ -314,7 +314,9 @@ public class Controller {
 
 		@Override
 		public void run() {
-			new java.awt.FileDialog((java.awt.Frame) null).setVisible(true);
+            FileDialog fileDialog = new java.awt.FileDialog((java.awt.Frame) null);
+            fileDialog.setVisible(true);
+            fileDialog.setMultipleMode(true);
 
 			// Old fileChooser: fileChooser.showOpenDialog(new JPanel());
 		}
