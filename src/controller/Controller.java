@@ -12,6 +12,7 @@ import javax.swing.JPanel;
 
 import model.GenomizerModel;
 import util.ExperimentData;
+import util.FileData;
 
 public class Controller {
 
@@ -33,10 +34,36 @@ public class Controller {
 		view.addRawToRegionDataListener(new RawToRegionDataListener());
 		view.addScheduleFileListener(new ScheduleFileListener());
 		view.addDownloadFileListener(new DownloadWindowListener());
+        view.addSearchResultsDownloadListener(new DownloadSearchListener());
 		// view.addAddAnnotationListener(new AddNewAnnotationListener());
 		view.addAddPopupListener(new AddPopupListener());
         view.addAddToExistingExpButtonListener(new AddToExistingExpButtonListener());
 	}
+    class DownloadSearchListener implements ActionListener, Runnable {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            new Thread(this).start();
+        }
+
+        @Override
+        public void run() {
+            FileData[] fileData = view.getSelectedFilesInSearch();
+            JFileChooser fileChooser = new JFileChooser();
+            fileChooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+            fileChooser.showSaveDialog(new JPanel());
+            String path = fileChooser.getSelectedFile().getAbsolutePath();
+            System.out.println(path);
+            if(fileData == null) {
+                System.err.println("No files selected");
+                return;
+            }
+            for(FileData data: fileData) {
+
+                model.downloadFile(data.id, path + "/" + data.name);
+            }
+
+        }
+    }
 
 	class AddPopupListener implements ActionListener, Runnable {
 		@Override
@@ -255,7 +282,7 @@ public class Controller {
 
 		@Override
 		public void run() {
-			model.downloadFile();
+			model.downloadFile("<fileid>", "filename");
 		}
 	}
 
