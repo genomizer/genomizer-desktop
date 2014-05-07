@@ -7,8 +7,7 @@ import model.Model;
 import org.junit.Before;
 import org.junit.Test;
 
-import responses.sysadmin.AnnotationData;
-
+import util.AnnotationDataTypes;
 import communication.Connection;
 
 public class AnnotationTest {
@@ -70,7 +69,7 @@ public class AnnotationTest {
 
 	@Test
 	public void shouldOnlyDeleteExistingAnnotation() {
-		AnnotationData expected = model.getAnnotations()[0];
+		AnnotationDataTypes expected = model.getAnnotations()[0];
 		assertThat(expected).isNull();
 	}
 
@@ -89,7 +88,7 @@ public class AnnotationTest {
 
 	@Test
 	public void shouldGetAnnotationFromViewModel() {
-		AnnotationData[] expected = model.getAnnotations();
+		AnnotationDataTypes[] expected = model.getAnnotations();
 		/*
 		AnnotationData[] actual = sysadminTab.getModel().getTableModel()
 				.getAnnotationData();
