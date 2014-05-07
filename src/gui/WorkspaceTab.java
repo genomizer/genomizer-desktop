@@ -145,3 +145,4 @@ public class WorkspaceTab extends JPanel {
 		downloadButton.addActionListener(listener);
 	}
 }
+
