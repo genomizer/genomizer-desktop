@@ -86,6 +86,7 @@ public class Controller {
 		@Override
 		public void run() {
 			AnnotationDataType annotationDataType = null;
+			//view.getSelectedAnnoationAtAnnotationTable();
 			model.deleteAnnotation(new DeleteAnnoationData(annotationDataType));
 		}
     }

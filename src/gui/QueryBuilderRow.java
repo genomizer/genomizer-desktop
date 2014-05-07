@@ -1,6 +1,6 @@
 package gui;
 
-import util.AnnotationDataTypes;
+import util.AnnotationDataType;
 
 import java.awt.Dimension;
 import java.awt.FlowLayout;
@@ -26,13 +26,13 @@ public class QueryBuilderRow extends JPanel {
     private JButton minusButton;
     private JComboBox logicField;
     private QuerySearchTab parent;
-    private AnnotationDataTypes[] annotationTypes;
+    private AnnotationDataType[] annotationTypes;
     private static final String[] logicOperators = {"AND", "NOT", "OR"};
     private boolean dropdown = false;
     private boolean firstRow = false;
     private boolean lastRow = false;
 
-    public QueryBuilderRow(QuerySearchTab parent, AnnotationDataTypes[] annotationTypes) {
+    public QueryBuilderRow(QuerySearchTab parent, AnnotationDataType[] annotationTypes) {
         this.parent = parent;
         this.annotationTypes = annotationTypes;
         setLayout(new FlowLayout());
@@ -168,7 +168,7 @@ public class QueryBuilderRow extends JPanel {
         });
     }
 
-    public void setFieldBox(AnnotationDataTypes[] annotations) {
+    public void setFieldBox(AnnotationDataType[] annotations) {
         this.annotationTypes = annotations;
         String[] annotationNames = new String[annotationTypes.length];
         for(int i=0; i<annotationTypes.length; i++) {
