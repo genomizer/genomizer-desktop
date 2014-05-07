@@ -58,11 +58,7 @@ public class Controller {
             FileDialog fileDialog = new FileDialog((java.awt.Frame) null, "Choose a directory", FileDialog.SAVE);
             fileDialog.setVisible(true);
             String directoryName = fileDialog.getDirectory();
-            if (directoryName == null) {
-                System.out.println("You cancelled the choice");
-            } else {
-                System.out.println("You chose " + directoryName);
-            }
+            System.out.println("You chose " + directoryName);
 
             if(fileData == null) {
                 System.err.println("No directory selected");
