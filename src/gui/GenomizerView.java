@@ -3,7 +3,7 @@ package gui;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
-import javax.swing.JFrame;
+import javax.swing.*;
 
 import util.ExperimentData;
 
@@ -58,6 +58,14 @@ public interface GenomizerView {
 	public void addAddPopupListener(ActionListener addPopupListener);
 
     public void addAddToExistingExpButtonListener(ActionListener addToExistingExpButtonListener);
+
+    public void addUploadToExperimentButtonListener(ActionListener listener);
+
+    public void addSearchResultsDownloadListener(ActionListener listener);
+
+    public void addSelectFilesToUploadButtonListener(ActionListener listener);
+
+    public UploadTab getUploadTab();
 
 	public void annotationPopup();
 
