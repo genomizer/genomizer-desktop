@@ -160,6 +160,7 @@ public class QueryBuilderRow extends JPanel {
 
     private void setAnnotationAlternatives(String[] values) {
         annotationAlternatives = new JComboBox(values);
+        annotationAlternatives.setPrototypeDisplayValue("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
         annotationAlternatives.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
