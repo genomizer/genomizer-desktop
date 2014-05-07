@@ -211,7 +211,7 @@ public class QuerySearchTab extends JPanel {
 
     private void updateRows() {
         for (int i = 0; i < rowList.size(); i++) {
-            rowList.get(i).updateTextfield(annotationTypes);
+            rowList.get(i).setFieldBox(annotationTypes);
         }
     }
 

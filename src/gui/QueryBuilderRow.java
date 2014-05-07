@@ -21,6 +21,7 @@ import javax.swing.event.DocumentListener;
 
 public class QueryBuilderRow extends JPanel {
     private JComboBox annotationField;
+    private JComboBox annotationAlternatives;
     private JTextField textField;
     private JButton plusButton;
     private JButton minusButton;
@@ -28,6 +29,9 @@ public class QueryBuilderRow extends JPanel {
     private QuerySearchTab parent;
     private AnnotationDataTypes[] annotationTypes;
     private static final String[] logicOperators = {"AND", "NOT", "OR"};
+    private boolean dropdown = false;
+    private boolean firstRow = false;
+    private boolean lastRow = false;
 
     public QueryBuilderRow(QuerySearchTab parent, AnnotationDataTypes[] annotationTypes) {
         this.parent = parent;
@@ -36,34 +40,53 @@ public class QueryBuilderRow extends JPanel {
         setPlusButton();
         setMinusButton();
         setLogicBox();
-        setFieldBox();
+        setFieldBox(annotationTypes);
         setTextField();
+        setAnnotationAlternatives(new String[0]);
     }
 
     public void setAs(Boolean firstRow, Boolean lastRow) {
+        this.firstRow = firstRow;
+        this.lastRow = lastRow;
         removeAll();
         if (firstRow && lastRow) {
             add(Box.createHorizontalStrut(73));
             add(annotationField);
-            add(textField);
+            if(dropdown) {
+                add(annotationAlternatives);
+            } else {
+                add(textField);
+            }
             add(plusButton);
             add(Box.createHorizontalStrut(20));
         } else if (firstRow && !lastRow) {
             add(Box.createHorizontalStrut(73));
             add(annotationField);
-            add(textField);
+            if(dropdown) {
+                add(annotationAlternatives);
+            } else {
+                add(textField);
+            }
             add(minusButton);
             add(Box.createHorizontalStrut(20));
         } else if (!firstRow && !lastRow) {
             add(logicField);
             add(annotationField);
-            add(textField);
+            if(dropdown) {
+                add(annotationAlternatives);
+            } else {
+                add(textField);
+            }
             add(minusButton);
             add(Box.createHorizontalStrut(20));
         } else {
             add(logicField);
             add(annotationField);
-            add(textField);
+            if(dropdown) {
+                add(annotationAlternatives);
+            } else {
+                add(textField);
+            }
             add(minusButton);
             add(plusButton);
         }
@@ -114,10 +137,6 @@ public class QueryBuilderRow extends JPanel {
 
     }
 
-    public void updateTextfield(AnnotationDataTypes[] annotationTypes) {
-        this.annotationTypes = annotationTypes;
-        setFieldBox();
-    }
 
     private void setTextField() {
         textField = new JTextField(50);
@@ -139,13 +158,43 @@ public class QueryBuilderRow extends JPanel {
         });
     }
 
+    private void setAnnotationAlternatives(String[] values) {
+        annotationAlternatives = new JComboBox(values);
+        annotationAlternatives.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                parent.updateSearchArea();
+            }
+        });
+    }
 
-    private void setFieldBox() {
+    public void setFieldBox(AnnotationDataTypes[] annotations) {
+        this.annotationTypes = annotations;
         String[] annotationNames = new String[annotationTypes.length];
         for(int i=0; i<annotationTypes.length; i++) {
             annotationNames[i] = annotationTypes[i].getName();
         }
         annotationField = new JComboBox(annotationNames);
+        annotationField.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                dropdown = false;
+               String annotation = (String)annotationField.getSelectedItem();
+                for(int i=0; i<annotationTypes.length; i++) {
+                    if(annotation.equals(annotationTypes[i].getName())) {
+                        String[] values = annotationTypes[i].getValue();
+                        if(!values[0].equals("freetext")) {
+                            dropdown = true;
+                            setAnnotationAlternatives(values);
+                        }
+                        setAs(firstRow, lastRow);
+                        parent.updateSearchArea();
+                        repaint();
+                        revalidate();
+                    }
+                }
+            }
+        });
         annotationField.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -165,7 +214,11 @@ public class QueryBuilderRow extends JPanel {
     }
 
     public String getText() {
-        return textField.getText();
+        if(!dropdown) {
+            return textField.getText();
+        } else {
+            return (String) annotationAlternatives.getSelectedItem();
+        }
     }
 
     public String getLogic() {

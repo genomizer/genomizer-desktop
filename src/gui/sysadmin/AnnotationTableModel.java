@@ -33,6 +33,7 @@ public class AnnotationTableModel extends AbstractTableModel {
             this.annotations = annotations;
         }
     }
+
     public void setAnnotations() {
 
     }
