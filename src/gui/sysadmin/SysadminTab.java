@@ -26,7 +26,7 @@ import javax.swing.table.TableModel;
 import javax.swing.table.TableRowSorter;
 import javax.swing.text.TabExpander;
 
-import util.AnnotationDataTypes;
+import util.AnnotationDataType;
 
 public class SysadminTab extends JPanel {
 
@@ -37,6 +37,8 @@ public class SysadminTab extends JPanel {
 	private static final long serialVersionUID = 3718367832670081148L;
 	private JButton addButton;
 	private AnnotationTableModel tablemodel;
+	private JButton removeButton;
+	private JTable table;
 
     /**
      * Create the panel.
@@ -87,7 +89,7 @@ public class SysadminTab extends JPanel {
         buttonPanel.setLayout(new GridLayout(20, 1));
         JButton modifyButton = new JButton("Modify"); // TODO: load from a list
         addButton = new JButton("Add");
-        JButton removeButton = new JButton("Remove");
+        removeButton = new JButton("Remove");
         buttonPanel.add(modifyButton);
         buttonPanel.add(addButton);
         buttonPanel.add(removeButton);
@@ -138,7 +140,7 @@ public class SysadminTab extends JPanel {
 
 		tablemodel = new AnnotationTableModel();
 		AnnotationTableModel tableModelAnnotationTableModel = (AnnotationTableModel) tablemodel;
-		tableModelAnnotationTableModel.setAnnotations(new AnnotationDataTypes[] {});
+		tableModelAnnotationTableModel.setAnnotations(new AnnotationDataType[] {});
 
 		JTable table = new JTable(tablemodel);
 		
@@ -163,7 +165,7 @@ public class SysadminTab extends JPanel {
 
         JPanel panel = new JPanel(new BorderLayout());
         TableModel tableModel = null; // TODO: fix this add a new class?
-        JTable table = new JTable(tableModel);
+        table = new JTable(tableModel);
         table.setPreferredSize(panel.getSize());
 
         table.setShowGrid(false);
@@ -274,7 +276,11 @@ public class SysadminTab extends JPanel {
 		return tablemodel;
 	}
 
-	public void setAnnotationTableData(AnnotationDataTypes[] annotations) {
+	public void setAnnotationTableData(AnnotationDataType[] annotations) {
 		tablemodel.setAnnotations(annotations);
+	}
+	
+	public int getSelectedRow(){
+		return table.getSelectedRow();
 	}
 }

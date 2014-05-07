@@ -2,7 +2,8 @@ package model;
 
 import java.util.ArrayList;
 
-import util.AnnotationDataTypes;
+import util.AnnotationDataType;
+import util.DeleteAnnoationData;
 import util.ExperimentData;
 
 public interface GenomizerModel {
@@ -24,7 +25,7 @@ public interface GenomizerModel {
 	public boolean addNewAnnotation(String name, String[] categories,
 			boolean forced);
 
-	boolean deleteAnnotation(String[] strings);
+	public AnnotationDataType[] getAnnotations();
 
-	public AnnotationDataTypes[] getAnnotations();
+	boolean deleteAnnotation(DeleteAnnoationData annotation);
 }

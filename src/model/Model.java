@@ -17,7 +17,8 @@ import responses.LoginResponse;
 import responses.ResponseParser;
 import responses.SearchResponse;
 import util.AnnotationData;
-import util.AnnotationDataTypes;
+import util.AnnotationDataType;
+import util.DeleteAnnoationData;
 import util.ExperimentData;
 
 import com.google.gson.Gson;
@@ -188,12 +189,12 @@ public class Model implements GenomizerModel {
 					"Must have a name for the annotation!");
 		}
 
-		AnnotationDataTypes[] annotations = getAnnotations();
+		AnnotationDataType[] annotations = getAnnotations();
 		if (annotations == null) {
 			return false;
 		}
 		for (int i = 0; i < annotations.length; i++) {
-			AnnotationDataTypes a = annotations[i];
+			AnnotationDataType a = annotations[i];
 			if (a.getName().equalsIgnoreCase(name)) {
 				throw new IllegalArgumentException(
 						"Annotations must have a unique name, " + name
@@ -219,35 +220,35 @@ public class Model implements GenomizerModel {
 	}
 
 	@Override
-	public boolean deleteAnnotation(String[] strings) {
+	public boolean deleteAnnotation(DeleteAnnoationData deleteAnnoationData) {
 
 		DeleteAnnotationRequest request = RequestFactory
-				.makeDeleteAnnotationRequest(strings);
+				.makeDeleteAnnotationRequest(deleteAnnoationData);
 		conn.sendRequest(request, userID, "application/json");
 		if (conn.getResponseCode() == 200) {
-			System.err.println("Annotation named " + strings
+			System.err.println("Annotation named " + deleteAnnoationData
 					+ " deleted succesfully");
 			return true;
 		} else {
-			System.err.println("Could not delete annotation name " + strings
+			System.err.println("Could not delete annotation name " + deleteAnnoationData
 					+ "!");
 		}
 		return false;
 	}
 
-	public synchronized AnnotationDataTypes[] getAnnotations() {
+	public synchronized AnnotationDataType[] getAnnotations() {
 		GetAnnotationRequest request = RequestFactory
 				.makeGetAnnotationRequest();
 		conn.sendRequest(request, userID, "text/plain");
 		if (conn.getResponseCode() == 200) {
 			System.err.println("Sent getAnnotionrequestsuccess!");
-			AnnotationDataTypes[] annotations = ResponseParser
+			AnnotationDataType[] annotations = ResponseParser
 					.parseGetAnnotationResponse(conn.getResponseBody());
 			return annotations;
 		} else {
 			System.out.println("responsecode: " + conn.getResponseCode());
 			System.err.println("Could not get annotations!");
 		}
-		return null;
+		return new AnnotationDataType[]{};
 	}
 }

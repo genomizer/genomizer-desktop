@@ -1,11 +1,11 @@
 package util;
 
-public class AnnotationDataTypes extends AnnotationData{
+public class AnnotationDataType extends AnnotationData{
 
 	private String[] values;
 	private boolean forced;
 
-	public AnnotationDataTypes(String id, String name, String[] values, Boolean forced) {
+	public AnnotationDataType(String id, String name, String[] values, Boolean forced) {
 		super(id, name);
 		this.values = values;
 		this.forced = forced;

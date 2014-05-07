@@ -9,7 +9,8 @@ import org.junit.Before;
 import org.junit.Test;
 
 import util.AnnotationData;
-import util.AnnotationDataTypes;
+import util.AnnotationDataType;
+import util.DeleteAnnoationData;
 import communication.Connection;
 
 public class AnnotationTest {
@@ -64,17 +65,11 @@ public class AnnotationTest {
 			assertThat(e).hasMessage("Must have a name for the annotation!");
 		}
 	}
-
+	
 	@Test
 	public void shouldDeleteAnnotation() { // TODO: how do you delete data???
-		assertThat(model.deleteAnnotation(new String[] { "SpeciesTEST" }))
+		assertThat(model.deleteAnnotation(new DeleteAnnoationData(new AnnotationDataType("1", "pubmedId", new String[]{"freetext"}, true))))
 				.isTrue();
-	}
-
-	@Test
-	public void shouldOnlyDeleteExistingAnnotation() {
-		AnnotationDataTypes expected = model.getAnnotations()[0];
-		assertThat(expected).isNull();
 	}
 
 	@Test
@@ -89,17 +84,4 @@ public class AnnotationTest {
 							+ " already exists");
 		}
 	}
-	
-	@Test
-	public void shouldGetAnnotationFromViewModel() {
-		AnnotationDataTypes[] expected = model.getAnnotations();
-		AnnotationTableModel tablemodel = sysadminTab.getTableModel();
-		tablemodel.setAnnotations(model.getAnnotations());
-		AnnotationData[] actual = tablemodel.getAnnotationData();
-		assertThat(actual).isEqualTo(expected);
-	
-	}
-	
-	
-	
 }

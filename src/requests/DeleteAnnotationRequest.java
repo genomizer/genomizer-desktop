@@ -1,11 +1,14 @@
 package requests;
 
+import util.AnnotationDataType;
+import util.DeleteAnnoationData;
+
 public class DeleteAnnotationRequest extends Request {
 
-	private String[] delete;
+	private DeleteAnnoationData deleteId;
 
-	public DeleteAnnotationRequest(String[] names) {
+	public DeleteAnnotationRequest(DeleteAnnoationData deleteAnnoationData) {
 		super("deleteAnnotation", "/annotation", "DELETE");
-		this.delete = names;
+		this.deleteId = deleteAnnoationData;
 	}
 }

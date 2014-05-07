@@ -1,6 +1,6 @@
 package responses;
 
-import util.AnnotationDataTypes;
+import util.AnnotationDataType;
 import util.ExperimentData;
 
 import com.google.gson.Gson;
@@ -30,10 +30,10 @@ public class ResponseParser {
 		return searchResponses;
 	}
 
-	public static AnnotationDataTypes[] parseGetAnnotationResponse(String json) {
-		AnnotationDataTypes[] annotationResponses = null;
+	public static AnnotationDataType[] parseGetAnnotationResponse(String json) {
+		AnnotationDataType[] annotationResponses = null;
 		try {
-			annotationResponses = gson.fromJson(json, AnnotationDataTypes[].class);
+			annotationResponses = gson.fromJson(json, AnnotationDataType[].class);
 		} catch (JsonParseException e) {
 			return null;
 		}

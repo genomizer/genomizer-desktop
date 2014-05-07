@@ -12,7 +12,7 @@ import javax.swing.JTabbedPane;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 
-import util.AnnotationDataTypes;
+import util.AnnotationDataType;
 import util.ExperimentData;
 import util.FileData;
 
@@ -265,7 +265,7 @@ public class GUI extends JFrame implements GenomizerView {
         querySearchTab.addUpdateAnnotationsListener(listener);
     }
 
-    public void setSearchAnnotationTypes(AnnotationDataTypes[] annotationTypes) {
+    public void setSearchAnnotationTypes(AnnotationDataType[] annotationTypes) {
         querySearchTab.setAnnotationTypes(annotationTypes);
     }
 
@@ -304,7 +304,12 @@ public class GUI extends JFrame implements GenomizerView {
 	}
 
 	@Override
-	public void setAnnotationTableData(AnnotationDataTypes[] annotations) {
+	public void setAnnotationTableData(AnnotationDataType[] annotations) {
 		sysadminTab.setAnnotationTableData(annotations);
+	}
+	
+	@Override
+	public int getSelectedRowAtAnnotationTable(){
+		return sysadminTab.getSelectedRow();
 	}
 }

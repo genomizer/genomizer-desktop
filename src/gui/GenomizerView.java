@@ -5,7 +5,7 @@ import java.util.ArrayList;
 
 import javax.swing.*;
 
-import util.AnnotationDataTypes;
+import util.AnnotationDataType;
 import util.ExperimentData;
 import util.FileData;
 
@@ -78,8 +78,10 @@ public interface GenomizerView {
 
 	public void closePopup();
 
-	public void setAnnotationTableData(AnnotationDataTypes[] annotations);
+	public void setAnnotationTableData(AnnotationDataType[] annotations);
 
-	public void setSearchAnnotationTypes(AnnotationDataTypes[] annotationTypes);
+	public void setSearchAnnotationTypes(AnnotationDataType[] annotationTypes);
+
+	int getSelectedRowAtAnnotationTable();
 
 }

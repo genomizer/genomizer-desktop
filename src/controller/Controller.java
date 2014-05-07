@@ -11,7 +11,8 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 import model.GenomizerModel;
-import util.AnnotationDataTypes;
+import util.AnnotationDataType;
+import util.DeleteAnnoationData;
 import util.ExperimentData;
 import util.FileData;
 
@@ -73,6 +74,19 @@ public class Controller {
             }
 
         }
+    }
+    
+    class DeleteAnnotationListener implements ActionListener, Runnable {
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			new Thread(this).start();
+		}
+
+		@Override
+		public void run() {
+			AnnotationDataType annotationDataType = null;
+			model.deleteAnnotation(new DeleteAnnoationData(annotationDataType));
+		}
     }
 
 	class AddPopupListener implements ActionListener, Runnable {
@@ -331,7 +345,7 @@ public class Controller {
         @Override
         public void run() {
             System.out.println("updateSearchAnnotations");
-            AnnotationDataTypes[] annotations = model.getAnnotations();
+            AnnotationDataType[] annotations = model.getAnnotations();
             if(annotations != null) {
                 view.setSearchAnnotationTypes(annotations);
             }
