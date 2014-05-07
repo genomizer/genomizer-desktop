@@ -62,6 +62,8 @@ public interface GenomizerView {
 
     public void addSelectFilesToUploadButtonListener(ActionListener listener);
 
+    public void addUpdateSearchAnnotationsListener(ActionListener listener);
+
     public UploadTab getUploadTab();
 
 	public void annotationPopup();
