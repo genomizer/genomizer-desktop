@@ -32,7 +32,7 @@ public class Controller {
 		view.addRawToRegionDataListener(new RawToRegionDataListener());
 		view.addScheduleFileListener(new ScheduleFileListener());
 		view.addDownloadFileListener(new DownloadWindowListener());
-//        view.addSearchResultsDownloadListener(new DownloadSearchListener());
+        view.addSearchResultsDownloadListener(new DownloadSearchListener());
 		// view.addAddAnnotationListener(new AddNewAnnotationListener());
 		view.addAddPopupListener(new AddPopupListener());
         view.addAddToExistingExpButtonListener(new AddToExistingExpButtonListener());
@@ -47,7 +47,7 @@ public class Controller {
 
         @Override
         public void run() {
-/*            FileData[] fileData = view.getSelectedFilesInSearch();
+            FileData[] fileData = view.getSelectedFilesInSearch();
             JFileChooser fileChooser = new JFileChooser();
             fileChooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
             int ret = fileChooser.showSaveDialog(new JPanel());
@@ -68,7 +68,7 @@ public class Controller {
 
                 model.downloadFile(data.id, path + "/" + data.name);
             }
-*/
+
         }
     }
 

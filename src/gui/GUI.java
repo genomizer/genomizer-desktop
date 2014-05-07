@@ -245,11 +245,6 @@ public class GUI extends JFrame implements GenomizerView {
         querySearchTab.addDownloadButtonListener(listener);
     }
 
-    @Override
-	public void updateFileChosen(String directoryAsString) {
-		uploadTab.getDirectoryTextField().setText(directoryAsString);
-	}
-
 	@Override
 	public String getQuerySearchString() {
 		return querySearchTab.getSearchString();

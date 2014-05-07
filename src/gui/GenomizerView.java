@@ -58,7 +58,7 @@ public interface GenomizerView {
 
     public void addUploadToExperimentButtonListener(ActionListener listener);
 
-//    public void addSearchResultsDownloadListener(ActionListener listener);
+    public void addSearchResultsDownloadListener(ActionListener listener);
 
     public void addSelectFilesToUploadButtonListener(ActionListener listener);
 
