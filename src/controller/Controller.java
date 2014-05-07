@@ -302,7 +302,9 @@ public class Controller {
 
         @Override
         public void run() {
-            fileChooser.showOpenDialog(new JPanel());
+            new java.awt.FileDialog((java.awt.Frame) null).setVisible(true);
+
+//      Old fileChooser:        fileChooser.showOpenDialog(new JPanel());
         }
     }
 
