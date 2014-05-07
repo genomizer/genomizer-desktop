@@ -6,7 +6,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.util.Random;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
@@ -36,26 +35,26 @@ public class HTTPURLDownload {
 		// the URL where the file will be posted
 		URI getReceiverUrl = null;
 		try {
-			getReceiverUrl = new URIBuilder()
-			.setScheme("http")
-			.setHost("scratchy.cs.umu.se:8090")
-			.setPath("/html/download.php")
-			.setParameter("path", downloadPath)
-			.build();
+			getReceiverUrl = new URIBuilder().setScheme("http")
+					.setHost("scratchy.cs.umu.se:8090")
+					.setPath("/html/download.php")
+					.setParameter("path", downloadPath).build();
 		} catch (URISyntaxException e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
-		//String getReceiverUrl = "http://scratchy.cs.umu.se:8090/download.php";
+		// String getReceiverUrl =
+		// "http://scratchy.cs.umu.se:8090/download.php";
 
 		// new HttpClient
 		HttpClientBuilder hcBuilder = HttpClients.custom();
 
 		CloseableHttpClient httpClient = hcBuilder.build();
 
-		//Authentication information
+		// Authentication information
 		CredentialsProvider credentialsProvider = new BasicCredentialsProvider();
-		credentialsProvider.setCredentials(AuthScope.ANY, new UsernamePasswordCredentials(username + ":" + password));
+		credentialsProvider.setCredentials(AuthScope.ANY,
+				new UsernamePasswordCredentials(username + ":" + password));
 		HttpClientContext localContext = HttpClientContext.create();
 		localContext.setCredentialsProvider(credentialsProvider);
 
@@ -68,9 +67,8 @@ public class HTTPURLDownload {
 			HttpEntity resEntity = response.getEntity();
 			if (resEntity != null) {
 
-
-				//If response is OK, try to download the file to the computer
-				if(response.getStatusLine().getStatusCode() == 200) {
+				// If response is OK, try to download the file to the computer
+				if (response.getStatusLine().getStatusCode() == 200) {
 
 					InputStream inputStream = resEntity.getContent();
 
@@ -84,10 +82,12 @@ public class HTTPURLDownload {
 					outputStream.close();
 					inputStream.close();
 				} else {
-					//Not OK
-					System.out.println("ERROR: " + response.getStatusLine().getStatusCode() + "\n");
+					// Not OK
+					System.out.println("ERROR: "
+							+ response.getStatusLine().getStatusCode() + "\n");
 				}
-			    // you can add an if statement here and do other actions based on the response
+				// you can add an if statement here and do other actions based
+				// on the response
 			}
 		} catch (ClientProtocolException e) {
 			// TODO Auto-generated catch block
@@ -97,11 +97,14 @@ public class HTTPURLDownload {
 			e.printStackTrace();
 		}
 	}
+
 	/**
 	 * @param args
 	 */
 	public static void main(String[] args) {
-		HTTPURLDownload downloader = new HTTPURLDownload("/var/www/html/uploads/test111.txt", "/home/oi11/oi11ejn/Downloads/test.txt");
+		HTTPURLDownload downloader = new HTTPURLDownload(
+				"/var/www/html/uploads/test111.txt",
+				"/home/oi11/oi11ejn/Downloads/test.txt");
 		downloader.getFile("pvt", "pvt");
 	}
 }

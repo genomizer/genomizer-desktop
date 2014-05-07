@@ -10,31 +10,31 @@ import requests.LoginRequest;
 
 public class LoginRequestTest {
 
-    private LoginRequest login;
+	private LoginRequest login;
 
-    @Before
-    public void setUp() {
-	login = new LoginRequest("Kalle", "123");
-    }
+	@Before
+	public void setUp() {
+		login = new LoginRequest("Kalle", "123");
+	}
 
-    @Test
-    public void testCreateLoginRequest() {
-	assertThat(login).isNotNull();
-    }
+	@Test
+	public void testCreateLoginRequest() {
+		assertThat(login).isNotNull();
+	}
 
-    @Test
-    public void testGetUsername() {
-	assertEquals("Kalle", login.username);
-    }
+	@Test
+	public void testGetUsername() {
+		assertEquals("Kalle", login.username);
+	}
 
-    @Test
-    public void testGetPassword() {
-	assertEquals("123", login.password);
-    }
+	@Test
+	public void testGetPassword() {
+		assertEquals("123", login.password);
+	}
 
-    @Test
-    public void testGetRequestName() {
-	assertEquals("login", login.requestName);
-    }
+	@Test
+	public void testGetRequestName() {
+		assertEquals("login", login.requestName);
+	}
 
 }

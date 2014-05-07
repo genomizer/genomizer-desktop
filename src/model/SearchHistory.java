@@ -2,22 +2,22 @@ package model;
 
 import java.util.ArrayList;
 
-import responses.SearchResponse;
+import util.ExperimentData;
 
 public class SearchHistory {
 
-    private ArrayList<SearchResponse[]> searchHistory;
+	private ArrayList<ExperimentData[]> searchHistory;
 
-    public void searchHistory() {
-	searchHistory = new ArrayList<SearchResponse[]>();
-    }
+	public void searchHistory() {
+		searchHistory = new ArrayList<ExperimentData[]>();
+	}
 
-    public void addSearchToHistory(SearchResponse[] searchResponses) {
-	// searchHistory.add(searchResponses);
-    }
+	public void addSearchToHistory(ExperimentData[] searchResponses) {
+		// searchHistory.add(searchResponses);
+	}
 
-    public void getSearchFromHistory(int i) {
-	searchHistory.get(i);
-    }
+	public void getSearchFromHistory(int i) {
+		searchHistory.get(i);
+	}
 
 }
