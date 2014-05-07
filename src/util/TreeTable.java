@@ -16,11 +16,12 @@ public class TreeTable {
     private JXTreeTable table;
     private ExperimentData[] experiments;
     private int sortByColumn;
-    private boolean desc;
+    private ArrayList<Boolean> descs;
 
     public TreeTable() {
         this.headings = new String[0];
         experiments = new ExperimentData[0];
+        descs = new ArrayList<Boolean>();
     }
 
     public void setContent(String[] headings, ExperimentData[] content) {
@@ -31,16 +32,31 @@ public class TreeTable {
         for (int i = 0; i < experiments.length; i++) {
             data[i] = experiments[i].getAnnotationValueList();
         }
+
+        descs = new ArrayList<Boolean>();
+        for(int i=0; i<this.headings.length; i++) {
+            descs.add(i, true);
+        }
     }
 
-    private String[][] sortMatrix(String[][] matrix, final int sortByColumn,
-                                  final boolean desc) {
+    private String[][] sortMatrix(String[][] matrix, final int sortByColumn) {
+
+        for(int i=0; i<descs.size(); i++) {
+            if(i==sortByColumn) {
+                descs.set(i, !descs.get(i));
+
+            } else {
+                descs.set(i, true);
+            }
+        }
+
         Arrays.sort(matrix, new Comparator<String[]>() {
             @Override
             public int compare(final String[] entry1, final String[] entry2) {
                 final String time1 = entry1[sortByColumn];
                 final String time2 = entry2[sortByColumn];
-                if (desc) {
+
+                if (descs.get(sortByColumn)) {
                     return time2.compareTo(time1);
                 } else {
                     return time1.compareTo(time2);
@@ -50,9 +66,8 @@ public class TreeTable {
         return matrix;
     }
 
-    public void setSorting(int sortByColumn, boolean desc) {
+    public void setSorting(int sortByColumn) {
         this.sortByColumn = sortByColumn;
-        this.desc = desc;
     }
 
     private String[][] getContentFromTreeTable() {
@@ -115,7 +130,7 @@ public class TreeTable {
             headings = getHeadingsFromTreeTable();
         }
         // sort the data
-        data = sortMatrix(data, sortByColumn, desc);
+        data = sortMatrix(data, sortByColumn);
 
         for (int i = 0; i < experiments.length; i++) {
             Node child = new Node(data[i]);
