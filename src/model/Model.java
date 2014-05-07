@@ -58,33 +58,26 @@ public class Model implements GenomizerModel {
 	}
 
 	@Override
-	public boolean rawToProfile(ArrayList<String> markedFiles) {
-
-		if (!markedFiles.isEmpty()) {
-
-			for (int i = 0; i < markedFiles.size(); i++) {
+	public boolean rawToProfile(String fileName, String filePath,String metadata, String genomeRelease, String author, String expid, String[] parameters) {
 
 				rawToProfileRequest rawToProfilerequest = RequestFactory
-						.makeRawToProfileRequest(markedFiles.get(i));
+									.makeRawToProfileRequest(fileName,filePath,expid,metadata, genomeRelease,author,parameters);
 
 				conn.sendRequest(rawToProfilerequest, userID, "text/plain");
 				if (conn.getResponseCode() == 201) {
 					return true;
-					// TODO Fixa så att det syns bör användaren att filen
+
+					// TODO Fixa sï¿½ att det syns bï¿½r anvï¿½ndaren att filen
 					// gick
 					// attt konverteras.
+
 				} else {
 					return false;
+					
 					// TODO Fixa felmeddelande i gui ifall det inte gick att
 					// convertera till profile.
-					// TODO Köra nån timer för response.
+					// TODO Kï¿½ra nï¿½n timer fï¿½r response.
 				}
-
-			}
-
-		}
-
-		return false;
 	}
 
 	@Override
@@ -163,10 +156,9 @@ public class Model implements GenomizerModel {
 	public ExperimentData[] search(String pubmedString) {
 		SearchRequest request = RequestFactory.makeSearchRequest(pubmedString);
 		conn.sendRequest(request, userID, "text/plain");
-		if (200 == 200) { // if(conn.getResponseCode == 200) {
-			ExperimentData[] searchResponses = ResponseParser
-					.parseSearchResponse(SearchResponse.getJsonExampleTest());
-			// parseSearchResponse(conn.getResponseBody);
+        if(conn.getResponseCode() == 200) { // if (200 == 200) {
+			ExperimentData[] searchResponses = ResponseParser.parseSearchResponse(conn.getResponseBody());
+			//		.parseSearchResponse(SearchResponse.getJsonExampleTest());
 			if (searchResponses != null && searchResponses.length > 0) {
 				searchHistory.addSearchToHistory(searchResponses);
 				return searchResponses;

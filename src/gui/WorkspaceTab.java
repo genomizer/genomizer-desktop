@@ -16,21 +16,21 @@ import javax.swing.JTable;
 
 public class WorkspaceTab extends JPanel {
 
-    private static final long serialVersionUID = -7278768268151806081L;
-    private JPanel buttonPanel, filePanel;
-    private JButton deleteButton, removeButton, downloadButton;
-    private JButton analyzeButton, browseButton;
-    private ImageIcon analyseIcon = new ImageIcon(getClass().getResource(
-            "/icons/AnalyzeSelectedButton.png"));
-    private ImageIcon browseIcon = new ImageIcon(getClass().getResource(
-            "/icons/BrowseLocalFilesButton.png"));
-    private ImageIcon deleteIcon = new ImageIcon(getClass().getResource(
-            "/icons/DeleteSelectedButton.png"));
-    private ImageIcon downloadSelectedIcon = new ImageIcon(getClass()
-            .getResource("/icons/DownloadSelectedButton.png"));
-    private ImageIcon removeFromDBIcon = new ImageIcon(getClass().getResource(
-            "/icons/RemoveFromDatabaseButton.png"));
-    private GridBagConstraints gbc;
+	private static final long serialVersionUID = -7278768268151806081L;
+	private JPanel buttonPanel, filePanel;
+	private JButton deleteButton, removeButton, downloadButton;
+	private JButton analyzeButton, browseButton, processButton;
+	private ImageIcon analyseIcon = new ImageIcon(getClass().getResource(
+			"/icons/AnalyzeSelectedButton.png"));
+	private ImageIcon browseIcon = new ImageIcon(getClass().getResource(
+			"/icons/BrowseLocalFilesButton.png"));
+	private ImageIcon deleteIcon = new ImageIcon(getClass().getResource(
+			"/icons/DeleteSelectedButton.png"));
+	private ImageIcon downloadSelectedIcon = new ImageIcon(getClass()
+			.getResource("/icons/DownloadSelectedButton.png"));
+	private ImageIcon removeFromDBIcon = new ImageIcon(getClass().getResource(
+			"/icons/RemoveFromDatabaseButton.png"));
+	private GridBagConstraints gbc;
 
     public WorkspaceTab() {
         setLayout(new BorderLayout());
@@ -74,13 +74,14 @@ public class WorkspaceTab extends JPanel {
         setVisible(true);
     }
 
-    private void createButtons() {
-        removeButton = new JButton();
-        downloadButton = new JButton();
-        analyzeButton = new JButton();
-        browseButton = new JButton();
-        deleteButton = new JButton();
-    }
+	private void createButtons() {
+		removeButton = new JButton();
+		downloadButton = new JButton();
+		analyzeButton = new JButton();
+		browseButton = new JButton();
+		deleteButton = new JButton();
+		processButton = new JButton();
+	}
 
     private void addToButtonPanel() {
 
@@ -120,15 +121,21 @@ public class WorkspaceTab extends JPanel {
         analyzeButton.setIcon(analyseIcon);
         buttonPanel.add(analyzeButton, gbc);
 
-        gbc.gridx = 4;
-        gbc.gridy = 0;
-        browseIcon = new ImageIcon(browseIcon.getImage().getScaledInstance(175,
-                30, Image.SCALE_SMOOTH));
-        browseButton.setBorderPainted(true);
-        browseButton.setContentAreaFilled(false);
-        browseButton.setIcon(browseIcon);
-        buttonPanel.add(browseButton, gbc);
-    }
+		gbc.gridx = 4;
+		gbc.gridy = 0;
+		browseIcon = new ImageIcon(browseIcon.getImage().getScaledInstance(175,
+				30, Image.SCALE_SMOOTH));
+		browseButton.setBorderPainted(true);
+		browseButton.setContentAreaFilled(false);
+		browseButton.setIcon(browseIcon);
+		buttonPanel.add(browseButton, gbc);
+
+		gbc.gridx = 5;
+		gbc.gridy = 0;
+
+		processButton.setText("Process selected");
+		buttonPanel.add(processButton, gbc);
+	}
 
     /**
      * Returns an ImageIcon, or null if the path was invalid.
@@ -143,8 +150,12 @@ public class WorkspaceTab extends JPanel {
         }
     }
 
-    public void addDownloadFileListener(ActionListener listener) {
-        downloadButton.addActionListener(listener);
-    }
+	public void addDownloadFileListener(ActionListener listener) {
+		downloadButton.addActionListener(listener);
+	}
+
+	public void addProcessFileListener(ActionListener listener) {
+		processButton.addActionListener(listener);
+	}
 }
 

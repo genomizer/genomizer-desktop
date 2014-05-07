@@ -13,7 +13,7 @@ public interface GenomizerView {
 
 	public void addLoginListener(ActionListener listener);
 
-	public FileData[] getSelectedFilesInSearch();
+    public FileData[] getSelectedFilesInSearch();
 
 	public void addLogoutListener(ActionListener listener);
 
@@ -55,18 +55,18 @@ public interface GenomizerView {
 
 	public void addAddPopupListener(ActionListener addPopupListener);
 
-	public void addAddToExistingExpButtonListener(
-			ActionListener addToExistingExpButtonListener);
+    public void addAddToExistingExpButtonListener(
+    		ActionListener addToExistingExpButtonListener);
 
-	public void addUploadToExperimentButtonListener(ActionListener listener);
+    public void addUploadToExperimentButtonListener(ActionListener listener);
 
-	public void addSearchResultsDownloadListener(ActionListener listener);
+    public void addSearchResultsDownloadListener(ActionListener listener);
 
-	public void addSelectFilesToUploadButtonListener(ActionListener listener);
+    public void addSelectFilesToUploadButtonListener(ActionListener listener);
 
-	public void addUpdateSearchAnnotationsListener(ActionListener listener);
+    public void addUpdateSearchAnnotationsListener(ActionListener listener);
 
-	public UploadTab getUploadTab();
+    public UploadTab getUploadTab();
 
 	public void annotationPopup();
 
@@ -80,10 +80,16 @@ public interface GenomizerView {
 
 	public void setAnnotationTableData(AnnotationDataType[] annotations);
 
-	public void setSearchAnnotationTypes(AnnotationDataType[] annotationTypes);
+    public void setSearchAnnotationTypes(AnnotationDataType[] annotationTypes);
 
-	int getSelectedRowAtAnnotationTable();
+    int getSelectedRowAtAnnotationTable();
 
-	public AnnotationDataType getSelectedAnnoationAtAnnotationTable();
+    public AnnotationDataType getSelectedAnnoationAtAnnotationTable();
+
+    public ArrayList<FileData> getAllMarkedFileData();
+
+    public void addProcessFileListener(ActionListener listener);
+
+	public void setProccessFileList();
 
 }

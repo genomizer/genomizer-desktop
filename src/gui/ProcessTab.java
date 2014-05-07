@@ -18,6 +18,8 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.ListSelectionModel;
 
+import util.FileData;
+
 public class ProcessTab extends JPanel {
 
     private static final long serialVersionUID = -2830290705724588252L;
@@ -42,6 +44,7 @@ public class ProcessTab extends JPanel {
     private JList fileList = new JList();
     // TODO SKA VARA JLIST
     private ArrayList processQueue = new ArrayList();
+	private FileData[] fileData;
 
     public ProcessTab() {
         this.setLayout(new BorderLayout());
@@ -55,6 +58,9 @@ public class ProcessTab extends JPanel {
         initMiddlePanel();
         initEastPanels();
         initTimePanel();
+
+		//initFileList();
+		writeToTimePanel();
 
         // BARA TILLFï¿½LLIG
         JList list = new JList(new CheckListItem[]{
@@ -168,6 +174,47 @@ public class ProcessTab extends JPanel {
 
     }
 
+	//TODO
+	public void setFileInfo(FileData[] fileData){
+		this.fileData = fileData;
+		parseFileData();
+		initFileList();
+	}
+
+
+	//TODO Går inte att lägga in checklistitem-listan i JList fileList.
+	//Det gör att listan med filnamn inte visas i GUI.
+	private void parseFileData(){
+
+		JList list = new JList(new CheckListItem[] {
+				new CheckListItem("[0] Protein223_A5_2014.RAW"),
+				new CheckListItem("[1] Protein223_A5_2014.RAW"),
+				new CheckListItem("[2] Protein223_A5_2014.RAW"),
+				new CheckListItem("[3] Protein223_A5_2014.RAW"),
+				new CheckListItem("[4] Protein223_A5_2014.RAW") });
+
+
+	//	CheckListItem[] itemList = new CheckListItem[fileData.length];
+
+
+	//	for(int i = 0; i < fileData.length; i++){
+			//itemList[i] = new CheckListItem( fileData[i].name );
+
+	//		fileList
+	//	}
+
+	//	this.fileList = new JList(itemList);
+
+
+		this.fileList = list;
+
+
+	}
+
+	private void setList(JList fileList) {
+		this.fileList = fileList;
+	}
+
     private void initList(JList fileList) {
         this.fileList = fileList;
     }
@@ -220,6 +267,30 @@ public class ProcessTab extends JPanel {
         }
         return arr;
     }
+
+	//Oanvänd
+	public ArrayList<FileData> getAllMarkedFileData(){
+
+		ArrayList<FileData> allMarked = new ArrayList<FileData>();
+		ArrayList<String> arr = getAllMarkedFiles();
+
+		if(fileData == null){
+
+			return null;
+		} else {
+
+			for(int i = 0; i < fileData.length; i++){
+
+				for(int j = 0; j < arr.size(); j++){
+
+					if(fileData[i].name == arr.get(j)){
+						allMarked.add( fileData[i] );
+					}
+				}
+			}
+			return allMarked;
+		}
+	}
 
     private void checkItemIsSelected(ArrayList<String> arr,
                                      CheckListItem checkItem) {

@@ -319,4 +319,35 @@ public class GUI extends JFrame implements GenomizerView {
 		// TODO Auto-generated method stub
 		return 0;
 	}
+
+	@Override
+	public ArrayList<FileData> getAllMarkedFileData() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void addProcessFileListener(ActionListener listener) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void setProccessFileList() {
+
+		FileData[] fileArray = new FileData[11];
+		FileData fileData;
+
+		//TODO
+		//TESTING
+		for(int i = 0;i < 10; i++){
+
+		 fileData = new FileData(null, null, "[" + i + "] Protein223_A5_2014.RAW", null, null, null, null);
+
+		 fileArray[i] = fileData;
+
+		}
+		processTab.setFileInfo(fileArray);
+
+	}
 }
