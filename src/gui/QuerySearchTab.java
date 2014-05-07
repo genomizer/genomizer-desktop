@@ -39,7 +39,6 @@ public class QuerySearchTab extends JPanel {
     private TreeTable resultsTable;
     private ExperimentData[] currentSearchResult;
     private AnnotationDataTypes[] annotationTypes;
-    private boolean desc;
 
     public QuerySearchTab() {
         setUpQuerySearchTab();
@@ -70,8 +69,7 @@ public class QuerySearchTab extends JPanel {
                 if (e.getClickCount() == 1) {
                     TableColumnModel cModel = treeTable.getColumnModel();
                     int column = cModel.getColumnIndexAtX(e.getX());
-                    desc = !desc;
-                    resultsTable.setSorting(column, desc);
+                    resultsTable.setSorting(column);
                     showResultsView();
                 }
             }
