@@ -11,6 +11,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 import model.GenomizerModel;
+import util.AnnotationDataTypes;
 import util.ExperimentData;
 import util.FileData;
 
@@ -32,13 +33,14 @@ public class Controller {
 		view.addRawToRegionDataListener(new RawToRegionDataListener());
 		view.addScheduleFileListener(new ScheduleFileListener());
 		view.addDownloadFileListener(new DownloadWindowListener());
-//        view.addSearchResultsDownloadListener(new DownloadSearchListener());
+        view.addSearchResultsDownloadListener(new DownloadSearchListener());
 		// view.addAddAnnotationListener(new AddNewAnnotationListener());
 		view.addAddPopupListener(new AddPopupListener());
         view.addAddToExistingExpButtonListener(new AddToExistingExpButtonListener());
         view.addSelectFilesToUploadButtonListener(new SelectFilesToUploadButtonListener());
         view.addUploadToExperimentButtonListener(new UploadToExperimentButtonListener());
         view.setAnnotationTableData(model.getAnnotations());
+        view.addUpdateSearchAnnotationsListener(new updateSearchAnnotationsListener());
 	}
     class DownloadSearchListener implements ActionListener, Runnable {
         @Override
@@ -48,7 +50,7 @@ public class Controller {
 
         @Override
         public void run() {
-/*            FileData[] fileData = view.getSelectedFilesInSearch();
+            FileData[] fileData = view.getSelectedFilesInSearch();
             JFileChooser fileChooser = new JFileChooser();
             fileChooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
             int ret = fileChooser.showSaveDialog(new JPanel());
@@ -69,7 +71,7 @@ public class Controller {
 
                 model.downloadFile(data.id, path + "/" + data.name);
             }
-*/
+
         }
     }
 
@@ -315,6 +317,24 @@ public class Controller {
         @Override
         public void run() {
 
+        }
+    }
+
+    class updateSearchAnnotationsListener implements ActionListener, Runnable {
+
+        @Override
+        public void actionPerformed(ActionEvent actionEvent) {
+
+            new Thread(this).start();
+        }
+
+        @Override
+        public void run() {
+            System.out.println("updateSearchAnnotations");
+            AnnotationDataTypes[] annotations = model.getAnnotations();
+            if(annotations != null) {
+                view.setSearchAnnotationTypes(annotations);
+            }
         }
     }
 }

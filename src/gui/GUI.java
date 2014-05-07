@@ -14,6 +14,7 @@ import javax.swing.UnsupportedLookAndFeelException;
 
 import util.AnnotationDataTypes;
 import util.ExperimentData;
+import util.FileData;
 
 public class GUI extends JFrame implements GenomizerView {
 
@@ -99,7 +100,12 @@ public class GUI extends JFrame implements GenomizerView {
 		loginWindow.addLoginListener(listener);
 	}
 
-	@Override
+    @Override
+    public FileData[] getSelectedFilesInSearch() {
+        return querySearchTab.getSelectedFiles();
+    }
+
+    @Override
 	public void addConvertFileListener(ActionListener listener) {
 		processTab.addConvertFileListener(listener);
 	}
@@ -235,6 +241,11 @@ public class GUI extends JFrame implements GenomizerView {
         uploadTab.getUploadToExistingExpPanel().addUploadToExperimentButtonListener(listener);
     }
 
+    @Override
+    public void addSearchResultsDownloadListener(ActionListener listener) {
+        querySearchTab.addDownloadButtonListener(listener);
+    }
+
 	@Override
 	public String getQuerySearchString() {
 		return querySearchTab.getSearchString();
@@ -249,6 +260,14 @@ public class GUI extends JFrame implements GenomizerView {
 	public void addAddAnnotationListener(ActionListener addAnnotationListener) {
 		sysadminTab.addAddAnnotationListener(addAnnotationListener);
 	}
+
+    public void addUpdateSearchAnnotationsListener(ActionListener listener) {
+        querySearchTab.addUpdateAnnotationsListener(listener);
+    }
+
+    public void setSearchAnnotationTypes(AnnotationDataTypes[] annotationTypes) {
+        querySearchTab.setAnnotationTypes(annotationTypes);
+    }
 
 	@Override
 	public void addAddPopupListener(ActionListener addPopupListener) {

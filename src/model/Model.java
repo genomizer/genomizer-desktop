@@ -142,9 +142,10 @@ public class Model implements GenomizerModel {
 
 	@Override
 	public boolean downloadFile(String fileID, String path) {
-
+        //Use this until search works on the server
 		DownloadFileRequest request = RequestFactory.makeDownloadFileRequest(
 				 "<file-id>", ".wig");
+
         System.out.println("Test: " + fileID);
         conn.sendRequest(request, userID, "text/plain");
 		Gson gson = new Gson();

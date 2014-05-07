@@ -37,12 +37,11 @@ public class AnnotationTableModel extends AbstractTableModel {
 			return null;
 		}
 	}
-
-	public void setAnnotations(AnnotationDataTypes[] annotations) {
-		synchronized (annotations) {
-			this.annotations = annotations;
-		}
-	}
+    public void setAnnotations(AnnotationDataTypes[] annotations) {
+        synchronized (annotations) {
+            this.annotations = annotations;
+        }
+    }
 
 	@Override
 	public String getColumnName(int column) {

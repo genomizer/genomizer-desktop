@@ -22,12 +22,8 @@ public class UploadTab extends JPanel {
 
 	private static final long serialVersionUID = -2830290705724588252L;
 	private JButton addToExistingExpButton;
-	private JPanel northPanel;
-	private JPanel uploadPanel;
-	private JTable uploadTable;
-	private JScrollPane uploadScroll;
-	private JComboBox comboBox1;
-	private DefaultTableModel tableModel;
+	private JPanel northPanel, uploadPanel;
+    private JTextArea experimentNameField;
     private UploadToExistingExpPanel uploadToExistingExpPanel;
 
 	public UploadTab() {
@@ -35,14 +31,18 @@ public class UploadTab extends JPanel {
         uploadToExistingExpPanel = new UploadToExistingExpPanel();
 		northPanel = new JPanel();
 		add(northPanel, BorderLayout.NORTH);
+        northPanel.add(new JLabel("Experiment name: "));
+        experimentNameField = new JTextArea();
+        experimentNameField.setColumns(30);
+        northPanel.add(experimentNameField);
         addToExistingExpButton = new JButton("Add to existing experiment");
         northPanel.add(addToExistingExpButton, BorderLayout.EAST);
 		createUploadPanel();
 	}
 
 	public void createUploadPanel() {
-		uploadPanel = new JPanel(new GridLayout());
-        add(uploadPanel);
+		uploadPanel = new JPanel(new BorderLayout());
+        add(uploadPanel, BorderLayout.CENTER);
 	}
 
     public void addExistingExpPanel() {

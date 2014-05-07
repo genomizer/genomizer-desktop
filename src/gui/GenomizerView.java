@@ -7,10 +7,13 @@ import javax.swing.*;
 
 import util.AnnotationDataTypes;
 import util.ExperimentData;
+import util.FileData;
 
 public interface GenomizerView {
 
 	public void addLoginListener(ActionListener listener);
+
+	public FileData[] getSelectedFilesInSearch();
 
 	public void addLogoutListener(ActionListener listener);
 
@@ -52,15 +55,18 @@ public interface GenomizerView {
 
 	public void addAddPopupListener(ActionListener addPopupListener);
 
-    public void addAddToExistingExpButtonListener(ActionListener addToExistingExpButtonListener);
+	public void addAddToExistingExpButtonListener(
+			ActionListener addToExistingExpButtonListener);
 
-    public void addUploadToExperimentButtonListener(ActionListener listener);
+	public void addUploadToExperimentButtonListener(ActionListener listener);
 
-//    public void addSearchResultsDownloadListener(ActionListener listener);
+	public void addSearchResultsDownloadListener(ActionListener listener);
 
-    public void addSelectFilesToUploadButtonListener(ActionListener listener);
+	public void addSelectFilesToUploadButtonListener(ActionListener listener);
 
-    public UploadTab getUploadTab();
+	public void addUpdateSearchAnnotationsListener(ActionListener listener);
+
+	public UploadTab getUploadTab();
 
 	public void annotationPopup();
 
@@ -73,5 +79,7 @@ public interface GenomizerView {
 	public void closePopup();
 
 	public void setAnnotationTableData(AnnotationDataTypes[] annotations);
+
+	public void setSearchAnnotationTypes(AnnotationDataTypes[] annotationTypes);
 
 }
