@@ -1,12 +1,14 @@
 package sysadminTest;
 
-import static org.fest.assertions.api.Assertions.assertThat;
-import static org.fest.assertions.api.Assertions.fail;
+import static org.fest.assertions.api.Assertions.*;
+import gui.sysadmin.AnnotationTableModel;
+import gui.sysadmin.SysadminTab;
 import model.Model;
 
 import org.junit.Before;
 import org.junit.Test;
 
+import util.AnnotationData;
 import util.AnnotationDataTypes;
 import communication.Connection;
 
@@ -14,11 +16,13 @@ public class AnnotationTest {
 
 	private Connection con;
 	private Model model;
+	private SysadminTab sysadminTab;
 
 	@Before
 	public void setUp() throws Exception {
 		con = new Connection("genomizer.apiary-mock.com:80");
 		model = new Model(con);
+		sysadminTab = new SysadminTab();
 	}
 
 	@Test
@@ -33,7 +37,7 @@ public class AnnotationTest {
 
 	@Test
 	public void shouldGetSpeciesValues() {
-		String[] actual = model.getAnnotations()[2].getValue();
+		String[] actual = model.getAnnotations()[2].getValues();
 		String[] expected = new String[] { "fly", "human", "rat" };
 		assertThat(actual).isEqualTo(expected);
 	}
@@ -85,14 +89,17 @@ public class AnnotationTest {
 							+ " already exists");
 		}
 	}
-
+	
 	@Test
 	public void shouldGetAnnotationFromViewModel() {
 		AnnotationDataTypes[] expected = model.getAnnotations();
-		/*
-		AnnotationData[] actual = sysadminTab.getModel().getTableModel()
-				.getAnnotationData();
-		asserThat(actual).isEqualTo(expected);
-		*/
+		AnnotationTableModel tablemodel = sysadminTab.getTableModel();
+		tablemodel.setAnnotations(model.getAnnotations());
+		AnnotationData[] actual = tablemodel.getAnnotationData();
+		assertThat(actual).isEqualTo(expected);
+	
 	}
+	
+	
+	
 }

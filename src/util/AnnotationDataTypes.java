@@ -2,12 +2,12 @@ package util;
 
 public class AnnotationDataTypes extends AnnotationData{
 
-	private String[] value;
+	private String[] values;
 	private boolean forced;
 
-	public AnnotationDataTypes(String id, String name, String[] value, Boolean forced) {
+	public AnnotationDataTypes(String id, String name, String[] values, Boolean forced) {
 		super(id, name);
-		this.value = value;
+		this.values = values;
 		this.forced = forced;
 	}
 
@@ -24,11 +24,15 @@ public class AnnotationDataTypes extends AnnotationData{
 		return name;
 	}
 
-	public String[] getValue() {
-		return value;
+	public String[] getValues() {
+		return values;
 	}
 
 	public boolean isForced() {
+		return forced;
+	}
+
+	public boolean getForced() {
 		return forced;
 	}
 }

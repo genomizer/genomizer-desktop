@@ -16,6 +16,7 @@ import responses.DownloadFileResponse;
 import responses.LoginResponse;
 import responses.ResponseParser;
 import responses.SearchResponse;
+import util.AnnotationData;
 import util.AnnotationDataTypes;
 import util.ExperimentData;
 
@@ -233,7 +234,7 @@ public class Model implements GenomizerModel {
 		return false;
 	}
 
-	public AnnotationDataTypes[] getAnnotations() {
+	public synchronized AnnotationDataTypes[] getAnnotations() {
 		GetAnnotationRequest request = RequestFactory
 				.makeGetAnnotationRequest();
 		conn.sendRequest(request, userID, "text/plain");

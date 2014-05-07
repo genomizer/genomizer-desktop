@@ -20,8 +20,13 @@ import javax.swing.ScrollPaneConstants;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import javax.swing.table.JTableHeader;
+import javax.swing.table.TableColumn;
+import javax.swing.table.TableColumnModel;
 import javax.swing.table.TableModel;
 import javax.swing.table.TableRowSorter;
+import javax.swing.text.TabExpander;
+
+import util.AnnotationDataTypes;
 
 public class SysadminTab extends JPanel {
 
@@ -30,9 +35,9 @@ public class SysadminTab extends JPanel {
 
 	private TableRowSorter<TableModel> rowSorter;
 	private SysadminAnnotationPopup pop;
-
 	private static final long serialVersionUID = 3718367832670081148L;
 	private JButton addButton;
+	private AnnotationTableModel tablemodel;
 
 	/**
 	 * Create the panel.
@@ -132,18 +137,16 @@ public class SysadminTab extends JPanel {
 	private Component buildMockTable() {
 		JPanel panel = new JPanel(new BorderLayout());
 
-		String[] attributes = { "Name", "Type", "Forced" };
+		tablemodel = new AnnotationTableModel();
+		AnnotationTableModel tableModelAnnotationTableModel = (AnnotationTableModel) tablemodel;
+		tableModelAnnotationTableModel.setAnnotations(new AnnotationDataTypes[] {});
 
-		Object[][] data = { { "", "", "" }, { "", "", "" } };
-
-		JTable table = new JTable(data, attributes);
+		JTable table = new JTable(tablemodel);
+		
 		table.setPreferredSize(panel.getSize());
 
 		table.setShowGrid(false);
-		JTableHeader header = table.getTableHeader();
-
-		TableModel tablemodel = table.getModel();
-
+		JTableHeader header = table.getTableHeader();		
 		panel.add(header, BorderLayout.NORTH);
 		panel.add(table, BorderLayout.CENTER);
 
@@ -269,4 +272,11 @@ public class SysadminTab extends JPanel {
 
 	}
 
+	public AnnotationTableModel getTableModel() {
+		return tablemodel;
+	}
+
+	public void setAnnotationTableData(AnnotationDataTypes[] annotations) {
+		tablemodel.setAnnotations(annotations);
+	}
 }

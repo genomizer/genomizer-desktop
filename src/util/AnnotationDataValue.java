@@ -8,7 +8,4 @@ public class AnnotationDataValue extends AnnotationData {
 		super(id, name);
 		this.value = value;
 	}
-	
-	
-
 }

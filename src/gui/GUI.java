@@ -12,6 +12,7 @@ import javax.swing.JTabbedPane;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 
+import util.AnnotationDataTypes;
 import util.ExperimentData;
 
 public class GUI extends JFrame implements GenomizerView {
@@ -281,5 +282,10 @@ public class GUI extends JFrame implements GenomizerView {
 	@Override
 	public void closePopup() {
 		sysadminTab.closePopup();
+	}
+
+	@Override
+	public void setAnnotationTableData(AnnotationDataTypes[] annotations) {
+		sysadminTab.setAnnotationTableData(annotations);
 	}
 }

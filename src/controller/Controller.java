@@ -38,6 +38,7 @@ public class Controller {
         view.addAddToExistingExpButtonListener(new AddToExistingExpButtonListener());
         view.addSelectFilesToUploadButtonListener(new SelectFilesToUploadButtonListener());
         view.addUploadToExperimentButtonListener(new UploadToExperimentButtonListener());
+        view.setAnnotationTableData(model.getAnnotations());
 	}
     class DownloadSearchListener implements ActionListener, Runnable {
         @Override
