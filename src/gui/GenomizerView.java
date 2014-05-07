@@ -57,6 +57,8 @@ public interface GenomizerView {
 
 	public void addAddPopupListener(ActionListener addPopupListener);
 
+    public void addAddToExistingExpButtonListener(ActionListener addToExistingExpButtonListener);
+
 	public void annotationPopup();
 
 	public String getNewAnnotationName();

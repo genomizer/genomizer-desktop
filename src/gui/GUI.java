@@ -164,6 +164,11 @@ public class GUI extends JFrame implements GenomizerView {
 		workspaceTab.addDownloadFileListener(listener);
 	}
 
+    @Override
+    public void addAddToExistingExpButtonListener(ActionListener listener) {
+        uploadTab.addAddToExistingExpButtonListener(listener);
+    }
+
 	@Override
 	public String getPassword() {
 		return loginWindow.getPasswordInput();

@@ -21,7 +21,7 @@ import javax.swing.table.TableColumn;
 public class UploadTab extends JPanel {
 
 	private static final long serialVersionUID = -2830290705724588252L;
-	private JButton uploadButton, browseButton;
+	private JButton uploadButton, browseButton, addToExistingExpButton;
 	private JTextArea directoryTextField;
 	private JPanel northPanel;
 	private JPanel uploadPanel;
@@ -40,8 +40,10 @@ public class UploadTab extends JPanel {
 		northPanel.add(directoryTextField, BorderLayout.NORTH);
 		browseButton = new JButton("BROWSE");
 		uploadButton = new JButton("UPLOAD");
+        addToExistingExpButton = new JButton("Add to existing experiment");
 		northPanel.add(browseButton, BorderLayout.CENTER);
 		northPanel.add(uploadButton, BorderLayout.CENTER);
+        northPanel.add(addToExistingExpButton, BorderLayout.EAST);
 		createUploadPanel();
 		add(uploadPanel, BorderLayout.CENTER);
 	}
@@ -95,6 +97,10 @@ public class UploadTab extends JPanel {
 	public void addUploadBtnListener(ActionListener listener) {
 		uploadButton.addActionListener(listener);
 	}
+
+    public void addAddToExistingExpButtonListener(ActionListener listener) {
+        addToExistingExpButton.addActionListener(listener);
+    }
 
 	public JTextArea getDirectoryTextField() {
 		return directoryTextField;

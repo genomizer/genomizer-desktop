@@ -35,7 +35,7 @@ public class Controller {
 		view.addDownloadFileListener(new DownloadWindowListener());
 		// view.addAddAnnotationListener(new AddNewAnnotationListener());
 		view.addAddPopupListener(new AddPopupListener());
-
+        view.addAddToExistingExpButtonListener(new AddToExistingExpButtonListener());
 	}
 
 	class AddPopupListener implements ActionListener, Runnable {
@@ -237,8 +237,8 @@ public class Controller {
 		@Override
 		public void run() {
 			/*
-			 * TODO När vi har faktiska filer som ska nedladdas: använd den
-			 * andra konstruktorn new DownloadWindow(ArrayList<String>) istället
+			 * TODO Nï¿½r vi har faktiska filer som ska nedladdas: anvï¿½nd den
+			 * andra konstruktorn new DownloadWindow(ArrayList<String>) istï¿½llet
 			 */
 			DownloadWindow downloadWindow = new DownloadWindow();
 			downloadWindow.addDownloadFileListener(new DownloadFileListener());
@@ -258,4 +258,18 @@ public class Controller {
 			model.downloadFile();
 		}
 	}
+
+    class AddToExistingExpButtonListener implements ActionListener, Runnable {
+
+        @Override
+        public void actionPerformed(ActionEvent actionEvent) {
+
+            new Thread(this).start();
+        }
+
+        @Override
+        public void run() {
+            System.out.println("hej");
+        }
+    }
 }
