@@ -35,49 +35,17 @@ public class Controller {
 		view.addRawToRegionDataListener(new RawToRegionDataListener());
 		view.addScheduleFileListener(new ScheduleFileListener());
 		view.addDownloadFileListener(new DownloadWindowListener());
-        view.addSearchResultsDownloadListener(new DownloadSearchListener());
+		view.addSearchResultsDownloadListener(new DownloadSearchListener());
 		// view.addAddAnnotationListener(new AddNewAnnotationListener());
 		view.addAddPopupListener(new AddPopupListener());
-        view.addAddToExistingExpButtonListener(new AddToExistingExpButtonListener());
-        view.addSelectFilesToUploadButtonListener(new SelectFilesToUploadButtonListener());
-        view.addUploadToExperimentButtonListener(new UploadToExperimentButtonListener());
-        view.setAnnotationTableData(model.getAnnotations());
-        view.addUpdateSearchAnnotationsListener(new updateSearchAnnotationsListener());
+		view.addAddToExistingExpButtonListener(new AddToExistingExpButtonListener());
+		view.addSelectFilesToUploadButtonListener(new SelectFilesToUploadButtonListener());
+		view.addUploadToExperimentButtonListener(new UploadToExperimentButtonListener());
+		view.setAnnotationTableData(model.getAnnotations());
+		view.addUpdateSearchAnnotationsListener(new updateSearchAnnotationsListener());
 	}
-    class DownloadSearchListener implements ActionListener, Runnable {
-        @Override
-        public void actionPerformed(ActionEvent e) {
-            new Thread(this).start();
-        }
 
-        @Override
-        public void run() {
-            FileData[] fileData = view.getSelectedFilesInSearch();
-            JFileChooser fileChooser = new JFileChooser();
-            fileChooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
-            int ret = fileChooser.showSaveDialog(new JPanel());
-            String path;
-            if(ret == JFileChooser.APPROVE_OPTION) {
-                path = fileChooser.getSelectedFile().getAbsolutePath();
-            } else {
-                System.out.println("No directories selected");
-                return;
-            }
-
-            System.out.println(path);
-            if(fileData == null) {
-                System.err.println("No files selected");
-                return;
-            }
-            for(FileData data: fileData) {
-
-                model.downloadFile(data.id, path + "/" + data.name);
-            }
-
-        }
-    }
-    
-    class DeleteAnnotationListener implements ActionListener, Runnable {
+	class DownloadSearchListener implements ActionListener, Runnable {
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			new Thread(this).start();
@@ -85,11 +53,47 @@ public class Controller {
 
 		@Override
 		public void run() {
-			AnnotationDataType annotationDataType = null;
-			//view.getSelectedAnnoationAtAnnotationTable();
-			model.deleteAnnotation(new DeleteAnnoationData(annotationDataType));
+			FileData[] fileData = view.getSelectedFilesInSearch();
+			JFileChooser fileChooser = new JFileChooser();
+			fileChooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+			int ret = fileChooser.showSaveDialog(new JPanel());
+			String path;
+			if (ret == JFileChooser.APPROVE_OPTION) {
+				path = fileChooser.getSelectedFile().getAbsolutePath();
+			} else {
+				System.out.println("No directories selected");
+				return;
+			}
+
+			System.out.println(path);
+			if (fileData == null) {
+				System.err.println("No files selected");
+				return;
+			}
+			for (FileData data : fileData) {
+
+				model.downloadFile(data.id, path + "/" + data.name);
+			}
+
 		}
-    }
+	}
+
+	class DeleteAnnotationListener implements ActionListener, Runnable {
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			new Thread(this).start();
+		}
+
+		@Override
+		public void run() {
+			AnnotationDataType annotationDataType = view
+					.getSelectedAnnoationAtAnnotationTable();
+			if (annotationDataType == null) {
+				model.deleteAnnotation(new DeleteAnnoationData(
+						annotationDataType));
+			}
+		}
+	}
 
 	class AddPopupListener implements ActionListener, Runnable {
 		@Override
@@ -273,7 +277,8 @@ public class Controller {
 		public void run() {
 			/*
 			 * TODO N�r vi har faktiska filer som ska nedladdas: anv�nd den
-			 * andra konstruktorn new DownloadWindow(ArrayList<String>) ist�llet
+			 * andra konstruktorn new DownloadWindow(ArrayList<String>)
+			 * ist�llet
 			 */
 			DownloadWindow downloadWindow = new DownloadWindow();
 			downloadWindow.addDownloadFileListener(new DownloadFileListener());
@@ -294,70 +299,70 @@ public class Controller {
 		}
 	}
 
-    class AddToExistingExpButtonListener implements ActionListener, Runnable {
+	class AddToExistingExpButtonListener implements ActionListener, Runnable {
 
-        @Override
-        public void actionPerformed(ActionEvent actionEvent) {
+		@Override
+		public void actionPerformed(ActionEvent actionEvent) {
 
-            new Thread(this).start();
-        }
+			new Thread(this).start();
+		}
 
-        @Override
-        public void run() {
-            view.getUploadTab().addExistingExpPanel();
-        }
-    }
+		@Override
+		public void run() {
+			view.getUploadTab().addExistingExpPanel();
+		}
+	}
 
-    class SelectFilesToUploadButtonListener implements ActionListener, Runnable {
+	class SelectFilesToUploadButtonListener implements ActionListener, Runnable {
 
-        @Override
-        public void actionPerformed(ActionEvent actionEvent) {
+		@Override
+		public void actionPerformed(ActionEvent actionEvent) {
 
-            new Thread(this).start();
-        }
+			new Thread(this).start();
+		}
 
-        @Override
-        public void run() {
-            new java.awt.FileDialog((java.awt.Frame) null).setVisible(true);
+		@Override
+		public void run() {
+			new java.awt.FileDialog((java.awt.Frame) null).setVisible(true);
 
-//      Old fileChooser:        fileChooser.showOpenDialog(new JPanel());
-        }
-    }
+			// Old fileChooser: fileChooser.showOpenDialog(new JPanel());
+		}
+	}
 
-    class UploadToExperimentButtonListener implements ActionListener, Runnable {
+	class UploadToExperimentButtonListener implements ActionListener, Runnable {
 
-        @Override
-        public void actionPerformed(ActionEvent actionEvent) {
+		@Override
+		public void actionPerformed(ActionEvent actionEvent) {
 
-            new Thread(this).start();
-        }
+			new Thread(this).start();
+		}
 
-        @Override
-        public void run() {
-            //Get list of files to upload
+		@Override
+		public void run() {
+			// Get list of files to upload
 
-            //Upload them.
+			// Upload them.
 
-            //Move to where the check if upload is complete will be.
-            JOptionPane.showMessageDialog(null, "Upload complete.");
-        }
-    }
+			// Move to where the check if upload is complete will be.
+			JOptionPane.showMessageDialog(null, "Upload complete.");
+		}
+	}
 
-    class updateSearchAnnotationsListener implements ActionListener, Runnable {
+	class updateSearchAnnotationsListener implements ActionListener, Runnable {
 
-        @Override
-        public void actionPerformed(ActionEvent actionEvent) {
+		@Override
+		public void actionPerformed(ActionEvent actionEvent) {
 
-            new Thread(this).start();
-        }
+			new Thread(this).start();
+		}
 
-        @Override
-        public void run() {
-            System.out.println("updateSearchAnnotations");
-            AnnotationDataType[] annotations = model.getAnnotations();
-            if(annotations != null) {
-                view.setSearchAnnotationTypes(annotations);
-            }
-        }
-    }
+		@Override
+		public void run() {
+			System.out.println("updateSearchAnnotations");
+			AnnotationDataType[] annotations = model.getAnnotations();
+			if (annotations != null) {
+				view.setSearchAnnotationTypes(annotations);
+			}
+		}
+	}
 }

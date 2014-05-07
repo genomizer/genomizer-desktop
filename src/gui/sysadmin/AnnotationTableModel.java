@@ -64,8 +64,8 @@ public class AnnotationTableModel extends AbstractTableModel {
 
 	}
 
-	public AnnotationData[] getAnnotationData() {
-		return annotations;
+	public AnnotationDataType getAnnotationData(int i) {
+		return annotations[i];
 	}
 
 }

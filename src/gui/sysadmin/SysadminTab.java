@@ -142,7 +142,7 @@ public class SysadminTab extends JPanel {
 		AnnotationTableModel tableModelAnnotationTableModel = (AnnotationTableModel) tablemodel;
 		tableModelAnnotationTableModel.setAnnotations(new AnnotationDataType[] {});
 
-		JTable table = new JTable(tablemodel);
+		table = new JTable(tablemodel);
 		
 		table.setPreferredSize(panel.getSize());
 
@@ -282,5 +282,10 @@ public class SysadminTab extends JPanel {
 	
 	public int getSelectedRow(){
 		return table.getSelectedRow();
+	}
+
+	public AnnotationDataType getSelectedAnnotationAtAnnotationTable() {
+		// TODO Auto-generated method stub
+		return tablemodel.getAnnotationData(table.getSelectedRow());
 	}
 }
