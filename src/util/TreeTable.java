@@ -20,7 +20,6 @@ public class TreeTable {
     private ExperimentData[] experiments;
     private int sortByColumn;
     private ArrayList<Boolean> descs;
-    private static final Pattern PATTERN = Pattern.compile("(\\D*)(\\d*)");
 
 
     public TreeTable() {
@@ -61,14 +60,15 @@ public class TreeTable {
         }
         /*Sorting method, can sort strings with numbers correctly*/
         Arrays.sort(data, new Comparator<String[]>() {
+            private final Pattern PATTERN = Pattern.compile("(\\D*)(\\d*)");
             @Override
             public int compare(final String[] entry1, final String[] entry2) {
                 Matcher m1 = PATTERN.matcher(entry1[sortByColumn]);
                 Matcher m2 = PATTERN.matcher(entry2[sortByColumn]);
-                // The only way find() could fail is at the end of a string
+                /*The only way find() could fail is at the end of a string*/
                 while (m1.find() && m2.find()) {
-                    // matcher.group(1) fetches any non-digits captured by the
-                    // first parentheses in PATTERN.
+                    /*matcher.group(1) fetches any non-digits captured by the
+                    first parentheses in PATTERN.*/
                     int nonDigitCompare;
                     if (descs.get(sortByColumn)) {
                         nonDigitCompare = m2.group(1).compareTo(m1.group(1));
@@ -79,8 +79,8 @@ public class TreeTable {
                         return nonDigitCompare;
                     }
 
-                    // matcher.group(2) fetches any digits captured by the
-                    // second parentheses in PATTERN.
+                    /*matcher.group(2) fetches any digits captured by the
+                    second parentheses in PATTERN.*/
                     if (m1.group(2).isEmpty()) {
                         return m2.group(2).isEmpty() ? 0 : -1;
                     } else if (m2.group(2).isEmpty()) {
@@ -100,8 +100,8 @@ public class TreeTable {
                     }
                 }
 
-                // Handle if one string is a prefix of the other.
-                // Nothing comes before something.
+                /*Handle if one string is a prefix of the other.
+                 Nothing comes before something. */
                 return m1.hitEnd() && m2.hitEnd() ? 0 :
                         m1.hitEnd()                ? -1 : +1;
             }
