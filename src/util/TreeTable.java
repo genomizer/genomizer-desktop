@@ -24,6 +24,7 @@ public class TreeTable {
     }
 
     public void setContent(String[] headings, ExperimentData[] content) {
+	table = null;
 	this.headings = headings;
 	this.experiments = content;
 	data = new String[experiments.length][headings.length];
