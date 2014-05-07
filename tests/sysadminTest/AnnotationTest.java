@@ -90,8 +90,10 @@ public class AnnotationTest {
 	@Test
 	public void shouldGetAnnotationFromViewModel() {
 		AnnotationData[] expected = model.getAnnotations();
+		/*
 		AnnotationData[] actual = sysadminTab.getModel().getTableModel()
 				.getAnnotationData();
 		asserThat(actual).isEqualTo(expected);
-	}s
+		*/
+	}
 }
