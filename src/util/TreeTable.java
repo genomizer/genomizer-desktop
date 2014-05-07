@@ -1,3 +1,4 @@
+
 package util;
 
 import java.util.ArrayList;
@@ -150,5 +151,3 @@ public class TreeTable {
 	table.packAll();
 	return table;
     }
-
-}
