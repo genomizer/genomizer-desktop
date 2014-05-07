@@ -58,22 +58,19 @@ public class Controller {
             FileDialog fileDialog = new FileDialog((java.awt.Frame) null, "Choose a directory", FileDialog.SAVE);
             fileDialog.setVisible(true);
             String directoryName = fileDialog.getDirectory();
-            String path = null;
             if (directoryName == null) {
                 System.out.println("You cancelled the choice");
             } else {
                 System.out.println("You chose " + directoryName);
-                path = fileChooser.getSelectedFile().getAbsolutePath();
             }
-            
-            System.out.println(path);
+
             if(fileData == null) {
                 System.err.println("No directory selected");
                 return;
             }
             for(FileData data: fileData) {
 
-                model.downloadFile(data.id, path + "/" + data.name);
+                model.downloadFile(data.id, directoryName + "/" + data.name);
             }
 
         }
