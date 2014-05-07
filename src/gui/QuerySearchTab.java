@@ -20,6 +20,7 @@ import javax.swing.table.TableColumnModel;
 import org.jdesktop.swingx.JXTreeTable;
 
 import util.ExperimentData;
+import util.FileData;
 import util.TreeTable;
 
 public class QuerySearchTab extends JPanel {
@@ -30,7 +31,7 @@ public class QuerySearchTab extends JPanel {
     private JPanel resultsHeaderPanel;
     private JButton clearButton;
     private JButton searchButton;
-    private JButton workspaceButton;
+    private JButton downloadButton;
     private JTextArea searchArea;
     private ArrayList<QueryBuilderRow> rowList;
     private TreeTable resultsTable;
@@ -64,13 +65,15 @@ public class QuerySearchTab extends JPanel {
 	    @Override
 	    public void mouseClicked(MouseEvent e) {
 		if (e.getClickCount() == 1) {
-		    TableColumnModel cModel = treeTable.getColumnModel();// cModel
-									 // -
-									 // column
-									 // model
+		    TableColumnModel cModel = treeTable.getColumnModel();
 		    int column = cModel.getColumnIndexAtX(e.getX());
 		    desc = !desc;
 		    resultsTable.setSorting(column, desc);
+		    // ArrayList<FileData> list =
+		    // resultsTable.getSelectedFiles();
+		    // for(FileData file : list) {
+		    // System.out.println(file.name);
+		    // }
 		    showResultsView();
 		}
 	    };
@@ -132,6 +135,17 @@ public class QuerySearchTab extends JPanel {
 		showSearchView();
 	    }
 	});
+	downloadButton = new JButton("Download Selected Files");
+	downloadButton.addActionListener(new ActionListener() {
+	    @Override
+	    public void actionPerformed(ActionEvent e) {
+		ArrayList<FileData> list = resultsTable.getSelectedFiles();
+		for (FileData file : list) {
+		    System.out.println(file.name);
+		}
+	    }
+	});
+	resultsHeaderPanel.add(downloadButton, BorderLayout.EAST);
 	resultsHeaderPanel.add(backButton, BorderLayout.WEST);
     }
 
@@ -228,8 +242,8 @@ public class QuerySearchTab extends JPanel {
 	searchButton.addActionListener(listener);
     }
 
-    public void addWorkspaceButtonListener(ActionListener listener) {
-	workspaceButton.addActionListener(listener);
+    public void addDownloadButtonListener(ActionListener listener) {
+	downloadButton.addActionListener(listener);
     }
 
     public String getSearchString() {

@@ -11,21 +11,21 @@ import communication.Connection;
 
 public class ModelTest {
 
-    Model m;
+	Model m;
 
-    @Before
-    public void setUp() {
-	Connection conn = null;
-	 m = new Model(conn);
-    }
+	@Before
+	public void setUp() {
+		Connection conn = null;
+		m = new Model(conn);
+	}
 
-    @Test
-    public void ShouldHandleUploadRequests() {
+	@Test
+	public void ShouldHandleUploadRequests() {
 
-    }
+	}
 
-    @Test
-    public void shouldImplementGenomizerView() {
-	assertTrue(m instanceof GenomizerModel);
-    }
+	@Test
+	public void shouldImplementGenomizerView() {
+		assertTrue(m instanceof GenomizerModel);
+	}
 }

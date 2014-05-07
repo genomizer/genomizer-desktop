@@ -1,69 +1,76 @@
 package gui;
-import javax.swing.*;
-import javax.swing.border.*;
-import java.awt.*;
-import java.awt.event.*;
 
-public class JCheckBoxList extends JList
-{
-    protected static Border noFocusBorder = new EmptyBorder(1, 1, 1, 1);
+import java.awt.Component;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
-    public JCheckBoxList()
-    {
-        setCellRenderer(new CheckBoxCellRenderer());
+import javax.swing.JCheckBox;
+import javax.swing.JList;
+import javax.swing.ListCellRenderer;
+import javax.swing.ListSelectionModel;
+import javax.swing.UIManager;
+import javax.swing.border.Border;
+import javax.swing.border.EmptyBorder;
 
-        addMouseListener(new MouseAdapter()
-        {
-            public void mousePressed(MouseEvent e)
-            {
-                int index = locationToIndex(e.getPoint());
-                if (index != -1)
-                {
-                    JCheckBox checkbox = (JCheckBox) getModel().getElementAt(index);
-                    checkbox.setSelected(!checkbox.isSelected());
-                    repaint();
-                }
-            }
-        });
+public class JCheckBoxList extends JList {
+	protected static Border noFocusBorder = new EmptyBorder(1, 1, 1, 1);
 
-        addKeyListener(new KeyAdapter()
-        {
-            public void keyPressed(KeyEvent e)
-            {
-                if (e.getKeyCode() == KeyEvent.VK_SPACE)
-                {
-                    int index = getSelectedIndex();
-                    if (index != -1)
-                    {
-                        JCheckBox checkbox = (JCheckBox) getModel().getElementAt(index);
-                        checkbox.setSelected(!checkbox.isSelected());
-                        repaint();
-                    }
-                }
-            }
-        });
+	public JCheckBoxList() {
+		setCellRenderer(new CheckBoxCellRenderer());
 
-        setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-    }
+		addMouseListener(new MouseAdapter() {
+			@Override
+			public void mousePressed(MouseEvent e) {
+				int index = locationToIndex(e.getPoint());
+				if (index != -1) {
+					JCheckBox checkbox = (JCheckBox) getModel().getElementAt(
+							index);
+					checkbox.setSelected(!checkbox.isSelected());
+					repaint();
+				}
+			}
+		});
 
-    protected class CheckBoxCellRenderer implements ListCellRenderer
-    {
-        public Component getListCellRendererComponent(JList list, Object value, int index,
-                                                      boolean isSelected, boolean cellHasFocus)
-        {
-            JCheckBox checkbox = (JCheckBox) value;
-            checkbox.setBackground(isSelected ? getSelectionBackground() : getBackground());
-            checkbox.setForeground(isSelected ? getSelectionForeground() : getForeground());
+		addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyPressed(KeyEvent e) {
+				if (e.getKeyCode() == KeyEvent.VK_SPACE) {
+					int index = getSelectedIndex();
+					if (index != -1) {
+						JCheckBox checkbox = (JCheckBox) getModel()
+								.getElementAt(index);
+						checkbox.setSelected(!checkbox.isSelected());
+						repaint();
+					}
+				}
+			}
+		});
 
-            checkbox.setEnabled(isEnabled());
-            checkbox.setFont(getFont());
-            checkbox.setFocusPainted(false);
+		setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+	}
 
-            checkbox.setBorderPainted(true);
-            checkbox.setBorder(isSelected ? UIManager.getBorder("List.focusCellHighlightBorder") : noFocusBorder);
+	protected class CheckBoxCellRenderer implements ListCellRenderer {
+		@Override
+		public Component getListCellRendererComponent(JList list, Object value,
+				int index, boolean isSelected, boolean cellHasFocus) {
+			JCheckBox checkbox = (JCheckBox) value;
+			checkbox.setBackground(isSelected ? getSelectionBackground()
+					: getBackground());
+			checkbox.setForeground(isSelected ? getSelectionForeground()
+					: getForeground());
 
-            return checkbox;
-        }
-    }
+			checkbox.setEnabled(isEnabled());
+			checkbox.setFont(getFont());
+			checkbox.setFocusPainted(false);
+
+			checkbox.setBorderPainted(true);
+			checkbox.setBorder(isSelected ? UIManager
+					.getBorder("List.focusCellHighlightBorder") : noFocusBorder);
+
+			return checkbox;
+		}
+	}
 
 }

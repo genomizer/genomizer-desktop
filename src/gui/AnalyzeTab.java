@@ -40,17 +40,17 @@ public class AnalyzeTab extends JPanel {
 		createLabels();
 
 		DefaultListModel listModel = new DefaultListModel();
-		
+
 		list = new JCheckBoxList();
 		list.setModel(listModel);
-		list.setPreferredSize(new Dimension(300,400));
-		
+		list.setPreferredSize(new Dimension(300, 400));
+
 		int numberOfJobs;
 
-		for(numberOfJobs=0; numberOfJobs<12; numberOfJobs++) {
-			listModel.add(numberOfJobs,
-					new JCheckBox("Protein223_A5_2014.WIG"));
-			
+		for (numberOfJobs = 0; numberOfJobs < 12; numberOfJobs++) {
+			listModel
+					.add(numberOfJobs, new JCheckBox("Protein223_A5_2014.WIG"));
+
 		}
 
 		JScrollPane scrollPane = new JScrollPane(list);

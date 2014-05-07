@@ -4,6 +4,7 @@ import java.awt.BorderLayout;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.GridLayout;
+import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
@@ -130,7 +131,7 @@ public class SysadminAnnotationPopup extends JPanel {
 		URL imageUrl = getClass().getResource("/icons/plus.png");
 		ImageIcon addIcon = new ImageIcon(imageUrl);
 		addIcon = new ImageIcon(addIcon.getImage().getScaledInstance(20, 20,
-				BufferedImage.SCALE_SMOOTH));
+				Image.SCALE_SMOOTH));
 		addButton = new JButton("");
 
 		addButton.setBorderPainted(false);
@@ -156,7 +157,7 @@ public class SysadminAnnotationPopup extends JPanel {
 		URL imageUrl = getClass().getResource("/icons/minus.png");
 		ImageIcon removeIcon = new ImageIcon(imageUrl);
 		removeIcon = new ImageIcon(removeIcon.getImage().getScaledInstance(15,
-				15, BufferedImage.SCALE_SMOOTH));
+				15, Image.SCALE_SMOOTH));
 		removeButton = new JButton("");
 
 		removeButton.setBorderPainted(false);
@@ -241,6 +242,7 @@ public class SysadminAnnotationPopup extends JPanel {
 				catCheckBox, categoryPanel, BorderFactory.createEtchedBorder());
 
 		catCheckBox.addActionListener(new ActionListener() {
+			@Override
 			public void actionPerformed(ActionEvent e) {
 				setBorderEnabled(categoryPanel, catCheckBox);
 			}

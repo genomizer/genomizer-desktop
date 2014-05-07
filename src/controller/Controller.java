@@ -10,8 +10,8 @@ import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
-import util.ExperimentData;
 import model.GenomizerModel;
+import util.ExperimentData;
 
 public class Controller {
 
@@ -71,8 +71,7 @@ public class Controller {
 							"Could not create new annotation, check server?");
 				}
 			} catch (IllegalArgumentException e) {
-				JOptionPane.showMessageDialog(null,
-						e.getMessage());
+				JOptionPane.showMessageDialog(null, e.getMessage());
 			}
 			// Update annotationsearch?
 		}
@@ -160,6 +159,7 @@ public class Controller {
 	}
 
 	class QuerySearchListener implements ActionListener, Runnable {
+		@Override
 		public void actionPerformed(ActionEvent e) {
 			new Thread(this).start();
 		}
@@ -175,6 +175,7 @@ public class Controller {
 	}
 
 	class LogoutListener implements ActionListener, Runnable {
+		@Override
 		public void actionPerformed(ActionEvent e) {
 			new Thread(this).start();
 		}

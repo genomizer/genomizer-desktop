@@ -32,6 +32,9 @@ public class AnnotationTableModel extends AbstractTableModel {
 		synchronized (annotations) {
 			this.annotations = annotations;
 		}
+
+	public void setAnnotations() {
+
 	}
 
 }

@@ -20,13 +20,13 @@ public class UserPanel extends JPanel {
 		setLogoutButton();
 
 	}
-	
+
 	private void setLogoutButton() {
 		logoutButton = new JButton("Log out");
 		logoutButton.setFocusable(false);
-		add(logoutButton);	
+		add(logoutButton);
 	}
-	
+
 	private void setLabels() {
 		nameLabel = new JLabel();
 		usernameLabel = new JLabel();
