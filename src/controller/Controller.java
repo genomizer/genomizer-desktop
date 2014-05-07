@@ -55,20 +55,20 @@ public class Controller {
         public void run() {
             FileData[] fileData = view.getSelectedFilesInSearch();
 
-            FileDialog fileDialog = new FileDialog((java.awt.Frame) null, "Choose a file", FileDialog.LOAD);
+            FileDialog fileDialog = new FileDialog((java.awt.Frame) null, "Choose a directory", FileDialog.SAVE);
             fileDialog.setVisible(true);
-            String filename = fileDialog.getFile();
+            String directoryName = fileDialog.getDirectory();
             String path = null;
-            if (filename == null) {
+            if (directoryName == null) {
                 System.out.println("You cancelled the choice");
             } else {
-                System.out.println("You chose " + filename);
+                System.out.println("You chose " + directoryName);
                 path = fileChooser.getSelectedFile().getAbsolutePath();
             }
             
             System.out.println(path);
             if(fileData == null) {
-                System.err.println("No files selected");
+                System.err.println("No directory selected");
                 return;
             }
             for(FileData data: fileData) {
