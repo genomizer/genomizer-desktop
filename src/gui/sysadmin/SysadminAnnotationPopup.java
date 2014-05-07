@@ -27,291 +27,291 @@ import javax.swing.SwingUtilities;
 
 public class SysadminAnnotationPopup extends JPanel {
 
-	private static final long serialVersionUID = -626744436260839622L;
-	private JPanel addCategoriesPanel;
-	private JButton addButton, removeButton;
-	private ButtonModel createNewAnnotationButtonModel;
-	private JTextField nameField;
-	private ArrayList<String> categories = new ArrayList<String>();
-	private boolean forced = false;
-	private JCheckBox forcedBox;
+    private static final long serialVersionUID = -626744436260839622L;
+    private JPanel addCategoriesPanel;
+    private JButton addButton, removeButton;
+    private ButtonModel createNewAnnotationButtonModel;
+    private JTextField nameField;
+    private ArrayList<String> categories = new ArrayList<String>();
+    private boolean forced = false;
+    private JCheckBox forcedBox;
 
-	public SysadminAnnotationPopup() {
-		this.setLayout(new BorderLayout());
-		JTabbedPane optionsPane = new JTabbedPane();
-		nameField = new JTextField();
-		optionsPane.addTab("DropDownLists", buildFirstTab());
-		optionsPane.addTab("Free Text", buildSecondTab());
-		this.add(optionsPane, BorderLayout.CENTER);
-	}
+    public SysadminAnnotationPopup() {
+        this.setLayout(new BorderLayout());
+        JTabbedPane optionsPane = new JTabbedPane();
+        nameField = new JTextField();
+        optionsPane.addTab("DropDownLists", buildFirstTab());
+        optionsPane.addTab("Free Text", buildSecondTab());
+        this.add(optionsPane, BorderLayout.CENTER);
+    }
 
-	private JPanel buildSecondTab() {
+    private JPanel buildSecondTab() {
 
-		JPanel secondTab = new JPanel(new GridLayout(0, 1));
+        JPanel secondTab = new JPanel(new GridLayout(0, 1));
 
 		/* Create the top panel for the second tab */
-		JPanel topPanelInSecondTab = new JPanel();
+        JPanel topPanelInSecondTab = new JPanel();
 
-		JLabel name = new JLabel("Name:");
-		JTextField nameField2 = new JTextField(nameField.getDocument(), "", 0);
-		nameField2.setPreferredSize(new Dimension(250, 30));
-		topPanelInSecondTab.add(name);
-		topPanelInSecondTab.add(nameField2);
+        JLabel name = new JLabel("Name:");
+        JTextField nameField2 = new JTextField(nameField.getDocument(), "", 0);
+        nameField2.setPreferredSize(new Dimension(250, 30));
+        topPanelInSecondTab.add(name);
+        topPanelInSecondTab.add(nameField2);
 
 		/* Create bottom panel for the second tab */
-		JPanel botPanelInSecondTab = buildBotPanelInFirstTab();
+        JPanel botPanelInSecondTab = buildBotPanelInFirstTab();
 
-		secondTab.add(topPanelInSecondTab);
-		secondTab.add(botPanelInSecondTab);
-		return secondTab;
-	}
+        secondTab.add(topPanelInSecondTab);
+        secondTab.add(botPanelInSecondTab);
+        return secondTab;
+    }
 
-	private JScrollPane buildFirstTab() {
+    private JScrollPane buildFirstTab() {
 
-		JPanel firstTab = new JPanel(new BorderLayout());
-		JScrollPane scrollPane = new JScrollPane(firstTab);
-		scrollPane
-				.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
+        JPanel firstTab = new JPanel(new BorderLayout());
+        JScrollPane scrollPane = new JScrollPane(firstTab);
+        scrollPane
+                .setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
 
-		JPanel topPanelInFirstTab = buildTopPanelInFirstTab();
-		JPanel midPanelInFirstTab = buildMidPanelInFirstTab();
-		JPanel botPanelInFirstTab = buildBotPanelInFirstTab();
+        JPanel topPanelInFirstTab = buildTopPanelInFirstTab();
+        JPanel midPanelInFirstTab = buildMidPanelInFirstTab();
+        JPanel botPanelInFirstTab = buildBotPanelInFirstTab();
 
 		/* Add all complete panels to the first tab */
-		firstTab.add(topPanelInFirstTab, BorderLayout.NORTH);
-		firstTab.add(midPanelInFirstTab, BorderLayout.CENTER);
-		firstTab.add(botPanelInFirstTab, BorderLayout.SOUTH);
+        firstTab.add(topPanelInFirstTab, BorderLayout.NORTH);
+        firstTab.add(midPanelInFirstTab, BorderLayout.CENTER);
+        firstTab.add(botPanelInFirstTab, BorderLayout.SOUTH);
 
-		return scrollPane;
+        return scrollPane;
 
-	}
+    }
 
-	private JPanel buildMidPanelInFirstTab() {
+    private JPanel buildMidPanelInFirstTab() {
 
-		JPanel midPanelInFirstTab = new JPanel(new BorderLayout());
-		final JCheckBox catCheckBox = new JCheckBox("Add Categories", true);
-		catCheckBox.setFocusPainted(false);
+        JPanel midPanelInFirstTab = new JPanel(new BorderLayout());
+        final JCheckBox catCheckBox = new JCheckBox("Add Categories", true);
+        catCheckBox.setFocusPainted(false);
 
-		final JPanel categoryPanel = new JPanel(new BorderLayout());
+        final JPanel categoryPanel = new JPanel(new BorderLayout());
 
-		addCategoriesPanel = new JPanel(new GridLayout(0, 1));
+        addCategoriesPanel = new JPanel(new GridLayout(0, 1));
 
-		JPanel baseCatPanel = createDeafultCategoryPanel(addCategoriesPanel);
-		addCategoriesPanel.add(baseCatPanel);
+        JPanel baseCatPanel = createDeafultCategoryPanel(addCategoriesPanel);
+        addCategoriesPanel.add(baseCatPanel);
 
-		categoryPanel.add(addCategoriesPanel, BorderLayout.NORTH);
+        categoryPanel.add(addCategoriesPanel, BorderLayout.NORTH);
 
-		ComponentTitledBorder componentBorder = createDynamicBorder(
-				categoryPanel, catCheckBox);
-		categoryPanel.setBorder(componentBorder);
+        ComponentTitledBorder componentBorder = createDynamicBorder(
+                categoryPanel, catCheckBox);
+        categoryPanel.setBorder(componentBorder);
 
-		midPanelInFirstTab.add(categoryPanel, BorderLayout.CENTER);
+        midPanelInFirstTab.add(categoryPanel, BorderLayout.CENTER);
 
-		return midPanelInFirstTab;
-	}
+        return midPanelInFirstTab;
+    }
 
-	private JPanel createDeafultCategoryPanel(final JPanel addCategoriesPanel) {
-		JPanel baseCatPanel = new JPanel();
+    private JPanel createDeafultCategoryPanel(final JPanel addCategoriesPanel) {
+        JPanel baseCatPanel = new JPanel();
 
-		JLabel categorylabel = new JLabel("Category:");
-		final JTextField annotationTextField = new JTextField();
-		annotationTextField.setPreferredSize(new Dimension(200, 30));
+        JLabel categorylabel = new JLabel("Category:");
+        final JTextField annotationTextField = new JTextField();
+        annotationTextField.setPreferredSize(new Dimension(200, 30));
 
-		baseCatPanel.add(categorylabel);
-		baseCatPanel.add(annotationTextField);
+        baseCatPanel.add(categorylabel);
+        baseCatPanel.add(annotationTextField);
 
-		createAddCategoryButton(addCategoriesPanel, baseCatPanel,
-				annotationTextField);
-		return baseCatPanel;
-	}
+        createAddCategoryButton(addCategoriesPanel, baseCatPanel,
+                annotationTextField);
+        return baseCatPanel;
+    }
 
-	private void createAddCategoryButton(final JPanel categoryHolderPanel,
-			JPanel baseCatPanel, final JTextField annotationTextField) {
+    private void createAddCategoryButton(final JPanel categoryHolderPanel,
+                                         JPanel baseCatPanel, final JTextField annotationTextField) {
 
-		URL imageUrl = getClass().getResource("/icons/plus.png");
-		ImageIcon addIcon = new ImageIcon(imageUrl);
-		addIcon = new ImageIcon(addIcon.getImage().getScaledInstance(20, 20,
-				Image.SCALE_SMOOTH));
-		addButton = new JButton("");
+        URL imageUrl = getClass().getResource("/icons/plus.png");
+        ImageIcon addIcon = new ImageIcon(imageUrl);
+        addIcon = new ImageIcon(addIcon.getImage().getScaledInstance(20, 20,
+                Image.SCALE_SMOOTH));
+        addButton = new JButton("");
 
-		addButton.setBorderPainted(false);
-		addButton.setContentAreaFilled(false);
+        addButton.setBorderPainted(false);
+        addButton.setContentAreaFilled(false);
 
-		addButton.setIcon(addIcon);
+        addButton.setIcon(addIcon);
 
-		addButton.addActionListener(new ActionListener() {
+        addButton.addActionListener(new ActionListener() {
 
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				if (!annotationTextField.getText().equals("")) {
-					addAddedCategoryPanel(categoryHolderPanel,
-							annotationTextField);
-				}
-			}
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if (!annotationTextField.getText().equals("")) {
+                    addAddedCategoryPanel(categoryHolderPanel,
+                            annotationTextField);
+                }
+            }
 
-		});
-		baseCatPanel.add(addButton);
-	}
+        });
+        baseCatPanel.add(addButton);
+    }
 
-	private void createRemoveCategoryButton(final JPanel categoryPanel) {
-		URL imageUrl = getClass().getResource("/icons/minus.png");
-		ImageIcon removeIcon = new ImageIcon(imageUrl);
-		removeIcon = new ImageIcon(removeIcon.getImage().getScaledInstance(15,
-				15, Image.SCALE_SMOOTH));
-		removeButton = new JButton("");
+    private void createRemoveCategoryButton(final JPanel categoryPanel) {
+        URL imageUrl = getClass().getResource("/icons/minus.png");
+        ImageIcon removeIcon = new ImageIcon(imageUrl);
+        removeIcon = new ImageIcon(removeIcon.getImage().getScaledInstance(15,
+                15, Image.SCALE_SMOOTH));
+        removeButton = new JButton("");
 
-		removeButton.setBorderPainted(false);
-		removeButton.setContentAreaFilled(false);
+        removeButton.setBorderPainted(false);
+        removeButton.setContentAreaFilled(false);
 
-		removeButton.setIcon(removeIcon);
+        removeButton.setIcon(removeIcon);
 
-		removeButton.addActionListener(new ActionListener() {
+        removeButton.addActionListener(new ActionListener() {
 
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				categoryPanel.getParent().remove(categoryPanel);
-				repaint();
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                categoryPanel.getParent().remove(categoryPanel);
+                repaint();
 
-			}
+            }
 
-		});
-		categoryPanel.add(removeButton);
-	}
+        });
+        categoryPanel.add(removeButton);
+    }
 
-	private JPanel buildBotPanelInFirstTab() {
-		JPanel botPanelInFirstTab = new JPanel();
-		JLabel forced = new JLabel("Forced Annotation:");
-		forcedBox = new JCheckBox("Yes");
-		forcedBox.addActionListener(new ActionListener() {
+    private JPanel buildBotPanelInFirstTab() {
+        JPanel botPanelInFirstTab = new JPanel();
+        JLabel forced = new JLabel("Forced Annotation:");
+        forcedBox = new JCheckBox("Yes");
+        forcedBox.addActionListener(new ActionListener() {
 
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				switchForced();
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                switchForced();
 
-			}
-		});
-		// JPanel checkboxPanel = createCheckBoxPanel();
-		botPanelInFirstTab.add(forced);
-		// botPanelInFirstTab.add(checkboxPanel);
-		botPanelInFirstTab.add(forcedBox);
-		buildCreateNewAnnotationButton(botPanelInFirstTab);
+            }
+        });
+        // JPanel checkboxPanel = createCheckBoxPanel();
+        botPanelInFirstTab.add(forced);
+        // botPanelInFirstTab.add(checkboxPanel);
+        botPanelInFirstTab.add(forcedBox);
+        buildCreateNewAnnotationButton(botPanelInFirstTab);
 
-		return botPanelInFirstTab;
-	}
+        return botPanelInFirstTab;
+    }
 
-	protected void switchForced() {
-		forced = (forced == true) ? false : true;
-	}
+    protected void switchForced() {
+        forced = (forced == true) ? false : true;
+    }
 
-	private void buildCreateNewAnnotationButton(JPanel botPanelInFirstTab) {
+    private void buildCreateNewAnnotationButton(JPanel botPanelInFirstTab) {
 
-		JButton createNewAnnotationButton = new JButton("Create annotation");
+        JButton createNewAnnotationButton = new JButton("Create annotation");
 
-		if (createNewAnnotationButtonModel == null) {
-			createNewAnnotationButtonModel = createNewAnnotationButton
-					.getModel();
-		} else {
-			createNewAnnotationButton.setModel(createNewAnnotationButtonModel);
-		}
+        if (createNewAnnotationButtonModel == null) {
+            createNewAnnotationButtonModel = createNewAnnotationButton
+                    .getModel();
+        } else {
+            createNewAnnotationButton.setModel(createNewAnnotationButtonModel);
+        }
 
-		botPanelInFirstTab.add(createNewAnnotationButton);
-	}
+        botPanelInFirstTab.add(createNewAnnotationButton);
+    }
 
-	private JPanel buildTopPanelInFirstTab() {
-		JPanel topPanelInFirstTab = new JPanel(new BorderLayout());
-		JLabel name = new JLabel("Name:");
+    private JPanel buildTopPanelInFirstTab() {
+        JPanel topPanelInFirstTab = new JPanel(new BorderLayout());
+        JLabel name = new JLabel("Name:");
 
-		// nameField = new JTextField();
-		nameField.setPreferredSize(new Dimension(250, 30));
+        // nameField = new JTextField();
+        nameField.setPreferredSize(new Dimension(250, 30));
 
-		JPanel nameFieldPanel = new JPanel();
-		nameFieldPanel.add(name);
-		nameFieldPanel.add(nameField);
+        JPanel nameFieldPanel = new JPanel();
+        nameFieldPanel.add(name);
+        nameFieldPanel.add(nameField);
 
-		topPanelInFirstTab.add(nameFieldPanel);
-		JLabel infoLabel = new JLabel(
-				"Not adding any categories will result in a Yes/No/Unknown annotation");
-		topPanelInFirstTab.add(infoLabel, BorderLayout.SOUTH);
-		return topPanelInFirstTab;
-	}
+        topPanelInFirstTab.add(nameFieldPanel);
+        JLabel infoLabel = new JLabel(
+                "Not adding any categories will result in a Yes/No/Unknown annotation");
+        topPanelInFirstTab.add(infoLabel, BorderLayout.SOUTH);
+        return topPanelInFirstTab;
+    }
 
-	private ComponentTitledBorder createDynamicBorder(
-			final JPanel categoryPanel, final JCheckBox catCheckBox) {
+    private ComponentTitledBorder createDynamicBorder(
+            final JPanel categoryPanel, final JCheckBox catCheckBox) {
 
-		ComponentTitledBorder componentBorder = new ComponentTitledBorder(
-				catCheckBox, categoryPanel, BorderFactory.createEtchedBorder());
+        ComponentTitledBorder componentBorder = new ComponentTitledBorder(
+                catCheckBox, categoryPanel, BorderFactory.createEtchedBorder());
 
-		catCheckBox.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				setBorderEnabled(categoryPanel, catCheckBox);
-			}
-		});
+        catCheckBox.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                setBorderEnabled(categoryPanel, catCheckBox);
+            }
+        });
 
-		return componentBorder;
-	}
+        return componentBorder;
+    }
 
-	private void setBorderEnabled(final JPanel categoryPanel,
-			final JCheckBox catCheckBox) {
-		boolean enable = catCheckBox.isSelected();
-		Component components[] = categoryPanel.getComponents();
-		for (int i = 0; i < components.length; i++) {
-			Component component = components[i];
-			component.setEnabled(enable);
-			if (component instanceof JPanel) {
-				setBorderEnabled((JPanel) component, catCheckBox);
-			}
-		}
-	}
+    private void setBorderEnabled(final JPanel categoryPanel,
+                                  final JCheckBox catCheckBox) {
+        boolean enable = catCheckBox.isSelected();
+        Component components[] = categoryPanel.getComponents();
+        for (int i = 0; i < components.length; i++) {
+            Component component = components[i];
+            component.setEnabled(enable);
+            if (component instanceof JPanel) {
+                setBorderEnabled((JPanel) component, catCheckBox);
+            }
+        }
+    }
 
-	protected void addAddedCategoryPanel(JPanel categoryHolderPanel,
-			JTextField annotationTextField) {
+    protected void addAddedCategoryPanel(JPanel categoryHolderPanel,
+                                         JTextField annotationTextField) {
 
-		JPanel newCategoryPanel = new JPanel();
-		JLabel categoryLabel = new JLabel("Category:");
-		final JTextField textField = new JTextField();
-		textField.setText(annotationTextField.getText());
-		textField.setEditable(false);
-		textField.setPreferredSize(new Dimension(200, 30));
+        JPanel newCategoryPanel = new JPanel();
+        JLabel categoryLabel = new JLabel("Category:");
+        final JTextField textField = new JTextField();
+        textField.setText(annotationTextField.getText());
+        textField.setEditable(false);
+        textField.setPreferredSize(new Dimension(200, 30));
 
-		newCategoryPanel.add(categoryLabel);
-		newCategoryPanel.add(textField);
+        newCategoryPanel.add(categoryLabel);
+        newCategoryPanel.add(textField);
 
-		categories.add(textField.getText());
+        categories.add(textField.getText());
 
-		createRemoveCategoryButton(newCategoryPanel);
-		categoryHolderPanel.add(newCategoryPanel);
-		annotationTextField.setText("");
-		repaint();
-	}
+        createRemoveCategoryButton(newCategoryPanel);
+        categoryHolderPanel.add(newCategoryPanel);
+        annotationTextField.setText("");
+        repaint();
+    }
 
-	protected String getNewAnnotationName() {
-		return nameField.getText();
-	}
+    protected String getNewAnnotationName() {
+        return nameField.getText();
+    }
 
-	protected Boolean getNewAnnotationForcedValue() {
-		return forced;
-	}
+    protected Boolean getNewAnnotationForcedValue() {
+        return forced;
+    }
 
-	protected String[] getNewAnnotationCategories() {
+    protected String[] getNewAnnotationCategories() {
 
-		String[] newCategories;
+        String[] newCategories;
 
-		synchronized (categories) {
-			newCategories = categories.toArray(new String[categories.size()]);
-		}
+        synchronized (categories) {
+            newCategories = categories.toArray(new String[categories.size()]);
+        }
 
-		return newCategories;
-	}
+        return newCategories;
+    }
 
-	public void closeWindow() {
-		JFrame frame = (JFrame) SwingUtilities
-				.getWindowAncestor(addCategoriesPanel); // UGLY?!?
-		frame.setVisible(false);
-	}
+    public void closeWindow() {
+        JFrame frame = (JFrame) SwingUtilities
+                .getWindowAncestor(addCategoriesPanel); // UGLY?!?
+        frame.setVisible(false);
+    }
 
-	public void addAddAnnotationListener(ActionListener listener) {
-		createNewAnnotationButtonModel.addActionListener(listener);
-	}
+    public void addAddAnnotationListener(ActionListener listener) {
+        createNewAnnotationButtonModel.addActionListener(listener);
+    }
 
 }

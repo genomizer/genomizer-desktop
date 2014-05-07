@@ -22,145 +22,157 @@ import util.FileData;
 
 public class ProcessTab extends JPanel {
 
-	private static final long serialVersionUID = -2830290705724588252L;
+    private static final long serialVersionUID = -2830290705724588252L;
 
-	private JTextArea timeArea = new JTextArea();
-	private JPanel filesPanel = new JPanel();
-	private JPanel scheduleProcPanel = new JPanel();
-	private JPanel genProfileDataPanel = new JPanel();
-	private JPanel genRegionDataPanel = new JPanel();
-	private JPanel convertFilesPanel = new JPanel();
-	private JPanel procQueuePanel = new JPanel();
-	private JPanel menuPanel = new JPanel();
-	private JPanel timePanel = new JPanel();
-	private JPanel middelPanel = new JPanel(new GridLayout(3, 1));
-	private JPanel leftPanel = new JPanel(new GridLayout(2, 1));
-	private JButton convertButton = new JButton("CONVERT TO WIG");
-	private JButton profileButton = new JButton("CREATE PROFILE DATA");
-	private JButton regionButton = new JButton("CREATE REGION DATA");
-	private JButton scheduleButton = new JButton("SCHEDULE");
-	private JScrollPane scrollFiles = new JScrollPane();
-	private DefaultListModel fileListModel = new DefaultListModel();
-	private JList fileList = new JList();
-	// TODO SKA VARA JLIST
-	private ArrayList processQueue = new ArrayList();
+    private JTextArea timeArea = new JTextArea();
+    private JPanel filesPanel = new JPanel();
+    private JPanel scheduleProcPanel = new JPanel();
+    private JPanel genProfileDataPanel = new JPanel();
+    private JPanel genRegionDataPanel = new JPanel();
+    private JPanel convertFilesPanel = new JPanel();
+    private JPanel procQueuePanel = new JPanel();
+    private JPanel menuPanel = new JPanel();
+    private JPanel timePanel = new JPanel();
+    private JPanel middelPanel = new JPanel(new GridLayout(3, 1));
+    private JPanel leftPanel = new JPanel(new GridLayout(2, 1));
+    private JButton convertButton = new JButton("CONVERT TO WIG");
+    private JButton profileButton = new JButton("CREATE PROFILE DATA");
+    private JButton regionButton = new JButton("CREATE REGION DATA");
+    private JButton scheduleButton = new JButton("SCHEDULE");
+    private JScrollPane scrollFiles = new JScrollPane();
+    private DefaultListModel fileListModel = new DefaultListModel();
+    private JList fileList = new JList();
+    // TODO SKA VARA JLIST
+    private ArrayList processQueue = new ArrayList();	
 	private FileData[] fileData;
 
-	public ProcessTab() {
-		this.setLayout(new BorderLayout());
-		initPanels();
-	}
+    public ProcessTab() {
+        this.setLayout(new BorderLayout());
+        initPanels();
+    }
 
-	private void initPanels() {
+    private void initPanels() {
 
-		initNorthPanel();
-		initWestPanels();
-		initMiddlePanel();
-		initEastPanels();
-		initTimePanel();
+        initNorthPanel();
+        initWestPanels();
+        initMiddlePanel();
+        initEastPanels();
+        initTimePanel();
 
 		//initFileList();
 		writeToTimePanel();
+		
+        // BARA TILLFï¿½LLIG
+        JList list = new JList(new CheckListItem[]{
+                new CheckListItem("[0] Protein223_A5_2014.RAW"),
+                new CheckListItem("[1] Protein223_A5_2014.RAW"),
+                new CheckListItem("[2] Protein223_A5_2014.RAW"),
+                new CheckListItem("[3] Protein223_A5_2014.RAW"),
+                new CheckListItem("[4] Protein223_A5_2014.RAW")});
 
-	}
+        initList(list);
+        initFileList();
+        writeToTimePanel();
 
-	private void initNorthPanel() {
+    }
 
-		this.add(menuPanel, BorderLayout.NORTH);
-		menuPanel.setPreferredSize(new Dimension(300, 100));
-		addButtonsToMenu();
-		enableButtons();
+    private void initNorthPanel() {
 
-	}
+        this.add(menuPanel, BorderLayout.NORTH);
+        menuPanel.setPreferredSize(new Dimension(300, 100));
+        addButtonsToMenu();
+        enableButtons();
 
-	private void initWestPanels() {
+    }
 
-		this.add(leftPanel, BorderLayout.WEST);
-		filesPanel.setPreferredSize(new Dimension(300, 100));
-		initLeftPanel();
-		initScheduleProcPanel();
+    private void initWestPanels() {
 
-	}
+        this.add(leftPanel, BorderLayout.WEST);
+        filesPanel.setPreferredSize(new Dimension(300, 100));
+        initLeftPanel();
+        initScheduleProcPanel();
 
-	private void initMiddlePanel() {
+    }
 
-		this.add(middelPanel, BorderLayout.CENTER);
-		initGenProfileDataPanel();
-		initGenRegionDataPanel();
-		initConvertFilesPanel();
+    private void initMiddlePanel() {
 
-	}
+        this.add(middelPanel, BorderLayout.CENTER);
+        initGenProfileDataPanel();
+        initGenRegionDataPanel();
+        initConvertFilesPanel();
 
-	private void initEastPanels() {
-		this.add(procQueuePanel, BorderLayout.EAST);
-		procQueuePanel.setPreferredSize(new Dimension(300, 100));
-		initProcessInQueue();
+    }
 
-	}
+    private void initEastPanels() {
+        this.add(procQueuePanel, BorderLayout.EAST);
+        procQueuePanel.setPreferredSize(new Dimension(300, 100));
+        initProcessInQueue();
 
-	private void initConvertFilesPanel() {
-		middelPanel.add(convertFilesPanel);
-		convertFilesPanel.setBorder(BorderFactory
-				.createTitledBorder("CONVERT FILES"));
-	}
+    }
 
-	private void initGenRegionDataPanel() {
-		middelPanel.add(genRegionDataPanel);
-		genRegionDataPanel.setBorder(BorderFactory
-				.createTitledBorder("GENERATE REGION DATA"));
-	}
+    private void initConvertFilesPanel() {
+        middelPanel.add(convertFilesPanel);
+        convertFilesPanel.setBorder(BorderFactory
+                .createTitledBorder("CONVERT FILES"));
+    }
 
-	private void initGenProfileDataPanel() {
-		middelPanel.add(genProfileDataPanel);
-		genProfileDataPanel.setBorder(BorderFactory
-				.createTitledBorder("GENERATE PROFILE DATA"));
-	}
+    private void initGenRegionDataPanel() {
+        middelPanel.add(genRegionDataPanel);
+        genRegionDataPanel.setBorder(BorderFactory
+                .createTitledBorder("GENERATE REGION DATA"));
+    }
 
-	private void initProcessInQueue() {
-		JLabel queueLabel = new JLabel("PROCESSING IN QUEUE");
-		queueLabel.setOpaque(true);
-		procQueuePanel.add(queueLabel);
-	}
+    private void initGenProfileDataPanel() {
+        middelPanel.add(genProfileDataPanel);
+        genProfileDataPanel.setBorder(BorderFactory
+                .createTitledBorder("GENERATE PROFILE DATA"));
+    }
 
-	private void initTimePanel() {
-		this.add(timePanel, BorderLayout.SOUTH);
-		timePanel.setPreferredSize(new Dimension(300, 30));
-	}
+    private void initProcessInQueue() {
+        JLabel queueLabel = new JLabel("PROCESSING IN QUEUE");
+        queueLabel.setOpaque(true);
+        procQueuePanel.add(queueLabel);
+    }
 
-	private void initScheduleProcPanel() {
-		scheduleProcPanel.setBorder(BorderFactory
-				.createTitledBorder("SCHEDULE PROCESSING"));
-		scheduleProcPanel.setPreferredSize(new Dimension(300, 100));
-	}
+    private void initTimePanel() {
+        this.add(timePanel, BorderLayout.SOUTH);
+        timePanel.setPreferredSize(new Dimension(300, 30));
+    }
 
-	private void initLeftPanel() {
-		leftPanel.add(filesPanel);
-		leftPanel.add(scheduleProcPanel);
-	}
+    private void initScheduleProcPanel() {
+        scheduleProcPanel.setBorder(BorderFactory
+                .createTitledBorder("SCHEDULE PROCESSING"));
+        scheduleProcPanel.setPreferredSize(new Dimension(300, 100));
+    }
 
-	private void addButtonsToMenu() {
-		menuPanel.add(convertButton);
-		menuPanel.add(profileButton);
-		menuPanel.add(regionButton);
-		menuPanel.add(scheduleButton);
-	}
+    private void initLeftPanel() {
+        leftPanel.add(filesPanel);
+        leftPanel.add(scheduleProcPanel);
+    }
 
-	private void enableButtons() {
-		convertButton.setEnabled(false);
-		regionButton.setEnabled(false);
-		scheduleButton.setEnabled(false);
-	}
+    private void addButtonsToMenu() {
+        menuPanel.add(convertButton);
+        menuPanel.add(profileButton);
+        menuPanel.add(regionButton);
+        menuPanel.add(scheduleButton);
+    }
 
-	private void writeToTimePanel() {
+    private void enableButtons() {
+        convertButton.setEnabled(false);
+        regionButton.setEnabled(false);
+        scheduleButton.setEnabled(false);
+    }
 
-		timeArea.setText("");
-		timeArea.setEditable(false);
-		timeArea.append("Number of jobs currently in queue: "
-				+ getNumberOfJobsInQueue() + " (est. time until empty : "
-				+ getTimeApprox() + " min )");
-		timePanel.add(timeArea);
+    private void writeToTimePanel() {
 
-	}
+        timeArea.setText("");
+        timeArea.setEditable(false);
+        timeArea.append("Number of jobs currently in queue: "
+                + getNumberOfJobsInQueue() + " (est. time until empty : "
+                + getTimeApprox() + " min )");
+        timePanel.add(timeArea);
+
+    }
 
 	//TODO
 	public void setFileInfo(FileData[] fileData){
@@ -203,54 +215,58 @@ public class ProcessTab extends JPanel {
 		this.fileList = fileList;
 	}
 
-	private void fileListSetCellRenderer() {
-		fileList.setCellRenderer(new CheckListRenderer());
-		fileList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-	}
+    private void initList(JList fileList) {
+        this.fileList = fileList;
+    }
 
-	private void initFileList() {
+    private void fileListSetCellRenderer() {
+        fileList.setCellRenderer(new CheckListRenderer());
+        fileList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+    }
 
-		fileListSetCellRenderer();
-		fileListAddMouseListener();
-		initScrollPane();
-	}
+    private void initFileList() {
 
-	private void initScrollPane() {
-		scrollFiles = new JScrollPane(fileList);
-		scrollFiles.setBorder(BorderFactory.createTitledBorder("FILES"));
-		fileList.setFixedCellWidth(265);
-		fileList.setFixedCellHeight(40);
-		filesPanel.add(scrollFiles);
-	}
+        fileListSetCellRenderer();
+        fileListAddMouseListener();
+        initScrollPane();
+    }
 
-	private void fileListAddMouseListener() {
-		fileList.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent event) {
-				JList list = (JList) event.getSource();
+    private void initScrollPane() {
+        scrollFiles = new JScrollPane(fileList);
+        scrollFiles.setBorder(BorderFactory.createTitledBorder("FILES"));
+        fileList.setFixedCellWidth(265);
+        fileList.setFixedCellHeight(40);
+        filesPanel.add(scrollFiles);
+    }
 
-				int index = list.locationToIndex(event.getPoint());
-				CheckListItem item = (CheckListItem) list.getModel()
-						.getElementAt(index);
+    private void fileListAddMouseListener() {
+        fileList.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent event) {
+                JList list = (JList) event.getSource();
 
-				item.setSelected(!item.isSelected());
+                int index = list.locationToIndex(event.getPoint());
+                CheckListItem item = (CheckListItem) list.getModel()
+                        .getElementAt(index);
 
-				list.repaint(list.getCellBounds(index, index));
-			}
-		});
-	}
+                item.setSelected(!item.isSelected());
 
-	public ArrayList<String> getAllMarkedFiles() {
+                list.repaint(list.getCellBounds(index, index));
+            }
+        });
+    }
 
-		ArrayList<String> arr = new ArrayList<String>();
+    public ArrayList<String> getAllMarkedFiles() {
 
-		for (int i = 0; i < fileList.getModel().getSize(); i++) {
-			CheckListItem checkItem = (CheckListItem) fileList.getModel()
-					.getElementAt(i);
-			checkItemIsSelected(arr, checkItem);
-		}
-		return arr;
-	}
+        ArrayList<String> arr = new ArrayList<String>();
+
+        for (int i = 0; i < fileList.getModel().getSize(); i++) {
+            CheckListItem checkItem = (CheckListItem) fileList.getModel()
+                    .getElementAt(i);
+            checkItemIsSelected(arr, checkItem);
+        }
+        return arr;
+    }
 
 	//Oanvänd
 	public ArrayList<FileData> getAllMarkedFileData(){
@@ -282,34 +298,41 @@ public class ProcessTab extends JPanel {
 			arr.add(checkItem.toString());
 		}
 	}
+	
+    private void checkItemIsSelected(ArrayList<String> arr,
+                                     CheckListItem checkItem) {
+        if (checkItem.isSelected()) {
+            arr.add(checkItem.toString());
+        }
+    }
 
-	public void addFileListMouseListener(MouseAdapter mouseAdapter) {
-		// fileList.addMouseListener(mouseAdapter);
-	}
+    public void addFileListMouseListener(MouseAdapter mouseAdapter) {
+        // fileList.addMouseListener(mouseAdapter);
+    }
 
-	public void addConvertFileListener(ActionListener listener) {
-		convertButton.addActionListener(listener);
-	}
+    public void addConvertFileListener(ActionListener listener) {
+        convertButton.addActionListener(listener);
+    }
 
-	public void addRawToProfileDataListener(ActionListener listener) {
-		profileButton.addActionListener(listener);
-	}
+    public void addRawToProfileDataListener(ActionListener listener) {
+        profileButton.addActionListener(listener);
+    }
 
-	public void addRawToRegionDataListener(ActionListener listener) {
-		regionButton.addActionListener(listener);
-	}
+    public void addRawToRegionDataListener(ActionListener listener) {
+        regionButton.addActionListener(listener);
+    }
 
-	public void addScheduleFileListener(ActionListener listener) {
-		scheduleButton.addActionListener(listener);
-	}
+    public void addScheduleFileListener(ActionListener listener) {
+        scheduleButton.addActionListener(listener);
+    }
 
-	private int getNumberOfJobsInQueue() {
-		return this.processQueue.size();
-	}
+    private int getNumberOfJobsInQueue() {
+        return this.processQueue.size();
+    }
 
-	// TODO Returnera den riktiga tidsapproxen
-	private int getTimeApprox() {
-		return 450;
-	}
+    // TODO Returnera den riktiga tidsapproxen
+    private int getTimeApprox() {
+        return 450;
+    }
 
 }

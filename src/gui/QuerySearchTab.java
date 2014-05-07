@@ -19,6 +19,7 @@ import javax.swing.table.TableColumnModel;
 
 import org.jdesktop.swingx.JXTreeTable;
 
+import util.AnnotationDataType;
 import util.ExperimentData;
 import util.FileData;
 import util.TreeTable;
@@ -30,13 +31,14 @@ public class QuerySearchTab extends JPanel {
     private JPanel searchPanel;
     private JPanel resultsHeaderPanel;
     private JButton clearButton;
+    private JButton updateAnnotationsButton;
     private JButton searchButton;
     private JButton downloadButton;
     private JTextArea searchArea;
     private ArrayList<QueryBuilderRow> rowList;
     private TreeTable resultsTable;
     private ExperimentData[] currentSearchResult;
-    private boolean desc;
+    private AnnotationDataType[] annotationTypes;
 
     public QuerySearchTab() {
         setUpQuerySearchTab();
@@ -67,8 +69,7 @@ public class QuerySearchTab extends JPanel {
                 if (e.getClickCount() == 1) {
                     TableColumnModel cModel = treeTable.getColumnModel();
                     int column = cModel.getColumnIndexAtX(e.getX());
-                    desc = !desc;
-                    resultsTable.setSorting(column, desc);
+                    resultsTable.setSorting(column);
                     showResultsView();
                 }
             }
@@ -81,6 +82,7 @@ public class QuerySearchTab extends JPanel {
     }
 
     private void setUpQuerySearchTab() {
+        annotationTypes = new AnnotationDataType[0];
         rowList = new ArrayList<QueryBuilderRow>();
         currentSearchResult = new ExperimentData[0];
         setBorder(BorderFactory
@@ -101,6 +103,7 @@ public class QuerySearchTab extends JPanel {
     private void setUpSearchHeader() {
         searchPanel = new JPanel();
         searchButton = new JButton("Search");
+        updateAnnotationsButton = new JButton("Update Annotation Information");
         clearButton = new JButton("Clear");
         clearButton.addActionListener(new ActionListener() {
             @Override
@@ -120,6 +123,7 @@ public class QuerySearchTab extends JPanel {
         JPanel searchEastPanel = new JPanel(new FlowLayout());
         searchEastPanel.add(clearButton);
         searchEastPanel.add(searchButton);
+        searchEastPanel.add(updateAnnotationsButton);
         searchPanel.add(searchEastPanel, BorderLayout.EAST);
     }
 
@@ -172,7 +176,7 @@ public class QuerySearchTab extends JPanel {
     }
 
     public void addRow() {
-        rowList.add(new QueryBuilderRow(this));
+        rowList.add(new QueryBuilderRow(this, annotationTypes));
         paintRows();
     }
 
@@ -185,6 +189,7 @@ public class QuerySearchTab extends JPanel {
 
     private void paintRows() {
         rowsPanel.removeAll();
+
         for (int i = 0; i < rowList.size(); i++) {
             QueryBuilderRow row = rowList.get(i);
             if (i == 0 && i == (rowList.size() - 1)) {
@@ -200,6 +205,12 @@ public class QuerySearchTab extends JPanel {
         }
         rowsPanel.repaint();
         rowsPanel.revalidate();
+    }
+
+    private void updateRows() {
+        for (int i = 0; i < rowList.size(); i++) {
+            rowList.get(i).setFieldBox(annotationTypes);
+        }
     }
 
     public synchronized void updateSearchArea() {
@@ -232,6 +243,16 @@ public class QuerySearchTab extends JPanel {
 
     public void addDownloadButtonListener(ActionListener listener) {
         downloadButton.addActionListener(listener);
+    }
+
+    public void addUpdateAnnotationsListener(ActionListener listener) {
+        updateAnnotationsButton.addActionListener(listener);
+    }
+
+    public void setAnnotationTypes(AnnotationDataType[] annotationTypes) {
+        this.annotationTypes = annotationTypes;
+        updateRows();
+        paintRows();
     }
 
     public FileData[] getSelectedFiles() {

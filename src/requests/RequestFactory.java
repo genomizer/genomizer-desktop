@@ -2,6 +2,9 @@ package requests;
 
 import java.util.HashMap;
 
+import util.AnnotationDataType;
+import util.DeleteAnnoationData;
+
 public class RequestFactory {
 
 	public RequestFactory() {
@@ -68,8 +71,8 @@ public class RequestFactory {
 	}
 
 	public static DeleteAnnotationRequest makeDeleteAnnotationRequest(
-			String[] names) {
-		return new DeleteAnnotationRequest(names);
+			DeleteAnnoationData deleteAnnoationData) {
+		return new DeleteAnnotationRequest(deleteAnnoationData);
 	}
 
 	public static GetAnnotationRequest makeGetAnnotationRequest() {

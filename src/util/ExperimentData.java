@@ -7,10 +7,10 @@ public class ExperimentData {
 	public String name;
 	public String createdBy;
 	public FileData[] files;
-	public AnnotationData[] annotations;
+	public AnnotationDataValue[] annotations;
 
 	public ExperimentData(String name, String createdBy, FileData[] files,
-			AnnotationData[] annotations) {
+			AnnotationDataValue[] annotations) {
 		this.name = name;
 		this.createdBy = createdBy;
 		this.files = files;

@@ -3,11 +3,9 @@ package util;
 public class AnnotationData {
 	public String id;
 	public String name;
-	public String value;
 
-	public AnnotationData(String id, String name, String value) {
+	public AnnotationData(String id, String name) {
 		this.id = id;
 		this.name = name;
-		this.value = value;
 	}
 }

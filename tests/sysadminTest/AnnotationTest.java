@@ -1,25 +1,29 @@
 package sysadminTest;
 
-import static org.fest.assertions.api.Assertions.assertThat;
-import static org.fest.assertions.api.Assertions.fail;
+import static org.fest.assertions.api.Assertions.*;
+import gui.sysadmin.AnnotationTableModel;
+import gui.sysadmin.SysadminTab;
 import model.Model;
 
 import org.junit.Before;
 import org.junit.Test;
 
-import responses.sysadmin.AnnotationData;
-
+import util.AnnotationData;
+import util.AnnotationDataType;
+import util.DeleteAnnoationData;
 import communication.Connection;
 
 public class AnnotationTest {
 
 	private Connection con;
 	private Model model;
+	private SysadminTab sysadminTab;
 
 	@Before
 	public void setUp() throws Exception {
 		con = new Connection("genomizer.apiary-mock.com:80");
 		model = new Model(con);
+		sysadminTab = new SysadminTab();
 	}
 
 	@Test
@@ -34,7 +38,7 @@ public class AnnotationTest {
 
 	@Test
 	public void shouldGetSpeciesValues() {
-		String[] actual = model.getAnnotations()[2].getValue();
+		String[] actual = model.getAnnotations()[2].getValues();
 		String[] expected = new String[] { "fly", "human", "rat" };
 		assertThat(actual).isEqualTo(expected);
 	}
@@ -61,17 +65,11 @@ public class AnnotationTest {
 			assertThat(e).hasMessage("Must have a name for the annotation!");
 		}
 	}
-
+	
 	@Test
 	public void shouldDeleteAnnotation() { // TODO: how do you delete data???
-		assertThat(model.deleteAnnotation(new String[] { "SpeciesTEST" }))
+		assertThat(model.deleteAnnotation(new DeleteAnnoationData(new AnnotationDataType("1", "pubmedId", new String[]{"freetext"}, true))))
 				.isTrue();
-	}
-
-	@Test
-	public void shouldOnlyDeleteExistingAnnotation() {
-		AnnotationData expected = model.getAnnotations()[0];
-		assertThat(expected).isNull();
 	}
 
 	@Test

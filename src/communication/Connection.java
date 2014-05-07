@@ -11,13 +11,11 @@ import requests.Request;
 
 public class Connection {
 	private String ip;
-	private int port;
 	private int responseCode;
 	private String responseBody;
 
 	public Connection(String ip) {
 		this.ip = ip;
-		this.port = port;
 	}
 
 	public boolean sendRequest(Request request, String userID, String type) {
@@ -26,7 +24,8 @@ public class Connection {
 		}
 		try {
 			String targetUrl = "http://" + ip + request.url;
-
+            responseBody = "";
+            responseCode = 0;
 			System.out.println(targetUrl);
 			URL url = new URL(targetUrl);
 			HttpURLConnection connection = (HttpURLConnection) url

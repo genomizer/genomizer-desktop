@@ -5,7 +5,7 @@ import java.util.ArrayList;
 
 import javax.swing.*;
 
-import util.AnnotationDataTypes;
+import util.AnnotationDataType;
 import util.ExperimentData;
 import util.FileData;
 
@@ -55,8 +55,9 @@ public interface GenomizerView {
 
 	public void addAddPopupListener(ActionListener addPopupListener);
 
-    public void addAddToExistingExpButtonListener(ActionListener addToExistingExpButtonListener);
-
+    public void addAddToExistingExpButtonListener(
+    		ActionListener addToExistingExpButtonListener);
+    
     public void addUploadToExperimentButtonListener(ActionListener listener);
 
     public void addSearchResultsDownloadListener(ActionListener listener);
@@ -67,6 +68,14 @@ public interface GenomizerView {
 
     public UploadTab getUploadTab();
 
+	public void addSearchResultsDownloadListener(ActionListener listener);
+
+	public void addSelectFilesToUploadButtonListener(ActionListener listener);
+
+	public void addUpdateSearchAnnotationsListener(ActionListener listener);
+
+	public UploadTab getUploadTab();
+
 	public void annotationPopup();
 
 	public String getNewAnnotationName();
@@ -76,9 +85,15 @@ public interface GenomizerView {
 	public boolean getNewAnnotationForcedValue();
 
 	public void closePopup();
+    
+	public void setAnnotationTableData(AnnotationDataType[] annotations);
 
-    public void setSearchAnnotationTypes(AnnotationDataTypes[] annotationTypes);
-
+    public void setSearchAnnotationTypes(AnnotationDataType[] annotationTypes);
+	
+    int getSelectedRowAtAnnotationTable();
+    
+    public AnnotationDataType getSelectedAnnoationAtAnnotationTable();
+    
     public ArrayList<FileData> getAllMarkedFileData();
 
     public void addProcessFileListener(ActionListener listener);
