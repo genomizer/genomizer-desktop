@@ -260,6 +260,10 @@ public class GUI extends JFrame implements GenomizerView {
 		sysadminTab.addAddAnnotationListener(addAnnotationListener);
 	}
 
+    public void addUpdateSearchAnnotationsListener(ActionListener listener) {
+        querySearchTab.addUpdateAnnotationsListener(listener);
+    }
+
 	@Override
 	public void addAddPopupListener(ActionListener addPopupListener) {
 		sysadminTab.addAddPopupListener(addPopupListener);
