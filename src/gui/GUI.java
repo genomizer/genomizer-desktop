@@ -61,6 +61,215 @@ public class GUI extends JFrame implements GenomizerView {
 		this.setLocationRelativeTo(null);
 	}
 
+	@Override
+	public void addLoginListener(ActionListener listener) {
+		loginWindow.addLoginListener(listener);
+	}
+	
+	@Override
+	public void addAddAnnotationListener(ActionListener addAnnotationListener) {
+		sysadminTab.addAddAnnotationListener(addAnnotationListener);
+	}
+
+	public void addUpdateSearchAnnotationsListener(ActionListener listener) {
+		querySearchTab.addUpdateAnnotationsListener(listener);
+	}
+
+	@Override
+	public void addProcessFileListener(ActionListener listener) {
+		workspaceTab.addProcessFileListener(listener);
+	}
+
+	@Override
+	public void addConvertFileListener(ActionListener listener) {
+		processTab.addConvertFileListener(listener);
+	}
+
+	@Override
+	public void addRawToProfileDataListener(ActionListener listener) {
+		processTab.addRawToProfileDataListener(listener);
+	}
+	
+	@Override
+	public void addAddPopupListener(ActionListener addPopupListener) {
+		sysadminTab.addAddPopupListener(addPopupListener);
+	}
+
+	@Override
+	public void addRawToRegionDataListener(ActionListener listener) {
+		processTab.addRawToRegionDataListener(listener);
+	}
+
+	@Override
+	public void addScheduleFileListener(ActionListener listener) {
+		processTab.addScheduleFileListener(listener);
+	}
+	
+	public void addSearchToWorkspaceListener(ActionListener listener) {
+		querySearchTab.addAddToWorkspaceButtonListener(listener);
+	}
+
+	
+	@Override
+	public void addLogoutListener(ActionListener listener) {
+
+		userPanel.addLogoutButtonListener(listener);
+	}
+
+	@Override
+	public void addSearchListener(ActionListener listener) {
+		// TODO Auto-generated method stub
+	}
+
+	@Override
+	public void addQuerySearchListener(ActionListener listener) {
+		querySearchTab.addSearchButtonListener(listener);
+	}
+
+	@Override
+	public void addDownloadFileListener(ActionListener listener) {
+		workspaceTab.addDownloadFileListener(listener);
+	}
+
+	@Override
+	public void addAddToExistingExpButtonListener(ActionListener listener) {
+		uploadTab.addAddToExistingExpButtonListener(listener);
+	}
+	
+	public void addSelectFilesToUploadButtonListener(ActionListener listener) {
+		uploadTab.getUploadToExistingExpPanel().addSelectFilesToUploadButtonListener(listener);
+	}
+
+	@Override
+	public void addUploadToExperimentButtonListener(ActionListener listener) {
+		uploadTab.getUploadToExistingExpPanel().addUploadToExperimentButtonListener(listener);
+	}
+
+	@Override
+	public void addSearchResultsDownloadListener(ActionListener listener) {
+		querySearchTab.addDownloadButtonListener(listener);
+	}
+
+	public void addToWorkspace(ExperimentData[] experiments) {
+		workspaceTab.addExperimentsToTable(experiments);
+	}
+	
+	@Override
+	public FileData[] getSelectedFilesInSearch() {
+		return querySearchTab.getSelectedFiles();
+	}
+	
+	public ExperimentData[] getSelectedExperimentsInSearch() {
+		return querySearchTab.getSelectedFilesWithExperiments();
+	}
+	
+	@Override
+	public String getNewAnnotationName() {
+		return sysadminTab.getNewAnnotationName();
+	}
+	
+	public UploadTab getUploadTab() {
+		return uploadTab;
+	}
+
+	@Override
+	public String[] getNewAnnotionCategories() {
+		return sysadminTab.getNewAnnotationCategories();
+	}
+
+	@Override
+	public boolean getNewAnnotationForcedValue() {
+		return sysadminTab.getNewAnnotationForcedValue();
+	}
+	
+	@Override
+	public String getQuerySearchString() {
+		return querySearchTab.getSearchString();
+	}
+
+	@Override
+	public ArrayList<FileData> getAllMarkedFileData() {
+		return processTab.getAllMarkedFileData();
+	}
+
+	@Override
+	public ArrayList<String> getAllMarkedFiles() {
+
+		return processTab.getAllMarkedFiles();
+
+	}
+
+	public JPanel getSearchPanel() {
+		return searchTab;
+	}
+	
+	@Override
+	public String getPassword() {
+		return loginWindow.getPasswordInput();
+	}
+
+	@Override
+	public String getUsername() {
+		return loginWindow.getUsernameInput();
+	}
+
+	@Override
+	public String getIp() {
+		return loginWindow.getIPInput();
+	}
+	
+	@Override
+	public AnnotationDataType getSelectedAnnoationAtAnnotationTable() {
+		// TODO Auto-generated method stub
+		return sysadminTab.getSelectedAnnotationAtAnnotationTable();
+	}
+
+	@Override
+	public int getSelectedRowAtAnnotationTable() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public JFrame getFrame() {
+		return this;
+	}
+
+	@Override
+	public void updateLoginAccepted(String username, String pwd, String name) {
+		System.out.println("login succesful with username " + username
+				+ " & pwd " + pwd);
+		userPanel.setUserInfo(username, name, false);
+		refreshGUI();
+		this.setVisible(true);
+		loginWindow.removeErrorMessage();
+		loginWindow.setVisible(false);
+	}
+
+	@Override
+	public void updateLoginNeglected(String errorMessage) {
+		loginWindow.updateLoginFailed(errorMessage);
+
+	}
+	
+	@Override
+	public void updateLogout() {
+		System.out.println("logout success");
+		this.setVisible(false);
+		loginWindow.setVisible(true);
+	}
+	
+	@Override
+	public void updateQuerySearchResults(ExperimentData[] searchResults) {
+		querySearchTab.updateSearchResults(searchResults);
+	}
+
+	public void setProcessTab(ProcessTab processTab) {
+		this.processTab = processTab;
+		tabbedPane.add("PROCESS", processTab);
+
+	}
+	
 	private void setLookAndFeel() {
 		try {
 			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
@@ -95,133 +304,6 @@ public class GUI extends JFrame implements GenomizerView {
 		tabbedPane.add("ANALYZE", analyzeTab);
 	}
 
-	@Override
-	public void addLoginListener(ActionListener listener) {
-		loginWindow.addLoginListener(listener);
-	}
-
-    @Override
-    public FileData[] getSelectedFilesInSearch() {
-        return querySearchTab.getSelectedFiles();
-    }
-
-    @Override
-	public void addConvertFileListener(ActionListener listener) {
-		processTab.addConvertFileListener(listener);
-	}
-
-	@Override
-	public void addRawToProfileDataListener(ActionListener listener) {
-		processTab.addRawToProfileDataListener(listener);
-	}
-
-	@Override
-	public void addRawToRegionDataListener(ActionListener listener) {
-		processTab.addRawToRegionDataListener(listener);
-	}
-
-	@Override
-	public void addScheduleFileListener(ActionListener listener) {
-		processTab.addScheduleFileListener(listener);
-	}
-
-	@Override
-	public ArrayList<String> getAllMarkedFiles() {
-
-		return processTab.getAllMarkedFiles();
-
-	}
-
-	public JPanel getSearchPanel() {
-		return searchTab;
-	}
-
-	@Override
-	public JFrame getFrame() {
-		return this;
-	}
-
-	public void showLoginWindow() {
-		loginWindow.setVisible(true);
-	}
-
-	@Override
-	public void addLogoutListener(ActionListener listener) {
-
-		userPanel.addLogoutButtonListener(listener);
-	}
-
-	@Override
-	public void addSearchListener(ActionListener listener) {
-		// TODO Auto-generated method stub
-	}
-
-	@Override
-	public void addQuerySearchListener(ActionListener listener) {
-		querySearchTab.addSearchButtonListener(listener);
-	}
-
-	@Override
-	public void addDownloadFileListener(ActionListener listener) {
-		workspaceTab.addDownloadFileListener(listener);
-	}
-
-    @Override
-    public void addAddToExistingExpButtonListener(ActionListener listener) {
-        uploadTab.addAddToExistingExpButtonListener(listener);
-    }
-
-	@Override
-	public String getPassword() {
-		return loginWindow.getPasswordInput();
-	}
-
-	@Override
-	public String getUsername() {
-		return loginWindow.getUsernameInput();
-	}
-
-	@Override
-	public String getIp() {
-		return loginWindow.getIPInput();
-	}
-
-	@Override
-	public void updateLoginAccepted(String username, String pwd, String name) {
-		System.out.println("login succesful with username " + username
-				+ " & pwd " + pwd);
-		userPanel.setUserInfo(username, name, false);
-		refreshGUI();
-		this.setVisible(true);
-		loginWindow.removeErrorMessage();
-		loginWindow.setVisible(false);
-	}
-
-	@Override
-	public void updateLoginNeglected(String errorMessage) {
-		loginWindow.updateLoginFailed(errorMessage);
-
-	}
-
-	public void refreshGUI() {
-		mainPanel.repaint();
-		mainPanel.revalidate();
-
-	}
-
-	@Override
-	public void updateLogout() {
-		System.out.println("logout success");
-		this.setVisible(false);
-		loginWindow.setVisible(true);
-	}
-
-	public void setProcessTab(ProcessTab processTab) {
-		this.processTab = processTab;
-		tabbedPane.add("PROCESS", processTab);
-
-	}
-
 	public void setSysAdminTab(SysadminTab sat) {
 		this.sysadminTab = sat;
 		tabbedPane.add("ADMINISTRATION", sysadminTab);
@@ -232,75 +314,8 @@ public class GUI extends JFrame implements GenomizerView {
 		tabbedPane.add("SEARCH", querySearchTab);
 	}
 
-    public void addSelectFilesToUploadButtonListener(ActionListener listener) {
-        uploadTab.getUploadToExistingExpPanel().addSelectFilesToUploadButtonListener(listener);
-    }
-
-    @Override
-    public void addUploadToExperimentButtonListener(ActionListener listener) {
-        uploadTab.getUploadToExistingExpPanel().addUploadToExperimentButtonListener(listener);
-    }
-
-    @Override
-    public void addSearchResultsDownloadListener(ActionListener listener) {
-        querySearchTab.addDownloadButtonListener(listener);
-    }
-
-	@Override
-	public String getQuerySearchString() {
-		return querySearchTab.getSearchString();
-	}
-
-	@Override
-	public void updateQuerySearchResults(ExperimentData[] searchResults) {
-		querySearchTab.updateSearchResults(searchResults);
-	}
-
-	@Override
-	public void addAddAnnotationListener(ActionListener addAnnotationListener) {
-		sysadminTab.addAddAnnotationListener(addAnnotationListener);
-	}
-
-    public void addUpdateSearchAnnotationsListener(ActionListener listener) {
-        querySearchTab.addUpdateAnnotationsListener(listener);
-    }
-
-    public void setSearchAnnotationTypes(AnnotationDataType[] annotationTypes) {
-        querySearchTab.setAnnotationTypes(annotationTypes);
-    }
-
-	@Override
-	public void addAddPopupListener(ActionListener addPopupListener) {
-		sysadminTab.addAddPopupListener(addPopupListener);
-	}
-
-	@Override
-	public void annotationPopup() {
-		sysadminTab.popup();
-	}
-
-	@Override
-	public String getNewAnnotationName() {
-		return sysadminTab.getNewAnnotationName();
-	}
-
-	@Override
-	public String[] getNewAnnotionCategories() {
-		return sysadminTab.getNewAnnotationCategories();
-	}
-
-	@Override
-	public boolean getNewAnnotationForcedValue() {
-		return sysadminTab.getNewAnnotationForcedValue();
-	}
-
-    public UploadTab getUploadTab() {
-        return uploadTab;
-    }
-
-	@Override
-	public void closePopup() {
-		sysadminTab.closePopup();
+	public void setSearchAnnotationTypes(AnnotationDataType[] annotationTypes) {
+		querySearchTab.setAnnotationTypes(annotationTypes);
 	}
 
 	@Override
@@ -308,27 +323,6 @@ public class GUI extends JFrame implements GenomizerView {
 		sysadminTab.setAnnotationTableData(annotations);
 	}
 
-	@Override
-	public AnnotationDataType getSelectedAnnoationAtAnnotationTable() {
-		// TODO Auto-generated method stub
-		return sysadminTab.getSelectedAnnotationAtAnnotationTable();
-	}
-
-	@Override
-	public int getSelectedRowAtAnnotationTable() {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
-	@Override
-	public ArrayList<FileData> getAllMarkedFileData() {
-		return processTab.getAllMarkedFileData();
-	}
-
-	@Override
-	public void addProcessFileListener(ActionListener listener) {
-		workspaceTab.addProcessFileListener(listener);
-	}
 
 	@Override
 	public void setProccessFileList() {
@@ -340,20 +334,38 @@ public class GUI extends JFrame implements GenomizerView {
 		//TESTING
 		for(int i = 0;i < 10; i++){
 
-		 fileData = new FileData(null, null, "[" + i + "] Protein223_A5_2014.RAW", null, null, null, null);
+			fileData = new FileData(null, null, "[" + i + "] Protein223_A5_2014.RAW", null, null, null, null);
 
-		 fileArray[i] = fileData;
+			fileArray[i] = fileData;
 
 		}
 		processTab.setFileInfo(fileArray);
 
 	}
+	
+	@Override
+	public void closePopup() {
+		sysadminTab.closePopup();
+	}
+	
+	@Override
+	public void annotationPopup() {
+		sysadminTab.popup();
+	}
 
 	@Override
 	public void printToConvertText(String message) {
-
 		processTab.printToConvertText(message);
-
 	}
+	
+	public void refreshGUI() {
+		mainPanel.repaint();
+		mainPanel.revalidate();
+	}
+	
+	public void showLoginWindow() {
+		loginWindow.setVisible(true);
+	}
+
 
 }

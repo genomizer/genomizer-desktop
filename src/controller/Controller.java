@@ -46,6 +46,7 @@ public class Controller {
         view.setAnnotationTableData(model.getAnnotations());
         view.addUpdateSearchAnnotationsListener(new updateSearchAnnotationsListener());
         view.addProcessFileListener(new ProcessFileListener());
+        view.addSearchToWorkspaceListener(new SearchToWorkspaceListener());
 	}
     class DownloadSearchListener implements ActionListener, Runnable {
         @Override
@@ -260,7 +261,6 @@ public class Controller {
 	}
 
 	class QuerySearchListener implements ActionListener, Runnable {
-		@Override
 		public void actionPerformed(ActionEvent e) {
 			new Thread(this).start();
 		}
@@ -415,4 +415,20 @@ public class Controller {
             }
         }
     }
+    class SearchToWorkspaceListener implements ActionListener, Runnable {
+
+        @Override
+        public void actionPerformed(ActionEvent actionEvent) {
+
+            new Thread(this).start();
+        }
+
+        @Override
+        public void run() {
+        	System.out.println("add to workspace");
+        	view.addToWorkspace(view.getSelectedExperimentsInSearch());
+        }
+
+    }
 }
+

@@ -32,7 +32,7 @@ public class TreeTable extends JPanel {
 		this.setLayout(new BorderLayout());
 		initiateJXTreeTable();
 	}
-	
+
 	public TreeTable(ExperimentData[] experimentData) {
 		this.setLayout(new BorderLayout());
 		initiateJXTreeTable();
@@ -62,14 +62,14 @@ public class TreeTable extends JPanel {
 		if(experimentData != null && experimentData.length > 0) {
 			experiments = experimentData;
 			/*Set new content to the tree table*/
-            // headings
-            nrOfColumns = 2 + experimentData[0].annotations.length;
-            headings = new String[nrOfColumns];
-            headings[0] = "Experiment Name";
-            headings[1] = "Experiment Created By";
-            for (int i = 0; i < nrOfColumns-2; i++) {
-                headings[2 + i] = experiments[0].annotations[i].name;
-            }
+			// headings
+			nrOfColumns = 2 + experimentData[0].annotations.length;
+			headings = new String[nrOfColumns];
+			headings[0] = "Experiment Name";
+			headings[1] = "Experiment Created By";
+			for (int i = 0; i < nrOfColumns-2; i++) {
+				headings[2 + i] = experiments[0].annotations[i].name;
+			}
 			/*Create the data matrix from the experiment data*/
 			data = new String[experiments.length][headings.length];
 			for (int i = 0; i < experiments.length; i++) {
@@ -182,6 +182,9 @@ public class TreeTable extends JPanel {
 		}
 		return null;
 	}
+	public ExperimentData[] getContent() {
+		return experiments;
+	}
 
 	public ArrayList<FileData> getSelectedFiles() {
 		/*Get the files that are selected in the table*/
@@ -189,16 +192,22 @@ public class TreeTable extends JPanel {
 		int[] rows = table.getSelectedRows();
 		for (int i = 0; i < rows.length; i++) {
 			for (int j = 0; j < experiments.length; j++) {
-				for (int k = 0; k < experiments[j].files.length; k++) {
-					String fileRow = experiments[j].files[k].name + " (" + experiments[j].files[k].size + ")";
+				ExperimentData expData = experiments[j];
+				for (int k = 0; k < expData.files.length; k++) {
+					String fileRow = expData.files[k].name + " (" + expData.files[k].size + ")";
 					if (fileRow.equals(table.getValueAt(
 							rows[i], 0))) {
-						files.add(experiments[j].files[k]);
+						files.add(expData.files[k]);
 					}
 				}
 			}
 		}
 		return files;
+	}
+
+	public ArrayList<ExperimentData> getSelectedFilesWithExperiments() {
+		
+		return null;
 	}
 
 	private void createTreeStructure() {
