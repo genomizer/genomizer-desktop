@@ -350,9 +350,9 @@ public class GUI extends JFrame implements GenomizerView {
 	}
 
 	@Override
-	public void printToConvertText(String fileName, Boolean converted) {
+	public void printToConvertText(String message) {
 
-		processTab.printToConvertText(fileName,converted);
+		processTab.printToConvertText(message);
 
 	}
 

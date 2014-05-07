@@ -175,16 +175,21 @@ public class Controller {
 				String expid = null;
 
 				Boolean converted = model.rawToProfile(fileName,filePath,metadata, genomeRelease, author, expid, parameters);
+				String message = null;
 
 				if(converted.equals(true)){
-					System.out.println("Has converted RAW TO PROFILE: " + fileName + " "
+					System.out.println("Has converted RAW TO PROFILE: " + fileName + "\n"
 							+ converted);
-					//view
+					message = "The server has converted: " + fileName;
+
+					view.printToConvertText(message);
 
 				}else {
 					System.out.println("Has NOT converted RAW TO PROFILE: " + fileName + " "
 							+ converted);
-					view.printToConvertText(fileName,converted);
+					message = "WARNING - The server couldn't convert: " + fileName + "\n";
+
+					view.printToConvertText(message);
 				}
 			}
 		}

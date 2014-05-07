@@ -92,6 +92,6 @@ public interface GenomizerView {
 
 	public void setProccessFileList();
 
-	public void printToConvertText(String fileName, Boolean converted);
+	public void printToConvertText(String message);
 
 }

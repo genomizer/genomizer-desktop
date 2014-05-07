@@ -64,14 +64,14 @@ public class ProcessTab extends JPanel {
 		initConvertTextArea();
 
         // BARA TILLF�LLIG
-     /*   JList list = new JList(new CheckListItem[]{
+        fileList = new JList(new CheckListItem[]{
                 new CheckListItem("[0] Protein223_A5_2014.RAW"),
                 new CheckListItem("[1] Protein223_A5_2014.RAW"),
                 new CheckListItem("[2] Protein223_A5_2014.RAW"),
                 new CheckListItem("[3] Protein223_A5_2014.RAW"),
                 new CheckListItem("[4] Protein223_A5_2014.RAW")});
 
-        initFileList(); */
+        initFileList();
         writeToTimePanel();
 
     }
@@ -181,11 +181,10 @@ public class ProcessTab extends JPanel {
 
     }
 
-	//TODO
 	public void setFileInfo(FileData[] fileData){
 		this.fileData = fileData;
 		parseFileData();
-		initFileList();
+		//initFileList();
 	}
 
 
@@ -201,20 +200,14 @@ public class ProcessTab extends JPanel {
 				new CheckListItem("[4] Protein223_A5_2014.RAW") });
 
 
-	//	CheckListItem[] itemList = new CheckListItem[fileData.length];
+		Object[] itemList = new CheckListItem[fileData.length];
 
+		for(int i = 0; i < fileData.length; i++){
+		//	itemList[i] = new CheckListItem( fileData[i].name );
+		}
 
-	//	for(int i = 0; i < fileData.length; i++){
-			//itemList[i] = new CheckListItem( fileData[i].name );
-
-	//		fileList
-	//	}
-
-	//	this.fileList = new JList(itemList);
-
-
-		this.fileList = list;
-
+		//this.fileList = new JList(itemList);
+		//this.fileList = list;
 
 	}
 
@@ -334,9 +327,9 @@ public class ProcessTab extends JPanel {
         return 450;
     }
 
-	public void printToConvertText(String fileName, Boolean converted) {
+	public void printToConvertText(String message) {
 
-		convertArea.append("Converting: " + fileName + " is " + converted + "\n");
+		convertArea.append(message);
 
 	}
 
