@@ -179,19 +179,23 @@ public class QueryBuilderRow extends JPanel {
         annotationField.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                dropdown = false;
+
                String annotation = (String)annotationField.getSelectedItem();
                 for(int i=0; i<annotationTypes.length; i++) {
                     if(annotation.equals(annotationTypes[i].getName())) {
                         String[] values = annotationTypes[i].getValue();
-                        if(!values[0].equals("freetext")) {
-                            dropdown = true;
-                            setAnnotationAlternatives(values);
+                        if(values != null) {
+                            if (!values[0].equals("freetext")) {
+                                dropdown = true;
+                                setAnnotationAlternatives(values);
+                            }
+                            dropdown = false;
+                            setAs(firstRow, lastRow);
+                            parent.updateSearchArea();
+                            repaint();
+                            revalidate();
                         }
-                        setAs(firstRow, lastRow);
-                        parent.updateSearchArea();
-                        repaint();
-                        revalidate();
+                        System.out.println("null");
                     }
                 }
             }
