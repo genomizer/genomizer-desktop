@@ -6,67 +6,73 @@ import java.util.ArrayList;
 import javax.swing.JFrame;
 
 import util.ExperimentData;
+import util.FileData;
 
 public interface GenomizerView {
 
-	public void addLoginListener(ActionListener listener);
+    public void addLoginListener(ActionListener listener);
 
-	public void addLogoutListener(ActionListener listener);
+    public void addLogoutListener(ActionListener listener);
 
-	public void addSearchListener(ActionListener listener);
+    public void addSearchListener(ActionListener listener);
 
-	public void addUploadFileListener(ActionListener listener);
+    public void addUploadFileListener(ActionListener listener);
 
-	public void addDownloadFileListener(ActionListener listener);
+    public void addDownloadFileListener(ActionListener listener);
 
-	public void addBrowseListener(ActionListener listener);
+    public void addBrowseListener(ActionListener listener);
 
-	public void addConvertFileListener(ActionListener listener);
+    public void addConvertFileListener(ActionListener listener);
 
-	public ArrayList<String> getAllMarkedFiles();
+    public ArrayList<String> getAllMarkedFiles();
 
-	public void addQuerySearchListener(ActionListener listener);
+    public void addQuerySearchListener(ActionListener listener);
 
-	public String getPassword();
+    public String getPassword();
 
-	public String getUsername();
+    public String getUsername();
 
-	public void updateLoginAccepted(String username, String pwd, String name);
+    public void updateLoginAccepted(String username, String pwd, String name);
 
-	public void updateLoginNeglected(String errorMessage);
+    public void updateLoginNeglected(String errorMessage);
 
-	public void updateLogout();
+    public void updateLogout();
 
-	public JFrame getFrame();
+    public JFrame getFrame();
 
-	public void updateFileChosen(String directoryAsString);
+    public void updateFileChosen(String directoryAsString);
 
-	public void updateQuerySearchResults(ExperimentData[] searchResults);
+    public void updateQuerySearchResults(ExperimentData[] searchResults);
 
-	public String getQuerySearchString();
+    public String getQuerySearchString();
 
-	public void addScheduleFileListener(ActionListener listener);
+    public void addScheduleFileListener(ActionListener listener);
 
-	public void addRawToProfileDataListener(ActionListener listener);
+    public void addRawToProfileDataListener(ActionListener listener);
 
-	public String getIp();
+    public String getIp();
 
-	public void addRawToRegionDataListener(ActionListener listener);
+    public void addRawToRegionDataListener(ActionListener listener);
 
-	public void addAddAnnotationListener(ActionListener addAnnotationListener);
+    public void addAddAnnotationListener(ActionListener addAnnotationListener);
 
-	public void addAddPopupListener(ActionListener addPopupListener);
+    public void addAddPopupListener(ActionListener addPopupListener);
 
+    public void addSearchResultsDownloadListener(ActionListener listener);
     public void addAddToExistingExpButtonListener(ActionListener addToExistingExpButtonListener);
 
 	public void annotationPopup();
 
-	public String getNewAnnotationName();
+    public void annotationPopup();
 
-	public String[] getNewAnnotionCategories();
+    public String getNewAnnotationName();
 
-	public boolean getNewAnnotationForcedValue();
+    public String[] getNewAnnotionCategories();
 
-	public void closePopup();
+    public boolean getNewAnnotationForcedValue();
+
+    public void closePopup();
+
+    public FileData[] getSelectedFilesInSearch();
 
 }
