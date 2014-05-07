@@ -13,6 +13,7 @@ import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 
 import util.ExperimentData;
+import util.FileData;
 
 public class GUI extends JFrame implements GenomizerView {
 
@@ -98,7 +99,12 @@ public class GUI extends JFrame implements GenomizerView {
 		loginWindow.addLoginListener(listener);
 	}
 
-	@Override
+    @Override
+    public FileData[] getSelectedFilesInSearch() {
+        return querySearchTab.getSelectedFiles();
+    }
+
+    @Override
 	public void addConvertFileListener(ActionListener listener) {
 		processTab.addConvertFileListener(listener);
 	}
@@ -244,7 +250,12 @@ public class GUI extends JFrame implements GenomizerView {
         uploadTab.getUploadToExistingExpPanel().addUploadToExperimentButtonListener(listener);
     }
 
-	@Override
+    @Override
+    public void addSearchResultsDownloadListener(ActionListener listener) {
+        querySearchTab.addDownloadButtonListener(listener);
+    }
+
+    @Override
 	public void updateFileChosen(String directoryAsString) {
 		uploadTab.getDirectoryTextField().setText(directoryAsString);
 	}

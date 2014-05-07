@@ -6,10 +6,13 @@ import java.util.ArrayList;
 import javax.swing.*;
 
 import util.ExperimentData;
+import util.FileData;
 
 public interface GenomizerView {
 
 	public void addLoginListener(ActionListener listener);
+
+    public FileData[] getSelectedFilesInSearch();
 
 	public void addLogoutListener(ActionListener listener);
 
