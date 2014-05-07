@@ -66,8 +66,17 @@ public class Model implements GenomizerModel {
 				conn.sendRequest(rawToProfilerequest, userID, "text/plain");
 				if (conn.getResponseCode() == 201) {
 					return true;
+
+					// TODO Fixa s� att det syns b�r anv�ndaren att filen
+					// gick
+					// attt konverteras.
+
 				} else {
 					return false;
+					
+					// TODO Fixa felmeddelande i gui ifall det inte gick att
+					// convertera till profile.
+					// TODO K�ra n�n timer f�r response.
 				}
 	}
 
@@ -147,10 +156,9 @@ public class Model implements GenomizerModel {
 	public ExperimentData[] search(String pubmedString) {
 		SearchRequest request = RequestFactory.makeSearchRequest(pubmedString);
 		conn.sendRequest(request, userID, "text/plain");
-		if (200 == 200) { // if(conn.getResponseCode == 200) {
-			ExperimentData[] searchResponses = ResponseParser
-					.parseSearchResponse(SearchResponse.getJsonExampleTest());
-			// parseSearchResponse(conn.getResponseBody);
+        if(conn.getResponseCode() == 200) { // if (200 == 200) {
+			ExperimentData[] searchResponses = ResponseParser.parseSearchResponse(conn.getResponseBody());
+			//		.parseSearchResponse(SearchResponse.getJsonExampleTest());
 			if (searchResponses != null && searchResponses.length > 0) {
 				searchHistory.addSearchToHistory(searchResponses);
 				return searchResponses;

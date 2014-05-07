@@ -247,6 +247,7 @@ public class QuerySearchTab extends JPanel {
 
     public void addUpdateAnnotationsListener(ActionListener listener) {
         updateAnnotationsButton.addActionListener(listener);
+        updateAnnotationsButton.doClick();
     }
 
     public void setAnnotationTypes(AnnotationDataType[] annotationTypes) {

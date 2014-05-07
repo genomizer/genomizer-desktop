@@ -3,6 +3,7 @@ package controller;
 import gui.DownloadWindow;
 import gui.GenomizerView;
 
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
@@ -36,17 +37,44 @@ public class Controller {
 		view.addRawToRegionDataListener(new RawToRegionDataListener());
 		view.addScheduleFileListener(new ScheduleFileListener());
 		view.addDownloadFileListener(new DownloadWindowListener());
-		view.addSearchResultsDownloadListener(new DownloadSearchListener());
+        view.addSearchResultsDownloadListener(new DownloadSearchListener());
 		// view.addAddAnnotationListener(new AddNewAnnotationListener());
 		view.addAddPopupListener(new AddPopupListener());
         view.addAddToExistingExpButtonListener(new AddToExistingExpButtonListener());
-        view.addProcessFileListener(new ProcessFileListener());
         view.addSelectFilesToUploadButtonListener(new SelectFilesToUploadButtonListener());
         view.addUploadToExperimentButtonListener(new UploadToExperimentButtonListener());
-        view.addUpdateSearchAnnotationsListener(new updateSearchAnnotationsListener());
+        view.setAnnotationTableData(model.getAnnotations());
+        view.addUpdateSearchAnnotationsListener(new updateSearchAnnotationsListener());      
+        view.addProcessFileListener(new ProcessFileListener());        
 	}
+    class DownloadSearchListener implements ActionListener, Runnable {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            new Thread(this).start();
+        }
 
-	class DownloadSearchListener implements ActionListener, Runnable {
+        @Override
+        public void run() {
+            FileData[] fileData = view.getSelectedFilesInSearch();
+
+            FileDialog fileDialog = new FileDialog((java.awt.Frame) null, "Choose a directory", FileDialog.SAVE);
+            fileDialog.setVisible(true);
+            String directoryName = fileDialog.getDirectory();
+            System.out.println("You chose " + directoryName);
+
+            if(fileData == null) {
+                System.err.println("No directory selected");
+                return;
+            }
+            for(FileData data: fileData) {
+
+                model.downloadFile(data.id, directoryName + "/" + data.name);
+            }
+
+        }
+    }
+
+    class DeleteAnnotationListener implements ActionListener, Runnable {
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			new Thread(this).start();
@@ -54,47 +82,11 @@ public class Controller {
 
 		@Override
 		public void run() {
-			FileData[] fileData = view.getSelectedFilesInSearch();
-			JFileChooser fileChooser = new JFileChooser();
-			fileChooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
-			int ret = fileChooser.showSaveDialog(new JPanel());
-			String path;
-			if (ret == JFileChooser.APPROVE_OPTION) {
-				path = fileChooser.getSelectedFile().getAbsolutePath();
-			} else {
-				System.out.println("No directories selected");
-				return;
-			}
-
-			System.out.println(path);
-			if (fileData == null) {
-				System.err.println("No files selected");
-				return;
-			}
-			for (FileData data : fileData) {
-
-				model.downloadFile(data.id, path + "/" + data.name);
-			}
-
+			AnnotationDataType annotationDataType = null;
+			//view.getSelectedAnnoationAtAnnotationTable();
+			model.deleteAnnotation(new DeleteAnnoationData(annotationDataType));
 		}
-	}
-
-	class DeleteAnnotationListener implements ActionListener, Runnable {
-		@Override
-		public void actionPerformed(ActionEvent e) {
-			new Thread(this).start();
-		}
-
-		@Override
-		public void run() {
-			AnnotationDataType annotationDataType = view
-					.getSelectedAnnoationAtAnnotationTable();
-			if (annotationDataType == null) {
-				model.deleteAnnotation(new DeleteAnnoationData(
-						annotationDataType));
-			}
-		}
-	}
+    }
 
 	class AddPopupListener implements ActionListener, Runnable {
 		@Override
@@ -269,7 +261,10 @@ public class Controller {
 			ExperimentData[] searchResults = model.search(pubmed);
 			if (searchResults != null) {
 				view.updateQuerySearchResults(searchResults);
-			}
+			} else {
+                JOptionPane.showMessageDialog(null, "No search results!", "Search Warning",
+                        JOptionPane.WARNING_MESSAGE);
+            }
 		}
 	}
 
