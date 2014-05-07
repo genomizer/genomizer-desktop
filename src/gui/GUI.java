@@ -348,4 +348,12 @@ public class GUI extends JFrame implements GenomizerView {
 		processTab.setFileInfo(fileArray);
 
 	}
+
+	@Override
+	public void printToConvertText(String fileName, Boolean converted) {
+
+		processTab.printToConvertText(fileName,converted);
+
+	}
+
 }

@@ -157,9 +157,12 @@ public class Controller {
 			ArrayList<FileData> allMarked = null;//view.getAllMarkedFileData();
 			int markedSize = 1;//allMarked.size();
 
-			for(int i = 0; i < markedSize; i++){
+		//	for(int i = 0; i < markedSize; i++){
 
-				String fileName = null;//allMarked.get(i).name;
+	/*TEST*/for(int i = 0; i < view.getAllMarkedFiles().size(); i++){
+
+
+				String fileName = view.getAllMarkedFiles().get(i);//allMarked.get(i).name;
 				String filePath = null;//allMarked.get(i).URL;
 				String author = view.getUsername();
 
@@ -181,6 +184,7 @@ public class Controller {
 				}else {
 					System.out.println("Has NOT converted RAW TO PROFILE: " + fileName + " "
 							+ converted);
+					view.printToConvertText(fileName,converted);
 				}
 			}
 		}

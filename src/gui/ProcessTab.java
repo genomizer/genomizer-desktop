@@ -334,4 +334,10 @@ public class ProcessTab extends JPanel {
         return 450;
     }
 
+	public void printToConvertText(String fileName, Boolean converted) {
+
+		convertArea.append("Converting: " + fileName + " is " + converted + "\n");
+
+	}
+
 }
