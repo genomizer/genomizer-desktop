@@ -1,6 +1,7 @@
 package gui;
 
 import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ActionListener;
 
 public class UploadToExistingExpPanel extends JPanel {
@@ -11,8 +12,9 @@ public class UploadToExistingExpPanel extends JPanel {
     public UploadToExistingExpPanel() {
         selectFilesToUploadButton = new JButton("Select files");
         uploadFilesToExperimentButton = new JButton("Upload to experiment");
-        add(selectFilesToUploadButton);
-        add(uploadFilesToExperimentButton);
+        add(selectFilesToUploadButton, BorderLayout.NORTH);
+        add(uploadFilesToExperimentButton, BorderLayout.SOUTH);
+        uploadFilesToExperimentButton.disable();
     }
 
     public void addSelectFilesToUploadButtonListener(ActionListener listener) {

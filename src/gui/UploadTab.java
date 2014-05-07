@@ -41,8 +41,8 @@ public class UploadTab extends JPanel {
 	}
 
 	public void createUploadPanel() {
-		uploadPanel = new JPanel(new GridLayout());
-        add(uploadPanel);
+		uploadPanel = new JPanel(new BorderLayout());
+        add(uploadPanel, BorderLayout.CENTER);
 	}
 
     public void addExistingExpPanel() {
