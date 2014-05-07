@@ -7,7 +7,6 @@ import java.awt.FlowLayout;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.image.BufferedImage;
 import java.net.URL;
 
 import javax.swing.Box;
@@ -183,7 +182,7 @@ public class QueryBuilderRow extends JPanel {
                String annotation = (String)annotationField.getSelectedItem();
                 for(int i=0; i<annotationTypes.length; i++) {
                     if(annotation.equals(annotationTypes[i].getName())) {
-                        String[] values = annotationTypes[i].getValue();
+                        String[] values = annotationTypes[i].getValues();
                         if(values != null) {
                             if (!values[0].equals("freetext")) {
                                 dropdown = true;
