@@ -93,8 +93,8 @@ public class SearchResponse extends Response {
 	SearchResponse response = new SearchResponse("s", "df", null, null);
 	Gson gson = new Gson();
 
-	SearchResponse[] searchResponses = new SearchResponse[10];
-	for (int i = 0; i < 10; i++) {
+	SearchResponse[] searchResponses = new SearchResponse[1000];
+	for (int i = 0; i < 1000; i++) {
 	    FileData[] fileData = new FileData[5];
 	    for (int j = 0; j < 5; j++) {
 		String fileType = fileTypes[rand.nextInt(3)];
