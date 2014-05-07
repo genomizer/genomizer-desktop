@@ -16,10 +16,11 @@ import responses.DownloadFileResponse;
 import responses.LoginResponse;
 import responses.ResponseParser;
 import responses.SearchResponse;
-import responses.sysadmin.AnnotationData;
+import util.AnnotationDataTypes;
 import util.ExperimentData;
 
 import com.google.gson.Gson;
+
 import communication.Connection;
 import communication.DownloadHandler;
 import communication.HTTPURLUpload;
@@ -185,12 +186,12 @@ public class Model implements GenomizerModel {
 					"Must have a name for the annotation!");
 		}
 
-		AnnotationData[] annotations = getAnnotations();
+		AnnotationDataTypes[] annotations = getAnnotations();
 		if (annotations == null) {
 			return false;
 		}
 		for (int i = 0; i < annotations.length; i++) {
-			AnnotationData a = annotations[i];
+			AnnotationDataTypes a = annotations[i];
 			if (a.getName().equalsIgnoreCase(name)) {
 				throw new IllegalArgumentException(
 						"Annotations must have a unique name, " + name
@@ -232,13 +233,13 @@ public class Model implements GenomizerModel {
 		return false;
 	}
 
-	public AnnotationData[] getAnnotations() {
+	public AnnotationDataTypes[] getAnnotations() {
 		GetAnnotationRequest request = RequestFactory
 				.makeGetAnnotationRequest();
 		conn.sendRequest(request, userID, "text/plain");
 		if (conn.getResponseCode() == 200) {
 			System.err.println("Sent getAnnotionrequestsuccess!");
-			AnnotationData[] annotations = ResponseParser
+			AnnotationDataTypes[] annotations = ResponseParser
 					.parseGetAnnotationResponse(conn.getResponseBody());
 			return annotations;
 		} else {

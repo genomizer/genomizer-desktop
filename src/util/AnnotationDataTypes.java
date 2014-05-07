@@ -1,15 +1,12 @@
-package responses.sysadmin;
+package util;
 
-public class AnnotationData {
+public class AnnotationDataTypes extends AnnotationData{
 
-	String id;
-	String name;
-	String[] value;
-	boolean forced;
+	private String[] value;
+	private boolean forced;
 
-	public AnnotationData(String id, String name, String[] value, Boolean forced) {
-		this.id = id;
-		this.name = name;
+	public AnnotationDataTypes(String id, String name, String[] value, Boolean forced) {
+		super(id, name);
 		this.value = value;
 		this.forced = forced;
 	}
