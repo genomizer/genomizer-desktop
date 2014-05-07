@@ -3,6 +3,7 @@ package controller;
 import gui.DownloadWindow;
 import gui.GenomizerView;
 
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -53,15 +54,16 @@ public class Controller {
         @Override
         public void run() {
             FileData[] fileData = view.getSelectedFilesInSearch();
-            JFileChooser fileChooser = new JFileChooser();
-            fileChooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
-            int ret = fileChooser.showSaveDialog(new JPanel());
-            String path;
-            if(ret == JFileChooser.APPROVE_OPTION) {
-                path = fileChooser.getSelectedFile().getAbsolutePath();
+
+            FileDialog fileDialog = new FileDialog((java.awt.Frame) null, "Choose a file", FileDialog.LOAD);
+            fileDialog.setVisible(true);
+            String filename = fileDialog.getFile();
+            String path = null;
+            if (filename == null) {
+                System.out.println("You cancelled the choice");
             } else {
-                System.out.println("No directories selected");
-                return;
+                System.out.println("You chose " + filename);
+                path = fileChooser.getSelectedFile().getAbsolutePath();
             }
 
             System.out.println(path);
@@ -76,7 +78,7 @@ public class Controller {
 
         }
     }
-    
+
     class DeleteAnnotationListener implements ActionListener, Runnable {
 		@Override
 		public void actionPerformed(ActionEvent e) {
