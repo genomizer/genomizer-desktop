@@ -9,12 +9,15 @@ import java.awt.GridLayout;
 import java.awt.event.ActionListener;
 
 import javax.swing.BoxLayout;
+import javax.swing.DefaultListSelectionModel;
 import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
+import javax.swing.ListSelectionModel;
 import javax.swing.RowFilter;
 import javax.swing.ScrollPaneConstants;
 import javax.swing.event.DocumentEvent;
@@ -167,7 +170,7 @@ public class SysadminTab extends JPanel {
         TableModel tableModel = null; // TODO: fix this add a new class?
         table = new JTable(tableModel);
         table.setPreferredSize(panel.getSize());
-
+        table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         table.setShowGrid(false);
 
         JTableHeader header = table.getTableHeader();
@@ -284,8 +287,16 @@ public class SysadminTab extends JPanel {
 		return table.getSelectedRow();
 	}
 
-	public AnnotationDataType getSelectedAnnotationAtAnnotationTable() {
+	public AnnotationDataType getSelectedAnnotationAtAnnotationTable() throws IllegalArgumentException {
 		// TODO Auto-generated method stub
+		int i = table.getSelectedRow();
+		if (i == -1) {
+			throw new IllegalArgumentException("Must select an annotation!");
+		}
 		return tablemodel.getAnnotationData(table.getSelectedRow());
+	}
+
+	public void addDeleteAnnotationListener(ActionListener listener) {
+		removeButton.addActionListener(listener);
 	}
 }

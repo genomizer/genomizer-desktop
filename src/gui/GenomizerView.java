@@ -86,4 +86,6 @@ public interface GenomizerView {
 
 	public AnnotationDataType getSelectedAnnoationAtAnnotationTable();
 
+	public void addDeleteAnnotationListener(ActionListener listener);
+
 }

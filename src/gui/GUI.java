@@ -319,4 +319,9 @@ public class GUI extends JFrame implements GenomizerView {
 		// TODO Auto-generated method stub
 		return 0;
 	}
+
+	@Override
+	public void addDeleteAnnotationListener(ActionListener listener) {
+		sysadminTab.addDeleteAnnotationListener(listener);		
+	}
 }
