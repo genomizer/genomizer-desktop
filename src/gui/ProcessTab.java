@@ -25,6 +25,7 @@ public class ProcessTab extends JPanel {
     private static final long serialVersionUID = -2830290705724588252L;
 
     private JTextArea timeArea = new JTextArea();
+    private JTextArea convertArea = new JTextArea();
     private JPanel filesPanel = new JPanel();
     private JPanel scheduleProcPanel = new JPanel();
     private JPanel genProfileDataPanel = new JPanel();
@@ -59,8 +60,8 @@ public class ProcessTab extends JPanel {
         initEastPanels();
         initTimePanel();
 
-		//initFileList();
 		writeToTimePanel();
+		initConvertTextArea();
 
         // BARA TILLF�LLIG
      /*   JList list = new JList(new CheckListItem[]{
@@ -70,7 +71,6 @@ public class ProcessTab extends JPanel {
                 new CheckListItem("[3] Protein223_A5_2014.RAW"),
                 new CheckListItem("[4] Protein223_A5_2014.RAW")});
 
-        initList(list);
         initFileList(); */
         writeToTimePanel();
 
@@ -113,7 +113,8 @@ public class ProcessTab extends JPanel {
     private void initConvertFilesPanel() {
         middelPanel.add(convertFilesPanel);
         convertFilesPanel.setBorder(BorderFactory
-                .createTitledBorder("CONVERT FILES"));
+        		.createTitledBorder("CONVERT FILES"));
+      //  convertFilesPanel.setPreferredSize(new Dimension(300, 100));
     }
 
     private void initGenRegionDataPanel() {
@@ -143,6 +144,12 @@ public class ProcessTab extends JPanel {
         scheduleProcPanel.setBorder(BorderFactory
                 .createTitledBorder("SCHEDULE PROCESSING"));
         scheduleProcPanel.setPreferredSize(new Dimension(300, 100));
+    }
+
+    private void initConvertTextArea(){
+    	convertArea.setEditable(false);
+    	convertArea.setPreferredSize(new Dimension(600, 150));
+    	convertFilesPanel.add(convertArea);
     }
 
     private void initLeftPanel() {
