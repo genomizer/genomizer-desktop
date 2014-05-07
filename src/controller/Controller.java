@@ -10,6 +10,7 @@ import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
+import gui.UploadTab;
 import model.GenomizerModel;
 import util.AnnotationDataTypes;
 import util.ExperimentData;
@@ -315,7 +316,12 @@ public class Controller {
 
         @Override
         public void run() {
+            //Get list of files to upload
 
+            //Upload them.
+
+            //Move to where the check if upload is complete will be.
+            JOptionPane.showMessageDialog(null, "Upload complete.");
         }
     }
 
