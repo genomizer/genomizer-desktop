@@ -187,8 +187,9 @@ public class QueryBuilderRow extends JPanel {
                             if (!values[0].equals("freetext")) {
                                 dropdown = true;
                                 setAnnotationAlternatives(values);
+                            } else {
+                                dropdown = false;
                             }
-                            dropdown = false;
                             setAs(firstRow, lastRow);
                             parent.updateSearchArea();
                             repaint();
