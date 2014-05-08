@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import javax.swing.BorderFactory;
 import javax.swing.DefaultListModel;
 import javax.swing.JButton;
+import javax.swing.JCheckBox;
 import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JPanel;
@@ -28,7 +29,29 @@ public class ProcessTab extends JPanel {
 
     private JTextArea timeArea = new JTextArea();
     private JTextArea convertArea = new JTextArea();
-    public JTextField parameter1 = new JTextField();
+
+//	parameters[0] = "-a -m --best -p –v -q -S"; //view.getParameters()[0];
+	//Namnet på genome filen.
+//	parameters[1] = "d_melanogaster_fb5_22"; //view.getParameters()[1];
+	//5 stycken smoothing parameters som användaren kan välja.
+	// window size (10),
+	// smooth type (1),
+	// minimum step pos (5),
+	// print mean or not (0),
+	// print 0’s or not (1)
+//	parameters[2] = "10 1 5 0 1";//view.getParameters()[2];
+	//Step size 10, y är för "yes"
+//	parameters[3] = "y 10";//view.getParameters()[3];
+
+    private JTextField bowtiePar = new JTextField();
+    private JTextField genomeFile = new JTextField();
+    private JTextField SmoothWindowSize = new JTextField();
+    private JTextField SmoothType = new JTextField();
+    private JTextField StepPosition = new JTextField();
+    private JCheckBox printOrNot = new JCheckBox("Print");
+    private JCheckBox printZeros = new JCheckBox("Print zeros");
+    private JTextField parameter3 = new JTextField();
+
     private JPanel filesPanel = new JPanel();
     private JPanel scheduleProcPanel = new JPanel();
     private JPanel genProfileDataPanel = new JPanel();
@@ -154,10 +177,30 @@ public class ProcessTab extends JPanel {
         menuPanel.add(profileButton);
         menuPanel.add(regionButton);
         menuPanel.add(scheduleButton);
-        parameter1.setBorder(BorderFactory.createTitledBorder("Bowtie Parameter 1"));
-        parameter1.setText("-a -m --best -p –v -q -S");
-        parameter1.setPreferredSize(new Dimension(250,45));
-        menuPanel.add(parameter1);
+        bowtiePar.setBorder(BorderFactory.createTitledBorder("Bowtie Parameter 1"));
+        bowtiePar.setText("-a -m --best -p –v -q -S");
+        bowtiePar.setPreferredSize(new Dimension(250,45));
+        menuPanel.add(bowtiePar);
+
+        genomeFile.setBorder(BorderFactory.createTitledBorder("Genome file"));
+        SmoothWindowSize.setBorder(BorderFactory.createTitledBorder("Window size"));
+        SmoothType.setBorder(BorderFactory.createTitledBorder("Smooth type"));
+        StepPosition.setBorder(BorderFactory.createTitledBorder("Step position"));
+
+        //CHECKBOX
+    //    printOrNot.setBorder(BorderFactory.createTitledBorder("Print"));
+
+        //Checkbox
+    //    printZeros.setBorder(BorderFactory.createTitledBorder("Print zeros"));
+        parameter3.setBorder(BorderFactory.createTitledBorder("Parameter 3"));
+
+        menuPanel.add(genomeFile);
+        menuPanel.add(SmoothWindowSize);
+        menuPanel.add(SmoothType);
+        menuPanel.add(StepPosition);
+        menuPanel.add(parameter3);
+        menuPanel.add(printOrNot);
+        menuPanel.add(printZeros);
     }
 
     private void enableButtons() {
