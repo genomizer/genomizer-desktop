@@ -29,6 +29,7 @@ public class UploadTab extends JPanel {
     private JTextArea experimentNameField;
     private UploadToExistingExpPanel uploadToExistingExpPanel;
     private AnnotationDataType[] annotations;
+    private ArrayList<String> annotationHeaders;
     private ArrayList<JComboBox> annotationBoxes;
     private ArrayList<JTextField> annotationFields;
     private ArrayList<UploadFileRow> uploadFileRows;
@@ -36,6 +37,7 @@ public class UploadTab extends JPanel {
     private ActivePanel activePanel;
 
     public UploadTab() {
+	annotationHeaders = new ArrayList<String>();
 	uploadFileRows = new ArrayList<UploadFileRow>();
 	activePanel = ActivePanel.NONE;
 	setLayout(new BorderLayout());
@@ -131,6 +133,7 @@ public class UploadTab extends JPanel {
                 gbc.gridy = y;
                 JPanel p = new JPanel(new BorderLayout());
                 JLabel annotationLabel = new JLabel(annotations[i].getName());
+                annotationHeaders.add(annotations[i].getName());
                 p.add(annotationLabel, BorderLayout.NORTH);
                 if (annotations[i].getValues()[0].equals("freetext")) {
                     JTextField textField = new JTextField();
@@ -209,5 +212,13 @@ public class UploadTab extends JPanel {
 	}
 	uploadFilesPanel.removeAll();
 	repaintSelectedFiles();
+    }
+    
+    public AnnotationDataType[] getUploadAnnotations() {
+	AnnotationDataType[] annotations = new AnnotationDataType[annotationHeaders.size()];
+	for(String s : annotationHeaders) {
+	    
+	}
+	return null;
     }
 }

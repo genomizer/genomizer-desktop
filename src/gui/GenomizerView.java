@@ -1,6 +1,7 @@
 package gui;
 
 import java.awt.event.ActionListener;
+import java.io.File;
 import java.util.ArrayList;
 
 import javax.swing.JFrame;
@@ -123,5 +124,9 @@ public interface GenomizerView {
     public String[] getParameters();
 
     public void selectFilesToNewExp(String[] fileNames);
+
+    public File[] getFilesToUpload();
+
+    public AnnotationDataType[] getUploadAnnotations();
 }
 

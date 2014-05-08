@@ -53,7 +53,7 @@ public class Controller {
 	view.addDeleteAnnotationListener(new DeleteAnnotationListener());
 	view.addNewExpButtonListener(new NewExpButtonListener());
 	view.addSelectButtonListener(new SelectFilesToNewExpListener());
-	view.addUploadButtonListener(new UploadFilesListener());
+	view.addUploadButtonListener(new UploadNewExpListener());
     }
 
     class DownloadSearchListener implements ActionListener, Runnable {
@@ -433,8 +433,17 @@ public class Controller {
 
 	    for (FileData data : fileData) {
 		System.out.println(data.url);
+            File experimentDir = new File(directoryName + "/" + data.expId);
+            if(experimentDir.mkdir()) {
+                System.out.println("Created dir: " + data.expId);
+            }
+            File typeDir = new File(directoryName + "/" + data.expId + "/"
+                                    + data.type);
+            if(typeDir.mkdir()) {
+                System.out.println("Created dir: " + data.type);
+            }
 		model.downloadFile(data.url, data.id, directoryName + "/"
-			+ data.filename);
+			+ data.expId + "/" + data.type + "/" + data.filename);
 	    }
 	}
     }
@@ -565,7 +574,7 @@ public class Controller {
 	    view.selectFilesToNewExp(fileNames);
 	}
     }
-    class UploadFilesListener implements ActionListener, Runnable  {
+    class UploadNewExpListener implements ActionListener, Runnable  {
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
@@ -574,6 +583,8 @@ public class Controller {
 
 	@Override
 	public void run() {
+	    AnnotationDataType[] a = view.getUploadAnnotations();
+	    File[] files = view.getFilesToUpload();
 	    System.out.println("HEJ");
 	}
     }
