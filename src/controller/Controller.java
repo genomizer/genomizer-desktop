@@ -178,7 +178,7 @@ public class Controller {
 			ArrayList<FileData> allMarked = null;//view.getAllMarkedFileData();
 			int markedSize = 1;//allMarked.size();
 
-			if(/*!allMarked.isEmpty()*/view.getAllMarkedFiles().isEmpty()){
+			if(/*!allMarked.isEmpty()*/!view.getAllMarkedFiles().isEmpty()){
 
 			//	for(int i = 0; i < markedSize; i++){
 
@@ -201,17 +201,11 @@ public class Controller {
 					String message = null;
 
 					if(converted.equals(true)){
-						System.out.println("Has converted RAW TO PROFILE: " + fileName + "\n"
-								+ converted);
 						message = "The server has converted: " + fileName;
-
 						view.printToConvertText(message);
 
 					}else {
-						System.out.println("Has NOT converted RAW TO PROFILE: " + fileName + " "
-								+ converted);
 						message = "WARNING - The server couldn't convert: " + fileName + "\n";
-
 						view.printToConvertText(message);
 					}
 				}

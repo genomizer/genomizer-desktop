@@ -287,6 +287,7 @@ public class ProcessTab extends JPanel {
 					}
 				}
 			}
+
 			return allMarked;
 		}
 	}
