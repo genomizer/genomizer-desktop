@@ -71,9 +71,9 @@ public class ExperimentData {
 	    FileData[] fileData = new FileData[5];
 	    for (int j = 0; j < 5; j++) {
 		String fileType = fileTypes[rand.nextInt(3)];
-		fileData[j] = new FileData("" + i + j, fileType, "exp" + i
+		/*fileData[j] = new FileData("" + i + j, fileType, "exp" + i
 			+ "_" + fileType + "file" + j, names[rand.nextInt(5)],
-			dates[rand.nextInt(5)], fileSizes[rand.nextInt(5)], "-");
+			dates[rand.nextInt(5)], fileSizes[rand.nextInt(5)], "-");*/
 	    }
 	    AnnotationDataValue[] annotationData = new AnnotationDataValue[5];
 	    annotationData[0] = new AnnotationDataValue("2", "Species",

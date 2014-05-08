@@ -62,18 +62,8 @@ public class ProcessTab extends JPanel {
         initMiddlePanel();
         initEastPanels();
         initTimePanel();
-
 		writeToTimePanel();
 		initConvertTextArea();
-
-        // BARA TILLFï¿½LLIG
-        fileList = new JList(new CheckListItem[]{
-                new CheckListItem("[0] Protein223_A5_2014.RAW"),
-                new CheckListItem("[1] Protein223_A5_2014.RAW"),
-                new CheckListItem("[2] Protein223_A5_2014.RAW"),
-                new CheckListItem("[3] Protein223_A5_2014.RAW"),
-                new CheckListItem("[4] Protein223_A5_2014.RAW")});
-
         initFileList();
         writeToTimePanel();
 
@@ -166,7 +156,7 @@ public class ProcessTab extends JPanel {
         menuPanel.add(regionButton);
         menuPanel.add(scheduleButton);
         parameter1.setBorder(BorderFactory.createTitledBorder("Bowtie Parameter 1"));
-        parameter1.setText("-a -m --best -p –v -q -S");
+        parameter1.setText("-a -m --best -p ?v -q -S");
         parameter1.setPreferredSize(new Dimension(620,45));
         menuPanel.add(parameter1);
     }
@@ -195,35 +185,18 @@ public class ProcessTab extends JPanel {
 
 	public void setFileInfo(ArrayList<FileData> allFileData){
 		this.fileData = allFileData;
-
-	//	System.out.println(allFileData.get(0).name);
 		parseFileData();
 	}
 
-
-	//TODO Går inte att lägga in checklistitem-listan i JList fileList.
-	//Det gör att listan med filnamn inte visas i GUI.
 	private void parseFileData(){
 
-		JList list = new JList(new CheckListItem[] {
-				new CheckListItem("[7] Protein223_A5_2014.RAW"),
-				new CheckListItem("[8] Protein223_A5_2014.RAW"),
-				new CheckListItem("[9] Protein223_A5_2014.RAW"),
-				new CheckListItem("[10] Protein223_A5_2014.RAW"),
-				new CheckListItem("[11] Protein223_A5_2014.RAW") });
-
-
-	//	Object[] itemList = new CheckListItem[fileData.length];
+		CheckListItem[] itemList = new CheckListItem[fileData.size()];
 
 		for(int i = 0; i < fileData.size(); i++){
-		//	itemList[i] = new CheckListItem( fileData[i].name );
+			itemList[i] = new CheckListItem( fileData.get(i).filename );
 		}
 
-		//this.fileList = new JList(itemList);
-		this.fileList = list;
-
-		//DefaultListModel listModel = new DefaultListModel();
-		//this.fileList.setModel(listModel);
+		fileList.setListData(itemList);
 		this.revalidate();
 		this.repaint();
 	}
@@ -295,7 +268,7 @@ public class ProcessTab extends JPanel {
         return arr;
     }
 
-    //TODO Nåt är fel...fileData == null, efterssom setFileInfo inte anropas innan.
+    //TODO N�t �r fel...fileData == null, efterssom setFileInfo inte anropas innan.
 	public ArrayList<FileData> getAllMarkedFileData(){
 
 		ArrayList<FileData> allMarked = new ArrayList<FileData>();
@@ -310,7 +283,7 @@ public class ProcessTab extends JPanel {
 
 				for(int j = 0; j < arr.size(); j++){
 
-					if(arr.get(j) == fileData.get(i).name ){
+					if(arr.get(j) == fileData.get(i).filename ){
 						allMarked.add( fileData.get(i) );
 					}
 				}

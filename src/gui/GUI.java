@@ -344,7 +344,7 @@ public class GUI extends JFrame implements GenomizerView {
 	// TESTING
 	for (int i = 0; i < fileArray.size(); i++) {
 
-	    System.out.println(fileArray.get(i).name);
+	    System.out.println(fileArray.get(i).filename);
 
 	}
 	processTab.setFileInfo(allFileData);
