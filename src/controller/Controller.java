@@ -299,10 +299,9 @@ public class Controller {
 	    if (searchResults != null) {
 		view.updateQuerySearchResults(searchResults);
 	    } else {
-		view.updateQuerySearchResults(ExperimentData.getExample());
-		// JOptionPane.showMessageDialog(null, "No search results!",
-		// "Search Warning",
-		// JOptionPane.WARNING_MESSAGE);
+		// view.updateQuerySearchResults(ExperimentData.getExample());
+		JOptionPane.showMessageDialog(null, "No search results!",
+			"Search Warning", JOptionPane.WARNING_MESSAGE);
 	    }
 	}
     }
