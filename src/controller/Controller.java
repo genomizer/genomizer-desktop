@@ -224,14 +224,9 @@ public class Controller {
 		    parameters[1] = "d_melanogaster_fb5_22"; // view.getParameters()[1];
 		    parameters[2] = "10 1 5 0 1";// view.getParameters()[2];
 		    parameters[3] = "y 10";// view.getParameters()[3];
-
-		    // WorkspaceTab
-		    String metadata = null;
-		    String genomeRelease = null;
-		    String expid = null;
-
-//		    isConverted = model.rawToProfile(fileName, fileId,
-//			    metadata, genomeRelease, author, expid, parameters);
+		    String expid = view.getWorkspaceSelectedExperiments().get(i).name;
+		    String genomeRelease = view.getWorkspaceSelectedFiles().get(i).grVersion;
+		    String metadata = view.getWorkspaceSelectedFiles().get(i).metaData;
 
 		    isConverted = model.rawToProfile(fileName, fileID, expid, "rawtoprofile", parameters,
 		    		metadata, genomeRelease, author);
