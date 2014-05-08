@@ -45,50 +45,57 @@ public class QueryBuilderRow extends JPanel {
     }
 
     public void setAs(Boolean firstRow, Boolean lastRow) {
+        removeAll();
+    	JPanel logicPanel = new JPanel();
+    	logicPanel.setPreferredSize(new Dimension(50,25));
+    	JPanel annotationPanel = new JPanel();
+    	annotationPanel.setPreferredSize(new Dimension(130,25));
+    	JPanel inputPanel = new JPanel();
+    	inputPanel.setPreferredSize(new Dimension(420,25));
+    	JPanel buttonPanel = new JPanel();
+    	buttonPanel.setPreferredSize(new Dimension(60,25));
         this.firstRow = firstRow;
         this.lastRow = lastRow;
-        removeAll();
         if (firstRow && lastRow) {
-            add(Box.createHorizontalStrut(73));
-            add(annotationField);
+            annotationPanel.add(annotationField);
             if(dropdown) {
-                add(annotationAlternatives);
+                inputPanel.add(annotationAlternatives);
             } else {
-                add(textField);
+            	inputPanel.add(textField);
             }
-            add(plusButton);
-            add(Box.createHorizontalStrut(20));
+            buttonPanel.add(plusButton);
         } else if (firstRow && !lastRow) {
-            add(Box.createHorizontalStrut(73));
-            add(annotationField);
+        	 annotationPanel.add(annotationField);
             if(dropdown) {
-                add(annotationAlternatives);
+            	inputPanel.add(annotationAlternatives);
             } else {
-                add(textField);
+            	inputPanel.add(textField);
             }
-            add(minusButton);
-            add(Box.createHorizontalStrut(20));
+            buttonPanel.add(minusButton);
         } else if (!firstRow && !lastRow) {
-            add(logicField);
-            add(annotationField);
+        	logicPanel.add(logicField);
+            annotationPanel.add(annotationField);
             if(dropdown) {
-                add(annotationAlternatives);
+            	inputPanel.add(annotationAlternatives);
             } else {
-                add(textField);
+            	inputPanel.add(textField);
             }
-            add(minusButton);
-            add(Box.createHorizontalStrut(20));
+            buttonPanel.add(minusButton);
         } else {
-            add(logicField);
-            add(annotationField);
+            logicPanel.add(logicField);
+            annotationPanel.add(annotationField);
             if(dropdown) {
-                add(annotationAlternatives);
+            	inputPanel.add(annotationAlternatives);
             } else {
-                add(textField);
+            	inputPanel.add(textField);
             }
-            add(minusButton);
-            add(plusButton);
+            buttonPanel.add(minusButton);
+            buttonPanel.add(plusButton);
         }
+        add(logicPanel);
+        add(annotationPanel);
+        add(inputPanel);
+        add(buttonPanel);
     }
 
     private void setPlusButton() {
@@ -159,7 +166,8 @@ public class QueryBuilderRow extends JPanel {
 
     private void setAnnotationAlternatives(String[] values) {
         annotationAlternatives = new JComboBox(values);
-        annotationAlternatives.setPrototypeDisplayValue("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
+        annotationAlternatives.setPrototypeDisplayValue("AAAAAAAAAAAAAAAAAAAAAAA"
+        			+ "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
         annotationAlternatives.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -195,7 +203,6 @@ public class QueryBuilderRow extends JPanel {
                             repaint();
                             revalidate();
                         }
-                        System.out.println("null");
                     }
                 }
             }
