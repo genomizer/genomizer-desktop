@@ -8,14 +8,7 @@ import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionListener;
 
-import javax.swing.JButton;
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.JScrollPane;
-import javax.swing.JTable;
-import javax.swing.JTextField;
-import javax.swing.RowFilter;
-import javax.swing.ScrollPaneConstants;
+import javax.swing.*;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import javax.swing.table.JTableHeader;
@@ -120,8 +113,7 @@ public class AnnotationsViewCreator {
 
         tablemodel = new AnnotationTableModel();
         AnnotationTableModel tableModelAnnotationTableModel = (AnnotationTableModel) tablemodel;
-        tableModelAnnotationTableModel
-                .setAnnotations(new AnnotationDataType[] {});
+        tableModelAnnotationTableModel.setAnnotations(new AnnotationDataType[]{});
 
         table = new JTable(tablemodel);
 
@@ -146,9 +138,9 @@ public class AnnotationsViewCreator {
 
         JPanel panel = new JPanel(new BorderLayout());
         TableModel tableModel = null; // TODO: fix this add a new class?
-        JTable table = new JTable(tableModel);
+        table = new JTable(tableModel);
         table.setPreferredSize(panel.getSize());
-
+        table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         table.setShowGrid(false);
 
         JTableHeader header = table.getTableHeader();
@@ -157,7 +149,7 @@ public class AnnotationsViewCreator {
         panel.add(table, BorderLayout.CENTER);
 
         JScrollPane scroll = new JScrollPane(panel);
-        scroll.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
+        scroll.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED);
 
         TableRowSorter<TableModel> rowSorter = new TableRowSorter<TableModel>(
                 tableModel);
@@ -235,22 +227,6 @@ public class AnnotationsViewCreator {
         addButton.addActionListener(addAnnotationListener);
         modifyButton.addActionListener(addAnnotationListener);
         removeButton.addActionListener(addAnnotationListener);
-    }
-
-    public void addAddPopupListener(ActionListener addPopupListener) {
-        pop.addAddAnnotationListener(addPopupListener);
-    }
-
-    public String getNewAnnotationName() {
-        return pop.getNewAnnotationName();
-    }
-
-    public String[] getNewAnnotationCategories() {
-        return pop.getNewAnnotationCategories();
-    }
-
-    public boolean getNewAnnotationForcedValue() {
-        return pop.getNewAnnotationForcedValue();
     }
 
     public void closePopup() {
