@@ -183,6 +183,8 @@ public class ProcessTab extends JPanel {
 
 	public void setFileInfo(FileData[] fileData){
 		this.fileData = fileData;
+
+		System.out.println(fileData[0].name);
 		parseFileData();
 		//initFileList();
 	}
@@ -206,9 +208,15 @@ public class ProcessTab extends JPanel {
 		//	itemList[i] = new CheckListItem( fileData[i].name );
 		}
 
-		//this.fileList = new JList(itemList);
+		resetFilePanel();
+
+		this.fileList = new JList(itemList);
 		//this.fileList = list;
 
+	}
+
+	private void resetFilePanel() {
+			
 	}
 
 	private void setList(JList fileList) {
@@ -282,11 +290,12 @@ public class ProcessTab extends JPanel {
 
 				for(int j = 0; j < arr.size(); j++){
 
-					if(fileData[i].name == arr.get(j)){
+					if(arr.get(j) == fileData[i].name ){
 						allMarked.add( fileData[i] );
 					}
 				}
 			}
+
 			return allMarked;
 		}
 	}
