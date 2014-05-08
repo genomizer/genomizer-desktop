@@ -290,7 +290,6 @@ public class TreeTable extends JPanel {
 	    String[] fileHeaders = new String[] {
 		    "<html><b>File ID</html></b>",
 		    "<html><b>File Name</html></b>",
-		    "<html><b>File Size</html></b>",
 		    "<html><b>Date Added</html></b>",
 		    "<html><b>Uploaded By</html></b>" };
 	    rawFiles.add(new Node(fileHeaders));
@@ -304,8 +303,7 @@ public class TreeTable extends JPanel {
 	    for (int j = 0; j < fileData.length; j++) {
 		FileData currentFile = fileData[j];
 		Object[] rowContent = { currentFile.id, currentFile.filename,
-			currentFile.size, currentFile.date,
-			currentFile.uploader };
+			currentFile.date, currentFile.uploader };
 		if (currentFile.type.equals("Raw")) {
 		    rawFiles.add(new Node(rowContent));
 		} else if (currentFile.type.equals("Region")) {
