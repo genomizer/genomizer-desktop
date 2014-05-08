@@ -95,6 +95,9 @@ public class TreeTable extends JPanel {
 	    }
 	    createTreeStructure();
 	} else {
+	    if (headings.length < 1) {
+		headings = new String[0];
+	    }
 	    DefaultTreeTableModel model = new DefaultTreeTableModel(new Node(
 		    new Object[] { "Root" }), Arrays.asList(headings));
 	    table.setTreeTableModel(model);

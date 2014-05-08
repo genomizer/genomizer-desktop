@@ -160,8 +160,12 @@ public class GUI extends JFrame implements GenomizerView {
 	return querySearchTab.getSelectedFiles();
     }
 
-    public ExperimentData[] getSelectedExperimentsInSearch() {
+    public ExperimentData[] getSelectedFilesWithExpsInSearch() {
 	return querySearchTab.getSelectedFilesWithExperiments();
+    }
+
+    public ExperimentData[] getSelectedExperimentsInSearch() {
+	return querySearchTab.getSelectedExperiments();
     }
 
     @Override
