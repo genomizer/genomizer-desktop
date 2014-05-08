@@ -191,6 +191,10 @@ public class WorkspaceTab extends JPanel {
 	table.revalidate();
     }
 
+    ArrayList<ExperimentData> getSelectedExperiments() {
+        return table.getSelectedExperiments();
+    }
+
     public ArrayList<FileData> getSelectedFiles() {
 	return table.getSelectedFiles();
     }
