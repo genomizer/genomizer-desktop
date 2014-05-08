@@ -374,6 +374,10 @@ public class GUI extends JFrame implements GenomizerView {
 	return workspaceTab.getSelectedFiles();
     }
 
+    public ArrayList<ExperimentData> getWorkspaceSelectedExperiments() {
+        return workspaceTab.getSelectedExperiments();
+    }
+
     public void refreshGUI() {
 	mainPanel.repaint();
 	mainPanel.revalidate();

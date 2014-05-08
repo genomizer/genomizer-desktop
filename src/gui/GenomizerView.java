@@ -67,6 +67,8 @@ public interface GenomizerView {
     public void setDownloadWindow(DownloadWindow downloadWindow);
 
     public DownloadWindow getDownloadWindow();
+
+    public ArrayList<ExperimentData> getWorkspaceSelectedExperiments();
 	
 	public String getQuerySearchString();
 

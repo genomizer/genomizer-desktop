@@ -344,6 +344,15 @@ public class Controller {
 		public void run() {
             //Skicka med arraylist<FileData> för de filer som ska nerladdas
             ArrayList<FileData> selectedFiles = view.getWorkspaceSelectedFiles();
+            ArrayList<ExperimentData> experimentData = view.getWorkspaceSelectedExperiments();
+            ExperimentData currentExperiment;
+
+            for(int i=0; i<experimentData.size(); i++) {
+                currentExperiment = experimentData.get(i);
+                for(int j=0; j<currentExperiment.files.length; j++) {
+                    selectedFiles.add(currentExperiment.files[j]);
+                }
+            }
 
             DownloadWindow downloadWindow = new DownloadWindow(selectedFiles);
             view.setDownloadWindow(downloadWindow);
@@ -361,7 +370,8 @@ public class Controller {
 
 		@Override
 		public void run() {
-            ArrayList<FileData> fileData = view.getDownloadWindow().getFiles();
+            DownloadWindow downloadWindow = view.getDownloadWindow();
+            ArrayList<FileData> fileData = downloadWindow.getFiles();
 
             FileDialog fileDialog = new FileDialog((java.awt.Frame) null, "Choose a directory", FileDialog.SAVE);
             fileDialog.setVisible(true);
