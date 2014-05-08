@@ -420,9 +420,8 @@ public class GUI extends JFrame implements GenomizerView {
     }
 
 	@Override
-	public String[] getParameters() {
-		// TODO Auto-generated method stub
-		return null;
+	public String[] getBowtieParameters() {
+		return processTab.getBowtieParameters();
 	}
 	
 	@Override

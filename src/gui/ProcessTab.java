@@ -27,6 +27,7 @@ public class ProcessTab extends JPanel {
 
     private static final long serialVersionUID = -2830290705724588252L;
 
+	private String[] bowtieParameters = new String[4];
     private JTextArea timeArea = new JTextArea();
     private JTextArea convertArea = new JTextArea();
 
@@ -178,7 +179,7 @@ public class ProcessTab extends JPanel {
         menuPanel.add(regionButton);
         menuPanel.add(scheduleButton);
         bowtiePar.setBorder(BorderFactory.createTitledBorder("Bowtie Parameter 1"));
-        bowtiePar.setText("-a -m --best -p –v -q -S");
+        bowtiePar.setText("-a -m 1 --best -p 10 -v 2");
         bowtiePar.setPreferredSize(new Dimension(250,45));
         menuPanel.add(bowtiePar);
 
@@ -220,11 +221,15 @@ public class ProcessTab extends JPanel {
 
     }
 
-    public String[] getParameters(){
-		return null;
-
+    public String[] getBowtieParameters(){
+		return this.bowtieParameters;
     }
 
+    //TODO
+    public void setBowtieParameters(){
+
+    }
+    
 	public void setFileInfo(ArrayList<FileData> allFileData){
 		this.fileData = allFileData;
 		parseFileData();
