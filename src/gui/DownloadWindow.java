@@ -1,5 +1,7 @@
 package gui;
 
+import util.FileData;
+
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.event.ActionListener;
@@ -25,24 +27,13 @@ public class DownloadWindow extends JFrame {
     private JButton downloadButton;
     private ImageIcon downloadIcon = new ImageIcon(
             "src/icons/DownloadButton.png");
+    private ArrayList<FileData> files;
 
     // Tar in ArrayList med de filer som valdes
-    public DownloadWindow(ArrayList<String> files) {
-
-        setUp(files);
-    }
-
-    public DownloadWindow() {
-        ArrayList<String> data = new ArrayList<String>();
-
-        data.add("Protein123_A5_2014.WIG");
-        data.add("Protein123_A5_2014.RAW");
-        data.add("Protein231_A5_2014.WIG");
-        data.add("Protein211_A5_2014.WIG");
-        data.add("Protein223_A5_2014.RAW");
-        data.add("Protein112_A5_2014.WIG");
-
-        setUp(data);
+    public DownloadWindow(ArrayList<FileData> files) {
+        this.files = files;
+        ArrayList<String> fileNames = new ArrayList<String>();
+        setUp(fileNames);
     }
 
     private void setUp(ArrayList<String> data) {

@@ -14,6 +14,7 @@ import javax.swing.JButton;
 import javax.swing.JPanel;
 
 import util.ExperimentData;
+import util.FileData;
 import util.TreeTable;
 
 public class WorkspaceTab extends JPanel {
@@ -176,5 +177,9 @@ public class WorkspaceTab extends JPanel {
 		table.repaint();
 		table.revalidate();
 	}
+
+    public ArrayList<FileData> getSelectedFiles() {
+        return table.getSelectedFiles();
+    }
 }
 

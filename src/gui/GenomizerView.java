@@ -102,7 +102,7 @@ public interface GenomizerView {
 
 	public void printToConvertText(String message);
 	
-	
+	public ArrayList<FileData> getWorkspaceSelectedFiles();
 
 	public void addDeleteAnnotationListener(ActionListener listener);
 	

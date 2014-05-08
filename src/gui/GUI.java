@@ -359,7 +359,13 @@ public class GUI extends JFrame implements GenomizerView {
 		processTab.printToConvertText(message);
 	}
 
-	public void refreshGUI() {
+    @Override
+    public ArrayList<FileData> getWorkspaceSelectedFiles() {
+
+        return workspaceTab.getSelectedFiles();
+    }
+
+    public void refreshGUI() {
 		mainPanel.repaint();
 		mainPanel.revalidate();
 	}

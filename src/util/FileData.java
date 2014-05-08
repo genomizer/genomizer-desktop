@@ -20,4 +20,7 @@ public class FileData {
 		this.URL = URL;
 	}
 
+    public String getName() {
+        return name;
+    }
 }

@@ -341,16 +341,15 @@ public class Controller {
 
 		@Override
 		public void run() {
-            //Skicka med arraylist<String> för de filer som ska nerladdas
+            //Skicka med arraylist<FileData> för de filer som ska nerladdas
+            ArrayList<FileData> selectedFiles = view.getWorkspaceSelectedFiles();
 
+            for(int i=0; i<selectedFiles.size(); i++) {
+                System.out.println(selectedFiles.get(i).getName());
+            }
 
-			/*
-			 * TODO N�r vi har faktiska filer som ska nedladdas: anv�nd den
-			 * andra konstruktorn new DownloadWindow(ArrayList<String>)
-			 * ist�llet
-			 */
-			DownloadWindow downloadWindow = new DownloadWindow();
-			downloadWindow.addDownloadFileListener(new DownloadFileListener());
+            DownloadWindow downloadWindow = new DownloadWindow(selectedFiles);
+            downloadWindow.addDownloadFileListener(new DownloadFileListener());
 		}
 	}
 
