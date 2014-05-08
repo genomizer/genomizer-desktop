@@ -32,6 +32,7 @@ public class GUI extends JFrame implements GenomizerView {
     private ProcessTab processTab;
     private SysadminTab sysadminTab;
     private QuerySearchTab querySearchTab;
+    private DownloadWindow downloadWindow;
 
     public GUI() {
 
@@ -241,6 +242,11 @@ public class GUI extends JFrame implements GenomizerView {
     }
 
     @Override
+    public void setDownloadWindow(DownloadWindow downloadWindow) {
+        this.downloadWindow = downloadWindow;
+    }
+
+    @Override
     public void updateLoginAccepted(String username, String pwd, String name) {
 	System.out.println("login succesful with username " + username
 		+ " & pwd " + pwd);
@@ -399,5 +405,9 @@ public class GUI extends JFrame implements GenomizerView {
     @Override
     public void createNewExp(AnnotationDataType[] annotations) {
 	uploadTab.createNewExp(annotations);
+    }
+
+    public DownloadWindow getDownloadWindow() {
+        return downloadWindow;
     }
 }
