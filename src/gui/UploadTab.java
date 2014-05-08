@@ -24,7 +24,7 @@ import util.AnnotationDataType;
 public class UploadTab extends JPanel {
 
     private static final long serialVersionUID = -2830290705724588252L;
-    private JButton addToExistingExpButton, newExpButton;
+    private JButton addToExistingExpButton, newExpButton, selectButton, uploadButton;
     private JPanel northPanel, uploadPanel, newExpPanel, uploadFilesPanel, uploadBackground;
     private JTextArea experimentNameField;
     private UploadToExistingExpPanel uploadToExistingExpPanel;
@@ -32,7 +32,6 @@ public class UploadTab extends JPanel {
     private ArrayList<JComboBox> annotationBoxes;
     private ArrayList<JTextField> annotationFields;
     private ArrayList<UploadFileRow> uploadFileRows;
-    private JButton selectButton;
     private enum ActivePanel {EXISTING, NEW, NONE}
     private ActivePanel activePanel;
 
@@ -53,6 +52,7 @@ public class UploadTab extends JPanel {
 	uploadFilesPanel = new JPanel(new GridLayout(0,1));
 	newExpButton = new JButton("Create new experiment");
 	selectButton = new JButton("Select files");
+	uploadButton = new JButton("Upload Selected Files");
 	newExpPanel = new JPanel();
 	newExpPanel.setBorder(BorderFactory.createTitledBorder("Experiment"));
 	createUploadPanel();
@@ -88,6 +88,10 @@ public class UploadTab extends JPanel {
 
     public void addSelectButtonListener(ActionListener listener) {
 	selectButton.addActionListener(listener);
+    }
+    
+    public void addUploadButtonListener(ActionListener listener) {
+	uploadButton.addActionListener(listener);
     }
 
     private void createNewExpPanel() {
@@ -173,6 +177,7 @@ public class UploadTab extends JPanel {
 	    uploadFilesPanel.add(fileRow);
 	}
 	uploadFilesPanel.add(selectButton);
+	uploadFilesPanel.add(uploadButton);
 	repaint();
 	revalidate();
     }

@@ -13,6 +13,7 @@ import java.util.Arrays;
 
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
+import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 
 import model.GenomizerModel;
@@ -51,7 +52,8 @@ public class Controller {
 	view.addSearchToWorkspaceListener(new SearchToWorkspaceListener());
 	view.addDeleteAnnotationListener(new DeleteAnnotationListener());
 	view.addNewExpButtonListener(new NewExpButtonListener());
-	view.addSelectButtonListener(new SelectFilesToNewExp());
+	view.addSelectButtonListener(new SelectFilesToNewExpListener());
+	view.addUploadButtonListener(new UploadFilesListener());
     }
 
     class DownloadSearchListener implements ActionListener, Runnable {
@@ -364,7 +366,6 @@ public class Controller {
 
 	@Override
 	public void run() {
-
 	    if (model.uploadFile()) {
 		// update view?
 	    }
@@ -549,7 +550,7 @@ public class Controller {
 	}
     }
     
-    class SelectFilesToNewExp implements ActionListener, Runnable  {
+    class SelectFilesToNewExpListener implements ActionListener, Runnable  {
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
@@ -570,5 +571,16 @@ public class Controller {
 	    view.selectFilesToNewExp(fileNames);
 	}
     }
+    class UploadFilesListener implements ActionListener, Runnable  {
 
+	@Override
+	public void actionPerformed(ActionEvent e) {
+	    new Thread(this).start();
+	}
+	
+	@Override
+	public void run() {
+	    System.out.println("HEJ");
+	}
+    }
 }
