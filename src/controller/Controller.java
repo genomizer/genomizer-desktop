@@ -62,21 +62,22 @@ public class Controller {
 
 	@Override
 	public void run() {
-	    FileData[] fileData = view.getSelectedFilesInSearch();
 
-	    FileDialog fileDialog = new FileDialog((java.awt.Frame) null,
-		    "Choose a directory", FileDialog.SAVE);
-	    fileDialog.setVisible(true);
-	    String directoryName = fileDialog.getDirectory();
-	    System.out.println("You chose " + directoryName);
+        //Skicka med arraylist<FileData> för de filer som ska nerladdas
+        ArrayList<FileData> selectedFiles = view.getQuerySearchTabSelectedFiles();
+        ArrayList<ExperimentData> experimentData = view.getQuerySearchTabSelectedExperiments();
+        ExperimentData currentExperiment;
 
-	    if (fileData == null) {
-		System.err.println("No directory selected");
-		return;
-	    }
-	    for (FileData data : fileData) {
+        for(int i=0; i<experimentData.size(); i++) {
+            currentExperiment = experimentData.get(i);
+            for(int j=0; j<currentExperiment.files.length; j++) {
+                selectedFiles.add(currentExperiment.files[j]);
+            }
+        }
 
-		model.downloadFile(data.id, directoryName + "/" + data.name);
+        DownloadWindow downloadWindow = new DownloadWindow(selectedFiles);
+        view.setDownloadWindow(downloadWindow);
+        downloadWindow.addDownloadFileListener(new DownloadFileListener());
 	    }
 	}
     }
@@ -266,7 +267,8 @@ public class Controller {
 	public void run() {
 
 	    System.out.println("Process");
-	    view.setProccessFileList();
+	    //TODO Skicka in filedata arrayen
+	    view.setProccessFileList(view.getWorkspaceSelectedFiles());
 
 	}
     }
@@ -302,10 +304,9 @@ public class Controller {
 	    if (searchResults != null) {
 		view.updateQuerySearchResults(searchResults);
 	    } else {
-		view.updateQuerySearchResults(ExperimentData.getExample());
-		// JOptionPane.showMessageDialog(null, "No search results!",
-		// "Search Warning",
-		// JOptionPane.WARNING_MESSAGE);
+		// view.updateQuerySearchResults(ExperimentData.getExample());
+		JOptionPane.showMessageDialog(null, "No search results!",
+			"Search Warning", JOptionPane.WARNING_MESSAGE);
 	    }
 	}
     }

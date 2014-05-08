@@ -48,7 +48,7 @@ public class ProcessTab extends JPanel {
     private JList fileList = new JList();
     // TODO SKA VARA JLIST
     private ArrayList processQueue = new ArrayList();
-	private FileData[] fileData;
+	private ArrayList<FileData> fileData;
 
     public ProcessTab() {
         this.setLayout(new BorderLayout());
@@ -193,10 +193,10 @@ public class ProcessTab extends JPanel {
 
     }
 
-	public void setFileInfo(FileData[] fileData){
-		this.fileData = fileData;
+	public void setFileInfo(ArrayList<FileData> allFileData){
+		this.fileData = allFileData;
 
-		System.out.println(fileData[0].name);
+	//	System.out.println(allFileData.get(0).name);
 		parseFileData();
 	}
 
@@ -215,7 +215,7 @@ public class ProcessTab extends JPanel {
 
 	//	Object[] itemList = new CheckListItem[fileData.length];
 
-		for(int i = 0; i < fileData.length; i++){
+		for(int i = 0; i < fileData.size(); i++){
 		//	itemList[i] = new CheckListItem( fileData[i].name );
 		}
 
@@ -306,12 +306,12 @@ public class ProcessTab extends JPanel {
 //			return allMarked;
 //		} else {
 
-			for(int i = 0; i < fileData.length; i++){
+			for(int i = 0; i < fileData.size(); i++){
 
 				for(int j = 0; j < arr.size(); j++){
 
-					if(arr.get(j) == fileData[i].name ){
-						allMarked.add( fileData[i] );
+					if(arr.get(j) == fileData.get(i).name ){
+						allMarked.add( fileData.get(i) );
 					}
 				}
 			}
