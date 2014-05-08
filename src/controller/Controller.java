@@ -7,12 +7,12 @@ import gui.UploadTab;
 import java.awt.FileDialog;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
 
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
-import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 
 import model.GenomizerModel;
@@ -51,7 +51,7 @@ public class Controller {
 	view.addSearchToWorkspaceListener(new SearchToWorkspaceListener());
 	view.addDeleteAnnotationListener(new DeleteAnnotationListener());
 	view.addNewExpButtonListener(new NewExpButtonListener());
-	view.addSelectButtonListener(new SelectFilesToUploadButtonListener());
+	view.addSelectButtonListener(new SelectFilesToNewExp());
     }
 
     class DownloadSearchListener implements ActionListener, Runnable {
@@ -550,6 +550,28 @@ public class Controller {
 	public void run() {
 	    AnnotationDataType[] annotations = model.getAnnotations();
 	    view.createNewExp(annotations);
+	}
+    }
+    
+    class SelectFilesToNewExp implements ActionListener, Runnable  {
+
+	@Override
+	public void actionPerformed(ActionEvent e) {
+	    new Thread(this).start();
+	}
+	
+	@Override
+	public void run() {
+	    FileDialog fileDialog = new java.awt.FileDialog(
+		    (java.awt.Frame) null);
+	    fileDialog.setMultipleMode(true);
+	    fileDialog.setVisible(true);
+	    File[] files = fileDialog.getFiles();
+	    String[] fileNames = new String[files.length];
+	    for(int i = 0; i < files.length ; i++) {
+		fileNames[i] = files[i].getName();
+	    }
+	    view.selectFilesToNewExp(fileNames);
 	}
     }
 

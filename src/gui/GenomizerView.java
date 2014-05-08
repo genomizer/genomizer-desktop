@@ -119,5 +119,7 @@ public interface GenomizerView {
     public void createNewExp(AnnotationDataType[] annotations);
 
     public String[] getParameters();
+
+    public void selectFilesToNewExp(String[] fileNames);
 }
 

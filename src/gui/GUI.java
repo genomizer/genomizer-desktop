@@ -404,6 +404,10 @@ public class GUI extends JFrame implements GenomizerView {
     public void createNewExp(AnnotationDataType[] annotations) {
 	uploadTab.createNewExp(annotations);
     }
+    @Override
+    public void selectFilesToNewExp(String[] fileNames) {
+	uploadTab.createUploadFileRow(fileNames);
+    }
 
     public DownloadWindow getDownloadWindow() {
         return downloadWindow;
