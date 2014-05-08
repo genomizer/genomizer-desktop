@@ -1,5 +1,8 @@
 package util;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashSet;
 import java.util.Random;
 
 import com.google.gson.Gson;
@@ -27,6 +30,18 @@ public class ExperimentData {
 	    annotationList[2 + i] = annotations[i].value;
 	}
 	return annotationList;
+    }
+
+    public void addFiles(FileData[] newFiles) {
+	ArrayList<FileData> both = new ArrayList<FileData>(files.length
+		+ newFiles.length);
+	Collections.addAll(both, files);
+	Collections.addAll(both, newFiles);
+	HashSet hs = new HashSet();
+	hs.addAll(both);
+	both.clear();
+	both.addAll(hs);
+	files = both.toArray(new FileData[both.size()]);
     }
 
     public static ExperimentData[] getExample() {
