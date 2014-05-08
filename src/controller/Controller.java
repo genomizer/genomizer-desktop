@@ -371,7 +371,7 @@ public class Controller {
             downloadWindow.addDownloadFileListener(new DownloadFileListener());
 		}
 	}
-    }
+
 
     class DownloadFileListener implements ActionListener, Runnable {
 
@@ -507,5 +507,6 @@ public class Controller {
 	    view.createNewExp(annotations);
 	}
     }
+
 }
 
