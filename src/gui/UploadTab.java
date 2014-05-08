@@ -58,8 +58,8 @@ public class UploadTab extends JPanel {
     }
 
     private void createUploadPanel() {
-	uploadPanel = new JPanel(new BorderLayout());
-	add(uploadPanel, BorderLayout.CENTER);
+        uploadPanel = new JPanel(new BorderLayout());
+        add(uploadPanel, BorderLayout.CENTER);
     }
 
     public void addExistingExpPanel(AnnotationDataType[] annotations) {
@@ -72,19 +72,19 @@ public class UploadTab extends JPanel {
     }
 
     public UploadToExistingExpPanel getUploadToExistingExpPanel() {
-	return uploadToExistingExpPanel;
+        return uploadToExistingExpPanel;
     }
 
     public void addAddToExistingExpButtonListener(ActionListener listener) {
-	addToExistingExpButton.addActionListener(listener);
+        addToExistingExpButton.addActionListener(listener);
     }
 
     public void addNewExpButtonListener(ActionListener listener) {
-	newExpButton.addActionListener(listener);
+    	newExpButton.addActionListener(listener);
     }
 
     public void addSelectButtonListener(ActionListener listener) {
-	selectButton.addActionListener(listener);
+	    selectButton.addActionListener(listener);
     }
 
     private void createNewExpPanel() {
@@ -108,43 +108,43 @@ public class UploadTab extends JPanel {
     }
 
     private void addAnnotationsForNewExp() throws NullPointerException {
-	annotationBoxes = new ArrayList<JComboBox>();
-	annotationFields = new ArrayList<JTextField>();
-	int x = 0;
-	int y = 0;
-	String[] annotationNames = new String[annotations.length];
-	for (int i = 0; i < annotations.length; i++) {
-	    if (annotations[i].isForced()) {
-		if (x > 6) {
-		    System.out.println("HÄR");
-		    x = 0;
-		    y++;
-		}
-		GridBagConstraints gbc = new GridBagConstraints();
-		gbc.anchor = GridBagConstraints.WEST;
-		gbc.insets = new Insets(5, 0, 5, 30);
-		gbc.gridx = x;
-		gbc.gridy = y;
-		JPanel p = new JPanel(new BorderLayout());
-		JLabel annotationLabel = new JLabel(annotations[i].getName());
-		p.add(annotationLabel, BorderLayout.NORTH);
-		if (annotations[i].getValues()[0].equals("freetext")) {
-		    JTextField textField = new JTextField();
-		    textField.setColumns(10);
-		    annotationFields.add(textField);
-		    p.add(textField, BorderLayout.CENTER);
-		    newExpPanel.add(p, gbc);
-		} else {
-		    JComboBox comboBox = new JComboBox(
-			    annotations[i].getValues());
-		    comboBox.setPreferredSize(new Dimension(120, 31));
-		    annotationBoxes.add(comboBox);
-		    p.add(comboBox, BorderLayout.CENTER);
-		    newExpPanel.add(p, gbc);
-		}
-		x++;
-	    }
-	}
+        annotationBoxes = new ArrayList<JComboBox>();
+        annotationFields = new ArrayList<JTextField>();
+        int x = 0;
+        int y = 0;
+        String[] annotationNames = new String[annotations.length];
+        for (int i = 0; i < annotations.length; i++) {
+            if (annotations[i].isForced()) {
+                if (x > 6) {
+                    System.out.println("Hï¿½R");
+                    x = 0;
+                    y++;
+                }
+                GridBagConstraints gbc = new GridBagConstraints();
+                gbc.anchor = GridBagConstraints.WEST;
+                gbc.insets = new Insets(5, 0, 5, 30);
+                gbc.gridx = x;
+                gbc.gridy = y;
+                JPanel p = new JPanel(new BorderLayout());
+                JLabel annotationLabel = new JLabel(annotations[i].getName());
+                p.add(annotationLabel, BorderLayout.NORTH);
+                if (annotations[i].getValues()[0].equals("freetext")) {
+                    JTextField textField = new JTextField();
+                    textField.setColumns(10);
+                    annotationFields.add(textField);
+                    p.add(textField, BorderLayout.CENTER);
+                    newExpPanel.add(p, gbc);
+                } else {
+                    JComboBox comboBox = new JComboBox(
+                        annotations[i].getValues());
+                    comboBox.setPreferredSize(new Dimension(120, 31));
+                    annotationBoxes.add(comboBox);
+                    p.add(comboBox, BorderLayout.CENTER);
+                    newExpPanel.add(p, gbc);
+                }
+                x++;
+            }
+        }
     }
 
     public void createNewExp(AnnotationDataType[] annotations) {

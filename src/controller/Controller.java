@@ -57,6 +57,7 @@ public class Controller {
 	public void actionPerformed(ActionEvent e) {
 	    new Thread(this).start();
 	}
+
 	@Override
 	public void run() {
 	    FileData[] fileData = view.getSelectedFilesInSearch();
@@ -75,7 +76,6 @@ public class Controller {
 
 		model.downloadFile(data.id, directoryName + "/" + data.name);
 	    }
-
 	}
     }
 

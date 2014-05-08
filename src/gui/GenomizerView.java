@@ -63,6 +63,10 @@ public interface GenomizerView {
 	public String getUsername();
 	
 	public JFrame getFrame();
+
+    public void setDownloadWindow(DownloadWindow downloadWindow);
+
+    public DownloadWindow getDownloadWindow();
 	
 	public String getQuerySearchString();
 
@@ -104,7 +108,7 @@ public interface GenomizerView {
 
 	public void printToConvertText(String message);
 	
-	
+	public ArrayList<FileData> getWorkspaceSelectedFiles();
 
 	public void addDeleteAnnotationListener(ActionListener listener);
 	
