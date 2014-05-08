@@ -339,17 +339,12 @@ public class GUI extends JFrame implements GenomizerView {
     public void setProccessFileList(ArrayList<FileData> allFileData) {
 
 	ArrayList<FileData> fileArray = allFileData;
-//	FileData fileData;
 
 	// TODO
 	// TESTING
 	for (int i = 0; i < fileArray.size(); i++) {
 
-//	    fileData = fileArray[i].name;
-
 	    System.out.println(fileArray.get(i).name);
-
-//	    fileArray[i] = fileData;
 
 	}
 	processTab.setFileInfo(allFileData);
