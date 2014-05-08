@@ -86,7 +86,8 @@ public class WorkspaceTab extends JPanel {
 	removeButton.addActionListener(new ActionListener() {
 	    @Override
 	    public void actionPerformed(ActionEvent e) {
-		table.removeSelected();
+		// table.removeSelectedFiles();
+		table.removeSelectedExperiments();
 	    }
 	});
 	downloadButton = new JButton();
