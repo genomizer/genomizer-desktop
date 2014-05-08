@@ -5,6 +5,7 @@ import java.util.ArrayList;
 
 import javax.swing.*;
 
+import gui.sysadmin.SysadminController;
 import util.AnnotationDataType;
 import util.ExperimentData;
 import util.FileData;
@@ -33,9 +34,9 @@ public interface GenomizerView {
 	
 	public void addRawToRegionDataListener(ActionListener listener);
 
-	public void addAddAnnotationListener(ActionListener addAnnotationListener);
+	//public void addAddAnnotationListener(ActionListener addAnnotationListener);
 
-	public void addAddPopupListener(ActionListener addPopupListener);
+	//public void addAddPopupListener(ActionListener addPopupListener);
 
     public void addAddToExistingExpButtonListener(
     		ActionListener addToExistingExpButtonListener);
@@ -66,15 +67,15 @@ public interface GenomizerView {
 	
     public UploadTab getUploadTab();
     
-	public String getNewAnnotationName();
+	//public String getNewAnnotationName();
 
-	public String[] getNewAnnotionCategories();
+	//public String[] getNewAnnotionCategories();
 
-	public boolean getNewAnnotationForcedValue();
+	///public boolean getNewAnnotationForcedValue();
 	
     public int getSelectedRowAtAnnotationTable();
 
-    public AnnotationDataType getSelectedAnnoationAtAnnotationTable();
+    //public AnnotationDataType getSelectedAnnoationAtAnnotationTable();
 
     public ArrayList<FileData> getAllMarkedFileData();
     
@@ -88,19 +89,20 @@ public interface GenomizerView {
 
 	public void updateQuerySearchResults(ExperimentData[] searchResults);
 	
-	public void setAnnotationTableData(AnnotationDataType[] annotations);
+	//public void setAnnotationTableData(AnnotationDataType[] annotations);
 
     public void setSearchAnnotationTypes(AnnotationDataType[] annotationTypes);
 
 	public void setProccessFileList();
 
-	public void annotationPopup();
+	//public void annotationPopup();
 
-	public void closePopup();
+	//public void closePopup();
 
 	public void printToConvertText(String message);
-	
 
-	public void addDeleteAnnotationListener(ActionListener listener);
+    public void setSysadminController(SysadminController sysadminController);
+
+	//public void addDeleteAnnotationListener(ActionListener listener);
 
 }
