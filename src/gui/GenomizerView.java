@@ -70,10 +70,6 @@ public interface GenomizerView {
 
     public ArrayList<ExperimentData> getWorkspaceSelectedExperiments();
 
-    public ArrayList<FileData> getQuerySearchTabSelectedFiles();
-
-    public ArrayList<ExperimentData> getQuerySearchTabSelectedExperiments();
-
 	public String getQuerySearchString();
 
     public String getIp();
