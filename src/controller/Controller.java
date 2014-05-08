@@ -8,6 +8,7 @@ import java.awt.FileDialog;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
@@ -62,17 +63,21 @@ public class Controller {
 	public void run() {
 
 	    // Skicka med arraylist<FileData> för de filer som ska nerladdas
-	    ArrayList<FileData> selectedFiles = view
-		    .getQuerySearchTabSelectedFiles();
-	    ArrayList<ExperimentData> experimentData = view
-		    .getQuerySearchTabSelectedExperiments();
+        FileData[] selectedFilesTemp = view.getSelectedFilesInSearch();
+        ExperimentData[] selectedExperimentsTemp = view.getSelectedExperimentsInSearch();
+
+        ArrayList<FileData> selectedFiles = new ArrayList<FileData>(Arrays.asList(selectedFilesTemp));
+        ArrayList<ExperimentData> selectedExperiments =
+                new ArrayList<ExperimentData>(Arrays.asList(selectedExperimentsTemp));
+
 	    ExperimentData currentExperiment;
 
-	    for (int i = 0; i < experimentData.size(); i++) {
-		currentExperiment = experimentData.get(i);
-		for (int j = 0; j < currentExperiment.files.length; j++) {
-		    selectedFiles.add(currentExperiment.files[j]);
-		}
+	    for (int i = 0; i < selectedExperiments.size(); i++) {
+            currentExperiment = selectedExperiments.get(i);
+            for (int j = 0; j < currentExperiment.files.length; j++) {
+                selectedFiles.add(currentExperiment.files[j]);
+                System.out.println(currentExperiment);
+            }
 	    }
 
 	    DownloadWindow downloadWindow = new DownloadWindow(selectedFiles);
@@ -303,9 +308,9 @@ public class Controller {
 	    if (searchResults != null) {
 		view.updateQuerySearchResults(searchResults);
 	    } else {
-		// view.updateQuerySearchResults(ExperimentData.getExample());
-		JOptionPane.showMessageDialog(null, "No search results!",
-			"Search Warning", JOptionPane.WARNING_MESSAGE);
+		view.updateQuerySearchResults(ExperimentData.getExample());
+//		JOptionPane.showMessageDialog(null, "No search results!",
+//			"Search Warning", JOptionPane.WARNING_MESSAGE);
 	    }
 	}
     }
