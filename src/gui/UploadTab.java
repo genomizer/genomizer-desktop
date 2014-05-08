@@ -1,12 +1,14 @@
 package gui;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
+import java.util.Random;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
@@ -32,8 +34,11 @@ public class UploadTab extends JPanel {
     private ArrayList<JTextField> annotationFields;
     private ArrayList<UploadFileRow> uploadFileRows;
     private JButton selectButton;
+    private enum ActivePanel {EXISTING, NEW, NONE}
+    private ActivePanel activePanel;
 
     public UploadTab() {
+	activePanel = ActivePanel.NONE;
 	setLayout(new BorderLayout());
 	uploadToExistingExpPanel = new UploadToExistingExpPanel();
 	northPanel = new JPanel();
@@ -57,10 +62,13 @@ public class UploadTab extends JPanel {
 	add(uploadPanel, BorderLayout.CENTER);
     }
 
-    public void addExistingExpPanel() {
-	uploadPanel.add(uploadToExistingExpPanel, BorderLayout.CENTER);
-	uploadPanel.repaint();
-	uploadPanel.revalidate();
+    public void addExistingExpPanel(AnnotationDataType[] annotations) {
+        activePanel = ActivePanel.EXISTING;
+        uploadToExistingExpPanel.setAnnotations(annotations);
+        uploadToExistingExpPanel.addAnnotationsForExistingExp();
+        uploadPanel.add(uploadToExistingExpPanel, BorderLayout.CENTER);
+        uploadPanel.repaint();
+        uploadPanel.revalidate();
     }
 
     public UploadToExistingExpPanel getUploadToExistingExpPanel() {
@@ -80,6 +88,8 @@ public class UploadTab extends JPanel {
     }
 
     private void createNewExpPanel() {
+	killContentsOfUploadPanel();
+        activePanel = ActivePanel.NEW;
 	newExpPanel.setBorder(BorderFactory.createTitledBorder("Experiment"));
 	GridBagLayout gbl_panel = new GridBagLayout();
 	gbl_panel.columnWidths = new int[] { 0, 0, 0, 0, 0, 0, 0 };
@@ -154,5 +164,24 @@ public class UploadTab extends JPanel {
 	UploadFileRow fileRow = new UploadFileRow(fileName);
 	uploadFileRows.add(fileRow);
 	uploadPanel.add(fileRow, BorderLayout.SOUTH);
+    }
+
+    public void killContentsOfUploadPanel() {
+        switch (activePanel) {
+            case NONE:
+                break;
+            case EXISTING:
+                uploadPanel.remove(uploadToExistingExpPanel);
+                uploadToExistingExpPanel.removeAll();
+                uploadToExistingExpPanel.addSelectFilesToUploadButton();
+                uploadToExistingExpPanel.addUploadFilesToExperimentButton();
+                activePanel = ActivePanel.NONE;
+                break;
+            case NEW:
+                uploadPanel.remove(newExpPanel);
+                newExpPanel.removeAll();
+                activePanel = ActivePanel.NONE;
+                break;
+        }
     }
 }
