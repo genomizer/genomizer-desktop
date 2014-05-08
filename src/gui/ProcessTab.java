@@ -225,11 +225,34 @@ public class ProcessTab extends JPanel {
 		return this.bowtieParameters;
     }
 
-    //TODO
     public void setBowtieParameters(){
 
+    	bowtieParameters[0] = "-a -m 1 --best -p 10 -v 2"; //getTextFromBowtieParOne();	
+    	bowtieParameters[1] = "d_melanogaster_fb5_22";// getTextGenomeFileName();
+    	bowtieParameters[2] = "10 1 5 0 1";// getSmoothingParameters();
+    	bowtieParameters[3] = "y 10"; //getStepSize();
+    	    	
     }
     
+	private String getStepSize() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	private String getSmoothingParameters() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	private String getTextGenomeFileName() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	private String getTextFromBowtieParOne() {
+		return null;
+	}
+
 	public void setFileInfo(ArrayList<FileData> allFileData){
 		this.fileData = allFileData;
 		parseFileData();

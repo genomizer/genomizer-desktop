@@ -204,6 +204,7 @@ public class Controller {
 		@Override
 		public void run() {
 
+			view.setBowtieParameters();
 			ArrayList<FileData> allMarked = view.getAllMarkedFileData();
 			int markedSize = allMarked.size();
 			String message = null;
@@ -213,20 +214,19 @@ public class Controller {
 
 				for (int i = 0; i < markedSize; i++) {
 
-					//COMMENT
 					String fileName = allMarked.get(i).filename;
 					String fileID = allMarked.get(i).id;
 					String author = view.getUsername();
 					String parameters[] = new String[4];
 
-					parameters[0] = "-a -m 1 --best -p 10 -v 2";// view.getBowtieParameters()[0];
-					parameters[1] = "d_melanogaster_fb5_22"; // view.getBowtieParameters()[1];
-					parameters[2] = "10 1 5 0 1";// view.getBowtieParameters()[2];
-					parameters[3] = "y 10";// view.getBowtieParameters()[3];
+					parameters[0] = view.getBowtieParameters()[0];
+					parameters[1] = view.getBowtieParameters()[1];
+					parameters[2] = view.getBowtieParameters()[2];
+					parameters[3] = view.getBowtieParameters()[3];
 
-					String expid = allMarked.get(i).expId;//"Exp1";
-					String genomeRelease = allMarked.get(i).grVersion;//"hg38";
-					String metadata = allMarked.get(i).metaData;//"astringofmetadata";
+					String expid = allMarked.get(i).expId;
+					String genomeRelease = allMarked.get(i).grVersion;
+					String metadata = allMarked.get(i).metaData;
 
 					System.out.println("RAW TO PROFILE");
 					System.out.println("File: " + fileName);
@@ -235,6 +235,11 @@ public class Controller {
 					System.out.println("Expid: " + expid);
 					System.out.println("Genome Release: " + genomeRelease);
 					System.out.println("Metadata: " + metadata);
+					
+					System.out.println("Parameter 1: " + parameters[0]);
+					System.out.println("Parameter 2: " + parameters[1]);
+					System.out.println("Parameter 3: " + parameters[2]);
+					System.out.println("Parameter 4: " + parameters[3]);
 
 					isConverted = model.rawToProfile(fileName, fileID, expid, "rawtoprofile", parameters,
 							metadata, genomeRelease, author);

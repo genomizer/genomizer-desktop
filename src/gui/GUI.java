@@ -433,4 +433,9 @@ public class GUI extends JFrame implements GenomizerView {
 	public AnnotationDataType[] getUploadAnnotations() {
 	    return new AnnotationDataType[1];
 	}
+
+	@Override
+	public void setBowtieParameters() {
+		processTab.setBowtieParameters();
+	}
 }

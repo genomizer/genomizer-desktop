@@ -128,5 +128,7 @@ public interface GenomizerView {
     public File[] getFilesToUpload();
 
     public AnnotationDataType[] getUploadAnnotations();
+
+	public void setBowtieParameters();
 }
 
