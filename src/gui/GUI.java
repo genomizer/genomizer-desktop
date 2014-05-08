@@ -337,6 +337,8 @@ public class GUI extends JFrame implements GenomizerView {
 			fileData = new FileData(null, null, "[" + i
 					+ "] Protein223_A5_2014.RAW", null, null, null, null);
 
+			System.out.println(fileData.name);
+
 			fileArray[i] = fileData;
 
 		}
@@ -359,7 +361,13 @@ public class GUI extends JFrame implements GenomizerView {
 		processTab.printToConvertText(message);
 	}
 
-	public void refreshGUI() {
+    @Override
+    public ArrayList<FileData> getWorkspaceSelectedFiles() {
+
+        return workspaceTab.getSelectedFiles();
+    }
+
+    public void refreshGUI() {
 		mainPanel.repaint();
 		mainPanel.revalidate();
 	}
@@ -372,17 +380,17 @@ public class GUI extends JFrame implements GenomizerView {
 	public void addDeleteAnnotationListener(ActionListener listener) {
 		sysadminTab.addDeleteAnnotationListener(listener);
 	}
-	
+
 	@Override
 	public void addNewExpButtonListener(ActionListener listener) {
 	    uploadTab.addNewExpButtonListener(listener);
 	}
-	
+
 	@Override
 	public void addSelectButtonListener(ActionListener listener) {
 	    uploadTab.addSelectButtonListener(listener);
 	}
-	
+
 	@Override
 	public void createNewExp(AnnotationDataType[] annotations) {
 	    uploadTab.createNewExp(annotations);
