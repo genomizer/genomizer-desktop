@@ -378,7 +378,9 @@ public class Controller {
 
         @Override
         public void run() {
-            view.getUploadTab().addExistingExpPanel();
+            UploadTab uploadTab = view.getUploadTab();
+            uploadTab.killContentsOfUploadPanel();
+            uploadTab.addExistingExpPanel();
         }
     }
 
