@@ -33,8 +33,7 @@ import util.AnnotationDataType;
 
 public class SysadminTab extends JPanel {
 
-    private static final String[] buttonNames = new String[]{"Annotations",
-            "Users", "TestMe"};
+    private static final String[] buttonNames = new String[]{"Annotations"};
 	private TableRowSorter<TableModel> rowSorter;
 	private SysadminAnnotationPopup pop;
 	private static final long serialVersionUID = 3718367832670081148L;
@@ -91,6 +90,7 @@ public class SysadminTab extends JPanel {
         buttonPanel.setBackground(new Color(215, 200, 200));
         buttonPanel.setLayout(new GridLayout(20, 1));
         JButton modifyButton = new JButton("Modify"); // TODO: load from a list
+        modifyButton.setEnabled(false);
         addButton = new JButton("Add");
         removeButton = new JButton("Remove");
         buttonPanel.add(modifyButton);
