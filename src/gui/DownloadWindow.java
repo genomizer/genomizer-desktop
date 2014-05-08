@@ -33,6 +33,9 @@ public class DownloadWindow extends JFrame {
     public DownloadWindow(ArrayList<FileData> files) {
         this.files = files;
         ArrayList<String> fileNames = new ArrayList<String>();
+        for(int i=0; i<files.size(); i++) {
+            fileNames.add(files.get(i).getName());
+        }
         setUp(fileNames);
     }
 
