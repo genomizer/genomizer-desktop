@@ -49,6 +49,7 @@ public class Controller {
         view.addProcessFileListener(new ProcessFileListener());
         view.addSearchToWorkspaceListener(new SearchToWorkspaceListener());
         view.addDeleteAnnotationListener(new DeleteAnnotationListener());
+        view.addNewExpButtonListener(new NewExpButtonListener());
 	}
     class DownloadSearchListener implements ActionListener, Runnable {
         @Override
@@ -450,6 +451,21 @@ public class Controller {
         	view.addToWorkspace(view.getSelectedExperimentsInSearch());
         }
 
+    }
+    
+    class NewExpButtonListener implements ActionListener, Runnable {
+
+	@Override
+	public void actionPerformed(ActionEvent actionEvent) {
+
+	    new Thread(this).start();
+	}
+
+	@Override
+	public void run() {
+	    AnnotationDataType[] annotations = model.getAnnotations();;
+	    view.createNewExp(annotations);
+	}
     }
 }
 
