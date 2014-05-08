@@ -192,7 +192,7 @@ public class ProcessTab extends JPanel {
 		CheckListItem[] itemList = new CheckListItem[fileData.size()];
 
 		for(int i = 0; i < fileData.size(); i++){
-			itemList[i] = new CheckListItem( fileData.get(i).name );
+			itemList[i] = new CheckListItem( fileData.get(i).filename );
 		}
 
 		fileList.setListData(itemList);
@@ -267,7 +267,7 @@ public class ProcessTab extends JPanel {
         return arr;
     }
 
-    //TODO Nåt är fel...fileData == null, efterssom setFileInfo inte anropas innan.
+    //TODO N�t �r fel...fileData == null, efterssom setFileInfo inte anropas innan.
 	public ArrayList<FileData> getAllMarkedFileData(){
 
 		ArrayList<FileData> allMarked = new ArrayList<FileData>();
@@ -282,7 +282,7 @@ public class ProcessTab extends JPanel {
 
 				for(int j = 0; j < arr.size(); j++){
 
-					if(arr.get(j) == fileData.get(i).name ){
+					if(arr.get(j) == fileData.get(i).filename ){
 						allMarked.add( fileData.get(i) );
 					}
 				}

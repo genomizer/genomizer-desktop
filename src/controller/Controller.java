@@ -185,24 +185,29 @@ public class Controller {
     }
 
     class RawToProfileDataListener implements ActionListener, Runnable {
-	@Override
-	public void actionPerformed(ActionEvent e) {
-	    new Thread(this).start();
-	}
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            new Thread(this).start();
+        }
 
-	@Override
-	public void run() {
+        @Override
+        public void run() {
 
-	    System.out.println("RAW TO PROFILE");
+            System.out.println("RAW TO PROFILE");
 
 	    ArrayList<FileData> allMarked = view.getAllMarkedFileData();
 	    int markedSize = allMarked.size();
 	    String message = null;
 	    Boolean isConverted = false;
 
+            ArrayList<FileData> allMarked = view.getAllMarkedFileData();
+            int markedSize = allMarked.size();
+
 	    if (!allMarked.isEmpty()){
 
-		for (int i = 0; i < markedSize; i++) {
+            if (!allMarked.isEmpty()/* !view.getAllMarkedFiles().isEmpty() */) {
+
+                for (int i = 0; i < markedSize; i++) {
 
 		    String fileName = allMarked.get(i).name;
 		    String fileId = allMarked.get(i).id;
@@ -222,26 +227,44 @@ public class Controller {
 		    //Step size 10, y är för "yes"
 		    parameters[3] = "y 10";//view.getParameters()[3];
 
-		    // WorkspaceTab
-		    String metadata = null;
-		    String genomeRelease = null;
-		    String expid = null;
+                    // TEST for(int i = 0; i < view.getAllMarkedFiles().size();
+                    // i++){
+
+                    String fileName = view.getAllMarkedFiles().get(i);// allMarked.get(i).name;
+                    String filePath = null;// allMarked.get(i).URL;
+                    String author = view.getUsername();
+
+                    // ProcessTa
+                    String parameters[] = null;
+                    // parameters[0] = view.getParameters()[0];
+
+                    // WorkspaceTab
+                    String metadata = null;
+                    String genomeRelease = null;
+                    String expid = null;
 
 		    isConverted = model.rawToProfile(fileName, fileId,
 			    metadata, genomeRelease, author, expid, parameters);
+                    Boolean converted = model.rawToProfile(fileName, filePath,
+                            metadata, genomeRelease, author, expid, parameters);
+                    String message = null;
 
 		    if (isConverted.equals(true)) {
 			message = "The server has converted: " + fileName;
 			view.printToConvertText(message);
+			
+                    if (converted.equals(true)) {
+                        message = "The server has converted: " + fileName;
+                        view.printToConvertText(message);
 
-		    } else {
-			message = "WARNING - The server couldn't convert: "
-				+ fileName + "\n";
-			view.printToConvertText(message);
-		    }
-		}
-	    }
-	}
+                    } else {
+                        message = "WARNING - The server couldn't convert: "
+                                + fileName + "\n";
+                        view.printToConvertText(message);
+                    }
+                }
+            }
+        }
     }
 
     class RawToRegionDataListener implements ActionListener, Runnable {

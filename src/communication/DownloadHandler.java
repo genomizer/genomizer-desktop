@@ -32,6 +32,8 @@ public class DownloadHandler {
 			/*URL targetUrl = new URL(
 					"http://scratchy.cs.umu.se:8090/html/download.php?path="
 							+ url);*/
+            url = url.replaceFirst("\\u003d", "=");
+
 			URL targetUrl = new URL(url);
 			String authString = username + ":" + password;
 			byte[] authEncBytes = Base64.encodeBase64(authString.getBytes());
