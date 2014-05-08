@@ -380,7 +380,8 @@ public class Controller {
         public void run() {
             UploadTab uploadTab = view.getUploadTab();
             uploadTab.killContentsOfUploadPanel();
-            uploadTab.addExistingExpPanel();
+            AnnotationDataType[] annotations = model.getAnnotations();
+            uploadTab.addExistingExpPanel(annotations);
         }
     }
 
@@ -464,7 +465,7 @@ public class Controller {
 
 	@Override
 	public void run() {
-	    AnnotationDataType[] annotations = model.getAnnotations();;
+	    AnnotationDataType[] annotations = model.getAnnotations();
 	    view.createNewExp(annotations);
 	}
     }
