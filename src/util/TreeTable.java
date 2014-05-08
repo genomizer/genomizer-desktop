@@ -95,9 +95,11 @@ public class TreeTable extends JPanel {
 	    }
 	    createTreeStructure();
 	} else {
-	    DefaultTreeTableModel model = new DefaultTreeTableModel(null,
-		    Arrays.asList(headings));
+	    DefaultTreeTableModel model = new DefaultTreeTableModel(new Node(
+		    new Object[] { "Root" }), Arrays.asList(headings));
 	    table.setTreeTableModel(model);
+	    repaint();
+	    revalidate();
 	}
     }
 
@@ -235,16 +237,24 @@ public class TreeTable extends JPanel {
 
     public void removeSelectedExperiments() {
 	ArrayList<ExperimentData> selectedExperiments = getSelectedExperiments();
-	ExperimentData[] exp2 = null;
+	if (selectedExperiments.isEmpty()) {
+	    return;
+	}
 	for (ExperimentData data : selectedExperiments) {
 	    if (experiments.length > 0) {
+		System.out.println(data.name + " removed");
 		ArrayList<ExperimentData> list = new ArrayList<ExperimentData>(
 			Arrays.asList(experiments));
 		list.remove(data);
-		exp2 = list.toArray(new ExperimentData[experiments.length - 1]);
+		experiments = list
+			.toArray(new ExperimentData[experiments.length - 1]);
 	    }
 	}
-	this.setContent(exp2);
+	System.out.println("exp2 size: " + experiments.length);
+	for (int i = 0; i < experiments.length; i++) {
+	    System.out.println("Remaining data:" + experiments[i].name);
+	}
+	this.setContent(experiments);
     }
 
     public void removeSelectedFiles() {
