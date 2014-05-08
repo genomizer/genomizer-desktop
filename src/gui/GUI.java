@@ -1,5 +1,6 @@
 package gui;
 
+import gui.sysadmin.SysadminController;
 import gui.sysadmin.SysadminTab;
 
 import java.awt.BorderLayout;
@@ -65,12 +66,13 @@ public class GUI extends JFrame implements GenomizerView {
 	public void addLoginListener(ActionListener listener) {
 		loginWindow.addLoginListener(listener);
 	}
-	
+
+    /*
 	@Override
 	public void addAddAnnotationListener(ActionListener addAnnotationListener) {
 		sysadminTab.addAddAnnotationListener(addAnnotationListener);
 	}
-
+      */
 	public void addUpdateSearchAnnotationsListener(ActionListener listener) {
 		querySearchTab.addUpdateAnnotationsListener(listener);
 	}
@@ -89,11 +91,12 @@ public class GUI extends JFrame implements GenomizerView {
 	public void addRawToProfileDataListener(ActionListener listener) {
 		processTab.addRawToProfileDataListener(listener);
 	}
-	
+
+    /*
 	@Override
 	public void addAddPopupListener(ActionListener addPopupListener) {
 		sysadminTab.addAddPopupListener(addPopupListener);
-	}
+	} */
 
 	@Override
 	public void addRawToRegionDataListener(ActionListener listener) {
@@ -104,12 +107,11 @@ public class GUI extends JFrame implements GenomizerView {
 	public void addScheduleFileListener(ActionListener listener) {
 		processTab.addScheduleFileListener(listener);
 	}
-	
+
 	public void addSearchToWorkspaceListener(ActionListener listener) {
 		querySearchTab.addAddToWorkspaceButtonListener(listener);
 	}
 
-	
 	@Override
 	public void addLogoutListener(ActionListener listener) {
 
@@ -135,14 +137,16 @@ public class GUI extends JFrame implements GenomizerView {
 	public void addAddToExistingExpButtonListener(ActionListener listener) {
 		uploadTab.addAddToExistingExpButtonListener(listener);
 	}
-	
+
 	public void addSelectFilesToUploadButtonListener(ActionListener listener) {
-		uploadTab.getUploadToExistingExpPanel().addSelectFilesToUploadButtonListener(listener);
+		uploadTab.getUploadToExistingExpPanel()
+				.addSelectFilesToUploadButtonListener(listener);
 	}
 
 	@Override
 	public void addUploadToExperimentButtonListener(ActionListener listener) {
-		uploadTab.getUploadToExistingExpPanel().addUploadToExperimentButtonListener(listener);
+		uploadTab.getUploadToExistingExpPanel()
+				.addUploadToExperimentButtonListener(listener);
 	}
 
 	@Override
@@ -153,25 +157,26 @@ public class GUI extends JFrame implements GenomizerView {
 	public void addToWorkspace(ExperimentData[] experiments) {
 		workspaceTab.addExperimentsToTable(experiments);
 	}
-	
+
 	@Override
 	public FileData[] getSelectedFilesInSearch() {
 		return querySearchTab.getSelectedFiles();
 	}
-	
+
 	public ExperimentData[] getSelectedExperimentsInSearch() {
 		return querySearchTab.getSelectedFilesWithExperiments();
 	}
-	
+
+    /*
 	@Override
 	public String getNewAnnotationName() {
 		return sysadminTab.getNewAnnotationName();
-	}
-	
+	}  */
+
 	public UploadTab getUploadTab() {
 		return uploadTab;
 	}
-
+          /*
 	@Override
 	public String[] getNewAnnotionCategories() {
 		return sysadminTab.getNewAnnotationCategories();
@@ -180,8 +185,8 @@ public class GUI extends JFrame implements GenomizerView {
 	@Override
 	public boolean getNewAnnotationForcedValue() {
 		return sysadminTab.getNewAnnotationForcedValue();
-	}
-	
+	}   */
+
 	@Override
 	public String getQuerySearchString() {
 		return querySearchTab.getSearchString();
@@ -202,7 +207,7 @@ public class GUI extends JFrame implements GenomizerView {
 	public JPanel getSearchPanel() {
 		return searchTab;
 	}
-	
+
 	@Override
 	public String getPassword() {
 		return loginWindow.getPasswordInput();
@@ -217,13 +222,14 @@ public class GUI extends JFrame implements GenomizerView {
 	public String getIp() {
 		return loginWindow.getIPInput();
 	}
-	
+
+    /*
 	@Override
 	public AnnotationDataType getSelectedAnnoationAtAnnotationTable() {
 		// TODO Auto-generated method stub
 		return sysadminTab.getSelectedAnnotationAtAnnotationTable();
 	}
-
+      */
 	@Override
 	public int getSelectedRowAtAnnotationTable() {
 		// TODO Auto-generated method stub
@@ -251,14 +257,14 @@ public class GUI extends JFrame implements GenomizerView {
 		loginWindow.updateLoginFailed(errorMessage);
 
 	}
-	
+
 	@Override
 	public void updateLogout() {
 		System.out.println("logout success");
 		this.setVisible(false);
 		loginWindow.setVisible(true);
 	}
-	
+
 	@Override
 	public void updateQuerySearchResults(ExperimentData[] searchResults) {
 		querySearchTab.updateSearchResults(searchResults);
@@ -269,7 +275,7 @@ public class GUI extends JFrame implements GenomizerView {
 		tabbedPane.add("PROCESS", processTab);
 
 	}
-	
+
 	private void setLookAndFeel() {
 		try {
 			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
@@ -317,12 +323,11 @@ public class GUI extends JFrame implements GenomizerView {
 	public void setSearchAnnotationTypes(AnnotationDataType[] annotationTypes) {
 		querySearchTab.setAnnotationTypes(annotationTypes);
 	}
-
+          /*
 	@Override
 	public void setAnnotationTableData(AnnotationDataType[] annotations) {
 		sysadminTab.setAnnotationTableData(annotations);
-	}
-
+	}                  */
 
 	@Override
 	public void setProccessFileList() {
@@ -330,11 +335,12 @@ public class GUI extends JFrame implements GenomizerView {
 		FileData[] fileArray = new FileData[11];
 		FileData fileData;
 
-		//TODO
-		//TESTING
-		for(int i = 0;i < 10; i++){
+		// TODO
+		// TESTING
+		for (int i = 0; i < 10; i++) {
 
-			fileData = new FileData(null, null, "[" + i + "] Protein223_A5_2014.RAW", null, null, null, null);
+			fileData = new FileData(null, null, "[" + i
+					+ "] Protein223_A5_2014.RAW", null, null, null, null);
 
 			fileArray[i] = fileData;
 
@@ -342,30 +348,42 @@ public class GUI extends JFrame implements GenomizerView {
 		processTab.setFileInfo(fileArray);
 
 	}
-	
+
+    /*
 	@Override
 	public void closePopup() {
 		sysadminTab.closePopup();
 	}
-	
+
 	@Override
 	public void annotationPopup() {
 		sysadminTab.popup();
 	}
+    */
 
 	@Override
 	public void printToConvertText(String message) {
 		processTab.printToConvertText(message);
 	}
-	
+
 	public void refreshGUI() {
 		mainPanel.repaint();
 		mainPanel.revalidate();
 	}
-	
+
 	public void showLoginWindow() {
 		loginWindow.setVisible(true);
 	}
 
+    /*
+	@Override
+	public void addDeleteAnnotationListener(ActionListener listener) {
+		sysadminTab.addDeleteAnnotationListener(listener);
+	}
+	*/
+    @Override
+    public void setSysadminController(SysadminController sysadminController) {
+        sysadminTab.setController(sysadminController);
 
+    }
 }
