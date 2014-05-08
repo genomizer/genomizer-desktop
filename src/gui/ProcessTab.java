@@ -107,7 +107,6 @@ public class ProcessTab extends JPanel {
         middelPanel.add(convertFilesPanel);
         convertFilesPanel.setBorder(BorderFactory
         		.createTitledBorder("CONVERT FILES"));
-      //  convertFilesPanel.setPreferredSize(new Dimension(300, 100));
     }
 
     private void initGenRegionDataPanel() {
@@ -156,8 +155,8 @@ public class ProcessTab extends JPanel {
         menuPanel.add(regionButton);
         menuPanel.add(scheduleButton);
         parameter1.setBorder(BorderFactory.createTitledBorder("Bowtie Parameter 1"));
-        parameter1.setText("-a -m --best -p ?v -q -S");
-        parameter1.setPreferredSize(new Dimension(620,45));
+        parameter1.setText("-a -m --best -p â€“v -q -S");
+        parameter1.setPreferredSize(new Dimension(250,45));
         menuPanel.add(parameter1);
     }
 
@@ -268,7 +267,7 @@ public class ProcessTab extends JPanel {
         return arr;
     }
 
-    //TODO Nåt är fel...fileData == null, efterssom setFileInfo inte anropas innan.
+    //TODO Nï¿½t ï¿½r fel...fileData == null, efterssom setFileInfo inte anropas innan.
 	public ArrayList<FileData> getAllMarkedFileData(){
 
 		ArrayList<FileData> allMarked = new ArrayList<FileData>();

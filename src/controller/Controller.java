@@ -203,12 +203,37 @@ public class Controller {
 
             System.out.println("RAW TO PROFILE");
 
+	    ArrayList<FileData> allMarked = view.getAllMarkedFileData();
+	    int markedSize = allMarked.size();
+	    String message = null;
+	    Boolean isConverted = false;
+
             ArrayList<FileData> allMarked = view.getAllMarkedFileData();
             int markedSize = allMarked.size();
+
+	    if (!allMarked.isEmpty()){
 
             if (!allMarked.isEmpty()/* !view.getAllMarkedFiles().isEmpty() */) {
 
                 for (int i = 0; i < markedSize; i++) {
+
+		    String fileName = allMarked.get(i).name;
+		    String fileId = allMarked.get(i).id;
+		    String author = view.getUsername();
+		    String parameters[] = null;
+		    //Förvald i GUI men användaren kan välja att ändra
+		    parameters[0] = "-a -m --best -p –v -q -S"; //view.getParameters()[0];
+		    //Namnet på genome filen.
+		    parameters[1] = "d_melanogaster_fb5_22"; //view.getParameters()[1];
+		    //5 stycken smoothing parameters som användaren kan välja.
+		   // window size (10),
+		   // smooth type (1),
+		   // minimum step pos (5),
+		   // print mean or not (0),
+		   // print 0’s or not (1)
+		    parameters[2] = "10 1 5 0 1";//view.getParameters()[2];
+		    //Step size 10, y är för "yes"
+		    parameters[3] = "y 10";//view.getParameters()[3];
 
                     // TEST for(int i = 0; i < view.getAllMarkedFiles().size();
                     // i++){
@@ -226,10 +251,16 @@ public class Controller {
                     String genomeRelease = null;
                     String expid = null;
 
+		    isConverted = model.rawToProfile(fileName, fileId,
+			    metadata, genomeRelease, author, expid, parameters);
                     Boolean converted = model.rawToProfile(fileName, filePath,
                             metadata, genomeRelease, author, expid, parameters);
                     String message = null;
 
+		    if (isConverted.equals(true)) {
+			message = "The server has converted: " + fileName;
+			view.printToConvertText(message);
+			
                     if (converted.equals(true)) {
                         message = "The server has converted: " + fileName;
                         view.printToConvertText(message);
