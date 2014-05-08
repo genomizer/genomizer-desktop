@@ -123,6 +123,10 @@ public class TreeTable extends JPanel {
 
 	    @Override
 	    public int compare(final String[] entry1, final String[] entry2) {
+		if (entry1[sortByColumn] == null
+			|| entry2[sortByColumn] == null) {
+		    return 0;
+		}
 		Matcher m1 = PATTERN.matcher(entry1[sortByColumn]);
 		Matcher m2 = PATTERN.matcher(entry2[sortByColumn]);
 		/* The only way find() could fail is at the end of a string */
