@@ -13,6 +13,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 
+import gui.UploadTab;
 import model.GenomizerModel;
 import util.AnnotationDataType;
 import util.DeleteAnnoationData;
