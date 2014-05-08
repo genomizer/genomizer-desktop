@@ -48,6 +48,8 @@ public interface GenomizerView {
 
     public void addUpdateSearchAnnotationsListener(ActionListener listener);
     
+    public void addNewExpButtonListener(ActionListener listener);
+    
 	public void addToWorkspace(ExperimentData[] experiments);
 
     public FileData[] getSelectedFilesInSearch();
@@ -100,7 +102,10 @@ public interface GenomizerView {
 
 	public void printToConvertText(String message);
 	
+	
 
 	public void addDeleteAnnotationListener(ActionListener listener);
+	
+	public void createNewExp(AnnotationDataType[] annotations);
 
 }

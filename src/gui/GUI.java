@@ -372,4 +372,14 @@ public class GUI extends JFrame implements GenomizerView {
 	public void addDeleteAnnotationListener(ActionListener listener) {
 		sysadminTab.addDeleteAnnotationListener(listener);
 	}
+	
+	@Override
+	public void addNewExpButtonListener(ActionListener listener) {
+	    uploadTab.addNewExpButtonListener(listener);
+	}
+	
+	@Override
+	public void createNewExp(AnnotationDataType[] annotations) {
+	    uploadTab.createNewExp(annotations);
+	}
 }

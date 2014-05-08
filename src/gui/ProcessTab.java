@@ -290,11 +290,12 @@ public class ProcessTab extends JPanel {
 
 				for(int j = 0; j < arr.size(); j++){
 
-					if(fileData[i].name == arr.get(j)){
+					if(arr.get(j) == fileData[i].name ){
 						allMarked.add( fileData[i] );
 					}
 				}
 			}
+
 			return allMarked;
 		}
 	}
