@@ -61,8 +61,12 @@ public class RequestFactory {
 		return new SearchRequest(annotationString);
 	}
 
-	public static rawToProfileRequest makeRawToProfileRequest(String fileName,String filePath,String expid,String metadata, String genomeRelease,String author,String[] parameters) {
-		return new rawToProfileRequest(fileName, filePath, expid, metadata, genomeRelease, author, parameters);
+	public static rawToProfileRequest makeRawToProfileRequest(String fileName, String fileID, String expid,
+			String processtype, String[] parameters, String metadata,
+			String genomeRelease, String author) {
+		return new rawToProfileRequest(fileName, fileID, expid,
+				processtype, parameters, metadata,
+				genomeRelease, author);
 	}
 
 	public static AddAnnotationRequest makeAddAnnotationRequest(String name,

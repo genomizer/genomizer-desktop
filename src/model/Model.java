@@ -52,26 +52,23 @@ public class Model implements GenomizerModel {
 		this.conn = conn;
 	}
 
+
 	@Override
-	public boolean rawToProfile(String fileName, String filePath,String metadata, String genomeRelease, String author, String expid, String[] parameters) {
+	public boolean rawToProfile(String fileName, String fileID, String expid,
+			String processtype, String[] parameters, String metadata,
+			String genomeRelease, String author) {
+
 
 				rawToProfileRequest rawToProfilerequest = RequestFactory
-									.makeRawToProfileRequest(fileName,filePath,expid,metadata, genomeRelease,author,parameters);
+									.makeRawToProfileRequest(fileName, fileID, expid,
+											processtype, parameters, metadata,
+										 genomeRelease, author);
 
 				conn.sendRequest(rawToProfilerequest, userID, "text/plain");
 				if (conn.getResponseCode() == 201) {
 					return true;
-
-					// TODO Fixa s� att det syns b�r anv�ndaren att filen
-					// gick
-					// attt konverteras.
-
 				} else {
 					return false;
-					
-					// TODO Fixa felmeddelande i gui ifall det inte gick att
-					// convertera till profile.
-					// TODO K�ra n�n timer f�r response.
 				}
 	}
 
@@ -239,4 +236,5 @@ public class Model implements GenomizerModel {
 		}
 		return new AnnotationDataType[]{};
 	}
+
 }

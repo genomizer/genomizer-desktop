@@ -16,7 +16,7 @@ public interface GenomizerModel {
 
 	public ExperimentData[] search(String pubmedString);
 
-	public boolean rawToProfile(String fileName, String filePath,String metadata, String genomeRelease, String author, String expid, String[] parameters);
+	public boolean rawToProfile(String fileName, String fileID,String expid, String processtype, String[] parameters, String metadata, String genomeRelease, String author);
 
 	public boolean downloadFile(String url, String fileID, String path);
 
