@@ -214,6 +214,7 @@ public class Controller {
 
 		for (int i = 0; i < markedSize; i++) {
 
+			//COMMENT
 		    String fileName = allMarked.get(i).filename;
 		    String fileId = allMarked.get(i).id;
 		    String author = view.getUsername();
@@ -428,7 +429,7 @@ public class Controller {
 	     * fileDialog.setVisible(true); String directoryName =
 	     * fileDialog.getDirectory(); System.out.println("You chose " +
 	     * directoryName);
-	     * 
+	     *
 	     * if (fileData == null) {
 	     * System.err.println("No directory selected"); return; }
 	     */
@@ -553,14 +554,14 @@ public class Controller {
 	    view.createNewExp(annotations);
 	}
     }
-    
+
     class SelectFilesToNewExpListener implements ActionListener, Runnable  {
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
 	    new Thread(this).start();
 	}
-	
+
 	@Override
 	public void run() {
 	    FileDialog fileDialog = new java.awt.FileDialog(
@@ -581,7 +582,7 @@ public class Controller {
 	public void actionPerformed(ActionEvent e) {
 	    new Thread(this).start();
 	}
-	
+
 	@Override
 	public void run() {
 	    System.out.println("HEJ");
