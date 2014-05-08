@@ -92,7 +92,7 @@ public class Controller {
 					if (model.deleteAnnotation(new DeleteAnnoationData(annotationDataType))) {
 						JOptionPane.showMessageDialog(null, annotationDataType.name + " has been remove!");
 						SwingUtilities.invokeLater(new Runnable() {
-							
+
 							@Override
 							public void run() {
 								view.setAnnotationTableData(model.getAnnotations());
@@ -106,7 +106,7 @@ public class Controller {
 				JOptionPane.showMessageDialog(null,
 						e.getMessage());
 			}
-			
+
 		}
     }
 
@@ -174,46 +174,48 @@ public class Controller {
 		public void run() {
 
 			System.out.println("RAW TO PROFILE");
-			System.out.println(view.getAllMarkedFiles());
 
 			ArrayList<FileData> allMarked = null;//view.getAllMarkedFileData();
 			int markedSize = 1;//allMarked.size();
 
-		//	for(int i = 0; i < markedSize; i++){
+			if(/*!allMarked.isEmpty()*/view.getAllMarkedFiles().isEmpty()){
 
-	/*TEST*/for(int i = 0; i < view.getAllMarkedFiles().size(); i++){
+			//	for(int i = 0; i < markedSize; i++){
+
+		/*TEST*/for(int i = 0; i < view.getAllMarkedFiles().size(); i++){
 
 
-				String fileName = view.getAllMarkedFiles().get(i);//allMarked.get(i).name;
-				String filePath = null;//allMarked.get(i).URL;
-				String author = view.getUsername();
+					String fileName = view.getAllMarkedFiles().get(i);//allMarked.get(i).name;
+					String filePath = null;//allMarked.get(i).URL;
+					String author = view.getUsername();
 
-				//ProcessTab
-				String[] parameters = null;
+					//ProcessTab
+					String[] parameters = null;
 
-				//WorkspaceTab
-				String metadata = null;
-				String genomeRelease = null;
-				String expid = null;
+					//WorkspaceTab
+					String metadata = null;
+					String genomeRelease = null;
+					String expid = null;
 
-				Boolean converted = model.rawToProfile(fileName,filePath,metadata, genomeRelease, author, expid, parameters);
-				String message = null;
+					Boolean converted = model.rawToProfile(fileName,filePath,metadata, genomeRelease, author, expid, parameters);
+					String message = null;
 
-				if(converted.equals(true)){
-					System.out.println("Has converted RAW TO PROFILE: " + fileName + "\n"
-							+ converted);
-					message = "The server has converted: " + fileName;
+					if(converted.equals(true)){
+						System.out.println("Has converted RAW TO PROFILE: " + fileName + "\n"
+								+ converted);
+						message = "The server has converted: " + fileName;
 
-					view.printToConvertText(message);
+						view.printToConvertText(message);
 
-				}else {
-					System.out.println("Has NOT converted RAW TO PROFILE: " + fileName + " "
-							+ converted);
-					message = "WARNING - The server couldn't convert: " + fileName + "\n";
+					}else {
+						System.out.println("Has NOT converted RAW TO PROFILE: " + fileName + " "
+								+ converted);
+						message = "WARNING - The server couldn't convert: " + fileName + "\n";
 
-					view.printToConvertText(message);
+						view.printToConvertText(message);
+					}
 				}
-			}
+		}
 		}
 	}
 
