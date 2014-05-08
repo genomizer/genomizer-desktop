@@ -70,7 +70,7 @@ public interface GenomizerView {
 
     public ArrayList<ExperimentData> getWorkspaceSelectedExperiments();
 
-    public String getQuerySearchString();
+	public String getQuerySearchString();
 
     public String getIp();
 
@@ -117,7 +117,7 @@ public interface GenomizerView {
     public void addDeleteAnnotationListener(ActionListener listener);
 
     public void createNewExp(AnnotationDataType[] annotations);
-   
+
     public String[] getParameters();
 }
 
