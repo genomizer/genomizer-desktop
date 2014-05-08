@@ -1,6 +1,5 @@
 package util;
 
-import java.util.ArrayList;
 import java.util.Random;
 
 import com.google.gson.Gson;
@@ -28,36 +27,6 @@ public class ExperimentData {
 	    annotationList[2 + i] = annotations[i].value;
 	}
 	return annotationList;
-    }
-
-    public String[] getRawFileList() {
-	ArrayList<String> fileList = new ArrayList<String>();
-	for (int i = 0; i < files.length; i++) {
-	    if (files[i].type.equals(("raw"))) {
-		fileList.add(files[i].name);
-	    }
-	}
-	return (String[]) fileList.toArray();
-    }
-
-    public String[] getProfileFileList() {
-	ArrayList<String> fileList = new ArrayList<String>();
-	for (int i = 0; i < files.length; i++) {
-	    if (files[i].type.equals(("profile"))) {
-		fileList.add(files[i].name);
-	    }
-	}
-	return (String[]) fileList.toArray();
-    }
-
-    public String[] getRegionFileList() {
-	ArrayList<String> fileList = new ArrayList<String>();
-	for (int i = 0; i < files.length; i++) {
-	    if (files[i].type.equals(("region"))) {
-		fileList.add(files[i].name);
-	    }
-	}
-	return (String[]) fileList.toArray();
     }
 
     public static ExperimentData[] getExample() {
