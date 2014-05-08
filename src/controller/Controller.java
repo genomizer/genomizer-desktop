@@ -87,11 +87,12 @@ public class Controller {
 	    ExperimentData currentExperiment;
 
 	    for (int i = 0; i < selectedExperiments.size(); i++) {
-		currentExperiment = selectedExperiments.get(i);
-		for (int j = 0; j < currentExperiment.files.length; j++) {
-		    selectedFiles.add(currentExperiment.files[j]);
-		    System.out.println(currentExperiment);
-		}
+            currentExperiment = selectedExperiments.get(i);
+
+            for (FileData x : currentExperiment.files){
+                if (!selectedFiles.contains(x))
+                    selectedFiles.add(x);
+            }
 	    }
 
         DownloadWindow downloadWindow = new DownloadWindow(selectedFiles);
@@ -214,10 +215,11 @@ public class Controller {
 
 		for (int i = 0; i < markedSize; i++) {
 
+			//COMMENT
 		    String fileName = allMarked.get(i).filename;
 		    String fileId = allMarked.get(i).id;
 		    String author = view.getUsername();
-		    String parameters[] = null;
+		    String parameters[] = new String[4];
 		    // Förvald i GUI men användaren kan välja att ändra
 		    parameters[0] = "-a -m --best -p –v -q -S"; // view.getParameters()[0];
 		    // Namnet på genome filen.
@@ -428,7 +430,7 @@ public class Controller {
 	     * fileDialog.setVisible(true); String directoryName =
 	     * fileDialog.getDirectory(); System.out.println("You chose " +
 	     * directoryName);
-	     * 
+	     *
 	     * if (fileData == null) {
 	     * System.err.println("No directory selected"); return; }
 	     */
@@ -553,14 +555,14 @@ public class Controller {
 	    view.createNewExp(annotations);
 	}
     }
-    
+
     class SelectFilesToNewExpListener implements ActionListener, Runnable  {
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
 	    new Thread(this).start();
 	}
-	
+
 	@Override
 	public void run() {
 	    FileDialog fileDialog = new java.awt.FileDialog(
@@ -581,7 +583,7 @@ public class Controller {
 	public void actionPerformed(ActionEvent e) {
 	    new Thread(this).start();
 	}
-	
+
 	@Override
 	public void run() {
 	    AnnotationDataType[] a = view.getUploadAnnotations();

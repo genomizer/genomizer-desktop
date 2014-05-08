@@ -11,14 +11,13 @@ public class FileData {
     public boolean isPrivate;
     public String grVersion;
     public String date;
-    public String size;
     public String path;
     public String url;
 
     public FileData(String fileId, String experimentID, String type,
 	    String metaData, String author, String uploader, boolean isPrivate,
-	    String grVersion, String date, String size, String path,
-	    String url, String fileName) {
+	    String grVersion, String date, String path, String url,
+	    String fileName) {
 	this.id = fileId;
 	this.expId = experimentID;
 	this.type = type;
@@ -28,7 +27,6 @@ public class FileData {
 	this.grVersion = grVersion;
 	this.uploader = uploader;
 	this.date = date;
-	this.size = size;
 	this.path = path;
 	this.url = url;
 	this.filename = fileName;
