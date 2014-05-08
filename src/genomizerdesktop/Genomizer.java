@@ -38,6 +38,5 @@ public class Genomizer {
 		Controller controller = new Controller(gui, model);
 		gui.showLoginWindow();
 		gui.pack();
-		System.out.println("hello syadmin!");
 	}
 }
