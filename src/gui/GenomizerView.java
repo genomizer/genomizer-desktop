@@ -70,6 +70,10 @@ public interface GenomizerView {
 
     public ArrayList<ExperimentData> getWorkspaceSelectedExperiments();
 
+    public ArrayList<FileData> getQuerySearchTabSelectedFiles();
+
+    public ArrayList<ExperimentData> getQuerySearchTabSelectedExperiments();
+
 	public String getQuerySearchString();
 
     public String getIp();
@@ -104,7 +108,7 @@ public interface GenomizerView {
 
     public void setSearchAnnotationTypes(AnnotationDataType[] annotationTypes);
 
-    public void setProccessFileList();
+    public void setProccessFileList(ArrayList<FileData> arrayList);
 
     public void annotationPopup();
 

@@ -1,14 +1,13 @@
 package gui;
 
 import java.awt.BorderLayout;
-import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
+import java.awt.GridLayout;
 import java.awt.Insets;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
-import java.util.Random;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
@@ -16,7 +15,6 @@ import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-import javax.swing.JProgressBar;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
@@ -38,6 +36,7 @@ public class UploadTab extends JPanel {
     private ActivePanel activePanel;
 
     public UploadTab() {
+	uploadFileRows = new ArrayList<UploadFileRow>();
 	activePanel = ActivePanel.NONE;
 	setLayout(new BorderLayout());
 	uploadToExistingExpPanel = new UploadToExistingExpPanel();
@@ -55,6 +54,7 @@ public class UploadTab extends JPanel {
 
 	newExpPanel = new JPanel();
 	selectButton = new JButton("Select files");
+
     }
 
     private void createUploadPanel() {
@@ -100,11 +100,11 @@ public class UploadTab extends JPanel {
 	newExpPanel.setLayout(gbl_panel);
 	uploadPanel.add(newExpPanel, BorderLayout.NORTH);
 	addAnnotationsForNewExp();
-	uploadFilesPanel = new JPanel();
-	uploadFilesPanel.add(selectButton, BorderLayout.NORTH);
-	uploadFileRows = new ArrayList<UploadFileRow>();
-	uploadPanel.add(uploadFilesPanel, BorderLayout.CENTER);
-	createUploadFileRow("Adams DNA");
+	JPanel p = new JPanel(new BorderLayout());
+//	uploadFilesPanel = new JPanel(new GridLayout(0,1));
+	repaintSelectedFiles();
+	p.add(uploadFilesPanel, BorderLayout.NORTH);
+	uploadPanel.add(p, BorderLayout.CENTER);
     }
 
     private void addAnnotationsForNewExp() throws NullPointerException {
@@ -160,10 +160,22 @@ public class UploadTab extends JPanel {
 	}
     }
     
-    public void createUploadFileRow(String fileName) {
-	UploadFileRow fileRow = new UploadFileRow(fileName);
-	uploadFileRows.add(fileRow);
-	uploadPanel.add(fileRow, BorderLayout.SOUTH);
+    public void createUploadFileRow(String[] fileNames) {
+	for(String fileName : fileNames) {
+	    UploadFileRow fileRow = new UploadFileRow(fileName);
+	    uploadFileRows.add(fileRow);
+	}
+	repaintSelectedFiles();
+    }
+
+    private void repaintSelectedFiles() {
+	uploadFilesPanel = new JPanel(new GridLayout(0,1));
+	for(UploadFileRow fileRow : uploadFileRows) {
+	    uploadFilesPanel.add(fileRow);
+	}
+	uploadFilesPanel.add(selectButton);
+	uploadFilesPanel.repaint();
+	uploadFilesPanel.revalidate();
     }
 
     public void killContentsOfUploadPanel() {
