@@ -46,9 +46,12 @@ public class ExperimentData {
     }
 
     public void removeFile(FileData fileData) {
-	ArrayList<FileData> list = new ArrayList<FileData>(Arrays.asList(files));
-	list.removeAll(Arrays.asList(fileData));
-	files = list.toArray(new FileData[files.length - 1]);
+	if (files.length > 0) {
+	    ArrayList<FileData> list = new ArrayList<FileData>(
+		    Arrays.asList(files));
+	    list.removeAll(Arrays.asList(fileData));
+	    files = list.toArray(new FileData[files.length - 1]);
+	}
     }
 
     public static ExperimentData[] getExample() {
@@ -87,6 +90,10 @@ public class ExperimentData {
 
 	return searchResponses;
 
+    }
+
+    public boolean equals(Object o) {
+	return (((ExperimentData) o)).name.equals(name);
     }
 
 }

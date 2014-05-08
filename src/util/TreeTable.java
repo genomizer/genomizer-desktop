@@ -60,10 +60,11 @@ public class TreeTable extends JPanel {
     }
 
     public void setContent(ExperimentData[] experimentData) {
+	experimentToFilesMap = new HashMap<String, FileData[]>();
+	fileToExperimentMap = new HashMap<String, ExperimentData>();
+	fileIdToFileDataMap = new HashMap<String, FileData>();
+	sortingOrders = new ArrayList<Boolean>();
 	if (experimentData != null && experimentData.length > 0) {
-	    experimentToFilesMap = new HashMap<String, FileData[]>();
-	    fileToExperimentMap = new HashMap<String, ExperimentData>();
-	    fileIdToFileDataMap = new HashMap<String, FileData>();
 	    experiments = experimentData;
 	    /* Set new content to the tree table */
 	    // headings
@@ -89,11 +90,16 @@ public class TreeTable extends JPanel {
 		data[i] = experiments[i].getAnnotationValueList();
 	    }
 	    /* Initate the sorting orders as descending */
-	    sortingOrders = new ArrayList<Boolean>();
 	    for (int i = 0; i < this.headings.length; i++) {
 		sortingOrders.add(i, true);
 	    }
 	    createTreeStructure();
+	} else {
+	    DefaultTreeTableModel model = new DefaultTreeTableModel(new Node(
+		    new Object[] { "Root" }), Arrays.asList(headings));
+	    table.setTreeTableModel(model);
+	    repaint();
+	    revalidate();
 	}
     }
 
@@ -183,6 +189,22 @@ public class TreeTable extends JPanel {
 	return files;
     }
 
+    public ArrayList<ExperimentData> getSelectedExperiments() {
+	/* Get the experiments that are selected in the table */
+	int[] rows = table.getSelectedRows();
+	ArrayList<ExperimentData> selectedExperiments = new ArrayList<ExperimentData>();
+	for (int i = 0; i < rows.length; i++) {
+	    System.out.println("selected exp: " + rows[i]);
+	    for (int j = 0; j < experiments.length; j++) {
+		if (table.getValueAt(rows[i], 0).equals(experiments[j].name)) {
+		    System.out.println(experiments[j].name + " added");
+		    selectedExperiments.add(experiments[j]);
+		}
+	    }
+	}
+	return selectedExperiments;
+    }
+
     public ArrayList<ExperimentData> getSelectedFilesWithExperiments() {
 	/* Get the files that are selected in the table */
 	ArrayList<ExperimentData> selectedExperiments = new ArrayList<ExperimentData>();
@@ -213,7 +235,29 @@ public class TreeTable extends JPanel {
 	return selectedExperiments;
     }
 
-    public void removeSelected() {
+    public void removeSelectedExperiments() {
+	ArrayList<ExperimentData> selectedExperiments = getSelectedExperiments();
+	if (selectedExperiments.isEmpty()) {
+	    return;
+	}
+	for (ExperimentData data : selectedExperiments) {
+	    if (experiments.length > 0) {
+		System.out.println(data.name + " removed");
+		ArrayList<ExperimentData> list = new ArrayList<ExperimentData>(
+			Arrays.asList(experiments));
+		list.remove(data);
+		experiments = list
+			.toArray(new ExperimentData[experiments.length - 1]);
+	    }
+	}
+	System.out.println("exp2 size: " + experiments.length);
+	for (int i = 0; i < experiments.length; i++) {
+	    System.out.println("Remaining data:" + experiments[i].name);
+	}
+	this.setContent(experiments);
+    }
+
+    public void removeSelectedFiles() {
 	ArrayList<FileData> files = this.getSelectedFiles();
 	for (ExperimentData data : experiments) {
 	    for (FileData file : files) {
@@ -221,7 +265,7 @@ public class TreeTable extends JPanel {
 		data.removeFile(file);
 	    }
 	}
-	this.setContent(experiments.clone());
+	this.setContent(experiments);
     }
 
     private void createTreeStructure() {

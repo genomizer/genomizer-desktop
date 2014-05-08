@@ -61,20 +61,6 @@ public class WorkspaceTab extends JPanel {
 	createButtons();
 	addToButtonPanel();
 	buttonPanel.setVisible(true);
-
-	// String[] columnNames = {"Name", "Date", "Uploaded by", "Data type",
-	// "Local"};
-	// Object[][] data = {
-	// {"Protein123_A5_2014.WIG", "2014-04-29", "Per", "Profile",
-	// new Boolean(false)},
-	// {"Protein123_A5_2014.RAW", "2014-04-29", "Per", "RAW",
-	// new Boolean(false)},
-	// {"Protein123_A5_2014.WIG", "2014-04-29", "Per", "Region",
-	// new Boolean(false)}};
-	//
-	// JTable table = new JTable(data, columnNames);
-	// table.setBackground(new Color(210, 210, 210));
-
 	table = new TreeTable();
 	// table.setContent(ExperimentData.getExample());
 	filePanel.add(table, BorderLayout.CENTER);
@@ -86,7 +72,8 @@ public class WorkspaceTab extends JPanel {
 	removeButton.addActionListener(new ActionListener() {
 	    @Override
 	    public void actionPerformed(ActionEvent e) {
-		table.removeSelected();
+		table.removeSelectedExperiments();
+		table.removeSelectedFiles();
 	    }
 	});
 	downloadButton = new JButton();
