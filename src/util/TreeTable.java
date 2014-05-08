@@ -186,7 +186,33 @@ public class TreeTable extends JPanel {
     }
 
     public ArrayList<ExperimentData> getSelectedFilesWithExperiments() {
-	return null;
+	/* Get the files that are selected in the table */
+	ArrayList<ExperimentData> selectedExperiments = new ArrayList<ExperimentData>();
+	int[] rows = table.getSelectedRows();
+	for (int i = 0; i < experiments.length; i++) {
+
+	    ArrayList<FileData> files = new ArrayList<FileData>();
+	    for (int j = 0; j < rows.length; j++) {
+		if (fileToExperimentMap.containsKey(table
+			.getValueAt(rows[j], 0))) {
+		    if (fileToExperimentMap.get(table.getValueAt(rows[j], 0)).name
+			    .equals(experiments[i].name)) {
+			FileData file = fileIdToFileDataMap.get(table
+				.getValueAt(rows[j], 0));
+			files.add(file);
+		    }
+
+		}
+	    }
+	    if (!files.isEmpty()) {
+		ExperimentData newData = new ExperimentData(
+			experiments[i].name, experiments[i].createdBy,
+			files.toArray(new FileData[files.size()]),
+			experiments[i].annotations);
+		selectedExperiments.add(newData);
+	    }
+	}
+	return selectedExperiments;
     }
 
     private void createTreeStructure() {
