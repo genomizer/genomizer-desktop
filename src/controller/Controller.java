@@ -6,6 +6,7 @@ import gui.GenomizerView;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
@@ -45,6 +46,8 @@ public class Controller {
         view.addUploadToExperimentButtonListener(new UploadToExperimentButtonListener());
         view.setAnnotationTableData(model.getAnnotations());
         view.addUpdateSearchAnnotationsListener(new updateSearchAnnotationsListener());
+        view.addProcessFileListener(new ProcessFileListener());
+        view.addSearchToWorkspaceListener(new SearchToWorkspaceListener());
         view.addDeleteAnnotationListener(new DeleteAnnotationListener());
 	}
     class DownloadSearchListener implements ActionListener, Runnable {
@@ -60,22 +63,15 @@ public class Controller {
             FileDialog fileDialog = new FileDialog((java.awt.Frame) null, "Choose a directory", FileDialog.SAVE);
             fileDialog.setVisible(true);
             String directoryName = fileDialog.getDirectory();
-            String path = null;
-            if (directoryName == null) {
-                System.out.println("You cancelled the choice");
-            } else {
-                System.out.println("You chose " + directoryName);
-                path = fileChooser.getSelectedFile().getAbsolutePath();
-            }
-            
-            System.out.println(path);
+            System.out.println("You chose " + directoryName);
+
             if(fileData == null) {
                 System.err.println("No directory selected");
                 return;
             }
             for(FileData data: fileData) {
 
-                model.downloadFile(data.id, path + "/" + data.name);
+                model.downloadFile(data.id, directoryName + "/" + data.name);
             }
 
         }
@@ -96,7 +92,7 @@ public class Controller {
 					if (model.deleteAnnotation(new DeleteAnnoationData(annotationDataType))) {
 						JOptionPane.showMessageDialog(null, annotationDataType.name + " has been remove!");
 						SwingUtilities.invokeLater(new Runnable() {
-							
+
 							@Override
 							public void run() {
 								view.setAnnotationTableData(model.getAnnotations());
@@ -110,7 +106,7 @@ public class Controller {
 				JOptionPane.showMessageDialog(null,
 						e.getMessage());
 			}
-			
+
 		}
     }
 
@@ -178,10 +174,42 @@ public class Controller {
 		public void run() {
 
 			System.out.println("RAW TO PROFILE");
-			System.out.println(view.getAllMarkedFiles());
-			System.out.println("Has converted RAW TO PROFILE: "
-					+ model.rawToProfile(view.getAllMarkedFiles()));
 
+			ArrayList<FileData> allMarked = null;//view.getAllMarkedFileData();
+			int markedSize = 1;//allMarked.size();
+
+			if(/*!allMarked.isEmpty()*/!view.getAllMarkedFiles().isEmpty()){
+
+			//	for(int i = 0; i < markedSize; i++){
+
+		/*TEST*/for(int i = 0; i < view.getAllMarkedFiles().size(); i++){
+
+
+					String fileName = view.getAllMarkedFiles().get(i);//allMarked.get(i).name;
+					String filePath = null;//allMarked.get(i).URL;
+					String author = view.getUsername();
+
+					//ProcessTab
+					String[] parameters = null;
+
+					//WorkspaceTab
+					String metadata = null;
+					String genomeRelease = null;
+					String expid = null;
+
+					Boolean converted = model.rawToProfile(fileName,filePath,metadata, genomeRelease, author, expid, parameters);
+					String message = null;
+
+					if(converted.equals(true)){
+						message = "The server has converted: " + fileName;
+						view.printToConvertText(message);
+
+					}else {
+						message = "WARNING - The server couldn't convert: " + fileName + "\n";
+						view.printToConvertText(message);
+					}
+				}
+		}
 		}
 	}
 
@@ -215,6 +243,21 @@ public class Controller {
 		}
 	}
 
+	class ProcessFileListener implements ActionListener, Runnable {
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			new Thread(this).start();
+		}
+
+		@Override
+		public void run() {
+
+			System.out.println("Process");
+			view.setProccessFileList();
+
+		}
+	}
+
 	class LoginListener implements ActionListener, Runnable {
 		@Override
 		public void actionPerformed(ActionEvent e) {
@@ -235,7 +278,6 @@ public class Controller {
 	}
 
 	class QuerySearchListener implements ActionListener, Runnable {
-		@Override
 		public void actionPerformed(ActionEvent e) {
 			new Thread(this).start();
 		}
@@ -246,7 +288,11 @@ public class Controller {
 			ExperimentData[] searchResults = model.search(pubmed);
 			if (searchResults != null) {
 				view.updateQuerySearchResults(searchResults);
-			}
+			} else {
+				view.updateQuerySearchResults(ExperimentData.getExample());
+//                JOptionPane.showMessageDialog(null, "No search results!", "Search Warning",
+//                        JOptionPane.WARNING_MESSAGE);
+            }
 		}
 	}
 
@@ -326,62 +372,80 @@ public class Controller {
 			new Thread(this).start();
 		}
 
-		@Override
-		public void run() {
-			view.getUploadTab().addExistingExpPanel();
-		}
-	}
+        @Override
+        public void run() {
+            view.getUploadTab().addExistingExpPanel();
+        }
+    }
 
-	class SelectFilesToUploadButtonListener implements ActionListener, Runnable {
+    class SelectFilesToUploadButtonListener implements ActionListener, Runnable {
 
-		@Override
-		public void actionPerformed(ActionEvent actionEvent) {
+        @Override
+        public void actionPerformed(ActionEvent actionEvent) {
 
-			new Thread(this).start();
-		}
-
-		@Override
-		public void run() {
-			new java.awt.FileDialog((java.awt.Frame) null).setVisible(true);
-
-			// Old fileChooser: fileChooser.showOpenDialog(new JPanel());
-		}
-	}
-
-	class UploadToExperimentButtonListener implements ActionListener, Runnable {
-
-		@Override
-		public void actionPerformed(ActionEvent actionEvent) {
-
-			new Thread(this).start();
-		}
+            new Thread(this).start();
+        }
 
 		@Override
 		public void run() {
-			// Get list of files to upload
+            FileDialog fileDialog = new java.awt.FileDialog((java.awt.Frame) null);
+            fileDialog.setVisible(true);
+            fileDialog.setMultipleMode(true);
 
-			// Upload them.
+//      Old fileChooser:        fileChooser.showOpenDialog(new JPanel());
+        }
+    }
 
-			// Move to where the check if upload is complete will be.
-			JOptionPane.showMessageDialog(null, "Upload complete.");
-		}
-	}
+    class UploadToExperimentButtonListener implements ActionListener, Runnable {
 
-	class updateSearchAnnotationsListener implements ActionListener, Runnable {
+        @Override
+        public void actionPerformed(ActionEvent actionEvent) {
 
-		@Override
-		public void actionPerformed(ActionEvent actionEvent) {
+            new Thread(this).start();
+        }
 
-			new Thread(this).start();
-		}
+        @Override
+        public void run() {
+            //Get list of files to upload
 
-		@Override
-		public void run() {
-			System.out.println("updateSearchAnnotations");
-			AnnotationDataType[] annotations = model.getAnnotations();
-			if (annotations != null) {
-				view.setSearchAnnotationTypes(annotations);
-			}
-		}
-	}
+            //Upload them.
+
+            //Move to where the check if upload is complete will be.
+            JOptionPane.showMessageDialog(null, "Upload complete.");
+        }
+    }
+
+    class updateSearchAnnotationsListener implements ActionListener, Runnable {
+
+        @Override
+        public void actionPerformed(ActionEvent actionEvent) {
+
+            new Thread(this).start();
+        }
+
+        @Override
+        public void run() {
+            System.out.println("updateSearchAnnotations");
+            AnnotationDataType[] annotations = model.getAnnotations();
+            if(annotations != null) {
+                view.setSearchAnnotationTypes(annotations);
+            }
+        }
+    }
+    class SearchToWorkspaceListener implements ActionListener, Runnable {
+
+        @Override
+        public void actionPerformed(ActionEvent actionEvent) {
+
+            new Thread(this).start();
+        }
+
+        @Override
+        public void run() {
+        	System.out.println("add to workspace");
+        	view.addToWorkspace(view.getSelectedExperimentsInSearch());
+        }
+
+    }
 }
+

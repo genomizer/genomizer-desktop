@@ -1,7 +1,6 @@
 package util;
 
 public class FileData {
-
 	public String id;
 	public String type;
 	public String name;
