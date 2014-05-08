@@ -63,6 +63,10 @@ public interface GenomizerView {
 	public String getUsername();
 	
 	public JFrame getFrame();
+
+    public void setDownloadWindow(DownloadWindow downloadWindow);
+
+    public DownloadWindow getDownloadWindow();
 	
 	public String getQuerySearchString();
 

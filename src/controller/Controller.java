@@ -345,11 +345,8 @@ public class Controller {
             //Skicka med arraylist<FileData> för de filer som ska nerladdas
             ArrayList<FileData> selectedFiles = view.getWorkspaceSelectedFiles();
 
-            for(int i=0; i<selectedFiles.size(); i++) {
-                System.out.println(selectedFiles.get(i).getName());
-            }
-
             DownloadWindow downloadWindow = new DownloadWindow(selectedFiles);
+            view.setDownloadWindow(downloadWindow);
             downloadWindow.addDownloadFileListener(new DownloadFileListener());
 		}
 	}
@@ -364,7 +361,21 @@ public class Controller {
 
 		@Override
 		public void run() {
-			model.downloadFile("<fileid>", "filename");
+            ArrayList<FileData> fileData = view.getDownloadWindow().getFiles();
+
+            FileDialog fileDialog = new FileDialog((java.awt.Frame) null, "Choose a directory", FileDialog.SAVE);
+            fileDialog.setVisible(true);
+            String directoryName = fileDialog.getDirectory();
+            System.out.println("You chose " + directoryName);
+
+            if(fileData == null) {
+                System.err.println("No directory selected");
+                return;
+            }
+            for(FileData data: fileData) {
+
+                model.downloadFile(data.id, directoryName + "/" + data.name);
+            }
 		}
 	}
 

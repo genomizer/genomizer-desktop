@@ -98,4 +98,8 @@ public class DownloadWindow extends JFrame {
     public void addDownloadFileListener(ActionListener listener) {
         downloadButton.addActionListener(listener);
     }
+
+    public ArrayList<FileData> getFiles() {
+        return files;
+    }
 }
