@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import javax.swing.BorderFactory;
 import javax.swing.DefaultListModel;
 import javax.swing.JButton;
+import javax.swing.JCheckBox;
 import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JPanel;
@@ -28,7 +29,29 @@ public class ProcessTab extends JPanel {
 
     private JTextArea timeArea = new JTextArea();
     private JTextArea convertArea = new JTextArea();
-    public JTextField parameter1 = new JTextField();
+
+//	parameters[0] = "-a -m --best -p –v -q -S"; //view.getParameters()[0];
+	//Namnet på genome filen.
+//	parameters[1] = "d_melanogaster_fb5_22"; //view.getParameters()[1];
+	//5 stycken smoothing parameters som användaren kan välja.
+	// window size (10),
+	// smooth type (1),
+	// minimum step pos (5),
+	// print mean or not (0),
+	// print 0’s or not (1)
+//	parameters[2] = "10 1 5 0 1";//view.getParameters()[2];
+	//Step size 10, y är för "yes"
+//	parameters[3] = "y 10";//view.getParameters()[3];
+
+    private JTextField bowtiePar = new JTextField();
+    private JTextField genomeFile = new JTextField();
+    private JTextField SmoothWindowSize = new JTextField();
+    private JTextField SmoothType = new JTextField();
+    private JTextField StepPosition = new JTextField();
+    private JCheckBox printOrNot = new JCheckBox("Print");
+    private JCheckBox printZeros = new JCheckBox("Print zeros");
+    private JTextField parameter3 = new JTextField();
+
     private JPanel filesPanel = new JPanel();
     private JPanel scheduleProcPanel = new JPanel();
     private JPanel genProfileDataPanel = new JPanel();
@@ -62,18 +85,8 @@ public class ProcessTab extends JPanel {
         initMiddlePanel();
         initEastPanels();
         initTimePanel();
-
 		writeToTimePanel();
 		initConvertTextArea();
-
-        // BARA TILLFï¿½LLIG
-        fileList = new JList(new CheckListItem[]{
-                new CheckListItem("[0] Protein223_A5_2014.RAW"),
-                new CheckListItem("[1] Protein223_A5_2014.RAW"),
-                new CheckListItem("[2] Protein223_A5_2014.RAW"),
-                new CheckListItem("[3] Protein223_A5_2014.RAW"),
-                new CheckListItem("[4] Protein223_A5_2014.RAW")});
-
         initFileList();
         writeToTimePanel();
 
@@ -117,7 +130,6 @@ public class ProcessTab extends JPanel {
         middelPanel.add(convertFilesPanel);
         convertFilesPanel.setBorder(BorderFactory
         		.createTitledBorder("CONVERT FILES"));
-      //  convertFilesPanel.setPreferredSize(new Dimension(300, 100));
     }
 
     private void initGenRegionDataPanel() {
@@ -165,10 +177,30 @@ public class ProcessTab extends JPanel {
         menuPanel.add(profileButton);
         menuPanel.add(regionButton);
         menuPanel.add(scheduleButton);
-        parameter1.setBorder(BorderFactory.createTitledBorder("Bowtie Parameter 1"));
-        parameter1.setText("-a -m --best -p –v -q -S");
-        parameter1.setPreferredSize(new Dimension(620,45));
-        menuPanel.add(parameter1);
+        bowtiePar.setBorder(BorderFactory.createTitledBorder("Bowtie Parameter 1"));
+        bowtiePar.setText("-a -m --best -p –v -q -S");
+        bowtiePar.setPreferredSize(new Dimension(250,45));
+        menuPanel.add(bowtiePar);
+
+        genomeFile.setBorder(BorderFactory.createTitledBorder("Genome file"));
+        SmoothWindowSize.setBorder(BorderFactory.createTitledBorder("Window size"));
+        SmoothType.setBorder(BorderFactory.createTitledBorder("Smooth type"));
+        StepPosition.setBorder(BorderFactory.createTitledBorder("Step position"));
+
+        //CHECKBOX
+    //    printOrNot.setBorder(BorderFactory.createTitledBorder("Print"));
+
+        //Checkbox
+    //    printZeros.setBorder(BorderFactory.createTitledBorder("Print zeros"));
+        parameter3.setBorder(BorderFactory.createTitledBorder("Parameter 3"));
+
+        menuPanel.add(genomeFile);
+        menuPanel.add(SmoothWindowSize);
+        menuPanel.add(SmoothType);
+        menuPanel.add(StepPosition);
+        menuPanel.add(parameter3);
+        menuPanel.add(printOrNot);
+        menuPanel.add(printZeros);
     }
 
     private void enableButtons() {
@@ -195,35 +227,18 @@ public class ProcessTab extends JPanel {
 
 	public void setFileInfo(ArrayList<FileData> allFileData){
 		this.fileData = allFileData;
-
-	//	System.out.println(allFileData.get(0).name);
 		parseFileData();
 	}
 
-
-	//TODO Går inte att lägga in checklistitem-listan i JList fileList.
-	//Det gör att listan med filnamn inte visas i GUI.
 	private void parseFileData(){
 
-		JList list = new JList(new CheckListItem[] {
-				new CheckListItem("[7] Protein223_A5_2014.RAW"),
-				new CheckListItem("[8] Protein223_A5_2014.RAW"),
-				new CheckListItem("[9] Protein223_A5_2014.RAW"),
-				new CheckListItem("[10] Protein223_A5_2014.RAW"),
-				new CheckListItem("[11] Protein223_A5_2014.RAW") });
-
-
-	//	Object[] itemList = new CheckListItem[fileData.length];
+		CheckListItem[] itemList = new CheckListItem[fileData.size()];
 
 		for(int i = 0; i < fileData.size(); i++){
-		//	itemList[i] = new CheckListItem( fileData[i].name );
+			itemList[i] = new CheckListItem( fileData.get(i).filename );
 		}
 
-		//this.fileList = new JList(itemList);
-		this.fileList = list;
-
-		//DefaultListModel listModel = new DefaultListModel();
-		//this.fileList.setModel(listModel);
+		fileList.setListData(itemList);
 		this.revalidate();
 		this.repaint();
 	}
@@ -295,7 +310,7 @@ public class ProcessTab extends JPanel {
         return arr;
     }
 
-    //TODO Nåt är fel...fileData == null, efterssom setFileInfo inte anropas innan.
+    //TODO N�t �r fel...fileData == null, efterssom setFileInfo inte anropas innan.
 	public ArrayList<FileData> getAllMarkedFileData(){
 
 		ArrayList<FileData> allMarked = new ArrayList<FileData>();
@@ -310,7 +325,7 @@ public class ProcessTab extends JPanel {
 
 				for(int j = 0; j < arr.size(); j++){
 
-					if(arr.get(j) == fileData.get(i).name ){
+					if(arr.get(j) == fileData.get(i).filename ){
 						allMarked.add( fileData.get(i) );
 					}
 				}

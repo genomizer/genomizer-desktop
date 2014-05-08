@@ -1,5 +1,8 @@
 package model;
 
+import java.util.ArrayList;
+
+import communication.UploadHandler;
 import requests.AddAnnotationRequest;
 import requests.AddFileToExperiment;
 import requests.DeleteAnnotationRequest;
@@ -111,26 +114,28 @@ public class Model implements GenomizerModel {
 		conn.sendRequest(request, userID, "application/json");
 		String url = conn.getResponseBody();
 		if (url != null) {
-			System.out.println(url);
+			System.out.println("URL: " + url);
 		}
-		HTTPURLUpload handler = new HTTPURLUpload(
+        System.out.println("url");
+        /*HTTPURLUpload handler = new HTTPURLUpload(
 				"/var/www/html/uploads/test321.txt",
 				"/home/dv12/dv12csr/edu/test321");
-		handler.sendFile("pvt", "pvt");
-		/*
-		 * UploadHandler handler = new UploadHandler(
-		 * "/var/www/html/uploads/test321.txt",
-		 * "/home/dv12/dv12csr/edu/test321", userID, "pvt:pvt"); Thread thread =
-		 * new Thread(handler); thread.start();
-		 */
+		handler.sendFile("pvt", "pvt");*/
+        System.out.println("Test");
+        UploadHandler handler = new UploadHandler(
+		  "/var/www/html/uploads/test321.txt",
+		  "/home/dv12/dv12csr/edu/test321", userID, "pvt:pvt");
+        Thread thread = new Thread(handler);
+        thread.start();
+
 		return true;
 	}
 
 	@Override
-	public boolean downloadFile(String fileID, String path) {
+	public boolean downloadFile(String url, String fileID, String path) {
         //Use this until search works on the server
 		DownloadFileRequest request = RequestFactory.makeDownloadFileRequest(
-				 "<file-id>", ".wig");
+				 fileID, ".wig");
 
         System.out.println("Test: " + fileID);
         conn.sendRequest(request, userID, "text/plain");
@@ -139,7 +144,7 @@ public class Model implements GenomizerModel {
 				DownloadFileResponse.class);
         System.out.println(conn.getResponseBody());
         DownloadHandler handler = new DownloadHandler("pvt", "pvt");
-        handler.download("http://sterner.cc", path, userID);
+        handler.download(url, path, userID);
 		System.out.println("Test");
 		return true;
 	}

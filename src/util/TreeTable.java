@@ -107,8 +107,6 @@ public class TreeTable extends JPanel {
     }
 
     private void sortData(final int sortByColumn) {
-	// data = getDataFromTreeTable();
-	// headings = getHeadingsFromTreeTable();
 	/* update the sorting orders for the columns */
 	for (int i = 0; i < sortingOrders.size(); i++) {
 	    if (i == sortByColumn) {
@@ -268,7 +266,7 @@ public class TreeTable extends JPanel {
 	ArrayList<FileData> files = this.getSelectedFiles();
 	for (ExperimentData data : experiments) {
 	    for (FileData file : files) {
-		System.out.println(file.name + " removed");
+		System.out.println(file.filename + " removed");
 		data.removeFile(file);
 	    }
 	}
@@ -298,8 +296,6 @@ public class TreeTable extends JPanel {
 	    rawFiles.add(new Node(fileHeaders));
 	    profileFiles.add(new Node(fileHeaders));
 	    regionFiles.add(new Node(fileHeaders));
-	    // ExperimentData currentExperiment =
-	    // getExperimentFromData(data[i]);
 	    FileData[] fileData = experimentToFilesMap.get(data[i][0]);
 	    /*
 	     * Loop through all files in the current experiment and create nodes
@@ -307,14 +303,14 @@ public class TreeTable extends JPanel {
 	     */
 	    for (int j = 0; j < fileData.length; j++) {
 		FileData currentFile = fileData[j];
-		Object[] rowContent = { currentFile.id, currentFile.name,
+		Object[] rowContent = { currentFile.id, currentFile.filename,
 			currentFile.size, currentFile.date,
-			currentFile.uploadedBy };
-		if (currentFile.type.equals("raw")) {
+			currentFile.uploader };
+		if (currentFile.type.equals("Raw")) {
 		    rawFiles.add(new Node(rowContent));
-		} else if (currentFile.type.equals("region")) {
+		} else if (currentFile.type.equals("Region")) {
 		    regionFiles.add(new Node(rowContent));
-		} else if (currentFile.type.equals("profile")) {
+		} else if (currentFile.type.equals("Profile")) {
 		    profileFiles.add(new Node(rowContent));
 		}
 	    }

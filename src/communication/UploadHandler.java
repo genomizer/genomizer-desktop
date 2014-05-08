@@ -30,6 +30,7 @@ public class UploadHandler implements Runnable {
 	@Override
 	public void run() {
 		try {
+            String urlFileName = getFileNameFromUrl(url);
 			sendSetupPackage();
 			URL targetUrl = new URL(
 					"http://scratchy.cs.umu.se:8090/html/upload.php");
@@ -43,20 +44,13 @@ public class UploadHandler implements Runnable {
 			// conn.setRequestProperty("path", url);
 			String boundary = "WgiloelqGufNYwj9e2TMztCZON694FV";
 			conn.setRequestProperty("Content-Type",
-					"multipart-formdata; boundary=" + boundary);
+					"multipart/form-data; boundary=" + boundary);
 			conn.setRequestProperty("Authorization", "Basic " + authStringEnc);
 			PrintWriter outputStream = new PrintWriter(conn.getOutputStream(),
 					true);
 			File file = new File(fileName);
 			BufferedReader reader = new BufferedReader(new FileReader(file));
-			outputStream.println("--" + boundary);
-			outputStream
-					.println("Content-Disposition: form-data; name=\"path\"");
-			outputStream.println(url);
-			outputStream.println("--" + boundary);
-			outputStream
-					.println("Content-Disposition: form-data; name=\"uploadfile\"; filename=\"test321.txt\"\n"
-							+ "Content-Type: application/octet-stream\n");
+            sendMultiPartFormat(urlFileName, boundary, outputStream);
 			while (reader.ready()) {
 				outputStream.println(reader.readLine());
 				outputStream.flush();
@@ -85,6 +79,27 @@ public class UploadHandler implements Runnable {
 
 	}
 
+    private void sendMultiPartFormat(String urlFileName, String boundary,
+                                     PrintWriter outputStream) {
+        outputStream.println("--" + boundary);
+        outputStream
+                .println("Content-Disposition: form-data; name=\"path\"");
+        outputStream.println(url);
+        outputStream.println("--" + boundary);
+        outputStream
+                .println("Content-Disposition: form-data; name=" +
+                        "\"uploadfile\"; filename=\"" + urlFileName + "\"\n"
+                        + "Content-Type: application/octet-stream\n");
+    }
+
+    private String getFileNameFromUrl(String url) {
+        String[] urlSplit = url.split("/");
+        String fileName = urlSplit[urlSplit.length-1];
+        System.out.println(fileName);
+        return fileName;
+
+
+    }
 	public void sendSetupPackage() {
 
 	}

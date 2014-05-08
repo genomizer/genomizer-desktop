@@ -70,7 +70,8 @@ public class Connection {
 				output.append(buffer);
 			}
 			responseBody = output.toString();
-			connection.disconnect();
+            System.out.println(responseBody);
+            connection.disconnect();
 		} catch (IOException e) {
 			System.out.println("Connection error: " + e.getMessage());
 			return false;

@@ -238,7 +238,7 @@ public class QuerySearchTab extends JPanel {
     public FileData[] getSelectedFiles() {
 	ArrayList<FileData> list = resultsTable.getSelectedFiles();
 	for (FileData file : list) {
-	    System.out.println(file.name);
+	    System.out.println(file.filename);
 	}
 	return list.toArray(new FileData[list.size()]);
     }

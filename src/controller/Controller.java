@@ -9,6 +9,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
@@ -61,23 +62,37 @@ public class Controller {
 
 	@Override
 	public void run() {
+	    FileData[] fileData = view.getSelectedFilesInSearch();
 
-        //Skicka med arraylist<FileData> för de filer som ska nerladdas
-        ArrayList<FileData> selectedFiles = view.getQuerySearchTabSelectedFiles();
-        ArrayList<ExperimentData> experimentData = view.getQuerySearchTabSelectedExperiments();
-        ExperimentData currentExperiment;
+	    /*
+	     * FileDialog fileDialog = new FileDialog((java.awt.Frame) null,
+	     * "Choose a directory", FileDialog.SAVE);
+	     * fileDialog.setVisible(true); String directoryName =
+	     * fileDialog.getDirectory(); System.out.println("You chose " +
+	     * directoryName); if(fileData == null || directoryName == null) {
+	     * System.err.println("No directory selected"); return; }
+	     */
+	    // Skicka med arraylist<FileData> för de filer som ska nerladdas
+	    FileData[] selectedFilesTemp = view.getSelectedFilesInSearch();
+	    ExperimentData[] selectedExperimentsTemp = view
+		    .getSelectedExperimentsInSearch();
 
-        for(int i=0; i<experimentData.size(); i++) {
-            currentExperiment = experimentData.get(i);
-            for(int j=0; j<currentExperiment.files.length; j++) {
-                selectedFiles.add(currentExperiment.files[j]);
-            }
-        }
+	    ArrayList<FileData> selectedFiles = new ArrayList<FileData>(
+		    Arrays.asList(selectedFilesTemp));
+	    ArrayList<ExperimentData> selectedExperiments = new ArrayList<ExperimentData>(
+		    Arrays.asList(selectedExperimentsTemp));
 
-        DownloadWindow downloadWindow = new DownloadWindow(selectedFiles);
-        view.setDownloadWindow(downloadWindow);
-        downloadWindow.addDownloadFileListener(new DownloadFileListener());
+	    ExperimentData currentExperiment;
+
+	    for (int i = 0; i < selectedExperiments.size(); i++) {
+		currentExperiment = selectedExperiments.get(i);
+		for (int j = 0; j < currentExperiment.files.length; j++) {
+		    selectedFiles.add(currentExperiment.files[j]);
+		    System.out.println(currentExperiment);
+		}
 	    }
+	}
+
     }
 
     class DeleteAnnotationListener implements ActionListener, Runnable {
@@ -186,39 +201,53 @@ public class Controller {
 
 	    ArrayList<FileData> allMarked = view.getAllMarkedFileData();
 	    int markedSize = allMarked.size();
+	    String message = null;
+	    Boolean isConverted = false;
 
 	    if (!allMarked.isEmpty()/* !view.getAllMarkedFiles().isEmpty() */) {
 
 		for (int i = 0; i < markedSize; i++) {
 
-		    // TEST for(int i = 0; i < view.getAllMarkedFiles().size();
-		    // i++){
-
-		    String fileName = view.getAllMarkedFiles().get(i);// allMarked.get(i).name;
-		    String filePath = null;// allMarked.get(i).URL;
+		    String fileName = allMarked.get(i).filename;
+		    String fileId = allMarked.get(i).id;
 		    String author = view.getUsername();
-
-		    // ProcessTa
 		    String parameters[] = null;
-		    //parameters[0] = view.getParameters()[0];
+		    // Förvald i GUI men användaren kan välja att ändra
+		    parameters[0] = "-a -m --best -p –v -q -S"; // view.getParameters()[0];
+		    // Namnet på genome filen.
+		    parameters[1] = "d_melanogaster_fb5_22"; // view.getParameters()[1];
+		    // 5 stycken smoothing parameters som användaren kan
+		    // välja.
+		    // window size (10),
+		    // smooth type (1),
+		    // minimum step pos (5),
+		    // print mean or not (0),
+		    // print 0’s or not (1)
+		    parameters[2] = "10 1 5 0 1";// view.getParameters()[2];
+		    // Step size 10, y är för "yes"
+		    parameters[3] = "y 10";// view.getParameters()[3];
 
 		    // WorkspaceTab
 		    String metadata = null;
 		    String genomeRelease = null;
 		    String expid = null;
 
-		    Boolean converted = model.rawToProfile(fileName, filePath,
+		    isConverted = model.rawToProfile(fileName, fileId,
 			    metadata, genomeRelease, author, expid, parameters);
-		    String message = null;
 
-		    if (converted.equals(true)) {
+		    if (isConverted.equals(true)) {
 			message = "The server has converted: " + fileName;
 			view.printToConvertText(message);
 
-		    } else {
-			message = "WARNING - The server couldn't convert: "
-				+ fileName + "\n";
-			view.printToConvertText(message);
+			if (isConverted.equals(true)) {
+			    message = "The server has converted: " + fileName;
+			    view.printToConvertText(message);
+
+			} else {
+			    message = "WARNING - The server couldn't convert: "
+				    + fileName + "\n";
+			    view.printToConvertText(message);
+			}
 		    }
 		}
 	    }
@@ -265,7 +294,7 @@ public class Controller {
 	public void run() {
 
 	    System.out.println("Process");
-	    //TODO Skicka in filedata arrayen
+	    // TODO Skicka in filedata arrayen
 	    view.setProccessFileList(view.getWorkspaceSelectedFiles());
 
 	}
@@ -351,26 +380,27 @@ public class Controller {
 	    new Thread(this).start();
 	}
 
-		@Override
-		public void run() {
-            //Skicka med arraylist<FileData> för de filer som ska nerladdas
-            ArrayList<FileData> selectedFiles = view.getWorkspaceSelectedFiles();
-            ArrayList<ExperimentData> experimentData = view.getWorkspaceSelectedExperiments();
-            ExperimentData currentExperiment;
+	@Override
+	public void run() {
+	    // Skicka med arraylist<FileData> för de filer som ska nerladdas
+	    ArrayList<FileData> selectedFiles = view
+		    .getWorkspaceSelectedFiles();
+	    ArrayList<ExperimentData> experimentData = view
+		    .getWorkspaceSelectedExperiments();
+	    ExperimentData currentExperiment;
 
-            for(int i=0; i<experimentData.size(); i++) {
-                currentExperiment = experimentData.get(i);
-                for(int j=0; j<currentExperiment.files.length; j++) {
-                    selectedFiles.add(currentExperiment.files[j]);
-                }
-            }
-
-            DownloadWindow downloadWindow = new DownloadWindow(selectedFiles);
-            view.setDownloadWindow(downloadWindow);
-            downloadWindow.addDownloadFileListener(new DownloadFileListener());
+	    for (int i = 0; i < experimentData.size(); i++) {
+		currentExperiment = experimentData.get(i);
+		for (int j = 0; j < currentExperiment.files.length; j++) {
+		    selectedFiles.add(currentExperiment.files[j]);
 		}
-	}
+	    }
 
+	    DownloadWindow downloadWindow = new DownloadWindow(selectedFiles);
+	    view.setDownloadWindow(downloadWindow);
+	    downloadWindow.addDownloadFileListener(new DownloadFileListener());
+	}
+    }
 
     class DownloadFileListener implements ActionListener, Runnable {
 
@@ -380,24 +410,36 @@ public class Controller {
 	    new Thread(this).start();
 	}
 
-		@Override
-		public void run() {
-            DownloadWindow downloadWindow = view.getDownloadWindow();
-            ArrayList<FileData> fileData = downloadWindow.getFiles();
+	@Override
+	public void run() {
 
-	    FileDialog fileDialog = new FileDialog((java.awt.Frame) null,
-		    "Choose a directory", FileDialog.SAVE);
-	    fileDialog.setVisible(true);
-	    String directoryName = fileDialog.getDirectory();
-	    System.out.println("You chose " + directoryName);
-
-	    if (fileData == null) {
-		System.err.println("No directory selected");
+	    DownloadWindow downloadWindow = view.getDownloadWindow();
+	    ArrayList<FileData> fileData = downloadWindow.getFiles();
+	    /*
+	     * >>>>>>> branch 'dev' of
+	     * https://github.com/genomizer/genomizer-desktop.git FileDialog
+	     * fileDialog = new FileDialog((java.awt.Frame) null,
+	     * "Choose a directory", FileDialog.SAVE);
+	     * fileDialog.setVisible(true); String directoryName =
+	     * fileDialog.getDirectory(); System.out.println("You chose " +
+	     * directoryName);
+	     * 
+	     * if (fileData == null) {
+	     * System.err.println("No directory selected"); return; }
+	     */
+	    fileChooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+	    int ret = fileChooser.showOpenDialog(new JPanel());
+	    String directoryName;
+	    if (ret == JFileChooser.APPROVE_OPTION) {
+		directoryName = fileChooser.getSelectedFile().getAbsolutePath();
+	    } else {
 		return;
 	    }
-	    for (FileData data : fileData) {
 
-		model.downloadFile(data.id, directoryName + "/" + data.name);
+	    for (FileData data : fileData) {
+		System.out.println(data.url);
+		model.downloadFile(data.url, data.id, directoryName + "/"
+			+ data.filename);
 	    }
 	}
     }
@@ -530,4 +572,3 @@ public class Controller {
     }
 
 }
-

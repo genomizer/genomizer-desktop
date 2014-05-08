@@ -339,17 +339,12 @@ public class GUI extends JFrame implements GenomizerView {
     public void setProccessFileList(ArrayList<FileData> allFileData) {
 
 	ArrayList<FileData> fileArray = allFileData;
-//	FileData fileData;
 
 	// TODO
 	// TESTING
 	for (int i = 0; i < fileArray.size(); i++) {
 
-//	    fileData = fileArray[i].name;
-
-	    System.out.println(fileArray.get(i).name);
-
-//	    fileArray[i] = fileData;
+	    System.out.println(fileArray.get(i).filename);
 
 	}
 	processTab.setFileInfo(allFileData);
@@ -379,26 +374,6 @@ public class GUI extends JFrame implements GenomizerView {
 
     public ArrayList<ExperimentData> getWorkspaceSelectedExperiments() {
         return workspaceTab.getSelectedExperiments();
-    }
-
-    public ArrayList<FileData> getQuerySearchTabSelectedFiles() {
-        FileData[] fileData = querySearchTab.getSelectedFiles();
-        ArrayList<FileData> fileData2 = new ArrayList<FileData>();
-        for(int i=0; i<fileData.length; i++) {
-            fileData2.add(fileData[i]);
-        }
-
-        return fileData2;
-    }
-
-    public ArrayList<ExperimentData> getQuerySearchTabSelectedExperiments() {
-        ExperimentData[] experimentData = querySearchTab.getSelectedExperiments();
-        ArrayList<ExperimentData> experimentData2 = new ArrayList<ExperimentData>();
-        for(int i=0; i<experimentData.length; i++) {
-            experimentData2.add(experimentData[i]);
-        }
-
-        return experimentData2;
     }
 
     public void refreshGUI() {
