@@ -11,10 +11,8 @@ import java.util.ArrayList;
 
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
-import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 
-import gui.UploadTab;
 import model.GenomizerModel;
 import util.AnnotationDataType;
 import util.DeleteAnnoationData;
@@ -63,22 +61,24 @@ public class Controller {
 	@Override
 	public void run() {
 
-        //Skicka med arraylist<FileData> för de filer som ska nerladdas
-        ArrayList<FileData> selectedFiles = view.getQuerySearchTabSelectedFiles();
-        ArrayList<ExperimentData> experimentData = view.getQuerySearchTabSelectedExperiments();
-        ExperimentData currentExperiment;
+	    // Skicka med arraylist<FileData> för de filer som ska nerladdas
+	    ArrayList<FileData> selectedFiles = view
+		    .getQuerySearchTabSelectedFiles();
+	    ArrayList<ExperimentData> experimentData = view
+		    .getQuerySearchTabSelectedExperiments();
+	    ExperimentData currentExperiment;
 
-        for(int i=0; i<experimentData.size(); i++) {
-            currentExperiment = experimentData.get(i);
-            for(int j=0; j<currentExperiment.files.length; j++) {
-                selectedFiles.add(currentExperiment.files[j]);
-            }
-        }
-
-        DownloadWindow downloadWindow = new DownloadWindow(selectedFiles);
-        view.setDownloadWindow(downloadWindow);
-        downloadWindow.addDownloadFileListener(new DownloadFileListener());
+	    for (int i = 0; i < experimentData.size(); i++) {
+		currentExperiment = experimentData.get(i);
+		for (int j = 0; j < currentExperiment.files.length; j++) {
+		    selectedFiles.add(currentExperiment.files[j]);
+		}
 	    }
+
+	    DownloadWindow downloadWindow = new DownloadWindow(selectedFiles);
+	    view.setDownloadWindow(downloadWindow);
+	    downloadWindow.addDownloadFileListener(new DownloadFileListener());
+	}
     }
 
     class DeleteAnnotationListener implements ActionListener, Runnable {
@@ -201,7 +201,7 @@ public class Controller {
 
 		    // ProcessTa
 		    String parameters[] = null;
-		    //parameters[0] = view.getParameters()[0];
+		    // parameters[0] = view.getParameters()[0];
 
 		    // WorkspaceTab
 		    String metadata = null;
@@ -266,7 +266,7 @@ public class Controller {
 	public void run() {
 
 	    System.out.println("Process");
-	    //TODO Skicka in filedata arrayen
+	    // TODO Skicka in filedata arrayen
 	    view.setProccessFileList(view.getWorkspaceSelectedFiles());
 
 	}
@@ -352,26 +352,27 @@ public class Controller {
 	    new Thread(this).start();
 	}
 
-		@Override
-		public void run() {
-            //Skicka med arraylist<FileData> för de filer som ska nerladdas
-            ArrayList<FileData> selectedFiles = view.getWorkspaceSelectedFiles();
-            ArrayList<ExperimentData> experimentData = view.getWorkspaceSelectedExperiments();
-            ExperimentData currentExperiment;
+	@Override
+	public void run() {
+	    // Skicka med arraylist<FileData> för de filer som ska nerladdas
+	    ArrayList<FileData> selectedFiles = view
+		    .getWorkspaceSelectedFiles();
+	    ArrayList<ExperimentData> experimentData = view
+		    .getWorkspaceSelectedExperiments();
+	    ExperimentData currentExperiment;
 
-            for(int i=0; i<experimentData.size(); i++) {
-                currentExperiment = experimentData.get(i);
-                for(int j=0; j<currentExperiment.files.length; j++) {
-                    selectedFiles.add(currentExperiment.files[j]);
-                }
-            }
-
-            DownloadWindow downloadWindow = new DownloadWindow(selectedFiles);
-            view.setDownloadWindow(downloadWindow);
-            downloadWindow.addDownloadFileListener(new DownloadFileListener());
+	    for (int i = 0; i < experimentData.size(); i++) {
+		currentExperiment = experimentData.get(i);
+		for (int j = 0; j < currentExperiment.files.length; j++) {
+		    selectedFiles.add(currentExperiment.files[j]);
 		}
-	}
+	    }
 
+	    DownloadWindow downloadWindow = new DownloadWindow(selectedFiles);
+	    view.setDownloadWindow(downloadWindow);
+	    downloadWindow.addDownloadFileListener(new DownloadFileListener());
+	}
+    }
 
     class DownloadFileListener implements ActionListener, Runnable {
 
@@ -381,10 +382,10 @@ public class Controller {
 	    new Thread(this).start();
 	}
 
-		@Override
-		public void run() {
-            DownloadWindow downloadWindow = view.getDownloadWindow();
-            ArrayList<FileData> fileData = downloadWindow.getFiles();
+	@Override
+	public void run() {
+	    DownloadWindow downloadWindow = view.getDownloadWindow();
+	    ArrayList<FileData> fileData = downloadWindow.getFiles();
 
 	    FileDialog fileDialog = new FileDialog((java.awt.Frame) null,
 		    "Choose a directory", FileDialog.SAVE);
@@ -509,4 +510,3 @@ public class Controller {
     }
 
 }
-
