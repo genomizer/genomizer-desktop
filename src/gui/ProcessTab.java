@@ -16,7 +16,9 @@ import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
+import javax.swing.JTextField;
 import javax.swing.ListSelectionModel;
+import javax.swing.border.Border;
 
 import util.FileData;
 
@@ -26,6 +28,7 @@ public class ProcessTab extends JPanel {
 
     private JTextArea timeArea = new JTextArea();
     private JTextArea convertArea = new JTextArea();
+    public JTextField parameter1 = new JTextField();
     private JPanel filesPanel = new JPanel();
     private JPanel scheduleProcPanel = new JPanel();
     private JPanel genProfileDataPanel = new JPanel();
@@ -63,7 +66,7 @@ public class ProcessTab extends JPanel {
 		writeToTimePanel();
 		initConvertTextArea();
 
-        // BARA TILLFï¿½LLIG
+        // BARA TILLFÃ¯Â¿Â½LLIG
         fileList = new JList(new CheckListItem[]{
                 new CheckListItem("[0] Protein223_A5_2014.RAW"),
                 new CheckListItem("[1] Protein223_A5_2014.RAW"),
@@ -162,6 +165,10 @@ public class ProcessTab extends JPanel {
         menuPanel.add(profileButton);
         menuPanel.add(regionButton);
         menuPanel.add(scheduleButton);
+        parameter1.setBorder(BorderFactory.createTitledBorder("Bowtie Parameter 1"));
+        parameter1.setText("./bowtie -a -m 1 --best -p 10 â€“v 2 d_melanogaster_fb5_22 -q /path/*.fastq -S /path/*.sam");
+        parameter1.setPreferredSize(new Dimension(620,45));
+        menuPanel.add(parameter1);
     }
 
     private void enableButtons() {
@@ -189,8 +196,8 @@ public class ProcessTab extends JPanel {
 	}
 
 
-	//TODO Går inte att lägga in checklistitem-listan i JList fileList.
-	//Det gör att listan med filnamn inte visas i GUI.
+	//TODO GÃ¥r inte att lÃ¤gga in checklistitem-listan i JList fileList.
+	//Det gÃ¶r att listan med filnamn inte visas i GUI.
 	private void parseFileData(){
 
 		JList list = new JList(new CheckListItem[] {
@@ -208,10 +215,10 @@ public class ProcessTab extends JPanel {
 		}
 
 		//this.fileList = new JList(itemList);
-		//this.fileList = list;
+		this.fileList = list;
 
-		DefaultListModel listModel = new DefaultListModel();
-		this.fileList.setModel(listModel);
+		//DefaultListModel listModel = new DefaultListModel();
+		//this.fileList.setModel(listModel);
 		this.revalidate();
 		this.repaint();
 	}
@@ -283,7 +290,7 @@ public class ProcessTab extends JPanel {
         return arr;
     }
 
-    //TODO Nåt är fel...fileData == null, efterssom setFileInfo inte anropas innan.
+    //TODO NÃ¥t Ã¤r fel...fileData == null, efterssom setFileInfo inte anropas innan.
 	public ArrayList<FileData> getAllMarkedFileData(){
 
 		ArrayList<FileData> allMarked = new ArrayList<FileData>();
