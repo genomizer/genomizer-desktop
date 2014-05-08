@@ -63,7 +63,7 @@ public class DownloadWindow extends JFrame {
         formatConversionColumn.setHeaderValue("Format conversion");
 
         for (int i = 0; i < data.size(); i++) {
-            tableModel.addRow(new Object[]{data.get(i), "Click here to choose"});
+            tableModel.addRow(new Object[]{data.get(i), "Click here to choose file format"});
         }
 
         JComboBox comboBox = new JComboBox();
