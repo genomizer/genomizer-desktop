@@ -475,6 +475,7 @@ public class Controller {
 	@Override
 	public void run() {
 	    System.out.println("add to workspace");
+	    view.addToWorkspace(view.getSelectedFilesWithExpsInSearch());
 	    view.addToWorkspace(view.getSelectedExperimentsInSearch());
 	}
 
