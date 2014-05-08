@@ -182,7 +182,7 @@ public class ProcessTab extends JPanel {
         bowtiePar.setPreferredSize(new Dimension(250,45));
         menuPanel.add(bowtiePar);
 
-        genomeFile.setBorder(BorderFactory.createTitledBorder("Genome file"));
+   /*     genomeFile.setBorder(BorderFactory.createTitledBorder("Genome file"));
         SmoothWindowSize.setBorder(BorderFactory.createTitledBorder("Window size"));
         SmoothType.setBorder(BorderFactory.createTitledBorder("Smooth type"));
         StepPosition.setBorder(BorderFactory.createTitledBorder("Step position"));
@@ -200,7 +200,7 @@ public class ProcessTab extends JPanel {
         menuPanel.add(StepPosition);
         menuPanel.add(parameter3);
         menuPanel.add(printOrNot);
-        menuPanel.add(printZeros);
+        menuPanel.add(printZeros);*/
     }
 
     private void enableButtons() {
