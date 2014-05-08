@@ -379,6 +379,11 @@ public class GUI extends JFrame implements GenomizerView {
 	}
 	
 	@Override
+	public void addSelectButtonListener(ActionListener listener) {
+	    uploadTab.addSelectButtonListener(listener);
+	}
+	
+	@Override
 	public void createNewExp(AnnotationDataType[] annotations) {
 	    uploadTab.createNewExp(annotations);
 	}

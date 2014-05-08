@@ -50,6 +50,8 @@ public interface GenomizerView {
     
     public void addNewExpButtonListener(ActionListener listener);
     
+    public void addSelectButtonListener(ActionListener listener);
+    
 	public void addToWorkspace(ExperimentData[] experiments);
 
     public FileData[] getSelectedFilesInSearch();

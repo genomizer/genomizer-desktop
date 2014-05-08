@@ -102,12 +102,12 @@ public class UploadTab extends JPanel {
 	int y = 0;
 	String[] annotationNames = new String[annotations.length];
 	for (int i = 0; i < annotations.length; i++) {
-	    if (x > 6) {
-		System.out.println("HÄR");
-		x = 0;
-		y++;
-	    }
 	    if (annotations[i].isForced()) {
+		if (x > 6) {
+		    System.out.println("HÄR");
+		    x = 0;
+		    y++;
+		}
 		GridBagConstraints gbc = new GridBagConstraints();
 		gbc.anchor = GridBagConstraints.WEST;
 		gbc.insets = new Insets(5, 0, 5, 30);
@@ -123,7 +123,8 @@ public class UploadTab extends JPanel {
 		    p.add(textField, BorderLayout.CENTER);
 		    newExpPanel.add(p, gbc);
 		} else {
-		    JComboBox comboBox = new JComboBox(annotations[i].getValues());
+		    JComboBox comboBox = new JComboBox(
+			    annotations[i].getValues());
 		    comboBox.setPreferredSize(new Dimension(120, 31));
 		    annotationBoxes.add(comboBox);
 		    p.add(comboBox, BorderLayout.CENTER);
