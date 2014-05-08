@@ -2,24 +2,36 @@ package util;
 
 public class FileData {
     public String id;
+    public String expId;
     public String type;
+    public String metaData;
+    public String author;
     public String filename;
-    public String uploadedBy;
+    public String uploader;
+    public boolean isPrivate;
+    public String grVersion;
     public String date;
     public String size;
     public String path;
     public String url;
 
-    public FileData(String id, String type, String name, String uploadedBy,
-	    String date, String size, String path, String URL) {
-	this.id = id;
+    public FileData(String fileId, String experimentID, String type,
+	    String metaData, String author, String uploader, boolean isPrivate,
+	    String grVersion, String date, String size, String path,
+	    String url, String fileName) {
+	this.id = fileId;
+	this.expId = experimentID;
 	this.type = type;
-	this.filename = name;
-	this.uploadedBy = uploadedBy;
+	this.metaData = metaData;
+	this.author = author;
+	this.isPrivate = isPrivate;
+	this.grVersion = grVersion;
+	this.uploader = uploader;
 	this.date = date;
 	this.size = size;
-        this.path = path;
-	this.url = URL;
+	this.path = path;
+	this.url = url;
+	this.filename = fileName;
     }
 
     public String getName() {
