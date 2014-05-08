@@ -92,7 +92,7 @@ public class Controller {
 			AnnotationDataType annotationDataType = null;
 			try {
 				annotationDataType = view.getSelectedAnnoationAtAnnotationTable();
-				if (JOptionPane.showConfirmDialog(null, "Are you sure you want to delete the" + annotationDataType.name) == JOptionPane.YES_OPTION) {
+				if (JOptionPane.showConfirmDialog(null, "Are you sure you want to delete the " + annotationDataType.name + " annotation?") == JOptionPane.YES_OPTION) {
 					if (model.deleteAnnotation(new DeleteAnnoationData(annotationDataType))) {
 						JOptionPane.showMessageDialog(null, annotationDataType.name + " has been remove!");
 						SwingUtilities.invokeLater(new Runnable() {
