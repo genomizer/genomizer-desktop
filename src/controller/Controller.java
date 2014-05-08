@@ -88,8 +88,10 @@ public class Controller {
 
 	    for (int i = 0; i < selectedExperiments.size(); i++) {
             currentExperiment = selectedExperiments.get(i);
-            for (int j = 0; j < currentExperiment.files.length; j++) {
-                selectedFiles.add(currentExperiment.files[j]);
+
+            for (FileData x : currentExperiment.files){
+                if (!selectedFiles.contains(x))
+                    selectedFiles.add(x);
             }
 	    }
 
