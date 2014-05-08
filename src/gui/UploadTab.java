@@ -6,6 +6,7 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.GridLayout;
 import java.awt.Insets;
+import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
@@ -23,15 +24,14 @@ import util.AnnotationDataType;
 public class UploadTab extends JPanel {
 
     private static final long serialVersionUID = -2830290705724588252L;
-    private JButton addToExistingExpButton, newExpButton;
-    private JPanel northPanel, uploadPanel, newExpPanel, uploadFilesPanel;
+    private JButton addToExistingExpButton, newExpButton, selectButton, uploadButton;
+    private JPanel northPanel, uploadPanel, newExpPanel, uploadFilesPanel, uploadBackground;
     private JTextArea experimentNameField;
     private UploadToExistingExpPanel uploadToExistingExpPanel;
     private AnnotationDataType[] annotations;
     private ArrayList<JComboBox> annotationBoxes;
     private ArrayList<JTextField> annotationFields;
     private ArrayList<UploadFileRow> uploadFileRows;
-    private JButton selectButton;
     private enum ActivePanel {EXISTING, NEW, NONE}
     private ActivePanel activePanel;
 
@@ -48,13 +48,15 @@ public class UploadTab extends JPanel {
 	northPanel.add(experimentNameField);
 	addToExistingExpButton = new JButton("Add to existing experiment");
 	northPanel.add(addToExistingExpButton, BorderLayout.EAST);
-	createUploadPanel();
+	uploadBackground = new JPanel(new BorderLayout());
+	uploadFilesPanel = new JPanel(new GridLayout(0,1));
 	newExpButton = new JButton("Create new experiment");
-	northPanel.add(newExpButton, BorderLayout.EAST);
-
-	newExpPanel = new JPanel();
 	selectButton = new JButton("Select files");
-
+	uploadButton = new JButton("Upload Selected Files");
+	newExpPanel = new JPanel();
+	newExpPanel.setBorder(BorderFactory.createTitledBorder("Experiment"));
+	createUploadPanel();
+	northPanel.add(newExpButton, BorderLayout.EAST);
     }
 
     private void createUploadPanel() {
@@ -63,12 +65,13 @@ public class UploadTab extends JPanel {
     }
 
     public void addExistingExpPanel(AnnotationDataType[] annotations) {
+	uploadPanel.removeAll();
         activePanel = ActivePanel.EXISTING;
         uploadToExistingExpPanel.setAnnotations(annotations);
         uploadToExistingExpPanel.addAnnotationsForExistingExp();
         uploadPanel.add(uploadToExistingExpPanel, BorderLayout.CENTER);
-        uploadPanel.repaint();
-        uploadPanel.revalidate();
+        repaint();
+        revalidate();
     }
 
     public UploadToExistingExpPanel getUploadToExistingExpPanel() {
@@ -84,13 +87,16 @@ public class UploadTab extends JPanel {
     }
 
     public void addSelectButtonListener(ActionListener listener) {
-	    selectButton.addActionListener(listener);
+	selectButton.addActionListener(listener);
+    }
+    
+    public void addUploadButtonListener(ActionListener listener) {
+	uploadButton.addActionListener(listener);
     }
 
     private void createNewExpPanel() {
 	killContentsOfUploadPanel();
         activePanel = ActivePanel.NEW;
-	newExpPanel.setBorder(BorderFactory.createTitledBorder("Experiment"));
 	GridBagLayout gbl_panel = new GridBagLayout();
 	gbl_panel.columnWidths = new int[] { 0, 0, 0, 0, 0, 0, 0 };
 	gbl_panel.rowHeights = new int[] { 0, 0, 0, 0 };
@@ -100,11 +106,9 @@ public class UploadTab extends JPanel {
 	newExpPanel.setLayout(gbl_panel);
 	uploadPanel.add(newExpPanel, BorderLayout.NORTH);
 	addAnnotationsForNewExp();
-	JPanel p = new JPanel(new BorderLayout());
-//	uploadFilesPanel = new JPanel(new GridLayout(0,1));
 	repaintSelectedFiles();
-	p.add(uploadFilesPanel, BorderLayout.NORTH);
-	uploadPanel.add(p, BorderLayout.CENTER);
+	uploadBackground.add(uploadFilesPanel, BorderLayout.NORTH);
+	uploadPanel.add(uploadBackground, BorderLayout.CENTER);
     }
 
     private void addAnnotationsForNewExp() throws NullPointerException {
@@ -151,8 +155,8 @@ public class UploadTab extends JPanel {
 	try {
 	    this.annotations = annotations;
 	    createNewExpPanel();
-	    uploadPanel.repaint();
-	    uploadPanel.revalidate();
+	    repaint();
+	    revalidate();
 	} catch (NullPointerException e) {
 	    JOptionPane.showMessageDialog(this,
 		    "Eggs are supposed to be green.", "Inane error",
@@ -162,20 +166,20 @@ public class UploadTab extends JPanel {
     
     public void createUploadFileRow(String[] fileNames) {
 	for(String fileName : fileNames) {
-	    UploadFileRow fileRow = new UploadFileRow(fileName);
+	    UploadFileRow fileRow = new UploadFileRow(fileName, this);
 	    uploadFileRows.add(fileRow);
 	}
 	repaintSelectedFiles();
     }
 
     private void repaintSelectedFiles() {
-	uploadFilesPanel = new JPanel(new GridLayout(0,1));
-	for(UploadFileRow fileRow : uploadFileRows) {
+	for (UploadFileRow fileRow : uploadFileRows) {
 	    uploadFilesPanel.add(fileRow);
 	}
 	uploadFilesPanel.add(selectButton);
-	uploadFilesPanel.repaint();
-	uploadFilesPanel.revalidate();
+	uploadFilesPanel.add(uploadButton);
+	repaint();
+	revalidate();
     }
 
     public void killContentsOfUploadPanel() {
@@ -195,5 +199,15 @@ public class UploadTab extends JPanel {
                 activePanel = ActivePanel.NONE;
                 break;
         }
+    }
+
+    public void deleteFileRow(String fileName) {
+	for(int i = 0; i < uploadFileRows.size(); i++) {
+	    if(uploadFileRows.get(i).getFileName().equals(fileName)) {
+		uploadFileRows.remove(i);
+	    }
+	}
+	uploadFilesPanel.removeAll();
+	repaintSelectedFiles();
     }
 }
