@@ -31,18 +31,22 @@ import javax.swing.border.LineBorder;
 import java.awt.Color;
 import javax.swing.border.TitledBorder;
 import javax.swing.UIManager;
+import javax.swing.JComboBox;
+import javax.swing.JScrollBar;
+import javax.swing.ScrollPaneConstants;
 
 public class ProcessTab extends JPanel {
 
 	private static final long serialVersionUID = -2830290705724588252L;
 
+	private ArrayList<String> genomeReleaseFiles;
 	private String[] bowtieParameters = new String[4];
 	private JTextArea timeArea = new JTextArea();
 	private JTextArea convertArea = new JTextArea();
 	private JTextField bowtiePar = new JTextField();
 
 	//TODO genomeFile bör vara en dropdown-meny som ser vilka genomerelease-filer databasen har.
-	private JTextField genomeFile = new JTextField();
+	private JComboBox genomeFile = new JComboBox();
 	private JTextField SmoothWindowSize = new JTextField();
 	private JTextField SmoothType = new JTextField();
 	private JTextField StepPosition = new JTextField();
@@ -60,10 +64,10 @@ public class ProcessTab extends JPanel {
 	private JPanel timePanel = new JPanel();
 	private JPanel middelPanel = new JPanel(new GridLayout(3, 1));
 	private JPanel leftPanel = new JPanel(new GridLayout(2, 1));
-	private JButton convertButton = new JButton("CONVERT TO WIG");
-	private JButton profileButton = new JButton("CREATE PROFILE DATA");
-	private JButton regionButton = new JButton("CREATE REGION DATA");
-	private JButton scheduleButton = new JButton("SCHEDULE");
+	private JButton convertButton = new JButton("Convert to WIG");
+	private JButton profileButton = new JButton("Create profile data");
+	private JButton regionButton = new JButton("Create region data");
+	private JButton scheduleButton = new JButton("Schedule files");
 	private JScrollPane scrollFiles = new JScrollPane();
 	private DefaultListModel fileListModel = new DefaultListModel();
 	private JList fileList = new JList();
@@ -71,9 +75,18 @@ public class ProcessTab extends JPanel {
 	private ArrayList processQueue = new ArrayList();
 	private ArrayList<FileData> fileData;
 	private final JPanel buttonPanel = new JPanel();
-	private final JPanel panel = new JPanel();
-	private final JPanel panel_1 = new JPanel();
-	private final JTextField textField = new JTextField();
+	private final JPanel ConversionParPanel = new JPanel();
+	private final JPanel FlagsPanel = new JPanel();
+	private final JList scheduleList = new JList();
+	private final JTextArea textArea = new JTextArea();
+	private final JTextArea genProfArea = new JTextArea();
+	private final JTextArea genRegArea = new JTextArea();
+	private final JList processList = new JList();
+	private final JScrollPane scrollSchedule = new JScrollPane();
+	private final JScrollPane scrollConvert = new JScrollPane();
+	private final JScrollPane scrollRegion = new JScrollPane();
+	private final JScrollPane scrollProfile = new JScrollPane();
+	private final JScrollPane scrollProcessList = new JScrollPane();
 
 	public ProcessTab() {
 		setPreferredSize(new Dimension(1225, 725));
@@ -93,8 +106,12 @@ public class ProcessTab extends JPanel {
 		initConvertTextArea();
 		initFileList();
 		writeToTimePanel();
-		initBowtieParameters();
 
+/*TEST*/ArrayList<String> gFiles = new ArrayList<String>();
+/*TEST*/gFiles.add(0,"d_melanogaster_fb5_22");
+/*TEST*/gFiles.add(1,"E_melanogaster_fb6_23");			
+/*TEST*/setGenomeReleaseFiles(gFiles);
+		initBowtieParameters();
 	}
 
 	private void initNorthPanel() {
@@ -125,6 +142,7 @@ public class ProcessTab extends JPanel {
 	}
 
 	private void initEastPanels() {
+		procQueuePanel.setBorder(new TitledBorder(UIManager.getBorder("TitledBorder.border"), "Processing In Queue", TitledBorder.LEADING, TitledBorder.TOP, null, null));
 		this.add(procQueuePanel, BorderLayout.EAST);
 		procQueuePanel.setPreferredSize(new Dimension(300, 100));
 		initProcessInQueue();
@@ -133,26 +151,39 @@ public class ProcessTab extends JPanel {
 
 	private void initConvertFilesPanel() {
 		middelPanel.add(convertFilesPanel);
-		convertFilesPanel.setBorder(BorderFactory
-				.createTitledBorder("CONVERT FILES"));
+		convertFilesPanel.setBorder(new TitledBorder(null, "Convert Files", TitledBorder.LEADING, TitledBorder.TOP, null, null));
 	}
 
 	private void initGenRegionDataPanel() {
 		middelPanel.add(genRegionDataPanel);
-		genRegionDataPanel.setBorder(BorderFactory
-				.createTitledBorder("GENERATE REGION DATA"));
+		genRegionDataPanel.setBorder(new TitledBorder(null, "Generate Region Data", TitledBorder.LEADING, TitledBorder.TOP, null, null));
+		scrollRegion.setPreferredSize(new Dimension(610, 145));
+		
+		genRegionDataPanel.add(scrollRegion);
+		scrollRegion.setViewportView(genRegArea);
+		genRegArea.setEditable(false);
+		genRegArea.setPreferredSize(new Dimension(590, 155));
+		
+		genRegionDataPanel.add(textArea);
 	}
 
 	private void initGenProfileDataPanel() {
 		middelPanel.add(genProfileDataPanel);
-		genProfileDataPanel.setBorder(BorderFactory
-				.createTitledBorder("GENERATE PROFILE DATA"));
+		genProfileDataPanel.setBorder(new TitledBorder(null, "Generate Profile Data", TitledBorder.LEADING, TitledBorder.TOP, null, null));
+		scrollProfile.setPreferredSize(new Dimension(610, 145));
+		
+		genProfileDataPanel.add(scrollProfile);
+		scrollProfile.setViewportView(genProfArea);
+		genProfArea.setEditable(false);
+		genProfArea.setPreferredSize(new Dimension(590, 155));
 	}
 
 	private void initProcessInQueue() {
-		JLabel queueLabel = new JLabel("PROCESSING IN QUEUE");
-		queueLabel.setOpaque(true);
-		procQueuePanel.add(queueLabel);
+		scrollProcessList.setPreferredSize(new Dimension(290, 510));
+		
+		procQueuePanel.add(scrollProcessList);
+		scrollProcessList.setViewportView(processList);
+		processList.setPreferredSize(new Dimension(270, 510));
 	}
 
 	private void initTimePanel() {
@@ -161,15 +192,22 @@ public class ProcessTab extends JPanel {
 	}
 
 	private void initScheduleProcPanel() {
-		scheduleProcPanel.setBorder(BorderFactory
-				.createTitledBorder("SCHEDULE PROCESSING"));
+		scheduleProcPanel.setBorder(new TitledBorder(null, "Scheduled Processing", TitledBorder.LEADING, TitledBorder.TOP, null, null));
 		scheduleProcPanel.setPreferredSize(new Dimension(300, 100));
+		scrollSchedule.setPreferredSize(new Dimension(290, 240));
+		
+		scheduleProcPanel.add(scrollSchedule);
+		scrollSchedule.setViewportView(scheduleList);
+		scheduleList.setPreferredSize(new Dimension(260, 260));
 	}
 
 	private void initConvertTextArea(){
+		scrollConvert.setPreferredSize(new Dimension(610, 145));
+		
+		convertFilesPanel.add(scrollConvert);
+		scrollConvert.setViewportView(convertArea);
 		convertArea.setEditable(false);
-		convertArea.setPreferredSize(new Dimension(600, 150));
-		convertFilesPanel.add(convertArea);
+		convertArea.setPreferredSize(new Dimension(590, 155));
 	}
 
 	private void initLeftPanel() {
@@ -181,50 +219,45 @@ public class ProcessTab extends JPanel {
 		menuPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
 		menuPanel.add(buttonPanel);
 
-		menuPanel.add(panel_1);
-		panel_1.add(bowtiePar);
+		menuPanel.add(FlagsPanel);
+		FlagsPanel.add(bowtiePar);
 		bowtiePar.setBorder(new TitledBorder(null, "Flags", TitledBorder.LEADING, TitledBorder.TOP, null, null));
 		bowtiePar.setText("-a -m 1 --best -p 10 -v 2");
 		bowtiePar.setPreferredSize(new Dimension(250, 40));
-		genomeFile.setPreferredSize(new Dimension(150, 40));
-		panel_1.add(genomeFile);
+		genomeFile.setPreferredSize(new Dimension(200, 40));
+		FlagsPanel.add(genomeFile);
 
 		genomeFile.setBorder(new TitledBorder(null, "Genome release files", TitledBorder.LEADING, TitledBorder.TOP, null, null));
-		panel.setBorder(new TitledBorder(UIManager.getBorder("TitledBorder.border"), "Conversion parameters", TitledBorder.LEFT, TitledBorder.TOP, null, null));
-		menuPanel.add(panel);
-		panel.add(SmoothWindowSize);
+		ConversionParPanel.setBorder(new TitledBorder(UIManager.getBorder("TitledBorder.border"), "Conversion parameters", TitledBorder.LEFT, TitledBorder.TOP, null, null));
+		menuPanel.add(ConversionParPanel);
+		ConversionParPanel.add(SmoothWindowSize);
 		SmoothWindowSize.setPreferredSize(new Dimension(100, 40));
 		SmoothWindowSize.setBorder(BorderFactory.createTitledBorder("Window size"));
 		SmoothType.setPreferredSize(new Dimension(100, 40));
-		panel.add(SmoothType);
+		ConversionParPanel.add(SmoothType);
 		SmoothType.setBorder(BorderFactory.createTitledBorder("Smooth type"));
 		StepPosition.setPreferredSize(new Dimension(100, 40));
-		panel.add(StepPosition);
+		ConversionParPanel.add(StepPosition);
 		StepPosition.setBorder(BorderFactory.createTitledBorder("Step position"));
 		stepSize.setPreferredSize(new Dimension(80, 40));
-		panel.add(stepSize);
+		ConversionParPanel.add(stepSize);
 		stepSize.setBorder(BorderFactory.createTitledBorder("Step size"));
-		panel.add(printMean);
+		ConversionParPanel.add(printMean);
 
 		//CHECKBOX
 		printMean.setBorder(BorderFactory.createTitledBorder("Print mean"));
-		panel.add(printZeros);
+		ConversionParPanel.add(printZeros);
 
 		//Checkbox
 		printZeros.setBorder(BorderFactory.createTitledBorder("Print zeros"));
-		textField.setText("d_melanogaster_fb5_22");
-		textField.setPreferredSize(new Dimension(150, 40));
-		textField.setBorder(BorderFactory.createTitledBorder("Genome file"));
-
-		menuPanel.add(textField);
 	}
 
 	private void enableButtons() {
-		buttonPanel.add(convertButton);
-		convertButton.setEnabled(false);
 		buttonPanel.add(profileButton);
 		buttonPanel.add(regionButton);
 		regionButton.setEnabled(false);
+		buttonPanel.add(convertButton);
+		convertButton.setEnabled(false);
 		buttonPanel.add(scheduleButton);
 		scheduleButton.setEnabled(false);
 	}
@@ -249,18 +282,26 @@ public class ProcessTab extends JPanel {
 	private void initBowtieParameters(){
 
 		stepSize.setText("y 10");
-		genomeFile.setText("d_melanogaster_fb5_22");
 		SmoothWindowSize.setText("10");
 		SmoothType.setText("1");
 		StepPosition.setText("5");
-
+		genomeFile.removeAllItems();
+		for(int i = 0; i < genomeReleaseFiles.size(); i++){
+			genomeFile.addItem(genomeReleaseFiles.get(i));
+		}
 	}
 
+	//TODO listan på GenomeRelease-filerna som databasen har måste hämtas och sättas här
+	public void setGenomeReleaseFiles(ArrayList<String> genomeReleaseFiles){
+		this.genomeReleaseFiles = genomeReleaseFiles;
+	}
+	
+	
 	private String getSmoothingParameters() {
 		String smoothPar;
 		String printmean = "0";
 		String printzeros = "0";
-		smoothPar = SmoothWindowSize.getText() + " " + SmoothType.getText() + " " + StepPosition.getText();
+		smoothPar = SmoothWindowSize.getText().trim() + " " + SmoothType.getText().trim() + " " + StepPosition.getText().trim();
 
 		if(printMean.isSelected()){
 			printmean = "1"; 
@@ -270,15 +311,15 @@ public class ProcessTab extends JPanel {
 			printzeros = "1";
 		}
 
-		return smoothPar + " " + printmean + " " + printzeros;
+		return smoothPar + " " + printmean.trim() + " " + printzeros.trim();
 	}
 
 	private String getTextGenomeFileName() {
-		return genomeFile.getText();
+		return genomeFile.getSelectedItem().toString().trim();
 	}
 
 	private String getTextFromBowtieParOne() {
-		return bowtiePar.getText();
+		return bowtiePar.getText().trim();
 	}
 
 	public void setFileInfo(ArrayList<FileData> allFileData){
@@ -318,6 +359,7 @@ public class ProcessTab extends JPanel {
 	}
 
 	private void fileListSetCellRenderer() {
+		fileList.setPreferredSize(new Dimension(260, 245));
 		fileList.setCellRenderer(new CheckListRenderer());
 		fileList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 	}
@@ -331,9 +373,8 @@ public class ProcessTab extends JPanel {
 
 	private void initScrollPane() {
 		scrollFiles = new JScrollPane(fileList);
-		scrollFiles.setBorder(BorderFactory.createTitledBorder("FILES"));
-		fileList.setFixedCellWidth(280);
-		fileList.setFixedCellHeight(33);
+		scrollFiles.setPreferredSize(new Dimension(290, 260));
+		scrollFiles.setBorder(new TitledBorder(null, "Files", TitledBorder.LEADING, TitledBorder.TOP, null, null));
 		filesPanel.add(scrollFiles);
 	}
 

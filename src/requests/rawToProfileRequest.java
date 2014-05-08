@@ -15,7 +15,7 @@ public class rawToProfileRequest extends Request {
 			String processtype, String[] parameters, String metadata,
 			String genomeRelease, String author) {
 
-		super("rawtoprofile", "/process/rawtoprofile", "PUT");
+		super("rawtoprofile", "/process", "PUT");
 		this.fileName = fileName;
 		this.fileID = fileID;
 		this.expid = expid;
