@@ -344,6 +344,9 @@ public class Controller {
 
 		@Override
 		public void run() {
+            //Skicka med arraylist<String> för de filer som ska nerladdas
+
+
 			/*
 			 * TODO N�r vi har faktiska filer som ska nedladdas: anv�nd den
 			 * andra konstruktorn new DownloadWindow(ArrayList<String>)
@@ -393,8 +396,8 @@ public class Controller {
 		@Override
 		public void run() {
             FileDialog fileDialog = new java.awt.FileDialog((java.awt.Frame) null);
-            fileDialog.setVisible(true);
             fileDialog.setMultipleMode(true);
+            fileDialog.setVisible(true);
 
 //      Old fileChooser:        fileChooser.showOpenDialog(new JPanel());
         }
