@@ -196,7 +196,7 @@ public class ProcessTab extends JPanel {
 	public void setFileInfo(FileData[] fileData){
 		this.fileData = fileData;
 
-		System.out.println(fileData[0].name);
+		System.out.println(fileData[0].filename);
 		parseFileData();
 	}
 
@@ -310,7 +310,7 @@ public class ProcessTab extends JPanel {
 
 				for(int j = 0; j < arr.size(); j++){
 
-					if(arr.get(j) == fileData[i].name ){
+					if(arr.get(j) == fileData[i].filename ){
 						allMarked.add( fileData[i] );
 					}
 				}

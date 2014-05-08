@@ -2,9 +2,8 @@ package controller;
 
 import gui.DownloadWindow;
 import gui.GenomizerView;
-import gui.UploadTab;
 
-import java.awt.FileDialog;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
@@ -55,30 +54,40 @@ public class Controller {
     }
 
     class DownloadSearchListener implements ActionListener, Runnable {
-	@Override
-	public void actionPerformed(ActionEvent e) {
-	    new Thread(this).start();
-	}
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            new Thread(this).start();
+        }
 
-	@Override
-	public void run() {
-	    FileData[] fileData = view.getSelectedFilesInSearch();
+        @Override
+        public void run() {
+            FileData[] fileData = view.getSelectedFilesInSearch();
 
-	    FileDialog fileDialog = new FileDialog((java.awt.Frame) null,
+	    /*FileDialog fileDialog = new FileDialog((java.awt.Frame) null,
 		    "Choose a directory", FileDialog.SAVE);
 	    fileDialog.setVisible(true);
 	    String directoryName = fileDialog.getDirectory();
 	    System.out.println("You chose " + directoryName);
+            if(fileData == null || directoryName == null) {
+                System.err.println("No directory selected");
+                return;
+            }*/
 
-	    if (fileData == null) {
-		System.err.println("No directory selected");
-		return;
-	    }
+            fileChooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+            int ret = fileChooser.showOpenDialog(new JPanel());
+            String directoryName;
+            if(ret == JFileChooser.APPROVE_OPTION) {
+                directoryName = fileChooser.getSelectedFile().getAbsolutePath();
+            } else {
+                return;
+            }
 	    for (FileData data : fileData) {
+            
 
-		model.downloadFile(data.id, directoryName + "/" + data.name);
-	    }
-	}
+                model.downloadFile(data.url, data.id, directoryName + "/" + data.filename);
+            }
+
+        }
     }
 
     class DeleteAnnotationListener implements ActionListener, Runnable {
@@ -382,10 +391,7 @@ public class Controller {
 
 		@Override
 		public void run() {
-            DownloadWindow downloadWindow = view.getDownloadWindow();
-            ArrayList<FileData> fileData = downloadWindow.getFiles();
-
-	    FileDialog fileDialog = new FileDialog((java.awt.Frame) null,
+            /*FileDialog fileDialog = new FileDialog((java.awt.Frame) null,
 		    "Choose a directory", FileDialog.SAVE);
 	    fileDialog.setVisible(true);
 	    String directoryName = fileDialog.getDirectory();
@@ -394,10 +400,21 @@ public class Controller {
 	    if (fileData == null) {
 		System.err.println("No directory selected");
 		return;
-	    }
-	    for (FileData data : fileData) {
+	    }*/
+            DownloadWindow downloadWindow = view.getDownloadWindow();
+            ArrayList<FileData> fileData = downloadWindow.getFiles();
+            fileChooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+            int ret = fileChooser.showOpenDialog(new JPanel());
+            String directoryName;
+            if(ret == JFileChooser.APPROVE_OPTION) {
+                directoryName = fileChooser.getSelectedFile().getAbsolutePath();
+            } else {
+                return;
+            }
 
-		model.downloadFile(data.id, directoryName + "/" + data.name);
+	    for (FileData data : fileData) {
+            System.out.println(data.url);
+            model.downloadFile(data.url, data.id, directoryName + "/" + data.filename);
 	    }
 	}
     }

@@ -345,12 +345,12 @@ public class GUI extends JFrame implements GenomizerView {
 	// TESTING
 	for (int i = 0; i < 10; i++) {
 
-	    fileData = new FileData(null, null, "[" + i
+	    /*fileData = new FileData(null, null, "[" + i
 		    + "] Protein223_A5_2014.RAW", null, null, null, null);
 
 	    System.out.println(fileData.name);
 
-	    fileArray[i] = fileData;
+	    fileArray[i] = fileData;*/
 
 	}
 	processTab.setFileInfo(fileArray);

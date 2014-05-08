@@ -268,7 +268,7 @@ public class TreeTable extends JPanel {
 	ArrayList<FileData> files = this.getSelectedFiles();
 	for (ExperimentData data : experiments) {
 	    for (FileData file : files) {
-		System.out.println(file.name + " removed");
+		System.out.println(file.filename + " removed");
 		data.removeFile(file);
 	    }
 	}
@@ -307,7 +307,7 @@ public class TreeTable extends JPanel {
 	     */
 	    for (int j = 0; j < fileData.length; j++) {
 		FileData currentFile = fileData[j];
-		Object[] rowContent = { currentFile.id, currentFile.name,
+		Object[] rowContent = { currentFile.id, currentFile.filename,
 			currentFile.size, currentFile.date,
 			currentFile.uploadedBy };
 		if (currentFile.type.equals("raw")) {

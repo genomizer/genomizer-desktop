@@ -1,5 +1,6 @@
 package responses;
 
+import com.google.gson.GsonBuilder;
 import util.AnnotationDataType;
 import util.ExperimentData;
 
@@ -8,7 +9,7 @@ import com.google.gson.JsonParseException;
 
 public class ResponseParser {
 
-	private static Gson gson = new Gson();
+	private static Gson gson = new GsonBuilder().create();
 
 	public static LoginResponse parseLoginResponse(String json) {
 		LoginResponse loginResponse = null;
