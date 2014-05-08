@@ -199,8 +199,9 @@ public class Controller {
 		    String filePath = null;// allMarked.get(i).URL;
 		    String author = view.getUsername();
 
-		    // ProcessTab
-		    String[] parameters = null;
+		    // ProcessTa
+		    String parameters[] = null;
+		    //parameters[0] = view.getParameters()[0];
 
 		    // WorkspaceTab
 		    String metadata = null;

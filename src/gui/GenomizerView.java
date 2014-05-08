@@ -117,5 +117,7 @@ public interface GenomizerView {
     public void addDeleteAnnotationListener(ActionListener listener);
 
     public void createNewExp(AnnotationDataType[] annotations);
-
+   
+    public String[] getParameters();
 }
+

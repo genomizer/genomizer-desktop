@@ -414,4 +414,10 @@ public class GUI extends JFrame implements GenomizerView {
     public DownloadWindow getDownloadWindow() {
         return downloadWindow;
     }
+
+	@Override
+	public String[] getParameters() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }
