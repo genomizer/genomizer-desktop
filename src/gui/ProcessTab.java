@@ -30,29 +30,17 @@ public class ProcessTab extends JPanel {
 	private String[] bowtieParameters = new String[4];
     private JTextArea timeArea = new JTextArea();
     private JTextArea convertArea = new JTextArea();
-
-//	parameters[0] = "-a -m --best -p –v -q -S"; //view.getParameters()[0];
-	//Namnet på genome filen.
-//	parameters[1] = "d_melanogaster_fb5_22"; //view.getParameters()[1];
-	//5 stycken smoothing parameters som användaren kan välja.
-	// window size (10),
-	// smooth type (1),
-	// minimum step pos (5),
-	// print mean or not (0),
-	// print 0’s or not (1)
-//	parameters[2] = "10 1 5 0 1";//view.getParameters()[2];
-	//Step size 10, y är för "yes"
-//	parameters[3] = "y 10";//view.getParameters()[3];
-
     private JTextField bowtiePar = new JTextField();
+    
+    //TODO genomeFile b�r vara en dropdown-meny som ser vilka genomerelease-filer databasen har.
     private JTextField genomeFile = new JTextField();
     private JTextField SmoothWindowSize = new JTextField();
     private JTextField SmoothType = new JTextField();
     private JTextField StepPosition = new JTextField();
-    private JCheckBox printOrNot = new JCheckBox("Print");
+    private JCheckBox printMean = new JCheckBox("Print");
     private JCheckBox printZeros = new JCheckBox("Print zeros");
-    private JTextField parameter3 = new JTextField();
-
+    private JTextField stepSize = new JTextField();
+    
     private JPanel filesPanel = new JPanel();
     private JPanel scheduleProcPanel = new JPanel();
     private JPanel genProfileDataPanel = new JPanel();
@@ -90,6 +78,7 @@ public class ProcessTab extends JPanel {
 		initConvertTextArea();
         initFileList();
         writeToTimePanel();
+        initBowtieParameters();
 
     }
 
@@ -210,47 +199,56 @@ public class ProcessTab extends JPanel {
         scheduleButton.setEnabled(false);
     }
 
-    private void writeToTimePanel() {
-
-        timeArea.setText("");
-        timeArea.setEditable(false);
-        timeArea.append("Number of jobs currently in queue: "
-                + getNumberOfJobsInQueue() + " (est. time until empty : "
-                + getTimeApprox() + " min )");
-        timePanel.add(timeArea);
-
-    }
-
     public String[] getBowtieParameters(){
 		return this.bowtieParameters;
     }
 
     public void setBowtieParameters(){
-
-    	bowtieParameters[0] = "-a -m 1 --best -p 10 -v 2"; //getTextFromBowtieParOne();	
-    	bowtieParameters[1] = "d_melanogaster_fb5_22";// getTextGenomeFileName();
-    	bowtieParameters[2] = "10 1 5 0 1";// getSmoothingParameters();
-    	bowtieParameters[3] = "y 10"; //getStepSize();
+    	   	
+    	bowtieParameters[0] = getTextFromBowtieParOne(); //"-a -m 1 --best -p 10 -v 2"; 	
+    	bowtieParameters[1] = getTextGenomeFileName(); //"d_melanogaster_fb5_22";
+    	bowtieParameters[2] = getSmoothingParameters(); //"10 1 5 0 1";
+    	bowtieParameters[3] = getStepSize(); //"y 10"; 
     	    	
     }
     
 	private String getStepSize() {
-		// TODO Auto-generated method stub
-		return null;
+		return stepSize.getText();
 	}
 
+	private void initBowtieParameters(){
+
+	    stepSize.setText("y 10");
+	    genomeFile.setText("d_melanogaster_fb5_22");
+		SmoothWindowSize.setText("10");
+		SmoothType.setText("1");
+		StepPosition.setText("5");
+
+	}
+	
 	private String getSmoothingParameters() {
-		// TODO Auto-generated method stub
-		return null;
+		String smoothPar;
+		String printmean = "0";
+		String printzeros = "0";
+		smoothPar = SmoothWindowSize.getText() + " " + SmoothType.getText() + " " + StepPosition.getText();
+
+		if(printMean.isSelected()){
+			printmean = "1"; 
+		}
+		
+		if(printZeros.isSelected()){
+			printzeros = "1";
+		}
+		
+		return smoothPar + " " + printmean + " " + printzeros;
 	}
 
 	private String getTextGenomeFileName() {
-		// TODO Auto-generated method stub
-		return null;
+		return genomeFile.getText();
 	}
 
 	private String getTextFromBowtieParOne() {
-		return null;
+		return bowtiePar.getText();
 	}
 
 	public void setFileInfo(ArrayList<FileData> allFileData){
@@ -338,17 +336,13 @@ public class ProcessTab extends JPanel {
         return arr;
     }
 
-    //TODO N�t �r fel...fileData == null, efterssom setFileInfo inte anropas innan.
 	public ArrayList<FileData> getAllMarkedFileData(){
 
 		ArrayList<FileData> allMarked = new ArrayList<FileData>();
 		ArrayList<String> arr = getAllMarkedFiles();
 
-//		if(fileData == null){
-
-//			return allMarked;
-//		} else {
-
+		if(!(fileData == null)){
+		
 			for(int i = 0; i < fileData.size(); i++){
 
 				for(int j = 0; j < arr.size(); j++){
@@ -359,8 +353,8 @@ public class ProcessTab extends JPanel {
 				}
 			}
 
+		}
 			return allMarked;
-//		}
 	}
 
     private void checkItemIsSelected(ArrayList<String> arr,
@@ -404,5 +398,17 @@ public class ProcessTab extends JPanel {
 		convertArea.append(message);
 
 	}
+	
+    private void writeToTimePanel() {
+
+        timeArea.setText("");
+        timeArea.setEditable(false);
+        timeArea.append("Number of jobs currently in queue: "
+                + getNumberOfJobsInQueue() + " (est. time until empty : "
+                + getTimeApprox() + " min )");
+        timePanel.add(timeArea);
+
+    }
+
 
 }
