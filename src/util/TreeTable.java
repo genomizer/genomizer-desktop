@@ -166,47 +166,6 @@ public class TreeTable extends JPanel {
 	});
     }
 
-    // private String[][] getDataFromTreeTable() {
-    // /* get the data from the existing JXTreeTable (to keep column orders) */
-    // table.collapseAll();
-    // String[][] experimentContent = new String[table.getRowCount()][table
-    // .getColumnCount()];
-    // for (int i = 0; i < table.getRowCount(); i++) {
-    // for (int j = 0; j < table.getColumnCount(); j++) {
-    // experimentContent[i][j] = (String) table.getValueAt(i, j);
-    // }
-    // }
-    // return experimentContent;
-    // }
-    //
-    // private String[] getHeadingsFromTreeTable() {
-    // /*
-    // * get the headings from the existing JXTreeTable (to keep column
-    // * orders)
-    // */
-    // String[] headings = new String[table.getColumnCount()];
-    // for (int i = 0; i < table.getColumnCount(); i++) {
-    // headings[i] = table.getColumnName(i);
-    // }
-    // return headings;
-    // }
-
-    // private ExperimentData getExperimentFromData(String[] data) {
-    // /* Get the ExperimentData object corresponding to the input data */
-    // int mainIndex = 0;
-    // for (int i = 0; i < headings.length; i++) {
-    // if (headings[i].equals("Experiment Name")) {
-    // mainIndex = i;
-    // }
-    // }
-    // for (int i = 0; i < experiments.length; i++) {
-    // if (experiments[i].name.equals(data[mainIndex])) {
-    // return experiments[i];
-    // }
-    // }
-    // return null;
-    // }
-
     public ExperimentData[] getContent() {
 	return experiments;
     }
@@ -220,7 +179,6 @@ public class TreeTable extends JPanel {
 		FileData file = fileIdToFileDataMap.get(table.getValueAt(
 			rows[i], 0));
 		files.add(file);
-		System.out.println(file.name);
 	    }
 
 	}
