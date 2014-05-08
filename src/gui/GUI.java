@@ -382,6 +382,26 @@ public class GUI extends JFrame implements GenomizerView {
         return workspaceTab.getSelectedExperiments();
     }
 
+    public ArrayList<FileData> getQuerySearchTabSelectedFiles() {
+        FileData[] fileData = querySearchTab.getSelectedFiles();
+        ArrayList<FileData> fileData2 = new ArrayList<FileData>();
+        for(int i=0; i<fileData.length; i++) {
+            fileData2.add(fileData[i]);
+        }
+
+        return fileData2;
+    }
+
+    public ArrayList<ExperimentData> getQuerySearchTabSelectedExperiments() {
+        ExperimentData[] experimentData = querySearchTab.getSelectedExperiments();
+        ArrayList<ExperimentData> experimentData2 = new ArrayList<ExperimentData>();
+        for(int i=0; i<experimentData.length; i++) {
+            experimentData2.add(experimentData[i]);
+        }
+
+        return experimentData2;
+    }
+
     public void refreshGUI() {
 	mainPanel.repaint();
 	mainPanel.revalidate();
