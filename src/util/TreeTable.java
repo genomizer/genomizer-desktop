@@ -199,10 +199,8 @@ public class TreeTable extends JPanel {
 	int[] rows = table.getSelectedRows();
 	ArrayList<ExperimentData> selectedExperiments = new ArrayList<ExperimentData>();
 	for (int i = 0; i < rows.length; i++) {
-	    System.out.println("selected exp: " + rows[i]);
 	    for (int j = 0; j < experiments.length; j++) {
 		if (table.getValueAt(rows[i], 0).equals(experiments[j].name)) {
-		    System.out.println(experiments[j].name + " added");
 		    selectedExperiments.add(experiments[j]);
 		}
 	    }
@@ -247,7 +245,6 @@ public class TreeTable extends JPanel {
 	}
 	for (ExperimentData data : selectedExperiments) {
 	    if (experiments.length > 0) {
-		System.out.println(data.name + " removed");
 		ArrayList<ExperimentData> list = new ArrayList<ExperimentData>(
 			Arrays.asList(experiments));
 		list.remove(data);
@@ -255,10 +252,7 @@ public class TreeTable extends JPanel {
 			.toArray(new ExperimentData[experiments.length - 1]);
 	    }
 	}
-	System.out.println("exp2 size: " + experiments.length);
-	for (int i = 0; i < experiments.length; i++) {
-	    System.out.println("Remaining data:" + experiments[i].name);
-	}
+
 	this.setContent(experiments);
     }
 
@@ -266,7 +260,6 @@ public class TreeTable extends JPanel {
 	ArrayList<FileData> files = this.getSelectedFiles();
 	for (ExperimentData data : experiments) {
 	    for (FileData file : files) {
-		System.out.println(file.filename + " removed");
 		data.removeFile(file);
 	    }
 	}
@@ -290,7 +283,6 @@ public class TreeTable extends JPanel {
 	    String[] fileHeaders = new String[] {
 		    "<html><b>File ID</html></b>",
 		    "<html><b>File Name</html></b>",
-		    "<html><b>File Size</html></b>",
 		    "<html><b>Date Added</html></b>",
 		    "<html><b>Uploaded By</html></b>" };
 	    rawFiles.add(new Node(fileHeaders));
@@ -304,8 +296,7 @@ public class TreeTable extends JPanel {
 	    for (int j = 0; j < fileData.length; j++) {
 		FileData currentFile = fileData[j];
 		Object[] rowContent = { currentFile.id, currentFile.filename,
-			currentFile.size, currentFile.date,
-			currentFile.uploader };
+			currentFile.date, currentFile.uploader };
 		if (currentFile.type.equals("Raw")) {
 		    rawFiles.add(new Node(rowContent));
 		} else if (currentFile.type.equals("Region")) {

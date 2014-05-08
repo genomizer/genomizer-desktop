@@ -87,11 +87,10 @@ public class Controller {
 	    ExperimentData currentExperiment;
 
 	    for (int i = 0; i < selectedExperiments.size(); i++) {
-		currentExperiment = selectedExperiments.get(i);
-		for (int j = 0; j < currentExperiment.files.length; j++) {
-		    selectedFiles.add(currentExperiment.files[j]);
-		    System.out.println(currentExperiment);
-		}
+            currentExperiment = selectedExperiments.get(i);
+            for (int j = 0; j < currentExperiment.files.length; j++) {
+                selectedFiles.add(currentExperiment.files[j]);
+            }
 	    }
 
         DownloadWindow downloadWindow = new DownloadWindow(selectedFiles);
