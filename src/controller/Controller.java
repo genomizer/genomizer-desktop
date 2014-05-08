@@ -445,8 +445,17 @@ public class Controller {
 
 	    for (FileData data : fileData) {
 		System.out.println(data.url);
+            File experimentDir = new File(directoryName + "/" + data.expId);
+            if(experimentDir.mkdir()) {
+                System.out.println("Created dir: " + data.expId);
+            }
+            File typeDir = new File(directoryName + "/" + data.expId + "/"
+                                    + data.type);
+            if(typeDir.mkdir()) {
+                System.out.println("Created dir: " + data.type);
+            }
 		model.downloadFile(data.url, data.id, directoryName + "/"
-			+ data.filename);
+			+ data.expId + "/" + data.type + "/" + data.filename);
 	    }
 	}
     }
