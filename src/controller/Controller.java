@@ -49,7 +49,7 @@ public class Controller {
 	view.addSearchToWorkspaceListener(new SearchToWorkspaceListener());
 	view.addDeleteAnnotationListener(new DeleteAnnotationListener());
 	view.addNewExpButtonListener(new NewExpButtonListener());
-	// view.add
+	view.addSelectButtonListener(new SelectFilesToUploadButtonListener());
     }
 
     class DownloadSearchListener implements ActionListener, Runnable {
@@ -76,7 +76,6 @@ public class Controller {
 
 		model.downloadFile(data.id, directoryName + "/" + data.name);
 	    }
-
 	}
     }
 
