@@ -35,6 +35,7 @@ import javax.swing.JComboBox;
 import javax.swing.JScrollBar;
 import javax.swing.ScrollPaneConstants;
 import javax.swing.JProgressBar;
+import java.awt.event.ActionEvent;
 
 public class ProcessTab extends JPanel {
 
@@ -75,9 +76,8 @@ public class ProcessTab extends JPanel {
 	// TODO SKA VARA JLIST
 	private ArrayList processQueue = new ArrayList();
 	private ArrayList<FileData> fileData;
+	private final JPanel convPanel = new JPanel();
 	private final JPanel buttonPanel = new JPanel();
-	private final JPanel ConversionParPanel = new JPanel();
-	private final JPanel FlagsPanel = new JPanel();
 	private final JList scheduleList = new JList();
 	private final JTextArea textArea = new JTextArea();
 	private final JTextArea genProfArea = new JTextArea();
@@ -218,46 +218,49 @@ public class ProcessTab extends JPanel {
 
 	private void addButtonsToMenu() {
 		menuPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
+		convPanel.setBorder(new TitledBorder(null, "Conversion parameters", TitledBorder.LEADING, TitledBorder.TOP, null, null));
+		menuPanel.add(convPanel);
+		buttonPanel.setBorder(null);
 		menuPanel.add(buttonPanel);
-
-		menuPanel.add(FlagsPanel);
-		FlagsPanel.add(bowtiePar);
+		convPanel.add(bowtiePar);
 		bowtiePar.setBorder(new TitledBorder(null, "Flags", TitledBorder.LEADING, TitledBorder.TOP, null, null));
 		bowtiePar.setText("-a -m 1 --best -p 10 -v 2");
 		bowtiePar.setPreferredSize(new Dimension(250, 40));
-		genomeFile.setPreferredSize(new Dimension(200, 40));
-		FlagsPanel.add(genomeFile);
-
-		genomeFile.setBorder(new TitledBorder(null, "Genome release files", TitledBorder.LEADING, TitledBorder.TOP, null, null));
-		ConversionParPanel.setBorder(new TitledBorder(UIManager.getBorder("TitledBorder.border"), "Conversion parameters", TitledBorder.LEFT, TitledBorder.TOP, null, null));
-		menuPanel.add(ConversionParPanel);
-		ConversionParPanel.add(SmoothWindowSize);
+		convPanel.add(SmoothWindowSize);
 		SmoothWindowSize.setPreferredSize(new Dimension(100, 40));
 		SmoothWindowSize.setBorder(BorderFactory.createTitledBorder("Window size"));
+		convPanel.add(SmoothType);
 		SmoothType.setPreferredSize(new Dimension(100, 40));
-		ConversionParPanel.add(SmoothType);
 		SmoothType.setBorder(BorderFactory.createTitledBorder("Smooth type"));
+		convPanel.add(StepPosition);
 		StepPosition.setPreferredSize(new Dimension(100, 40));
-		ConversionParPanel.add(StepPosition);
 		StepPosition.setBorder(BorderFactory.createTitledBorder("Step position"));
+		convPanel.add(stepSize);
 		stepSize.setPreferredSize(new Dimension(80, 40));
-		ConversionParPanel.add(stepSize);
 		stepSize.setBorder(BorderFactory.createTitledBorder("Step size"));
-		ConversionParPanel.add(printMean);
-
-		//CHECKBOX
-		printMean.setBorder(BorderFactory.createTitledBorder("Print mean"));
-		ConversionParPanel.add(printZeros);
-
-		//Checkbox
-		printZeros.setBorder(BorderFactory.createTitledBorder("Print zeros"));
+		convPanel.add(genomeFile);
+		genomeFile.setPreferredSize(new Dimension(200, 40));
+		
+				genomeFile.setBorder(new TitledBorder(null, "Genome release files", TitledBorder.LEADING, TitledBorder.TOP, null, null));
+						convPanel.add(printZeros);
+				
+						//Checkbox
+						printZeros.setBorder(BorderFactory.createTitledBorder("Print zeros"));
+								convPanel.add(printMean);
+						
+								//CHECKBOX
+								printMean.setBorder(BorderFactory.createTitledBorder("Print mean"));
+		buttonPanel.add(profileButton);
 	}
 
 	private void enableButtons() {
-		buttonPanel.add(profileButton);
 		buttonPanel.add(regionButton);
 		regionButton.setEnabled(false);
 		buttonPanel.add(convertButton);
+		convertButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+			}
+		});
 		convertButton.setEnabled(false);
 		buttonPanel.add(scheduleButton);
 		scheduleButton.setEnabled(false);
