@@ -93,6 +93,10 @@ public class Controller {
 		    System.out.println(currentExperiment);
 		}
 	    }
+
+        DownloadWindow downloadWindow = new DownloadWindow(selectedFiles);
+        view.setDownloadWindow(downloadWindow);
+        downloadWindow.addDownloadFileListener(new DownloadFileListener());
 	}
 
     }
