@@ -53,7 +53,7 @@ public class Controller {
 	view.addDeleteAnnotationListener(new DeleteAnnotationListener());
 	view.addNewExpButtonListener(new NewExpButtonListener());
 	view.addSelectButtonListener(new SelectFilesToNewExpListener());
-	view.addUploadButtonListener(new UploadFilesListener());
+	view.addUploadButtonListener(new UploadNewExpListener());
     }
 
     class DownloadSearchListener implements ActionListener, Runnable {
@@ -575,7 +575,7 @@ public class Controller {
 	    view.selectFilesToNewExp(fileNames);
 	}
     }
-    class UploadFilesListener implements ActionListener, Runnable  {
+    class UploadNewExpListener implements ActionListener, Runnable  {
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
@@ -584,6 +584,8 @@ public class Controller {
 	
 	@Override
 	public void run() {
+	    AnnotationDataType[] a = view.getUploadAnnotations();
+	    File[] files = view.getFilesToUpload();
 	    System.out.println("HEJ");
 	}
     }

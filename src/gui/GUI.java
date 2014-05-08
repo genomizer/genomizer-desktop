@@ -4,6 +4,7 @@ import gui.sysadmin.SysadminTab;
 
 import java.awt.BorderLayout;
 import java.awt.event.ActionListener;
+import java.io.File;
 import java.util.ArrayList;
 
 import javax.swing.JFrame;
@@ -422,5 +423,15 @@ public class GUI extends JFrame implements GenomizerView {
 	public String[] getParameters() {
 		// TODO Auto-generated method stub
 		return null;
+	}
+	
+	@Override
+	public File[] getFilesToUpload() {
+	    return new File[1];
+	}
+	
+	@Override
+	public AnnotationDataType[] getUploadAnnotations() {
+	    return new AnnotationDataType[1];
 	}
 }
