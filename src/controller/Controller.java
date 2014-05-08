@@ -79,7 +79,6 @@ public class Controller {
         view.setDownloadWindow(downloadWindow);
         downloadWindow.addDownloadFileListener(new DownloadFileListener());
 	    }
-	}
     }
 
     class DeleteAnnotationListener implements ActionListener, Runnable {
