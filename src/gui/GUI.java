@@ -378,6 +378,10 @@ public class GUI extends JFrame implements GenomizerView {
 	return workspaceTab.getSelectedFiles();
     }
 
+    public ArrayList<ExperimentData> getWorkspaceSelectedExperiments() {
+        return workspaceTab.getSelectedExperiments();
+    }
+
     public void refreshGUI() {
 	mainPanel.repaint();
 	mainPanel.revalidate();
@@ -410,4 +414,10 @@ public class GUI extends JFrame implements GenomizerView {
     public DownloadWindow getDownloadWindow() {
         return downloadWindow;
     }
+
+	@Override
+	public String[] getParameters() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }

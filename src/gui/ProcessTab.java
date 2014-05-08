@@ -166,7 +166,7 @@ public class ProcessTab extends JPanel {
         menuPanel.add(regionButton);
         menuPanel.add(scheduleButton);
         parameter1.setBorder(BorderFactory.createTitledBorder("Bowtie Parameter 1"));
-        parameter1.setText("./bowtie -a -m 1 --best -p 10 –v 2 d_melanogaster_fb5_22 -q /path/*.fastq -S /path/*.sam");
+        parameter1.setText("-a -m --best -p –v -q -S");
         parameter1.setPreferredSize(new Dimension(620,45));
         menuPanel.add(parameter1);
     }
@@ -185,6 +185,11 @@ public class ProcessTab extends JPanel {
                 + getNumberOfJobsInQueue() + " (est. time until empty : "
                 + getTimeApprox() + " min )");
         timePanel.add(timeArea);
+
+    }
+
+    public String[] getParameters(){
+		return null;
 
     }
 

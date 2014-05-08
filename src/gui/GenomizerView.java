@@ -68,7 +68,9 @@ public interface GenomizerView {
 
     public DownloadWindow getDownloadWindow();
 
-    public String getQuerySearchString();
+    public ArrayList<ExperimentData> getWorkspaceSelectedExperiments();
+
+	public String getQuerySearchString();
 
     public String getIp();
 
@@ -116,4 +118,6 @@ public interface GenomizerView {
 
     public void createNewExp(AnnotationDataType[] annotations);
 
+    public String[] getParameters();
 }
+
