@@ -49,7 +49,7 @@ public class Controller {
 	view.addSearchToWorkspaceListener(new SearchToWorkspaceListener());
 	view.addDeleteAnnotationListener(new DeleteAnnotationListener());
 	view.addNewExpButtonListener(new NewExpButtonListener());
-	// view.add
+	view.addSelectButtonListener(new SelectFilesToUploadButtonListener());
     }
 
     class DownloadSearchListener implements ActionListener, Runnable {
@@ -76,7 +76,6 @@ public class Controller {
 
 		model.downloadFile(data.id, directoryName + "/" + data.name);
 	    }
-
 	}
     }
 
@@ -198,8 +197,9 @@ public class Controller {
 		    String filePath = null;// allMarked.get(i).URL;
 		    String author = view.getUsername();
 
-		    // ProcessTab
-		    String[] parameters = null;
+		    // ProcessTa
+		    String parameters[] = null;
+		    //parameters[0] = view.getParameters()[0];
 
 		    // WorkspaceTab
 		    String metadata = null;
@@ -475,6 +475,7 @@ public class Controller {
 	@Override
 	public void run() {
 	    System.out.println("add to workspace");
+	    view.addToWorkspace(view.getSelectedFilesWithExpsInSearch());
 	    view.addToWorkspace(view.getSelectedExperimentsInSearch());
 	}
 
