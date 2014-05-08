@@ -6,6 +6,7 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Image;
 import java.awt.Insets;
+import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -82,6 +83,12 @@ public class WorkspaceTab extends JPanel {
 
     private void createButtons() {
 	removeButton = new JButton();
+	removeButton.addActionListener(new ActionListener() {
+	    @Override
+	    public void actionPerformed(ActionEvent e) {
+		table.removeSelected();
+	    }
+	});
 	downloadButton = new JButton();
 	analyzeButton = new JButton();
 	browseButton = new JButton();

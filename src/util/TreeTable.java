@@ -53,8 +53,6 @@ public class TreeTable extends JPanel {
 		    int column = cModel.getColumnIndexAtX(e.getX());
 		    sortData(column);
 		    createTreeStructure();
-		    repaint();
-		    revalidate();
 		}
 	    }
 	});
@@ -215,6 +213,17 @@ public class TreeTable extends JPanel {
 	return selectedExperiments;
     }
 
+    public void removeSelected() {
+	ArrayList<FileData> files = this.getSelectedFiles();
+	for (ExperimentData data : experiments) {
+	    for (FileData file : files) {
+		System.out.println(file.name + " removed");
+		data.removeFile(file);
+	    }
+	}
+	this.setContent(experiments.clone());
+    }
+
     private void createTreeStructure() {
 	/* Create the tree root */
 	Node root = new Node(new Object[] { "Root" });
@@ -274,5 +283,7 @@ public class TreeTable extends JPanel {
 		Arrays.asList(headings));
 	table.setTreeTableModel(model);
 	table.packAll();
+	repaint();
+	revalidate();
     }
 }

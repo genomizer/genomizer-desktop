@@ -1,6 +1,7 @@
 package util;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.Random;
@@ -42,6 +43,12 @@ public class ExperimentData {
 	both.clear();
 	both.addAll(hs);
 	files = both.toArray(new FileData[both.size()]);
+    }
+
+    public void removeFile(FileData fileData) {
+	ArrayList<FileData> list = new ArrayList<FileData>(Arrays.asList(files));
+	list.removeAll(Arrays.asList(fileData));
+	files = list.toArray(new FileData[files.length - 1]);
     }
 
     public static ExperimentData[] getExample() {
