@@ -82,6 +82,7 @@ public class UploadToExistingExpPanel extends JPanel {
                     annotationFields.add(textField);
                     p.add(textField, BorderLayout.CENTER);
                     add(p, gbc);
+                    textField.disable();
                 } else {
                     JComboBox comboBox = new JComboBox(
                             annotations[i].getValues());
@@ -89,6 +90,7 @@ public class UploadToExistingExpPanel extends JPanel {
                     annotationBoxes.add(comboBox);
                     p.add(comboBox, BorderLayout.CENTER);
                     add(p, gbc);
+                    comboBox.disable();
                 }
                 x++;
             }
