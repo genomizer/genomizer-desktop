@@ -9,7 +9,7 @@ import com.google.gson.JsonParseException;
 
 public class ResponseParser {
 
-	private static Gson gson = new GsonBuilder().create();
+	private static Gson gson = new Gson();
 
 	public static LoginResponse parseLoginResponse(String json) {
 		LoginResponse loginResponse = null;

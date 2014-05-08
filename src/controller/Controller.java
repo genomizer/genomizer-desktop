@@ -211,7 +211,7 @@ public class Controller {
 		    String fileName = allMarked.get(i).filename;
 		    String fileId = allMarked.get(i).id;
 		    String author = view.getUsername();
-		    String parameters[] = null;
+		    String parameters[] = new String[4];
 		    // Förvald i GUI men användaren kan välja att ändra
 		    parameters[0] = "-a -m --best -p –v -q -S"; // view.getParameters()[0];
 		    // Namnet på genome filen.
