@@ -336,24 +336,23 @@ public class GUI extends JFrame implements GenomizerView {
     }
 
     @Override
-    public void setProccessFileList() {
+    public void setProccessFileList(ArrayList<FileData> allFileData) {
 
-	FileData[] fileArray = new FileData[11];
-	FileData fileData;
+	ArrayList<FileData> fileArray = allFileData;
+//	FileData fileData;
 
 	// TODO
 	// TESTING
-	for (int i = 0; i < 10; i++) {
+	for (int i = 0; i < fileArray.size(); i++) {
 
-	    fileData = new FileData(null, null, "[" + i
-		    + "] Protein223_A5_2014.RAW", null, null, null, null);
+//	    fileData = fileArray[i].name;
 
-	    System.out.println(fileData.name);
+	    System.out.println(fileArray.get(i).name);
 
-	    fileArray[i] = fileData;
+//	    fileArray[i] = fileData;
 
 	}
-	processTab.setFileInfo(fileArray);
+	processTab.setFileInfo(allFileData);
 
     }
 

@@ -108,7 +108,7 @@ public interface GenomizerView {
 
     public void setSearchAnnotationTypes(AnnotationDataType[] annotationTypes);
 
-    public void setProccessFileList();
+    public void setProccessFileList(ArrayList<FileData> arrayList);
 
     public void annotationPopup();
 

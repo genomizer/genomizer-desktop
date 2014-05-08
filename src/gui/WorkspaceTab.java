@@ -42,7 +42,6 @@ public class WorkspaceTab extends JPanel {
 	setLayout(new BorderLayout());
 	buttonPanel = new JPanel();
 	filePanel = new JPanel(new BorderLayout());
-
 	add(buttonPanel, BorderLayout.NORTH);
 	add(filePanel, BorderLayout.CENTER);
 

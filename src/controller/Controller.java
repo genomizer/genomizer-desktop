@@ -266,7 +266,8 @@ public class Controller {
 	public void run() {
 
 	    System.out.println("Process");
-	    view.setProccessFileList();
+	    //TODO Skicka in filedata arrayen
+	    view.setProccessFileList(view.getWorkspaceSelectedFiles());
 
 	}
     }
