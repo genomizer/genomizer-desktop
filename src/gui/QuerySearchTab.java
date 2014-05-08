@@ -249,6 +249,11 @@ public class QuerySearchTab extends JPanel {
 	return list.toArray(new ExperimentData[list.size()]);
     }
 
+    public ExperimentData[] getSelectedExperiments() {
+	ArrayList<ExperimentData> list = resultsTable.getSelectedExperiments();
+	return list.toArray(new ExperimentData[list.size()]);
+    }
+
     public String getSearchString() {
 	return searchArea.getText();
     }
