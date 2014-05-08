@@ -34,6 +34,7 @@ import javax.swing.UIManager;
 import javax.swing.JComboBox;
 import javax.swing.JScrollBar;
 import javax.swing.ScrollPaneConstants;
+import javax.swing.JProgressBar;
 
 public class ProcessTab extends JPanel {
 
