@@ -107,7 +107,6 @@ public class ProcessTab extends JPanel {
         middelPanel.add(convertFilesPanel);
         convertFilesPanel.setBorder(BorderFactory
         		.createTitledBorder("CONVERT FILES"));
-      //  convertFilesPanel.setPreferredSize(new Dimension(300, 100));
     }
 
     private void initGenRegionDataPanel() {
@@ -157,7 +156,7 @@ public class ProcessTab extends JPanel {
         menuPanel.add(scheduleButton);
         parameter1.setBorder(BorderFactory.createTitledBorder("Bowtie Parameter 1"));
         parameter1.setText("-a -m --best -p –v -q -S");
-        parameter1.setPreferredSize(new Dimension(620,45));
+        parameter1.setPreferredSize(new Dimension(250,45));
         menuPanel.add(parameter1);
     }
 
