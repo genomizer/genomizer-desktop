@@ -177,14 +177,14 @@ public class Controller {
 
 			System.out.println("RAW TO PROFILE");
 
-			ArrayList<FileData> allMarked = null;//view.getAllMarkedFileData();
-			int markedSize = 1;//allMarked.size();
+			ArrayList<FileData> allMarked = view.getAllMarkedFileData();
+			int markedSize = allMarked.size();
 
-			if(/*!allMarked.isEmpty()*/!view.getAllMarkedFiles().isEmpty()){
+			if(!allMarked.isEmpty()/*!view.getAllMarkedFiles().isEmpty()*/){
 
-			//	for(int i = 0; i < markedSize; i++){
+				for(int i = 0; i < markedSize; i++){
 
-		/*TEST*/for(int i = 0; i < view.getAllMarkedFiles().size(); i++){
+		// TEST for(int i = 0; i < view.getAllMarkedFiles().size(); i++){
 
 
 					String fileName = view.getAllMarkedFiles().get(i);//allMarked.get(i).name;
@@ -453,7 +453,7 @@ public class Controller {
         }
 
     }
-    
+
     class NewExpButtonListener implements ActionListener, Runnable {
 
 	@Override
