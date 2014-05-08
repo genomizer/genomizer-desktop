@@ -200,16 +200,11 @@ public class Controller {
 	    String message = null;
 	    Boolean isConverted = false;
 
-            ArrayList<FileData> allMarked = view.getAllMarkedFileData();
-            int markedSize = allMarked.size();
-
-	    if (!allMarked.isEmpty()){
-
             if (!allMarked.isEmpty()/* !view.getAllMarkedFiles().isEmpty() */) {
 
                 for (int i = 0; i < markedSize; i++) {
 
-		    String fileName = allMarked.get(i).name;
+		    String fileName = allMarked.get(i).filename;
 		    String fileId = allMarked.get(i).id;
 		    String author = view.getUsername();
 		    String parameters[] = null;
@@ -227,33 +222,19 @@ public class Controller {
 		    //Step size 10, y är för "yes"
 		    parameters[3] = "y 10";//view.getParameters()[3];
 
-                    // TEST for(int i = 0; i < view.getAllMarkedFiles().size();
-                    // i++){
-
-                    String fileName = view.getAllMarkedFiles().get(i);// allMarked.get(i).name;
-                    String filePath = null;// allMarked.get(i).URL;
-                    String author = view.getUsername();
-
-                    // ProcessTa
-                    String parameters[] = null;
-                    // parameters[0] = view.getParameters()[0];
-
-                    // WorkspaceTab
-                    String metadata = null;
-                    String genomeRelease = null;
-                    String expid = null;
+            // WorkspaceTab
+            String metadata = null;
+            String genomeRelease = null;
+            String expid = null;
 
 		    isConverted = model.rawToProfile(fileName, fileId,
 			    metadata, genomeRelease, author, expid, parameters);
-                    Boolean converted = model.rawToProfile(fileName, filePath,
-                            metadata, genomeRelease, author, expid, parameters);
-                    String message = null;
 
 		    if (isConverted.equals(true)) {
 			message = "The server has converted: " + fileName;
 			view.printToConvertText(message);
-			
-                    if (converted.equals(true)) {
+
+                    if (isConverted.equals(true)) {
                         message = "The server has converted: " + fileName;
                         view.printToConvertText(message);
 
@@ -265,6 +246,7 @@ public class Controller {
                 }
             }
         }
+    }
     }
 
     class RawToRegionDataListener implements ActionListener, Runnable {
@@ -428,7 +410,7 @@ public class Controller {
             /*FileDialog fileDialog = new FileDialog((java.awt.Frame) null,
 	@Override
 	public void run() {
-	    
+
 
 	    FileDialog fileDialog = new FileDialog((java.awt.Frame) null,
 		    "Choose a directory", FileDialog.SAVE);
