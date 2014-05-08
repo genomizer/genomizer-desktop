@@ -186,7 +186,6 @@ public class ProcessTab extends JPanel {
 
 		System.out.println(fileData[0].name);
 		parseFileData();
-		//initFileList();
 	}
 
 
@@ -195,28 +194,33 @@ public class ProcessTab extends JPanel {
 	private void parseFileData(){
 
 		JList list = new JList(new CheckListItem[] {
-				new CheckListItem("[0] Protein223_A5_2014.RAW"),
-				new CheckListItem("[1] Protein223_A5_2014.RAW"),
-				new CheckListItem("[2] Protein223_A5_2014.RAW"),
-				new CheckListItem("[3] Protein223_A5_2014.RAW"),
-				new CheckListItem("[4] Protein223_A5_2014.RAW") });
+				new CheckListItem("[7] Protein223_A5_2014.RAW"),
+				new CheckListItem("[8] Protein223_A5_2014.RAW"),
+				new CheckListItem("[9] Protein223_A5_2014.RAW"),
+				new CheckListItem("[10] Protein223_A5_2014.RAW"),
+				new CheckListItem("[11] Protein223_A5_2014.RAW") });
 
 
-		Object[] itemList = new CheckListItem[fileData.length];
+	//	Object[] itemList = new CheckListItem[fileData.length];
 
 		for(int i = 0; i < fileData.length; i++){
 		//	itemList[i] = new CheckListItem( fileData[i].name );
 		}
 
-		resetFilePanel();
-
-		this.fileList = new JList(itemList);
-		//this.fileList = list;
-
+		//this.fileList = new JList(itemList);
+		this.fileList = list;
+		this.repaint();
+		this.revalidate();
 	}
 
-	private void resetFilePanel() {
-			
+	private void resetFilesPanel() {
+
+		filesPanel.removeAll();
+		leftPanel.remove(filesPanel);
+		filesPanel = new JPanel();
+		leftPanel.remove(filesPanel);
+		leftPanel.add(filesPanel);
+
 	}
 
 	private void setList(JList fileList) {
