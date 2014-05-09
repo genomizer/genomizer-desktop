@@ -367,8 +367,8 @@ public class GUI extends JFrame implements GenomizerView {
     }
 
     @Override
-    public void printToConvertText(String message) {
-	processTab.printToConvertText(message);
+    public void printToConvertText(String message,String color) {
+	processTab.printToConvertText(message, color);
     }
 
     @Override

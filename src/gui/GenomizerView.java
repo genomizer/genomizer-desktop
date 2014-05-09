@@ -117,7 +117,7 @@ public interface GenomizerView {
 
     public void closePopup();
 
-    public void printToConvertText(String message);
+    public void printToConvertText(String message,String color);
 
     public ArrayList<FileData> getWorkspaceSelectedFiles();
 

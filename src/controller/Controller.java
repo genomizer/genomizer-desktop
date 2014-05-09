@@ -252,13 +252,13 @@ public class Controller {
 							metadata, genomeRelease, author);
 
 					if (isConverted.equals(true)) {
-						message = "The server has converted: " + fileName;
-						view.printToConvertText(message);
+						message = "The server has converted: " + fileName + " with file id: " + fileID + " from " + expid + "\n";
+						view.printToConvertText(message,"green");
 
 					} else {
 						message = "WARNING - The server couldn't convert: "
-								+ fileName + "\n";
-						view.printToConvertText(message);
+								+ fileName + " with file id: " + fileID + " from "+ expid +"\n";
+						view.printToConvertText(message,"red");
 					}
 				}
 			}

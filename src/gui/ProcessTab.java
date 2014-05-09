@@ -473,7 +473,7 @@ public class ProcessTab extends JPanel {
 		return 450;
 	}
 
-	public void printToConvertText(String message) {
+	public void printToConvertText(String message,String color) {
 
 		convertArea.append(message);
 
