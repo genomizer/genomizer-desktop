@@ -6,18 +6,21 @@ import util.ExperimentData;
 
 public class SearchHistory {
 
-	private ArrayList<ExperimentData[]> searchHistory;
+    private ArrayList<String> searchHistory;
 
-	public void searchHistory() {
-		searchHistory = new ArrayList<ExperimentData[]>();
-	}
+    public SearchHistory() {
+        searchHistory = new ArrayList<String>();
+    }
 
-	public void addSearchToHistory(ExperimentData[] searchResponses) {
-		// searchHistory.add(searchResponses);
-	}
+    public void addSearchToHistory(String searchQuery) {
+        if (searchHistory.size() > 20){
+            searchHistory.remove(0);
+        }
+        searchHistory.add(searchQuery);
+    }
 
-	public void getSearchFromHistory(int i) {
-		searchHistory.get(i);
-	}
+    public ArrayList<String> getSearchHistory() {
+       return searchHistory;
+    }
 
 }
