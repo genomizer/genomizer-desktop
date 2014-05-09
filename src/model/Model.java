@@ -68,6 +68,7 @@ public class Model implements GenomizerModel {
 				if (conn.getResponseCode() == 201) {
 					return true;
 				} else {
+					System.out.println("Response Code: " + conn.getResponseCode());
 					return false;
 				}
 	}

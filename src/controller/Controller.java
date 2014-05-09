@@ -1,5 +1,6 @@
 package controller;
 
+import gui.CheckListItem;
 import gui.DownloadWindow;
 import gui.GenomizerView;
 import gui.UploadTab;
@@ -7,11 +8,14 @@ import gui.UploadTab;
 import java.awt.FileDialog;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
 
 import javax.swing.JFileChooser;
+import javax.swing.JList;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
@@ -55,6 +59,7 @@ public class Controller {
 		view.addNewExpButtonListener(new NewExpButtonListener());
 		view.addSelectButtonListener(new SelectFilesToNewExpListener());
 		view.addUploadButtonListener(new UploadNewExpListener());
+		fileListAddMouseListener(view.getfileList());
 	}
 
 	class DownloadSearchListener implements ActionListener, Runnable {
@@ -232,11 +237,11 @@ public class Controller {
 					System.out.println("RAW TO PROFILE");
 					System.out.println("File: " + fileName);
 					System.out.println("File ID: " + fileID);
-					System.out.println("Author: " + view.getUsername());		    
+					System.out.println("Author: " + view.getUsername());
 					System.out.println("Expid: " + expid);
 					System.out.println("Genome Release: " + genomeRelease);
 					System.out.println("Metadata: " + metadata);
-					
+
 					System.out.println("Parameter 1: " + parameters[0]);
 					System.out.println("Parameter 2: " + parameters[1]);
 					System.out.println("Parameter 3: " + parameters[2]);
@@ -599,5 +604,24 @@ public class Controller {
 			}
 			
 		}
+	}
+
+	private void fileListAddMouseListener(JList fileList) {
+		fileList.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent event) {
+				JList list = (JList) event.getSource();
+
+				if(list.getModel().getSize() > 0){
+					int index = list.locationToIndex(event.getPoint());
+					CheckListItem item = (CheckListItem) list.getModel()
+							.getElementAt(index);
+
+					item.setSelected(!item.isSelected());
+
+					list.repaint(list.getCellBounds(index, index));
+				}
+			}
+		});
 	}
 }

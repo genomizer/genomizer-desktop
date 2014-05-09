@@ -109,7 +109,7 @@ public class ProcessTab extends JPanel {
 
 		/*TEST*/ArrayList<String> gFiles = new ArrayList<String>();
 		/*TEST*/gFiles.add(0,"d_melanogaster_fb5_22");
-		/*TEST*/gFiles.add(1,"E_melanogaster_fb6_23");			
+		/*TEST*/gFiles.add(1,"E_melanogaster_fb6_23");
 		/*TEST*/setGenomeReleaseFiles(gFiles);
 		initBowtieParameters();
 	}
@@ -224,31 +224,33 @@ public class ProcessTab extends JPanel {
 		convPanel.add(bowtiePar);
 		bowtiePar.setBorder(new TitledBorder(null, "Flags", TitledBorder.LEADING, TitledBorder.TOP, null, null));
 		bowtiePar.setText("-a -m 1 --best -p 10 -v 2");
-		bowtiePar.setPreferredSize(new Dimension(250, 40));
+		bowtiePar.setPreferredSize(new Dimension(250, 50));
 		convPanel.add(genomeFile);
-		genomeFile.setPreferredSize(new Dimension(200, 40));
-		
-				genomeFile.setBorder(new TitledBorder(null, "Genome release files", TitledBorder.LEADING, TitledBorder.TOP, null, null));
+		genomeFile.setPreferredSize(new Dimension(230, 60));
+
+		genomeFile.setBorder(new TitledBorder(null, "Genome release files", TitledBorder.LEADING, TitledBorder.TOP, null, null));
 		convPanel.add(SmoothWindowSize);
-		SmoothWindowSize.setPreferredSize(new Dimension(100, 40));
+		SmoothWindowSize.setPreferredSize(new Dimension(110, 50));
 		SmoothWindowSize.setBorder(BorderFactory.createTitledBorder("Window size"));
 		convPanel.add(SmoothType);
-		SmoothType.setPreferredSize(new Dimension(100, 40));
+		SmoothType.setPreferredSize(new Dimension(110, 50));
 		SmoothType.setBorder(BorderFactory.createTitledBorder("Smooth type"));
 		convPanel.add(StepPosition);
-		StepPosition.setPreferredSize(new Dimension(100, 40));
+		StepPosition.setPreferredSize(new Dimension(110, 50));
 		StepPosition.setBorder(BorderFactory.createTitledBorder("Step position"));
 		convPanel.add(stepSize);
-		stepSize.setPreferredSize(new Dimension(80, 40));
+		stepSize.setPreferredSize(new Dimension(80, 50));
 		stepSize.setBorder(BorderFactory.createTitledBorder("Step size"));
 		convPanel.add(printMean);
 		printMean.setVerticalAlignment(SwingConstants.BOTTOM);
-		
-				printMean.setBorder(BorderFactory.createTitledBorder("Print mean"));
-				convPanel.add(printZeros);
-				printZeros.setVerticalAlignment(SwingConstants.TOP);
-				
-						printZeros.setBorder(BorderFactory.createTitledBorder("Print zeros"));
+		printMean.setPreferredSize(new Dimension(110,50));
+
+		printMean.setBorder(BorderFactory.createTitledBorder("Print mean"));
+		convPanel.add(printZeros);
+		printZeros.setVerticalAlignment(SwingConstants.TOP);
+		printZeros.setPreferredSize(new Dimension(110,50));
+
+		printZeros.setBorder(BorderFactory.createTitledBorder("Print zeros"));
 		buttonPanel.add(profileButton);
 	}
 
@@ -271,10 +273,10 @@ public class ProcessTab extends JPanel {
 
 	public void setBowtieParameters(){
 
-		bowtieParameters[0] = getTextFromBowtieParOne(); //"-a -m 1 --best -p 10 -v 2"; 	
+		bowtieParameters[0] = getTextFromBowtieParOne(); //"-a -m 1 --best -p 10 -v 2";
 		bowtieParameters[1] = getTextGenomeFileName(); //"d_melanogaster_fb5_22";
 		bowtieParameters[2] = getSmoothingParameters(); //"10 1 5 0 1";
-		bowtieParameters[3] = getStepSize(); //"y 10"; 
+		bowtieParameters[3] = getStepSize(); //"y 10";
 
 	}
 
@@ -294,7 +296,7 @@ public class ProcessTab extends JPanel {
 		}
 	}
 
-	//TODO listan på GenomeRelease-filerna som databasen har måste hämtas och sättas här
+	//TODO listan pï¿½ GenomeRelease-filerna som databasen har mï¿½ste hï¿½mtas och sï¿½ttas hï¿½r
 	public void setGenomeReleaseFiles(ArrayList<String> genomeReleaseFiles){
 		this.genomeReleaseFiles = genomeReleaseFiles;
 	}
@@ -307,7 +309,7 @@ public class ProcessTab extends JPanel {
 		smoothPar = SmoothWindowSize.getText().trim() + " " + SmoothType.getText().trim() + " " + StepPosition.getText().trim();
 
 		if(printMean.isSelected()){
-			printmean = "1"; 
+			printmean = "1";
 		}
 
 		if(printZeros.isSelected()){
@@ -343,16 +345,6 @@ public class ProcessTab extends JPanel {
 		this.repaint();
 	}
 
-	private void resetFilesPanel() {
-
-		filesPanel.removeAll();
-		leftPanel.remove(filesPanel);
-		filesPanel = new JPanel();
-		leftPanel.remove(filesPanel);
-		leftPanel.add(filesPanel);
-
-	}
-
 	private void setList(JList fileList) {
 		this.fileList = fileList;
 	}
@@ -367,10 +359,13 @@ public class ProcessTab extends JPanel {
 		fileList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 	}
 
+	public JList getFileList(){
+		return fileList;
+	}
+
 	private void initFileList() {
 
 		fileListSetCellRenderer();
-		fileListAddMouseListener();
 		initScrollPane();
 	}
 
@@ -379,25 +374,6 @@ public class ProcessTab extends JPanel {
 		scrollFiles.setPreferredSize(new Dimension(300, 260));
 		scrollFiles.setBorder(new TitledBorder(null, "Files", TitledBorder.LEADING, TitledBorder.TOP, null, null));
 		filesPanel.add(scrollFiles);
-	}
-
-	private void fileListAddMouseListener() {
-		fileList.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent event) {
-					JList list = (JList) event.getSource();
-	
-					if(list.getModel().getSize() > 0){
-					int index = list.locationToIndex(event.getPoint());
-					CheckListItem item = (CheckListItem) list.getModel()
-							.getElementAt(index);
-	
-					item.setSelected(!item.isSelected());
-	
-					list.repaint(list.getCellBounds(index, index));
-				}
-			}
-		});
 	}
 
 	public ArrayList<String> getAllMarkedFiles() {
@@ -441,7 +417,7 @@ public class ProcessTab extends JPanel {
 	}
 
 	public void addFileListMouseListener(MouseAdapter mouseAdapter) {
-		// fileList.addMouseListener(mouseAdapter);
+		 fileList.addMouseListener(mouseAdapter);
 	}
 
 	public void addConvertFileListener(ActionListener listener) {
@@ -464,7 +440,6 @@ public class ProcessTab extends JPanel {
 		return this.processQueue.size();
 	}
 
-	// TODO Returnera den riktiga tidsapproxen
 	private int getTimeApprox() {
 		return 450;
 	}
