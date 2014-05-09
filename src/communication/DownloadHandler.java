@@ -26,7 +26,7 @@ public class DownloadHandler {
 		this.password = password;
 	}
 
-	public boolean download(String url, String localFilePath, String userID) {
+	public boolean download(String url, String localFilePath) {
 		try {
 			// Use this url in the real version. vvv
 			/*URL targetUrl = new URL(
@@ -55,14 +55,19 @@ public class DownloadHandler {
 			System.out.println(responseCode);
 			BufferedReader in = new BufferedReader(new InputStreamReader(
 					conn.getInputStream()));
-			String buffer;
 			File file = new File(localFilePath);
+            char[] buf = new char[4096];
+            int count;
+            int totalDownload = 0;
 			PrintWriter fileOut = new PrintWriter(new FileWriter(file));
-			while ((buffer = in.readLine()) != null) {
-				fileOut.println(buffer);
+			while ((count = in.read(buf, 0, 4096)) != -1) {
+                fileOut.write(buf, 0, count);
+                totalDownload += count;
 				fileOut.flush();
 			}
-			conn.disconnect();
+            System.out.println("Size: " + totalDownload
+                               + " Expected: " + conn.getContentLength());
+            conn.disconnect();
 
 		} catch (MalformedURLException e) {
 			e.printStackTrace();
