@@ -8,6 +8,9 @@ import java.util.Random;
 
 import com.google.gson.Gson;
 
+/**
+ * Class representing experiment data
+ */
 public class ExperimentData {
 
     public String name;
@@ -23,6 +26,11 @@ public class ExperimentData {
 	this.annotations = annotations;
     }
 
+    /**
+     * Returns the list of annotations associated with the project
+     * (including experiment name and creator of experiment
+     * @return
+     */
     public String[] getAnnotationValueList() {
 	String[] annotationList = new String[2 + annotations.length];
 	annotationList[0] = name;
@@ -33,6 +41,10 @@ public class ExperimentData {
 	return annotationList;
     }
 
+    /**
+     * Add new files to the experiment
+     * @param newFiles
+     */
     public void addFiles(FileData[] newFiles) {
 	ArrayList<FileData> both = new ArrayList<FileData>(files.length
 		+ newFiles.length);
@@ -45,6 +57,10 @@ public class ExperimentData {
 	files = both.toArray(new FileData[both.size()]);
     }
 
+    /**
+     * Remove a files from the experiment
+     * @param fileData
+     */
     public void removeFile(FileData fileData) {
 	if (files.length > 0) {
 	    ArrayList<FileData> list = new ArrayList<FileData>(

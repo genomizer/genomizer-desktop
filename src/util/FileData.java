@@ -14,6 +14,22 @@ public class FileData {
     public String path;
     public String url;
 
+    /**
+     * Class representing files data
+     *
+     * @param fileId
+     * @param experimentID
+     * @param type
+     * @param metaData
+     * @param author
+     * @param uploader
+     * @param isPrivate
+     * @param grVersion
+     * @param date
+     * @param path
+     * @param url
+     * @param fileName
+     */
     public FileData(String fileId, String experimentID, String type,
 	    String metaData, String author, String uploader, boolean isPrivate,
 	    String grVersion, String date, String path, String url,

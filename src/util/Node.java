@@ -3,7 +3,7 @@ package util;
 import org.jdesktop.swingx.treetable.AbstractMutableTreeTableNode;
 
 /**
- * A custom node implementation.
+ * A custom node implementation (For TreeTable).
  */
 public class Node extends AbstractMutableTreeTableNode {
 
