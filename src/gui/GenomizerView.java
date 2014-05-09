@@ -7,10 +7,7 @@ import java.util.ArrayList;
 import javax.swing.JFrame;
 import javax.swing.JList;
 
-import util.AnnotationDataType;
-import util.AnnotationDataValue;
-import util.ExperimentData;
-import util.FileData;
+import util.*;
 
 public interface GenomizerView {
 
