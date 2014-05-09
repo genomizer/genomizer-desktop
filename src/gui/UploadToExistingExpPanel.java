@@ -101,4 +101,9 @@ public class UploadToExistingExpPanel extends JPanel {
         uploadFilesPanel.add(uploadFilesToExperimentButton);
         uploadFilesToExperimentButton.disable();
     }
+
+    public void removeAll() {
+        uploadFilesPanel.removeAll();
+        super.removeAll();
+    }
 }
