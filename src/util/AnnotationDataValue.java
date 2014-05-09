@@ -1,5 +1,9 @@
 package util;
 
+/**
+ * Class representing an annotation. Contains the name of the
+ * annotation, the corresponding value and the annotation id.
+ */
 public class AnnotationDataValue extends AnnotationData {
 
 	public String value;
