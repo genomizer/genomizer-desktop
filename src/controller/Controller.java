@@ -21,7 +21,11 @@ import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 
 import model.GenomizerModel;
-import util.*;
+import util.AnnotationDataType;
+import util.AnnotationDataValue;
+import util.DeleteAnnoationData;
+import util.ExperimentData;
+import util.FileData;
 
 public class Controller {
 
@@ -433,7 +437,6 @@ public class Controller {
 			 * System.err.println("No directory selected"); return; }
 			 */
 			fileChooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
-            fileChooser.setDialogTitle("Select a directory");
 			int ret = fileChooser.showOpenDialog(new JPanel());
 			String directoryName;
 			if (ret == JFileChooser.APPROVE_OPTION) {
@@ -470,12 +473,9 @@ public class Controller {
 		@Override
 		public void run() {
 			UploadTab uploadTab = view.getUploadTab();
+			uploadTab.killContentsOfUploadPanel();
 			AnnotationDataType[] annotations = model.getAnnotations();
-            if(uploadTab.getActivePanel() != ActivePanel.EXISTING) {
-                uploadTab.addExistingExpPanel(annotations);
-            } else {
-                uploadTab.hideAndShowContentsOfUploadPanel();
-            }
+			uploadTab.addExistingExpPanel(annotations);
 		}
 	}
 
@@ -561,12 +561,7 @@ public class Controller {
 		@Override
 		public void run() {
 			AnnotationDataType[] annotations = model.getAnnotations();
-            UploadTab ut = view.getUploadTab();
-            if(ut.getActivePanel() != ActivePanel.NEW) {
-                view.createNewExp(annotations);
-            } else {
-                ut.hideAndShowContentsOfUploadPanel();
-            }
+			view.createNewExp(annotations);
 		}
 	}
 
