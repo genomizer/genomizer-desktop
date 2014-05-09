@@ -14,11 +14,13 @@ import communication.Connection;
 
 import controller.Controller;
 
+import javax.swing.*;
+
 public class Genomizer {
 
 	public static void main(String args[]) {
 
-		GUI gui = new GUI();
+		final GUI gui = new GUI();
 		SearchTab st = new SearchTab();
 		UploadTab ut = new UploadTab();
 		ProcessTab pt = new ProcessTab();
@@ -36,7 +38,11 @@ public class Genomizer {
 		Connection con = new Connection("http://scratchy.cs.umu.se:7000");
 		Model model = new Model(con);
 		Controller controller = new Controller(gui, model);
-		gui.showLoginWindow();
-		gui.pack();
-	}
-}
+        SwingUtilities.invokeLater(new Runnable() {
+            public void run() {
+                gui.showLoginWindow();
+                gui.pack();
+            }
+        });
+        }
+    }

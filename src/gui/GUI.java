@@ -251,8 +251,6 @@ public class GUI extends JFrame implements GenomizerView {
 
     @Override
     public void updateLoginAccepted(String username, String pwd, String name) {
-	System.out.println("login succesful with username " + username
-		+ " & pwd " + pwd);
 	userPanel.setUserInfo(username, name, false);
 	refreshGUI();
 	this.setVisible(true);
@@ -269,7 +267,6 @@ public class GUI extends JFrame implements GenomizerView {
 
     @Override
     public void updateLogout() {
-	System.out.println("logout success");
 	this.setVisible(false);
 	loginWindow.setVisible(true);
     }

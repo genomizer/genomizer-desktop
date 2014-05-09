@@ -156,8 +156,9 @@ public class TreeTable extends JPanel {
 
             @Override
             public int compare(final String[] entry1, final String[] entry2) {
-                if (entry1[sortByColumn] == null
-                        || entry2[sortByColumn] == null) {
+                if (entry1[sortByColumn] == null || entry1.length == 0
+                        || entry2[sortByColumn] == null || entry2.length == 0
+                        || entry1.length-1 < sortByColumn || entry2.length-1 < sortByColumn) {
                     return 0;
                 }
                 Matcher m1 = PATTERN.matcher(entry1[sortByColumn]);
