@@ -10,29 +10,34 @@ import java.util.ArrayList;
 
 public class UploadToExistingExpPanel extends JPanel {
 
-    private JButton selectFilesToUploadButton;
-    private JButton uploadFilesToExperimentButton;
+    private JButton selectFilesToUploadButton, uploadFilesToExperimentButton;
     private ArrayList<JComboBox> annotationBoxes;
     private ArrayList<JTextField> annotationFields;
     private AnnotationDataType[] annotations;
+    JPanel northPanel, centerPanel;
 
     public UploadToExistingExpPanel() {
         selectFilesToUploadButton = new JButton("Select files");
         uploadFilesToExperimentButton = new JButton("Upload to experiment");
         uploadFilesToExperimentButton.disable();
 
+        northPanel = new JPanel();
+        centerPanel = new JPanel(new BorderLayout());
+        add(northPanel);
+        add(centerPanel);
+
         setBorder(BorderFactory.createTitledBorder("Experiment"));
-/*        GridBagLayout gbl_panel = new GridBagLayout();
+        GridBagLayout gbl_panel = new GridBagLayout();
         gbl_panel.columnWidths = new int[] { 0, 0, 0, 0, 0, 0, 0 };
         gbl_panel.rowHeights = new int[] { 0, 0, 0, 0 };
         gbl_panel.columnWeights = new double[] { 0.0, 0.0, 0.0, 0.0, 0.0, 0.0,
                 Double.MIN_VALUE };
         gbl_panel.rowWeights = new double[] { 0.0, 0.0, 0.0, Double.MIN_VALUE };
 
-        setLayout(gbl_panel);
-*/
-        add(selectFilesToUploadButton, BorderLayout.SOUTH);
-        add(uploadFilesToExperimentButton, BorderLayout.SOUTH);
+        northPanel.setLayout(gbl_panel);
+
+        centerPanel.add(selectFilesToUploadButton, BorderLayout.SOUTH);
+        centerPanel.add(uploadFilesToExperimentButton, BorderLayout.SOUTH);
     }
 
     public void addSelectFilesToUploadButtonListener(ActionListener listener) {
@@ -48,11 +53,11 @@ public class UploadToExistingExpPanel extends JPanel {
     }
 
     public void addSelectFilesToUploadButton() {
-        add(selectFilesToUploadButton);
+        centerPanel.add(selectFilesToUploadButton, BorderLayout.SOUTH);
     }
 
     public void addUploadFilesToExperimentButton() {
-        add(uploadFilesToExperimentButton);
+        centerPanel.add(uploadFilesToExperimentButton, BorderLayout.SOUTH);
     }
 
     public void addAnnotationsForExistingExp() throws NullPointerException {
@@ -81,7 +86,7 @@ public class UploadToExistingExpPanel extends JPanel {
                     textField.setColumns(10);
                     annotationFields.add(textField);
                     p.add(textField, BorderLayout.CENTER);
-                    add(p, gbc);
+                    northPanel.add(p, gbc);
                     textField.disable();
                 } else {
                     JComboBox comboBox = new JComboBox(
@@ -89,11 +94,15 @@ public class UploadToExistingExpPanel extends JPanel {
                     comboBox.setPreferredSize(new Dimension(120, 31));
                     annotationBoxes.add(comboBox);
                     p.add(comboBox, BorderLayout.CENTER);
-                    add(p, gbc);
+                    northPanel.add(p, gbc);
                     comboBox.disable();
                 }
                 x++;
             }
         }
+    }
+
+    public void removeAllInCenter() {
+        centerPanel.removeAll();
     }
 }
