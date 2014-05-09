@@ -6,7 +6,10 @@ import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
+import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 import javax.swing.*;
 import javax.swing.event.DocumentEvent;
@@ -80,7 +83,9 @@ public class AnnotationsViewCreator {
                                                                     // list
         addButton = new JButton(ButtonNames.ANNOTATIONS_ADD);
         removeButton = new JButton(ButtonNames.ANNOTATIONS_DELETE);
+        removeButton.setEnabled(false);		//Remove this when remove is implemented
         buttonPanel.add(modifyButton);
+        modifyButton.setEnabled(false);		//Remove this when modify is implemented
         buttonPanel.add(addButton);
         buttonPanel.add(removeButton);
     }
@@ -101,7 +106,16 @@ public class AnnotationsViewCreator {
 
     private JTextField buildSearchField() {
         Dimension searchDim = new Dimension(500, 30);
-        JTextField searchField = new JTextField("Search...");
+        final JTextField searchField = new JTextField("Search...");
+        searchField.addMouseListener(new MouseAdapter(){
+        	@Override
+        	public void mouseClicked(MouseEvent e){
+        		if(searchField.getText().equalsIgnoreCase("search...")){
+        			searchField.setText("");
+        			}
+        		}
+        	});
+
         searchField.getDocument().addDocumentListener(
                 new SearchDocumentListener(rowSorter, searchField));
         searchField.setPreferredSize(searchDim);
