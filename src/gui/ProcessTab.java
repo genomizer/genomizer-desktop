@@ -385,9 +385,9 @@ public class ProcessTab extends JPanel {
 		fileList.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent event) {
-				if(fileList.getModel().getSize() > 0){
 					JList list = (JList) event.getSource();
 	
+					if(list.getModel().getSize() > 0){
 					int index = list.locationToIndex(event.getPoint());
 					CheckListItem item = (CheckListItem) list.getModel()
 							.getElementAt(index);
