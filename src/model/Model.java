@@ -1,7 +1,5 @@
 package model;
 
-import java.util.ArrayList;
-
 import communication.UploadHandler;
 import requests.AddAnnotationRequest;
 import requests.AddFileToExperiment;
@@ -23,7 +21,6 @@ import util.ExperimentData;
 import com.google.gson.Gson;
 import communication.Connection;
 import communication.DownloadHandler;
-import communication.HTTPURLUpload;
 
 public class Model implements GenomizerModel {
 
@@ -141,7 +138,7 @@ public class Model implements GenomizerModel {
 				DownloadFileResponse.class);
         System.out.println(conn.getResponseBody());
         DownloadHandler handler = new DownloadHandler("pvt", "pvt");
-        handler.download(url, path, userID);
+        handler.download(url, path);
 		System.out.println("Test");
 		return true;
 	}
