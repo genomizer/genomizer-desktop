@@ -23,6 +23,7 @@ import javax.swing.JTextField;
 
 import util.AnnotationDataType;
 import util.AnnotationDataValue;
+import util.ActivePanel;
 
 public class UploadTab extends JPanel {
 
@@ -36,7 +37,6 @@ public class UploadTab extends JPanel {
     private HashMap<String, JComboBox> annotationBoxes;
     private HashMap<String, JTextField> annotationFields;
     private ArrayList<UploadFileRow> uploadFileRows;
-    private enum ActivePanel {EXISTING, NEW, NONE}
     private ActivePanel activePanel;
     private JLabel expNameLabel;
     private JTextField expName;
@@ -75,7 +75,6 @@ public class UploadTab extends JPanel {
     }
 
     public void addExistingExpPanel(AnnotationDataType[] annotations) {
-        killContentsOfUploadPanel();
         activePanel = ActivePanel.EXISTING;
         uploadToExistingExpPanel = new UploadToExistingExpPanel();
         uploadToExistingExpPanel.setAnnotations(annotations);
@@ -106,7 +105,7 @@ public class UploadTab extends JPanel {
     }
 
     private void createNewExpPanel() {
-	killContentsOfUploadPanel();
+	hideAndShowContentsOfUploadPanel();
         activePanel = ActivePanel.NEW;
 	GridBagLayout gbl_panel = new GridBagLayout();
 	gbl_panel.columnWidths = new int[] { 0, 0, 0, 0, 0, 0, 0 };
@@ -164,7 +163,7 @@ public class UploadTab extends JPanel {
                 } else {
                     JComboBox comboBox = new JComboBox(
                         annotations[i].getValues());
-                    comboBox.setPreferredSize(new Dimension(120, 31));
+//                    comboBox.setPreferredSize(new Dimension(120, 31));
                     annotationBoxes.put(annotations[i].getName(), comboBox);
                     p.add(comboBox, BorderLayout.CENTER);
                     newExpPanel.add(p, gbc);
@@ -205,20 +204,20 @@ public class UploadTab extends JPanel {
 	revalidate();
     }
 
-    public void killContentsOfUploadPanel() {
+    public void hideAndShowContentsOfUploadPanel() {
         switch (activePanel) {
             case NONE:
                 break;
             case EXISTING:
-                uploadPanel.remove(uploadToExistingExpPanel);
-                uploadToExistingExpPanel.removeAll();
-                uploadToExistingExpPanel.removeAllInCenter();
+                uploadToExistingExpPanel.hide();
+                newExpPanel.show();
+                uploadFilesPanel.show();
                 activePanel = ActivePanel.NONE;
                 break;
             case NEW:
-                uploadPanel.remove(newExpPanel);
-                newExpPanel.removeAll();
-                uploadFilesPanel.removeAll();
+                newExpPanel.hide();
+                uploadFilesPanel.hide();
+                uploadToExistingExpPanel.show();
                 activePanel = ActivePanel.NONE;
                 break;
         }
@@ -253,5 +252,9 @@ public class UploadTab extends JPanel {
     public File[] getUploadFiles() {
 	// TODO Auto-generated method stub
 	return null;
+    }
+
+    public ActivePanel getActivePanel() {
+        return activePanel;
     }
 }

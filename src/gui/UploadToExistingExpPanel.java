@@ -52,13 +52,6 @@ public class UploadToExistingExpPanel extends JPanel {
         this.annotations = annotations;
     }
 
-    public void addSelectFilesToUploadButton() {
-        centerPanel.add(selectFilesToUploadButton, BorderLayout.SOUTH);
-    }
-
-    public void addUploadFilesToExperimentButton() {
-        centerPanel.add(uploadFilesToExperimentButton, BorderLayout.SOUTH);
-    }
 
     public void addAnnotationsForExistingExp() throws NullPointerException {
         annotationBoxes = new ArrayList<JComboBox>();
@@ -100,9 +93,5 @@ public class UploadToExistingExpPanel extends JPanel {
                 x++;
             }
         }
-    }
-
-    public void removeAllInCenter() {
-        centerPanel.removeAll();
     }
 }
