@@ -36,7 +36,7 @@ public class UploadToExistingExpPanel extends JPanel {
 
         northPanel.setLayout(gbl_panel);
 
-        centerPanel.add(selectFilesToUploadButton, BorderLayout.SOUTH);
+        centerPanel.add(selectFilesToUploadButton, BorderLayout.CENTER);
         centerPanel.add(uploadFilesToExperimentButton, BorderLayout.SOUTH);
     }
 
