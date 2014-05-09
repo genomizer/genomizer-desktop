@@ -437,6 +437,7 @@ public class Controller {
 			 * System.err.println("No directory selected"); return; }
 			 */
 			fileChooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+            fileChooser.setDialogTitle("Select a directory");
 			int ret = fileChooser.showOpenDialog(new JPanel());
 			String directoryName;
 			if (ret == JFileChooser.APPROVE_OPTION) {
