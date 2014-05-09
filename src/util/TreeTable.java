@@ -11,8 +11,7 @@ import java.util.HashMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import javax.swing.JPanel;
-import javax.swing.JScrollPane;
+import javax.swing.*;
 import javax.swing.table.TableColumnModel;
 
 import org.jdesktop.swingx.JXTreeTable;
@@ -318,10 +317,14 @@ public class TreeTable extends JPanel {
      */
     public void removeSelectedFiles() {
         ArrayList<FileData> files = this.getSelectedFiles();
-        for (ExperimentData data : experiments) {
-            for (FileData file : files) {
-                data.removeFile(file);
+        try {
+            for (ExperimentData data : experiments) {
+                for (FileData file : files) {
+                    data.removeFile(file);
+                }
             }
+        } catch(NullPointerException e) {
+            JOptionPane.showMessageDialog(null, "No files to remove.");
         }
         this.setContent(experiments);
     }
