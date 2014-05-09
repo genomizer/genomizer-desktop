@@ -72,18 +72,18 @@ public class DownloadWindow extends JFrame {
         DefaultCellEditor cellEditor = new DefaultCellEditor(comboBox);
         formatConversionColumn.setCellEditor(cellEditor);
 
-        table.setBackground(Color.cyan);
+//        table.setBackground(Color.cyan);
         table.setRowHeight(30);
 
         JScrollPane scrollPane = new JScrollPane(table);
         panel.add(scrollPane, BorderLayout.CENTER);
         panel.add(table.getTableHeader(), BorderLayout.NORTH);
 
-        downloadButton = new JButton();
+        downloadButton = new JButton("Download");
 
-        downloadButton.setBorderPainted(true);
-        downloadButton.setContentAreaFilled(false);
-        downloadButton.setIcon(downloadIcon);
+      //  downloadButton.setBorderPainted(true);
+      //  downloadButton.setContentAreaFilled(false);
+      //  downloadButton.setIcon(downloadIcon);
 
         JPanel flowSouth = new JPanel();
         flowSouth.add(downloadButton);
