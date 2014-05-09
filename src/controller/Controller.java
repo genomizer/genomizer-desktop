@@ -473,7 +473,6 @@ public class Controller {
 			AnnotationDataType[] annotations = model.getAnnotations();
             if(uploadTab.getActivePanel() != ActivePanel.EXISTING) {
                 uploadTab.addExistingExpPanel(annotations);
-                System.out.println("hej");
             } else {
                 uploadTab.hideAndShowContentsOfUploadPanel();
             }
