@@ -345,16 +345,6 @@ public class ProcessTab extends JPanel {
 		this.repaint();
 	}
 
-	private void resetFilesPanel() {
-
-		filesPanel.removeAll();
-		leftPanel.remove(filesPanel);
-		filesPanel = new JPanel();
-		leftPanel.remove(filesPanel);
-		leftPanel.add(filesPanel);
-
-	}
-
 	private void setList(JList fileList) {
 		this.fileList = fileList;
 	}
@@ -369,10 +359,13 @@ public class ProcessTab extends JPanel {
 		fileList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 	}
 
+	public JList getFileList(){
+		return fileList;
+	}
+
 	private void initFileList() {
 
 		fileListSetCellRenderer();
-		fileListAddMouseListener();
 		initScrollPane();
 	}
 
@@ -381,25 +374,6 @@ public class ProcessTab extends JPanel {
 		scrollFiles.setPreferredSize(new Dimension(300, 260));
 		scrollFiles.setBorder(new TitledBorder(null, "Files", TitledBorder.LEADING, TitledBorder.TOP, null, null));
 		filesPanel.add(scrollFiles);
-	}
-
-	private void fileListAddMouseListener() {
-		fileList.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent event) {
-				JList list = (JList) event.getSource();
-
-				if(list.getModel().getSize() > 0){
-					int index = list.locationToIndex(event.getPoint());
-					CheckListItem item = (CheckListItem) list.getModel()
-							.getElementAt(index);
-
-					item.setSelected(!item.isSelected());
-
-					list.repaint(list.getCellBounds(index, index));
-				}
-			}
-		});
 	}
 
 	public ArrayList<String> getAllMarkedFiles() {
@@ -443,7 +417,7 @@ public class ProcessTab extends JPanel {
 	}
 
 	public void addFileListMouseListener(MouseAdapter mouseAdapter) {
-		// fileList.addMouseListener(mouseAdapter);
+		 fileList.addMouseListener(mouseAdapter);
 	}
 
 	public void addConvertFileListener(ActionListener listener) {
@@ -466,7 +440,6 @@ public class ProcessTab extends JPanel {
 		return this.processQueue.size();
 	}
 
-	// TODO Returnera den riktiga tidsapproxen
 	private int getTimeApprox() {
 		return 450;
 	}

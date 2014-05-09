@@ -5,6 +5,7 @@ import java.io.File;
 import java.util.ArrayList;
 
 import javax.swing.JFrame;
+import javax.swing.JList;
 
 import util.AnnotationDataType;
 import util.ExperimentData;
@@ -52,7 +53,7 @@ public interface GenomizerView {
     public void addNewExpButtonListener(ActionListener listener);
 
     public void addSelectButtonListener(ActionListener listener);
-    
+
     public void addUploadButtonListener(ActionListener listener);
 
     public void addToWorkspace(ExperimentData[] experiments);
@@ -130,5 +131,7 @@ public interface GenomizerView {
     public AnnotationDataType[] getUploadAnnotations();
 
 	public void setBowtieParameters();
+
+	public JList getfileList();
 }
 

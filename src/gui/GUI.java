@@ -8,6 +8,7 @@ import java.io.File;
 import java.util.ArrayList;
 
 import javax.swing.JFrame;
+import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
 import javax.swing.UIManager;
@@ -405,7 +406,7 @@ public class GUI extends JFrame implements GenomizerView {
     public void addUploadButtonListener(ActionListener listener) {
 	uploadTab.addUploadButtonListener(listener);
     }
-    
+
     @Override
     public void createNewExp(AnnotationDataType[] annotations) {
 	uploadTab.createNewExp(annotations);
@@ -423,12 +424,12 @@ public class GUI extends JFrame implements GenomizerView {
 	public String[] getBowtieParameters() {
 		return processTab.getBowtieParameters();
 	}
-	
+
 	@Override
 	public File[] getFilesToUpload() {
 	    return new File[1];
 	}
-	
+
 	@Override
 	public AnnotationDataType[] getUploadAnnotations() {
 	    return new AnnotationDataType[1];
@@ -437,5 +438,10 @@ public class GUI extends JFrame implements GenomizerView {
 	@Override
 	public void setBowtieParameters() {
 		processTab.setBowtieParameters();
+	}
+
+	@Override
+	public JList getfileList() {
+		return processTab.getFileList();
 	}
 }
