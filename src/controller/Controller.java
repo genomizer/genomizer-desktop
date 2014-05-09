@@ -54,8 +54,7 @@ public class Controller {
         view.addProcessFileListener(new ProcessFileListener());
         view.addSearchToWorkspaceListener(new SearchToWorkspaceListener());
         //view.addDeleteAnnotationListener(new DeleteAnnotationListener());
-        view.setSysadminController(sysController = new SysadminController(
-                new SendDataObserver()));
+        view.setSysadminController(sysController = new SysadminController(model));
 	}
     class DownloadSearchListener implements ActionListener, Runnable {
         @Override
