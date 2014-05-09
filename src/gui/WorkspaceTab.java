@@ -156,6 +156,10 @@ public class WorkspaceTab extends JPanel {
 	processButton.addActionListener(listener);
     }
 
+    public void addAnalyzeSelectedListener(ActionListener listener) {
+        analyzeButton.addActionListener(listener);
+    }
+
     private String[] concatArrays(String[] first, String[] second) {
 	ArrayList<String> both = new ArrayList<String>(first.length
 		+ second.length);
