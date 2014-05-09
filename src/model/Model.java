@@ -1,7 +1,10 @@
 package model;
 
+import java.io.File;
+
 import communication.UploadHandler;
 import requests.AddAnnotationRequest;
+import requests.AddExperimentRequest;
 import requests.AddFileToExperiment;
 import requests.DeleteAnnotationRequest;
 import requests.DownloadFileRequest;
@@ -13,12 +16,15 @@ import requests.SearchRequest;
 import requests.rawToProfileRequest;
 import responses.DownloadFileResponse;
 import responses.LoginResponse;
+import responses.NewExperimentResponse;
 import responses.ResponseParser;
 import util.AnnotationDataType;
+import util.AnnotationDataValue;
 import util.DeleteAnnoationData;
 import util.ExperimentData;
 
 import com.google.gson.Gson;
+
 import communication.Connection;
 import communication.DownloadHandler;
 
@@ -102,27 +108,23 @@ public class Model implements GenomizerModel {
 	}
 
 	@Override
-	public boolean uploadFile() {
-		AddFileToExperiment request = RequestFactory.makeAddFile("test",
-				"test", "1.3GB", "raw");
-		conn.sendRequest(request, userID, "application/json");
-		String url = conn.getResponseBody();
-		if (url != null) {
-			System.out.println("URL: " + url);
-		}
-        System.out.println("url");
-        /*HTTPURLUpload handler = new HTTPURLUpload(
-				"/var/www/html/uploads/test321.txt",
-				"/home/dv12/dv12csr/edu/test321");
-		handler.sendFile("pvt", "pvt");*/
-        System.out.println("Test");
-        UploadHandler handler = new UploadHandler(
-		  "/var/www/html/uploads/test321.txt",
-		  "/home/dv12/dv12csr/edu/test321", userID, "pvt:pvt");
-        Thread thread = new Thread(handler);
-        thread.start();
+	public boolean uploadFile(String ID, File f, String type, String username,
+		boolean isPrivate, String release) {
+	    AddFileToExperiment request = RequestFactory.makeAddFile(ID,
+		    f.getName(), type, "metameta", username, username, isPrivate,
+		    release);
+	    conn.sendRequest(request, userID, "application/json");
+	    String url = null;
+	    if (conn.getResponseCode() == 200) {
+		url = conn.getResponseBody();
+	    }
+	    System.out.println("url");
+	    UploadHandler handler = new UploadHandler(url, f.getAbsolutePath(),
+		    userID, "pvt:pvt");
+	    Thread thread = new Thread(handler);
+	    thread.start();
 
-		return true;
+	    return true;
 	}
 
 	@Override
@@ -232,6 +234,18 @@ public class Model implements GenomizerModel {
 			System.err.println("Could not get annotations!");
 		}
 		return new AnnotationDataType[]{};
+	}
+	
+	@Override
+	public String addNewExperiment(String expName, String username,
+		AnnotationDataValue[] annotations) {
+	    AddExperimentRequest aER = new RequestFactory().makeAddExperimentRequest(expName, username, annotations);
+	    System.out.println(aER.toJson());
+	    conn.sendRequest(aER, getUserID(), "application/json");
+	    Gson gson = new Gson();
+		NewExperimentResponse response = gson.fromJson(conn.getResponseBody(),
+			NewExperimentResponse.class);
+		return response.experimentID;
 	}
 
 }

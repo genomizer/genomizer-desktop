@@ -13,6 +13,7 @@ import java.awt.event.MouseEvent;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 
 import javax.swing.JFileChooser;
 import javax.swing.JList;
@@ -20,6 +21,8 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 
+import requests.AddExperimentRequest;
+import requests.RequestFactory;
 import model.GenomizerModel;
 import util.AnnotationDataType;
 import util.AnnotationDataValue;
@@ -374,9 +377,9 @@ public class Controller {
 
 		@Override
 		public void run() {
-			if (model.uploadFile()) {
-				// update view?
-			}
+//			if (model.uploadFile()) {
+//				 update view?
+//			}
 
 		}
 	}
@@ -583,7 +586,7 @@ public class Controller {
 			for(int i = 0; i < files.length ; i++) {
 				fileNames[i] = files[i].getName();
 			}
-			view.selectFilesToNewExp(fileNames);
+			view.selectFilesToNewExp(fileNames, files);
 		}
 	}
 	class UploadNewExpListener implements ActionListener, Runnable  {
@@ -595,11 +598,27 @@ public class Controller {
 
 		@Override
 		public void run() {
-			AnnotationDataValue[] a = view.getUploadAnnotations();
+		    	String expName = view.getNewExpName();
+			AnnotationDataValue[] annotations = view.getUploadAnnotations();
 			File[] files = view.getFilesToUpload();
-			for(AnnotationDataValue b : a) {
-			    System.out.println(b.getName() + " " + b.getValue());
+			HashMap<String, String> types = view.getFilesToUploadTypes();
+			//Should be genome release from uploadTab
+			String release = "releaseNr";
+			//Test purpose
+			for(AnnotationDataValue a : annotations) {
+			    System.out.println(a.getName() + " " + a.getValue());
 			}
+			//Change YURI to current user
+			String ID = model.addNewExperiment(expName, view.getUsername(), annotations);
+			System.out.println(ID);
+			if(!ID.isEmpty()) {
+			    for(File f : files) {
+				model.uploadFile(ID, f, types.get(f.getName()), view.getUsername(), false, release);
+			    }
+			    
+			}
+			
+			
 			
 		}
 	}

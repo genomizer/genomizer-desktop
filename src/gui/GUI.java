@@ -6,6 +6,7 @@ import java.awt.BorderLayout;
 import java.awt.event.ActionListener;
 import java.io.File;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import javax.swing.JFrame;
 import javax.swing.JList;
@@ -410,8 +411,8 @@ public class GUI extends JFrame implements GenomizerView {
 	uploadTab.createNewExp(annotations);
     }
     @Override
-    public void selectFilesToNewExp(String[] fileNames) {
-	uploadTab.createUploadFileRow(fileNames);
+    public void selectFilesToNewExp(String[] fileNames, File[] files) {
+	uploadTab.createUploadFileRow(fileNames, files);
     }
 
     public DownloadWindow getDownloadWindow() {
@@ -441,5 +442,15 @@ public class GUI extends JFrame implements GenomizerView {
 	@Override
 	public JList getfileList() {
 		return processTab.getFileList();
+	}
+	
+	@Override
+	public String getNewExpName() {
+	    return uploadTab.getNewExpName();
+	}
+	
+	@Override
+	public HashMap<String, String> getFilesToUploadTypes() {
+	    return uploadTab.getTypes();
 	}
 }
