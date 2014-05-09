@@ -20,10 +20,10 @@ public class UploadToExistingExpPanel extends JPanel {
 
         northPanel = new JPanel();
         centerPanel = new JPanel(new BorderLayout());
-        uploadFilesPanel = new JPanel();
+        uploadFilesPanel = new JPanel(new GridLayout(0,1));
         add(northPanel);
         add(centerPanel);
-        centerPanel.add(uploadFilesPanel);
+        centerPanel.add(uploadFilesPanel, BorderLayout.NORTH);
 
         setBorder(BorderFactory.createTitledBorder("Experiment"));
         GridBagLayout gbl_panel = new GridBagLayout();

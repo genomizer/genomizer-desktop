@@ -214,6 +214,8 @@ public class UploadTab extends JPanel {
                 uploadPanel.remove(newExpPanel);
                 newExpPanel.removeAll();
                 uploadFilesPanel.removeAll();
+                repaint();
+                revalidate();
                 activePanel = ActivePanel.NONE;
                 break;
         }
