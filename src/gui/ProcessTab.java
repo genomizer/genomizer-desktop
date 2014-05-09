@@ -224,29 +224,31 @@ public class ProcessTab extends JPanel {
 		convPanel.add(bowtiePar);
 		bowtiePar.setBorder(new TitledBorder(null, "Flags", TitledBorder.LEADING, TitledBorder.TOP, null, null));
 		bowtiePar.setText("-a -m 1 --best -p 10 -v 2");
-		bowtiePar.setPreferredSize(new Dimension(250, 40));
+		bowtiePar.setPreferredSize(new Dimension(250, 50));
 		convPanel.add(genomeFile);
-		genomeFile.setPreferredSize(new Dimension(200, 40));
+		genomeFile.setPreferredSize(new Dimension(230, 60));
 
 		genomeFile.setBorder(new TitledBorder(null, "Genome release files", TitledBorder.LEADING, TitledBorder.TOP, null, null));
 		convPanel.add(SmoothWindowSize);
-		SmoothWindowSize.setPreferredSize(new Dimension(100, 40));
+		SmoothWindowSize.setPreferredSize(new Dimension(110, 50));
 		SmoothWindowSize.setBorder(BorderFactory.createTitledBorder("Window size"));
 		convPanel.add(SmoothType);
-		SmoothType.setPreferredSize(new Dimension(100, 40));
+		SmoothType.setPreferredSize(new Dimension(110, 50));
 		SmoothType.setBorder(BorderFactory.createTitledBorder("Smooth type"));
 		convPanel.add(StepPosition);
-		StepPosition.setPreferredSize(new Dimension(100, 40));
+		StepPosition.setPreferredSize(new Dimension(110, 50));
 		StepPosition.setBorder(BorderFactory.createTitledBorder("Step position"));
 		convPanel.add(stepSize);
-		stepSize.setPreferredSize(new Dimension(80, 40));
+		stepSize.setPreferredSize(new Dimension(80, 50));
 		stepSize.setBorder(BorderFactory.createTitledBorder("Step size"));
 		convPanel.add(printMean);
 		printMean.setVerticalAlignment(SwingConstants.BOTTOM);
+		printMean.setPreferredSize(new Dimension(110,50));
 
 		printMean.setBorder(BorderFactory.createTitledBorder("Print mean"));
 		convPanel.add(printZeros);
 		printZeros.setVerticalAlignment(SwingConstants.TOP);
+		printZeros.setPreferredSize(new Dimension(110,50));
 
 		printZeros.setBorder(BorderFactory.createTitledBorder("Print zeros"));
 		buttonPanel.add(profileButton);
