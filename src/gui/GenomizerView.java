@@ -15,6 +15,8 @@ import util.FileData;
 
 public interface GenomizerView {
 
+    public void addAnalyzeSelectedListener(ActionListener listener);
+
     public void addLoginListener(ActionListener listener);
 
     public void addSearchToWorkspaceListener(ActionListener listener);
@@ -116,7 +118,7 @@ public interface GenomizerView {
 
     public void closePopup();
 
-    public void printToConvertText(String message);
+    public void printToConvertText(String message,String color);
 
     public ArrayList<FileData> getWorkspaceSelectedFiles();
 

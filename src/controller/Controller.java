@@ -62,6 +62,7 @@ public class Controller {
 		view.addNewExpButtonListener(new NewExpButtonListener());
 		view.addSelectButtonListener(new SelectFilesToNewExpListener());
 		view.addUploadButtonListener(new UploadNewExpListener());
+        view.addAnalyzeSelectedListener(new AnalyzeSelectedListener());
 		fileListAddMouseListener(view.getfileList());
 	}
 
@@ -254,13 +255,13 @@ public class Controller {
 							metadata, genomeRelease, author);
 
 					if (isConverted.equals(true)) {
-						message = "The server has converted: " + fileName;
-						view.printToConvertText(message);
+						message = "The server has converted: " + fileName + " with file id: " + fileID + " from " + expid + "\n";
+						view.printToConvertText(message,"green");
 
 					} else {
 						message = "WARNING - The server couldn't convert: "
-								+ fileName + "\n";
-						view.printToConvertText(message);
+								+ fileName + " with file id: " + fileID + " from "+ expid +"\n";
+						view.printToConvertText(message,"red");
 					}
 				}
 			}
@@ -492,12 +493,16 @@ public class Controller {
 
 		@Override
 		public void run() {
-			FileDialog fileDialog = new java.awt.FileDialog(
-					(java.awt.Frame) null);
-			fileDialog.setMultipleMode(true);
-			fileDialog.setVisible(true);
-
-			// Old fileChooser: fileChooser.showOpenDialog(new JPanel());
+            FileDialog fileDialog = new java.awt.FileDialog(
+                    (java.awt.Frame) null);
+            fileDialog.setMultipleMode(true);
+            fileDialog.setVisible(true);
+            File[] files = fileDialog.getFiles();
+            String[] fileNames = new String[files.length];
+            for(int i = 0; i < files.length ; i++) {
+                fileNames[i] = files[i].getName();
+            }
+            view.selectFilesToNewExp(fileNames, files);
 		}
 	}
 
@@ -608,7 +613,6 @@ public class Controller {
 			for(AnnotationDataValue a : annotations) {
 			    System.out.println(a.getName() + " " + a.getValue());
 			}
-			//Change YURI to current user
 			String ID = model.addNewExperiment(expName, view.getUsername(), annotations);
 			System.out.println(ID);
 			if(!ID.isEmpty()) {
@@ -617,11 +621,21 @@ public class Controller {
 			    }
 			    
 			}
-			
-			
-			
 		}
 	}
+
+    class AnalyzeSelectedListener implements ActionListener, Runnable  {
+
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            new Thread(this).start();
+        }
+
+        @Override
+        public void run() {
+            System.out.println("ANALYZE");
+        }
+    }
 
 	private void fileListAddMouseListener(JList fileList) {
 		fileList.addMouseListener(new MouseAdapter() {

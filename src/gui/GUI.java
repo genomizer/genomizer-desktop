@@ -67,6 +67,11 @@ public class GUI extends JFrame implements GenomizerView {
     }
 
     @Override
+    public void addAnalyzeSelectedListener(ActionListener listener) {
+        workspaceTab.addAnalyzeSelectedListener(listener);
+    }
+
+    @Override
     public void addLoginListener(ActionListener listener) {
 	loginWindow.addLoginListener(listener);
     }
@@ -363,8 +368,8 @@ public class GUI extends JFrame implements GenomizerView {
     }
 
     @Override
-    public void printToConvertText(String message) {
-	processTab.printToConvertText(message);
+    public void printToConvertText(String message,String color) {
+	processTab.printToConvertText(message, color);
     }
 
     @Override
