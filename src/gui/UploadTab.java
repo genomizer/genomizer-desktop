@@ -20,6 +20,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
+import javax.swing.border.CompoundBorder;
 
 import util.ActivePanel;
 import util.AnnotationDataType;
@@ -29,7 +30,7 @@ public class UploadTab extends JPanel {
 
     private static final long serialVersionUID = -2830290705724588252L;
     private JButton addToExistingExpButton, newExpButton, selectButton, uploadButton;
-    private JPanel northPanel, uploadPanel, newExpPanel, uploadFilesPanel, uploadBackground;
+    private JPanel northPanel, expNamePanel, uploadPanel, newExpPanel, uploadFilesPanel, uploadBackground;
     private JTextArea experimentNameField;
     private UploadToExistingExpPanel uploadToExistingExpPanel;
     private AnnotationDataType[] annotations;
@@ -48,11 +49,14 @@ public class UploadTab extends JPanel {
 	setLayout(new BorderLayout());
 	uploadToExistingExpPanel = new UploadToExistingExpPanel();
 	northPanel = new JPanel();
+	expNamePanel = new JPanel();
+	expNamePanel.setBorder(BorderFactory.createTitledBorder(""));
 	add(northPanel, BorderLayout.NORTH);
 	northPanel.add(new JLabel("Experiment name: "));
 	experimentNameField = new JTextArea();
 	experimentNameField.setColumns(30);
-	northPanel.add(experimentNameField);
+	expNamePanel.add(experimentNameField);
+	northPanel.add(expNamePanel);
 	addToExistingExpButton = new JButton("Add to existing experiment");
 	northPanel.add(addToExistingExpButton, BorderLayout.EAST);
 	uploadPanel = new JPanel(new BorderLayout());
