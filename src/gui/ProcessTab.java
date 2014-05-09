@@ -36,6 +36,7 @@ import javax.swing.JScrollBar;
 import javax.swing.ScrollPaneConstants;
 import javax.swing.JProgressBar;
 import java.awt.event.ActionEvent;
+import javax.swing.SwingConstants;
 
 public class ProcessTab extends JPanel {
 
@@ -46,8 +47,6 @@ public class ProcessTab extends JPanel {
 	private JTextArea timeArea = new JTextArea();
 	private JTextArea convertArea = new JTextArea();
 	private JTextField bowtiePar = new JTextField();
-
-	//TODO genomeFile bör vara en dropdown-meny som ser vilka genomerelease-filer databasen har.
 	private JComboBox genomeFile = new JComboBox();
 	private JTextField SmoothWindowSize = new JTextField();
 	private JTextField SmoothType = new JTextField();
@@ -108,10 +107,10 @@ public class ProcessTab extends JPanel {
 		initFileList();
 		writeToTimePanel();
 
-/*TEST*/ArrayList<String> gFiles = new ArrayList<String>();
-/*TEST*/gFiles.add(0,"d_melanogaster_fb5_22");
-/*TEST*/gFiles.add(1,"E_melanogaster_fb6_23");			
-/*TEST*/setGenomeReleaseFiles(gFiles);
+		/*TEST*/ArrayList<String> gFiles = new ArrayList<String>();
+		/*TEST*/gFiles.add(0,"d_melanogaster_fb5_22");
+		/*TEST*/gFiles.add(1,"E_melanogaster_fb6_23");			
+		/*TEST*/setGenomeReleaseFiles(gFiles);
 		initBowtieParameters();
 	}
 
@@ -159,12 +158,12 @@ public class ProcessTab extends JPanel {
 		middelPanel.add(genRegionDataPanel);
 		genRegionDataPanel.setBorder(new TitledBorder(null, "Generate Region Data", TitledBorder.LEADING, TitledBorder.TOP, null, null));
 		scrollRegion.setPreferredSize(new Dimension(610, 145));
-		
+
 		genRegionDataPanel.add(scrollRegion);
 		scrollRegion.setViewportView(genRegArea);
 		genRegArea.setEditable(false);
 		genRegArea.setPreferredSize(new Dimension(590, 155));
-		
+
 		genRegionDataPanel.add(textArea);
 	}
 
@@ -172,7 +171,7 @@ public class ProcessTab extends JPanel {
 		middelPanel.add(genProfileDataPanel);
 		genProfileDataPanel.setBorder(new TitledBorder(null, "Generate Profile Data", TitledBorder.LEADING, TitledBorder.TOP, null, null));
 		scrollProfile.setPreferredSize(new Dimension(610, 145));
-		
+
 		genProfileDataPanel.add(scrollProfile);
 		scrollProfile.setViewportView(genProfArea);
 		genProfArea.setEditable(false);
@@ -181,7 +180,7 @@ public class ProcessTab extends JPanel {
 
 	private void initProcessInQueue() {
 		scrollProcessList.setPreferredSize(new Dimension(290, 510));
-		
+
 		procQueuePanel.add(scrollProcessList);
 		scrollProcessList.setViewportView(processList);
 		processList.setPreferredSize(new Dimension(270, 510));
@@ -196,7 +195,7 @@ public class ProcessTab extends JPanel {
 		scheduleProcPanel.setBorder(new TitledBorder(null, "Scheduled Processing", TitledBorder.LEADING, TitledBorder.TOP, null, null));
 		scheduleProcPanel.setPreferredSize(new Dimension(300, 100));
 		scrollSchedule.setPreferredSize(new Dimension(290, 240));
-		
+
 		scheduleProcPanel.add(scrollSchedule);
 		scrollSchedule.setViewportView(scheduleList);
 		scheduleList.setPreferredSize(new Dimension(260, 260));
@@ -204,7 +203,7 @@ public class ProcessTab extends JPanel {
 
 	private void initConvertTextArea(){
 		scrollConvert.setPreferredSize(new Dimension(610, 145));
-		
+
 		convertFilesPanel.add(scrollConvert);
 		scrollConvert.setViewportView(convertArea);
 		convertArea.setEditable(false);
@@ -226,6 +225,10 @@ public class ProcessTab extends JPanel {
 		bowtiePar.setBorder(new TitledBorder(null, "Flags", TitledBorder.LEADING, TitledBorder.TOP, null, null));
 		bowtiePar.setText("-a -m 1 --best -p 10 -v 2");
 		bowtiePar.setPreferredSize(new Dimension(250, 40));
+		convPanel.add(genomeFile);
+		genomeFile.setPreferredSize(new Dimension(200, 40));
+		
+				genomeFile.setBorder(new TitledBorder(null, "Genome release files", TitledBorder.LEADING, TitledBorder.TOP, null, null));
 		convPanel.add(SmoothWindowSize);
 		SmoothWindowSize.setPreferredSize(new Dimension(100, 40));
 		SmoothWindowSize.setBorder(BorderFactory.createTitledBorder("Window size"));
@@ -238,18 +241,14 @@ public class ProcessTab extends JPanel {
 		convPanel.add(stepSize);
 		stepSize.setPreferredSize(new Dimension(80, 40));
 		stepSize.setBorder(BorderFactory.createTitledBorder("Step size"));
-		convPanel.add(genomeFile);
-		genomeFile.setPreferredSize(new Dimension(200, 40));
+		convPanel.add(printMean);
+		printMean.setVerticalAlignment(SwingConstants.BOTTOM);
 		
-				genomeFile.setBorder(new TitledBorder(null, "Genome release files", TitledBorder.LEADING, TitledBorder.TOP, null, null));
-						convPanel.add(printZeros);
+				printMean.setBorder(BorderFactory.createTitledBorder("Print mean"));
+				convPanel.add(printZeros);
+				printZeros.setVerticalAlignment(SwingConstants.TOP);
 				
-						//Checkbox
 						printZeros.setBorder(BorderFactory.createTitledBorder("Print zeros"));
-								convPanel.add(printMean);
-						
-								//CHECKBOX
-								printMean.setBorder(BorderFactory.createTitledBorder("Print mean"));
 		buttonPanel.add(profileButton);
 	}
 
@@ -299,8 +298,8 @@ public class ProcessTab extends JPanel {
 	public void setGenomeReleaseFiles(ArrayList<String> genomeReleaseFiles){
 		this.genomeReleaseFiles = genomeReleaseFiles;
 	}
-	
-	
+
+
 	private String getSmoothingParameters() {
 		String smoothPar;
 		String printmean = "0";
@@ -377,7 +376,7 @@ public class ProcessTab extends JPanel {
 
 	private void initScrollPane() {
 		scrollFiles = new JScrollPane(fileList);
-		scrollFiles.setPreferredSize(new Dimension(290, 260));
+		scrollFiles.setPreferredSize(new Dimension(300, 260));
 		scrollFiles.setBorder(new TitledBorder(null, "Files", TitledBorder.LEADING, TitledBorder.TOP, null, null));
 		filesPanel.add(scrollFiles);
 	}
@@ -386,15 +385,17 @@ public class ProcessTab extends JPanel {
 		fileList.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent event) {
-				JList list = (JList) event.getSource();
-
-				int index = list.locationToIndex(event.getPoint());
-				CheckListItem item = (CheckListItem) list.getModel()
-						.getElementAt(index);
-
-				item.setSelected(!item.isSelected());
-
-				list.repaint(list.getCellBounds(index, index));
+				if(fileList.getModel().getSize() > 0){
+					JList list = (JList) event.getSource();
+	
+					int index = list.locationToIndex(event.getPoint());
+					CheckListItem item = (CheckListItem) list.getModel()
+							.getElementAt(index);
+	
+					item.setSelected(!item.isSelected());
+	
+					list.repaint(list.getCellBounds(index, index));
+				}
 			}
 		});
 	}
