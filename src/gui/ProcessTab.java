@@ -109,7 +109,7 @@ public class ProcessTab extends JPanel {
 
 		/*TEST*/ArrayList<String> gFiles = new ArrayList<String>();
 		/*TEST*/gFiles.add(0,"d_melanogaster_fb5_22");
-		/*TEST*/gFiles.add(1,"E_melanogaster_fb6_23");			
+		/*TEST*/gFiles.add(1,"E_melanogaster_fb6_23");
 		/*TEST*/setGenomeReleaseFiles(gFiles);
 		initBowtieParameters();
 	}
@@ -227,8 +227,8 @@ public class ProcessTab extends JPanel {
 		bowtiePar.setPreferredSize(new Dimension(250, 40));
 		convPanel.add(genomeFile);
 		genomeFile.setPreferredSize(new Dimension(200, 40));
-		
-				genomeFile.setBorder(new TitledBorder(null, "Genome release files", TitledBorder.LEADING, TitledBorder.TOP, null, null));
+
+		genomeFile.setBorder(new TitledBorder(null, "Genome release files", TitledBorder.LEADING, TitledBorder.TOP, null, null));
 		convPanel.add(SmoothWindowSize);
 		SmoothWindowSize.setPreferredSize(new Dimension(100, 40));
 		SmoothWindowSize.setBorder(BorderFactory.createTitledBorder("Window size"));
@@ -243,12 +243,12 @@ public class ProcessTab extends JPanel {
 		stepSize.setBorder(BorderFactory.createTitledBorder("Step size"));
 		convPanel.add(printMean);
 		printMean.setVerticalAlignment(SwingConstants.BOTTOM);
-		
-				printMean.setBorder(BorderFactory.createTitledBorder("Print mean"));
-				convPanel.add(printZeros);
-				printZeros.setVerticalAlignment(SwingConstants.TOP);
-				
-						printZeros.setBorder(BorderFactory.createTitledBorder("Print zeros"));
+
+		printMean.setBorder(BorderFactory.createTitledBorder("Print mean"));
+		convPanel.add(printZeros);
+		printZeros.setVerticalAlignment(SwingConstants.TOP);
+
+		printZeros.setBorder(BorderFactory.createTitledBorder("Print zeros"));
 		buttonPanel.add(profileButton);
 	}
 
@@ -271,10 +271,10 @@ public class ProcessTab extends JPanel {
 
 	public void setBowtieParameters(){
 
-		bowtieParameters[0] = getTextFromBowtieParOne(); //"-a -m 1 --best -p 10 -v 2"; 	
+		bowtieParameters[0] = getTextFromBowtieParOne(); //"-a -m 1 --best -p 10 -v 2";
 		bowtieParameters[1] = getTextGenomeFileName(); //"d_melanogaster_fb5_22";
 		bowtieParameters[2] = getSmoothingParameters(); //"10 1 5 0 1";
-		bowtieParameters[3] = getStepSize(); //"y 10"; 
+		bowtieParameters[3] = getStepSize(); //"y 10";
 
 	}
 
@@ -294,7 +294,7 @@ public class ProcessTab extends JPanel {
 		}
 	}
 
-	//TODO listan på GenomeRelease-filerna som databasen har måste hämtas och sättas här
+	//TODO listan pï¿½ GenomeRelease-filerna som databasen har mï¿½ste hï¿½mtas och sï¿½ttas hï¿½r
 	public void setGenomeReleaseFiles(ArrayList<String> genomeReleaseFiles){
 		this.genomeReleaseFiles = genomeReleaseFiles;
 	}
@@ -307,7 +307,7 @@ public class ProcessTab extends JPanel {
 		smoothPar = SmoothWindowSize.getText().trim() + " " + SmoothType.getText().trim() + " " + StepPosition.getText().trim();
 
 		if(printMean.isSelected()){
-			printmean = "1"; 
+			printmean = "1";
 		}
 
 		if(printZeros.isSelected()){
@@ -385,15 +385,15 @@ public class ProcessTab extends JPanel {
 		fileList.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent event) {
-					JList list = (JList) event.getSource();
-	
-					if(list.getModel().getSize() > 0){
+				JList list = (JList) event.getSource();
+
+				if(list.getModel().getSize() > 0){
 					int index = list.locationToIndex(event.getPoint());
 					CheckListItem item = (CheckListItem) list.getModel()
 							.getElementAt(index);
-	
+
 					item.setSelected(!item.isSelected());
-	
+
 					list.repaint(list.getCellBounds(index, index));
 				}
 			}
