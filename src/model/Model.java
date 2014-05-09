@@ -145,12 +145,12 @@ public class Model implements GenomizerModel {
 
 	@Override
 	public ExperimentData[] search(String pubmedString) {
+        searchHistory.addSearchToHistory(pubmedString);
 		SearchRequest request = RequestFactory.makeSearchRequest(pubmedString);
 		conn.sendRequest(request, userID, "text/plain");
         if(conn.getResponseCode() == 200) {
 			ExperimentData[] searchResponses = ResponseParser.parseSearchResponse(conn.getResponseBody());
 			if (searchResponses != null && searchResponses.length > 0) {
-				searchHistory.addSearchToHistory(searchResponses);
 				return searchResponses;
 			}
 		}
