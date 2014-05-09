@@ -7,6 +7,8 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
+import java.util.Observable;
+import java.util.Observer;
 
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
@@ -14,7 +16,9 @@ import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 
 import gui.UploadTab;
+import gui.sysadmin.SysadminController;
 import model.GenomizerModel;
+import requests.AddAnnotationRequest;
 import util.AnnotationDataType;
 import util.DeleteAnnoationData;
 import util.ExperimentData;
@@ -25,6 +29,7 @@ public class Controller {
 	private GenomizerView view;
 	private GenomizerModel model;
 	private final JFileChooser fileChooser = new JFileChooser();
+    private SysadminController sysController;
 
 	public Controller(GenomizerView view, GenomizerModel model) {
 		this.view = view;
@@ -40,15 +45,17 @@ public class Controller {
 		view.addDownloadFileListener(new DownloadWindowListener());
         view.addSearchResultsDownloadListener(new DownloadSearchListener());
 		// view.addAddAnnotationListener(new AddNewAnnotationListener());
-		view.addAddPopupListener(new AddPopupListener());
+		//view.addAddPopupListener(new AddPopupListener());
         view.addAddToExistingExpButtonListener(new AddToExistingExpButtonListener());
         view.addSelectFilesToUploadButtonListener(new SelectFilesToUploadButtonListener());
         view.addUploadToExperimentButtonListener(new UploadToExperimentButtonListener());
-        view.setAnnotationTableData(model.getAnnotations());
+        //view.setAnnotationTableData(model.getAnnotations());
         view.addUpdateSearchAnnotationsListener(new updateSearchAnnotationsListener());
         view.addProcessFileListener(new ProcessFileListener());
         view.addSearchToWorkspaceListener(new SearchToWorkspaceListener());
-        view.addDeleteAnnotationListener(new DeleteAnnotationListener());
+        //view.addDeleteAnnotationListener(new DeleteAnnotationListener());
+        view.setSysadminController(sysController = new SysadminController(
+                new SendDataObserver()));
 	}
     class DownloadSearchListener implements ActionListener, Runnable {
         @Override
@@ -77,6 +84,7 @@ public class Controller {
         }
     }
 
+    /*
     class DeleteAnnotationListener implements ActionListener, Runnable {
 		@Override
 		public void actionPerformed(ActionEvent e) {
@@ -148,6 +156,7 @@ public class Controller {
 			// Update annotationsearch?
 		}
 	}
+	*/
 
 	class ConvertFileListener implements ActionListener, Runnable {
 		@Override
@@ -444,6 +453,34 @@ public class Controller {
         public void run() {
         	System.out.println("add to workspace");
         	view.addToWorkspace(view.getSelectedExperimentsInSearch());
+        }
+
+    }
+
+    class SendDataObserver implements Observer {
+        @Override
+        public void update(Observable o, Object arg) {
+
+            if (arg instanceof AddAnnotationRequest) {
+                addAnnotationRequest(arg);
+            }
+
+        }
+
+        private void addAnnotationRequest(Object arg) {
+
+            AddAnnotationRequest ann = (AddAnnotationRequest) arg;
+
+            try {
+                if (model.addNewAnnotation(ann.name, ann.type, ann.forced)) {
+
+                } else {
+                    JOptionPane.showMessageDialog(null,
+                            "Could not create new annotation, check server?");
+                }
+            } catch (IllegalArgumentException e) {
+                JOptionPane.showMessageDialog(null, e.getMessage());
+            }
         }
 
     }
