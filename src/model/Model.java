@@ -76,7 +76,6 @@ public class Model implements GenomizerModel {
 	@Override
 	public boolean loginUser(String username, String password) {
 		if (!username.isEmpty() && !password.isEmpty()) {
-			System.out.println("login test");
 			LoginRequest request = RequestFactory.makeLoginRequest(username,
 					password);
 			conn.sendRequest(request, userID, "application/json");
