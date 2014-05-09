@@ -17,6 +17,8 @@ public class UploadToExistingExpPanel extends JPanel {
     JPanel northPanel, centerPanel, uploadFilesPanel;
 
     public UploadToExistingExpPanel() {
+        selectFilesToUploadButton = new JButton("Select files");
+        uploadFilesToExperimentButton = new JButton("Upload to experiment");
 
         northPanel = new JPanel();
         centerPanel = new JPanel(new BorderLayout());
@@ -95,8 +97,6 @@ public class UploadToExistingExpPanel extends JPanel {
     }
 
     public void addButtons() {
-        selectFilesToUploadButton = new JButton("Select files");
-        uploadFilesToExperimentButton = new JButton("Upload to experiment");
         uploadFilesPanel.add(selectFilesToUploadButton);
         uploadFilesPanel.add(uploadFilesToExperimentButton);
         uploadFilesToExperimentButton.disable();

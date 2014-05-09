@@ -490,12 +490,16 @@ public class Controller {
 
 		@Override
 		public void run() {
-			FileDialog fileDialog = new java.awt.FileDialog(
-					(java.awt.Frame) null);
-			fileDialog.setMultipleMode(true);
-			fileDialog.setVisible(true);
-
-			// Old fileChooser: fileChooser.showOpenDialog(new JPanel());
+            FileDialog fileDialog = new java.awt.FileDialog(
+                    (java.awt.Frame) null);
+            fileDialog.setMultipleMode(true);
+            fileDialog.setVisible(true);
+            File[] files = fileDialog.getFiles();
+            String[] fileNames = new String[files.length];
+            for(int i = 0; i < files.length ; i++) {
+                fileNames[i] = files[i].getName();
+            }
+            view.selectFilesToNewExp(fileNames);
 		}
 	}
 
