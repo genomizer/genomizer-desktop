@@ -15,5 +15,12 @@ public class AddAnnotationRequest extends Request {
 		this.defaultType = "unknown";
 		this.forced = forced;
 	}
+	
+	@Override
+	public String toJson(){
+		String json = super.toJson();
+		json = json.replaceFirst("defaultType", "default");
+		return json;
+	}
 
 }
