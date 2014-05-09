@@ -164,7 +164,7 @@ public class UploadTab extends JPanel {
                 } else {
                     JComboBox comboBox = new JComboBox(
                         annotations[i].getValues());
-                    comboBox.setPreferredSize(new Dimension(120, 31));
+//                    comboBox.setPreferredSize(new Dimension(120, 31));
                     annotationBoxes.put(annotations[i].getName(), comboBox);
                     p.add(comboBox, BorderLayout.CENTER);
                     newExpPanel.add(p, gbc);
