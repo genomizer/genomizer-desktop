@@ -405,7 +405,6 @@ public class ProcessTab extends JPanel {
 	}
 
 	private void initFileListScrollPane() {
-	//	scrollFiles = new JScrollPane(fileList);
 		scrollFiles.setPreferredSize(new Dimension(300, 260));
 		scrollFiles.setBorder(new TitledBorder(null, "Files", TitledBorder.LEADING, TitledBorder.TOP, null, null));
 		filesPanel.add(scrollFiles);
@@ -477,6 +476,9 @@ public class ProcessTab extends JPanel {
 
 		convertArea.append(message);
 
+		if(color.equals("red")){
+			convertArea.setForeground(Color.RED);
+		}
 	}
 
 	private void writeToTimePanel() {
