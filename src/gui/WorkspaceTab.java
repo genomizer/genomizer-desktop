@@ -190,7 +190,7 @@ public class WorkspaceTab extends JPanel {
 	table.revalidate();
     }
 
-    ArrayList<ExperimentData> getSelectedExperiments() {
+    public ArrayList<ExperimentData> getSelectedExperiments() {
         return table.getSelectedExperiments();
     }
 
