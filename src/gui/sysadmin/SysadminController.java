@@ -56,5 +56,4 @@ public class SysadminController extends Observable {
 //        setChanged();
 //        notifyObservers(ann);
     }
-
 }

@@ -2,7 +2,6 @@ package requests;
 
 public class AddAnnotationRequest extends Request {
 
-    /** TODO changed this from private to public, should be private? maybe (isak - dv12ilr)*/
 	public String name;
 	public String[] type;
 	public String defaultType;
