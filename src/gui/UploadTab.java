@@ -21,9 +21,9 @@ import javax.swing.JPanel;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
+import util.ActivePanel;
 import util.AnnotationDataType;
 import util.AnnotationDataValue;
-import util.ActivePanel;
 
 public class UploadTab extends JPanel {
 
@@ -71,9 +71,9 @@ public class UploadTab extends JPanel {
     }
 
     public void addExistingExpPanel(AnnotationDataType[] annotations) {
-//        activePanel = ActivePanel.EXISTING;
-        uploadPanel.removeAll();
-	uploadToExistingExpPanel = new UploadToExistingExpPanel();
+        killContentsOfUploadPanel();
+        activePanel = ActivePanel.EXISTING;
+        uploadToExistingExpPanel = new UploadToExistingExpPanel();
         uploadToExistingExpPanel.setAnnotations(annotations);
         uploadToExistingExpPanel.addAnnotationsForExistingExp();
         uploadPanel.add(uploadToExistingExpPanel, BorderLayout.CENTER);
@@ -102,9 +102,8 @@ public class UploadTab extends JPanel {
     }
 
     private void createNewExpPanel() {
-	uploadPanel.removeAll();
-//	hideAndShowContentsOfUploadPanel();
-//        activePanel = ActivePanel.NEW;
+	killContentsOfUploadPanel();
+        activePanel = ActivePanel.NEW;
 	GridBagLayout gbl_panel = new GridBagLayout();
 	gbl_panel.columnWidths = new int[] { 0, 0, 0, 0, 0, 0, 0 };
 	gbl_panel.rowHeights = new int[] { 0, 0, 0, 0 };
@@ -117,8 +116,6 @@ public class UploadTab extends JPanel {
 	repaintSelectedFiles();
 	uploadBackground.add(uploadFilesPanel, BorderLayout.NORTH);
 	uploadPanel.add(uploadBackground, BorderLayout.CENTER);
-	repaint();
-	revalidate();
     }
 
     private void addAnnotationsForNewExp() throws NullPointerException {
@@ -163,6 +160,7 @@ public class UploadTab extends JPanel {
                 } else {
                     JComboBox comboBox = new JComboBox(
                         annotations[i].getValues());
+                    comboBox.setPreferredSize(new Dimension(120, 31));
                     annotationBoxes.put(annotations[i].getName(), comboBox);
                     p.add(comboBox, BorderLayout.CENTER);
                     newExpPanel.add(p, gbc);
@@ -176,8 +174,8 @@ public class UploadTab extends JPanel {
 	try {
 	    this.annotations = annotations;
 	    createNewExpPanel();
-//	    repaint();
-//	    revalidate();
+	    repaint();
+	    revalidate();
 	} catch (NullPointerException e) {
 	    JOptionPane.showMessageDialog(this,
 		    "Eggs are supposed to be green.", "Inane error",
@@ -203,20 +201,19 @@ public class UploadTab extends JPanel {
 	revalidate();
     }
 
-    public void hideAndShowContentsOfUploadPanel() {
+    public void killContentsOfUploadPanel() {
         switch (activePanel) {
             case NONE:
                 break;
             case EXISTING:
-                uploadToExistingExpPanel.hide();
-                newExpPanel.show();
-                uploadFilesPanel.show();
+                uploadPanel.remove(uploadToExistingExpPanel);
+                uploadToExistingExpPanel.removeAll();
                 activePanel = ActivePanel.NONE;
                 break;
             case NEW:
-                newExpPanel.hide();
-                uploadFilesPanel.hide();
-                uploadToExistingExpPanel.show();
+                uploadPanel.remove(newExpPanel);
+                newExpPanel.removeAll();
+                uploadFilesPanel.removeAll();
                 activePanel = ActivePanel.NONE;
                 break;
         }
@@ -251,9 +248,5 @@ public class UploadTab extends JPanel {
     public File[] getUploadFiles() {
 	// TODO Auto-generated method stub
 	return null;
-    }
-
-    public ActivePanel getActivePanel() {
-        return activePanel;
     }
 }

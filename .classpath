@@ -10,12 +10,12 @@
 	<classpathentry kind="lib" path="lib/google-gson-2.2.4/gson-2.2.4-javadoc.jar"/>
 	<classpathentry kind="lib" path="lib/google-gson-2.2.4/gson-2.2.4-sources.jar"/>
 	<classpathentry kind="lib" path="lib/google-gson-2.2.4/gson-2.2.4.jar"/>
-	<classpathentry kind="lib" path="lib/external-libs/commons-codec-1.6.jar"/>
-	<classpathentry kind="lib" path="lib/external-libs/commons-logging-1.1.3.jar"/>
-	<classpathentry kind="lib" path="lib/external-libs/fluent-hc-4.3.3.jar"/>
-	<classpathentry kind="lib" path="lib/external-libs/httpclient-4.3.3.jar"/>
-	<classpathentry kind="lib" path="lib/external-libs/httpclient-cache-4.3.3.jar"/>
-	<classpathentry kind="lib" path="lib/external-libs/httpcore-4.3.2.jar"/>
-	<classpathentry kind="lib" path="lib/external-libs/httpmime-4.3.3.jar"/>
+	<classpathentry kind="lib" path="/home/c11/c11dkn/workspace/genomizer-desktop/lib/external-libs/httpcore-4.3.2.jar"/>
+	<classpathentry kind="lib" path="/home/c11/c11dkn/workspace/genomizer-desktop/lib/external-libs/httpmime-4.3.3.jar"/>
+	<classpathentry kind="lib" path="/home/c11/c11dkn/workspace/genomizer-desktop/lib/external-libs/commons-logging-1.1.3.jar"/>
+	<classpathentry kind="lib" path="/home/c11/c11dkn/workspace/genomizer-desktop/lib/external-libs/httpclient-4.3.3.jar"/>
+	<classpathentry kind="lib" path="/home/c11/c11dkn/workspace/genomizer-desktop/lib/external-libs/httpclient-cache-4.3.3.jar"/>
+	<classpathentry kind="lib" path="/home/c11/c11dkn/workspace/genomizer-desktop/lib/external-libs/commons-codec-1.6.jar"/>
+	<classpathentry kind="lib" path="/home/c11/c11dkn/workspace/genomizer-desktop/lib/external-libs/fluent-hc-4.3.3.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
