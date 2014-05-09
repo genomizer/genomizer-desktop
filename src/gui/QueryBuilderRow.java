@@ -197,7 +197,7 @@ public class QueryBuilderRow extends JPanel {
 	/* Setting the width of the combobox */
 	annotationAlternatives
 		.setPrototypeDisplayValue("AAAAAAAAAAAAAAAAAAAAAAA"
-			+ "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
+			+ "AAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
 	annotationAlternatives.addActionListener(new ActionListener() {
 	    @Override
 	    public void actionPerformed(ActionEvent e) {

@@ -41,6 +41,7 @@ public class QuerySearchTab extends JPanel {
 	setUpResultsTable();
 	setUpResultsHeaderPanel();
 	showSearchView();
+	clearSearchFields();
     }
 
     private void showSearchView() {
@@ -116,19 +117,18 @@ public class QuerySearchTab extends JPanel {
 	});
 	addToWorkspaceButton = new JButton("Add selected data to workspace");
 	downloadButton = new JButton("Download Selected Files");
-	//resultsHeaderPanel.add(downloadButton, BorderLayout.EAST);
+	// resultsHeaderPanel.add(downloadButton, BorderLayout.EAST);
 	resultsHeaderPanel.add(addToWorkspaceButton, BorderLayout.EAST);
 	resultsHeaderPanel.add(backButton, BorderLayout.WEST);
     }
 
     private void setUpRowsPanel() {
 	rowsPanel = new JPanel(new GridLayout(0, 1));
-	clearSearchFields();
     }
 
     public void updateSearchResults(ExperimentData[] searchResults) {
-	updateAnnotationsButton.doClick();
-	updateRows();
+	// updateAnnotationsButton.doClick();
+	// updateRows();
 	paintRows();
 	resultsTable.setContent(searchResults);
 	showResultsView();
