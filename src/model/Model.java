@@ -64,7 +64,7 @@ public class Model implements GenomizerModel {
 											processtype, parameters, metadata,
 										 genomeRelease, author);
 
-				conn.sendRequest(rawToProfilerequest, userID, "text/plain");
+				conn.sendRequest(rawToProfilerequest, userID, "application/json");
 				if (conn.getResponseCode() == 201) {
 					return true;
 				} else {
