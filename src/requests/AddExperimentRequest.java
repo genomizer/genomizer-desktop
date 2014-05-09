@@ -2,17 +2,17 @@ package requests;
 
 import java.util.HashMap;
 
-public class AddExperimentRequest extends Request {
-	public String experimentID;
-	public String name;
-	public String createdBy;
-	public HashMap<String, String> annotations = new HashMap<String, String>();
+import util.AnnotationDataType;
 
-	public AddExperimentRequest(String experimentID, String name,
-			String createdBy, HashMap<String, String> annotations) {
-		super("addexperiment", "/experiment/" + experimentID, "POST");
-		this.experimentID = experimentID;
-		this.name = name;
+public class AddExperimentRequest extends Request {
+	public String experimentName;
+	public String createdBy;
+	public AnnotationDataType[] annotations;
+
+	public AddExperimentRequest(String expirementName,
+			String createdBy, AnnotationDataType[] annotations) {
+		super("addexperiment", "/experiment", "POST");
+		this.experimentName = experimentName;
 		this.createdBy = createdBy;
 		this.annotations = annotations;
 	}

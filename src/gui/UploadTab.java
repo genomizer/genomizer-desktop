@@ -8,7 +8,9 @@ import java.awt.GridLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
@@ -20,6 +22,7 @@ import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
 import util.AnnotationDataType;
+import util.AnnotationDataValue;
 
 public class UploadTab extends JPanel {
 
@@ -30,12 +33,14 @@ public class UploadTab extends JPanel {
     private UploadToExistingExpPanel uploadToExistingExpPanel;
     private AnnotationDataType[] annotations;
     private ArrayList<String> annotationHeaders;
-    private ArrayList<JComboBox> annotationBoxes;
-    private ArrayList<JTextField> annotationFields;
+    private HashMap<String, JComboBox> annotationBoxes;
+    private HashMap<String, JTextField> annotationFields;
     private ArrayList<UploadFileRow> uploadFileRows;
     private enum ActivePanel {EXISTING, NEW, NONE}
     private ActivePanel activePanel;
-
+    private JLabel expNameLabel;
+    private JTextField expName;
+    
     public UploadTab() {
 	annotationHeaders = new ArrayList<String>();
 	uploadFileRows = new ArrayList<UploadFileRow>();
@@ -57,6 +62,9 @@ public class UploadTab extends JPanel {
 	uploadButton = new JButton("Upload Selected Files");
 	newExpPanel = new JPanel();
 	newExpPanel.setBorder(BorderFactory.createTitledBorder("Experiment"));
+	expNameLabel = new JLabel();
+	expName = new JTextField();
+	expName.setColumns(10);
 	createUploadPanel();
 	northPanel.add(newExpButton, BorderLayout.EAST);
     }
@@ -114,19 +122,30 @@ public class UploadTab extends JPanel {
     }
 
     private void addAnnotationsForNewExp() throws NullPointerException {
-        annotationBoxes = new ArrayList<JComboBox>();
-        annotationFields = new ArrayList<JTextField>();
+        annotationBoxes = new HashMap<String, JComboBox>();
+        annotationFields = new HashMap<String, JTextField>();
         int x = 0;
         int y = 0;
         String[] annotationNames = new String[annotations.length];
+        GridBagConstraints gbc = new GridBagConstraints();
         for (int i = 0; i < annotations.length; i++) {
-            if (annotations[i].isForced()) {
+            if (i == 0) {
+                 gbc.anchor = GridBagConstraints.WEST;
+                 gbc.insets = new Insets(5, 0, 5, 30);
+                 gbc.gridx = x;
+                 gbc.gridy = y;
+                 JPanel p = new JPanel(new BorderLayout());
+                 expNameLabel.setText("Experiment name");
+                 p.add(expNameLabel, BorderLayout.NORTH);
+                 p.add(expName, BorderLayout.CENTER);
+                 newExpPanel.add(p, gbc);
+                 x++;
+            } else if (annotations[i].isForced()) {
                 if (x > 6) {
                     System.out.println("H�R");
                     x = 0;
                     y++;
                 }
-                GridBagConstraints gbc = new GridBagConstraints();
                 gbc.anchor = GridBagConstraints.WEST;
                 gbc.insets = new Insets(5, 0, 5, 30);
                 gbc.gridx = x;
@@ -138,14 +157,14 @@ public class UploadTab extends JPanel {
                 if (annotations[i].getValues()[0].equals("freetext")) {
                     JTextField textField = new JTextField();
                     textField.setColumns(10);
-                    annotationFields.add(textField);
+                    annotationFields.put(annotations[i].getName(), textField);
                     p.add(textField, BorderLayout.CENTER);
                     newExpPanel.add(p, gbc);
                 } else {
                     JComboBox comboBox = new JComboBox(
                         annotations[i].getValues());
                     comboBox.setPreferredSize(new Dimension(120, 31));
-                    annotationBoxes.add(comboBox);
+                    annotationBoxes.put(annotations[i].getName(), comboBox);
                     p.add(comboBox, BorderLayout.CENTER);
                     newExpPanel.add(p, gbc);
                 }
@@ -214,11 +233,24 @@ public class UploadTab extends JPanel {
 	repaintSelectedFiles();
     }
     
-    public AnnotationDataType[] getUploadAnnotations() {
-	AnnotationDataType[] annotations = new AnnotationDataType[annotationHeaders.size()];
-	for(String s : annotationHeaders) {
-	    
+    public String getNewExpName() {
+	return expName.getText();
+    }
+    
+    public AnnotationDataValue[] getUploadAnnotations() {
+	AnnotationDataValue[] annotations = new AnnotationDataValue[annotationHeaders.size()];
+	for(int i = 0; i < annotationHeaders.size() ; i++) {
+	    if(annotationBoxes.containsKey(annotationHeaders.get(i))) {
+		annotations[i] = new AnnotationDataValue(Integer.toString(i), annotationHeaders.get(i),  annotationBoxes.get(annotationHeaders.get(i)).getSelectedItem().toString());
+	    } else if(annotationFields.containsKey(annotationHeaders.get(i))) {
+		annotations[i] = new AnnotationDataValue(Integer.toString(i), annotationHeaders.get(i), annotationFields.get(annotationHeaders.get(i)).getText());
+	    }
 	}
+	return annotations;
+    }
+
+    public File[] getUploadFiles() {
+	// TODO Auto-generated method stub
 	return null;
     }
 }

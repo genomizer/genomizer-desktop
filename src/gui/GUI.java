@@ -14,6 +14,7 @@ import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 
 import util.AnnotationDataType;
+import util.AnnotationDataValue;
 import util.ExperimentData;
 import util.FileData;
 
@@ -426,12 +427,12 @@ public class GUI extends JFrame implements GenomizerView {
 	
 	@Override
 	public File[] getFilesToUpload() {
-	    return new File[1];
+	    return uploadTab.getUploadFiles();
 	}
 	
 	@Override
-	public AnnotationDataType[] getUploadAnnotations() {
-	    return new AnnotationDataType[1];
+	public AnnotationDataValue[] getUploadAnnotations() {
+	    return uploadTab.getUploadAnnotations();
 	}
 
 	@Override

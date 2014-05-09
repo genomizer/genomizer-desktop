@@ -18,6 +18,7 @@ import javax.swing.SwingUtilities;
 
 import model.GenomizerModel;
 import util.AnnotationDataType;
+import util.AnnotationDataValue;
 import util.DeleteAnnoationData;
 import util.ExperimentData;
 import util.FileData;
@@ -591,9 +592,12 @@ public class Controller {
 
 		@Override
 		public void run() {
-			AnnotationDataType[] a = view.getUploadAnnotations();
+			AnnotationDataValue[] a = view.getUploadAnnotations();
 			File[] files = view.getFilesToUpload();
-			System.out.println("HEJ");
+			for(AnnotationDataValue b : a) {
+			    System.out.println(b.getName() + " " + b.getValue());
+			}
+			
 		}
 	}
 }

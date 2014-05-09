@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import javax.swing.JFrame;
 
 import util.AnnotationDataType;
+import util.AnnotationDataValue;
 import util.ExperimentData;
 import util.FileData;
 
@@ -127,7 +128,7 @@ public interface GenomizerView {
 
     public File[] getFilesToUpload();
 
-    public AnnotationDataType[] getUploadAnnotations();
+    public AnnotationDataValue[] getUploadAnnotations();
 
 	public void setBowtieParameters();
 }

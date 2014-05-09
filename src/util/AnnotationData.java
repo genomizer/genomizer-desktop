@@ -8,4 +8,9 @@ public class AnnotationData {
 		this.id = id;
 		this.name = name;
 	}
+	
+	//Test purpose
+	public String getName() {
+	   return name; 
+	}
 }
