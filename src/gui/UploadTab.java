@@ -23,6 +23,7 @@ import javax.swing.JTextField;
 
 import util.AnnotationDataType;
 import util.AnnotationDataValue;
+import util.ActivePanel;
 
 public class UploadTab extends JPanel {
 
@@ -36,7 +37,6 @@ public class UploadTab extends JPanel {
     private HashMap<String, JComboBox> annotationBoxes;
     private HashMap<String, JTextField> annotationFields;
     private ArrayList<UploadFileRow> uploadFileRows;
-    private enum ActivePanel {EXISTING, NEW, NONE}
     private ActivePanel activePanel;
     private JLabel expNameLabel;
     private JTextField expName;
@@ -75,7 +75,6 @@ public class UploadTab extends JPanel {
     }
 
     public void addExistingExpPanel(AnnotationDataType[] annotations) {
-        hideAndShowContentsOfUploadPanel();
         activePanel = ActivePanel.EXISTING;
         uploadToExistingExpPanel = new UploadToExistingExpPanel();
         uploadToExistingExpPanel.setAnnotations(annotations);
@@ -253,5 +252,9 @@ public class UploadTab extends JPanel {
     public File[] getUploadFiles() {
 	// TODO Auto-generated method stub
 	return null;
+    }
+
+    public ActivePanel getActivePanel() {
+        return activePanel;
     }
 }

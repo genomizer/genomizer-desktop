@@ -21,11 +21,7 @@ import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 
 import model.GenomizerModel;
-import util.AnnotationDataType;
-import util.AnnotationDataValue;
-import util.DeleteAnnoationData;
-import util.ExperimentData;
-import util.FileData;
+import util.*;
 
 public class Controller {
 
@@ -474,9 +470,13 @@ public class Controller {
 		@Override
 		public void run() {
 			UploadTab uploadTab = view.getUploadTab();
-			uploadTab.hideAndShowContentsOfUploadPanel();
 			AnnotationDataType[] annotations = model.getAnnotations();
-			uploadTab.addExistingExpPanel(annotations);
+            if(uploadTab.getActivePanel() != ActivePanel.EXISTING) {
+                uploadTab.addExistingExpPanel(annotations);
+                System.out.println("hej");
+            } else {
+                uploadTab.hideAndShowContentsOfUploadPanel();
+            }
 		}
 	}
 
@@ -562,7 +562,12 @@ public class Controller {
 		@Override
 		public void run() {
 			AnnotationDataType[] annotations = model.getAnnotations();
-			view.createNewExp(annotations);
+            UploadTab ut = view.getUploadTab();
+            if(ut.getActivePanel() != ActivePanel.NEW) {
+                view.createNewExp(annotations);
+            } else {
+                ut.hideAndShowContentsOfUploadPanel();
+            }
 		}
 	}
 
