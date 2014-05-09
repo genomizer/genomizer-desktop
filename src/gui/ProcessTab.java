@@ -5,45 +5,37 @@ import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 
 import javax.swing.BorderFactory;
-import javax.swing.DefaultListModel;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
-import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.ListSelectionModel;
-import javax.swing.border.Border;
 
 import util.FileData;
-import javax.swing.BoxLayout;
 import java.awt.GridBagLayout;
 import java.awt.GridBagConstraints;
 import java.awt.Insets;
 import java.awt.FlowLayout;
-import javax.swing.border.LineBorder;
 import java.awt.Color;
 import javax.swing.border.TitledBorder;
 import javax.swing.UIManager;
 import javax.swing.JComboBox;
-import javax.swing.JScrollBar;
-import javax.swing.ScrollPaneConstants;
-import javax.swing.JProgressBar;
 import java.awt.event.ActionEvent;
-import javax.swing.SwingConstants;
+import java.awt.Component;
+import javax.swing.JTabbedPane;
 
 public class ProcessTab extends JPanel {
 
 	private static final long serialVersionUID = -2830290705724588252L;
-	private final JList fileList = new JList();
-	private final JList scheduleList = new JList();
-	private final JList processList = new JList();
+	private final JList<CheckListItem> fileList = new JList<CheckListItem>();
+	private final JList<CheckListItem> scheduleList = new JList<CheckListItem>();
+	private final JList<CheckListItem> processList = new JList<CheckListItem>();
 
 	private final JPanel convPanel = new JPanel();
 	private final JPanel buttonPanel = new JPanel();
@@ -75,20 +67,32 @@ public class ProcessTab extends JPanel {
 	private final JScrollPane scrollRegion = new JScrollPane();
 	private final JScrollPane scrollProfile = new JScrollPane();
 	private final JScrollPane scrollProcessList = new JScrollPane();
-	/*TEST*/private final JScrollPane scrollFiles = new JScrollPane(fileList);
+	private final JScrollPane scrollFiles = new JScrollPane();
 
 	private final JButton convertButton = new JButton("Convert to WIG");
 	private final JButton profileButton = new JButton("Create profile data");
 	private final JButton regionButton = new JButton("Create region data");
-	private final JButton scheduleButton = new JButton("Schedule files");
+	private final JCheckBox scheduleButton = new JCheckBox("Schedule files");
 
 	private final JCheckBox printMean = new JCheckBox("Print mean");
 	private final JCheckBox printZeros = new JCheckBox("Print zeros");
-	private final JComboBox genomeFile = new JComboBox();
+	private final JComboBox<String> genomeFile = new JComboBox<String>();
 
 	private ArrayList<String> genomeReleaseFiles;
 	private ArrayList<FileData> fileData;
 	private String[] bowtieParameters = new String[4];
+	private final JPanel flagsPanel = new JPanel();
+	private final JPanel genomeReleasePanel = new JPanel();
+	private final JPanel windowSizePanel = new JPanel();
+	private final JPanel smoothTypePanel = new JPanel();
+	private final JPanel stepPositionPanel = new JPanel();
+	private final JPanel stepSizePanel = new JPanel();
+	private final JPanel checkBoxPanel = new JPanel();
+	private final JCheckBox stepSizeBox = new JCheckBox("Step size");
+	private final JTabbedPane tabbedPane = new JTabbedPane(JTabbedPane.BOTTOM);
+	private final JPanel createRegTabPanel = new JPanel();
+	private final JPanel convWigTabPanel = new JPanel();
+	private final JPanel convTabpanel = new JPanel();
 
 	public ProcessTab() {
 		setPreferredSize(new Dimension(1225, 725));
@@ -118,17 +122,18 @@ public class ProcessTab extends JPanel {
 		/*TEST*/CheckListItem[] itemList = new CheckListItem[20];
 
 		/*TEST*/for(int i = 0; i < 20; i++){
-			/*TEST*/itemList[i] = new CheckListItem( "[" + i + "] TEST.RAW" );
-			/*TEST*/}
+		/*TEST*/	itemList[i] = new CheckListItem( "[" + i + "] TEST.RAW" );
+		/*TEST*/}
 
 		/*TEST*/fileList.setListData(itemList);
 
 	}
 
 	private void addNorthPanel() {
+		menuPanel.setAlignmentX(Component.RIGHT_ALIGNMENT);
+		menuPanel.setPreferredSize(new Dimension(1200, 175));
 
 		this.add(menuPanel, BorderLayout.NORTH);
-		menuPanel.setPreferredSize(new Dimension(300, 150));
 		addButtonsToMenu();
 		enableButtons();
 
@@ -137,6 +142,7 @@ public class ProcessTab extends JPanel {
 	private void addWestPanels() {
 
 		this.add(westPanel, BorderLayout.WEST);
+		filesPanel.setBorder(new TitledBorder(null, "Files", TitledBorder.LEADING, TitledBorder.TOP, null, null));
 		filesPanel.setPreferredSize(new Dimension(300, 100));
 		addFilesScheduleToWestPanel();
 		addScheduleProcPanel();
@@ -176,7 +182,7 @@ public class ProcessTab extends JPanel {
 		genRegionDataPanel.add(scrollRegion);
 		scrollRegion.setViewportView(genRegArea);
 		genRegArea.setEditable(false);
-		genRegArea.setPreferredSize(new Dimension(590, 155));
+		genRegArea.setPreferredSize(new Dimension(590, 135));
 
 		genRegionDataPanel.add(textArea);
 	}
@@ -189,15 +195,15 @@ public class ProcessTab extends JPanel {
 		genProfileDataPanel.add(scrollProfile);
 		scrollProfile.setViewportView(genProfArea);
 		genProfArea.setEditable(false);
-		genProfArea.setPreferredSize(new Dimension(590, 155));
+		genProfArea.setPreferredSize(new Dimension(590, 140));
 	}
 
 	private void addProcessInQueue() {
-		scrollProcessList.setPreferredSize(new Dimension(290, 510));
+		scrollProcessList.setPreferredSize(new Dimension(290, 491));
 
 		procQueuePanel.add(scrollProcessList);
 		scrollProcessList.setViewportView(processList);
-		processList.setPreferredSize(new Dimension(270, 510));
+		processList.setPreferredSize(new Dimension(270, 450));
 	}
 
 	private void addTimePanel() {
@@ -208,11 +214,11 @@ public class ProcessTab extends JPanel {
 	private void addScheduleProcPanel() {
 		scheduleProcPanel.setBorder(new TitledBorder(null, "Scheduled Processing", TitledBorder.LEADING, TitledBorder.TOP, null, null));
 		scheduleProcPanel.setPreferredSize(new Dimension(300, 100));
-		scrollSchedule.setPreferredSize(new Dimension(290, 240));
+		scrollSchedule.setPreferredSize(new Dimension(290, 203));
 
 		scheduleProcPanel.add(scrollSchedule);
 		scrollSchedule.setViewportView(scheduleList);
-		scheduleList.setPreferredSize(new Dimension(260, 260));
+		scheduleList.setPreferredSize(new Dimension(260, 200));
 	}
 
 	private void addConvertTextArea(){
@@ -221,11 +227,16 @@ public class ProcessTab extends JPanel {
 		convertFilesPanel.add(scrollConvert);
 		scrollConvert.setViewportView(convertArea);
 		convertArea.setEditable(false);
-		convertArea.setPreferredSize(new Dimension(590, 155));
+		convertArea.setPreferredSize(new Dimension(590, 140));
 	}
 
 	private void addFilesScheduleToWestPanel() {
 		westPanel.add(filesPanel);
+		scrollFiles.setPreferredSize(new Dimension(290, 230));
+
+		filesPanel.add(scrollFiles);
+
+		scrollFiles.setViewportView(fileList);
 		westPanel.add(scheduleProcPanel);
 	}
 
@@ -243,71 +254,126 @@ public class ProcessTab extends JPanel {
 
 	private void addPanelsToMenu() {
 		menuPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
-		convPanel.setBorder(new TitledBorder(null, "Conversion parameters", TitledBorder.LEADING, TitledBorder.TOP, null, null));
-		menuPanel.add(convPanel);
-		menuPanel.add(buttonPanel);
+		menuPanel.add(tabbedPane);
+		convTabpanel.setPreferredSize(new Dimension(1222, 135));
+
+		tabbedPane.addTab("Create profile data", null, convTabpanel, null);
+		convTabpanel.add(convPanel);
+		convPanel.add(flagsPanel);
+		flagsPanel.setBorder(new TitledBorder(null, "Flags", TitledBorder.LEADING, TitledBorder.TOP, null, null));
+		convPanel.add(genomeReleasePanel);
+		genomeReleasePanel.setBorder(new TitledBorder(null, "Genome release files", TitledBorder.LEADING, TitledBorder.TOP, null, null));
+		convPanel.add(windowSizePanel);
+		windowSizePanel.setBorder(new TitledBorder(null, "Windows size", TitledBorder.LEADING, TitledBorder.TOP, null, null));
+		convPanel.add(smoothTypePanel);
+		smoothTypePanel.setBorder(new TitledBorder(null, "Smooth type", TitledBorder.LEADING, TitledBorder.TOP, null, null));
+		convPanel.add(stepPositionPanel);
+		stepPositionPanel.setBorder(new TitledBorder(null, "Step position", TitledBorder.LEADING, TitledBorder.TOP, null, null));
+		convPanel.setBorder(null);
+		checkBoxPanel.setBorder(new TitledBorder(null, "", TitledBorder.LEADING, TitledBorder.TOP, null, null));
+		convPanel.add(checkBoxPanel);
+		GridBagConstraints gbc_printMean = new GridBagConstraints();
+		gbc_printMean.fill = GridBagConstraints.BOTH;
+		gbc_printMean.insets = new Insets(0, 0, 0, 5);
+		gbc_printMean.gridx = 0;
+		gbc_printMean.gridy = 0;
+		checkBoxPanel.add(printMean, gbc_printMean);
+		GridBagConstraints gbc_printZeros = new GridBagConstraints();
+		gbc_printZeros.fill = GridBagConstraints.BOTH;
+		gbc_printZeros.insets = new Insets(0, 0, 0, 5);
+		gbc_printZeros.gridx = 1;
+		gbc_printZeros.gridy = 0;
+		checkBoxPanel.add(printZeros, gbc_printZeros);
+		GridBagConstraints gbc_stepSizeBox = new GridBagConstraints();
+		gbc_stepSizeBox.gridx = 2;
+		gbc_stepSizeBox.gridy = 0;
+		checkBoxPanel.add(stepSizeBox, gbc_stepSizeBox);
+		GridBagLayout gbl_checkBoxPanel = new GridBagLayout();
+		gbl_checkBoxPanel.columnWidths = new int[]{110, 110, 110, 0};
+		gbl_checkBoxPanel.rowHeights = new int[]{50, 0};
+		gbl_checkBoxPanel.columnWeights = new double[]{0.0, 0.0, 0.0, Double.MIN_VALUE};
+		gbl_checkBoxPanel.rowWeights = new double[]{0.0, Double.MIN_VALUE};
+		checkBoxPanel.setLayout(gbl_checkBoxPanel);
+		convPanel.add(stepSizePanel);
+		stepSizePanel.setBorder(new TitledBorder(null, "Step size", TitledBorder.LEADING, TitledBorder.TOP, null, null));
+
+		tabbedPane.addTab("Convert to WIG", null, convWigTabPanel, null);
+
+		tabbedPane.addTab("Create region data", null, createRegTabPanel, null);
 	}
 
 	private void addFlagsToConv() {
-		convPanel.add(flags);
-		flags.setBorder(new TitledBorder(null, "Flags", TitledBorder.LEADING, TitledBorder.TOP, null, null));
+		flagsPanel.add(flags);
+		flags.setBorder(null);
 		flags.setText("-a -m 1 --best -p 10 -v 2");
-		flags.setPreferredSize(new Dimension(250, 50));
+		flags.setPreferredSize(new Dimension(150, 45));
 	}
 
 	private void addGenomeFileToConv() {
-		convPanel.add(genomeFile);
-		genomeFile.setPreferredSize(new Dimension(230, 60));
-		genomeFile.setBorder(new TitledBorder(null, "Genome release files", TitledBorder.LEADING, TitledBorder.TOP, null, null));
+		genomeReleasePanel.add(genomeFile);
+		genomeFile.setPreferredSize(new Dimension(150, 45));
+		genomeFile.setBorder(null);
 	}
 
 	private void addSmoothWindowSizeToConv() {
-		convPanel.add(smoothWindowSize);
-		smoothWindowSize.setPreferredSize(new Dimension(110, 50));
-		smoothWindowSize.setBorder(BorderFactory.createTitledBorder("Window size"));
+		windowSizePanel.add(smoothWindowSize);
+		smoothWindowSize.setPreferredSize(new Dimension(70, 45));
+		smoothWindowSize.setBorder(null);
 	}
 
 	private void addSmoothTypeToConv() {
-		convPanel.add(smoothType);
-		smoothType.setPreferredSize(new Dimension(110, 50));
-		smoothType.setBorder(BorderFactory.createTitledBorder("Smooth type"));
+		smoothTypePanel.add(smoothType);
+		smoothType.setPreferredSize(new Dimension(70, 45));
+		smoothType.setBorder(null);
 	}
 
 	private void addStepPositionToConv() {
-		convPanel.add(stepPosition);
-		stepPosition.setPreferredSize(new Dimension(110, 50));
-		stepPosition.setBorder(BorderFactory.createTitledBorder("Step position"));
+		stepPositionPanel.add(stepPosition);
+		stepPosition.setPreferredSize(new Dimension(70, 45));
+		stepPosition.setBorder(null);
 	}
 
 	private void addStepSizeToConv() {
-		convPanel.add(stepSize);
-		stepSize.setPreferredSize(new Dimension(80, 50));
-		stepSize.setBorder(BorderFactory.createTitledBorder("Step size"));
+		stepSizePanel.add(stepSize);
+		stepSize.setPreferredSize(new Dimension(80, 45));
+		stepSize.setBorder(null);
 	}
 
 	private void addPrintMeanToConv() {
-		convPanel.add(printMean);
-		printMean.setVerticalAlignment(SwingConstants.BOTTOM);
-		printMean.setPreferredSize(new Dimension(110,50));
+		printMean.setPreferredSize(new Dimension(85, 65));
 		printMean.setBorder(BorderFactory.createTitledBorder("Print mean"));
+		stepSizeBox.setSelected(true);
+		stepSizeBox.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+
+				if(stepSizeBox.isSelected()){
+					stepSize.setEnabled(true);
+					stepSize.setText("10");
+				}else{
+					stepSize.setEnabled(false);
+					stepSize.setText("");
+				}
+			}
+		});
+		stepSizeBox.setMinimumSize(new Dimension(77, 23));
+		stepSizeBox.setMaximumSize(new Dimension(77, 23));
+		stepSizeBox.setPreferredSize(new Dimension(85, 65));
 	}
 
 	private void addPrintZeroToConv() {
-		convPanel.add(printZeros);
-		printZeros.setVerticalAlignment(SwingConstants.TOP);
-		printZeros.setPreferredSize(new Dimension(110,50));
+		printZeros.setPreferredSize(new Dimension(85, 65));
 		printZeros.setBorder(BorderFactory.createTitledBorder("Print zeros"));
 	}
 
 	private void enableButtons() {
-
-		buttonPanel.add(profileButton);
-		buttonPanel.add(regionButton);
+		createRegTabPanel.add(regionButton);
 		regionButton.setEnabled(false);
-		buttonPanel.add(convertButton);
+		convWigTabPanel.add(convertButton);
 		convertButton.setEnabled(false);
-		buttonPanel.add(scheduleButton);
-		scheduleButton.setEnabled(false);
+		convTabpanel.add(buttonPanel);
+		buttonPanel.add(profileButton);
+		scheduleProcPanel.add(scheduleButton);
+		scheduleButton.setPreferredSize(new Dimension(297, 23));
 	}
 
 	public String[] getBowtieParameters(){
@@ -323,13 +389,17 @@ public class ProcessTab extends JPanel {
 
 	}
 
-	private String getStepSize() {
-		return stepSize.getText();
+	private String getStepSize() {		
+		if(stepSizeBox.isSelected()){
+			return "y " + stepSize.getText().trim();
+		}else {
+			return "";
+		}
 	}
 
 	private void initBowtieParameters(){
 
-		stepSize.setText("y 10");
+		stepSize.setText("10");
 		smoothWindowSize.setText("10");
 		smoothType.setText("1");
 		stepPosition.setText("5");
@@ -350,6 +420,7 @@ public class ProcessTab extends JPanel {
 		String smoothPar;
 		String printmean = "0";
 		String printzeros = "0";
+
 		smoothPar = smoothWindowSize.getText().trim() + " " + smoothType.getText().trim() + " " + stepPosition.getText().trim();
 
 		if(printMean.isSelected()){
@@ -390,7 +461,6 @@ public class ProcessTab extends JPanel {
 	}
 
 	private void fileListSetCellRenderer() {
-		fileList.setPreferredSize(new Dimension(260, 245));
 		fileList.setCellRenderer(new CheckListRenderer());
 		fileList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 	}
@@ -401,13 +471,6 @@ public class ProcessTab extends JPanel {
 
 	private void initFileList() {
 		fileListSetCellRenderer();
-		initFileListScrollPane();
-	}
-
-	private void initFileListScrollPane() {
-		scrollFiles.setPreferredSize(new Dimension(300, 260));
-		scrollFiles.setBorder(new TitledBorder(null, "Files", TitledBorder.LEADING, TitledBorder.TOP, null, null));
-		filesPanel.add(scrollFiles);
 	}
 
 	public ArrayList<String> getAllMarkedFiles() {
