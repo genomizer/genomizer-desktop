@@ -55,6 +55,8 @@ public class UploadTab extends JPanel {
 	northPanel.add(experimentNameField);
 	addToExistingExpButton = new JButton("Add to existing experiment");
 	northPanel.add(addToExistingExpButton, BorderLayout.EAST);
+	uploadPanel = new JPanel(new BorderLayout());
+	add(uploadPanel, BorderLayout.CENTER);
 	uploadBackground = new JPanel(new BorderLayout());
 	uploadFilesPanel = new JPanel(new GridLayout(0,1));
 	newExpButton = new JButton("Create new experiment");
@@ -65,13 +67,7 @@ public class UploadTab extends JPanel {
 	expNameLabel = new JLabel();
 	expName = new JTextField();
 	expName.setColumns(10);
-	createUploadPanel();
 	northPanel.add(newExpButton, BorderLayout.EAST);
-    }
-
-    private void createUploadPanel() {
-        uploadPanel = new JPanel(new BorderLayout());
-        add(uploadPanel, BorderLayout.CENTER);
     }
 
     public void addExistingExpPanel(AnnotationDataType[] annotations) {
@@ -218,6 +214,8 @@ public class UploadTab extends JPanel {
                 uploadPanel.remove(newExpPanel);
                 newExpPanel.removeAll();
                 uploadFilesPanel.removeAll();
+                repaint();
+                revalidate();
                 activePanel = ActivePanel.NONE;
                 break;
         }

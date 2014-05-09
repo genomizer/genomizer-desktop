@@ -59,6 +59,7 @@ public class Controller {
 		view.addNewExpButtonListener(new NewExpButtonListener());
 		view.addSelectButtonListener(new SelectFilesToNewExpListener());
 		view.addUploadButtonListener(new UploadNewExpListener());
+        view.addAnalyzeSelectedListener(new AnalyzeSelectedListener());
 		fileListAddMouseListener(view.getfileList());
 	}
 
@@ -603,6 +604,19 @@ public class Controller {
 
 		}
 	}
+
+    class AnalyzeSelectedListener implements ActionListener, Runnable  {
+
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            new Thread(this).start();
+        }
+
+        @Override
+        public void run() {
+            System.out.println("ANALYZE");
+        }
+    }
 
 	private void fileListAddMouseListener(JList fileList) {
 		fileList.addMouseListener(new MouseAdapter() {

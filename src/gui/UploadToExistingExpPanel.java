@@ -14,17 +14,16 @@ public class UploadToExistingExpPanel extends JPanel {
     private ArrayList<JComboBox> annotationBoxes;
     private ArrayList<JTextField> annotationFields;
     private AnnotationDataType[] annotations;
-    JPanel northPanel, centerPanel;
+    JPanel northPanel, centerPanel, uploadFilesPanel;
 
     public UploadToExistingExpPanel() {
-        selectFilesToUploadButton = new JButton("Select files");
-        uploadFilesToExperimentButton = new JButton("Upload to experiment");
-        uploadFilesToExperimentButton.disable();
 
         northPanel = new JPanel();
         centerPanel = new JPanel(new BorderLayout());
+        uploadFilesPanel = new JPanel(new GridLayout(0,1));
         add(northPanel);
         add(centerPanel);
+        centerPanel.add(uploadFilesPanel, BorderLayout.NORTH);
 
         setBorder(BorderFactory.createTitledBorder("Experiment"));
         GridBagLayout gbl_panel = new GridBagLayout();
@@ -33,11 +32,11 @@ public class UploadToExistingExpPanel extends JPanel {
         gbl_panel.columnWeights = new double[] { 0.0, 0.0, 0.0, 0.0, 0.0, 0.0,
                 Double.MIN_VALUE };
         gbl_panel.rowWeights = new double[] { 0.0, 0.0, 0.0, Double.MIN_VALUE };
-
         northPanel.setLayout(gbl_panel);
 
-        centerPanel.add(selectFilesToUploadButton, BorderLayout.CENTER);
-        centerPanel.add(uploadFilesToExperimentButton, BorderLayout.SOUTH);
+        addButtons();
+        repaint();
+        revalidate();
     }
 
     public void addSelectFilesToUploadButtonListener(ActionListener listener) {
@@ -93,5 +92,18 @@ public class UploadToExistingExpPanel extends JPanel {
                 x++;
             }
         }
+    }
+
+    public void addButtons() {
+        selectFilesToUploadButton = new JButton("Select files");
+        uploadFilesToExperimentButton = new JButton("Upload to experiment");
+        uploadFilesPanel.add(selectFilesToUploadButton);
+        uploadFilesPanel.add(uploadFilesToExperimentButton);
+        uploadFilesToExperimentButton.disable();
+    }
+
+    public void removeAll() {
+        uploadFilesPanel.removeAll();
+        super.removeAll();
     }
 }

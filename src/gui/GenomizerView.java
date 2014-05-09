@@ -14,6 +14,8 @@ import util.FileData;
 
 public interface GenomizerView {
 
+    public void addAnalyzeSelectedListener(ActionListener listener);
+
     public void addLoginListener(ActionListener listener);
 
     public void addSearchToWorkspaceListener(ActionListener listener);
