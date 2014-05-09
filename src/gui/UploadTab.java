@@ -75,7 +75,7 @@ public class UploadTab extends JPanel {
     }
 
     public void addExistingExpPanel(AnnotationDataType[] annotations) {
-        killContentsOfUploadPanel();
+        hideAndShowContentsOfUploadPanel();
         activePanel = ActivePanel.EXISTING;
         uploadToExistingExpPanel = new UploadToExistingExpPanel();
         uploadToExistingExpPanel.setAnnotations(annotations);
@@ -106,7 +106,7 @@ public class UploadTab extends JPanel {
     }
 
     private void createNewExpPanel() {
-	killContentsOfUploadPanel();
+	hideAndShowContentsOfUploadPanel();
         activePanel = ActivePanel.NEW;
 	GridBagLayout gbl_panel = new GridBagLayout();
 	gbl_panel.columnWidths = new int[] { 0, 0, 0, 0, 0, 0, 0 };
@@ -205,20 +205,20 @@ public class UploadTab extends JPanel {
 	revalidate();
     }
 
-    public void killContentsOfUploadPanel() {
+    public void hideAndShowContentsOfUploadPanel() {
         switch (activePanel) {
             case NONE:
                 break;
             case EXISTING:
-                uploadPanel.remove(uploadToExistingExpPanel);
-                uploadToExistingExpPanel.removeAll();
-                uploadToExistingExpPanel.removeAllInCenter();
+                uploadToExistingExpPanel.hide();
+                newExpPanel.show();
+                uploadFilesPanel.show();
                 activePanel = ActivePanel.NONE;
                 break;
             case NEW:
-                uploadPanel.remove(newExpPanel);
-                newExpPanel.removeAll();
-                uploadFilesPanel.removeAll();
+                newExpPanel.hide();
+                uploadFilesPanel.hide();
+                uploadToExistingExpPanel.show();
                 activePanel = ActivePanel.NONE;
                 break;
         }

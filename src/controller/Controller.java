@@ -473,7 +473,7 @@ public class Controller {
 		@Override
 		public void run() {
 			UploadTab uploadTab = view.getUploadTab();
-			uploadTab.killContentsOfUploadPanel();
+			uploadTab.hideAndShowContentsOfUploadPanel();
 			AnnotationDataType[] annotations = model.getAnnotations();
 			uploadTab.addExistingExpPanel(annotations);
 		}
