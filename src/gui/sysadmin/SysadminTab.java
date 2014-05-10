@@ -1,10 +1,8 @@
 package gui.sysadmin;
 
-import java.awt.BorderLayout;
+import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ActionListener;
-
-import javax.swing.JPanel;
-import javax.swing.JTabbedPane;
 
 public class SysadminTab extends JPanel {
 
@@ -29,29 +27,38 @@ public class SysadminTab extends JPanel {
                 sysadminTabPane, this);
 
         sysadminTabPane.setTabPlacement(JTabbedPane.LEFT);
-        ButtonNames bNames = new ButtonNames();
-        String[] buttonNameStrings = bNames.getButtonNames();
+//        ButtonNames bNames = new ButtonNames();
+//        String[] buttonNameStrings = bNames.getButtonNames();
 
-        for (int i = 0; i < buttonNameStrings.length; i++) {
-
-            switch (buttonNameStrings[i]) {
-
-            case ButtonNames.ANNOTATIONS:
-                sysadminTabPane.addTab(buttonNameStrings[i],
-                        buildAnnotationsView());
-                break;
-/*
-            case ButtonNames.USERS:
-                sysadminTabPane.addTab(buttonNameStrings[i], new JPanel());
-                break;
-
-            case ButtonNames.TEST:
-                sysadminTabPane.addTab(buttonNameStrings[i], new JPanel());
-                break;
-*/
+        for (SysAdminButton button : SysAdminButton.values()) {
+            switch (button) {
+                case ANNOTATIONS:
+                    sysadminTabPane.addTab(button.getValue(),
+                            buildAnnotationsView());
+                    break;
             }
-
         }
+
+//        for (int i = 0; i < buttonNameStrings.length; i++) {
+//
+//            switch (buttonNameStrings[i]) {
+//
+//            case ButtonNames.ANNOTATIONS:
+//                sysadminTabPane.addTab(buttonNameStrings[i],
+//                        buildAnnotationsView());
+//                break;
+///*
+//            case ButtonNames.USERS:
+//                sysadminTabPane.addTab(buttonNameStrings[i], new JPanel());
+//                break;
+//
+//            case ButtonNames.TEST:
+//                sysadminTabPane.addTab(buttonNameStrings[i], new JPanel());
+//                break;
+//*/
+//            }
+//
+//        }
 
         System.out.println("HEHEHE " + sysadminTabPane.getTitleAt(0));
 

@@ -16,8 +16,8 @@ public class AnnotationPopupListener implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
 
-        switch (e.getActionCommand()) {
-        case ButtonNames.POPUP_CREATE_ANNO:
+        switch (SysAdminButton.fromString(e.getActionCommand())) {
+        case POPUP_CREATE_ANNOTATION:
             System.out.println("Creating new annotation....");
             sysController.sendNewAnnotation();
             break;

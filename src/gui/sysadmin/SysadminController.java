@@ -1,16 +1,16 @@
 package gui.sysadmin;
 
+import model.GenomizerModel;
+
+import javax.swing.*;
 import java.awt.event.ActionListener;
 import java.util.Observable;
 import java.util.Observer;
 
-import model.GenomizerModel;
-import requests.AddAnnotationRequest;
-
 public class SysadminController extends Observable {
 
     private static SysadminTab sysTab;
-	private GenomizerModel model;
+    private GenomizerModel model;
 
     public SysadminController(Observer observer) {
 
@@ -19,14 +19,7 @@ public class SysadminController extends Observable {
     }
 
     public SysadminController(GenomizerModel model) {
-		this.model = model;
-	}
-
-	/* You need me */
-    public void setSysadminPanel(SysadminTab sysTab) {
-
-        this.sysTab = sysTab;
-
+        this.model = model;
     }
 
     public static ActionListener createAnnotationButtonListener() {
@@ -37,23 +30,31 @@ public class SysadminController extends Observable {
         return new AnnotationPopupListener(sysTab);
     }
 
+    /* You need me */
+    public void setSysadminPanel(SysadminTab sysTab) {
+
+        this.sysTab = sysTab;
+
+    }
+
     public void sendNewAnnotation() {
 
-    	SysadminAnnotationPopup popup = sysTab.getAnnotationsView().getPop();
-    	model.addNewAnnotation(
-    			popup.getNewAnnotationName(),
-    			popup.getNewAnnotationCategories(),
-    			popup.getNewAnnotationForcedValue()
-    	);
-    	
-    	
-//        System.out.println(popup.getNewAnnotationName());
-//        AddAnnotationRequest ann = new AddAnnotationRequest(
-//                popup.getNewAnnotationName(),
-//                popup.getNewAnnotationCategories(),
-//                popup.getNewAnnotationForcedValue());
-//
-//        setChanged();
-//        notifyObservers(ann);
+        SysadminAnnotationPopup popup = sysTab.getAnnotationsView().getPop();
+        try {
+        model.addNewAnnotation(
+                popup.getNewAnnotationName(),
+                popup.getNewAnnotationCategories(),
+                popup.getNewAnnotationForcedValue());
+        } catch (IllegalArgumentException e) {
+            JOptionPane.showMessageDialog(null, e.getMessage());
+        }
+    }
+
+    public util.AnnotationDataType[] getAnnotations(){
+        return model.getAnnotations();
+    }
+
+    public void deleteAnnotation(){
+
     }
 }
