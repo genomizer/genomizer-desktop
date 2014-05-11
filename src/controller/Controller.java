@@ -48,7 +48,6 @@ public class Controller {
 		view.addRawToRegionDataListener(new RawToRegionDataListener());
 		view.addScheduleFileListener(new ScheduleFileListener());
 		view.addDownloadFileListener(new DownloadWindowListener());
-		view.addSearchResultsDownloadListener(new DownloadSearchListener());
 		// view.addAddAnnotationListener(new AddNewAnnotationListener());
 		view.addAddPopupListener(new AddPopupListener());
 		view.addAddToExistingExpButtonListener(new AddToExistingExpButtonListener());
@@ -66,51 +65,7 @@ public class Controller {
 		fileListAddMouseListener(view.getfileList());
 	}
 
-	class DownloadSearchListener implements ActionListener, Runnable {
-		@Override
-		public void actionPerformed(ActionEvent e) {
-			new Thread(this).start();
-		}
 
-		@Override
-		public void run() {
-			FileData[] fileData = view.getSelectedFilesInSearch();
-
-			/*
-			 * FileDialog fileDialog = new FileDialog((java.awt.Frame) null,
-			 * "Choose a directory", FileDialog.SAVE);
-			 * fileDialog.setVisible(true); String directoryName =
-			 * fileDialog.getDirectory(); System.out.println("You chose " +
-			 * directoryName); if(fileData == null || directoryName == null) {
-			 * System.err.println("No directory selected"); return; }
-			 */
-			// Skicka med arraylist<FileData> för de filer som ska nerladdas
-			FileData[] selectedFilesTemp = view.getSelectedFilesInSearch();
-			ExperimentData[] selectedExperimentsTemp = view
-					.getSelectedExperimentsInSearch();
-
-			ArrayList<FileData> selectedFiles = new ArrayList<FileData>(
-					Arrays.asList(selectedFilesTemp));
-			ArrayList<ExperimentData> selectedExperiments = new ArrayList<ExperimentData>(
-					Arrays.asList(selectedExperimentsTemp));
-
-			ExperimentData currentExperiment;
-
-			for (int i = 0; i < selectedExperiments.size(); i++) {
-				currentExperiment = selectedExperiments.get(i);
-
-				for (FileData x : currentExperiment.files){
-					if (!selectedFiles.contains(x))
-						selectedFiles.add(x);
-				}
-			}
-
-			DownloadWindow downloadWindow = new DownloadWindow(selectedFiles);
-			view.setDownloadWindow(downloadWindow);
-			downloadWindow.addDownloadFileListener(new DownloadFileListener());
-		}
-
-	}
 
 	class DeleteAnnotationListener implements ActionListener, Runnable {
 		@Override
@@ -303,14 +258,20 @@ public class Controller {
 		public void actionPerformed(ActionEvent e) {
 			new Thread(this).start();
 		}
-
 		@Override
 		public void run() {
-
 			System.out.println("Process");
 			// TODO Skicka in filedata arrayen
-			view.setProccessFileList(view.getWorkspaceSelectedFiles());
-
+			ArrayList<ExperimentData> selectedData = view.getSelectedDataInWorkspace();
+			ArrayList<FileData> selectedFiles = new ArrayList<FileData>();
+			for(ExperimentData experiment : selectedData) {
+				for(FileData file : experiment.files) {
+					if(!selectedFiles.contains(file)) {
+						selectedFiles.add(file);
+					}
+				}
+			}
+			view.setProccessFileList(selectedFiles);
 		}
 	}
 
@@ -341,11 +302,12 @@ public class Controller {
 		@Override
 		public void run() {
 			String pubmed = view.getQuerySearchString();
-			ExperimentData[] searchResults = model.search(pubmed);
+			ArrayList<ExperimentData> searchResults = model.search(pubmed);
 			if (searchResults != null) {
 				view.updateQuerySearchResults(searchResults);
 			} else {
-				// view.updateQuerySearchResults(ExperimentData.getExample());
+//				searchResults = new ArrayList<ExperimentData>(Arrays.asList(ExperimentData.getExample()));
+//				 view.updateQuerySearchResults(searchResults);
 				JOptionPane.showMessageDialog(null, "No search results!",
 						"Search Warning", JOptionPane.WARNING_MESSAGE);
 			}
@@ -396,16 +358,13 @@ public class Controller {
 		@Override
 		public void run() {
 			// Skicka med arraylist<FileData> för de filer som ska nerladdas
-			ArrayList<FileData> selectedFiles = view
-					.getWorkspaceSelectedFiles();
-			ArrayList<ExperimentData> experimentData = view
-					.getWorkspaceSelectedExperiments();
-			ExperimentData currentExperiment;
-
-			for (int i = 0; i < experimentData.size(); i++) {
-				currentExperiment = experimentData.get(i);
-				for (int j = 0; j < currentExperiment.files.length; j++) {
-					selectedFiles.add(currentExperiment.files[j]);
+			ArrayList<ExperimentData> selectedData = view.getSelectedDataInWorkspace();
+			ArrayList<FileData> selectedFiles = new ArrayList<FileData>();
+			for(ExperimentData experiment : selectedData) {
+				for(FileData file : experiment.files) {
+					if(!selectedFiles.contains(file)) {
+						selectedFiles.add(file);
+					}
 				}
 			}
 
@@ -552,8 +511,7 @@ public class Controller {
 
 		@Override
 		public void run() {
-			view.addToWorkspace(view.getSelectedFilesWithExpsInSearch());
-			view.addToWorkspace(view.getSelectedExperimentsInSearch());
+			view.addToWorkspace(view.getSelectedDataInSearch());
 		}
 
 	}

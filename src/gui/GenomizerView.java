@@ -60,9 +60,8 @@ public interface GenomizerView {
 
     public void addUploadButtonListener(ActionListener listener);
 
-    public void addToWorkspace(ExperimentData[] experiments);
+    public void addToWorkspace(ArrayList<ExperimentData> experiments);
 
-    public FileData[] getSelectedFilesInSearch();
 
     public ArrayList<String> getAllMarkedFiles();
 
@@ -76,8 +75,6 @@ public interface GenomizerView {
 
     public DownloadWindow getDownloadWindow();
 
-    public ArrayList<ExperimentData> getWorkspaceSelectedExperiments();
-
 	public String getQuerySearchString();
 
     public String getIp();
@@ -87,6 +84,8 @@ public interface GenomizerView {
     public String getNewAnnotationName();
 
     public String[] getNewAnnotionCategories();
+   
+    public ArrayList<ExperimentData> getSelectedDataInSearch();
 
     public boolean getNewAnnotationForcedValue();
 
@@ -96,17 +95,13 @@ public interface GenomizerView {
 
     public ArrayList<FileData> getAllMarkedFileData();
 
-    public ExperimentData[] getSelectedExperimentsInSearch();
-
-    public ExperimentData[] getSelectedFilesWithExpsInSearch();
-
     public void updateLoginAccepted(String username, String pwd, String name);
 
     public void updateLoginNeglected(String errorMessage);
+    
 
     public void updateLogout();
 
-    public void updateQuerySearchResults(ExperimentData[] searchResults);
 
     public void setAnnotationTableData(AnnotationDataType[] annotations);
 
@@ -120,7 +115,7 @@ public interface GenomizerView {
 
     public void printToConvertText(String message,String color);
 
-    public ArrayList<FileData> getWorkspaceSelectedFiles();
+    public ArrayList<ExperimentData> getSelectedDataInWorkspace();
 
     public void addDeleteAnnotationListener(ActionListener listener);
 
@@ -141,5 +136,7 @@ public interface GenomizerView {
 	public String getNewExpName();
 
 	public HashMap<String, String> getFilesToUploadTypes();
+
+	void updateQuerySearchResults(ArrayList<ExperimentData> searchResults);
 }
 

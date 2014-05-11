@@ -1,8 +1,9 @@
 package model;
 
 import java.io.File;
+import java.util.ArrayList;
+import java.util.Arrays;
 
-import communication.UploadHandler;
 import requests.AddAnnotationRequest;
 import requests.AddExperimentRequest;
 import requests.AddFileToExperiment;
@@ -24,9 +25,9 @@ import util.DeleteAnnoationData;
 import util.ExperimentData;
 
 import com.google.gson.Gson;
-
 import communication.Connection;
 import communication.DownloadHandler;
+import communication.UploadHandler;
 
 public class Model implements GenomizerModel {
 
@@ -146,14 +147,14 @@ public class Model implements GenomizerModel {
 	}
 
 	@Override
-	public ExperimentData[] search(String pubmedString) {
+	public ArrayList<ExperimentData> search(String pubmedString) {
         searchHistory.addSearchToHistory(pubmedString);
 		SearchRequest request = RequestFactory.makeSearchRequest(pubmedString);
 		conn.sendRequest(request, userID, "text/plain");
         if(conn.getResponseCode() == 200) {
-			ExperimentData[] searchResponses = ResponseParser.parseSearchResponse(conn.getResponseBody());
+        	ExperimentData[] searchResponses = ResponseParser.parseSearchResponse(conn.getResponseBody());
 			if (searchResponses != null && searchResponses.length > 0) {
-				return searchResponses;
+				return new ArrayList<ExperimentData>(Arrays.asList(searchResponses));
 			}
 		}
 		return null;

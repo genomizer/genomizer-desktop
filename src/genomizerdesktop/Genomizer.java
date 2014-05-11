@@ -34,7 +34,7 @@ public class Genomizer {
 	gui.setUploadTab(ut);
 	gui.setProcessTab(pt);
 	gui.setWorkspaceTab(wt);
-	gui.setAnalyzeTab(at);
+	//gui.setAnalyzeTab(at);
 	gui.setSysAdminTab(sat);
 	Connection con = new Connection("http://scratchy.cs.umu.se:7000");
 	Model model = new Model(con);
