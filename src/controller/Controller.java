@@ -12,9 +12,6 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.File;
 import java.util.ArrayList;
-import java.util.Observable;
-import java.util.Observer;
-import java.util.Arrays;
 import java.util.HashMap;
 
 import javax.swing.JFileChooser;
@@ -23,9 +20,10 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 
+import gui.UploadTab;
+import gui.sysadmin.SysadminController;
 import requests.AddExperimentRequest;
 import requests.RequestFactory;
-import gui.sysadmin.SysadminController;
 import model.GenomizerModel;
 import requests.AddAnnotationRequest;
 import util.AnnotationDataType;
@@ -36,193 +34,116 @@ import util.FileData;
 
 public class Controller {
 
-	private GenomizerView view;
-	private GenomizerModel model;
-	private final JFileChooser fileChooser = new JFileChooser();
+    private GenomizerView view;
+    private GenomizerModel model;
+    private final JFileChooser fileChooser = new JFileChooser();
     private SysadminController sysController;
 
-	public Controller(GenomizerView view, GenomizerModel model) {
-		this.view = view;
-		this.model = model;
-		view.addLoginListener(new LoginListener());
-		view.addLogoutListener(new LogoutListener());
-		view.addSearchListener(new QuerySearchListener());
-		view.addConvertFileListener(new ConvertFileListener());
-		view.addQuerySearchListener(new QuerySearchListener());
-		view.addRawToProfileDataListener(new RawToProfileDataListener());
-		view.addRawToRegionDataListener(new RawToRegionDataListener());
-		view.addScheduleFileListener(new ScheduleFileListener());
-		view.addDownloadFileListener(new DownloadWindowListener());
-		// view.addAddAnnotationListener(new AddNewAnnotationListener());
-		//view.addAddPopupListener(new AddPopupListener());
-        view.addAddToExistingExpButtonListener(new AddToExistingExpButtonListener());
+    public Controller(GenomizerView view, GenomizerModel model) {
+        this.view = view;
+        this.model = model;
+        view.addLoginListener(new LoginListener());
+        view.addLogoutListener(new LogoutListener());
+        view.addSearchListener(new QuerySearchListener());
+        view.addConvertFileListener(new ConvertFileListener());
+        view.addQuerySearchListener(new QuerySearchListener());
+        view.addRawToProfileDataListener(new RawToProfileDataListener());
+        view.addRawToRegionDataListener(new RawToRegionDataListener());
+        view.addScheduleFileListener(new ScheduleFileListener());
+        view.addDownloadFileListener(new DownloadWindowListener());
         view.addSelectFilesToUploadButtonListener(new SelectFilesToUploadButtonListener());
+        view.setSysadminController(sysController = new SysadminController(model));
+        view.addAddToExistingExpButtonListener(new AddToExistingExpButtonListener());
         view.addUploadToExperimentButtonListener(new UploadToExperimentButtonListener());
-        //view.setAnnotationTableData(model.getAnnotations());
         view.addUpdateSearchAnnotationsListener(new updateSearchAnnotationsListener());
         view.addProcessFileListener(new ProcessFileListener());
         view.addSearchToWorkspaceListener(new SearchToWorkspaceListener());
-        //view.addDeleteAnnotationListener(new DeleteAnnotationListener());
-		view.addNewExpButtonListener(new NewExpButtonListener());
-		view.addSelectButtonListener(new SelectFilesToNewExpListener());
-		view.addUploadButtonListener(new UploadNewExpListener());
+        view.addNewExpButtonListener(new NewExpButtonListener());
+        view.addSelectButtonListener(new SelectFilesToNewExpListener());
+        view.addUploadButtonListener(new UploadNewExpListener());
         view.addAnalyzeSelectedListener(new AnalyzeSelectedListener());
-		fileListAddMouseListener(view.getfileList());
-        view.setSysadminController(sysController = new SysadminController(model));
-	}
+        fileListAddMouseListener(view.getfileList());
+    }
 
-    /*
-    class DeleteAnnotationListener implements ActionListener, Runnable {
-		@Override
-		public void actionPerformed(ActionEvent e) {
-			new Thread(this).start();
-		}
 
-		@Override
-		public void run() {
-			AnnotationDataType annotationDataType = null;
-			try {
-				annotationDataType = view.getSelectedAnnoationAtAnnotationTable();
-				if (JOptionPane.showConfirmDialog(null, "Are you sure you want to delete the " + annotationDataType.name + " annotation?") == JOptionPane.YES_OPTION) {
-					if (model.deleteAnnotation(new DeleteAnnoationData(annotationDataType))) {
-						JOptionPane.showMessageDialog(null, annotationDataType.name + " has been remove!");
-						SwingUtilities.invokeLater(new Runnable() {
+    class ConvertFileListener implements ActionListener, Runnable {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            new Thread(this).start();
+        }
 
-							@Override
-							public void run() {
-								view.setAnnotationTableData(model
-										.getAnnotations());
-							}
-						});
-					} else {
-						JOptionPane.showMessageDialog(null,
-								"Could not remove annotation");
-					}
-				}
-			} catch (IllegalArgumentException e) {
-				JOptionPane.showMessageDialog(null, e.getMessage());
-			}
+        @Override
+        public void run() {
 
-		}
-	}
+            System.out.println("CONVERT");
+            System.out.println(view.getAllMarkedFiles());
 
-	class AddPopupListener implements ActionListener, Runnable {
-		@Override
-		public void actionPerformed(ActionEvent e) {
-			new Thread(this).start();
-		}
+        }
+    }
 
-		@Override
-		public void run() {
-			view.annotationPopup();
-			view.addAddAnnotationListener(new AddNewAnnotationListener());
-		}
-	}
+    class RawToProfileDataListener implements ActionListener, Runnable {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            new Thread(this).start();
+        }
 
-	class AddNewAnnotationListener implements ActionListener, Runnable {
+        @Override
+        public void run() {
 
-		@Override
-		public void actionPerformed(ActionEvent e) {
-			new Thread(this).start();
-		}
+            view.setBowtieParameters();
+            ArrayList<FileData> allMarked = view.getAllMarkedFileData();
+            int markedSize = allMarked.size();
+            String message = null;
+            Boolean isConverted = false;
 
-		@Override
-		public void run() {
-			String name = view.getNewAnnotationName();
-			String[] categories = view.getNewAnnotionCategories();
-			boolean forced = view.getNewAnnotationForcedValue();
-			try {
-				if (model.addNewAnnotation(name, categories, forced)) {
-					view.closePopup(); // Is this needed here?
-				} else {
-					JOptionPane.showMessageDialog(null,
-							"Could not create new annotation, check server?");
-				}
-			} catch (IllegalArgumentException e) {
-				JOptionPane.showMessageDialog(null, e.getMessage());
-			}
-			// Update annotationsearch?
-		}
-	}
-	*/
+            if (!allMarked.isEmpty()) {
 
-	class ConvertFileListener implements ActionListener, Runnable {
-		@Override
-		public void actionPerformed(ActionEvent e) {
-			new Thread(this).start();
-		}
+                for (int i = 0; i < markedSize; i++) {
 
-		@Override
-		public void run() {
+                    String fileName = allMarked.get(i).filename;
+                    String fileID = allMarked.get(i).id;
+                    String author = view.getUsername();
+                    String parameters[] = new String[4];
 
-			System.out.println("CONVERT");
-			System.out.println(view.getAllMarkedFiles());
+                    parameters[0] = view.getBowtieParameters()[0];
+                    parameters[1] = view.getBowtieParameters()[1];
+                    parameters[2] = view.getBowtieParameters()[2];
+                    parameters[3] = view.getBowtieParameters()[3];
 
-		}
-	}
+                    String expid = allMarked.get(i).expId;
+                    String genomeRelease = allMarked.get(i).grVersion;
+                    String metadata = allMarked.get(i).metaData;
 
-	class RawToProfileDataListener implements ActionListener, Runnable {
-		@Override
-		public void actionPerformed(ActionEvent e) {
-			new Thread(this).start();
-		}
+                    System.out.println("RAW TO PROFILE");
+                    System.out.println("File: " + fileName);
+                    System.out.println("File ID: " + fileID);
+                    System.out.println("Author: " + view.getUsername());
+                    System.out.println("Expid: " + expid);
+                    System.out.println("Genome Release: " + genomeRelease);
+                    System.out.println("Metadata: " + metadata);
 
-		@Override
-		public void run() {
+                    System.out.println("Parameter 1: " + parameters[0]);
+                    System.out.println("Parameter 2: " + parameters[1]);
+                    System.out.println("Parameter 3: " + parameters[2]);
+                    System.out.println("Parameter 4: " + parameters[3]);
 
-			view.setBowtieParameters();
-			ArrayList<FileData> allMarked = view.getAllMarkedFileData();
-			int markedSize = allMarked.size();
-			String message = null;
-			Boolean isConverted = false;
+                    isConverted = model.rawToProfile(fileName, fileID, expid, "rawtoprofile", parameters,
+                            metadata, genomeRelease, author);
 
-			if (!allMarked.isEmpty()) {
+                    if (isConverted.equals(true)) {
+                        message = "The server has converted: " + fileName + " with file id: " + fileID + " from " + expid + "\n";
+                        view.printToConvertText(message, "green");
 
-				for (int i = 0; i < markedSize; i++) {
+                    } else {
+                        message = "WARNING - The server couldn't convert: "
+                                + fileName + " with file id: " + fileID + " from " + expid + "\n";
+                        view.printToConvertText(message, "red");
+                    }
+                }
+            }
+        }
 
-					String fileName = allMarked.get(i).filename;
-					String fileID = allMarked.get(i).id;
-					String author = view.getUsername();
-					String parameters[] = new String[4];
-
-					parameters[0] = view.getBowtieParameters()[0];
-					parameters[1] = view.getBowtieParameters()[1];
-					parameters[2] = view.getBowtieParameters()[2];
-					parameters[3] = view.getBowtieParameters()[3];
-
-					String expid = allMarked.get(i).expId;
-					String genomeRelease = allMarked.get(i).grVersion;
-					String metadata = allMarked.get(i).metaData;
-
-					System.out.println("RAW TO PROFILE");
-					System.out.println("File: " + fileName);
-					System.out.println("File ID: " + fileID);
-					System.out.println("Author: " + view.getUsername());
-					System.out.println("Expid: " + expid);
-					System.out.println("Genome Release: " + genomeRelease);
-					System.out.println("Metadata: " + metadata);
-
-					System.out.println("Parameter 1: " + parameters[0]);
-					System.out.println("Parameter 2: " + parameters[1]);
-					System.out.println("Parameter 3: " + parameters[2]);
-					System.out.println("Parameter 4: " + parameters[3]);
-
-					isConverted = model.rawToProfile(fileName, fileID, expid, "rawtoprofile", parameters,
-							metadata, genomeRelease, author);
-
-					if (isConverted.equals(true)) {
-						message = "The server has converted: " + fileName + " with file id: " + fileID + " from " + expid + "\n";
-						view.printToConvertText(message,"green");
-
-					} else {
-						message = "WARNING - The server couldn't convert: "
-								+ fileName + " with file id: " + fileID + " from "+ expid +"\n";
-						view.printToConvertText(message,"red");
-					}
-				}
-			}
-		}
-	}
+}
 
 	class RawToRegionDataListener implements ActionListener, Runnable {
 		@Override
@@ -292,7 +213,6 @@ public class Controller {
 			} else {
 				view.updateLoginAccepted(username, pwd, "Yuri Gagarin");
 			}
-			sysController.updateAnnotationTable();
 		}
 	}
 
@@ -308,10 +228,10 @@ public class Controller {
 			if (searchResults != null) {
 				view.updateQuerySearchResults(searchResults);
 			} else {
-				searchResults = new ArrayList<ExperimentData>(Arrays.asList(ExperimentData.getExample()));
-				 view.updateQuerySearchResults(searchResults);
-			/*	JOptionPane.showMessageDialog(null, "No search results!",
-						"Search Warning", JOptionPane.WARNING_MESSAGE);*/
+				/*searchResults = new ArrayList<ExperimentData>(Arrays.asList(ExperimentData.getExample()));
+				 view.updateQuerySearchResults(searchResults);*/
+			 JOptionPane.showMessageDialog(null, "No search results!",
+						"Search Warning", JOptionPane.WARNING_MESSAGE);
 			}
 		}
 	}
@@ -456,6 +376,7 @@ public class Controller {
 
 		@Override
 		public void run() {
+            System.out.println("hej");
             FileDialog fileDialog = new java.awt.FileDialog(
                     (java.awt.Frame) null);
             fileDialog.setMultipleMode(true);
@@ -465,7 +386,7 @@ public class Controller {
             for(int i = 0; i < files.length ; i++) {
                 fileNames[i] = files[i].getName();
             }
-            view.selectFilesToNewExp(fileNames, files);
+            view.selectFilesToExistingExp(fileNames, files);
 		}
 	}
 
@@ -479,11 +400,25 @@ public class Controller {
 
 		@Override
 		public void run() {
-			// Get list of files to upload
+            String expName = view.getNewExpName();
+            AnnotationDataValue[] annotations = view.getUploadAnnotations();
+            File[] files = view.getFilesToUpload();
+            HashMap<String, String> types = view.getFilesToUploadTypes();
+            //Should be genome release from uploadTab
+            String release = "rn5";
+            //Test purpose
+            for(AnnotationDataValue a : annotations) {
+                System.out.println(a.getName() + " " + a.getValue());
+            }
+            //TODO: ändra till existerande experiment!
+            boolean created = model.addNewExperiment(expName, view.getUsername(), annotations);
+            System.out.println(created);
+            if(created) {
+                for(File f : files) {
+                    model.uploadFile(expName, f, types.get(f.getName()), view.getUsername(), false, release);
+                }
 
-			// Upload them.
-
-			// Move to where the check if upload is complete will be.
+            }
 			JOptionPane.showMessageDialog(null, "Upload complete.");
 		}
 	}
@@ -499,8 +434,8 @@ public class Controller {
 		@Override
 		public void run() {
 			AnnotationDataType[] annotations = model.getAnnotations();
-			if (annotations != null) {
-				view.setSearchAnnotationTypes(annotations);
+			if (annotations != null && annotations.length > 0) {
+			    	view.setSearchAnnotationTypes(annotations);
 			}
 		}
 	}
@@ -568,20 +503,22 @@ public class Controller {
 		    	String expName = view.getNewExpName();
 			AnnotationDataValue[] annotations = view.getUploadAnnotations();
 			File[] files = view.getFilesToUpload();
-			HashMap<String, String> types = view.getFilesToUploadTypes();
-			//Should be genome release from uploadTab
-			String release = "releaseNr";
-			//Test purpose
-			for(AnnotationDataValue a : annotations) {
-			    System.out.println(a.getName() + " " + a.getValue());
-			}
-			boolean created = model.addNewExperiment(expName, view.getUsername(), annotations);
-			System.out.println(created);
-			if(created) {
-			    for(File f : files) {
-				model.uploadFile(expName, f, types.get(f.getName()), view.getUsername(), false, release);
+			if(files != null && files.length > 0 && annotations != null && expName != null) {
+			    HashMap<String, String> types = view.getFilesToUploadTypes();
+			    //Should be genome release from uploadTab
+			    String release = "rn5";
+			    //Test purpose
+			    for(AnnotationDataValue a : annotations) {
+			        System.out.println(a.getName() + " " + a.getValue());
 			    }
+			    boolean created = model.addNewExperiment(expName, view.getUsername(), annotations);
+			    System.out.println(created);
+			    if(created) {
+			        for(File f : files) {
+			            model.uploadFile(expName, f, types.get(f.getName()), view.getUsername(), false, release);
+			        }
 
+			    }
 			}
 		}
 	}
@@ -601,48 +538,20 @@ public class Controller {
 
 	private void fileListAddMouseListener(JList fileList) {
 		fileList.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent event) {
-				JList list = (JList) event.getSource();
+            @Override
+            public void mouseClicked(MouseEvent event) {
+                JList list = (JList) event.getSource();
 
-				if(list.getModel().getSize() > 0){
-					int index = list.locationToIndex(event.getPoint());
-					CheckListItem item = (CheckListItem) list.getModel()
-							.getElementAt(index);
+                if (list.getModel().getSize() > 0) {
+                    int index = list.locationToIndex(event.getPoint());
+                    CheckListItem item = (CheckListItem) list.getModel()
+                            .getElementAt(index);
 
-					item.setSelected(!item.isSelected());
+                    item.setSelected(!item.isSelected());
 
-					list.repaint(list.getCellBounds(index, index));
-				}
-			}
-		});
-	}
-
-    class SendDataObserver implements Observer {
-        @Override
-        public void update(Observable o, Object arg) {
-
-            if (arg instanceof AddAnnotationRequest) {
-                addAnnotationRequest(arg);
-            }
-
-        }
-
-        private void addAnnotationRequest(Object arg) {
-
-            AddAnnotationRequest ann = (AddAnnotationRequest) arg;
-
-            try {
-                if (model.addNewAnnotation(ann.name, ann.type, ann.forced)) {
-
-                } else {
-                    JOptionPane.showMessageDialog(null,
-                            "Could not create new annotation, check server?");
+                    list.repaint(list.getCellBounds(index, index));
                 }
-            } catch (IllegalArgumentException e) {
-                JOptionPane.showMessageDialog(null, e.getMessage());
             }
-        }
-
-    }
+        });
+	}
 }

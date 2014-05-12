@@ -15,7 +15,7 @@ import javax.swing.JPanel;
 import javax.swing.JProgressBar;
 
 public class UploadFileRow extends JPanel {
-    private UploadTab parent;
+    private ExperimentPanel parent;
     private JPanel filePanel;
     private JLabel fileLabel;
     private JButton closeButton;
@@ -23,7 +23,7 @@ public class UploadFileRow extends JPanel {
     private JProgressBar uploadBar;
     private String fileName;
 
-    public UploadFileRow(String fileName, UploadTab parent) {
+    public UploadFileRow(String fileName, ExperimentPanel parent) {
 	this.parent = parent;
 	setLayout(new BorderLayout());
 
@@ -36,7 +36,7 @@ public class UploadFileRow extends JPanel {
 		Double.MIN_VALUE };
 	gbl_panel.rowWeights = new double[] { 0.0, Double.MIN_VALUE };
 	filePanel.setLayout(gbl_panel);
-	
+
 	this.fileName = fileName;
 	fileLabel = new JLabel(fileName);
     	GridBagConstraints gbc_lblFilename = new GridBagConstraints();
@@ -71,19 +71,19 @@ public class UploadFileRow extends JPanel {
 	gbc_btnX.gridy = 1;
 	filePanel.add(closeButton, gbc_btnX);
     }
-    
+
     public void addCloseButtonListener(ActionListener listener) {
 	closeButton.addActionListener(listener);
     }
-    
+
     public String getFileName() {
 	return fileName;
     }
-    
+
     public String getType() {
 	return typeBox.getSelectedItem().toString();
     }
-    
+
     class closeButtonListener implements ActionListener, Runnable {
 	@Override
 	public void actionPerformed(ActionEvent e) {

@@ -2,6 +2,7 @@ package gui;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
+import java.awt.FlowLayout;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.GridLayout;
@@ -18,6 +19,7 @@ import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.border.CompoundBorder;
@@ -26,7 +28,7 @@ import util.ActivePanel;
 import util.AnnotationDataType;
 import util.AnnotationDataValue;
 
-public class UploadTab extends JPanel {
+public class UploadTab extends JPanel implements  ExperimentPanel {
 
     private static final long serialVersionUID = -2830290705724588252L;
     private JButton addToExistingExpButton, newExpButton, selectButton, uploadButton;
@@ -35,16 +37,19 @@ public class UploadTab extends JPanel {
     private UploadToExistingExpPanel uploadToExistingExpPanel;
     private AnnotationDataType[] annotations;
     private ArrayList<String> annotationHeaders;
+    private ArrayList<File> currFiles;
     private HashMap<String, JComboBox> annotationBoxes;
     private HashMap<String, JTextField> annotationFields;
     private HashMap<String, UploadFileRow> uploadFileRows;
     private ActivePanel activePanel;
     private JLabel expNameLabel;
     private JTextField expName;
-    private File[] currFiles;
+    private JScrollPane uploadScroll;
+    private JPanel buttonsPanel;
 
     public UploadTab() {
-	annotationHeaders = new ArrayList<String>();
+        currFiles = new ArrayList<File>();
+        annotationHeaders = new ArrayList<String>();
 	uploadFileRows = new HashMap<String, UploadFileRow>();
 	activePanel = ActivePanel.NONE;
 	setLayout(new BorderLayout());
@@ -61,8 +66,10 @@ public class UploadTab extends JPanel {
 	addToExistingExpButton = new JButton("Add to existing experiment");
 	northPanel.add(addToExistingExpButton, BorderLayout.EAST);
 	uploadPanel = new JPanel(new BorderLayout());
-	add(uploadPanel, BorderLayout.CENTER);
+	uploadScroll = new JScrollPane(uploadPanel);
+	add(uploadScroll, BorderLayout.CENTER);
 	uploadBackground = new JPanel(new BorderLayout());
+	buttonsPanel = new JPanel(new FlowLayout());
 	uploadFilesPanel = new JPanel(new GridLayout(0,1));
 	newExpButton = new JButton("Create new experiment");
 	selectButton = new JButton("Select files");
@@ -75,6 +82,10 @@ public class UploadTab extends JPanel {
 	northPanel.add(newExpButton, BorderLayout.EAST);
     }
 
+    /**
+     * Displays a panel for adding to an existing experiment.
+     * @param annotations The annotations of the experiment.
+     */
     public void addExistingExpPanel(AnnotationDataType[] annotations) {
         killContentsOfUploadPanel();
         activePanel = ActivePanel.EXISTING;
@@ -145,7 +156,6 @@ public class UploadTab extends JPanel {
 	    }
 	     else if (annotations[i].isForced()) {
 	    if (x > 6) {
-		System.out.println("H�R");
 		x = 0;
 		y++;
 	    }
@@ -189,7 +199,9 @@ public class UploadTab extends JPanel {
     }
 
     public void createUploadFileRow(String[] fileNames, File[] files) {
-	currFiles = files;
+	for(File f : files) {
+	    currFiles.add(f);
+	}
 	for (String fileName : fileNames) {
 	    UploadFileRow fileRow = new UploadFileRow(fileName, this);
 	    uploadFileRows.put(fileName, fileRow);
@@ -198,17 +210,23 @@ public class UploadTab extends JPanel {
     }
 
     private void repaintSelectedFiles() {
-	if (!uploadFileRows.isEmpty()) {
+	if (!currFiles.isEmpty()) {
 	    for (File f : currFiles) {
-		uploadFilesPanel.add(uploadFileRows.get(f.getName()));
+	            uploadFilesPanel.add(uploadFileRows.get(f.getName()));
 	    }
 	}
-	uploadFilesPanel.add(selectButton);
-	uploadFilesPanel.add(uploadButton);
+	buttonsPanel.add(selectButton);
+	buttonsPanel.add(uploadButton);
+	uploadFilesPanel.add(buttonsPanel);
 	repaint();
 	revalidate();
     }
 
+    /**
+     * Removes the components in the panels when one of them gets chosen by the user, to make sure the new components
+     * won't overlap and end up invisible. The method checks the Enum ActivePanel to check which panel was the active
+     * one.
+     */
     public void killContentsOfUploadPanel() {
         switch (activePanel) {
             case NONE:
@@ -233,13 +251,15 @@ public class UploadTab extends JPanel {
     }
 
     public void deleteFileRow(String fileName) {
-	// for(int i = 0; i < uploadFileRows.size(); i++) {
-	// if(uploadFileRows.get(i).getFileName().equals(fileName)) {
-	// uploadFileRows.remove(i);
-	// }
-	// }
 	uploadFileRows.remove(fileName);
+	for(File f : currFiles) {
+	    if(f.getName().equals(fileName)){
+	        currFiles.remove(f);
+	        break;
+	    }
+	}
 	uploadFilesPanel.removeAll();
+	buttonsPanel.removeAll();
 	repaintSelectedFiles();
     }
 
@@ -266,7 +286,11 @@ public class UploadTab extends JPanel {
     }
 
     public File[] getUploadFiles() {
-	return currFiles;
+        File[] files = new File[currFiles.size()];
+        for(int i = 0; i < currFiles.size(); i++) {
+            files[i] = currFiles.get(i);
+        }
+	return files;
     }
 
     public HashMap<String, String> getTypes() {

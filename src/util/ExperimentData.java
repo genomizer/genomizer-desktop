@@ -31,19 +31,23 @@ public class ExperimentData {
 	 * (including experiment name and creator of experiment
 	 * @return
 	 */
-	public ArrayList<String> getAnnotationValueList(String[] headings) {
-
+	public ArrayList<String> getAnnotationValueList(ArrayList<String> headings) {
 		ArrayList<String> annotationList = new ArrayList<String>();
         annotationList.add(name);
         annotationList.add(createdBy);
-        for(int i=0; i<headings.length; i++) {
-            String heading = headings[i];
+
+        for(String heading : headings) {
+            boolean hasValue = false;
             System.out.println("heading: " + heading);
             for (AnnotationDataValue annotation : annotations) {
+                System.out.println("annotation: " + annotation.name);
                 if(annotation.name.equals(heading)) {
-                    System.out.printf(annotation.name + " added");
                     annotationList.add(annotation.value);
+                    hasValue = true;
                 }
+            }
+            if(!hasValue && !heading.equals("Experiment Name") && !heading.equals("Experiment Created By")) {
+                annotationList.add("");
             }
         }
 		return annotationList;

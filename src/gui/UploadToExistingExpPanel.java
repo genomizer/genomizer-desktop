@@ -5,31 +5,41 @@ import util.AnnotationDataType;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionListener;
+import java.io.File;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.HashMap;
 
-public class UploadToExistingExpPanel extends JPanel {
+public class UploadToExistingExpPanel extends JPanel implements ExperimentPanel {
 
     private JButton selectFilesToUploadButton, uploadFilesToExperimentButton;
     private ArrayList<JComboBox> annotationBoxes;
     private ArrayList<JTextField> annotationFields;
     private AnnotationDataType[] annotations;
-    JPanel northPanel, centerPanel, uploadFilesPanel;
+    JPanel northPanel, centerPanel, uploadFilesPanel, buttonsPanel, mainPanel;
+    private HashMap<String, UploadFileRow> uploadFileRows;
+    private File[] currFiles;
 
     public UploadToExistingExpPanel() {
         selectFilesToUploadButton = new JButton("Select files");
         uploadFilesToExperimentButton = new JButton("Upload to experiment");
+        uploadFileRows = new HashMap<String, UploadFileRow>();
 
+        mainPanel = new JPanel(new BorderLayout());
         northPanel = new JPanel();
         centerPanel = new JPanel(new BorderLayout());
         uploadFilesPanel = new JPanel(new GridLayout(0,1));
+        buttonsPanel = new JPanel(new FlowLayout());
 
         build();
     }
 
+    /**
+     * Builds/rebuilds the panel. This is not part of the constructor so it can be called from elsewhere aswell.
+     */
     public void build() {
-        add(northPanel);
-        add(centerPanel);
+        mainPanel.add(northPanel, BorderLayout.NORTH);
+        mainPanel.add(centerPanel, BorderLayout.CENTER);
         centerPanel.add(uploadFilesPanel, BorderLayout.NORTH);
 
         setBorder(BorderFactory.createTitledBorder("Experiment"));
@@ -41,11 +51,34 @@ public class UploadToExistingExpPanel extends JPanel {
         gbl_panel.rowWeights = new double[] { 0.0, 0.0, 0.0, Double.MIN_VALUE };
         northPanel.setLayout(gbl_panel);
 
-        uploadFilesPanel.add(selectFilesToUploadButton);
-        uploadFilesPanel.add(uploadFilesToExperimentButton);
-        uploadFilesToExperimentButton.disable();
+        buttonsPanel.add(selectFilesToUploadButton);
+        buttonsPanel.add(uploadFilesToExperimentButton);
+
+        mainPanel.add(buttonsPanel, BorderLayout.SOUTH);
+        uploadFilesToExperimentButton.setEnabled(false);
+        add(mainPanel);
         repaint();
         revalidate();
+    }
+
+    public void createUploadFileRow(String[] fileNames, File[] files) {
+        currFiles = files;
+        for (String fileName : fileNames) {
+            UploadFileRow fileRow = new UploadFileRow(fileName, this);
+            uploadFileRows.put(fileName, fileRow);
+        }
+        repaintSelectedFiles();
+    }
+
+    public void deleteFileRow(String fileName) {
+        // for(int i = 0; i < uploadFileRows.size(); i++) {
+        // if(uploadFileRows.get(i).getFileName().equals(fileName)) {
+        // uploadFileRows.remove(i);
+        // }
+        // }
+        uploadFileRows.remove(fileName);
+        uploadFilesPanel.removeAll();
+        repaintSelectedFiles();
     }
 
     public void addSelectFilesToUploadButtonListener(ActionListener listener) {
@@ -103,8 +136,21 @@ public class UploadToExistingExpPanel extends JPanel {
         }
     }
 
+    private void repaintSelectedFiles() {
+        if (!uploadFileRows.isEmpty()) {
+            for (File f : currFiles) {
+                uploadFilesPanel.add(uploadFileRows.get(f.getName()));
+            }
+        }
+
+        repaint();
+        revalidate();
+    }
+
+    @Override
     public void removeAll() {
         uploadFilesPanel.removeAll();
+        northPanel.removeAll();
         super.removeAll();
     }
 }

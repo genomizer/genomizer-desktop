@@ -20,6 +20,8 @@ public interface GenomizerView {
 
     public void addLoginListener(ActionListener listener);
 
+    void addScheduleFileListener(ActionListener listener);
+
     public void addSearchToWorkspaceListener(ActionListener listener);
 
     public void addLogoutListener(ActionListener listener);
@@ -34,15 +36,10 @@ public interface GenomizerView {
 
     public void addQuerySearchListener(ActionListener listener);
 
-    public void addScheduleFileListener(ActionListener listener);
-
     public void addRawToProfileDataListener(ActionListener listener);
 
     public void addRawToRegionDataListener(ActionListener listener);
 
-	//public void addAddAnnotationListener(ActionListener addAnnotationListener);
-
-	//public void addAddPopupListener(ActionListener addPopupListener);
 
     public void addAddToExistingExpButtonListener(
 	    ActionListener addToExistingExpButtonListener);
@@ -80,9 +77,12 @@ public interface GenomizerView {
 
     public String getIp();
 
+    ArrayList<ExperimentData> getSelectedDataInSearch();
+
     public UploadTab getUploadTab();
-   
-    public ArrayList<ExperimentData> getSelectedDataInSearch();
+	
+    public int getSelectedRowAtAnnotationTable();
+
 
     public ArrayList<FileData> getAllMarkedFileData();
 
@@ -93,13 +93,15 @@ public interface GenomizerView {
 
     public void updateLogout();
 
-
+	//public void updateQuerySearchResults(ExperimentData[] searchResults);
+	
     public void setSearchAnnotationTypes(AnnotationDataType[] annotationTypes);
 
     public void setProccessFileList(ArrayList<FileData> arrayList);
 
+	public void printToConvertText(String message, String color);
 
-    public void printToConvertText(String message,String color);
+    public void setSysadminController(SysadminController sysadminController);
 
     public ArrayList<ExperimentData> getSelectedDataInWorkspace();
 
@@ -109,21 +111,18 @@ public interface GenomizerView {
 
     public void selectFilesToNewExp(String[] fileNames, File[] files);
 
+    public void selectFilesToExistingExp(String[] fileNames, File[] files);
+
     public File[] getFilesToUpload();
 
     public AnnotationDataValue[] getUploadAnnotations();
 
-	//public void annotationPopup();
 	public void setBowtieParameters();
 
-	//public void closePopup();
 	public JList getfileList();
-	
+
 	public String getNewExpName();
 
-    public void setSysadminController(SysadminController sysadminController);
-
-	//public void addDeleteAnnotationListener(ActionListener listener);
 	public HashMap<String, String> getFilesToUploadTypes();
 
 	void updateQuerySearchResults(ArrayList<ExperimentData> searchResults);
