@@ -68,6 +68,7 @@ public class SysadminController extends Observable {
     public void deleteAnnotation() {
         if (sysTab.getAnnotationTable().getSelectedRow() != -1) {
             int row = sysTab.getAnnotationTable().getSelectedRow();
+            row = sysTab.getAnnotationTable().convertRowIndexToModel(row);
             int col = 3;
             AnnotationDataType annotation = (AnnotationDataType) sysTab
                     .getAnnotationTable().getModel().getValueAt(row, col);

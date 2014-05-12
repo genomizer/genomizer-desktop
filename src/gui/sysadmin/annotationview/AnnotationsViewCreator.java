@@ -17,12 +17,12 @@ public class AnnotationsViewCreator {
 
     private static final long serialVersionUID = 3718367832670081148L;
     private TableRowSorter<TableModel> rowSorter;
-    private SysadminAnnotationPopup pop;
-    private JButton              addButton;
-    private JButton              modifyButton;
-    private JButton              removeButton;
-    private JTable               table;
-    private AnnotationTableModel tablemodel;
+    private SysadminAnnotationPopup    pop;
+    private JButton                    addButton;
+    private JButton                    modifyButton;
+    private JButton                    removeButton;
+    private JTable                     table;
+    private AnnotationTableModel       tablemodel;
 
     public AnnotationsViewCreator() {
 
@@ -75,8 +75,6 @@ public class AnnotationsViewCreator {
         // list
         addButton = new JButton(SysStrings.ANNOTATIONS_ADD);
         removeButton = new JButton(SysStrings.ANNOTATIONS_DELETE);
-        removeButton.setEnabled(
-                false);        //Remove this when remove is implemented
         buttonPanel.add(modifyButton);
         modifyButton.setEnabled(
                 false);        //Remove this when modify is implemented
@@ -195,7 +193,7 @@ public class AnnotationsViewCreator {
     private class SearchDocumentListener implements DocumentListener {
 
         private TableRowSorter<TableModel> rowSorter;
-        private JTextField filterText;
+        private JTextField                 filterText;
 
         public SearchDocumentListener(TableRowSorter<TableModel> rowSorter,
                 JTextField filterText) {

@@ -8,18 +8,15 @@ import java.awt.*;
  */
 public class ProcessViewCreator {
 
-    public ProcessViewCreator(){
+    public ProcessViewCreator() {
 
     }
 
     public JPanel buildProcessView() {
-        JPanel mainPanel = new JPanel(new BorderLayout(0,0));
+        JPanel mainPanel = new JPanel(new BorderLayout(0, 0));
         mainPanel.setBackground(Color.cyan);
 
         JPanel processTab = new JPanel();
-
-
-
 
         processTab.setBackground(Color.BLACK);
         mainPanel.add(processTab, BorderLayout.EAST);
