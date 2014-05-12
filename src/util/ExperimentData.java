@@ -37,15 +37,10 @@ public class ExperimentData {
         annotationList.add(name);
         annotationList.add(createdBy);
         for(String heading : headings) {
-            boolean annotationFound = false;
             for (AnnotationDataValue annotation : annotations) {
                 if(annotation.name.equals(heading)) {
                     annotationList.add(annotation.value);
-                    annotationFound = true;
                 }
-            }
-            if(!annotationFound) {
-                annotationList.add("");
             }
         }
 		return annotationList;

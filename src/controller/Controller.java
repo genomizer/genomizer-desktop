@@ -440,7 +440,7 @@ public class Controller {
 		public void run() {
 			AnnotationDataType[] annotations = model.getAnnotations();
 			if (annotations != null && annotations.length > 0) {
-				view.setSearchAnnotationTypes(annotations);
+			    	view.setSearchAnnotationTypes(annotations);
 			}
 		}
 	}

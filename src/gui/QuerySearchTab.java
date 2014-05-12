@@ -50,8 +50,8 @@ public class QuerySearchTab extends JPanel {
 		setUpRowsPanel();
 		setUpResultsTable();
 		setUpResultsHeaderPanel();
-        clearSearchFields();
         showSearchView();
+        clearSearchFields();
 
 	}
 
@@ -188,7 +188,7 @@ public class QuerySearchTab extends JPanel {
 	 * Add a new row to the query builder
 	 */
 	public void addRow() {
-		rowList.add(new QueryBuilderRow(this, annotationTypes));
+        rowList.add(new QueryBuilderRow(this, annotationTypes));
 		paintRows();
 	}
 
