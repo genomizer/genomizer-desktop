@@ -78,6 +78,8 @@ public class SysadminTab extends JPanel {
         return null;
     }
 
+    private JPanel
+
     public void setController(SysadminController sysController) {
         this.sysController = sysController;
         this.sysController.setSysadminPanel(this);
