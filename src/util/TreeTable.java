@@ -143,6 +143,7 @@ public class TreeTable extends JPanel {
                 if(sortByColumn > entry1.size()-1 || sortByColumn > entry2.size()-1) {
                     return 1;
                 }
+
                 Matcher m1 = PATTERN.matcher(entry1.get(sortByColumn).toLowerCase());
                 Matcher m2 = PATTERN.matcher(entry2.get(sortByColumn).toLowerCase());
 		/* The only way find() could fail is at the end of a string */
