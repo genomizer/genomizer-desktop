@@ -1,14 +1,6 @@
 package gui.sysadmin.annotationview;
 
-import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.Component;
-import java.awt.Dimension;
-import java.awt.FlowLayout;
-import java.awt.GridLayout;
-import java.awt.event.ActionListener;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
+import gui.sysadmin.strings.SysStrings;
 
 import javax.swing.*;
 import javax.swing.event.DocumentEvent;
@@ -16,19 +8,20 @@ import javax.swing.event.DocumentListener;
 import javax.swing.table.JTableHeader;
 import javax.swing.table.TableModel;
 import javax.swing.table.TableRowSorter;
-
-import gui.sysadmin.strings.SysStrings;
+import java.awt.*;
+import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 public class AnnotationsViewCreator {
 
+    private static final long serialVersionUID = 3718367832670081148L;
     private TableRowSorter<TableModel> rowSorter;
     private SysadminAnnotationPopup pop;
-
-    private static final long serialVersionUID = 3718367832670081148L;
-    private JButton addButton;
-    private JButton modifyButton;
-    private JButton removeButton;
-    private JTable table;
+    private JButton              addButton;
+    private JButton              modifyButton;
+    private JButton              removeButton;
+    private JTable               table;
     private AnnotationTableModel tablemodel;
 
     public AnnotationsViewCreator() {
@@ -76,15 +69,17 @@ public class AnnotationsViewCreator {
         buttonPanel.setBackground(new Color(215, 200, 200));
         buttonPanel.setLayout(new GridLayout(20, 1));
         modifyButton = new JButton(SysStrings.ANNOTATIONS_MODIFY); // TODO:
-                                                                    // load
-                                                                    // from
-                                                                    // a
-                                                                    // list
+        // load
+        // from
+        // a
+        // list
         addButton = new JButton(SysStrings.ANNOTATIONS_ADD);
         removeButton = new JButton(SysStrings.ANNOTATIONS_DELETE);
-        removeButton.setEnabled(false);		//Remove this when remove is implemented
+        removeButton.setEnabled(
+                false);        //Remove this when remove is implemented
         buttonPanel.add(modifyButton);
-        modifyButton.setEnabled(false);		//Remove this when modify is implemented
+        modifyButton.setEnabled(
+                false);        //Remove this when modify is implemented
         buttonPanel.add(addButton);
         buttonPanel.add(removeButton);
     }
@@ -106,14 +101,14 @@ public class AnnotationsViewCreator {
     private JTextField buildSearchField() {
         Dimension searchDim = new Dimension(500, 30);
         final JTextField searchField = new JTextField("Search...");
-        searchField.addMouseListener(new MouseAdapter(){
-        	@Override
-        	public void mouseClicked(MouseEvent e){
-        		if(searchField.getText().equalsIgnoreCase("search...")){
-        			searchField.setText("");
-        			}
-        		}
-        	});
+        searchField.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                if (searchField.getText().equalsIgnoreCase("search...")) {
+                    searchField.setText("");
+                }
+            }
+        });
 
         searchField.getDocument().addDocumentListener(
                 new SearchDocumentListener(rowSorter, searchField));
@@ -127,9 +122,9 @@ public class AnnotationsViewCreator {
         table = new JTable(tablemodel);
         table.setShowGrid(false);
         TableRowSorter<TableModel> rowSorter = new TableRowSorter<TableModel>(
-        		tablemodel);
+                tablemodel);
         this.rowSorter = rowSorter;
-        
+
         JScrollPane scroll = new JScrollPane(table);
         //scroll.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
         //table.setPreferredSize(scroll.getSize());
@@ -179,6 +174,24 @@ public class AnnotationsViewCreator {
         return table;
     }
 
+    public void addAnnotationListener(ActionListener addAnnotationListener) {
+        addButton.addActionListener(addAnnotationListener);
+        modifyButton.addActionListener(addAnnotationListener);
+        removeButton.addActionListener(addAnnotationListener);
+    }
+
+    public void closePopup() {
+
+    }
+
+    public SysadminAnnotationPopup getPop() {
+        return pop;
+    }
+
+    public TableModel getTableModel() {
+        return tablemodel;
+    }
+
     private class SearchDocumentListener implements DocumentListener {
 
         private TableRowSorter<TableModel> rowSorter;
@@ -209,24 +222,6 @@ public class AnnotationsViewCreator {
 
         }
 
-    }
-
-    public void addAnnotationListener(ActionListener addAnnotationListener) {
-        addButton.addActionListener(addAnnotationListener);
-        modifyButton.addActionListener(addAnnotationListener);
-        removeButton.addActionListener(addAnnotationListener);
-    }
-
-    public void closePopup() {
-
-    }
-
-    public SysadminAnnotationPopup getPop() {
-        return pop;
-    }
-    
-    public TableModel getTableModel(){
-    	return tablemodel;
     }
 
 }

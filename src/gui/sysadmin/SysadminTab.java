@@ -5,23 +5,18 @@ import gui.sysadmin.processview.ProcessViewCreator;
 import gui.sysadmin.strings.SysadminTabButtons;
 import gui.sysadmin.usersview.UsersViewCreator;
 
-import java.awt.BorderLayout;
-import java.awt.event.ActionListener;
-
-import javax.swing.JPanel;
-import javax.swing.JTabbedPane;
-import javax.swing.JTable;
+import javax.swing.*;
 import javax.swing.table.TableModel;
-
-import util.AnnotationDataType;
+import java.awt.*;
+import java.awt.event.ActionListener;
 
 public class SysadminTab extends JPanel {
 
-    private JTabbedPane sysadminTabPane;
-    private SysadminController sysController;
+    private JTabbedPane            sysadminTabPane;
+    private SysadminController     sysController;
     private AnnotationsViewCreator annotationsView;
-    private UsersViewCreator usersView;
-    private ProcessViewCreator processView;
+    private UsersViewCreator       usersView;
+    private ProcessViewCreator     processView;
 
     /**
      * Create the panel.
@@ -39,8 +34,8 @@ public class SysadminTab extends JPanel {
         sysadminTabPane = new JTabbedPane();
 
         sysadminTabPane.setTabPlacement(JTabbedPane.LEFT);
-//        SysStrings bNames = new SysStrings();
-//        String[] buttonNameStrings = bNames.getButtonNames();
+        //        SysStrings bNames = new SysStrings();
+        //        String[] buttonNameStrings = bNames.getButtonNames();
 
         for (SysadminTabButtons button : SysadminTabButtons.values()) {
             switch (button) {
@@ -52,41 +47,40 @@ public class SysadminTab extends JPanel {
                     sysadminTabPane.addTab(button.getValue(), buildUsersView());
                     break;
                 case PROCESS:
-                    sysadminTabPane.addTab(button.getValue(), buildProcessView());
+                    sysadminTabPane
+                            .addTab(button.getValue(), buildProcessView());
                     break;
             }
         }
 
-//        for (int i = 0; i < buttonNameStrings.length; i++) {
-//
-//            switch (buttonNameStrings[i]) {
-//
-//            case SysStrings.ANNOTATIONS:
-//                sysadminTabPane.addTab(buttonNameStrings[i],
-//                        buildAnnotationsView());
-//                break;
-///*
-//            case SysStrings.USERS:
-//                sysadminTabPane.addTab(buttonNameStrings[i], new JPanel());
-//                break;
-//
-//            case SysStrings.TEST:
-//                sysadminTabPane.addTab(buttonNameStrings[i], new JPanel());
-//                break;
-//*/
-//            }
-//
-//        }
-
-        System.out.println("HEHEHE " + sysadminTabPane.getTitleAt(0));
+        //        for (int i = 0; i < buttonNameStrings.length; i++) {
+        //
+        //            switch (buttonNameStrings[i]) {
+        //
+        //            case SysStrings.ANNOTATIONS:
+        //                sysadminTabPane.addTab(buttonNameStrings[i],
+        //                        buildAnnotationsView());
+        //                break;
+        ///*
+        //            case SysStrings.USERS:
+        //                sysadminTabPane.addTab(buttonNameStrings[i], new JPanel());
+        //                break;
+        //
+        //            case SysStrings.TEST:
+        //                sysadminTabPane.addTab(buttonNameStrings[i], new JPanel());
+        //                break;
+        //*/
+        //            }
+        //
+        //        }
 
         add(sysadminTabPane);
     }
 
     private JPanel buildAnnotationsView() {
-    	JPanel panel = annotationsView.buildAnnotationsView();
+        JPanel panel = annotationsView.buildAnnotationsView();
         sysController.updateAnnotationTable();
-    	return panel;
+        return panel;
     }
 
     private JPanel buildUsersView() {
@@ -94,7 +88,7 @@ public class SysadminTab extends JPanel {
         return usersView.buildUsersView();
     }
 
-    private JPanel buildProcessView(){
+    private JPanel buildProcessView() {
         return processView.buildProcessView();
     }
 
@@ -130,16 +124,16 @@ public class SysadminTab extends JPanel {
         return sysController;
     }
 
-    public TableModel getAnnotationTableModel(){
-    	return annotationsView.getTableModel();
+    public TableModel getAnnotationTableModel() {
+        return annotationsView.getTableModel();
     }
 
-	public void deleteAnnotation() {
-		sysController.deleteAnnotation();
-		
-	}
+    public void deleteAnnotation() {
+        sysController.deleteAnnotation();
 
-	public JTable getAnnotationTable() {
-		return annotationsView.getTable();
-	}
+    }
+
+    public JTable getAnnotationTable() {
+        return annotationsView.getTable();
+    }
 }

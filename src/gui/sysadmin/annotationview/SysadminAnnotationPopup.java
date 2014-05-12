@@ -2,39 +2,23 @@ package gui.sysadmin.annotationview;
 
 import gui.sysadmin.strings.SysStrings;
 
-import java.awt.BorderLayout;
-import java.awt.Component;
-import java.awt.Dimension;
-import java.awt.GridLayout;
+import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.net.URL;
 import java.util.ArrayList;
 
-import javax.swing.BorderFactory;
-import javax.swing.ButtonModel;
-import javax.swing.ImageIcon;
-import javax.swing.JButton;
-import javax.swing.JCheckBox;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.JScrollPane;
-import javax.swing.JTabbedPane;
-import javax.swing.JTextField;
-import javax.swing.ScrollPaneConstants;
-import javax.swing.SwingUtilities;
-
 public class SysadminAnnotationPopup extends JPanel {
 
     private static final long serialVersionUID = -626744436260839622L;
-    private JPanel addCategoriesPanel;
+    private JPanel  addCategoriesPanel;
     private JButton addButton, removeButton;
     private ButtonModel createNewAnnotationButtonModel;
-    private JTextField nameField;
+    private JTextField  nameField;
     private ArrayList<String> categories = new ArrayList<String>();
-    private boolean forced = false;
+    private boolean           forced     = false;
     private JCheckBox forcedBox;
 
     public SysadminAnnotationPopup() {
@@ -72,7 +56,8 @@ public class SysadminAnnotationPopup extends JPanel {
         JPanel firstTab = new JPanel(new BorderLayout());
         JScrollPane scrollPane = new JScrollPane(firstTab);
         scrollPane
-                .setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
+                .setVerticalScrollBarPolicy(
+                        ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
 
         JPanel topPanelInFirstTab = buildTopPanelInFirstTab();
         JPanel midPanelInFirstTab = buildMidPanelInFirstTab();

@@ -1,8 +1,7 @@
 package gui.sysadmin.usersview;
 
-import java.awt.Color;
-
-import javax.swing.JPanel;
+import javax.swing.*;
+import java.awt.*;
 
 public class UsersViewCreator {
 
