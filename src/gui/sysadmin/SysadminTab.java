@@ -1,17 +1,18 @@
 package gui.sysadmin;
 
-import javax.swing.*;
-import javax.swing.table.TableModel;
-
-import java.awt.*;
+import java.awt.BorderLayout;
 import java.awt.event.ActionListener;
+
+import javax.swing.JPanel;
+import javax.swing.JTabbedPane;
+import javax.swing.table.TableModel;
 
 public class SysadminTab extends JPanel {
 
     private JTabbedPane sysadminTabPane;
     private SysadminController sysController;
     private AnnotationsViewCreator annotationsView;
-    private JPanel usersView;
+
 
     /**
      * Create the panel.
@@ -113,7 +114,7 @@ public class SysadminTab extends JPanel {
     public SysadminController getSysController() {
         return sysController;
     }
-    
+
     public TableModel AnnotationTableModel(){
     	return annotationsView.getTableModel();
     }
