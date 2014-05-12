@@ -231,7 +231,7 @@ public class Model implements GenomizerModel {
 			AnnotationDataType[] annotations = ResponseParser
 					.parseGetAnnotationResponse(conn.getResponseBody());
 			for (int i = 0; i < annotations.length ; i++) {
-				System.out.println(annotations[i].name);
+				//System.out.println(annotations[i].name);
 			}
 			return annotations;
 		} else {

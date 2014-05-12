@@ -292,6 +292,7 @@ public class Controller {
 			} else {
 				view.updateLoginAccepted(username, pwd, "Yuri Gagarin");
 			}
+			sysController.updateAnnotationTable();
 		}
 	}
 

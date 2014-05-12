@@ -1,5 +1,6 @@
 package gui.sysadmin;
 
+import javax.swing.SwingUtilities;
 import javax.swing.table.AbstractTableModel;
 
 import util.AnnotationData;
@@ -46,6 +47,7 @@ public class AnnotationTableModel extends AbstractTableModel {
         synchronized (annotations) {
             this.annotations = annotations;
         }
+        fireTableDataChanged();
     }
 
     @Override
@@ -67,5 +69,4 @@ public class AnnotationTableModel extends AbstractTableModel {
     public AnnotationDataType getAnnotationData(int i) {
         return annotations[i];
     }
-
 }

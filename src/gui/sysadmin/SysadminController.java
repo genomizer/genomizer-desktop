@@ -38,7 +38,6 @@ public class SysadminController extends Observable {
 	}
 
 	public void sendNewAnnotation() {
-
 		SysadminAnnotationPopup popup = sysTab.getAnnotationsView().getPop();
 		try {
 			model.addNewAnnotation(popup.getNewAnnotationName(),

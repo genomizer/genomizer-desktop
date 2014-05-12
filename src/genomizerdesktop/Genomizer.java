@@ -36,7 +36,7 @@ public class Genomizer {
 	gui.setWorkspaceTab(wt);
 	//gui.setAnalyzeTab(at);
 	gui.setSysAdminTab(sat);
-	Connection con = new Connection("http://scratchy.cs.umu.se:7000");
+	Connection con = new Connection("http://scratchy.cs.umu.se:7050");
 	Model model = new Model(con);
 	Controller controller = new Controller(gui, model);
 	SwingUtilities.invokeLater(new Runnable() {

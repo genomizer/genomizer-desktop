@@ -18,6 +18,8 @@ import javax.swing.table.JTableHeader;
 import javax.swing.table.TableModel;
 import javax.swing.table.TableRowSorter;
 
+import org.jdesktop.swingx.calendar.DateSelectionModel.SelectionMode;
+
 import util.AnnotationDataType;
 
 public class AnnotationsViewCreator {
@@ -69,7 +71,7 @@ public class AnnotationsViewCreator {
     private void buildTabPanel(JPanel tabPanel) {
         tabPanel.setBackground(new Color(255, 250, 250));
         tabPanel.setLayout(new GridLayout(1, 0));
-        tabPanel.add(buildMockTable());
+        tabPanel.add(buildSearchTable());
 
     }
 
@@ -122,56 +124,27 @@ public class AnnotationsViewCreator {
         return searchField;
     }
 
-    private Component buildMockTable() {
-        JPanel panel = new JPanel(new BorderLayout());
-
-        tablemodel = new AnnotationTableModel();
-        AnnotationTableModel tableModelAnnotationTableModel = (AnnotationTableModel) tablemodel;
-        tableModelAnnotationTableModel.setAnnotations(new AnnotationDataType[]{});
-
-        table = new JTable(tablemodel);
-
-        table.setPreferredSize(panel.getSize());
-
-        table.setShowGrid(false);
-        JTableHeader header = table.getTableHeader();
-        panel.add(header, BorderLayout.NORTH);
-        panel.add(table, BorderLayout.CENTER);
-        JScrollPane scroll = new JScrollPane(panel);
-        scroll.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED);
-
-        TableRowSorter<TableModel> rowSorter = new TableRowSorter<TableModel>(
-                tablemodel);
-        this.rowSorter = rowSorter;
-        table.setRowSorter(rowSorter);
-
-        return scroll;
-    }
-
     private Component buildSearchTable() {
 
-        JPanel panel = new JPanel(new BorderLayout());
-        TableModel tableModel = null; // TODO: fix this add a new class?
-        table = new JTable(tableModel);
-        table.setPreferredSize(panel.getSize());
-        table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+        tablemodel = new AnnotationTableModel();
+        table = new JTable(tablemodel);
         table.setShowGrid(false);
-
+        TableRowSorter<TableModel> rowSorter = new TableRowSorter<TableModel>(
+        		tablemodel);
+        this.rowSorter = rowSorter;
+        
+        JScrollPane scroll = new JScrollPane(table);
+        //scroll.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
+        //table.setPreferredSize(scroll.getSize());
         JTableHeader header = table.getTableHeader();
 
-        panel.add(header, BorderLayout.NORTH);
-        panel.add(table, BorderLayout.CENTER);
-
-        JScrollPane scroll = new JScrollPane(panel);
-        scroll.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED);
-
-        TableRowSorter<TableModel> rowSorter = new TableRowSorter<TableModel>(
-                tableModel);
-
-        this.rowSorter = rowSorter;
-
+        JPanel panel = new JPanel(new BorderLayout());
+        //panel.add(header, BorderLayout.NORTH);
+        panel.add(scroll, BorderLayout.CENTER);
+        //panel.add(table);
+        table.setSelectionMode(DefaultListSelectionModel.SINGLE_SELECTION);
         table.setRowSorter(rowSorter);
-        return null;
+        return panel;
     }
 
     /**
