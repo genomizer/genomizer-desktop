@@ -1,6 +1,8 @@
 package gui.sysadmin;
 
 import javax.swing.*;
+import javax.swing.table.TableModel;
+
 import java.awt.*;
 import java.awt.event.ActionListener;
 
@@ -66,8 +68,9 @@ public class SysadminTab extends JPanel {
     }
 
     private JPanel buildAnnotationsView() {
-
-        return annotationsView.buildAnnotationsView();
+    	JPanel panel = annotationsView.buildAnnotationsView();
+        sysController.updateAnnotationTable();
+    	return panel;
     }
 
     private JPanel buildUsersView() {
@@ -91,12 +94,12 @@ public class SysadminTab extends JPanel {
     }
 
     public void createAnnotationListeners() {
-        annotationsView.addAnnotationListener(SysadminController
+        annotationsView.addAnnotationListener(sysController
                 .createAnnotationButtonListener());
     }
 
     public ActionListener createAnnotationPopupListener() {
-        return SysadminController.createAnnotationPopupListener();
+        return sysController.createAnnotationPopupListener();
     }
 
     public AnnotationsViewCreator getAnnotationsView() {
@@ -105,5 +108,9 @@ public class SysadminTab extends JPanel {
 
     public SysadminController getSysController() {
         return sysController;
+    }
+    
+    public TableModel AnnotationTableModel(){
+    	return annotationsView.getTableModel();
     }
 }

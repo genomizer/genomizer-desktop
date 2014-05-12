@@ -250,5 +250,9 @@ public class AnnotationsViewCreator {
     public SysadminAnnotationPopup getPop() {
         return pop;
     }
+    
+    public TableModel getTableModel(){
+    	return tablemodel;
+    }
 
 }

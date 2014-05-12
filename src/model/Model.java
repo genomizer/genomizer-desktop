@@ -50,26 +50,29 @@ public class Model implements GenomizerModel {
 	}
 
 	@Override
-	public boolean rawToProfile(String fileName, String filePath,String metadata, String genomeRelease, String author, String expid, String[] parameters) {
+	public boolean rawToProfile(String fileName, String filePath,
+			String metadata, String genomeRelease, String author, String expid,
+			String[] parameters) {
 
-				rawToProfileRequest rawToProfilerequest = RequestFactory
-									.makeRawToProfileRequest(fileName,filePath,expid,metadata, genomeRelease,author,parameters);
+		rawToProfileRequest rawToProfilerequest = RequestFactory
+				.makeRawToProfileRequest(fileName, filePath, expid, metadata,
+						genomeRelease, author, parameters);
 
-				conn.sendRequest(rawToProfilerequest, userID, "text/plain");
-				if (conn.getResponseCode() == 201) {
-					return true;
+		conn.sendRequest(rawToProfilerequest, userID, "text/plain");
+		if (conn.getResponseCode() == 201) {
+			return true;
 
-					// TODO Fixa s� att det syns b�r anv�ndaren att filen
-					// gick
-					// attt konverteras.
+			// TODO Fixa s� att det syns b�r anv�ndaren att filen
+			// gick
+			// attt konverteras.
 
-				} else {
-					return false;
-					
-					// TODO Fixa felmeddelande i gui ifall det inte gick att
-					// convertera till profile.
-					// TODO K�ra n�n timer f�r response.
-				}
+		} else {
+			return false;
+
+			// TODO Fixa felmeddelande i gui ifall det inte gick att
+			// convertera till profile.
+			// TODO K�ra n�n timer f�r response.
+		}
 	}
 
 	@Override
@@ -128,18 +131,18 @@ public class Model implements GenomizerModel {
 
 	@Override
 	public boolean downloadFile(String fileID, String path) {
-        //Use this until search works on the server
+		// Use this until search works on the server
 		DownloadFileRequest request = RequestFactory.makeDownloadFileRequest(
-				 "<file-id>", ".wig");
+				"<file-id>", ".wig");
 
-        System.out.println("Test: " + fileID);
-        conn.sendRequest(request, userID, "text/plain");
+		System.out.println("Test: " + fileID);
+		conn.sendRequest(request, userID, "text/plain");
 		Gson gson = new Gson();
 		DownloadFileResponse response = gson.fromJson(conn.getResponseBody(),
 				DownloadFileResponse.class);
-        System.out.println(conn.getResponseBody());
-        DownloadHandler handler = new DownloadHandler("pvt", "pvt");
-        handler.download("http://sterner.cc", path, userID);
+		System.out.println(conn.getResponseBody());
+		DownloadHandler handler = new DownloadHandler("pvt", "pvt");
+		handler.download("http://sterner.cc", path, userID);
 		System.out.println("Test");
 		return true;
 	}
@@ -148,8 +151,9 @@ public class Model implements GenomizerModel {
 	public ExperimentData[] search(String pubmedString) {
 		SearchRequest request = RequestFactory.makeSearchRequest(pubmedString);
 		conn.sendRequest(request, userID, "text/plain");
-        if(conn.getResponseCode() == 200) {
-			ExperimentData[] searchResponses = ResponseParser.parseSearchResponse(conn.getResponseBody());
+		if (conn.getResponseCode() == 200) {
+			ExperimentData[] searchResponses = ResponseParser
+					.parseSearchResponse(conn.getResponseBody());
 			if (searchResponses != null && searchResponses.length > 0) {
 				searchHistory.addSearchToHistory(searchResponses);
 				return searchResponses;
@@ -213,8 +217,8 @@ public class Model implements GenomizerModel {
 					+ " deleted succesfully");
 			return true;
 		} else {
-			System.err.println("Could not delete annotation name " + deleteAnnoationData
-					+ "!");
+			System.err.println("Could not delete annotation name "
+					+ deleteAnnoationData + "!");
 		}
 		return false;
 	}
@@ -227,6 +231,9 @@ public class Model implements GenomizerModel {
 			System.err.println("Sent getAnnotionrequestsuccess!");
 			AnnotationDataType[] annotations = ResponseParser
 					.parseGetAnnotationResponse(conn.getResponseBody());
+			for (int i = 0; i < annotations.length ; i++) {
+				System.out.println(annotations[i].name);
+			}
 			return annotations;
 		} else {
 			System.out.println("responsecode: " + conn.getResponseCode());

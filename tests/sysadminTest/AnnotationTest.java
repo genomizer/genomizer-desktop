@@ -21,8 +21,10 @@ public class AnnotationTest {
 
 	@Before
 	public void setUp() throws Exception {
-		con = new Connection("genomizer.apiary-mock.com:80");
+		//con = new Connection("genomizer.apiary-mock.com:80");
+		con = new Connection("http://scratchy.cs.umu.se:7000");
 		model = new Model(con);
+		model.loginUser("SysadminTests", "qwerty");
 		sysadminTab = new SysadminTab();
 	}
 
@@ -43,6 +45,12 @@ public class AnnotationTest {
 		assertThat(actual).isEqualTo(expected);
 	}
 
+	@Test 
+	public void shouldAddNewFreeTextAnnotation(){
+		assertThat(
+				model.addNewAnnotation("FREETEXTTEST", new String[] { "freetext" }, false)).isTrue();
+	}
+	
 	@Test
 	public void shouldAddNewAnnotation() {
 		assertThat(

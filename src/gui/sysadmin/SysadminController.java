@@ -9,52 +9,58 @@ import java.util.Observer;
 
 public class SysadminController extends Observable {
 
-    private static SysadminTab sysTab;
-    private GenomizerModel model;
+	private SysadminTab sysTab;
+	private GenomizerModel model;
 
-    public SysadminController(Observer observer) {
+	public SysadminController(Observer observer) {
 
-        this.addObserver(observer);
+		this.addObserver(observer);
 
-    }
+	}
 
-    public SysadminController(GenomizerModel model) {
-        this.model = model;
-    }
+	public SysadminController(GenomizerModel model) {
+		this.model = model;
+	}
 
-    public static ActionListener createAnnotationButtonListener() {
-        return new AnnotationButtonsListener(sysTab);
-    }
+	public ActionListener createAnnotationButtonListener() {
+		return new AnnotationButtonsListener(sysTab);
+	}
 
-    public static ActionListener createAnnotationPopupListener() {
-        return new AnnotationPopupListener(sysTab);
-    }
+	public ActionListener createAnnotationPopupListener() {
+		return new AnnotationPopupListener(sysTab);
+	}
 
-    /* You need me */
-    public void setSysadminPanel(SysadminTab sysTab) {
+	/* You need me */
+	public void setSysadminPanel(SysadminTab sysTab) {
 
-        this.sysTab = sysTab;
+		this.sysTab = sysTab;
 
-    }
+	}
 
-    public void sendNewAnnotation() {
+	public void sendNewAnnotation() {
 
-        SysadminAnnotationPopup popup = sysTab.getAnnotationsView().getPop();
-        try {
-        model.addNewAnnotation(
-                popup.getNewAnnotationName(),
-                popup.getNewAnnotationCategories(),
-                popup.getNewAnnotationForcedValue());
-        } catch (IllegalArgumentException e) {
-            JOptionPane.showMessageDialog(null, e.getMessage());
-        }
-    }
+		SysadminAnnotationPopup popup = sysTab.getAnnotationsView().getPop();
+		try {
+			model.addNewAnnotation(popup.getNewAnnotationName(),
+					popup.getNewAnnotationCategories(),
+					popup.getNewAnnotationForcedValue());
+			updateAnnotationTable();
+		} catch (IllegalArgumentException e) {
+			JOptionPane.showMessageDialog(null, e.getMessage());
+		}
+	}
 
-    public util.AnnotationDataType[] getAnnotations(){
-        return model.getAnnotations();
-    }
+	public util.AnnotationDataType[] getAnnotations() {
+		return model.getAnnotations();
+	}
 
-    public void deleteAnnotation(){
+	public void updateAnnotationTable() {
+		AnnotationTableModel tableModel = (AnnotationTableModel) sysTab
+				.getAnnotationsView().getTableModel();
+		tableModel.setAnnotations(getAnnotations());
+	}
 
-    }
+	public void deleteAnnotation() {
+
+	}
 }
