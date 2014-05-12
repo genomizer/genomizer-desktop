@@ -78,6 +78,7 @@ public class UploadTab extends JPanel {
     public void addExistingExpPanel(AnnotationDataType[] annotations) {
         killContentsOfUploadPanel();
         activePanel = ActivePanel.EXISTING;
+        uploadToExistingExpPanel.build();
         uploadToExistingExpPanel.setAnnotations(annotations);
         uploadToExistingExpPanel.addAnnotationsForExistingExp();
         uploadPanel.add(uploadToExistingExpPanel, BorderLayout.CENTER);
@@ -220,9 +221,10 @@ public class UploadTab extends JPanel {
                 activePanel = ActivePanel.NONE;
                 break;
             case NEW:
-                uploadPanel.remove(newExpPanel);
+                uploadPanel.removeAll();
                 newExpPanel.removeAll();
                 uploadFilesPanel.removeAll();
+                uploadBackground.removeAll();
                 repaint();
                 revalidate();
                 activePanel = ActivePanel.NONE;
