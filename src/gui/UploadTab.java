@@ -2,6 +2,7 @@ package gui;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
+import java.awt.FlowLayout;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.GridLayout;
@@ -44,6 +45,7 @@ public class UploadTab extends JPanel implements  ExperimentPanel {
     private JTextField expName;
     private File[] currFiles;
     private JScrollPane uploadScroll;
+    private JPanel buttonsPanel;
 
     public UploadTab() {
 	annotationHeaders = new ArrayList<String>();
@@ -66,6 +68,7 @@ public class UploadTab extends JPanel implements  ExperimentPanel {
 	uploadScroll = new JScrollPane(uploadPanel);
 	add(uploadScroll, BorderLayout.CENTER);
 	uploadBackground = new JPanel(new BorderLayout());
+	buttonsPanel = new JPanel(new FlowLayout());
 	uploadFilesPanel = new JPanel(new GridLayout(0,1));
 	newExpButton = new JButton("Create new experiment");
 	selectButton = new JButton("Select files");
@@ -208,10 +211,13 @@ public class UploadTab extends JPanel implements  ExperimentPanel {
 	        }
 	    }
 	}
-	uploadFilesPanel.add(selectButton);
-	uploadFilesPanel.add(uploadButton);
-	repaint();
+//	uploadFilesPanel.add(selectButton);
+//	uploadFilesPanel.add(uploadButton);
+	buttonsPanel.add(selectButton);
+	buttonsPanel.add(uploadButton);
+	uploadFilesPanel.add(buttonsPanel);
 	revalidate();
+	repaint();
     }
 
     public void killContentsOfUploadPanel() {
@@ -244,6 +250,7 @@ public class UploadTab extends JPanel implements  ExperimentPanel {
 	// }
 	// }
 	uploadFileRows.remove(fileName);
+	buttonsPanel.removeAll();
 	uploadFilesPanel.removeAll();
 	repaintSelectedFiles();
     }
