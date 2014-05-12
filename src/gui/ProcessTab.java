@@ -309,10 +309,6 @@ public class ProcessTab extends JPanel {
 		convPanel.add(stepSizePanel);
 		stepSizePanel.setBorder(new TitledBorder(null, "Step size", TitledBorder.LEADING, TitledBorder.TOP, null, null));
 
-		stepSizeBox.setVerticalAlignment(JCheckBox.BOTTOM);
-		printMean.setVerticalAlignment(JCheckBox.TOP);
-		printZeros.setVerticalAlignment(JCheckBox.TOP);
-
 		tabbedPane.addTab("Convert to WIG", null, convWigTabPanel, null);
 
 		tabbedPane.addTab("Create region data", null, createRegTabPanel, null);
