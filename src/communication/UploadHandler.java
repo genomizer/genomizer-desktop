@@ -33,6 +33,7 @@ public class UploadHandler implements Runnable {
             String urlFileName = getFileNameFromUrl(url);
 			sendSetupPackage();
 			url.replaceFirst("\\u003d", "=");
+			url.replaceFirst("8000", "7050");
 			URL targetUrl = new URL(url);
 			HttpURLConnection conn = (HttpURLConnection) targetUrl
 					.openConnection();

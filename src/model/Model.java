@@ -121,8 +121,8 @@ public class Model implements GenomizerModel {
 	    if (conn.getResponseCode() == 200) {
 		url = conn.getResponseBody();
 	    }
-//	    AddFileToExperimentResponse aFTER =  ResponseParser.parseUploadResponse(conn.getResponseBody());
-	    UploadHandler handler = new UploadHandler(url, f.getAbsolutePath(),
+	    AddFileToExperimentResponse aFTER =  ResponseParser.parseUploadResponse(conn.getResponseBody());
+	    UploadHandler handler = new UploadHandler(aFTER.URLupload, f.getAbsolutePath(),
 		    userID, "pvt:pvt");
 	    Thread thread = new Thread(handler);
 	    thread.start();

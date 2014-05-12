@@ -1,6 +1,5 @@
 package responses;
 
-import com.google.gson.GsonBuilder;
 import util.AnnotationDataType;
 import util.ExperimentData;
 
@@ -39,5 +38,15 @@ public class ResponseParser {
 			return null;
 		}
 		return annotationResponses;
+	}
+
+	public static AddFileToExperimentResponse parseUploadResponse(String json) {
+	    AddFileToExperimentResponse url = null;
+	    try {
+	        url = gson.fromJson(json, AddFileToExperimentResponse.class);
+	    } catch (JsonParseException e) {
+
+	    }
+	    return url;
 	}
 }
