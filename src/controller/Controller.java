@@ -439,6 +439,8 @@ public class Controller {
 			uploadTab.killContentsOfUploadPanel();
 			AnnotationDataType[] annotations = model.getAnnotations();
 			uploadTab.addExistingExpPanel(annotations);
+            uploadTab.repaint();
+            uploadTab.revalidate();
 		}
 	}
 
