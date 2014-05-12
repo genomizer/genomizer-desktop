@@ -306,10 +306,10 @@ public class Controller {
 			if (searchResults != null) {
 				view.updateQuerySearchResults(searchResults);
 			} else {
-//				searchResults = new ArrayList<ExperimentData>(Arrays.asList(ExperimentData.getExample()));
-//				 view.updateQuerySearchResults(searchResults);
-				JOptionPane.showMessageDialog(null, "No search results!",
-						"Search Warning", JOptionPane.WARNING_MESSAGE);
+				searchResults = new ArrayList<ExperimentData>(Arrays.asList(ExperimentData.getExample()));
+				 view.updateQuerySearchResults(searchResults);
+			/*	JOptionPane.showMessageDialog(null, "No search results!",
+						"Search Warning", JOptionPane.WARNING_MESSAGE);*/
 			}
 		}
 	}
