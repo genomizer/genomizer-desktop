@@ -1,5 +1,6 @@
 package gui;
 
+import gui.sysadmin.SysadminController;
 import gui.sysadmin.SysadminTab;
 
 import java.awt.BorderLayout;
@@ -76,11 +77,12 @@ public class GUI extends JFrame implements GenomizerView {
 		loginWindow.addLoginListener(listener);
 	}
 
+    /*
 	@Override
 	public void addAddAnnotationListener(ActionListener addAnnotationListener) {
 		sysadminTab.addAddAnnotationListener(addAnnotationListener);
 	}
-
+      */
 	public void addUpdateSearchAnnotationsListener(ActionListener listener) {
 		querySearchTab.addUpdateAnnotationsListener(listener);
 	}
@@ -100,10 +102,11 @@ public class GUI extends JFrame implements GenomizerView {
 		processTab.addRawToProfileDataListener(listener);
 	}
 
+    /*
 	@Override
 	public void addAddPopupListener(ActionListener addPopupListener) {
 		sysadminTab.addAddPopupListener(addPopupListener);
-	}
+	} */
 
 	@Override
 	public void addRawToRegionDataListener(ActionListener listener) {
@@ -170,15 +173,16 @@ public class GUI extends JFrame implements GenomizerView {
 		return querySearchTab.getSelectedData();
 	}
 
+    /*
 	@Override
 	public String getNewAnnotationName() {
 		return sysadminTab.getNewAnnotationName();
-	}
+	}  */
 
 	public UploadTab getUploadTab() {
 		return uploadTab;
 	}
-
+          /*
 	@Override
 	public String[] getNewAnnotionCategories() {
 		return sysadminTab.getNewAnnotationCategories();
@@ -187,7 +191,7 @@ public class GUI extends JFrame implements GenomizerView {
 	@Override
 	public boolean getNewAnnotationForcedValue() {
 		return sysadminTab.getNewAnnotationForcedValue();
-	}
+	}   */
 
 	@Override
 	public String getQuerySearchString() {
@@ -225,12 +229,13 @@ public class GUI extends JFrame implements GenomizerView {
 		return loginWindow.getIPInput();
 	}
 
+    /*
 	@Override
 	public AnnotationDataType getSelectedAnnoationAtAnnotationTable() {
 		// TODO Auto-generated method stub
 		return sysadminTab.getSelectedAnnotationAtAnnotationTable();
 	}
-
+      */
 	@Override
 	public int getSelectedRowAtAnnotationTable() {
 		// TODO Auto-generated method stub
@@ -327,11 +332,11 @@ public class GUI extends JFrame implements GenomizerView {
 	public void setSearchAnnotationTypes(AnnotationDataType[] annotationTypes) {
 		querySearchTab.setAnnotationTypes(annotationTypes);
 	}
-
+          /*
 	@Override
 	public void setAnnotationTableData(AnnotationDataType[] annotations) {
 		sysadminTab.setAnnotationTableData(annotations);
-	}
+	}                  */
 
 	@Override
 	public void setProccessFileList(ArrayList<FileData> allFileData) {
@@ -349,6 +354,7 @@ public class GUI extends JFrame implements GenomizerView {
 
 	}
 
+    /*
 	@Override
 	public void closePopup() {
 		sysadminTab.closePopup();
@@ -358,6 +364,7 @@ public class GUI extends JFrame implements GenomizerView {
 	public void annotationPopup() {
 		sysadminTab.popup();
 	}
+    */
 
 	@Override
 	public void printToConvertText(String message,String color) {
@@ -380,10 +387,17 @@ public class GUI extends JFrame implements GenomizerView {
 		loginWindow.setVisible(true);
 	}
 
+    /*
 	@Override
 	public void addDeleteAnnotationListener(ActionListener listener) {
 		sysadminTab.addDeleteAnnotationListener(listener);
 	}
+	*/
+    @Override
+    public void setSysadminController(SysadminController sysadminController) {
+        sysadminTab.setController(sysadminController);
+
+    }
 
 	@Override
 	public void addNewExpButtonListener(ActionListener listener) {

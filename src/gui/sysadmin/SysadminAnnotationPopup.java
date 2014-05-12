@@ -4,7 +4,6 @@ import java.awt.BorderLayout;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.GridLayout;
-import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
@@ -49,7 +48,7 @@ public class SysadminAnnotationPopup extends JPanel {
 
         JPanel secondTab = new JPanel(new GridLayout(0, 1));
 
-		/* Create the top panel for the second tab */
+        /* Create the top panel for the second tab */
         JPanel topPanelInSecondTab = new JPanel();
 
         JLabel name = new JLabel("Name:");
@@ -58,7 +57,7 @@ public class SysadminAnnotationPopup extends JPanel {
         topPanelInSecondTab.add(name);
         topPanelInSecondTab.add(nameField2);
 
-		/* Create bottom panel for the second tab */
+        /* Create bottom panel for the second tab */
         JPanel botPanelInSecondTab = buildBotPanelInFirstTab();
 
         secondTab.add(topPanelInSecondTab);
@@ -77,7 +76,7 @@ public class SysadminAnnotationPopup extends JPanel {
         JPanel midPanelInFirstTab = buildMidPanelInFirstTab();
         JPanel botPanelInFirstTab = buildBotPanelInFirstTab();
 
-		/* Add all complete panels to the first tab */
+        /* Add all complete panels to the first tab */
         firstTab.add(topPanelInFirstTab, BorderLayout.NORTH);
         firstTab.add(midPanelInFirstTab, BorderLayout.CENTER);
         firstTab.add(botPanelInFirstTab, BorderLayout.SOUTH);
@@ -126,12 +125,12 @@ public class SysadminAnnotationPopup extends JPanel {
     }
 
     private void createAddCategoryButton(final JPanel categoryHolderPanel,
-                                         JPanel baseCatPanel, final JTextField annotationTextField) {
+            JPanel baseCatPanel, final JTextField annotationTextField) {
 
         URL imageUrl = getClass().getResource("/icons/plus.png");
         ImageIcon addIcon = new ImageIcon(imageUrl);
         addIcon = new ImageIcon(addIcon.getImage().getScaledInstance(20, 20,
-                Image.SCALE_SMOOTH));
+                BufferedImage.SCALE_SMOOTH));
         addButton = new JButton("");
 
         addButton.setBorderPainted(false);
@@ -157,7 +156,7 @@ public class SysadminAnnotationPopup extends JPanel {
         URL imageUrl = getClass().getResource("/icons/minus.png");
         ImageIcon removeIcon = new ImageIcon(imageUrl);
         removeIcon = new ImageIcon(removeIcon.getImage().getScaledInstance(15,
-                15, Image.SCALE_SMOOTH));
+                15, BufferedImage.SCALE_SMOOTH));
         removeButton = new JButton("");
 
         removeButton.setBorderPainted(false);
@@ -205,7 +204,10 @@ public class SysadminAnnotationPopup extends JPanel {
 
     private void buildCreateNewAnnotationButton(JPanel botPanelInFirstTab) {
 
-        JButton createNewAnnotationButton = new JButton("Create annotation");
+        JButton createNewAnnotationButton = new JButton(
+                ButtonNames.POPUP_CREATE_ANNO);
+
+        System.out.println("will create model");
 
         if (createNewAnnotationButtonModel == null) {
             createNewAnnotationButtonModel = createNewAnnotationButton
@@ -213,7 +215,8 @@ public class SysadminAnnotationPopup extends JPanel {
         } else {
             createNewAnnotationButton.setModel(createNewAnnotationButtonModel);
         }
-
+        createNewAnnotationButtonModel
+                .setActionCommand(ButtonNames.POPUP_CREATE_ANNO);
         botPanelInFirstTab.add(createNewAnnotationButton);
     }
 
@@ -242,7 +245,6 @@ public class SysadminAnnotationPopup extends JPanel {
                 catCheckBox, categoryPanel, BorderFactory.createEtchedBorder());
 
         catCheckBox.addActionListener(new ActionListener() {
-            @Override
             public void actionPerformed(ActionEvent e) {
                 setBorderEnabled(categoryPanel, catCheckBox);
             }
@@ -252,7 +254,7 @@ public class SysadminAnnotationPopup extends JPanel {
     }
 
     private void setBorderEnabled(final JPanel categoryPanel,
-                                  final JCheckBox catCheckBox) {
+            final JCheckBox catCheckBox) {
         boolean enable = catCheckBox.isSelected();
         Component components[] = categoryPanel.getComponents();
         for (int i = 0; i < components.length; i++) {
@@ -265,7 +267,7 @@ public class SysadminAnnotationPopup extends JPanel {
     }
 
     protected void addAddedCategoryPanel(JPanel categoryHolderPanel,
-                                         JTextField annotationTextField) {
+            JTextField annotationTextField) {
 
         JPanel newCategoryPanel = new JPanel();
         JLabel categoryLabel = new JLabel("Category:");
@@ -297,7 +299,14 @@ public class SysadminAnnotationPopup extends JPanel {
 
         String[] newCategories;
 
+        // TODO: make a model for popup? this should not be in a pure view
+        // class.
         synchronized (categories) {
+
+            if (categories.isEmpty()) {
+                categories.add("Yes");
+                categories.add("No");
+            }
             newCategories = categories.toArray(new String[categories.size()]);
         }
 
@@ -311,6 +320,8 @@ public class SysadminAnnotationPopup extends JPanel {
     }
 
     public void addAddAnnotationListener(ActionListener listener) {
+
+        System.out.println("Adding listnener to model");
         createNewAnnotationButtonModel.addActionListener(listener);
     }
 

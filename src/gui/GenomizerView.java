@@ -8,6 +8,7 @@ import java.util.HashMap;
 import javax.swing.JFrame;
 import javax.swing.JList;
 
+import gui.sysadmin.SysadminController;
 import util.AnnotationDataType;
 import util.AnnotationDataValue;
 import util.ExperimentData;
@@ -32,8 +33,6 @@ public interface GenomizerView {
     public void addConvertFileListener(ActionListener listener);
 
     public void addQuerySearchListener(ActionListener listener);
-
-    public void addScheduleFileListener(ActionListener listener);
 
     public void addRawToProfileDataListener(ActionListener listener);
 
@@ -80,18 +79,9 @@ public interface GenomizerView {
     public String getIp();
 
     public UploadTab getUploadTab();
-
-    public String getNewAnnotationName();
-
-    public String[] getNewAnnotionCategories();
-   
-    public ArrayList<ExperimentData> getSelectedDataInSearch();
-
-    public boolean getNewAnnotationForcedValue();
-
+	
     public int getSelectedRowAtAnnotationTable();
 
-    public AnnotationDataType getSelectedAnnoationAtAnnotationTable();
 
     public ArrayList<FileData> getAllMarkedFileData();
 
@@ -102,19 +92,20 @@ public interface GenomizerView {
 
     public void updateLogout();
 
-
-    public void setAnnotationTableData(AnnotationDataType[] annotations);
+	public void updateQuerySearchResults(ExperimentData[] searchResults);
+	
+	public void setAnnotationTableData(AnnotationDataType[] annotations);
 
     public void setSearchAnnotationTypes(AnnotationDataType[] annotationTypes);
 
     public void setProccessFileList(ArrayList<FileData> arrayList);
 
-    public void annotationPopup();
+	public void printToConvertText(String message);
+	
 
-    public void closePopup();
+    public void setSysadminController(SysadminController sysadminController);
 
-    public void printToConvertText(String message,String color);
-
+	//public void addDeleteAnnotationListener(ActionListener listener);
     public ArrayList<ExperimentData> getSelectedDataInWorkspace();
 
     public void addDeleteAnnotationListener(ActionListener listener);
