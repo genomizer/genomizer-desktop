@@ -174,7 +174,7 @@ public class Controller {
 			int markedSize = allMarked.size();
 			String message = null;
 			Boolean isConverted = false;
-			
+
 			if (!allMarked.isEmpty()) {
 
 				for (int i = 0; i < markedSize; i++) {
@@ -439,6 +439,8 @@ public class Controller {
 			uploadTab.killContentsOfUploadPanel();
 			AnnotationDataType[] annotations = model.getAnnotations();
 			uploadTab.addExistingExpPanel(annotations);
+            uploadTab.repaint();
+            uploadTab.revalidate();
 		}
 	}
 
@@ -571,13 +573,13 @@ public class Controller {
 			for(AnnotationDataValue a : annotations) {
 			    System.out.println(a.getName() + " " + a.getValue());
 			}
-			String ID = model.addNewExperiment(expName, view.getUsername(), annotations);
-			System.out.println(ID);
-			if(!ID.isEmpty()) {
+			boolean created = model.addNewExperiment(expName, view.getUsername(), annotations);
+			System.out.println(created);
+			if(created) {
 			    for(File f : files) {
-				model.uploadFile(ID, f, types.get(f.getName()), view.getUsername(), false, release);
+				model.uploadFile(expName, f, types.get(f.getName()), view.getUsername(), false, release);
 			    }
-			    
+
 			}
 		}
 	}

@@ -236,9 +236,9 @@ public class Model implements GenomizerModel {
 		}
 		return new AnnotationDataType[]{};
 	}
-	
+
 	@Override
-	public String addNewExperiment(String expName, String username,
+	public boolean addNewExperiment(String expName, String username,
 		AnnotationDataValue[] annotations) {
 	    AddExperimentRequest aER = new RequestFactory().makeAddExperimentRequest(expName, username, annotations);
 	    System.out.println(aER.toJson());
@@ -246,7 +246,10 @@ public class Model implements GenomizerModel {
 	    Gson gson = new Gson();
 		NewExperimentResponse response = gson.fromJson(conn.getResponseBody(),
 			NewExperimentResponse.class);
-		return response.experimentID;
+		if(conn.getResponseCode() == 201) {
+		    return true;
+		}
+		return false;
 	}
 
 }

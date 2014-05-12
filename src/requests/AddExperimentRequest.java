@@ -1,16 +1,19 @@
 package requests;
 
+import com.google.gson.annotations.SerializedName;
+
 import util.AnnotationDataValue;
 
 public class AddExperimentRequest extends Request {
-    public String experimentName;
+    public String name;
+//    @SerializedName("created by")
     public String createdBy;
     public AnnotationDataValue[] annotations;
 
-    public AddExperimentRequest(String expirementName, String createdBy,
+    public AddExperimentRequest(String experimentName, String createdBy,
 	    AnnotationDataValue[] annotations) {
 	super("addexperiment", "/experiment", "POST");
-	this.experimentName = experimentName;
+	this.name = experimentName;
 	this.createdBy = createdBy;
 	this.annotations = annotations;
     }

@@ -76,14 +76,13 @@ public class UploadTab extends JPanel {
     }
 
     public void addExistingExpPanel(AnnotationDataType[] annotations) {
-	killContentsOfUploadPanel();
-	activePanel = ActivePanel.EXISTING;
-	uploadToExistingExpPanel = new UploadToExistingExpPanel();
-	uploadToExistingExpPanel.setAnnotations(annotations);
-	uploadToExistingExpPanel.addAnnotationsForExistingExp();
-	uploadPanel.add(uploadToExistingExpPanel, BorderLayout.CENTER);
-	repaint();
-	revalidate();
+        killContentsOfUploadPanel();
+        activePanel = ActivePanel.EXISTING;
+        uploadToExistingExpPanel.setAnnotations(annotations);
+        uploadToExistingExpPanel.addAnnotationsForExistingExp();
+        uploadPanel.add(uploadToExistingExpPanel, BorderLayout.CENTER);
+        repaint();
+        revalidate();
     }
 
     public UploadToExistingExpPanel getUploadToExistingExpPanel() {
@@ -141,9 +140,9 @@ public class UploadTab extends JPanel {
 		p.add(expNameLabel, BorderLayout.NORTH);
 		p.add(expName, BorderLayout.CENTER);
 		newExpPanel.add(p, gbc);
-//		x++;
+		x++;
 	    }
-	    // else if (annotations[i].isForced()) {
+	     else if (annotations[i].isForced()) {
 	    if (x > 6) {
 		System.out.println("H�R");
 		x = 0;
@@ -171,7 +170,7 @@ public class UploadTab extends JPanel {
 		newExpPanel.add(p, gbc);
 	    }
 		x++;
-//	    }
+	    }
 	}
     }
 
@@ -210,23 +209,25 @@ public class UploadTab extends JPanel {
     }
 
     public void killContentsOfUploadPanel() {
-	switch (activePanel) {
-	case NONE:
-	    break;
-	case EXISTING:
-	    uploadPanel.remove(uploadToExistingExpPanel);
-	    uploadToExistingExpPanel.removeAll();
-	    activePanel = ActivePanel.NONE;
-	    break;
-	case NEW:
-	    uploadPanel.remove(newExpPanel);
-	    newExpPanel.removeAll();
-	    uploadFilesPanel.removeAll();
-	    repaint();
-	    revalidate();
-	    activePanel = ActivePanel.NONE;
-	    break;
-	}
+        switch (activePanel) {
+            case NONE:
+                break;
+            case EXISTING:
+                uploadPanel.remove(uploadToExistingExpPanel);
+                uploadToExistingExpPanel.removeAll();
+                repaint();
+                revalidate();
+                activePanel = ActivePanel.NONE;
+                break;
+            case NEW:
+                uploadPanel.remove(newExpPanel);
+                newExpPanel.removeAll();
+                uploadFilesPanel.removeAll();
+                repaint();
+                revalidate();
+                activePanel = ActivePanel.NONE;
+                break;
+        }
     }
 
     public void deleteFileRow(String fileName) {
