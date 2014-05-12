@@ -50,8 +50,8 @@ public class QuerySearchTab extends JPanel {
 		setUpRowsPanel();
 		setUpResultsTable();
 		setUpResultsHeaderPanel();
+        clearSearchFields();
         showSearchView();
-		clearSearchFields();
 
 	}
 
