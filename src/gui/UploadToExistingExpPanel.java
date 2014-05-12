@@ -16,7 +16,7 @@ public class UploadToExistingExpPanel extends JPanel implements ExperimentPanel 
     private ArrayList<JComboBox> annotationBoxes;
     private ArrayList<JTextField> annotationFields;
     private AnnotationDataType[] annotations;
-    JPanel northPanel, centerPanel, uploadFilesPanel;
+    JPanel northPanel, centerPanel, uploadFilesPanel, buttonsPanel, mainPanel;
     private HashMap<String, UploadFileRow> uploadFileRows;
     private File[] currFiles;
 
@@ -25,16 +25,18 @@ public class UploadToExistingExpPanel extends JPanel implements ExperimentPanel 
         uploadFilesToExperimentButton = new JButton("Upload to experiment");
         uploadFileRows = new HashMap<String, UploadFileRow>();
 
+        mainPanel = new JPanel(new BorderLayout());
         northPanel = new JPanel();
         centerPanel = new JPanel(new BorderLayout());
         uploadFilesPanel = new JPanel(new GridLayout(0,1));
+        buttonsPanel = new JPanel(new FlowLayout());
 
         build();
     }
 
     public void build() {
-        add(northPanel);
-        add(centerPanel);
+        mainPanel.add(northPanel, BorderLayout.NORTH);
+        mainPanel.add(centerPanel, BorderLayout.CENTER);
         centerPanel.add(uploadFilesPanel, BorderLayout.NORTH);
 
         setBorder(BorderFactory.createTitledBorder("Experiment"));
@@ -46,9 +48,12 @@ public class UploadToExistingExpPanel extends JPanel implements ExperimentPanel 
         gbl_panel.rowWeights = new double[] { 0.0, 0.0, 0.0, Double.MIN_VALUE };
         northPanel.setLayout(gbl_panel);
 
-        uploadFilesPanel.add(selectFilesToUploadButton);
-        uploadFilesPanel.add(uploadFilesToExperimentButton);
+        buttonsPanel.add(selectFilesToUploadButton);
+        buttonsPanel.add(uploadFilesToExperimentButton);
+
+        mainPanel.add(buttonsPanel, BorderLayout.SOUTH);
         uploadFilesToExperimentButton.setEnabled(false);
+        add(mainPanel);
         repaint();
         revalidate();
     }
@@ -134,8 +139,8 @@ public class UploadToExistingExpPanel extends JPanel implements ExperimentPanel 
                 uploadFilesPanel.add(uploadFileRows.get(f.getName()));
             }
         }
-        uploadFilesPanel.add(selectFilesToUploadButton);
-        uploadFilesPanel.add(uploadFilesToExperimentButton);
+        buttonsPanel.add(selectFilesToUploadButton);
+        buttonsPanel.add(uploadFilesToExperimentButton);
         repaint();
         revalidate();
     }
