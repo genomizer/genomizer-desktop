@@ -139,8 +139,7 @@ public class UploadToExistingExpPanel extends JPanel implements ExperimentPanel 
                 uploadFilesPanel.add(uploadFileRows.get(f.getName()));
             }
         }
-        buttonsPanel.add(selectFilesToUploadButton);
-        buttonsPanel.add(uploadFilesToExperimentButton);
+
         repaint();
         revalidate();
     }

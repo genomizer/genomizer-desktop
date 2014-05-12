@@ -59,7 +59,6 @@ public class Controller {
         view.addSearchToWorkspaceListener(new SearchToWorkspaceListener());
         view.setSysadminController(sysController = new SysadminController(model));
         view.addAddToExistingExpButtonListener(new AddToExistingExpButtonListener());
-        view.addSelectFilesToUploadButtonListener(new SelectFilesToUploadButtonListener());
         view.addUploadToExperimentButtonListener(new UploadToExperimentButtonListener());
         view.addUpdateSearchAnnotationsListener(new updateSearchAnnotationsListener());
         view.addProcessFileListener(new ProcessFileListener());
@@ -382,6 +381,7 @@ public class Controller {
 
 		@Override
 		public void run() {
+            System.out.println("hej");
             FileDialog fileDialog = new java.awt.FileDialog(
                     (java.awt.Frame) null);
             fileDialog.setMultipleMode(true);
@@ -415,6 +415,7 @@ public class Controller {
             for(AnnotationDataValue a : annotations) {
                 System.out.println(a.getName() + " " + a.getValue());
             }
+            //TODO: ändra till existerande experiment!
             boolean created = model.addNewExperiment(expName, view.getUsername(), annotations);
             System.out.println(created);
             if(created) {
