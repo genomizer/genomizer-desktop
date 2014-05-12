@@ -32,7 +32,7 @@ public interface GenomizerModel {
 
 	boolean deleteAnnotation(DeleteAnnoationData annotation);
 
-	public String addNewExperiment(String expName, String username,
+	public boolean addNewExperiment(String expName, String username,
 		AnnotationDataValue[] annotations);
 
 }

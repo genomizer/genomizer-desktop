@@ -141,9 +141,9 @@ public class UploadTab extends JPanel {
 		p.add(expNameLabel, BorderLayout.NORTH);
 		p.add(expName, BorderLayout.CENTER);
 		newExpPanel.add(p, gbc);
-//		x++;
+		x++;
 	    }
-	    // else if (annotations[i].isForced()) {
+	     else if (annotations[i].isForced()) {
 	    if (x > 6) {
 		System.out.println("H�R");
 		x = 0;
@@ -171,7 +171,7 @@ public class UploadTab extends JPanel {
 		newExpPanel.add(p, gbc);
 	    }
 		x++;
-//	    }
+	    }
 	}
     }
 
