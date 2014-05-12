@@ -48,7 +48,7 @@ public class UploadToExistingExpPanel extends JPanel implements ExperimentPanel 
 
         uploadFilesPanel.add(selectFilesToUploadButton);
         uploadFilesPanel.add(uploadFilesToExperimentButton);
-        uploadFilesToExperimentButton.disable();
+        uploadFilesToExperimentButton.setEnabled(false);
         repaint();
         revalidate();
     }
