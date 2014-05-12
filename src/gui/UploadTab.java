@@ -82,6 +82,10 @@ public class UploadTab extends JPanel implements  ExperimentPanel {
 	northPanel.add(newExpButton, BorderLayout.EAST);
     }
 
+    /**
+     * Displays a panel for adding to an existing experiment.
+     * @param annotations The annotations of the experiment.
+     */
     public void addExistingExpPanel(AnnotationDataType[] annotations) {
         killContentsOfUploadPanel();
         activePanel = ActivePanel.EXISTING;
@@ -218,6 +222,11 @@ public class UploadTab extends JPanel implements  ExperimentPanel {
 	revalidate();
     }
 
+    /**
+     * Removes the components in the panels when one of them gets chosen by the user, to make sure the new components
+     * won't overlap and end up invisible. The method checks the Enum ActivePanel to check which panel was the active
+     * one.
+     */
     public void killContentsOfUploadPanel() {
         switch (activePanel) {
             case NONE:
