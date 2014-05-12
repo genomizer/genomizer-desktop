@@ -105,6 +105,7 @@ public class UploadToExistingExpPanel extends JPanel {
 
     public void removeAll() {
         uploadFilesPanel.removeAll();
+        northPanel.removeAll();
         super.removeAll();
     }
 }
