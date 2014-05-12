@@ -12,7 +12,7 @@ public class AddFileToExperiment extends Request {
 	public String metaData;
 	public String author;
 	public String uploader;
-	public boolean isPrivate;
+	public String isPrivate;
 	public String grVersion;
 
 	public AddFileToExperiment(String experimentId, String fileName,
@@ -24,7 +24,7 @@ public class AddFileToExperiment extends Request {
 		this.metaData = metaData;
 		this.author = author;
 		this.uploader = uploader;
-		this.isPrivate = isPrivate;
+		this.isPrivate = "" + isPrivate;
 		this.grVersion = grVersion;
 	}
 
