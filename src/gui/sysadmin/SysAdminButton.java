@@ -16,7 +16,8 @@ public enum SysAdminButton {
     ANNOTATIONS_MODIFY("Modify"),
     ANNOTATIONS_ADD("Add"),
     ANNOTATIONS_DELETE("Remove"),
-    POPUP_CREATE_ANNOTATION("Create annotation");
+    POPUP_CREATE_ANNOTATION("Create annotation"),
+    PROCESS("Processes");
     private String name;
 
     private SysAdminButton(String name){
