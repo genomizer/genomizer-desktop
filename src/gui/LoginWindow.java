@@ -5,15 +5,9 @@ import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
-import javax.swing.JButton;
-import javax.swing.JDialog;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.JPasswordField;
-import javax.swing.JTextField;
-import javax.swing.UIManager;
+import javax.swing.*;
 
-public class LoginWindow extends JDialog {
+public class LoginWindow extends JFrame {
 
 	private JButton loginButton;
 	private JTextField usernameField;

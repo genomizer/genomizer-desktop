@@ -109,17 +109,18 @@ public class Model implements GenomizerModel {
 	}
 
 	@Override
-	public boolean uploadFile(String ID, File f, String type, String username,
+	public boolean uploadFile(String expName, File f, String type, String username,
 		boolean isPrivate, String release) {
-	    AddFileToExperiment request = RequestFactory.makeAddFile(ID,
+	    AddFileToExperiment request = RequestFactory.makeAddFile(expName,
 		    f.getName(), type, "metameta", username, username, isPrivate,
 		    release);
+	    System.out.println(request.toJson());
 	    conn.sendRequest(request, userID, "application/json");
 	    String url = null;
 	    if (conn.getResponseCode() == 200) {
 		url = conn.getResponseBody();
 	    }
-	    System.out.println("url");
+	    System.out.println(url);
 	    UploadHandler handler = new UploadHandler(url, f.getAbsolutePath(),
 		    userID, "pvt:pvt");
 	    Thread thread = new Thread(handler);

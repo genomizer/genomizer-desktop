@@ -15,7 +15,7 @@ import javax.swing.JPanel;
 import javax.swing.JProgressBar;
 
 public class UploadFileRow extends JPanel {
-    private UploadTab parent;
+    private ExperimentPanel parent;
     private JPanel filePanel;
     private JLabel fileLabel;
     private JButton closeButton;
@@ -23,7 +23,7 @@ public class UploadFileRow extends JPanel {
     private JProgressBar uploadBar;
     private String fileName;
 
-    public UploadFileRow(String fileName, UploadTab parent) {
+    public UploadFileRow(String fileName, ExperimentPanel parent) {
 	this.parent = parent;
 	setLayout(new BorderLayout());
 

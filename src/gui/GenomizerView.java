@@ -125,6 +125,8 @@ public interface GenomizerView {
 
     public void selectFilesToNewExp(String[] fileNames, File[] files);
 
+    public void selectFilesToExistingExp(String[] fileNames, File[] files);
+
     public File[] getFilesToUpload();
 
     public AnnotationDataValue[] getUploadAnnotations();
