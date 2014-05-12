@@ -101,13 +101,14 @@ public class TreeTable extends JPanel {
             headings = new ArrayList<String>();
             headings.add("Experiment Name");
             headings.add("Experiment Created By");
-                for (int i = 0; i < experiments.size(); i++) {
-                    for(AnnotationDataValue annotation : experiments.get(i).annotations)
-                    if(!headings.contains(annotation.name)) {
+            for (int i = 0; i < experiments.size(); i++) {
+                for (AnnotationDataValue annotation : experiments.get(i).annotations) {
+                    if (!headings.contains(annotation.name)) {
                         headings.add(annotation.name);
                         nrOfColumns++;
                     }
                 }
+            }
 	    /* Initate the sorting orders as descending */
             for (int i = 0; i < nrOfColumns; i++) {
                 sortingOrders.add(i, true);
