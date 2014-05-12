@@ -1,5 +1,9 @@
 package gui.sysadmin;
 
+import gui.sysadmin.annotationview.AnnotationButtonsListener;
+import gui.sysadmin.annotationview.AnnotationPopupListener;
+import gui.sysadmin.annotationview.AnnotationTableModel;
+import gui.sysadmin.annotationview.SysadminAnnotationPopup;
 import model.GenomizerModel;
 
 import javax.swing.*;

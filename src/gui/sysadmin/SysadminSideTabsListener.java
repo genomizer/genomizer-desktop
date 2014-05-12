@@ -1,5 +1,7 @@
 package gui.sysadmin;
 
+import gui.sysadmin.strings.SysStrings;
+
 import javax.swing.JTabbedPane;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
@@ -22,13 +24,9 @@ public class SysadminSideTabsListener implements ChangeListener {
     public void stateChanged(ChangeEvent e) {
 
         switch (sysadminTabPane.getTitleAt(sysadminTabPane.getSelectedIndex())) {
-        case ButtonNames.ANNOTATIONS:
-            System.out.println("something");
+        case SysStrings.ANNOTATIONS:
             break;
-        case ButtonNames.USERS:
-            System.out.println("asd");
-            break;
-        case ButtonNames.TEST:
+        case SysStrings.USERS:
             break;
         }
 

@@ -1,4 +1,6 @@
-package gui.sysadmin;
+package gui.sysadmin.annotationview;
+
+import gui.sysadmin.strings.SysStrings;
 
 import java.awt.BorderLayout;
 import java.awt.Component;
@@ -205,7 +207,7 @@ public class SysadminAnnotationPopup extends JPanel {
     private void buildCreateNewAnnotationButton(JPanel botPanelInFirstTab) {
 
         JButton createNewAnnotationButton = new JButton(
-                ButtonNames.POPUP_CREATE_ANNO);
+                SysStrings.POPUP_CREATE_ANNO);
 
         System.out.println("will create model");
 
@@ -216,7 +218,7 @@ public class SysadminAnnotationPopup extends JPanel {
             createNewAnnotationButton.setModel(createNewAnnotationButtonModel);
         }
         createNewAnnotationButtonModel
-                .setActionCommand(ButtonNames.POPUP_CREATE_ANNO);
+                .setActionCommand(SysStrings.POPUP_CREATE_ANNO);
         botPanelInFirstTab.add(createNewAnnotationButton);
     }
 
@@ -266,7 +268,7 @@ public class SysadminAnnotationPopup extends JPanel {
         }
     }
 
-    protected void addAddedCategoryPanel(JPanel categoryHolderPanel,
+    public void addAddedCategoryPanel(JPanel categoryHolderPanel,
             JTextField annotationTextField) {
 
         JPanel newCategoryPanel = new JPanel();
@@ -287,15 +289,15 @@ public class SysadminAnnotationPopup extends JPanel {
         repaint();
     }
 
-    protected String getNewAnnotationName() {
+    public String getNewAnnotationName() {
         return nameField.getText();
     }
 
-    protected Boolean getNewAnnotationForcedValue() {
+    public Boolean getNewAnnotationForcedValue() {
         return forced;
     }
 
-    protected String[] getNewAnnotationCategories() {
+    public String[] getNewAnnotationCategories() {
 
         String[] newCategories;
 

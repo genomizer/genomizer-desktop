@@ -1,4 +1,4 @@
-package gui.sysadmin;
+package gui.sysadmin.annotationview;
 
 import java.awt.Component;
 import java.awt.Container;
