@@ -5,15 +5,19 @@ import gui.sysadmin.SysadminTab;
 
 import java.awt.BorderLayout;
 import java.awt.event.ActionListener;
+import java.io.File;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import javax.swing.JFrame;
+import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 
 import util.AnnotationDataType;
+import util.AnnotationDataValue;
 import util.ExperimentData;
 import util.FileData;
 
@@ -33,6 +37,7 @@ public class GUI extends JFrame implements GenomizerView {
 	private ProcessTab processTab;
 	private SysadminTab sysadminTab;
 	private QuerySearchTab querySearchTab;
+	private DownloadWindow downloadWindow;
 
 	public GUI() {
 
@@ -60,6 +65,11 @@ public class GUI extends JFrame implements GenomizerView {
 		setSize(1200, 1200);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.setLocationRelativeTo(null);
+	}
+
+	@Override
+	public void addAnalyzeSelectedListener(ActionListener listener) {
+		workspaceTab.addAnalyzeSelectedListener(listener);
 	}
 
 	@Override
@@ -140,13 +150,13 @@ public class GUI extends JFrame implements GenomizerView {
 
 	public void addSelectFilesToUploadButtonListener(ActionListener listener) {
 		uploadTab.getUploadToExistingExpPanel()
-				.addSelectFilesToUploadButtonListener(listener);
+		.addSelectFilesToUploadButtonListener(listener);
 	}
 
 	@Override
 	public void addUploadToExperimentButtonListener(ActionListener listener) {
 		uploadTab.getUploadToExistingExpPanel()
-				.addUploadToExperimentButtonListener(listener);
+		.addUploadToExperimentButtonListener(listener);
 	}
 
 	@Override
@@ -154,17 +164,13 @@ public class GUI extends JFrame implements GenomizerView {
 		querySearchTab.addDownloadButtonListener(listener);
 	}
 
-	public void addToWorkspace(ExperimentData[] experiments) {
+	public void addToWorkspace(ArrayList<ExperimentData> experiments) {
 		workspaceTab.addExperimentsToTable(experiments);
 	}
 
 	@Override
-	public FileData[] getSelectedFilesInSearch() {
-		return querySearchTab.getSelectedFiles();
-	}
-
-	public ExperimentData[] getSelectedExperimentsInSearch() {
-		return querySearchTab.getSelectedFilesWithExperiments();
+	public ArrayList<ExperimentData> getSelectedDataInSearch() {
+		return querySearchTab.getSelectedData();
 	}
 
     /*
@@ -242,14 +248,18 @@ public class GUI extends JFrame implements GenomizerView {
 	}
 
 	@Override
+	public void setDownloadWindow(DownloadWindow downloadWindow) {
+		this.downloadWindow = downloadWindow;
+	}
+
+	@Override
 	public void updateLoginAccepted(String username, String pwd, String name) {
-		System.out.println("login succesful with username " + username
-				+ " & pwd " + pwd);
 		userPanel.setUserInfo(username, name, false);
 		refreshGUI();
 		this.setVisible(true);
 		loginWindow.removeErrorMessage();
 		loginWindow.setVisible(false);
+		querySearchTab.clickUpdateAnnotations();
 	}
 
 	@Override
@@ -260,13 +270,12 @@ public class GUI extends JFrame implements GenomizerView {
 
 	@Override
 	public void updateLogout() {
-		System.out.println("logout success");
 		this.setVisible(false);
 		loginWindow.setVisible(true);
 	}
 
 	@Override
-	public void updateQuerySearchResults(ExperimentData[] searchResults) {
+	public void updateQuerySearchResults(ArrayList<ExperimentData> searchResults) {
 		querySearchTab.updateSearchResults(searchResults);
 	}
 
@@ -330,22 +339,18 @@ public class GUI extends JFrame implements GenomizerView {
 	}                  */
 
 	@Override
-	public void setProccessFileList() {
+	public void setProccessFileList(ArrayList<FileData> allFileData) {
 
-		FileData[] fileArray = new FileData[11];
-		FileData fileData;
+		ArrayList<FileData> fileArray = allFileData;
 
 		// TODO
 		// TESTING
-		for (int i = 0; i < 10; i++) {
+		for (int i = 0; i < fileArray.size(); i++) {
 
-			fileData = new FileData(null, null, "[" + i
-					+ "] Protein223_A5_2014.RAW", null, null, null, null);
-
-			fileArray[i] = fileData;
+			System.out.println(fileArray.get(i).filename);
 
 		}
-		processTab.setFileInfo(fileArray);
+		processTab.setFileInfo(allFileData);
 
 	}
 
@@ -362,9 +367,16 @@ public class GUI extends JFrame implements GenomizerView {
     */
 
 	@Override
-	public void printToConvertText(String message) {
-		processTab.printToConvertText(message);
+	public void printToConvertText(String message,String color) {
+		processTab.printToProfileText(message, color);
 	}
+
+	@Override
+	public ArrayList<ExperimentData> getSelectedDataInWorkspace() {
+
+		return workspaceTab.getSelectedData();
+	}
+
 
 	public void refreshGUI() {
 		mainPanel.repaint();

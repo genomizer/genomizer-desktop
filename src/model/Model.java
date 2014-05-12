@@ -1,6 +1,11 @@
 package model;
 
+import java.io.File;
+import java.util.ArrayList;
+import java.util.Arrays;
+
 import requests.AddAnnotationRequest;
+import requests.AddExperimentRequest;
 import requests.AddFileToExperiment;
 import requests.DeleteAnnotationRequest;
 import requests.DownloadFileRequest;
@@ -12,15 +17,17 @@ import requests.SearchRequest;
 import requests.rawToProfileRequest;
 import responses.DownloadFileResponse;
 import responses.LoginResponse;
+import responses.NewExperimentResponse;
 import responses.ResponseParser;
 import util.AnnotationDataType;
+import util.AnnotationDataValue;
 import util.DeleteAnnoationData;
 import util.ExperimentData;
 
 import com.google.gson.Gson;
 import communication.Connection;
 import communication.DownloadHandler;
-import communication.HTTPURLUpload;
+import communication.UploadHandler;
 
 public class Model implements GenomizerModel {
 
@@ -49,36 +56,30 @@ public class Model implements GenomizerModel {
 		this.conn = conn;
 	}
 
+
 	@Override
-	public boolean rawToProfile(String fileName, String filePath,
-			String metadata, String genomeRelease, String author, String expid,
-			String[] parameters) {
+	public boolean rawToProfile(String fileName, String fileID, String expid,
+			String processtype, String[] parameters, String metadata,
+			String genomeRelease, String author) {
 
-		rawToProfileRequest rawToProfilerequest = RequestFactory
-				.makeRawToProfileRequest(fileName, filePath, expid, metadata,
-						genomeRelease, author, parameters);
 
-		conn.sendRequest(rawToProfilerequest, userID, "text/plain");
-		if (conn.getResponseCode() == 201) {
-			return true;
+				rawToProfileRequest rawToProfilerequest = RequestFactory
+									.makeRawToProfileRequest(fileName, fileID, expid,
+											processtype, parameters, metadata,
+										 genomeRelease, author);
 
-			// TODO Fixa s� att det syns b�r anv�ndaren att filen
-			// gick
-			// attt konverteras.
-
-		} else {
-			return false;
-
-			// TODO Fixa felmeddelande i gui ifall det inte gick att
-			// convertera till profile.
-			// TODO K�ra n�n timer f�r response.
-		}
+				conn.sendRequest(rawToProfilerequest, userID, "application/json");
+				if (conn.getResponseCode() == 201) {
+					return true;
+				} else {
+					System.out.println("Response Code: " + conn.getResponseCode());
+					return false;
+				}
 	}
 
 	@Override
 	public boolean loginUser(String username, String password) {
 		if (!username.isEmpty() && !password.isEmpty()) {
-			System.out.println("login test");
 			LoginRequest request = RequestFactory.makeLoginRequest(username,
 					password);
 			conn.sendRequest(request, userID, "application/json");
@@ -108,55 +109,53 @@ public class Model implements GenomizerModel {
 	}
 
 	@Override
-	public boolean uploadFile() {
-		AddFileToExperiment request = RequestFactory.makeAddFile("test",
-				"test", "1.3GB", "raw");
-		conn.sendRequest(request, userID, "application/json");
-		String url = conn.getResponseBody();
-		if (url != null) {
-			System.out.println(url);
-		}
-		HTTPURLUpload handler = new HTTPURLUpload(
-				"/var/www/html/uploads/test321.txt",
-				"/home/dv12/dv12csr/edu/test321");
-		handler.sendFile("pvt", "pvt");
-		/*
-		 * UploadHandler handler = new UploadHandler(
-		 * "/var/www/html/uploads/test321.txt",
-		 * "/home/dv12/dv12csr/edu/test321", userID, "pvt:pvt"); Thread thread =
-		 * new Thread(handler); thread.start();
-		 */
-		return true;
+	public boolean uploadFile(String ID, File f, String type, String username,
+		boolean isPrivate, String release) {
+	    AddFileToExperiment request = RequestFactory.makeAddFile(ID,
+		    f.getName(), type, "metameta", username, username, isPrivate,
+		    release);
+	    conn.sendRequest(request, userID, "application/json");
+	    String url = null;
+	    if (conn.getResponseCode() == 200) {
+		url = conn.getResponseBody();
+	    }
+	    System.out.println("url");
+	    UploadHandler handler = new UploadHandler(url, f.getAbsolutePath(),
+		    userID, "pvt:pvt");
+	    Thread thread = new Thread(handler);
+	    thread.start();
+
+	    return true;
 	}
 
 	@Override
-	public boolean downloadFile(String fileID, String path) {
-		// Use this until search works on the server
+	public boolean downloadFile(String url, String fileID, String path) {
+        //Use this until search works on the server
 		DownloadFileRequest request = RequestFactory.makeDownloadFileRequest(
-				"<file-id>", ".wig");
+				 fileID, ".wig");
 
-		System.out.println("Test: " + fileID);
-		conn.sendRequest(request, userID, "text/plain");
+        System.out.println("Test: " + fileID);
+        conn.sendRequest(request, userID, "text/plain");
 		Gson gson = new Gson();
 		DownloadFileResponse response = gson.fromJson(conn.getResponseBody(),
 				DownloadFileResponse.class);
-		System.out.println(conn.getResponseBody());
-		DownloadHandler handler = new DownloadHandler("pvt", "pvt");
-		handler.download("http://sterner.cc", path, userID);
+        System.out.println(conn.getResponseBody());
+        DownloadHandler handler = new DownloadHandler("pvt", "pvt");
+        handler.download(url, path);
 		System.out.println("Test");
 		return true;
 	}
 
 	@Override
-	public ExperimentData[] search(String pubmedString) {
+	public ArrayList<ExperimentData> search(String pubmedString) {
+        searchHistory.addSearchToHistory(pubmedString);
 		SearchRequest request = RequestFactory.makeSearchRequest(pubmedString);
 		conn.sendRequest(request, userID, "text/plain");
 		if (conn.getResponseCode() == 200) {
 			ExperimentData[] searchResponses = ResponseParser
 					.parseSearchResponse(conn.getResponseBody());
 			if (searchResponses != null && searchResponses.length > 0) {
-				searchHistory.addSearchToHistory(searchResponses);
-				return searchResponses;
+				return new ArrayList<ExperimentData>(Arrays.asList(searchResponses));
 			}
 		}
 		return null;
@@ -241,4 +240,20 @@ public class Model implements GenomizerModel {
 		}
 		return new AnnotationDataType[]{};
 	}
+
+	@Override
+	public boolean addNewExperiment(String expName, String username,
+		AnnotationDataValue[] annotations) {
+	    AddExperimentRequest aER = new RequestFactory().makeAddExperimentRequest(expName, username, annotations);
+	    System.out.println(aER.toJson());
+	    conn.sendRequest(aER, getUserID(), "application/json");
+	    Gson gson = new Gson();
+		NewExperimentResponse response = gson.fromJson(conn.getResponseBody(),
+			NewExperimentResponse.class);
+		if(conn.getResponseCode() == 201) {
+		    return true;
+		}
+		return false;
+	}
+
 }

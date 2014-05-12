@@ -1,45 +1,51 @@
 package gui;
 
 import java.awt.event.ActionListener;
+import java.io.File;
 import java.util.ArrayList;
+import java.util.HashMap;
 
-import javax.swing.*;
+import javax.swing.JFrame;
+import javax.swing.JList;
 
 import gui.sysadmin.SysadminController;
 import util.AnnotationDataType;
+import util.AnnotationDataValue;
 import util.ExperimentData;
 import util.FileData;
 
 public interface GenomizerView {
 
-	public void addLoginListener(ActionListener listener);
-	
-	public void addSearchToWorkspaceListener(ActionListener listener);
-	
-	public void addLogoutListener(ActionListener listener);
+    public void addAnalyzeSelectedListener(ActionListener listener);
 
-	public void addSearchListener(ActionListener listener);
-	
+    public void addLoginListener(ActionListener listener);
+
+    public void addSearchToWorkspaceListener(ActionListener listener);
+
+    public void addLogoutListener(ActionListener listener);
+
+    public void addSearchListener(ActionListener listener);
+
     public void addProcessFileListener(ActionListener listener);
 
-	public void addDownloadFileListener(ActionListener listener);
+    public void addDownloadFileListener(ActionListener listener);
 
-	public void addConvertFileListener(ActionListener listener);
-	
-	public void addQuerySearchListener(ActionListener listener);
-	
-	public void addScheduleFileListener(ActionListener listener);
+    public void addConvertFileListener(ActionListener listener);
 
-	public void addRawToProfileDataListener(ActionListener listener);
-	
-	public void addRawToRegionDataListener(ActionListener listener);
+    public void addQuerySearchListener(ActionListener listener);
+
+    public void addScheduleFileListener(ActionListener listener);
+
+    public void addRawToProfileDataListener(ActionListener listener);
+
+    public void addRawToRegionDataListener(ActionListener listener);
 
 	//public void addAddAnnotationListener(ActionListener addAnnotationListener);
 
 	//public void addAddPopupListener(ActionListener addPopupListener);
 
     public void addAddToExistingExpButtonListener(
-    		ActionListener addToExistingExpButtonListener);
+	    ActionListener addToExistingExpButtonListener);
 
     public void addUploadToExperimentButtonListener(ActionListener listener);
 
@@ -48,28 +54,44 @@ public interface GenomizerView {
     public void addSelectFilesToUploadButtonListener(ActionListener listener);
 
     public void addUpdateSearchAnnotationsListener(ActionListener listener);
-    
-	public void addToWorkspace(ExperimentData[] experiments);
 
-    public FileData[] getSelectedFilesInSearch();
+    public void addNewExpButtonListener(ActionListener listener);
 
-	public ArrayList<String> getAllMarkedFiles();
+    public void addSelectButtonListener(ActionListener listener);
 
-	public String getPassword();
+    public void addUploadButtonListener(ActionListener listener);
 
-	public String getUsername();
-	
-	public JFrame getFrame();
-	
+    public void addToWorkspace(ArrayList<ExperimentData> experiments);
+
+
+    public ArrayList<String> getAllMarkedFiles();
+
+    public String getPassword();
+
+    public String getUsername();
+
+    public JFrame getFrame();
+
+    public void setDownloadWindow(DownloadWindow downloadWindow);
+
+    public DownloadWindow getDownloadWindow();
+
 	public String getQuerySearchString();
 
-	public String getIp();
-	
+    public String getIp();
+
     public UploadTab getUploadTab();
     
 	//public String getNewAnnotationName();
 
 	//public String[] getNewAnnotionCategories();
+    public String getNewAnnotationName();
+
+    public String[] getNewAnnotionCategories();
+   
+    public ArrayList<ExperimentData> getSelectedDataInSearch();
+
+    public boolean getNewAnnotationForcedValue();
 
 	///public boolean getNewAnnotationForcedValue();
 	
@@ -78,31 +100,58 @@ public interface GenomizerView {
     //public AnnotationDataType getSelectedAnnoationAtAnnotationTable();
 
     public ArrayList<FileData> getAllMarkedFileData();
+
+    public void updateLoginAccepted(String username, String pwd, String name);
+
+    public void updateLoginNeglected(String errorMessage);
     
-	public ExperimentData[] getSelectedExperimentsInSearch();
 
-	public void updateLoginAccepted(String username, String pwd, String name);
+    public void updateLogout();
 
-	public void updateLoginNeglected(String errorMessage);
 
-	public void updateLogout();
+    public void setAnnotationTableData(AnnotationDataType[] annotations);
+
+    public void setSearchAnnotationTypes(AnnotationDataType[] annotationTypes);
+
+    public void setProccessFileList(ArrayList<FileData> arrayList);
+
+    public void annotationPopup();
+
+    public void closePopup();
+
+    public void printToConvertText(String message,String color);
+
+    public ArrayList<ExperimentData> getSelectedDataInWorkspace();
+
+    public void addDeleteAnnotationListener(ActionListener listener);
+
+    public void createNewExp(AnnotationDataType[] annotations);
+
+    public String[] getBowtieParameters();
 
 	public void updateQuerySearchResults(ExperimentData[] searchResults);
 	
 	//public void setAnnotationTableData(AnnotationDataType[] annotations);
+    public void selectFilesToNewExp(String[] fileNames, File[] files);
 
-    public void setSearchAnnotationTypes(AnnotationDataType[] annotationTypes);
+    public File[] getFilesToUpload();
 
-	public void setProccessFileList();
+    public AnnotationDataValue[] getUploadAnnotations();
 
 	//public void annotationPopup();
+	public void setBowtieParameters();
 
 	//public void closePopup();
+	public JList getfileList();
 
 	public void printToConvertText(String message);
+	public String getNewExpName();
 
     public void setSysadminController(SysadminController sysadminController);
 
 	//public void addDeleteAnnotationListener(ActionListener listener);
+	public HashMap<String, String> getFilesToUploadTypes();
 
+	void updateQuerySearchResults(ArrayList<ExperimentData> searchResults);
 }
+
