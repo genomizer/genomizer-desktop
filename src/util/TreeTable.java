@@ -326,18 +326,24 @@ public class TreeTable extends JPanel {
      */
     private void createTreeStructure() {
 	/* Create the tree root */
-        SupportNode root = new SupportNode(new Object[] { "Root" });
-        for (ExperimentData experiment : experiments) {
-	    /* Create experiment node and add to root */
-            ExperimentNode experimentNode = new ExperimentNode(experiment, headings);
-            root.add(experimentNode);
+        SupportNode root = new SupportNode(new Object[]{"Root"});
+
+        try {
+            for (ExperimentData experiment : experiments) {
+	            /* Create experiment node and add to root */
+                ExperimentNode experimentNode = new ExperimentNode(experiment, headings);
+                root.add(experimentNode);
+            }
+            /* Create the model and add it to the table */
+            DefaultTreeTableModel model = new DefaultTreeTableModel(root,
+                    Arrays.asList(headings.toArray(new String[headings.size()])));
+            table.setTreeTableModel(model);
+            table.packAll();
+            repaint();
+            revalidate();
+
+        } catch (NullPointerException e) {
+
         }
-	/* Create the model and add it to the table */
-        DefaultTreeTableModel model = new DefaultTreeTableModel(root,
-                Arrays.asList(headings.toArray(new String[headings.size()])));
-        table.setTreeTableModel(model);
-        table.packAll();
-        repaint();
-        revalidate();
     }
 }
