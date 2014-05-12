@@ -221,7 +221,11 @@ public class QueryBuilderRow extends JPanel {
             annotationNames[i] = annotationTypes[i].getName();
         }
         System.out.println("annotation length: " +annotationNames.length);
-        annotationBox = new JComboBox(annotationNames);
+        if(annotationNames.length > 0) {
+            annotationBox = new JComboBox(annotationNames);
+        } else {
+            annotationBox = new JComboBox();
+        }
         annotationBox.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {

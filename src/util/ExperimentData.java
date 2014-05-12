@@ -32,19 +32,21 @@ public class ExperimentData {
 	 * @return
 	 */
 	public ArrayList<String> getAnnotationValueList(ArrayList<String> headings) {
-
 		ArrayList<String> annotationList = new ArrayList<String>();
         annotationList.add(name);
         annotationList.add(createdBy);
+
         for(String heading : headings) {
-            boolean annotationFound = false;
+            boolean hasValue = false;
+            System.out.println("heading: " + heading);
             for (AnnotationDataValue annotation : annotations) {
+                System.out.println("annotation: " + annotation.name);
                 if(annotation.name.equals(heading)) {
                     annotationList.add(annotation.value);
-                    annotationFound = true;
+                    hasValue = true;
                 }
             }
-            if(!annotationFound) {
+            if(!hasValue && !heading.equals("Experiment Name") && !heading.equals("Experiment Created By")) {
                 annotationList.add("");
             }
         }

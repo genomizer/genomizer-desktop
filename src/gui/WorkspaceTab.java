@@ -188,7 +188,8 @@ public class WorkspaceTab extends JPanel {
 				expList.add(newExperiment);
 			}
 		}
-		table.setContent(expList);
+        System.out.println("setting content");
+        table.setContent(expList);
 		table.repaint();
 		table.revalidate();
 	}
