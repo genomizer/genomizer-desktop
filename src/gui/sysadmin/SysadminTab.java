@@ -20,7 +20,6 @@ public class SysadminTab extends JPanel {
     private UsersViewCreator usersView;
     private ProcessViewCreator processView;
 
-
     /**
      * Create the panel.
      */
