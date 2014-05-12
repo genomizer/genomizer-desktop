@@ -18,6 +18,7 @@ import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.border.CompoundBorder;
@@ -42,6 +43,7 @@ public class UploadTab extends JPanel implements  ExperimentPanel {
     private JLabel expNameLabel;
     private JTextField expName;
     private File[] currFiles;
+    private JScrollPane uploadScroll;
 
     public UploadTab() {
 	annotationHeaders = new ArrayList<String>();
@@ -61,7 +63,8 @@ public class UploadTab extends JPanel implements  ExperimentPanel {
 	addToExistingExpButton = new JButton("Add to existing experiment");
 	northPanel.add(addToExistingExpButton, BorderLayout.EAST);
 	uploadPanel = new JPanel(new BorderLayout());
-	add(uploadPanel, BorderLayout.CENTER);
+	uploadScroll = new JScrollPane(uploadPanel);
+	add(uploadScroll, BorderLayout.CENTER);
 	uploadBackground = new JPanel(new BorderLayout());
 	uploadFilesPanel = new JPanel(new GridLayout(0,1));
 	newExpButton = new JButton("Create new experiment");
