@@ -22,7 +22,11 @@ import util.TreeTable;
  * Class representing the search tab of the gui
  */
 public class QuerySearchTab extends JPanel {
-    private JPanel topPanel;
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = -5171748087481537247L;
+	private JPanel topPanel;
     private JPanel bottomPanel;
     private JPanel rowsPanel;
     private JPanel searchPanel;
