@@ -38,6 +38,8 @@ public class AnnotationTableModel extends AbstractTableModel {
                 return string;
             case 2:
                 return annotations[rowIndex].getForced();
+            case 3: 
+            	return annotations[rowIndex];
             default:
                 System.err.println("ERROR, should not be able to press here!!!");
                 return null;

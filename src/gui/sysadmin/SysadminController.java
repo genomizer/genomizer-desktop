@@ -3,6 +3,10 @@ package gui.sysadmin;
 import model.GenomizerModel;
 
 import javax.swing.*;
+
+import util.AnnotationDataType;
+import util.DeleteAnnoationData;
+
 import java.awt.event.ActionListener;
 import java.util.Observable;
 import java.util.Observer;
@@ -60,6 +64,36 @@ public class SysadminController extends Observable {
 	}
 
 	public void deleteAnnotation() {
+		if (sysTab.getAnnotationTable().getSelectedRow() != -1) {
+			int row =  sysTab.getAnnotationTable().getSelectedRow();
+			int col = 3;
+			AnnotationDataType annotation = (AnnotationDataType) sysTab.getAnnotationTable().getModel().getValueAt(row, col);
+			
+			try {
+	            if (JOptionPane.showConfirmDialog(null,
+	                    "Are you sure you want to delete the"
+	                            + annotation.name) == JOptionPane.YES_OPTION) {
+	                if (model.deleteAnnotation(new DeleteAnnoationData(
+	                        annotation))) {
+	                    JOptionPane.showMessageDialog(null, annotation.name
+	                            + " has been remove!");
+	                    SwingUtilities.invokeLater(new Runnable() {
 
+	                        @Override
+	                        public void run() {
+	                        	updateAnnotationTable();
+	                        }
+	                    });
+	                } else {
+	                    JOptionPane.showMessageDialog(null,
+	                            "Could not remove annotation");
+	                }
+	            }
+	        } catch (IllegalArgumentException e) {
+	            JOptionPane.showMessageDialog(null, e.getMessage());
+	        }
+		} else {
+			System.out.println("Please select an annotation to delete");
+		}
 	}
 }

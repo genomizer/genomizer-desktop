@@ -217,7 +217,7 @@ public class Model implements GenomizerModel {
 			return true;
 		} else {
 			System.err.println("Could not delete annotation name "
-					+ deleteAnnoationData + "!");
+					+ deleteAnnoationData.name + "!");
 		}
 		return false;
 	}

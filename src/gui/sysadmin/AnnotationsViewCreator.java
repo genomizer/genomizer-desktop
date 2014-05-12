@@ -85,7 +85,7 @@ public class AnnotationsViewCreator {
                                                                     // list
         addButton = new JButton(ButtonNames.ANNOTATIONS_ADD);
         removeButton = new JButton(ButtonNames.ANNOTATIONS_DELETE);
-        removeButton.setEnabled(false);		//Remove this when remove is implemented
+        //removeButton.setEnabled(false);		//Remove this when remove is implemented
         buttonPanel.add(modifyButton);
         modifyButton.setEnabled(false);		//Remove this when modify is implemented
         buttonPanel.add(addButton);
@@ -227,5 +227,9 @@ public class AnnotationsViewCreator {
     public TableModel getTableModel(){
     	return tablemodel;
     }
+
+	public JTable getTable() {
+		return table;
+	}
 
 }

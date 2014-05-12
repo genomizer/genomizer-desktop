@@ -23,7 +23,8 @@ public class AnnotationButtonsListener implements ActionListener {
             System.out.println("modify");
             break;
         case ButtonNames.ANNOTATIONS_DELETE:
-            System.out.println("delete");
+        	System.out.println("remove");
+            sysTab.deleteAnnotation();
             break;
 
         }
