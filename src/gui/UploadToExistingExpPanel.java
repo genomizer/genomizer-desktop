@@ -23,6 +23,11 @@ public class UploadToExistingExpPanel extends JPanel {
         northPanel = new JPanel();
         centerPanel = new JPanel(new BorderLayout());
         uploadFilesPanel = new JPanel(new GridLayout(0,1));
+
+        build();
+    }
+
+    public void build() {
         add(northPanel);
         add(centerPanel);
         centerPanel.add(uploadFilesPanel, BorderLayout.NORTH);
@@ -100,6 +105,7 @@ public class UploadToExistingExpPanel extends JPanel {
 
     public void removeAll() {
         uploadFilesPanel.removeAll();
+        northPanel.removeAll();
         super.removeAll();
     }
 }
