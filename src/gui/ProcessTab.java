@@ -50,6 +50,17 @@ public class ProcessTab extends JPanel {
 	private final JPanel middlePanel = new JPanel(new GridLayout(3, 1));
 	private final JPanel westPanel = new JPanel(new GridLayout(2, 1));
 
+	private final JPanel flagsPanel = new JPanel();
+	private final JPanel genomeReleasePanel = new JPanel();
+	private final JPanel windowSizePanel = new JPanel();
+	private final JPanel smoothTypePanel = new JPanel();
+	private final JPanel stepPositionPanel = new JPanel();
+	private final JPanel stepSizePanel = new JPanel();
+	private final JPanel checkBoxPanel = new JPanel();
+	private final JPanel createRegTabPanel = new JPanel();
+	private final JPanel convWigTabPanel = new JPanel();
+	private final JPanel convTabpanel = new JPanel();
+
 	private final JTextArea textArea = new JTextArea();
 	private final JTextArea genProfArea = new JTextArea();
 	private final JTextArea genRegArea = new JTextArea();
@@ -76,23 +87,13 @@ public class ProcessTab extends JPanel {
 
 	private final JCheckBox printMean = new JCheckBox("Print mean");
 	private final JCheckBox printZeros = new JCheckBox("Print zeros");
+	private final JCheckBox stepSizeBox = new JCheckBox("Step size");
 	private final JComboBox<String> genomeFile = new JComboBox<String>();
 
+	private final JTabbedPane tabbedPane = new JTabbedPane(JTabbedPane.BOTTOM);
 	private ArrayList<String> genomeReleaseFiles;
 	private ArrayList<FileData> fileData;
 	private String[] bowtieParameters = new String[4];
-	private final JPanel flagsPanel = new JPanel();
-	private final JPanel genomeReleasePanel = new JPanel();
-	private final JPanel windowSizePanel = new JPanel();
-	private final JPanel smoothTypePanel = new JPanel();
-	private final JPanel stepPositionPanel = new JPanel();
-	private final JPanel stepSizePanel = new JPanel();
-	private final JPanel checkBoxPanel = new JPanel();
-	private final JCheckBox stepSizeBox = new JCheckBox("Step size");
-	private final JTabbedPane tabbedPane = new JTabbedPane(JTabbedPane.BOTTOM);
-	private final JPanel createRegTabPanel = new JPanel();
-	private final JPanel convWigTabPanel = new JPanel();
-	private final JPanel convTabpanel = new JPanel();
 
 	public ProcessTab() {
 		setPreferredSize(new Dimension(1225, 725));
@@ -272,30 +273,42 @@ public class ProcessTab extends JPanel {
 		convPanel.setBorder(null);
 		checkBoxPanel.setBorder(new TitledBorder(null, "", TitledBorder.LEADING, TitledBorder.TOP, null, null));
 		convPanel.add(checkBoxPanel);
+
 		GridBagConstraints gbc_printMean = new GridBagConstraints();
 		gbc_printMean.fill = GridBagConstraints.BOTH;
 		gbc_printMean.insets = new Insets(0, 0, 0, 5);
 		gbc_printMean.gridx = 0;
 		gbc_printMean.gridy = 0;
 		checkBoxPanel.add(printMean, gbc_printMean);
+
 		GridBagConstraints gbc_printZeros = new GridBagConstraints();
 		gbc_printZeros.fill = GridBagConstraints.BOTH;
 		gbc_printZeros.insets = new Insets(0, 0, 0, 5);
 		gbc_printZeros.gridx = 1;
 		gbc_printZeros.gridy = 0;
 		checkBoxPanel.add(printZeros, gbc_printZeros);
+
 		GridBagConstraints gbc_stepSizeBox = new GridBagConstraints();
+		gbc_stepSizeBox.fill = GridBagConstraints.BOTH;
+		gbc_stepSizeBox.insets = new Insets(0, 0, 0, 5);
 		gbc_stepSizeBox.gridx = 2;
 		gbc_stepSizeBox.gridy = 0;
 		checkBoxPanel.add(stepSizeBox, gbc_stepSizeBox);
+
 		GridBagLayout gbl_checkBoxPanel = new GridBagLayout();
 		gbl_checkBoxPanel.columnWidths = new int[]{110, 110, 110, 0};
 		gbl_checkBoxPanel.rowHeights = new int[]{50, 0};
 		gbl_checkBoxPanel.columnWeights = new double[]{0.0, 0.0, 0.0, Double.MIN_VALUE};
 		gbl_checkBoxPanel.rowWeights = new double[]{0.0, Double.MIN_VALUE};
+
 		checkBoxPanel.setLayout(gbl_checkBoxPanel);
 		convPanel.add(stepSizePanel);
 		stepSizePanel.setBorder(new TitledBorder(null, "Step size", TitledBorder.LEADING, TitledBorder.TOP, null, null));
+
+//		printMean.setVerticalAlignment(JCheckBox.CENTER);
+//	printZeros.setVerticalAlignment(JCheckBox.CENTER);
+//		stepSizeBox.setVerticalAlignment(JCheckBox.CENTER);
+
 
 		tabbedPane.addTab("Convert to WIG", null, convWigTabPanel, null);
 
@@ -306,43 +319,49 @@ public class ProcessTab extends JPanel {
 		flagsPanel.add(flags);
 		flags.setBorder(null);
 		flags.setText("-a -m 1 --best -p 10 -v 2");
-		flags.setPreferredSize(new Dimension(150, 45));
+		flags.setPreferredSize(new Dimension(175, 45));
 	}
 
 	private void addGenomeFileToConv() {
 		genomeReleasePanel.add(genomeFile);
-		genomeFile.setPreferredSize(new Dimension(150, 45));
+		genomeFile.setPreferredSize(new Dimension(175, 45));
 		genomeFile.setBorder(null);
 	}
 
 	private void addSmoothWindowSizeToConv() {
 		windowSizePanel.add(smoothWindowSize);
-		smoothWindowSize.setPreferredSize(new Dimension(70, 45));
+		smoothWindowSize.setPreferredSize(new Dimension(90, 45));
 		smoothWindowSize.setBorder(null);
+		smoothWindowSize.setHorizontalAlignment(JTextField.CENTER);
 	}
 
 	private void addSmoothTypeToConv() {
 		smoothTypePanel.add(smoothType);
-		smoothType.setPreferredSize(new Dimension(70, 45));
+		smoothType.setPreferredSize(new Dimension(90, 45));
 		smoothType.setBorder(null);
+		smoothType.setHorizontalAlignment(JTextField.CENTER);
 	}
 
 	private void addStepPositionToConv() {
 		stepPositionPanel.add(stepPosition);
-		stepPosition.setPreferredSize(new Dimension(70, 45));
+		stepPosition.setPreferredSize(new Dimension(90, 45));
 		stepPosition.setBorder(null);
+		stepPosition.setHorizontalAlignment(JTextField.CENTER);
 	}
 
 	private void addStepSizeToConv() {
 		stepSizePanel.add(stepSize);
 		stepSize.setPreferredSize(new Dimension(80, 45));
 		stepSize.setBorder(null);
+		stepSize.setHorizontalAlignment(JTextField.CENTER);
 	}
 
 	private void addPrintMeanToConv() {
-		printMean.setPreferredSize(new Dimension(85, 65));
+		printMean.setPreferredSize(new Dimension(110, 65));
 		printMean.setBorder(BorderFactory.createTitledBorder("Print mean"));
 		stepSizeBox.setSelected(true);
+
+		//TODO Flytta lyssnare
 		stepSizeBox.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 
@@ -361,7 +380,7 @@ public class ProcessTab extends JPanel {
 	}
 
 	private void addPrintZeroToConv() {
-		printZeros.setPreferredSize(new Dimension(85, 65));
+		printZeros.setPreferredSize(new Dimension(110, 65));
 		printZeros.setBorder(BorderFactory.createTitledBorder("Print zeros"));
 	}
 
@@ -389,7 +408,7 @@ public class ProcessTab extends JPanel {
 
 	}
 
-	private String getStepSize() {		
+	private String getStepSize() {
 		if(stepSizeBox.isSelected()){
 			return "y " + stepSize.getText().trim();
 		}else {
@@ -535,12 +554,12 @@ public class ProcessTab extends JPanel {
 		return 450;
 	}
 
-	public void printToConvertText(String message,String color) {
+	public void printToProfileText(String message,String color) {
 
-		convertArea.append(message);
+		genProfArea.append(message);
 
 		if(color.equals("red")){
-			convertArea.setForeground(Color.RED);
+			genProfArea.setForeground(Color.RED);
 		}
 	}
 

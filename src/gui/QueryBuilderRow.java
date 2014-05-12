@@ -70,7 +70,7 @@ public class QueryBuilderRow extends JPanel {
 	JPanel logicPanel = new JPanel();
 	logicPanel.setPreferredSize(new Dimension(80, 35));
 	JPanel annotationPanel = new JPanel();
-	annotationPanel.setPreferredSize(new Dimension(170, 35));
+	annotationPanel.setPreferredSize(new Dimension(185, 35));
 	JPanel inputPanel = new JPanel();
 	inputPanel.setPreferredSize(new Dimension(570, 35));
 	JPanel buttonPanel = new JPanel();

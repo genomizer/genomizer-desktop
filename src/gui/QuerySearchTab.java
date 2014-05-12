@@ -22,20 +22,24 @@ import util.TreeTable;
  * Class representing the search tab of the gui
  */
 public class QuerySearchTab extends JPanel {
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = -5171748087481537247L;
 	private JPanel topPanel;
-	private JPanel bottomPanel;
-	private JPanel rowsPanel;
-	private JPanel searchPanel;
-	private JPanel resultsHeaderPanel;
-	private JButton clearButton;
-	private JButton updateAnnotationsButton;
-	private JButton addToWorkspaceButton;
-	private JButton searchButton;
-	private JButton downloadButton;
-	private JTextArea searchArea;
-	private ArrayList<QueryBuilderRow> rowList;
-	private TreeTable resultsTable;
-	private AnnotationDataType[] annotationTypes;
+    private JPanel bottomPanel;
+    private JPanel rowsPanel;
+    private JPanel searchPanel;
+    private JPanel resultsHeaderPanel;
+    private JButton clearButton;
+    private JButton updateAnnotationsButton;
+    private JButton addToWorkspaceButton;
+    private JButton searchButton;
+    private JButton downloadButton;
+    private JTextArea searchArea;
+    private ArrayList<QueryBuilderRow> rowList;
+    private TreeTable resultsTable;
+    private AnnotationDataType[] annotationTypes;
 
 	/**
 	 * Create a query search tab

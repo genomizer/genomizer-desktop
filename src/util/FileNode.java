@@ -5,31 +5,41 @@ import org.jdesktop.swingx.treetable.AbstractMutableTreeTableNode;
 /**
  * A custom node implementation (For TreeTable).
  */
-public class FileNode extends AbstractMutableTreeTableNode {
+public class FileNode extends AbstractMutableTreeTableNode implements
+	Comparable {
 
-	private FileData file;
-	
-	public FileNode(FileData file) {
-		super(new Object[] {file.filename, file.date, file.author});
-		this.file = file;
-	}
+    private FileData file;
 
-	@Override
-	public Object getValueAt(int columnIndex) {
-		return getData()[columnIndex];
-	}
+    public FileNode(FileData file) {
+	super(new Object[] { file.filename, file.date, file.author });
+	this.file = file;
+    }
 
-	@Override
-	public int getColumnCount() {
-		return getData().length;
-	}
+    @Override
+    public Object getValueAt(int columnIndex) {
+	return getData()[columnIndex];
+    }
 
-	public Object[] getData() {
-		return (Object[]) super.getUserObject();
+    @Override
+    public int getColumnCount() {
+	return getData().length;
+    }
+
+    public Object[] getData() {
+	return (Object[]) super.getUserObject();
+    }
+
+    public FileData getFile() {
+	return file;
+    }
+
+    @Override
+    public int compareTo(Object o) {
+	FileNode node = (FileNode) o;
+	if (node.getFile().equals(file)) {
+	    return 0;
 	}
-	
-	public FileData getFile() {
-		return file;
-	}
+	return -1;
+    }
 
 }
