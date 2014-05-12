@@ -12,6 +12,7 @@ public class SysadminTab extends JPanel {
     private JTabbedPane sysadminTabPane;
     private SysadminController sysController;
     private AnnotationsViewCreator annotationsView;
+    private UsersViewCreator usersView;
     private ProcessViewCreator processView;
 
 
@@ -21,6 +22,7 @@ public class SysadminTab extends JPanel {
     public SysadminTab() {
         setLayout(new BorderLayout());
         this.annotationsView = new AnnotationsViewCreator();
+        this.usersView = new UsersViewCreator();
         this.processView = new ProcessViewCreator();
 
     }
@@ -41,6 +43,9 @@ public class SysadminTab extends JPanel {
                     sysadminTabPane.addTab(button.getValue(),
                             buildAnnotationsView());
                     break;
+                case USERS:
+                sysadminTabPane.addTab(button.getValue(), buildUsersView());
+                break;
                 case PROCESS:
                     sysadminTabPane.addTab(button.getValue(), buildProcessView());
                     break;
@@ -81,7 +86,7 @@ public class SysadminTab extends JPanel {
 
     private JPanel buildUsersView() {
 
-        return null;
+        return usersView.buildUsersView();
     }
 
     private JPanel buildProcessView(){
