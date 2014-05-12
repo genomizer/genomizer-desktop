@@ -463,7 +463,7 @@ public class Controller {
             for(int i = 0; i < files.length ; i++) {
                 fileNames[i] = files[i].getName();
             }
-            view.selectFilesToNewExp(fileNames, files);
+            view.selectFilesToExistingExp(fileNames, files);
 		}
 	}
 
