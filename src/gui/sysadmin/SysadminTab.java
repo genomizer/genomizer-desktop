@@ -52,9 +52,6 @@ public class SysadminTab extends JPanel {
             }
 
         }
-
-        System.out.println("HEHEHE " + sysadminTabPane.getTitleAt(0));
-
         add(sysadminTabPane);
     }
 
