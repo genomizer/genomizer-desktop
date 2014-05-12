@@ -15,14 +15,14 @@ import org.apache.commons.codec.binary.Base64;
 
 public class UploadHandler implements Runnable {
 	private String url;
-	private String fileName;
+	private String filePath;
 	private String userID;
 	private String authString;
 
 	public UploadHandler(String url, String fileName, String userID,
 			String authString) {
 		this.url = url;
-		this.fileName = fileName;
+		this.filePath = fileName;
 		this.userID = userID;
 		this.authString = authString;
 	}
@@ -32,8 +32,8 @@ public class UploadHandler implements Runnable {
 		try {
             String urlFileName = getFileNameFromUrl(url);
 			sendSetupPackage();
-			URL targetUrl = new URL(
-					"http://scratchy.cs.umu.se:8090/html/upload.php");
+			url.replaceFirst("\\u003d", "=");
+			URL targetUrl = new URL(url);
 			HttpURLConnection conn = (HttpURLConnection) targetUrl
 					.openConnection();
 			conn.setDoOutput(true);
@@ -48,7 +48,7 @@ public class UploadHandler implements Runnable {
 			conn.setRequestProperty("Authorization", "Basic " + authStringEnc);
 			PrintWriter outputStream = new PrintWriter(conn.getOutputStream(),
 					true);
-			File file = new File(fileName);
+			File file = new File(filePath);
 			BufferedReader reader = new BufferedReader(new FileReader(file));
             sendMultiPartFormat(urlFileName, boundary, outputStream);
 			while (reader.ready()) {
@@ -71,7 +71,7 @@ public class UploadHandler implements Runnable {
 		} catch (MalformedURLException e) {
 			e.printStackTrace();
 		} catch (FileNotFoundException e) {
-			System.out.println("File was not found: " + fileName);
+			System.out.println("File was not found: " + filePath);
 		} catch (IOException e) {
 			System.out.println("Connection error: " + e.getMessage() + " "
 					+ url);

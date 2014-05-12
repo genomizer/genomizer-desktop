@@ -15,6 +15,7 @@ import requests.LogoutRequest;
 import requests.RequestFactory;
 import requests.SearchRequest;
 import requests.rawToProfileRequest;
+import responses.AddFileToExperimentResponse;
 import responses.DownloadFileResponse;
 import responses.LoginResponse;
 import responses.NewExperimentResponse;
@@ -120,7 +121,7 @@ public class Model implements GenomizerModel {
 	    if (conn.getResponseCode() == 200) {
 		url = conn.getResponseBody();
 	    }
-	    System.out.println(url);
+//	    AddFileToExperimentResponse aFTER =  ResponseParser.parseUploadResponse(conn.getResponseBody());
 	    UploadHandler handler = new UploadHandler(url, f.getAbsolutePath(),
 		    userID, "pvt:pvt");
 	    Thread thread = new Thread(handler);
