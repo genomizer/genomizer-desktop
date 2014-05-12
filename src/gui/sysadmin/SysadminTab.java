@@ -12,6 +12,7 @@ public class SysadminTab extends JPanel {
     private SysadminController sysController;
     private AnnotationsViewCreator annotationsView;
     private JPanel usersView;
+    private ProcessViewCreator processView;
 
     /**
      * Create the panel.
@@ -19,6 +20,7 @@ public class SysadminTab extends JPanel {
     public SysadminTab() {
         setLayout(new BorderLayout());
         this.annotationsView = new AnnotationsViewCreator();
+        this.processView = new ProcessViewCreator();
 
     }
 
@@ -66,6 +68,10 @@ public class SysadminTab extends JPanel {
     private JPanel buildUsersView() {
 
         return null;
+    }
+
+    private JPanel buildProcessView(){
+        return processView.buildProcessView();
     }
 
     public void setController(SysadminController sysController) {
