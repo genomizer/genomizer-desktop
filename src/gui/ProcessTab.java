@@ -1,6 +1,7 @@
 package gui;
 
 import java.awt.BorderLayout;
+
 import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.awt.event.ActionListener;
@@ -30,6 +31,12 @@ import java.awt.Component;
 import javax.swing.JTabbedPane;
 import javax.swing.border.EtchedBorder;
 
+/**
+ * Visual presentation of the process tab.
+ *
+ * @author c11ann
+ *
+ */
 public class ProcessTab extends JPanel {
 
     private static final long serialVersionUID = -2830290705724588252L;
