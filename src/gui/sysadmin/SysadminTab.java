@@ -40,7 +40,7 @@ public class SysadminTab extends JPanel {
                 sysadminTabPane.addTab(buttonNameStrings[i],
                         buildAnnotationsView());
                 break;
-
+/*
             case ButtonNames.USERS:
                 sysadminTabPane.addTab(buttonNameStrings[i], new JPanel());
                 break;
@@ -48,7 +48,7 @@ public class SysadminTab extends JPanel {
             case ButtonNames.TEST:
                 sysadminTabPane.addTab(buttonNameStrings[i], new JPanel());
                 break;
-
+*/
             }
 
         }

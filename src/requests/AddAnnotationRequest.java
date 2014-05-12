@@ -2,7 +2,6 @@ package requests;
 
 public class AddAnnotationRequest extends Request {
 
-    /** TODO changed this from private to public, should be private? maybe (isak - dv12ilr)*/
 	public String name;
 	public String[] type;
 	public String defaultType;
@@ -14,6 +13,13 @@ public class AddAnnotationRequest extends Request {
 		this.type = categories;
 		this.defaultType = "unknown";
 		this.forced = forced;
+	}
+	
+	@Override
+	public String toJson(){
+		String json = super.toJson();
+		json = json.replaceFirst("defaultType", "default");
+		return json;
 	}
 
 }

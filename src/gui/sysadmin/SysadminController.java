@@ -4,11 +4,13 @@ import java.awt.event.ActionListener;
 import java.util.Observable;
 import java.util.Observer;
 
+import model.GenomizerModel;
 import requests.AddAnnotationRequest;
 
 public class SysadminController extends Observable {
 
     private static SysadminTab sysTab;
+	private GenomizerModel model;
 
     public SysadminController(Observer observer) {
 
@@ -16,7 +18,11 @@ public class SysadminController extends Observable {
 
     }
 
-    /* You need me */
+    public SysadminController(GenomizerModel model) {
+		this.model = model;
+	}
+
+	/* You need me */
     public void setSysadminPanel(SysadminTab sysTab) {
 
         this.sysTab = sysTab;
@@ -33,15 +39,21 @@ public class SysadminController extends Observable {
 
     public void sendNewAnnotation() {
 
-        SysadminAnnotationPopup popup = sysTab.getAnnotationsView().getPop();
-        System.out.println(popup.getNewAnnotationName());
-        AddAnnotationRequest ann = new AddAnnotationRequest(
-                popup.getNewAnnotationName(),
-                popup.getNewAnnotationCategories(),
-                popup.getNewAnnotationForcedValue());
-
-        setChanged();
-        notifyObservers(ann);
+    	SysadminAnnotationPopup popup = sysTab.getAnnotationsView().getPop();
+    	model.addNewAnnotation(
+    			popup.getNewAnnotationName(),
+    			popup.getNewAnnotationCategories(),
+    			popup.getNewAnnotationForcedValue()
+    	);
+    	
+    	
+//        System.out.println(popup.getNewAnnotationName());
+//        AddAnnotationRequest ann = new AddAnnotationRequest(
+//                popup.getNewAnnotationName(),
+//                popup.getNewAnnotationCategories(),
+//                popup.getNewAnnotationForcedValue());
+//
+//        setChanged();
+//        notifyObservers(ann);
     }
-
 }
