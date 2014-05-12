@@ -78,7 +78,9 @@ public class SysadminTab extends JPanel {
         return null;
     }
 
-    private JPanel
+    private JPanel buildProcessView(){
+        return null;
+    }
 
     public void setController(SysadminController sysController) {
         this.sysController = sysController;
