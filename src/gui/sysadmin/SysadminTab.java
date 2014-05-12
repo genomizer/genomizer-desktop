@@ -34,8 +34,6 @@ public class SysadminTab extends JPanel {
     private void createSysadminTabs() {
 
         sysadminTabPane = new JTabbedPane();
-        SysadminSideTabsListener sysTabListener = new SysadminSideTabsListener(
-                sysadminTabPane, this);
 
         sysadminTabPane.setTabPlacement(JTabbedPane.LEFT);
 //        SysStrings bNames = new SysStrings();
@@ -48,8 +46,8 @@ public class SysadminTab extends JPanel {
                             buildAnnotationsView());
                     break;
                 case USERS:
-                sysadminTabPane.addTab(button.getValue(), buildUsersView());
-                break;
+                    sysadminTabPane.addTab(button.getValue(), buildUsersView());
+                    break;
                 case PROCESS:
                     sysadminTabPane.addTab(button.getValue(), buildProcessView());
                     break;
