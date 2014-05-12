@@ -1,17 +1,20 @@
 package gui.sysadmin;
 
-import javax.swing.*;
-import javax.swing.table.TableModel;
-
-import java.awt.*;
+import java.awt.BorderLayout;
 import java.awt.event.ActionListener;
+
+import javax.swing.JPanel;
+import javax.swing.JTabbedPane;
+import javax.swing.table.TableModel;
 
 public class SysadminTab extends JPanel {
 
     private JTabbedPane sysadminTabPane;
     private SysadminController sysController;
     private AnnotationsViewCreator annotationsView;
-    private JPanel usersView;
+    private UsersViewCreator usersView;
+    private ProcessViewCreator processView;
+
 
     /**
      * Create the panel.
@@ -19,6 +22,8 @@ public class SysadminTab extends JPanel {
     public SysadminTab() {
         setLayout(new BorderLayout());
         this.annotationsView = new AnnotationsViewCreator();
+        this.usersView = new UsersViewCreator();
+        this.processView = new ProcessViewCreator();
 
     }
 
@@ -37,6 +42,12 @@ public class SysadminTab extends JPanel {
                 case ANNOTATIONS:
                     sysadminTabPane.addTab(button.getValue(),
                             buildAnnotationsView());
+                    break;
+                case USERS:
+                sysadminTabPane.addTab(button.getValue(), buildUsersView());
+                break;
+                case PROCESS:
+                    sysadminTabPane.addTab(button.getValue(), buildProcessView());
                     break;
             }
         }
@@ -75,7 +86,11 @@ public class SysadminTab extends JPanel {
 
     private JPanel buildUsersView() {
 
-        return null;
+        return usersView.buildUsersView();
+    }
+
+    private JPanel buildProcessView(){
+        return processView.buildProcessView();
     }
 
     public void setController(SysadminController sysController) {
@@ -109,7 +124,7 @@ public class SysadminTab extends JPanel {
     public SysadminController getSysController() {
         return sysController;
     }
-    
+
     public TableModel AnnotationTableModel(){
     	return annotationsView.getTableModel();
     }
