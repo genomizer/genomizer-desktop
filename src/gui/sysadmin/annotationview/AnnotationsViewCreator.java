@@ -175,6 +175,10 @@ public class AnnotationsViewCreator {
         popupFrame.setVisible(true);
     }
 
+    public JTable getTable() {
+        return table;
+    }
+
     private class SearchDocumentListener implements DocumentListener {
 
         private TableRowSorter<TableModel> rowSorter;
