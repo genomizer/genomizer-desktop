@@ -26,7 +26,7 @@ import util.ActivePanel;
 import util.AnnotationDataType;
 import util.AnnotationDataValue;
 
-public class UploadTab extends JPanel {
+public class UploadTab extends JPanel implements  ExperimentPanel {
 
     private static final long serialVersionUID = -2830290705724588252L;
     private JButton addToExistingExpButton, newExpButton, selectButton, uploadButton;

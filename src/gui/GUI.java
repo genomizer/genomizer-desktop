@@ -409,7 +409,12 @@ public class GUI extends JFrame implements GenomizerView {
 		uploadTab.createUploadFileRow(fileNames, files);
 	}
 
-	public DownloadWindow getDownloadWindow() {
+    @Override
+    public void selectFilesToExistingExp(String[] fileNames, File[] files) {
+        uploadTab.getUploadToExistingExpPanel().createUploadFileRow(fileNames, files);
+    }
+
+    public DownloadWindow getDownloadWindow() {
 		return downloadWindow;
 	}
 

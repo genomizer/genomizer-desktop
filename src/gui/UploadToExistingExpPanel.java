@@ -5,20 +5,25 @@ import util.AnnotationDataType;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionListener;
+import java.io.File;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.HashMap;
 
-public class UploadToExistingExpPanel extends JPanel {
+public class UploadToExistingExpPanel extends JPanel implements ExperimentPanel {
 
     private JButton selectFilesToUploadButton, uploadFilesToExperimentButton;
     private ArrayList<JComboBox> annotationBoxes;
     private ArrayList<JTextField> annotationFields;
     private AnnotationDataType[] annotations;
     JPanel northPanel, centerPanel, uploadFilesPanel;
+    private HashMap<String, UploadFileRow> uploadFileRows;
+    private File[] currFiles;
 
     public UploadToExistingExpPanel() {
         selectFilesToUploadButton = new JButton("Select files");
         uploadFilesToExperimentButton = new JButton("Upload to experiment");
+        uploadFileRows = new HashMap<String, UploadFileRow>();
 
         northPanel = new JPanel();
         centerPanel = new JPanel(new BorderLayout());
@@ -46,6 +51,26 @@ public class UploadToExistingExpPanel extends JPanel {
         uploadFilesToExperimentButton.disable();
         repaint();
         revalidate();
+    }
+
+    public void createUploadFileRow(String[] fileNames, File[] files) {
+        currFiles = files;
+        for (String fileName : fileNames) {
+            UploadFileRow fileRow = new UploadFileRow(fileName, this);
+            uploadFileRows.put(fileName, fileRow);
+        }
+        repaintSelectedFiles();
+    }
+
+    public void deleteFileRow(String fileName) {
+        // for(int i = 0; i < uploadFileRows.size(); i++) {
+        // if(uploadFileRows.get(i).getFileName().equals(fileName)) {
+        // uploadFileRows.remove(i);
+        // }
+        // }
+        uploadFileRows.remove(fileName);
+        uploadFilesPanel.removeAll();
+        repaintSelectedFiles();
     }
 
     public void addSelectFilesToUploadButtonListener(ActionListener listener) {
@@ -101,6 +126,18 @@ public class UploadToExistingExpPanel extends JPanel {
                 x++;
             }
         }
+    }
+
+    private void repaintSelectedFiles() {
+        if (!uploadFileRows.isEmpty()) {
+            for (File f : currFiles) {
+                uploadFilesPanel.add(uploadFileRows.get(f.getName()));
+            }
+        }
+        uploadFilesPanel.add(selectFilesToUploadButton);
+        uploadFilesPanel.add(uploadFilesToExperimentButton);
+        repaint();
+        revalidate();
     }
 
     public void removeAll() {
