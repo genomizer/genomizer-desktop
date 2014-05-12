@@ -26,12 +26,16 @@ public class DownloadHandler {
 		this.password = password;
 	}
 
-	public boolean download(String url, String localFilePath, String userID) {
+	public boolean download(String url, String localFilePath) {
 		try {
 			// Use this url in the real version. vvv
 			/*URL targetUrl = new URL(
 					"http://scratchy.cs.umu.se:8090/html/download.php?path="
 							+ url);*/
+            url = url.replaceFirst("\\u003d", "=");
+            url = url.replaceFirst("scratcy", "scratchy");
+            url = url.replaceFirst("8090", "8000");
+
 			URL targetUrl = new URL(url);
 			String authString = username + ":" + password;
 			byte[] authEncBytes = Base64.encodeBase64(authString.getBytes());
@@ -51,14 +55,19 @@ public class DownloadHandler {
 			System.out.println(responseCode);
 			BufferedReader in = new BufferedReader(new InputStreamReader(
 					conn.getInputStream()));
-			String buffer;
 			File file = new File(localFilePath);
+            char[] buf = new char[4096];
+            int count;
+            int totalDownload = 0;
 			PrintWriter fileOut = new PrintWriter(new FileWriter(file));
-			while ((buffer = in.readLine()) != null) {
-				fileOut.print(buffer);
+			while ((count = in.read(buf, 0, 4096)) != -1) {
+                fileOut.write(buf, 0, count);
+                totalDownload += count;
 				fileOut.flush();
 			}
-			conn.disconnect();
+            System.out.println("Size: " + totalDownload
+                               + " Expected: " + conn.getContentLength());
+            conn.disconnect();
 
 		} catch (MalformedURLException e) {
 			e.printStackTrace();

@@ -8,17 +8,24 @@ package requests;
 public class AddFileToExperiment extends Request {
 	public String experimentId;
 	public String fileName;
-	public String size;
 	public String type;
+	private String metaData;
+	private String author;
+	private String uploader;
+	private boolean isPrivate;
+	private String grVersion;
 
 	public AddFileToExperiment(String experimentId, String fileName,
-			String size, String type) {
+			String type, String metaData, String author, String uploader, boolean isPrivate, String grVersion) {
 		super("addfile", "/file/" + fileName, "POST");
 		this.experimentId = experimentId;
 		this.fileName = fileName;
-		this.size = size;
 		this.type = type;
-
+		this.metaData = metaData;
+		this.author = author;
+		this.uploader = uploader;
+		this.isPrivate = isPrivate;
+		this.grVersion = grVersion;
 	}
 
 }

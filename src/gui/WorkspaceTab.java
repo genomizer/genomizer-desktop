@@ -6,14 +6,17 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Image;
 import java.awt.Insets;
+import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
+import java.util.Collections;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 
 import util.ExperimentData;
+import util.FileData;
 import util.TreeTable;
 
 public class WorkspaceTab extends JPanel {
@@ -39,7 +42,6 @@ public class WorkspaceTab extends JPanel {
 		setLayout(new BorderLayout());
 		buttonPanel = new JPanel();
 		filePanel = new JPanel(new BorderLayout());
-
 		add(buttonPanel, BorderLayout.NORTH);
 		add(filePanel, BorderLayout.CENTER);
 
@@ -58,86 +60,80 @@ public class WorkspaceTab extends JPanel {
 		createButtons();
 		addToButtonPanel();
 		buttonPanel.setVisible(true);
-
-		//        String[] columnNames = {"Name", "Date", "Uploaded by", "Data type",
-		//                "Local"};
-		//        Object[][] data = {
-		//                {"Protein123_A5_2014.WIG", "2014-04-29", "Per", "Profile",
-		//                        new Boolean(false)},
-		//                {"Protein123_A5_2014.RAW", "2014-04-29", "Per", "RAW",
-		//                        new Boolean(false)},
-		//                {"Protein123_A5_2014.WIG", "2014-04-29", "Per", "Region",
-		//                        new Boolean(false)}};
-		//
-		//        JTable table = new JTable(data, columnNames);
-		//        table.setBackground(new Color(210, 210, 210));
-
 		table = new TreeTable();
-		table.setContent(ExperimentData.getExample());
+		// table.setContent(ExperimentData.getExample());
 		filePanel.add(table, BorderLayout.CENTER);
 		setVisible(true);
 	}
 
 	private void createButtons() {
-		removeButton = new JButton();
-		downloadButton = new JButton();
-		analyzeButton = new JButton();
-		browseButton = new JButton();
-		deleteButton = new JButton();
-		processButton = new JButton();
+		removeButton = new JButton("Remove selected");
+		removeButton.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				table.removeSelectedData();
+			}
+		});
+		downloadButton = new JButton("Download selected");
+		analyzeButton = new JButton("Analyze selected");
+		analyzeButton.setEnabled(false);
+		browseButton = new JButton("Browse files");
+		browseButton.setEnabled(false);
+		deleteButton = new JButton("Delete selected from database");
+		deleteButton.setEnabled(false);
+		processButton = new JButton("Process selected");
 	}
 
 	private void addToButtonPanel() {
 
 		gbc.gridx = 0;
 		gbc.gridy = 0;
-		deleteIcon = new ImageIcon(deleteIcon.getImage().getScaledInstance(175,
-				30, Image.SCALE_SMOOTH));
-		deleteButton.setBorderPainted(true);
-		deleteButton.setContentAreaFilled(false);
-		deleteButton.setIcon(deleteIcon);
+		//	deleteIcon = new ImageIcon(deleteIcon.getImage().getScaledInstance(175,
+		//		30, Image.SCALE_SMOOTH));
+		//	deleteButton.setBorderPainted(true);
+		//	deleteButton.setContentAreaFilled(false);
+		//	deleteButton.setIcon(deleteIcon);
 		buttonPanel.add(deleteButton, gbc);
 
 		gbc.gridx = 1;
 		gbc.gridy = 0;
-		removeFromDBIcon = new ImageIcon(removeFromDBIcon.getImage()
-				.getScaledInstance(175, 30, Image.SCALE_SMOOTH));
-		removeButton.setBorderPainted(true);
-		removeButton.setContentAreaFilled(false);
-		removeButton.setIcon(removeFromDBIcon);
+		//	removeFromDBIcon = new ImageIcon(removeFromDBIcon.getImage()
+		//		.getScaledInstance(175, 30, Image.SCALE_SMOOTH));
+		//	removeButton.setBorderPainted(true);
+		//	removeButton.setContentAreaFilled(false);
+		//	removeButton.setIcon(removeFromDBIcon);
 		buttonPanel.add(removeButton, gbc);
 
 		gbc.gridx = 2;
 		gbc.gridy = 0;
-		downloadSelectedIcon = new ImageIcon(downloadSelectedIcon.getImage()
-				.getScaledInstance(175, 30, Image.SCALE_SMOOTH));
-		downloadButton.setBorderPainted(true);
-		downloadButton.setContentAreaFilled(false);
-		downloadButton.setIcon(downloadSelectedIcon);
+		//	downloadSelectedIcon = new ImageIcon(downloadSelectedIcon.getImage()
+		//		.getScaledInstance(175, 30, Image.SCALE_SMOOTH));
+		//	downloadButton.setBorderPainted(true);
+		//	downloadButton.setContentAreaFilled(false);
+		//	downloadButton.setIcon(downloadSelectedIcon);
 		buttonPanel.add(downloadButton, gbc);
 
 		gbc.gridx = 3;
 		gbc.gridy = 0;
-		analyseIcon = new ImageIcon(analyseIcon.getImage().getScaledInstance(
-				175, 30, Image.SCALE_SMOOTH));
-		analyzeButton.setBorderPainted(true);
-		analyzeButton.setContentAreaFilled(false);
-		analyzeButton.setIcon(analyseIcon);
+		//	analyseIcon = new ImageIcon(analyseIcon.getImage().getScaledInstance(
+		//		175, 30, Image.SCALE_SMOOTH));
+		//	analyzeButton.setBorderPainted(true);
+		//	analyzeButton.setContentAreaFilled(false);
+		//	analyzeButton.setIcon(analyseIcon);
 		buttonPanel.add(analyzeButton, gbc);
 
 		gbc.gridx = 4;
 		gbc.gridy = 0;
-		browseIcon = new ImageIcon(browseIcon.getImage().getScaledInstance(175,
-				30, Image.SCALE_SMOOTH));
-		browseButton.setBorderPainted(true);
-		browseButton.setContentAreaFilled(false);
-		browseButton.setIcon(browseIcon);
+		//	browseIcon = new ImageIcon(browseIcon.getImage().getScaledInstance(175,
+		//		30, Image.SCALE_SMOOTH));
+		//	browseButton.setBorderPainted(true);
+		//	browseButton.setContentAreaFilled(false);
+		//	browseButton.setIcon(browseIcon);
 		buttonPanel.add(browseButton, gbc);
 
 		gbc.gridx = 5;
 		gbc.gridy = 0;
 
-		processButton.setText("Process selected");
 		buttonPanel.add(processButton, gbc);
 	}
 
@@ -162,19 +158,42 @@ public class WorkspaceTab extends JPanel {
 		processButton.addActionListener(listener);
 	}
 
-	public void addExperimentsToTable(ExperimentData[] experiments) {
+	public void addAnalyzeSelectedListener(ActionListener listener) {
+		analyzeButton.addActionListener(listener);
+	}
+
+	private String[] concatArrays(String[] first, String[] second) {
+		ArrayList<String> both = new ArrayList<String>(first.length
+				+ second.length);
+		Collections.addAll(both, first);
+		Collections.addAll(both, second);
+		return both.toArray(new String[both.size()]);
+	}
+
+	public void addExperimentsToTable(ArrayList<ExperimentData> newExperiments) {
 		ArrayList<ExperimentData> expList = new ArrayList<ExperimentData>();
-		if(table.getContent() != null) {
-			for(int i=0; i<table.getContent().length; i++) {
-				expList.add(table.getContent()[i]);
+		if (table.getContent() != null) {
+				expList.addAll(table.getContent());
+		}
+		for (ExperimentData newExperiment : newExperiments) {
+			boolean alreadyInTable = false;
+			for (ExperimentData existingExperiment : expList) {
+				if (newExperiment.name.equals(existingExperiment.name)) {
+					alreadyInTable = true;
+					existingExperiment.addFiles(newExperiment.files);
+					break;
+				}
+			}
+			if (!alreadyInTable) {
+				expList.add(newExperiment);
 			}
 		}
-		for(int i=0; i<experiments.length; i++) {
-			expList.add(experiments[i]);
-		}
-		table.setContent(expList.toArray(new ExperimentData[expList.size()]));
+		table.setContent(expList);
 		table.repaint();
 		table.revalidate();
 	}
-}
 
+	public ArrayList<ExperimentData> getSelectedData() {
+		return table.getSelectedData();
+	}
+}
