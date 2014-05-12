@@ -5,41 +5,45 @@ import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
 import java.util.ArrayList;
-import java.util.List;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
-import javax.swing.table.TableColumnModel;
-
-import org.jdesktop.swingx.JXTreeTable;
 
 import util.AnnotationDataType;
 import util.ExperimentData;
 import util.FileData;
 import util.TreeTable;
 
+/**
+ * Class representing the search tab of the gui
+ */
 public class QuerySearchTab extends JPanel {
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = -5171748087481537247L;
 	private JPanel topPanel;
-	private JPanel bottomPanel;
-	private JPanel rowsPanel;
-	private JPanel searchPanel;
-	private JPanel resultsHeaderPanel;
-	private JButton clearButton;
-	private JButton updateAnnotationsButton;
-	private JButton addToWorkspaceButton;
-	private JButton searchButton;
-	private JButton downloadButton;
-	private JTextArea searchArea;
-	private ArrayList<QueryBuilderRow> rowList;
-	private TreeTable resultsTable;
-	private AnnotationDataType[] annotationTypes;
+    private JPanel bottomPanel;
+    private JPanel rowsPanel;
+    private JPanel searchPanel;
+    private JPanel resultsHeaderPanel;
+    private JButton clearButton;
+    private JButton updateAnnotationsButton;
+    private JButton addToWorkspaceButton;
+    private JButton searchButton;
+    private JButton downloadButton;
+    private JTextArea searchArea;
+    private ArrayList<QueryBuilderRow> rowList;
+    private TreeTable resultsTable;
+    private AnnotationDataType[] annotationTypes;
 
+	/**
+	 * Create a query search tab
+	 */
 	public QuerySearchTab() {
 		setUpQuerySearchTab();
 		setUpSearchHeader();
@@ -47,8 +51,12 @@ public class QuerySearchTab extends JPanel {
 		setUpResultsTable();
 		setUpResultsHeaderPanel();
 		showSearchView();
+		clearSearchFields();
 	}
 
+	/**
+	 * Show the search view of the tab
+	 */
 	private void showSearchView() {
 		topPanel.removeAll();
 		bottomPanel.removeAll();
@@ -58,6 +66,9 @@ public class QuerySearchTab extends JPanel {
 		revalidate();
 	}
 
+	/**
+	 * Show the results view of the tab
+	 */
 	private void showResultsView() {
 		topPanel.removeAll();
 		bottomPanel.removeAll();
@@ -67,6 +78,9 @@ public class QuerySearchTab extends JPanel {
 		revalidate();
 	}
 
+	/**
+	 * Set up the query search tab foundation
+	 */
 	private void setUpQuerySearchTab() {
 		updateAnnotationsButton = new JButton();
 		annotationTypes = new AnnotationDataType[0];
@@ -82,10 +96,16 @@ public class QuerySearchTab extends JPanel {
 		add(bottomScroll, BorderLayout.CENTER);
 	}
 
+	/**
+	 * Set up the results tree table
+	 */
 	private void setUpResultsTable() {
 		resultsTable = new TreeTable();
 	}
 
+	/**
+	 * Set up the search view header
+	 */
 	private void setUpSearchHeader() {
 		searchPanel = new JPanel();
 		searchButton = new JButton("Search");
@@ -111,6 +131,9 @@ public class QuerySearchTab extends JPanel {
 		searchPanel.add(searchEastPanel);
 	}
 
+	/**
+	 * Set up the results view header
+	 */
 	private void setUpResultsHeaderPanel() {
 		resultsHeaderPanel = new JPanel(new BorderLayout());
 		JButton backButton = new JButton("Back");
@@ -120,26 +143,37 @@ public class QuerySearchTab extends JPanel {
 				showSearchView();
 			}
 		});
-		addToWorkspaceButton = new JButton("Add selected files to workspace");
+		addToWorkspaceButton = new JButton("Add selected data to workspace");
 		downloadButton = new JButton("Download Selected Files");
-		resultsHeaderPanel.add(downloadButton, BorderLayout.EAST);
-		//resultsHeaderPanel.add(addToWorkspaceButton, BorderLayout.CENTER);
+		// resultsHeaderPanel.add(downloadButton, BorderLayout.EAST);
+		resultsHeaderPanel.add(addToWorkspaceButton, BorderLayout.EAST);
 		resultsHeaderPanel.add(backButton, BorderLayout.WEST);
 	}
 
+	/**
+	 * Set up the rows panel (containing query builder rows
+	 */
 	private void setUpRowsPanel() {
 		rowsPanel = new JPanel(new GridLayout(0, 1));
-		clearSearchFields();
 	}
 
-	public void updateSearchResults(ExperimentData[] searchResults) {
-		updateAnnotationsButton.doClick();
-		updateRows();
+	/**
+	 * Update the search results and switch to results view
+	 * 
+	 * @param searchResults
+	 */
+	public void updateSearchResults(ArrayList<ExperimentData> searchResults) {
+		// updateAnnotationsButton.doClick();
+		// updateRows();
 		paintRows();
 		resultsTable.setContent(searchResults);
 		showResultsView();
 	}
 
+	/**
+	 * Clear the search fields of the tab (including all query builder rows and
+	 * the search text area
+	 */
 	private void clearSearchFields() {
 		updateAnnotationsButton.doClick();
 		rowList.clear();
@@ -149,11 +183,19 @@ public class QuerySearchTab extends JPanel {
 		revalidate();
 	}
 
+	/**
+	 * Add a new row to the query builder
+	 */
 	public void addRow() {
 		rowList.add(new QueryBuilderRow(this, annotationTypes));
 		paintRows();
 	}
 
+	/**
+	 * Remove a row from the query builder
+	 * 
+	 * @param row
+	 */
 	public void removeRow(QueryBuilderRow row) {
 		if (rowList.contains(row)) {
 			rowList.remove(row);
@@ -161,6 +203,9 @@ public class QuerySearchTab extends JPanel {
 		paintRows();
 	}
 
+	/**
+	 * Paint the query builder rows in the rows panel
+	 */
 	private void paintRows() {
 		rowsPanel.removeAll();
 
@@ -181,9 +226,12 @@ public class QuerySearchTab extends JPanel {
 		rowsPanel.revalidate();
 	}
 
+	/**
+	 * Update all query builder rows with annotation information
+	 */
 	private void updateRows() {
 		for (int i = 0; i < rowList.size(); i++) {
-			rowList.get(i).setFieldBox(annotationTypes);
+			rowList.get(i).setAnnotationBox(annotationTypes);
 		}
 	}
 
@@ -208,7 +256,7 @@ public class QuerySearchTab extends JPanel {
 				i++;
 			}
 		}
-		if(searchString.isEmpty()) {
+		if (searchString.isEmpty()) {
 			searchArea.setText("Use the builder below to create your search");
 		} else {
 			searchArea.setText(searchString);
@@ -218,7 +266,7 @@ public class QuerySearchTab extends JPanel {
 	public void addSearchButtonListener(ActionListener listener) {
 		searchButton.addActionListener(listener);
 	}
-	
+
 	public void addAddToWorkspaceButtonListener(ActionListener listener) {
 		addToWorkspaceButton.addActionListener(listener);
 	}
@@ -229,6 +277,9 @@ public class QuerySearchTab extends JPanel {
 
 	public void addUpdateAnnotationsListener(ActionListener listener) {
 		updateAnnotationsButton.addActionListener(listener);
+	}
+
+	public void clickUpdateAnnotations() {
 		updateAnnotationsButton.doClick();
 	}
 
@@ -238,17 +289,9 @@ public class QuerySearchTab extends JPanel {
 		paintRows();
 	}
 
-	public FileData[] getSelectedFiles() {
-		ArrayList<FileData> list = resultsTable.getSelectedFiles();
-		for (FileData file : list) {
-			System.out.println(file.name);
-		}
-		return list.toArray(new FileData[list.size()]);
-	}
-	
-	public ExperimentData[] getSelectedFilesWithExperiments() {
-		ArrayList<ExperimentData> list = resultsTable.getSelectedFilesWithExperiments();
-		return list.toArray(new ExperimentData[list.size()]);
+	public ArrayList<ExperimentData> getSelectedData() {
+		return resultsTable.getSelectedData();
+
 	}
 
 	public String getSearchString() {

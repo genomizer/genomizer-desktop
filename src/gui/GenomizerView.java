@@ -81,23 +81,8 @@ public interface GenomizerView {
     public String getIp();
 
     public UploadTab getUploadTab();
-    
-	//public String getNewAnnotationName();
-
-	//public String[] getNewAnnotionCategories();
-    public String getNewAnnotationName();
-
-    public String[] getNewAnnotionCategories();
    
     public ArrayList<ExperimentData> getSelectedDataInSearch();
-
-    public boolean getNewAnnotationForcedValue();
-
-	///public boolean getNewAnnotationForcedValue();
-	
-    public int getSelectedRowAtAnnotationTable();
-
-    //public AnnotationDataType getSelectedAnnoationAtAnnotationTable();
 
     public ArrayList<FileData> getAllMarkedFileData();
 
@@ -109,29 +94,19 @@ public interface GenomizerView {
     public void updateLogout();
 
 
-    public void setAnnotationTableData(AnnotationDataType[] annotations);
-
     public void setSearchAnnotationTypes(AnnotationDataType[] annotationTypes);
 
     public void setProccessFileList(ArrayList<FileData> arrayList);
 
-    public void annotationPopup();
-
-    public void closePopup();
 
     public void printToConvertText(String message,String color);
 
     public ArrayList<ExperimentData> getSelectedDataInWorkspace();
 
-    public void addDeleteAnnotationListener(ActionListener listener);
-
     public void createNewExp(AnnotationDataType[] annotations);
 
     public String[] getBowtieParameters();
 
-	public void updateQuerySearchResults(ExperimentData[] searchResults);
-	
-	//public void setAnnotationTableData(AnnotationDataType[] annotations);
     public void selectFilesToNewExp(String[] fileNames, File[] files);
 
     public File[] getFilesToUpload();
@@ -143,8 +118,7 @@ public interface GenomizerView {
 
 	//public void closePopup();
 	public JList getfileList();
-
-	public void printToConvertText(String message);
+	
 	public String getNewExpName();
 
     public void setSysadminController(SysadminController sysadminController);

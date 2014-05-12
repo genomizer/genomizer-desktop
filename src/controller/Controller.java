@@ -71,14 +71,6 @@ public class Controller {
         view.setSysadminController(sysController = new SysadminController(model));
 	}
 
-
-
-                model.downloadFile(data.id, directoryName + "/" + data.name);
-            }
-
-        }
-    }
-
     /*
     class DeleteAnnotationListener implements ActionListener, Runnable {
 		@Override
@@ -315,10 +307,10 @@ public class Controller {
 			if (searchResults != null) {
 				view.updateQuerySearchResults(searchResults);
 			} else {
-//				searchResults = new ArrayList<ExperimentData>(Arrays.asList(ExperimentData.getExample()));
-//				 view.updateQuerySearchResults(searchResults);
-				JOptionPane.showMessageDialog(null, "No search results!",
-						"Search Warning", JOptionPane.WARNING_MESSAGE);
+				searchResults = new ArrayList<ExperimentData>(Arrays.asList(ExperimentData.getExample()));
+				 view.updateQuerySearchResults(searchResults);
+			/*	JOptionPane.showMessageDialog(null, "No search results!",
+						"Search Warning", JOptionPane.WARNING_MESSAGE);*/
 			}
 		}
 	}

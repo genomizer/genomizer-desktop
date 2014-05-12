@@ -229,18 +229,6 @@ public class GUI extends JFrame implements GenomizerView {
 		return loginWindow.getIPInput();
 	}
 
-    /*
-	@Override
-	public AnnotationDataType getSelectedAnnoationAtAnnotationTable() {
-		// TODO Auto-generated method stub
-		return sysadminTab.getSelectedAnnotationAtAnnotationTable();
-	}
-      */
-	@Override
-	public int getSelectedRowAtAnnotationTable() {
-		// TODO Auto-generated method stub
-		return 0;
-	}
 
 	@Override
 	public JFrame getFrame() {
@@ -398,4 +386,68 @@ public class GUI extends JFrame implements GenomizerView {
         sysadminTab.setController(sysadminController);
 
     }
+
+	@Override
+	public void addNewExpButtonListener(ActionListener listener) {
+		uploadTab.addNewExpButtonListener(listener);
+	}
+
+	@Override
+	public void addSelectButtonListener(ActionListener listener) {
+		uploadTab.addSelectButtonListener(listener);
+	}
+
+	@Override
+	public void addUploadButtonListener(ActionListener listener) {
+		uploadTab.addUploadButtonListener(listener);
+	}
+
+	@Override
+	public void createNewExp(AnnotationDataType[] annotations) {
+		uploadTab.createNewExp(annotations);
+	}
+	@Override
+	public void selectFilesToNewExp(String[] fileNames, File[] files) {
+		uploadTab.createUploadFileRow(fileNames, files);
+	}
+
+	public DownloadWindow getDownloadWindow() {
+		return downloadWindow;
+	}
+
+	@Override
+	public String[] getBowtieParameters() {
+		return processTab.getBowtieParameters();
+	}
+
+	@Override
+	public File[] getFilesToUpload() {
+		return uploadTab.getUploadFiles();
+	}
+
+	@Override
+	public AnnotationDataValue[] getUploadAnnotations() {
+		return uploadTab.getUploadAnnotations();
+	}
+
+	@Override
+	public void setBowtieParameters() {
+		processTab.setBowtieParameters();
+	}
+
+	@Override
+	public JList getfileList() {
+		return processTab.getFileList();
+	}
+
+	@Override
+	public String getNewExpName() {
+		return uploadTab.getNewExpName();
+	}
+
+	@Override
+	public HashMap<String, String> getFilesToUploadTypes() {
+		return uploadTab.getTypes();
+	}
+
 }
