@@ -439,7 +439,7 @@ public class Controller {
 		@Override
 		public void run() {
 			AnnotationDataType[] annotations = model.getAnnotations();
-			if (annotations != null) {
+			if (annotations != null && annotations.length > 0) {
 				view.setSearchAnnotationTypes(annotations);
 			}
 		}

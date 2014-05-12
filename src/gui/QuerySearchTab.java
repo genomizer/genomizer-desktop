@@ -50,8 +50,9 @@ public class QuerySearchTab extends JPanel {
 		setUpRowsPanel();
 		setUpResultsTable();
 		setUpResultsHeaderPanel();
-		showSearchView();
-		clearSearchFields();
+        clearSearchFields();
+        showSearchView();
+
 	}
 
 	/**
@@ -179,8 +180,8 @@ public class QuerySearchTab extends JPanel {
 		rowList.clear();
 		addRow();
 		searchArea.setText("Use the builder below to create your search");
+        revalidate();
 		repaint();
-		revalidate();
 	}
 
 	/**
@@ -222,8 +223,8 @@ public class QuerySearchTab extends JPanel {
 			}
 			rowsPanel.add(row);
 		}
+        rowsPanel.revalidate();
 		rowsPanel.repaint();
-		rowsPanel.revalidate();
 	}
 
 	/**
