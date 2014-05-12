@@ -311,7 +311,7 @@ public class Controller {
             DownloadWindow downloadWindow = view.getDownloadWindow();
             ArrayList<FileData> fileData = downloadWindow.getFiles();
             /*
-			 * >>>>>>> branch 'dev' of
+             * >>>>>>> branch 'dev' of
 			 * https://github.com/genomizer/genomizer-desktop.git FileDialog
 			 * fileDialog = new FileDialog((java.awt.Frame) null,
 			 * "Choose a directory", FileDialog.SAVE);

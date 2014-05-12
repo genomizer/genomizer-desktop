@@ -1,47 +1,39 @@
 package gui;
 
-import java.awt.Dimension;
-import java.awt.FlowLayout;
-import java.awt.Image;
+import util.AnnotationDataType;
+
+import javax.swing.*;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.net.URL;
-
-import javax.swing.ImageIcon;
-import javax.swing.JButton;
-import javax.swing.JComboBox;
-import javax.swing.JPanel;
-import javax.swing.JTextField;
-import javax.swing.event.DocumentEvent;
-import javax.swing.event.DocumentListener;
-
-import util.AnnotationDataType;
 
 /**
  * Class the represents a row in the query builder
  *
  * @author bDtKarlsson
- *
  */
 public class QueryBuilderRow extends JPanel {
-    private JComboBox annotationBox;
-    private JComboBox annotationAlternatives;
-    private JTextField textField;
-    private JButton plusButton;
-    private JButton minusButton;
-    private JComboBox logicBox;
-    private QuerySearchTab parent;
+    private JComboBox            annotationBox;
+    private JComboBox            annotationAlternatives;
+    private JTextField           textField;
+    private JButton              plusButton;
+    private JButton              minusButton;
+    private JComboBox            logicBox;
+    private QuerySearchTab       parent;
     private AnnotationDataType[] annotationTypes;
     private static final String[] logicOperators = { "AND", "NOT", "OR" };
-    private boolean dropdown = false;
-    private boolean firstRow = false;
-    private boolean lastRow = false;
+    private              boolean  dropdown       = false;
+    private              boolean  firstRow       = false;
+    private              boolean  lastRow        = false;
 
     public QueryBuilderRow(QuerySearchTab parent,
-                           AnnotationDataType[] annotationTypes) {
-	/* The Parent query search tab */
+            AnnotationDataType[] annotationTypes) {
+    /* The Parent query search tab */
         this.parent = parent;
-	/* The annotation information */
+    /* The annotation information */
         this.annotationTypes = annotationTypes;
         setLayout(new FlowLayout());
 	/* Set up the components (fieldBox must be set last) */
@@ -56,10 +48,8 @@ public class QueryBuilderRow extends JPanel {
     /**
      * Method for setting information about the row
      *
-     * @param firstRow
-     *            - if the row is the first row
-     * @param lastRow
-     *            - if the row is the last row
+     * @param firstRow - if the row is the first row
+     * @param lastRow  - if the row is the last row
      */
     public void setAs(Boolean firstRow, Boolean lastRow) {
         this.firstRow = firstRow;
@@ -189,8 +179,7 @@ public class QueryBuilderRow extends JPanel {
     /**
      * Method for constructing the annotation alternatives combobox
      *
-     * @param alternatives
-     *            - the annotation alternatives
+     * @param alternatives - the annotation alternatives
      */
     private void setAnnotationAlternatives(String[] alternatives) {
         annotationAlternatives = new JComboBox(alternatives);
@@ -210,8 +199,7 @@ public class QueryBuilderRow extends JPanel {
     /**
      * Method for creating the annotations combobox
      *
-     * @param annotations
-     *            - the annotations
+     * @param annotations - the annotations
      */
     public void setAnnotationBox(AnnotationDataType[] annotations) {
         this.annotationTypes = annotations;
@@ -220,8 +208,8 @@ public class QueryBuilderRow extends JPanel {
         for (int i = 0; i < annotationTypes.length; i++) {
             annotationNames[i] = annotationTypes[i].getName();
         }
-        System.out.println("annotation length: " +annotationNames.length);
-        if(annotationNames.length > 0) {
+        System.out.println("annotation length: " + annotationNames.length);
+        if (annotationNames.length > 0) {
             annotationBox = new JComboBox(annotationNames);
         } else {
             annotationBox = new JComboBox();

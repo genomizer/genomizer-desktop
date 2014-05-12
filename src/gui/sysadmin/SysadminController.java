@@ -75,8 +75,8 @@ public class SysadminController extends Observable {
 
             try {
                 if (JOptionPane.showConfirmDialog(null,
-                        "Are you sure you want to delete the"
-                                + annotation.name
+                        "Are you sure you want to delete the "
+                                + annotation.name + " annotation?"
                 ) == JOptionPane.YES_OPTION) {
                     if (model.deleteAnnotation(new DeleteAnnoationData(
                             annotation))) {

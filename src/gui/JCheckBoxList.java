@@ -1,18 +1,13 @@
 package gui;
 
-import java.awt.Component;
+import javax.swing.*;
+import javax.swing.border.Border;
+import javax.swing.border.EmptyBorder;
+import java.awt.*;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-
-import javax.swing.JCheckBox;
-import javax.swing.JList;
-import javax.swing.ListCellRenderer;
-import javax.swing.ListSelectionModel;
-import javax.swing.UIManager;
-import javax.swing.border.Border;
-import javax.swing.border.EmptyBorder;
 
 public class JCheckBoxList extends JList {
     protected static Border noFocusBorder = new EmptyBorder(1, 1, 1, 1);
@@ -54,7 +49,7 @@ public class JCheckBoxList extends JList {
     protected class CheckBoxCellRenderer implements ListCellRenderer {
         @Override
         public Component getListCellRendererComponent(JList list, Object value,
-                                                      int index, boolean isSelected, boolean cellHasFocus) {
+                int index, boolean isSelected, boolean cellHasFocus) {
             JCheckBox checkbox = (JCheckBox) value;
             checkbox.setBackground(isSelected ? getSelectionBackground()
                     : getBackground());
@@ -66,8 +61,10 @@ public class JCheckBoxList extends JList {
             checkbox.setFocusPainted(false);
 
             checkbox.setBorderPainted(true);
-            checkbox.setBorder(isSelected ? UIManager
-                    .getBorder("List.focusCellHighlightBorder") : noFocusBorder);
+            checkbox.setBorder(isSelected ?
+                    UIManager
+                            .getBorder("List.focusCellHighlightBorder") :
+                    noFocusBorder);
 
             return checkbox;
         }

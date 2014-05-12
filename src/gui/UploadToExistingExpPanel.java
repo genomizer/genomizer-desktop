@@ -6,19 +6,19 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionListener;
 import java.io.File;
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-public class UploadToExistingExpPanel extends JPanel implements ExperimentPanel {
+public class UploadToExistingExpPanel extends JPanel
+        implements ExperimentPanel {
 
     private JButton selectFilesToUploadButton, uploadFilesToExperimentButton;
-    private ArrayList<JComboBox> annotationBoxes;
+    private ArrayList<JComboBox>  annotationBoxes;
     private ArrayList<JTextField> annotationFields;
-    private AnnotationDataType[] annotations;
+    private AnnotationDataType[]  annotations;
     JPanel northPanel, centerPanel, uploadFilesPanel, buttonsPanel, mainPanel;
     private HashMap<String, UploadFileRow> uploadFileRows;
-    private File[] currFiles;
+    private File[]                         currFiles;
 
     public UploadToExistingExpPanel() {
         selectFilesToUploadButton = new JButton("Select files");
@@ -28,7 +28,7 @@ public class UploadToExistingExpPanel extends JPanel implements ExperimentPanel 
         mainPanel = new JPanel(new BorderLayout());
         northPanel = new JPanel();
         centerPanel = new JPanel(new BorderLayout());
-        uploadFilesPanel = new JPanel(new GridLayout(0,1));
+        uploadFilesPanel = new JPanel(new GridLayout(0, 1));
         buttonsPanel = new JPanel(new FlowLayout());
 
         build();
@@ -92,7 +92,6 @@ public class UploadToExistingExpPanel extends JPanel implements ExperimentPanel 
     public void setAnnotations(AnnotationDataType[] annotations) {
         this.annotations = annotations;
     }
-
 
     public void addAnnotationsForExistingExp() throws NullPointerException {
         annotationBoxes = new ArrayList<JComboBox>();

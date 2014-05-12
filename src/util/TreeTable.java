@@ -1,8 +1,12 @@
 package util;
 
+import org.jdesktop.swingx.JXTreeTable;
+import org.jdesktop.swingx.treetable.DefaultTreeTableModel;
+
+import javax.swing.*;
+import javax.swing.table.TableColumnModel;
+import javax.swing.tree.TreePath;
 import java.awt.*;
-import java.awt.event.AdjustmentEvent;
-import java.awt.event.AdjustmentListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.math.BigInteger;
@@ -13,24 +17,15 @@ import java.util.Comparator;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import javax.swing.*;
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
-import javax.swing.table.TableColumnModel;
-import javax.swing.tree.TreePath;
-
-import org.jdesktop.swingx.JXTreeTable;
-import org.jdesktop.swingx.treetable.DefaultTreeTableModel;
-
 /**
  * Class the represents a treetable containing experiment and file data
  */
 public class TreeTable extends JPanel {
 
-    private JXTreeTable table;
-    private ArrayList<String> headings;
+    private JXTreeTable               table;
+    private ArrayList<String>         headings;
     private ArrayList<ExperimentData> experiments;
-    private ArrayList<Boolean> sortingOrders;
+    private ArrayList<Boolean>        sortingOrders;
 
     /**
      * Tree Table empty constructor
@@ -43,8 +38,7 @@ public class TreeTable extends JPanel {
     /**
      * Tree Table constructor with input content
      *
-     * @param experimentData
-     *            - the tree table content
+     * @param experimentData - the tree table content
      */
     public TreeTable(ArrayList<ExperimentData> experimentData) {
         this.setLayout(new BorderLayout());
@@ -60,10 +54,10 @@ public class TreeTable extends JPanel {
         // table.setColumnControlVisible(true);
         table.setShowGrid(true, true);
         table.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
-	/* Reordering of the columns is not allowed in this version */
+    /* Reordering of the columns is not allowed in this version */
         table.getTableHeader().setReorderingAllowed(false);
         table.setColumnMargin(10);
-	/* Add a mouse listener to check for column sorting */
+    /* Add a mouse listener to check for column sorting */
         table.getTableHeader().addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
@@ -77,17 +71,17 @@ public class TreeTable extends JPanel {
             }
         });
         JScrollPane scrollPane = new JScrollPane(table);
-        scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
-        scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
+        scrollPane.setHorizontalScrollBarPolicy(
+                JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+        scrollPane.setVerticalScrollBarPolicy(
+                JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
         add(scrollPane, BorderLayout.CENTER);
     }
-
 
     /**
      * set new content for the tree table
      *
-     * @param experimentData
-     *            - new content
+     * @param experimentData - new content
      */
     public void setContent(ArrayList<ExperimentData> experimentData) {
 
@@ -102,7 +96,8 @@ public class TreeTable extends JPanel {
             headings.add("Experiment Name");
             headings.add("Experiment Created By");
             for (int i = 0; i < experiments.size(); i++) {
-                for (AnnotationDataValue annotation : experiments.get(i).annotations) {
+                for (AnnotationDataValue annotation : experiments
+                        .get(i).annotations) {
                     if (!headings.contains(annotation.name)) {
                         headings.add(annotation.name);
                         nrOfColumns++;
@@ -122,8 +117,7 @@ public class TreeTable extends JPanel {
     /**
      * Sort the treetable data by column index
      *
-     * @param sortByColumn
-     *            - column index
+     * @param sortByColumn - column index
      */
     private void sortData(final int sortByColumn) {
 
@@ -141,7 +135,8 @@ public class TreeTable extends JPanel {
                 final Pattern PATTERN = Pattern.compile("(\\D*)(\\d*)");
                 ArrayList<String> entry1 = a.getAnnotationValueList(headings);
                 ArrayList<String> entry2 = b.getAnnotationValueList(headings);
-                if(sortByColumn > entry1.size()-1 || sortByColumn > entry2.size()-1) {
+                if (sortByColumn > entry1.size() - 1
+                        || sortByColumn > entry2.size() - 1) {
                     return 1;
                 }
                 /*if((entry1.get(sortByColumn) == null || entry1.get(sortByColumn).equals("")) &&
@@ -154,8 +149,10 @@ public class TreeTable extends JPanel {
                         (entry2.get(sortByColumn) == null || entry2.get(sortByColumn).equals(""))) {
                     return 1;
                 }*/
-                Matcher m1 = PATTERN.matcher(entry1.get(sortByColumn).toLowerCase());
-                Matcher m2 = PATTERN.matcher(entry2.get(sortByColumn).toLowerCase());
+                Matcher m1 = PATTERN
+                        .matcher(entry1.get(sortByColumn).toLowerCase());
+                Matcher m2 = PATTERN
+                        .matcher(entry2.get(sortByColumn).toLowerCase());
 		/* The only way find() could fail is at the end of a string */
                 while (m1.find() && m2.find()) {
 		    /*
@@ -228,7 +225,8 @@ public class TreeTable extends JPanel {
                 ExperimentData newExp = new ExperimentData(exp.name,
                         exp.createdBy, (ArrayList<FileData>) exp.files.clone(),
                         (ArrayList<AnnotationDataValue>) exp.annotations
-                                .clone());
+                                .clone()
+                );
                 if (!selectedExperiments.contains(exp)) {
                     selectedExperiments.add(newExp);
                 }
@@ -249,7 +247,8 @@ public class TreeTable extends JPanel {
                         }
                     } else {
                         ExperimentData exp = new ExperimentData(tempExp.name,
-                                tempExp.createdBy, newFile, tempExp.annotations);
+                                tempExp.createdBy, newFile,
+                                tempExp.annotations);
                         selectedExperiments.add(exp);
                     }
 
@@ -289,7 +288,8 @@ public class TreeTable extends JPanel {
                                 tempExp.createdBy,
                                 newFiles,
                                 (ArrayList<AnnotationDataValue>) tempExp.annotations
-                                        .clone());
+                                        .clone()
+                        );
                         selectedExperiments.add(exp);
                     }
                 }
@@ -337,17 +337,20 @@ public class TreeTable extends JPanel {
      */
     private void createTreeStructure() {
 	/* Create the tree root */
-        SupportNode root = new SupportNode(new Object[]{"Root"});
+        SupportNode root = new SupportNode(new Object[] { "Root" });
 
         try {
             for (ExperimentData experiment : experiments) {
 	            /* Create experiment node and add to root */
-                ExperimentNode experimentNode = new ExperimentNode(experiment, headings);
+                ExperimentNode experimentNode = new ExperimentNode(experiment,
+                        headings);
                 root.add(experimentNode);
             }
             /* Create the model and add it to the table */
             DefaultTreeTableModel model = new DefaultTreeTableModel(root,
-                    Arrays.asList(headings.toArray(new String[headings.size()])));
+                    Arrays.asList(
+                            headings.toArray(new String[headings.size()]))
+            );
             table.setTreeTableModel(model);
             table.packAll();
             repaint();
