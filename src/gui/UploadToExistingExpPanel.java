@@ -36,7 +36,9 @@ public class UploadToExistingExpPanel extends JPanel {
         gbl_panel.rowWeights = new double[] { 0.0, 0.0, 0.0, Double.MIN_VALUE };
         northPanel.setLayout(gbl_panel);
 
-        addButtons();
+        uploadFilesPanel.add(selectFilesToUploadButton);
+        uploadFilesPanel.add(uploadFilesToExperimentButton);
+        uploadFilesToExperimentButton.disable();
         repaint();
         revalidate();
     }
@@ -94,12 +96,6 @@ public class UploadToExistingExpPanel extends JPanel {
                 x++;
             }
         }
-    }
-
-    public void addButtons() {
-        uploadFilesPanel.add(selectFilesToUploadButton);
-        uploadFilesPanel.add(uploadFilesToExperimentButton);
-        uploadFilesToExperimentButton.disable();
     }
 
     public void removeAll() {
