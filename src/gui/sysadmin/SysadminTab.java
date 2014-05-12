@@ -10,7 +10,10 @@ import java.awt.event.ActionListener;
 
 import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
+import javax.swing.JTable;
 import javax.swing.table.TableModel;
+
+import util.AnnotationDataType;
 
 public class SysadminTab extends JPanel {
 
@@ -127,7 +130,16 @@ public class SysadminTab extends JPanel {
         return sysController;
     }
 
-    public TableModel AnnotationTableModel(){
+    public TableModel getAnnotationTableModel(){
     	return annotationsView.getTableModel();
     }
+
+	public void deleteAnnotation() {
+		sysController.deleteAnnotation();
+		
+	}
+
+	public JTable getAnnotationTable() {
+		return annotationsView.getTable();
+	}
 }
