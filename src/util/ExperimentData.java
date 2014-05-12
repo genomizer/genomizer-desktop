@@ -31,14 +31,21 @@ public class ExperimentData {
 	 * (including experiment name and creator of experiment
 	 * @return
 	 */
-	public ArrayList<String> getAnnotationValueList() {
-		
+	public ArrayList<String> getAnnotationValueList(String[] headings) {
+
 		ArrayList<String> annotationList = new ArrayList<String>();
-		annotationList.add(name);
-		annotationList.add(createdBy);
-		for (AnnotationDataValue annotation : annotations) {
-			annotationList.add(annotation.value);
-		}
+        annotationList.add(name);
+        annotationList.add(createdBy);
+        for(int i=0; i<headings.length; i++) {
+            String heading = headings[i];
+            System.out.println("heading: " + heading);
+            for (AnnotationDataValue annotation : annotations) {
+                if(annotation.name.equals(heading)) {
+                    System.out.printf(annotation.name + " added");
+                    annotationList.add(annotation.value);
+                }
+            }
+        }
 		return annotationList;
 	}
 

@@ -268,7 +268,7 @@ public class ProcessTab extends JPanel {
 		convPanel.add(genomeReleasePanel);
 		genomeReleasePanel.setBorder(new TitledBorder(null, "Genome release files", TitledBorder.LEADING, TitledBorder.TOP, null, null));
 		convPanel.add(windowSizePanel);
-		windowSizePanel.setBorder(new TitledBorder(null, "Windows size", TitledBorder.LEADING, TitledBorder.TOP, null, null));
+		windowSizePanel.setBorder(new TitledBorder(null, "Window size", TitledBorder.LEADING, TitledBorder.TOP, null, null));
 		convPanel.add(smoothTypePanel);
 		smoothTypePanel.setBorder(new TitledBorder(null, "Smooth type", TitledBorder.LEADING, TitledBorder.TOP, null, null));
 		convPanel.add(stepPositionPanel);
@@ -309,10 +309,9 @@ public class ProcessTab extends JPanel {
 		convPanel.add(stepSizePanel);
 		stepSizePanel.setBorder(new TitledBorder(null, "Step size", TitledBorder.LEADING, TitledBorder.TOP, null, null));
 
-//		printMean.setVerticalAlignment(JCheckBox.CENTER);
-//	printZeros.setVerticalAlignment(JCheckBox.CENTER);
-//		stepSizeBox.setVerticalAlignment(JCheckBox.CENTER);
-
+		stepSizeBox.setVerticalAlignment(JCheckBox.BOTTOM);
+		printMean.setVerticalAlignment(JCheckBox.TOP);
+		printZeros.setVerticalAlignment(JCheckBox.TOP);
 
 		tabbedPane.addTab("Convert to WIG", null, convWigTabPanel, null);
 
