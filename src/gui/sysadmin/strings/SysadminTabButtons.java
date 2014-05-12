@@ -1,11 +1,11 @@
-package gui.sysadmin;
+package gui.sysadmin.strings;
 
 import java.util.HashMap;
 
 /**
  * @author c12jvr.
  */
-public enum SysAdminButton {
+public enum SysadminTabButtons {
 	/*
 	 * To add a new name for button, simple type in the name of the enum, and 
 	 * the name of the button within parenthesis. 
@@ -13,14 +13,10 @@ public enum SysAdminButton {
     ANNOTATIONS("Annotations"),
     USERS("Users"),
     TEST("Test"),
-    ANNOTATIONS_MODIFY("Modify"),
-    ANNOTATIONS_ADD("Add"),
-    ANNOTATIONS_DELETE("Remove"),
-    POPUP_CREATE_ANNOTATION("Create annotation"),
     PROCESS("Processes");
     private String name;
 
-    private SysAdminButton(String name){
+    private SysadminTabButtons(String name){
         this.name = name;
         SysadminHelper.map.put(name, this);
     }
@@ -29,11 +25,11 @@ public enum SysAdminButton {
         return name;
     }
 
-    public static SysAdminButton fromString(String string) {
+    public static SysadminTabButtons fromString(String string) {
         return SysadminHelper.map.get(string);
     }
 
     static class SysadminHelper {
-        static HashMap<String, SysAdminButton> map = new HashMap<String, SysAdminButton>();
+        static HashMap<String, SysadminTabButtons> map = new HashMap<String, SysadminTabButtons>();
     }
 }

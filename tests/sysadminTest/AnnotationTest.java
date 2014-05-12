@@ -1,14 +1,13 @@
 package sysadminTest;
 
 import static org.fest.assertions.api.Assertions.*;
-import gui.sysadmin.AnnotationTableModel;
+
 import gui.sysadmin.SysadminTab;
 import model.Model;
 
 import org.junit.Before;
 import org.junit.Test;
 
-import util.AnnotationData;
 import util.AnnotationDataType;
 import util.DeleteAnnoationData;
 import communication.Connection;

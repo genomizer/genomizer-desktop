@@ -1,4 +1,4 @@
-package gui.sysadmin;
+package gui.sysadmin.annotationview;
 
 import javax.swing.SwingUtilities;
 import javax.swing.table.AbstractTableModel;

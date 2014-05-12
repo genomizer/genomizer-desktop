@@ -1,5 +1,10 @@
 package gui.sysadmin;
 
+import gui.sysadmin.annotationview.AnnotationsViewCreator;
+import gui.sysadmin.processview.ProcessViewCreator;
+import gui.sysadmin.strings.SysadminTabButtons;
+import gui.sysadmin.usersview.UsersViewCreator;
+
 import java.awt.BorderLayout;
 import java.awt.event.ActionListener;
 
@@ -34,10 +39,10 @@ public class SysadminTab extends JPanel {
                 sysadminTabPane, this);
 
         sysadminTabPane.setTabPlacement(JTabbedPane.LEFT);
-//        ButtonNames bNames = new ButtonNames();
+//        SysStrings bNames = new SysStrings();
 //        String[] buttonNameStrings = bNames.getButtonNames();
 
-        for (SysAdminButton button : SysAdminButton.values()) {
+        for (SysadminTabButtons button : SysadminTabButtons.values()) {
             switch (button) {
                 case ANNOTATIONS:
                     sysadminTabPane.addTab(button.getValue(),
@@ -56,16 +61,16 @@ public class SysadminTab extends JPanel {
 //
 //            switch (buttonNameStrings[i]) {
 //
-//            case ButtonNames.ANNOTATIONS:
+//            case SysStrings.ANNOTATIONS:
 //                sysadminTabPane.addTab(buttonNameStrings[i],
 //                        buildAnnotationsView());
 //                break;
 ///*
-//            case ButtonNames.USERS:
+//            case SysStrings.USERS:
 //                sysadminTabPane.addTab(buttonNameStrings[i], new JPanel());
 //                break;
 //
-//            case ButtonNames.TEST:
+//            case SysStrings.TEST:
 //                sysadminTabPane.addTab(buttonNameStrings[i], new JPanel());
 //                break;
 //*/

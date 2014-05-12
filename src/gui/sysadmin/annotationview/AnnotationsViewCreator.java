@@ -1,4 +1,4 @@
-package gui.sysadmin;
+package gui.sysadmin.annotationview;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -6,7 +6,6 @@ import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
-import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -18,9 +17,7 @@ import javax.swing.table.JTableHeader;
 import javax.swing.table.TableModel;
 import javax.swing.table.TableRowSorter;
 
-import org.jdesktop.swingx.calendar.DateSelectionModel.SelectionMode;
-
-import util.AnnotationDataType;
+import gui.sysadmin.strings.SysStrings;
 
 public class AnnotationsViewCreator {
 
@@ -78,13 +75,13 @@ public class AnnotationsViewCreator {
     private void buildButtonPanel(JPanel buttonPanel) {
         buttonPanel.setBackground(new Color(215, 200, 200));
         buttonPanel.setLayout(new GridLayout(20, 1));
-        modifyButton = new JButton(ButtonNames.ANNOTATIONS_MODIFY); // TODO:
+        modifyButton = new JButton(SysStrings.ANNOTATIONS_MODIFY); // TODO:
                                                                     // load
                                                                     // from
                                                                     // a
                                                                     // list
-        addButton = new JButton(ButtonNames.ANNOTATIONS_ADD);
-        removeButton = new JButton(ButtonNames.ANNOTATIONS_DELETE);
+        addButton = new JButton(SysStrings.ANNOTATIONS_ADD);
+        removeButton = new JButton(SysStrings.ANNOTATIONS_DELETE);
         removeButton.setEnabled(false);		//Remove this when remove is implemented
         buttonPanel.add(modifyButton);
         modifyButton.setEnabled(false);		//Remove this when modify is implemented

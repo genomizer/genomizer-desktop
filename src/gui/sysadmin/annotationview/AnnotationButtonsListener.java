@@ -1,4 +1,7 @@
-package gui.sysadmin;
+package gui.sysadmin.annotationview;
+
+import gui.sysadmin.strings.SysStrings;
+import gui.sysadmin.SysadminTab;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -15,14 +18,14 @@ public class AnnotationButtonsListener implements ActionListener {
     public void actionPerformed(ActionEvent e) {
 
         switch (e.getActionCommand()) {
-        case ButtonNames.ANNOTATIONS_ADD:
+        case SysStrings.ANNOTATIONS_ADD:
             System.out.println("add");
             sysTab.addAnnotationsPopup();
             break;
-        case ButtonNames.ANNOTATIONS_MODIFY:
+        case SysStrings.ANNOTATIONS_MODIFY:
             System.out.println("modify");
             break;
-        case ButtonNames.ANNOTATIONS_DELETE:
+        case SysStrings.ANNOTATIONS_DELETE:
             System.out.println("delete");
             break;
 

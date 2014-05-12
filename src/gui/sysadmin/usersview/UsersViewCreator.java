@@ -1,4 +1,4 @@
-package gui.sysadmin;
+package gui.sysadmin.usersview;
 
 import java.awt.Color;
 
