@@ -34,6 +34,9 @@ public class UploadToExistingExpPanel extends JPanel implements ExperimentPanel 
         build();
     }
 
+    /**
+     * Builds/rebuilds the panel. This is not part of the constructor so it can be called from elsewhere aswell.
+     */
     public void build() {
         mainPanel.add(northPanel, BorderLayout.NORTH);
         mainPanel.add(centerPanel, BorderLayout.CENTER);
@@ -144,6 +147,7 @@ public class UploadToExistingExpPanel extends JPanel implements ExperimentPanel 
         revalidate();
     }
 
+    @Override
     public void removeAll() {
         uploadFilesPanel.removeAll();
         northPanel.removeAll();
