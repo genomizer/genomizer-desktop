@@ -29,6 +29,9 @@ import javax.swing.JComboBox;
 import java.awt.event.ActionEvent;
 import java.awt.Component;
 import javax.swing.JTabbedPane;
+import javax.swing.SwingConstants;
+import javax.swing.border.LineBorder;
+import javax.swing.border.EtchedBorder;
 
 public class ProcessTab extends JPanel {
 
@@ -123,7 +126,7 @@ public class ProcessTab extends JPanel {
 		/*TEST*/CheckListItem[] itemList = new CheckListItem[20];
 
 		/*TEST*/for(int i = 0; i < 20; i++){
-		/*TEST*/	itemList[i] = new CheckListItem( "[" + i + "] TEST.RAW" );
+		/*TEST*/	itemList[i] = new CheckListItem( "[" + i + "] TESTjg.RAW" );
 		/*TEST*/}
 
 		/*TEST*/fileList.setListData(itemList);
@@ -132,7 +135,7 @@ public class ProcessTab extends JPanel {
 
 	private void addNorthPanel() {
 		menuPanel.setAlignmentX(Component.RIGHT_ALIGNMENT);
-		menuPanel.setPreferredSize(new Dimension(1200, 175));
+		menuPanel.setPreferredSize(new Dimension(1200, 200));
 
 		this.add(menuPanel, BorderLayout.NORTH);
 		addButtonsToMenu();
@@ -175,7 +178,7 @@ public class ProcessTab extends JPanel {
 	private void addGenRegionDataPanel() {
 		middlePanel.add(genRegionDataPanel);
 		genRegionDataPanel.setBorder(new TitledBorder(null, "Generate Region Data", TitledBorder.LEADING, TitledBorder.TOP, null, null));
-		scrollRegion.setPreferredSize(new Dimension(610, 145));
+		scrollRegion.setPreferredSize(new Dimension(610, 130));
 		addScrollGenRegionData();
 	}
 
@@ -183,7 +186,7 @@ public class ProcessTab extends JPanel {
 		genRegionDataPanel.add(scrollRegion);
 		scrollRegion.setViewportView(genRegArea);
 		genRegArea.setEditable(false);
-		genRegArea.setPreferredSize(new Dimension(590, 135));
+		genRegArea.setPreferredSize(new Dimension(590, 125));
 
 		genRegionDataPanel.add(textArea);
 	}
@@ -191,20 +194,20 @@ public class ProcessTab extends JPanel {
 	private void addGenProfileDataPanel() {
 		middlePanel.add(genProfileDataPanel);
 		genProfileDataPanel.setBorder(new TitledBorder(null, "Generate Profile Data", TitledBorder.LEADING, TitledBorder.TOP, null, null));
-		scrollProfile.setPreferredSize(new Dimension(610, 145));
+		scrollProfile.setPreferredSize(new Dimension(610, 130));
 
 		genProfileDataPanel.add(scrollProfile);
 		scrollProfile.setViewportView(genProfArea);
 		genProfArea.setEditable(false);
-		genProfArea.setPreferredSize(new Dimension(590, 140));
+		genProfArea.setPreferredSize(new Dimension(590, 125));
 	}
 
 	private void addProcessInQueue() {
-		scrollProcessList.setPreferredSize(new Dimension(290, 491));
+		scrollProcessList.setPreferredSize(new Dimension(290, 460));
 
 		procQueuePanel.add(scrollProcessList);
 		scrollProcessList.setViewportView(processList);
-		processList.setPreferredSize(new Dimension(270, 450));
+		processList.setPreferredSize(new Dimension(270, 435));
 	}
 
 	private void addTimePanel() {
@@ -215,25 +218,25 @@ public class ProcessTab extends JPanel {
 	private void addScheduleProcPanel() {
 		scheduleProcPanel.setBorder(new TitledBorder(null, "Scheduled Processing", TitledBorder.LEADING, TitledBorder.TOP, null, null));
 		scheduleProcPanel.setPreferredSize(new Dimension(300, 100));
-		scrollSchedule.setPreferredSize(new Dimension(290, 203));
+		scrollSchedule.setPreferredSize(new Dimension(290, 185));
 
 		scheduleProcPanel.add(scrollSchedule);
 		scrollSchedule.setViewportView(scheduleList);
-		scheduleList.setPreferredSize(new Dimension(260, 200));
+		scheduleList.setPreferredSize(new Dimension(260, 180));
 	}
 
 	private void addConvertTextArea(){
-		scrollConvert.setPreferredSize(new Dimension(610, 145));
+		scrollConvert.setPreferredSize(new Dimension(610, 130));
 
 		convertFilesPanel.add(scrollConvert);
 		scrollConvert.setViewportView(convertArea);
 		convertArea.setEditable(false);
-		convertArea.setPreferredSize(new Dimension(590, 140));
+		convertArea.setPreferredSize(new Dimension(590, 125));
 	}
 
 	private void addFilesScheduleToWestPanel() {
 		westPanel.add(filesPanel);
-		scrollFiles.setPreferredSize(new Dimension(290, 230));
+		scrollFiles.setPreferredSize(new Dimension(290, 215));
 
 		filesPanel.add(scrollFiles);
 
@@ -256,7 +259,7 @@ public class ProcessTab extends JPanel {
 	private void addPanelsToMenu() {
 		menuPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
 		menuPanel.add(tabbedPane);
-		convTabpanel.setPreferredSize(new Dimension(1222, 135));
+		convTabpanel.setPreferredSize(new Dimension(1222, 145));
 
 		tabbedPane.addTab("Create profile data", null, convTabpanel, null);
 		convTabpanel.add(convPanel);
@@ -271,7 +274,8 @@ public class ProcessTab extends JPanel {
 		convPanel.add(stepPositionPanel);
 		stepPositionPanel.setBorder(new TitledBorder(null, "Step position", TitledBorder.LEADING, TitledBorder.TOP, null, null));
 		convPanel.setBorder(null);
-		checkBoxPanel.setBorder(new TitledBorder(null, "", TitledBorder.LEADING, TitledBorder.TOP, null, null));
+		checkBoxPanel.setAlignmentY(1.0f);
+		checkBoxPanel.setBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null));
 		convPanel.add(checkBoxPanel);
 
 		GridBagConstraints gbc_printMean = new GridBagConstraints();
@@ -304,10 +308,6 @@ public class ProcessTab extends JPanel {
 		checkBoxPanel.setLayout(gbl_checkBoxPanel);
 		convPanel.add(stepSizePanel);
 		stepSizePanel.setBorder(new TitledBorder(null, "Step size", TitledBorder.LEADING, TitledBorder.TOP, null, null));
-
-		stepSizeBox.setVerticalAlignment(JCheckBox.BOTTOM);
-		printMean.setVerticalAlignment(JCheckBox.TOP);
-		printZeros.setVerticalAlignment(JCheckBox.TOP);
 
 		tabbedPane.addTab("Convert to WIG", null, convWigTabPanel, null);
 
@@ -356,8 +356,8 @@ public class ProcessTab extends JPanel {
 	}
 
 	private void addPrintMeanToConv() {
-		printMean.setPreferredSize(new Dimension(110, 65));
-		printMean.setBorder(BorderFactory.createTitledBorder("Print mean"));
+		printMean.setPreferredSize(new Dimension(110, 55));
+		printMean.setBorder(null);
 		stepSizeBox.setSelected(true);
 
 		//TODO Flytta lyssnare
@@ -373,14 +373,12 @@ public class ProcessTab extends JPanel {
 				}
 			}
 		});
-	//	stepSizeBox.setMinimumSize(new Dimension(77, 23));
-	//	stepSizeBox.setMaximumSize(new Dimension(77, 23));
-		stepSizeBox.setPreferredSize(new Dimension(85, 65));
+		stepSizeBox.setPreferredSize(new Dimension(110, 55));
 	}
 
 	private void addPrintZeroToConv() {
-		printZeros.setPreferredSize(new Dimension(110, 65));
-		printZeros.setBorder(BorderFactory.createTitledBorder("Print zeros"));
+		printZeros.setPreferredSize(new Dimension(110, 55));
+		printZeros.setBorder(null);
 	}
 
 	private void enableButtons() {
