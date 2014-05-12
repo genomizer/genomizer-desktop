@@ -477,11 +477,24 @@ public class Controller {
 
 		@Override
 		public void run() {
-			// Get list of files to upload
+            String expName = view.getNewExpName();
+            AnnotationDataValue[] annotations = view.getUploadAnnotations();
+            File[] files = view.getFilesToUpload();
+            HashMap<String, String> types = view.getFilesToUploadTypes();
+            //Should be genome release from uploadTab
+            String release = "releaseNr";
+            //Test purpose
+            for(AnnotationDataValue a : annotations) {
+                System.out.println(a.getName() + " " + a.getValue());
+            }
+            boolean created = model.addNewExperiment(expName, view.getUsername(), annotations);
+            System.out.println(created);
+            if(created) {
+                for(File f : files) {
+                    model.uploadFile(expName, f, types.get(f.getName()), view.getUsername(), false, release);
+                }
 
-			// Upload them.
-
-			// Move to where the check if upload is complete will be.
+            }
 			JOptionPane.showMessageDialog(null, "Upload complete.");
 		}
 	}
