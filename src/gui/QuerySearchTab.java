@@ -23,7 +23,7 @@ import util.TreeTable;
  */
 public class QuerySearchTab extends JPanel {
     /**
-	 * 
+	 *
 	 */
 	private static final long serialVersionUID = -5171748087481537247L;
 	private JPanel topPanel;
@@ -50,8 +50,7 @@ public class QuerySearchTab extends JPanel {
 		setUpRowsPanel();
 		setUpResultsTable();
 		setUpResultsHeaderPanel();
-        clearSearchFields();
-        showSearchView();
+		showSearchView();
 
 	}
 
@@ -160,7 +159,7 @@ public class QuerySearchTab extends JPanel {
 
 	/**
 	 * Update the search results and switch to results view
-	 * 
+	 *
 	 * @param searchResults
 	 */
 	public void updateSearchResults(ArrayList<ExperimentData> searchResults) {
@@ -175,12 +174,12 @@ public class QuerySearchTab extends JPanel {
 	 * Clear the search fields of the tab (including all query builder rows and
 	 * the search text area
 	 */
-	private void clearSearchFields() {
+	public void clearSearchFields() {
 		updateAnnotationsButton.doClick();
 		rowList.clear();
 		addRow();
 		searchArea.setText("Use the builder below to create your search");
-        revalidate();
+		revalidate();
 		repaint();
 	}
 
@@ -194,7 +193,7 @@ public class QuerySearchTab extends JPanel {
 
 	/**
 	 * Remove a row from the query builder
-	 * 
+	 *
 	 * @param row
 	 */
 	public void removeRow(QueryBuilderRow row) {

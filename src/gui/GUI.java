@@ -260,6 +260,7 @@ public class GUI extends JFrame implements GenomizerView {
 		loginWindow.removeErrorMessage();
 		loginWindow.setVisible(false);
 		querySearchTab.clickUpdateAnnotations();
+		querySearchTab.clearSearchFields();
 	}
 
 	@Override
