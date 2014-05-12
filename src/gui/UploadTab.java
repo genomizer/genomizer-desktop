@@ -37,14 +37,15 @@ public class UploadTab extends JPanel {
     private ArrayList<String> annotationHeaders;
     private HashMap<String, JComboBox> annotationBoxes;
     private HashMap<String, JTextField> annotationFields;
-    private ArrayList<UploadFileRow> uploadFileRows;
+    private HashMap<String, UploadFileRow> uploadFileRows;
     private ActivePanel activePanel;
     private JLabel expNameLabel;
     private JTextField expName;
+    private File[] currFiles;
     
     public UploadTab() {
 	annotationHeaders = new ArrayList<String>();
-	uploadFileRows = new ArrayList<UploadFileRow>();
+	uploadFileRows = new HashMap<String, UploadFileRow>();
 	activePanel = ActivePanel.NONE;
 	setLayout(new BorderLayout());
 	uploadToExistingExpPanel = new UploadToExistingExpPanel();
@@ -187,17 +188,20 @@ public class UploadTab extends JPanel {
 	}
     }
     
-    public void createUploadFileRow(String[] fileNames) {
+    public void createUploadFileRow(String[] fileNames, File[] files) {
+	currFiles = files;
 	for(String fileName : fileNames) {
 	    UploadFileRow fileRow = new UploadFileRow(fileName, this);
-	    uploadFileRows.add(fileRow);
+	    uploadFileRows.put(fileName, fileRow);
 	}
 	repaintSelectedFiles();
     }
 
     private void repaintSelectedFiles() {
-	for (UploadFileRow fileRow : uploadFileRows) {
-	    uploadFilesPanel.add(fileRow);
+	if(!uploadFileRows.isEmpty()) {
+	    for(File f : currFiles) {
+		uploadFilesPanel.add(uploadFileRows.get(f.getName()));
+	    }
 	}
 	uploadFilesPanel.add(selectButton);
 	uploadFilesPanel.add(uploadButton);
@@ -218,17 +222,20 @@ public class UploadTab extends JPanel {
                 uploadPanel.remove(newExpPanel);
                 newExpPanel.removeAll();
                 uploadFilesPanel.removeAll();
+                repaint();
+                revalidate();
                 activePanel = ActivePanel.NONE;
                 break;
         }
     }
 
     public void deleteFileRow(String fileName) {
-	for(int i = 0; i < uploadFileRows.size(); i++) {
-	    if(uploadFileRows.get(i).getFileName().equals(fileName)) {
-		uploadFileRows.remove(i);
-	    }
-	}
+//	for(int i = 0; i < uploadFileRows.size(); i++) {
+//	    if(uploadFileRows.get(i).getFileName().equals(fileName)) {
+//		uploadFileRows.remove(i);
+//	    }
+//	}
+	uploadFileRows.remove(fileName);
 	uploadFilesPanel.removeAll();
 	repaintSelectedFiles();
     }
@@ -250,7 +257,14 @@ public class UploadTab extends JPanel {
     }
 
     public File[] getUploadFiles() {
-	// TODO Auto-generated method stub
-	return null;
+	return currFiles;
+    }
+    
+    public HashMap<String, String> getTypes() {
+	HashMap<String, String> types = new HashMap<String, String>();
+	for(File f : currFiles) {
+	    types.put(f.getName(), uploadFileRows.get(f.getName()).getType());
+	}
+	return types;
     }
 }

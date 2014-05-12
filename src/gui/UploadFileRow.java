@@ -80,6 +80,10 @@ public class UploadFileRow extends JPanel {
 	return fileName;
     }
     
+    public String getType() {
+	return typeBox.getSelectedItem().toString();
+    }
+    
     class closeButtonListener implements ActionListener, Runnable {
 	@Override
 	public void actionPerformed(ActionEvent e) {

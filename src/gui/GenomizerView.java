@@ -3,6 +3,7 @@ package gui;
 import java.awt.event.ActionListener;
 import java.io.File;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import javax.swing.JFrame;
 import javax.swing.JList;
@@ -13,6 +14,8 @@ import util.ExperimentData;
 import util.FileData;
 
 public interface GenomizerView {
+
+    public void addAnalyzeSelectedListener(ActionListener listener);
 
     public void addLoginListener(ActionListener listener);
 
@@ -57,9 +60,8 @@ public interface GenomizerView {
 
     public void addUploadButtonListener(ActionListener listener);
 
-    public void addToWorkspace(ExperimentData[] experiments);
+    public void addToWorkspace(ArrayList<ExperimentData> experiments);
 
-    public FileData[] getSelectedFilesInSearch();
 
     public ArrayList<String> getAllMarkedFiles();
 
@@ -73,8 +75,6 @@ public interface GenomizerView {
 
     public DownloadWindow getDownloadWindow();
 
-    public ArrayList<ExperimentData> getWorkspaceSelectedExperiments();
-
 	public String getQuerySearchString();
 
     public String getIp();
@@ -84,6 +84,8 @@ public interface GenomizerView {
     public String getNewAnnotationName();
 
     public String[] getNewAnnotionCategories();
+   
+    public ArrayList<ExperimentData> getSelectedDataInSearch();
 
     public boolean getNewAnnotationForcedValue();
 
@@ -93,17 +95,13 @@ public interface GenomizerView {
 
     public ArrayList<FileData> getAllMarkedFileData();
 
-    public ExperimentData[] getSelectedExperimentsInSearch();
-
-    public ExperimentData[] getSelectedFilesWithExpsInSearch();
-
     public void updateLoginAccepted(String username, String pwd, String name);
 
     public void updateLoginNeglected(String errorMessage);
+    
 
     public void updateLogout();
 
-    public void updateQuerySearchResults(ExperimentData[] searchResults);
 
     public void setAnnotationTableData(AnnotationDataType[] annotations);
 
@@ -115,9 +113,9 @@ public interface GenomizerView {
 
     public void closePopup();
 
-    public void printToConvertText(String message);
+    public void printToConvertText(String message,String color);
 
-    public ArrayList<FileData> getWorkspaceSelectedFiles();
+    public ArrayList<ExperimentData> getSelectedDataInWorkspace();
 
     public void addDeleteAnnotationListener(ActionListener listener);
 
@@ -125,7 +123,7 @@ public interface GenomizerView {
 
     public String[] getBowtieParameters();
 
-    public void selectFilesToNewExp(String[] fileNames);
+    public void selectFilesToNewExp(String[] fileNames, File[] files);
 
     public File[] getFilesToUpload();
 
@@ -134,5 +132,11 @@ public interface GenomizerView {
 	public void setBowtieParameters();
 
 	public JList getfileList();
+
+	public String getNewExpName();
+
+	public HashMap<String, String> getFilesToUploadTypes();
+
+	void updateQuerySearchResults(ArrayList<ExperimentData> searchResults);
 }
 

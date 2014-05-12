@@ -5,9 +5,9 @@ import org.jdesktop.swingx.treetable.AbstractMutableTreeTableNode;
 /**
  * A custom node implementation (For TreeTable).
  */
-public class Node extends AbstractMutableTreeTableNode {
+public class SupportNode extends AbstractMutableTreeTableNode {
 
-	public Node(Object[] data) {
+	public SupportNode(Object[] data) {
 		super(data);
 	}
 

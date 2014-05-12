@@ -13,6 +13,7 @@ import java.awt.event.MouseEvent;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 
 import javax.swing.JFileChooser;
 import javax.swing.JList;
@@ -20,6 +21,8 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 
+import requests.AddExperimentRequest;
+import requests.RequestFactory;
 import model.GenomizerModel;
 import util.AnnotationDataType;
 import util.AnnotationDataValue;
@@ -45,7 +48,6 @@ public class Controller {
 		view.addRawToRegionDataListener(new RawToRegionDataListener());
 		view.addScheduleFileListener(new ScheduleFileListener());
 		view.addDownloadFileListener(new DownloadWindowListener());
-		view.addSearchResultsDownloadListener(new DownloadSearchListener());
 		// view.addAddAnnotationListener(new AddNewAnnotationListener());
 		view.addAddPopupListener(new AddPopupListener());
 		view.addAddToExistingExpButtonListener(new AddToExistingExpButtonListener());
@@ -59,54 +61,11 @@ public class Controller {
 		view.addNewExpButtonListener(new NewExpButtonListener());
 		view.addSelectButtonListener(new SelectFilesToNewExpListener());
 		view.addUploadButtonListener(new UploadNewExpListener());
+        view.addAnalyzeSelectedListener(new AnalyzeSelectedListener());
 		fileListAddMouseListener(view.getfileList());
 	}
 
-	class DownloadSearchListener implements ActionListener, Runnable {
-		@Override
-		public void actionPerformed(ActionEvent e) {
-			new Thread(this).start();
-		}
 
-		@Override
-		public void run() {
-			FileData[] fileData = view.getSelectedFilesInSearch();
-
-			/*
-			 * FileDialog fileDialog = new FileDialog((java.awt.Frame) null,
-			 * "Choose a directory", FileDialog.SAVE);
-			 * fileDialog.setVisible(true); String directoryName =
-			 * fileDialog.getDirectory(); System.out.println("You chose " +
-			 * directoryName); if(fileData == null || directoryName == null) {
-			 * System.err.println("No directory selected"); return; }
-			 */
-			// Skicka med arraylist<FileData> för de filer som ska nerladdas
-			FileData[] selectedFilesTemp = view.getSelectedFilesInSearch();
-			ExperimentData[] selectedExperimentsTemp = view
-					.getSelectedExperimentsInSearch();
-
-			ArrayList<FileData> selectedFiles = new ArrayList<FileData>(
-					Arrays.asList(selectedFilesTemp));
-			ArrayList<ExperimentData> selectedExperiments = new ArrayList<ExperimentData>(
-					Arrays.asList(selectedExperimentsTemp));
-
-			ExperimentData currentExperiment;
-
-			for (int i = 0; i < selectedExperiments.size(); i++) {
-				currentExperiment = selectedExperiments.get(i);
-
-				for (FileData x : currentExperiment.files){
-					if (!selectedFiles.contains(x))
-						selectedFiles.add(x);
-				}
-			}
-
-			DownloadWindow downloadWindow = new DownloadWindow(selectedFiles);
-			view.setDownloadWindow(downloadWindow);
-			downloadWindow.addDownloadFileListener(new DownloadFileListener());
-		}
-
-	}
 
 	class DeleteAnnotationListener implements ActionListener, Runnable {
 		@Override
@@ -215,7 +174,7 @@ public class Controller {
 			int markedSize = allMarked.size();
 			String message = null;
 			Boolean isConverted = false;
-
+			
 			if (!allMarked.isEmpty()) {
 
 				for (int i = 0; i < markedSize; i++) {
@@ -251,13 +210,13 @@ public class Controller {
 							metadata, genomeRelease, author);
 
 					if (isConverted.equals(true)) {
-						message = "The server has converted: " + fileName;
-						view.printToConvertText(message);
+						message = "The server has converted: " + fileName + " with file id: " + fileID + " from " + expid + "\n";
+						view.printToConvertText(message,"green");
 
 					} else {
 						message = "WARNING - The server couldn't convert: "
-								+ fileName + "\n";
-						view.printToConvertText(message);
+								+ fileName + " with file id: " + fileID + " from "+ expid +"\n";
+						view.printToConvertText(message,"red");
 					}
 				}
 			}
@@ -299,14 +258,20 @@ public class Controller {
 		public void actionPerformed(ActionEvent e) {
 			new Thread(this).start();
 		}
-
 		@Override
 		public void run() {
-
 			System.out.println("Process");
 			// TODO Skicka in filedata arrayen
-			view.setProccessFileList(view.getWorkspaceSelectedFiles());
-
+			ArrayList<ExperimentData> selectedData = view.getSelectedDataInWorkspace();
+			ArrayList<FileData> selectedFiles = new ArrayList<FileData>();
+			for(ExperimentData experiment : selectedData) {
+				for(FileData file : experiment.files) {
+					if(!selectedFiles.contains(file)) {
+						selectedFiles.add(file);
+					}
+				}
+			}
+			view.setProccessFileList(selectedFiles);
 		}
 	}
 
@@ -337,11 +302,12 @@ public class Controller {
 		@Override
 		public void run() {
 			String pubmed = view.getQuerySearchString();
-			ExperimentData[] searchResults = model.search(pubmed);
+			ArrayList<ExperimentData> searchResults = model.search(pubmed);
 			if (searchResults != null) {
 				view.updateQuerySearchResults(searchResults);
 			} else {
-				// view.updateQuerySearchResults(ExperimentData.getExample());
+//				searchResults = new ArrayList<ExperimentData>(Arrays.asList(ExperimentData.getExample()));
+//				 view.updateQuerySearchResults(searchResults);
 				JOptionPane.showMessageDialog(null, "No search results!",
 						"Search Warning", JOptionPane.WARNING_MESSAGE);
 			}
@@ -374,9 +340,9 @@ public class Controller {
 
 		@Override
 		public void run() {
-			if (model.uploadFile()) {
-				// update view?
-			}
+//			if (model.uploadFile()) {
+//				 update view?
+//			}
 
 		}
 	}
@@ -392,16 +358,13 @@ public class Controller {
 		@Override
 		public void run() {
 			// Skicka med arraylist<FileData> för de filer som ska nerladdas
-			ArrayList<FileData> selectedFiles = view
-					.getWorkspaceSelectedFiles();
-			ArrayList<ExperimentData> experimentData = view
-					.getWorkspaceSelectedExperiments();
-			ExperimentData currentExperiment;
-
-			for (int i = 0; i < experimentData.size(); i++) {
-				currentExperiment = experimentData.get(i);
-				for (int j = 0; j < currentExperiment.files.length; j++) {
-					selectedFiles.add(currentExperiment.files[j]);
+			ArrayList<ExperimentData> selectedData = view.getSelectedDataInWorkspace();
+			ArrayList<FileData> selectedFiles = new ArrayList<FileData>();
+			for(ExperimentData experiment : selectedData) {
+				for(FileData file : experiment.files) {
+					if(!selectedFiles.contains(file)) {
+						selectedFiles.add(file);
+					}
 				}
 			}
 
@@ -489,12 +452,16 @@ public class Controller {
 
 		@Override
 		public void run() {
-			FileDialog fileDialog = new java.awt.FileDialog(
-					(java.awt.Frame) null);
-			fileDialog.setMultipleMode(true);
-			fileDialog.setVisible(true);
-
-			// Old fileChooser: fileChooser.showOpenDialog(new JPanel());
+            FileDialog fileDialog = new java.awt.FileDialog(
+                    (java.awt.Frame) null);
+            fileDialog.setMultipleMode(true);
+            fileDialog.setVisible(true);
+            File[] files = fileDialog.getFiles();
+            String[] fileNames = new String[files.length];
+            for(int i = 0; i < files.length ; i++) {
+                fileNames[i] = files[i].getName();
+            }
+            view.selectFilesToNewExp(fileNames, files);
 		}
 	}
 
@@ -544,8 +511,7 @@ public class Controller {
 
 		@Override
 		public void run() {
-			view.addToWorkspace(view.getSelectedFilesWithExpsInSearch());
-			view.addToWorkspace(view.getSelectedExperimentsInSearch());
+			view.addToWorkspace(view.getSelectedDataInSearch());
 		}
 
 	}
@@ -583,7 +549,7 @@ public class Controller {
 			for(int i = 0; i < files.length ; i++) {
 				fileNames[i] = files[i].getName();
 			}
-			view.selectFilesToNewExp(fileNames);
+			view.selectFilesToNewExp(fileNames, files);
 		}
 	}
 	class UploadNewExpListener implements ActionListener, Runnable  {
@@ -595,14 +561,39 @@ public class Controller {
 
 		@Override
 		public void run() {
-			AnnotationDataValue[] a = view.getUploadAnnotations();
+		    	String expName = view.getNewExpName();
+			AnnotationDataValue[] annotations = view.getUploadAnnotations();
 			File[] files = view.getFilesToUpload();
-			for(AnnotationDataValue b : a) {
-			    System.out.println(b.getName() + " " + b.getValue());
+			HashMap<String, String> types = view.getFilesToUploadTypes();
+			//Should be genome release from uploadTab
+			String release = "releaseNr";
+			//Test purpose
+			for(AnnotationDataValue a : annotations) {
+			    System.out.println(a.getName() + " " + a.getValue());
 			}
-			
+			String ID = model.addNewExperiment(expName, view.getUsername(), annotations);
+			System.out.println(ID);
+			if(!ID.isEmpty()) {
+			    for(File f : files) {
+				model.uploadFile(ID, f, types.get(f.getName()), view.getUsername(), false, release);
+			    }
+			    
+			}
 		}
 	}
+
+    class AnalyzeSelectedListener implements ActionListener, Runnable  {
+
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            new Thread(this).start();
+        }
+
+        @Override
+        public void run() {
+            System.out.println("ANALYZE");
+        }
+    }
 
 	private void fileListAddMouseListener(JList fileList) {
 		fileList.addMouseListener(new MouseAdapter() {

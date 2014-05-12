@@ -15,8 +15,8 @@ public class RequestFactory {
     }
 
     public static AddFileToExperiment makeAddFile(String experimentID,
-	    String fileName, String size, String type) {
-	return new AddFileToExperiment(experimentID, fileName, size, type);
+	    String fileName, String type, String metaData, String author, String uploader, boolean isPrivate, String grVersion) {
+	return new AddFileToExperiment(experimentID, fileName, type, metaData, author, uploader, isPrivate, grVersion);
     }
 
     public static LogoutRequest makeLogoutRequest() {
@@ -33,9 +33,9 @@ public class RequestFactory {
 	return new ChangeAnnotationRequest(id, annotations);
     }
 
-    public static AddExperimentRequest makeAddExperimentRequest(
-	    String experimentID, String name, AnnotationDataValue[] annotations) {
-	return new AddExperimentRequest(experimentID, name, annotations);
+    public static AddExperimentRequest makeAddExperimentRequest(String expirementName, String createdBy,
+	    AnnotationDataValue[] annotations) {
+	return new AddExperimentRequest(expirementName, createdBy, annotations);
     }
 
     public static RetrieveExperimentRequest makeRetrieveExperimentRequest(
