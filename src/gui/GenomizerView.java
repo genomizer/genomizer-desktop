@@ -20,6 +20,8 @@ public interface GenomizerView {
 
     public void addLoginListener(ActionListener listener);
 
+    void addScheduleFileListener(ActionListener listener);
+
     public void addSearchToWorkspaceListener(ActionListener listener);
 
     public void addLogoutListener(ActionListener listener);
@@ -38,9 +40,6 @@ public interface GenomizerView {
 
     public void addRawToRegionDataListener(ActionListener listener);
 
-    public void addAddAnnotationListener(ActionListener addAnnotationListener);
-
-    public void addAddPopupListener(ActionListener addPopupListener);
 
     public void addAddToExistingExpButtonListener(
 	    ActionListener addToExistingExpButtonListener);
@@ -78,6 +77,8 @@ public interface GenomizerView {
 
     public String getIp();
 
+    ArrayList<ExperimentData> getSelectedDataInSearch();
+
     public UploadTab getUploadTab();
 	
     public int getSelectedRowAtAnnotationTable();
@@ -92,23 +93,17 @@ public interface GenomizerView {
 
     public void updateLogout();
 
-	public void updateQuerySearchResults(ExperimentData[] searchResults);
+	//public void updateQuerySearchResults(ExperimentData[] searchResults);
 	
-	public void setAnnotationTableData(AnnotationDataType[] annotations);
-
     public void setSearchAnnotationTypes(AnnotationDataType[] annotationTypes);
 
     public void setProccessFileList(ArrayList<FileData> arrayList);
 
-	public void printToConvertText(String message);
-	
+	public void printToConvertText(String message, String color);
 
     public void setSysadminController(SysadminController sysadminController);
 
-	//public void addDeleteAnnotationListener(ActionListener listener);
     public ArrayList<ExperimentData> getSelectedDataInWorkspace();
-
-    public void addDeleteAnnotationListener(ActionListener listener);
 
     public void createNewExp(AnnotationDataType[] annotations);
 

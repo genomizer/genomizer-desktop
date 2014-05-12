@@ -12,6 +12,7 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.File;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import javax.swing.JFileChooser;
 import javax.swing.JList;
@@ -541,20 +542,20 @@ public class Controller {
 
 	private void fileListAddMouseListener(JList fileList) {
 		fileList.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent event) {
-				JList list = (JList) event.getSource();
+            @Override
+            public void mouseClicked(MouseEvent event) {
+                JList list = (JList) event.getSource();
 
-				if(list.getModel().getSize() > 0){
-					int index = list.locationToIndex(event.getPoint());
-					CheckListItem item = (CheckListItem) list.getModel()
-							.getElementAt(index);
+                if (list.getModel().getSize() > 0) {
+                    int index = list.locationToIndex(event.getPoint());
+                    CheckListItem item = (CheckListItem) list.getModel()
+                            .getElementAt(index);
 
-					item.setSelected(!item.isSelected());
+                    item.setSelected(!item.isSelected());
 
-					list.repaint(list.getCellBounds(index, index));
-				}
-			}
-		});
+                    list.repaint(list.getCellBounds(index, index));
+                }
+            }
+        });
 	}
 }
