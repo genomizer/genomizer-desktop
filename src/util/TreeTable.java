@@ -101,13 +101,14 @@ public class TreeTable extends JPanel {
             headings = new ArrayList<String>();
             headings.add("Experiment Name");
             headings.add("Experiment Created By");
-                for (int i = 0; i < experiments.size(); i++) {
-                    for(AnnotationDataValue annotation : experiments.get(i).annotations)
-                    if(!headings.contains(annotation.name)) {
+            for (int i = 0; i < experiments.size(); i++) {
+                for (AnnotationDataValue annotation : experiments.get(i).annotations) {
+                    if (!headings.contains(annotation.name)) {
                         headings.add(annotation.name);
                         nrOfColumns++;
                     }
                 }
+            }
 	    /* Initate the sorting orders as descending */
             for (int i = 0; i < nrOfColumns; i++) {
                 sortingOrders.add(i, true);
@@ -143,6 +144,16 @@ public class TreeTable extends JPanel {
                 if(sortByColumn > entry1.size()-1 || sortByColumn > entry2.size()-1) {
                     return 1;
                 }
+                /*if((entry1.get(sortByColumn) == null || entry1.get(sortByColumn).equals("")) &&
+                        (entry2.get(sortByColumn) == null || entry2.get(sortByColumn).equals(""))) {
+                    return 0;
+                } else if((entry1.get(sortByColumn) == null || entry1.get(sortByColumn).equals("")) &&
+                        !(entry2.get(sortByColumn) == null || entry2.get(sortByColumn).equals(""))) {
+                    return -1;
+                } else if(!(entry1.get(sortByColumn) == null || entry1.get(sortByColumn).equals("")) &&
+                        (entry2.get(sortByColumn) == null || entry2.get(sortByColumn).equals(""))) {
+                    return 1;
+                }*/
                 Matcher m1 = PATTERN.matcher(entry1.get(sortByColumn).toLowerCase());
                 Matcher m2 = PATTERN.matcher(entry2.get(sortByColumn).toLowerCase());
 		/* The only way find() could fail is at the end of a string */

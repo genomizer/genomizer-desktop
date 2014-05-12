@@ -37,18 +37,19 @@ public class UploadTab extends JPanel implements  ExperimentPanel {
     private UploadToExistingExpPanel uploadToExistingExpPanel;
     private AnnotationDataType[] annotations;
     private ArrayList<String> annotationHeaders;
+    private ArrayList<File> currFiles;
     private HashMap<String, JComboBox> annotationBoxes;
     private HashMap<String, JTextField> annotationFields;
     private HashMap<String, UploadFileRow> uploadFileRows;
     private ActivePanel activePanel;
     private JLabel expNameLabel;
     private JTextField expName;
-    private File[] currFiles;
     private JScrollPane uploadScroll;
     private JPanel buttonsPanel;
 
     public UploadTab() {
-	annotationHeaders = new ArrayList<String>();
+        currFiles = new ArrayList<File>();
+        annotationHeaders = new ArrayList<String>();
 	uploadFileRows = new HashMap<String, UploadFileRow>();
 	activePanel = ActivePanel.NONE;
 	setLayout(new BorderLayout());
@@ -81,6 +82,10 @@ public class UploadTab extends JPanel implements  ExperimentPanel {
 	northPanel.add(newExpButton, BorderLayout.EAST);
     }
 
+    /**
+     * Displays a panel for adding to an existing experiment.
+     * @param annotations The annotations of the experiment.
+     */
     public void addExistingExpPanel(AnnotationDataType[] annotations) {
         killContentsOfUploadPanel();
         activePanel = ActivePanel.EXISTING;
@@ -151,7 +156,6 @@ public class UploadTab extends JPanel implements  ExperimentPanel {
 	    }
 	     else if (annotations[i].isForced()) {
 	    if (x > 6) {
-		System.out.println("H�R");
 		x = 0;
 		y++;
 	    }
@@ -195,7 +199,9 @@ public class UploadTab extends JPanel implements  ExperimentPanel {
     }
 
     public void createUploadFileRow(String[] fileNames, File[] files) {
-	currFiles = files;
+	for(File f : files) {
+	    currFiles.add(f);
+	}
 	for (String fileName : fileNames) {
 	    UploadFileRow fileRow = new UploadFileRow(fileName, this);
 	    uploadFileRows.put(fileName, fileRow);
@@ -204,22 +210,23 @@ public class UploadTab extends JPanel implements  ExperimentPanel {
     }
 
     private void repaintSelectedFiles() {
-	if (!uploadFileRows.isEmpty()) {
+	if (!currFiles.isEmpty()) {
 	    for (File f : currFiles) {
-	        if(uploadFileRows.containsKey(f.getName())){
 	            uploadFilesPanel.add(uploadFileRows.get(f.getName()));
-	        }
 	    }
 	}
-//	uploadFilesPanel.add(selectButton);
-//	uploadFilesPanel.add(uploadButton);
 	buttonsPanel.add(selectButton);
 	buttonsPanel.add(uploadButton);
 	uploadFilesPanel.add(buttonsPanel);
-	revalidate();
 	repaint();
+	revalidate();
     }
 
+    /**
+     * Removes the components in the panels when one of them gets chosen by the user, to make sure the new components
+     * won't overlap and end up invisible. The method checks the Enum ActivePanel to check which panel was the active
+     * one.
+     */
     public void killContentsOfUploadPanel() {
         switch (activePanel) {
             case NONE:
@@ -244,14 +251,15 @@ public class UploadTab extends JPanel implements  ExperimentPanel {
     }
 
     public void deleteFileRow(String fileName) {
-	// for(int i = 0; i < uploadFileRows.size(); i++) {
-	// if(uploadFileRows.get(i).getFileName().equals(fileName)) {
-	// uploadFileRows.remove(i);
-	// }
-	// }
 	uploadFileRows.remove(fileName);
-	buttonsPanel.removeAll();
+	for(File f : currFiles) {
+	    if(f.getName().equals(fileName)){
+	        currFiles.remove(f);
+	        break;
+	    }
+	}
 	uploadFilesPanel.removeAll();
+	buttonsPanel.removeAll();
 	repaintSelectedFiles();
     }
 
@@ -278,7 +286,11 @@ public class UploadTab extends JPanel implements  ExperimentPanel {
     }
 
     public File[] getUploadFiles() {
-	return currFiles;
+        File[] files = new File[currFiles.size()];
+        for(int i = 0; i < currFiles.size(); i++) {
+            files[i] = currFiles.get(i);
+        }
+	return files;
     }
 
     public HashMap<String, String> getTypes() {

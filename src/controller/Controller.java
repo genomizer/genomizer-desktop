@@ -51,15 +51,9 @@ public class Controller {
         view.addRawToRegionDataListener(new RawToRegionDataListener());
         view.addScheduleFileListener(new ScheduleFileListener());
         view.addDownloadFileListener(new DownloadWindowListener());
-        view.addAddToExistingExpButtonListener(new AddToExistingExpButtonListener());
         view.addSelectFilesToUploadButtonListener(new SelectFilesToUploadButtonListener());
-        view.addUploadToExperimentButtonListener(new UploadToExperimentButtonListener());
-        view.addUpdateSearchAnnotationsListener(new updateSearchAnnotationsListener());
-        view.addProcessFileListener(new ProcessFileListener());
-        view.addSearchToWorkspaceListener(new SearchToWorkspaceListener());
         view.setSysadminController(sysController = new SysadminController(model));
         view.addAddToExistingExpButtonListener(new AddToExistingExpButtonListener());
-        view.addSelectFilesToUploadButtonListener(new SelectFilesToUploadButtonListener());
         view.addUploadToExperimentButtonListener(new UploadToExperimentButtonListener());
         view.addUpdateSearchAnnotationsListener(new updateSearchAnnotationsListener());
         view.addProcessFileListener(new ProcessFileListener());
@@ -382,6 +376,7 @@ public class Controller {
 
 		@Override
 		public void run() {
+            System.out.println("hej");
             FileDialog fileDialog = new java.awt.FileDialog(
                     (java.awt.Frame) null);
             fileDialog.setMultipleMode(true);
@@ -410,11 +405,12 @@ public class Controller {
             File[] files = view.getFilesToUpload();
             HashMap<String, String> types = view.getFilesToUploadTypes();
             //Should be genome release from uploadTab
-            String release = "releaseNr";
+            String release = "rn5";
             //Test purpose
             for(AnnotationDataValue a : annotations) {
                 System.out.println(a.getName() + " " + a.getValue());
             }
+            //TODO: ändra till existerande experiment!
             boolean created = model.addNewExperiment(expName, view.getUsername(), annotations);
             System.out.println(created);
             if(created) {
@@ -438,7 +434,7 @@ public class Controller {
 		@Override
 		public void run() {
 			AnnotationDataType[] annotations = model.getAnnotations();
-			if (annotations != null) {
+			if (annotations != null && annotations.length > 0) {
 				view.setSearchAnnotationTypes(annotations);
 			}
 		}
@@ -510,7 +506,7 @@ public class Controller {
 			if(files != null && files.length > 0 && annotations != null && expName != null) {
 			    HashMap<String, String> types = view.getFilesToUploadTypes();
 			    //Should be genome release from uploadTab
-			    String release = "releaseNr";
+			    String release = "rn5";
 			    //Test purpose
 			    for(AnnotationDataValue a : annotations) {
 			        System.out.println(a.getName() + " " + a.getValue());
