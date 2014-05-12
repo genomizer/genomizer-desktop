@@ -203,7 +203,9 @@ public class UploadTab extends JPanel implements  ExperimentPanel {
     private void repaintSelectedFiles() {
 	if (!uploadFileRows.isEmpty()) {
 	    for (File f : currFiles) {
-		uploadFilesPanel.add(uploadFileRows.get(f.getName()));
+	        if(uploadFileRows.containsKey(f.getName())){
+	            uploadFilesPanel.add(uploadFileRows.get(f.getName()));
+	        }
 	    }
 	}
 	uploadFilesPanel.add(selectButton);
