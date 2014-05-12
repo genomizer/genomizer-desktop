@@ -511,7 +511,7 @@ public class Controller {
 			if(files != null && files.length > 0 && annotations != null && expName != null) {
 			    HashMap<String, String> types = view.getFilesToUploadTypes();
 			    //Should be genome release from uploadTab
-			    String release = "releaseNr";
+			    String release = "rn5";
 			    //Test purpose
 			    for(AnnotationDataValue a : annotations) {
 			        System.out.println(a.getName() + " " + a.getValue());
