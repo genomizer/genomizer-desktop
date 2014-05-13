@@ -80,7 +80,7 @@ public interface GenomizerView {
     ArrayList<ExperimentData> getSelectedDataInSearch();
 
     public UploadTab getUploadTab();
-	
+
     public int getSelectedRowAtAnnotationTable();
 
 
@@ -89,12 +89,12 @@ public interface GenomizerView {
     public void updateLoginAccepted(String username, String pwd, String name);
 
     public void updateLoginNeglected(String errorMessage);
-    
+
 
     public void updateLogout();
 
 	//public void updateQuerySearchResults(ExperimentData[] searchResults);
-	
+
     public void setSearchAnnotationTypes(AnnotationDataType[] annotationTypes);
 
     public void setProccessFileList(ArrayList<FileData> arrayList);
@@ -109,11 +109,11 @@ public interface GenomizerView {
 
     public String[] getBowtieParameters();
 
-    public void selectFilesToNewExp(String[] fileNames, File[] files);
+    public void selectFilesToNewExp(File[] files);
 
     public void selectFilesToExistingExp(String[] fileNames, File[] files);
 
-    public File[] getFilesToUpload();
+    public ArrayList<File> getFilesToUpload();
 
     public AnnotationDataValue[] getUploadAnnotations();
 
@@ -125,6 +125,8 @@ public interface GenomizerView {
 
 	public HashMap<String, String> getFilesToUploadTypes();
 
-	void updateQuerySearchResults(ArrayList<ExperimentData> searchResults);
+	public void updateQuerySearchResults(ArrayList<ExperimentData> searchResults);
+
+	public void enableUploadButton(boolean b);
 }
 

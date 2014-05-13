@@ -7,6 +7,7 @@ import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
 
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -21,11 +22,12 @@ public class UploadFileRow extends JPanel {
     private JButton closeButton;
     private JComboBox typeBox;
     private JProgressBar uploadBar;
-    private String fileName;
+    private File file;
 
-    public UploadFileRow(String fileName, ExperimentPanel parent) {
+    public UploadFileRow(File f, ExperimentPanel parent) {
 	this.parent = parent;
 	setLayout(new BorderLayout());
+	this.file = f;
 
 	filePanel = new JPanel();
 	add(filePanel, BorderLayout.SOUTH);
@@ -37,8 +39,7 @@ public class UploadFileRow extends JPanel {
 	gbl_panel.rowWeights = new double[] { 0.0, Double.MIN_VALUE };
 	filePanel.setLayout(gbl_panel);
 
-	this.fileName = fileName;
-	fileLabel = new JLabel(fileName);
+	fileLabel = new JLabel(file.getName());
     	GridBagConstraints gbc_lblFilename = new GridBagConstraints();
     	gbc_lblFilename.anchor = GridBagConstraints.WEST;
     	gbc_lblFilename.insets = new Insets(0, 0, 5, 5);
@@ -77,7 +78,7 @@ public class UploadFileRow extends JPanel {
     }
 
     public String getFileName() {
-	return fileName;
+	return file.getName();
     }
 
     public String getType() {
@@ -92,7 +93,7 @@ public class UploadFileRow extends JPanel {
 
 	@Override
 	public void run() {
-	    parent.deleteFileRow(fileName);
+	    parent.deleteFileRow(file);
 	}
     }
 }

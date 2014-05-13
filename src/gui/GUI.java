@@ -419,8 +419,8 @@ public class GUI extends JFrame implements GenomizerView {
 		uploadTab.createNewExp(annotations);
 	}
 	@Override
-	public void selectFilesToNewExp(String[] fileNames, File[] files) {
-		uploadTab.createUploadFileRow(fileNames, files);
+	public void selectFilesToNewExp(File[] files) {
+		uploadTab.createUploadFileRow(files);
 	}
 
     @Override
@@ -438,7 +438,7 @@ public class GUI extends JFrame implements GenomizerView {
 	}
 
 	@Override
-	public File[] getFilesToUpload() {
+	public ArrayList<File> getFilesToUpload() {
 		return uploadTab.getUploadFiles();
 	}
 
@@ -467,4 +467,7 @@ public class GUI extends JFrame implements GenomizerView {
 		return uploadTab.getTypes();
 	}
 
+	public void enableUploadButton(boolean b) {
+	    uploadTab.enableUploadButton(b);
+	}
 }

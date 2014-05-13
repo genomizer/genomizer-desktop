@@ -7,11 +7,12 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.GridLayout;
 import java.awt.Insets;
-import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map.Entry;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
@@ -22,7 +23,6 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
-import javax.swing.border.CompoundBorder;
 
 import util.ActivePanel;
 import util.AnnotationDataType;
@@ -37,10 +37,9 @@ public class UploadTab extends JPanel implements  ExperimentPanel {
     private UploadToExistingExpPanel uploadToExistingExpPanel;
     private AnnotationDataType[] annotations;
     private ArrayList<String> annotationHeaders;
-    private ArrayList<File> currFiles;
     private HashMap<String, JComboBox> annotationBoxes;
     private HashMap<String, JTextField> annotationFields;
-    private HashMap<String, UploadFileRow> uploadFileRows;
+    private HashMap<File, UploadFileRow> uploadFileRows;
     private ActivePanel activePanel;
     private JLabel expNameLabel;
     private JTextField expName;
@@ -48,9 +47,8 @@ public class UploadTab extends JPanel implements  ExperimentPanel {
     private JPanel buttonsPanel;
 
     public UploadTab() {
-        currFiles = new ArrayList<File>();
         annotationHeaders = new ArrayList<String>();
-	uploadFileRows = new HashMap<String, UploadFileRow>();
+	uploadFileRows = new HashMap<File, UploadFileRow>();
 	activePanel = ActivePanel.NONE;
 	setLayout(new BorderLayout());
 	uploadToExistingExpPanel = new UploadToExistingExpPanel();
@@ -80,6 +78,7 @@ public class UploadTab extends JPanel implements  ExperimentPanel {
 	expName = new JTextField();
 	expName.setColumns(10);
 	northPanel.add(newExpButton, BorderLayout.EAST);
+	enableUploadButton(false);
     }
 
     /**
@@ -198,22 +197,29 @@ public class UploadTab extends JPanel implements  ExperimentPanel {
 	}
     }
 
-    public void createUploadFileRow(String[] fileNames, File[] files) {
+    public void createUploadFileRow(File[] files) {
 	for(File f : files) {
-	    currFiles.add(f);
-	}
-	for (String fileName : fileNames) {
-	    UploadFileRow fileRow = new UploadFileRow(fileName, this);
-	    uploadFileRows.put(fileName, fileRow);
+	    if(!uploadFileRows.containsKey(f)) {
+	        System.out.println("yo");
+	        UploadFileRow fileRow = new UploadFileRow(f, this);
+	        uploadFileRows.put(f, fileRow);
+	    } else {
+	        JOptionPane.showMessageDialog(this,
+	                    "File already selected: " + f.getName() + "", "File error",
+	                    JOptionPane.ERROR_MESSAGE);
+	    }
 	}
 	repaintSelectedFiles();
     }
 
     private void repaintSelectedFiles() {
-	if (!currFiles.isEmpty()) {
-	    for (File f : currFiles) {
-	            uploadFilesPanel.add(uploadFileRows.get(f.getName()));
+        if (!uploadFileRows.isEmpty()) {
+            System.out.println("y2o");
+            for (File f : uploadFileRows.keySet()) {
+                uploadFilesPanel.add(uploadFileRows.get(f));
 	    }
+	} else {
+	    enableUploadButton(false);
 	}
 	buttonsPanel.add(selectButton);
 	buttonsPanel.add(uploadButton);
@@ -250,17 +256,18 @@ public class UploadTab extends JPanel implements  ExperimentPanel {
         }
     }
 
-    public void deleteFileRow(String fileName) {
-	uploadFileRows.remove(fileName);
-	for(File f : currFiles) {
-	    if(f.getName().equals(fileName)){
-	        currFiles.remove(f);
-	        break;
-	    }
+    public void deleteFileRow(File f) {
+        if (uploadFileRows.containsKey(f)) {
+	    System.out.println("1");
+	    uploadFileRows.remove(f);
+	    uploadFilesPanel.removeAll();
+	    buttonsPanel.removeAll();
+	    repaintSelectedFiles();
+	} else {
+	    JOptionPane.showMessageDialog(this,
+                    "Can't delete file: " + f.getName() + "", "File error",
+                    JOptionPane.ERROR_MESSAGE);
 	}
-	uploadFilesPanel.removeAll();
-	buttonsPanel.removeAll();
-	repaintSelectedFiles();
     }
 
     public String getNewExpName() {
@@ -285,19 +292,23 @@ public class UploadTab extends JPanel implements  ExperimentPanel {
 	return annotations;
     }
 
-    public File[] getUploadFiles() {
-        File[] files = new File[currFiles.size()];
-        for(int i = 0; i < currFiles.size(); i++) {
-            files[i] = currFiles.get(i);
+    public ArrayList<File> getUploadFiles() {
+        ArrayList<File> files = new ArrayList<File>();
+        for(File f : uploadFileRows.keySet()) {
+            files.add(f);
         }
 	return files;
     }
 
     public HashMap<String, String> getTypes() {
 	HashMap<String, String> types = new HashMap<String, String>();
-	for (File f : currFiles) {
-	    types.put(f.getName(), uploadFileRows.get(f.getName()).getType());
+	for (File f : uploadFileRows.keySet()) {
+	    types.put(f.getName(), uploadFileRows.get(f).getType());
 	}
 	return types;
+    }
+
+    public void enableUploadButton(boolean b) {
+        uploadButton.setEnabled(b);
     }
 }

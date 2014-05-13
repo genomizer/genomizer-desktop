@@ -402,7 +402,7 @@ public class Controller {
 		public void run() {
             String expName = view.getNewExpName();
             AnnotationDataValue[] annotations = view.getUploadAnnotations();
-            File[] files = view.getFilesToUpload();
+            ArrayList<File> files = view.getFilesToUpload();
             HashMap<String, String> types = view.getFilesToUploadTypes();
             //Should be genome release from uploadTab
             String release = "rn5";
@@ -484,11 +484,8 @@ public class Controller {
 			fileDialog.setMultipleMode(true);
 			fileDialog.setVisible(true);
 			File[] files = fileDialog.getFiles();
-			String[] fileNames = new String[files.length];
-			for(int i = 0; i < files.length ; i++) {
-				fileNames[i] = files[i].getName();
-			}
-			view.selectFilesToNewExp(fileNames, files);
+			view.selectFilesToNewExp(files);
+			view.enableUploadButton(true);
 		}
 	}
 	class UploadNewExpListener implements ActionListener, Runnable  {
@@ -502,8 +499,8 @@ public class Controller {
 		public void run() {
 		    	String expName = view.getNewExpName();
 			AnnotationDataValue[] annotations = view.getUploadAnnotations();
-			File[] files = view.getFilesToUpload();
-			if(files != null && files.length > 0 && annotations != null && expName != null) {
+			ArrayList<File> files = view.getFilesToUpload();
+			if(files != null && files.size() > 0 && annotations != null && expName != null) {
 			    HashMap<String, String> types = view.getFilesToUploadTypes();
 			    //Should be genome release from uploadTab
 			    String release = "rn5";
@@ -515,6 +512,7 @@ public class Controller {
 			    System.out.println(created);
 			    if(created) {
 			        for(File f : files) {
+			            System.out.println(f.getName());
 			            model.uploadFile(expName, f, types.get(f.getName()), view.getUsername(), false, release);
 			        }
 
