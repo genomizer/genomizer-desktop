@@ -20,6 +20,7 @@ import org.apache.http.impl.client.BasicCredentialsProvider;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClientBuilder;
 import org.apache.http.impl.client.HttpClients;
+import org.apache.http.util.EntityUtils;
 
 public class HTTPURLUpload {
 
@@ -35,10 +36,19 @@ public class HTTPURLUpload {
 		// the URL where the file will be posted
 
 		URI postReceiverUrl = null;
-		try {
+        uploadPath = uploadPath.replaceFirst("\\u003d", "=");
+        //uploadPath = uploadPath.replaceFirst("8000", "8050");
+        String path;
+        if(uploadPath.contains("=")) {
+            path = uploadPath.split("=")[1];
+        } else {
+            path = uploadPath;
+        }
+        System.out.println("URL: " + uploadPath + " Path: " + path);
+        try {
 			postReceiverUrl = new URIBuilder().setScheme("http")
-					.setHost("scratchy.cs.umu.se:8090")
-					.setPath("/html/upload.php").build();
+					.setHost("scratchy.cs.umu.se:8000")
+					.setPath("/upload.php").addParameter("path", path).build();
 		} catch (URISyntaxException e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
@@ -58,6 +68,8 @@ public class HTTPURLUpload {
 
 		// post header
 		HttpPost httpPost = new HttpPost(postReceiverUrl);
+        System.out.println(httpPost.getURI().getRawQuery());
+        //HttpPost httpPost = new HttpPost(filePath);
 
 		File file = new File(filePath);
 
@@ -65,7 +77,7 @@ public class HTTPURLUpload {
 		reqEntity.setMode(HttpMultipartMode.BROWSER_COMPATIBLE);
 
 		// add the location on the server where the file should be saved
-		reqEntity.addTextBody("path", uploadPath);
+		reqEntity.addTextBody("path", path);
 
 		reqEntity.addBinaryBody("uploadfile", file);
 		httpPost.setEntity(reqEntity.build());
@@ -75,10 +87,11 @@ public class HTTPURLUpload {
 			// execute HTTP post request
 			response = httpClient.execute(httpPost, localContext);
 			HttpEntity resEntity = response.getEntity();
+            System.out.println("Response code: " + response.getStatusLine().getStatusCode());
 			if (resEntity != null) {
 
-				// String responseStr = EntityUtils.toString(resEntity).trim();
-				// System.out.println("Response: " + responseStr);
+				String responseStr = EntityUtils.toString(resEntity).trim();
+				System.out.println("Response: " + responseStr);
 			}
 		} catch (ClientProtocolException e) {
 			// TODO Auto-generated catch block
@@ -95,8 +108,8 @@ public class HTTPURLUpload {
 	 */
 	public static void main(String[] args) {
 		HTTPURLUpload uploader = new HTTPURLUpload(
-				"/var/www/html/uploads/test111.txt",
-				"/home/c11/c11vlg/Downloads/test.txt");
+				"/var/www/data/test0x64.txt",
+				"/home/dv12/dv12csr/test.txt");
 		uploader.sendFile("pvt", "pvt");
 	}
 

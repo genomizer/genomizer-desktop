@@ -4,6 +4,8 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
 
+import communication.HTTPURLUpload;
+import org.apache.http.protocol.HTTP;
 import requests.AddAnnotationRequest;
 import requests.AddExperimentRequest;
 import requests.AddFileToExperiment;
@@ -121,11 +123,16 @@ public class Model implements GenomizerModel {
 	    if (conn.getResponseCode() == 200) {
 		url = conn.getResponseBody();
 	    }
-	    AddFileToExperimentResponse aFTER =  ResponseParser.parseUploadResponse(conn.getResponseBody());
-	    UploadHandler handler = new UploadHandler(aFTER.URLupload, f.getAbsolutePath(),
+
+
+
+        AddFileToExperimentResponse aFTER =  ResponseParser.parseUploadResponse(conn.getResponseBody());
+        HTTPURLUpload upload = new HTTPURLUpload(aFTER.URLupload, f.getAbsolutePath());
+        upload.sendFile("pvt", "pvt");
+	    /*UploadHandler handler = new UploadHandler(aFTER.URLupload, f.getAbsolutePath(),
 		    userID, "pvt:pvt");
 	    Thread thread = new Thread(handler);
-	    thread.start();
+	    thread.start();*/
 
 	    return true;
 	}
