@@ -82,6 +82,9 @@ public class UploadToExistingExpPanel extends JPanel implements ExperimentPanel 
             }
         }
         uploadFileRows.remove(fileName);
+        if(uploadFileRows.size()==0) {
+            uploadFilesToExperimentButton.setEnabled(false);
+        }
         uploadFilesPanel.removeAll();
         repaintSelectedFiles();
     }
@@ -150,6 +153,10 @@ public class UploadToExistingExpPanel extends JPanel implements ExperimentPanel 
 
         repaint();
         revalidate();
+    }
+
+    public void enableUploadButton() {
+        uploadFilesToExperimentButton.setEnabled(true);
     }
 
     @Override
