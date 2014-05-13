@@ -7,6 +7,9 @@ import gui.sysadmin.usersview.UsersViewCreator;
 
 import javax.swing.*;
 import javax.swing.table.TableModel;
+
+import util.AnnotationDataType;
+
 import java.awt.*;
 import java.awt.event.ActionListener;
 
@@ -107,6 +110,11 @@ public class SysadminTab extends JPanel {
 
     }
 
+    public void editAnnotationPopup() {
+
+        annotationsView.editPopup(editAnnotationPopupListener());
+    }
+
     public void createAnnotationListeners() {
         annotationsView.addAnnotationListener(sysController
                 .createAnnotationButtonListener());
@@ -114,6 +122,11 @@ public class SysadminTab extends JPanel {
 
     public ActionListener createAnnotationPopupListener() {
         return sysController.createAnnotationPopupListener();
+    }
+
+    public ActionListener editAnnotationPopupListener() {
+		return sysController.editAnnotationPopupListener();
+
     }
 
     public AnnotationsViewCreator getAnnotationsView() {
