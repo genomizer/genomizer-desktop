@@ -385,8 +385,8 @@ public class Controller {
             for(int i = 0; i < files.length ; i++) {
                 fileNames[i] = files[i].getName();
             }
-            view.selectFilesToExistingExp(fileNames, files);
-            view.getUploadTab().getUploadToExistingExpPanel().enableUploadButton();
+            view.selectFilesToExistingExp(files);
+            view.getUploadTab().getUploadToExistingExpPanel().enableUploadButton(true);
 		}
 	}
 

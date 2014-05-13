@@ -424,8 +424,8 @@ public class GUI extends JFrame implements GenomizerView {
 	}
 
     @Override
-    public void selectFilesToExistingExp(String[] fileNames, File[] files) {
-        uploadTab.getUploadToExistingExpPanel().createUploadFileRow(fileNames, files);
+    public void selectFilesToExistingExp(File[] files) {
+        uploadTab.getUploadToExistingExpPanel().createUploadFileRow(files);
     }
 
     public DownloadWindow getDownloadWindow() {

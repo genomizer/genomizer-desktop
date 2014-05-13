@@ -111,7 +111,7 @@ public interface GenomizerView {
 
     public void selectFilesToNewExp(File[] files);
 
-    public void selectFilesToExistingExp(String[] fileNames, File[] files);
+    public void selectFilesToExistingExp(File[] files);
 
     public ArrayList<File> getFilesToUpload();
 

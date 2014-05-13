@@ -200,7 +200,6 @@ public class UploadTab extends JPanel implements  ExperimentPanel {
     public void createUploadFileRow(File[] files) {
 	for(File f : files) {
 	    if(!uploadFileRows.containsKey(f)) {
-	        System.out.println("yo");
 	        UploadFileRow fileRow = new UploadFileRow(f, this);
 	        uploadFileRows.put(f, fileRow);
 	    } else {
@@ -214,7 +213,6 @@ public class UploadTab extends JPanel implements  ExperimentPanel {
 
     private void repaintSelectedFiles() {
         if (!uploadFileRows.isEmpty()) {
-            System.out.println("y2o");
             for (File f : uploadFileRows.keySet()) {
                 uploadFilesPanel.add(uploadFileRows.get(f));
 	    }
@@ -258,7 +256,6 @@ public class UploadTab extends JPanel implements  ExperimentPanel {
 
     public void deleteFileRow(File f) {
         if (uploadFileRows.containsKey(f)) {
-	    System.out.println("1");
 	    uploadFileRows.remove(f);
 	    uploadFilesPanel.removeAll();
 	    buttonsPanel.removeAll();

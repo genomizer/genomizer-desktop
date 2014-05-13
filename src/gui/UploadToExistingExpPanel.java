@@ -3,6 +3,7 @@ package gui;
 import util.AnnotationDataType;
 
 import javax.swing.*;
+
 import java.awt.*;
 import java.awt.event.ActionListener;
 import java.io.File;
@@ -17,14 +18,12 @@ public class UploadToExistingExpPanel extends JPanel implements ExperimentPanel 
     private ArrayList<JTextField> annotationFields;
     private AnnotationDataType[] annotations;
     JPanel northPanel, centerPanel, uploadFilesPanel, buttonsPanel, mainPanel;
-    private HashMap<String, UploadFileRow> uploadFileRows;
-    private ArrayList<File> currFiles;
+    private HashMap<File, UploadFileRow> uploadFileRows;
 
     public UploadToExistingExpPanel() {
         selectFilesToUploadButton = new JButton("Select files");
         uploadFilesToExperimentButton = new JButton("Upload to experiment");
-        uploadFileRows = new HashMap<String, UploadFileRow>();
-        currFiles = new ArrayList<File>();
+        uploadFileRows = new HashMap<File, UploadFileRow>();
 
         mainPanel = new JPanel(new BorderLayout());
         northPanel = new JPanel();
@@ -62,31 +61,24 @@ public class UploadToExistingExpPanel extends JPanel implements ExperimentPanel 
         revalidate();
     }
 
-    public void createUploadFileRow(String[] fileNames, File[] files) {
-        for(File f : files) {
-            currFiles.add(f);
-        }
-        for (String fileName : fileNames) {
-            UploadFileRow fileRow = new UploadFileRow(fileName, this);
-            uploadFileRows.put(fileName, fileRow);
+    public void createUploadFileRow(File[] files) {
+        for (File f : files) {
+            UploadFileRow fileRow = new UploadFileRow(f, this);
+            uploadFileRows.put(f, fileRow);
         }
         repaintSelectedFiles();
     }
 
-    public void deleteFileRow(String fileName) {
-        uploadFileRows.remove(fileName);
-        for(File f : currFiles) {
-            if (f.getName().equals(fileName)) {
-                currFiles.remove(f);
-                break;
-            }
+    public void deleteFileRow(File f) {
+        if (uploadFileRows.containsKey(f)) {
+            uploadFileRows.remove(f);
+            uploadFilesPanel.removeAll();
+            repaintSelectedFiles();
+        } else {
+            JOptionPane.showMessageDialog(this,
+                    "Can't delete file: " + f.getName() + "", "File error",
+                    JOptionPane.ERROR_MESSAGE);
         }
-        uploadFileRows.remove(fileName);
-        if(uploadFileRows.size()==0) {
-            uploadFilesToExperimentButton.setEnabled(false);
-        }
-        uploadFilesPanel.removeAll();
-        repaintSelectedFiles();
     }
 
     public void addSelectFilesToUploadButtonListener(ActionListener listener) {
@@ -129,7 +121,7 @@ public class UploadToExistingExpPanel extends JPanel implements ExperimentPanel 
                     annotationFields.add(textField);
                     p.add(textField, BorderLayout.CENTER);
                     northPanel.add(p, gbc);
-                    textField.disable();
+                    textField.setEnabled(false);
                 } else {
                     JComboBox comboBox = new JComboBox(
                             annotations[i].getValues());
@@ -137,7 +129,7 @@ public class UploadToExistingExpPanel extends JPanel implements ExperimentPanel 
                     annotationBoxes.add(comboBox);
                     p.add(comboBox, BorderLayout.CENTER);
                     northPanel.add(p, gbc);
-                    comboBox.disable();
+                    comboBox.setEnabled(false);
                 }
                 x++;
             }
@@ -146,17 +138,18 @@ public class UploadToExistingExpPanel extends JPanel implements ExperimentPanel 
 
     private void repaintSelectedFiles() {
         if (!uploadFileRows.isEmpty()) {
-            for (File f : currFiles) {
-                uploadFilesPanel.add(uploadFileRows.get(f.getName()));
+            for(File f : uploadFileRows.keySet()) {
+                uploadFilesPanel.add(uploadFileRows.get(f));
             }
+        } else {
+            enableUploadButton(false);
         }
-
         repaint();
         revalidate();
     }
 
-    public void enableUploadButton() {
-        uploadFilesToExperimentButton.setEnabled(true);
+    public void enableUploadButton(boolean b) {
+        uploadFilesToExperimentButton.setEnabled(b);
     }
 
     @Override
