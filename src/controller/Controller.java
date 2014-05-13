@@ -376,7 +376,6 @@ public class Controller {
 
 		@Override
 		public void run() {
-            System.out.println("hej");
             FileDialog fileDialog = new java.awt.FileDialog(
                     (java.awt.Frame) null);
             fileDialog.setMultipleMode(true);
