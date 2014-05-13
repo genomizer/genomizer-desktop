@@ -376,7 +376,6 @@ public class Controller {
 
 		@Override
 		public void run() {
-            System.out.println("hej");
             FileDialog fileDialog = new java.awt.FileDialog(
                     (java.awt.Frame) null);
             fileDialog.setMultipleMode(true);
@@ -387,6 +386,7 @@ public class Controller {
                 fileNames[i] = files[i].getName();
             }
             view.selectFilesToExistingExp(fileNames, files);
+            view.getUploadTab().getUploadToExistingExpPanel().enableUploadButton();
 		}
 	}
 
