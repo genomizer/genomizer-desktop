@@ -16,6 +16,7 @@ public class ExperimentNode extends AbstractMutableTreeTableNode implements
 	    "<html><b>Uploaded By</html></b>" };
 
     public ExperimentNode(ExperimentData experiment, ArrayList<String> headings) {
+
 	super(experiment.getAnnotationValueList(headings).toArray());
 	this.experiment = experiment;
 	ArrayList<FileData> files = experiment.files;

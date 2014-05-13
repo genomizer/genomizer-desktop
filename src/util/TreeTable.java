@@ -56,7 +56,7 @@ public class TreeTable extends JPanel {
      */
     private void initiateJXTreeTable() {
 	table = new JXTreeTable();
-	table.setColumnControlVisible(true);
+	// table.setColumnControlVisible(true);
 	table.setShowGrid(true, true);
 	table.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
 	/* Reordering of the columns is not allowed in this version */
@@ -334,7 +334,7 @@ public class TreeTable extends JPanel {
 	} catch (NullPointerException e) {
 	    JOptionPane.showMessageDialog(null, "No files to remove.");
 	}
-	this.setContent(experiments);
+	createTreeStructure();
     }
 
     public ArrayList<ExperimentData> getContent() {
@@ -347,7 +347,17 @@ public class TreeTable extends JPanel {
     private void createTreeStructure() {
 	/* Create the tree root */
 	SupportNode root = new SupportNode(new Object[] { "Root" });
+	int columnCount = table.getColumnCount();
+	if (columnCount > 0) {
 
+	    System.out.println("columncount: " + columnCount);
+	    headings = new ArrayList<String>();
+	    for (int i = 0; i < columnCount; i++) {
+		headings.add(table.getColumnName(i));
+
+		System.out.println(i + " : " + table.getColumnName(i));
+	    }
+	}
 	try {
 	    for (ExperimentData experiment : experiments) {
 		/* Create experiment node and add to root */
