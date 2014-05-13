@@ -2,13 +2,29 @@ package gui.sysadmin.annotationview;
 
 import gui.sysadmin.strings.SysStrings;
 
-import javax.swing.*;
-import java.awt.*;
+import java.awt.BorderLayout;
+import java.awt.Component;
+import java.awt.Dimension;
+import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.net.URL;
 import java.util.ArrayList;
+
+import javax.swing.BorderFactory;
+import javax.swing.ButtonModel;
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JCheckBox;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTabbedPane;
+import javax.swing.JTextField;
+import javax.swing.ScrollPaneConstants;
+import javax.swing.SwingUtilities;
 
 public class SysadminAnnotationPopup extends JPanel {
 
@@ -209,7 +225,7 @@ public class SysadminAnnotationPopup extends JPanel {
 
     private JPanel buildTopPanelInFirstTab() {
         JPanel topPanelInFirstTab = new JPanel(new BorderLayout());
-        JLabel name = new JLabel("Name:");
+        JLabel name = new JLabel("Annotation name:");
 
         // nameField = new JTextField();
         nameField.setPreferredSize(new Dimension(250, 30));
