@@ -65,6 +65,7 @@ public class DownloadHandler {
                 totalDownload += count;
 				fileOut.flush();
 			}
+            fileOut.close();
             System.out.println("Size: " + totalDownload
                                + " Expected: " + conn.getContentLength());
             conn.disconnect();
