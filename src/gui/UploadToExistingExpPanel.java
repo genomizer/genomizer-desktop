@@ -18,12 +18,13 @@ public class UploadToExistingExpPanel extends JPanel implements ExperimentPanel 
     private AnnotationDataType[] annotations;
     JPanel northPanel, centerPanel, uploadFilesPanel, buttonsPanel, mainPanel;
     private HashMap<String, UploadFileRow> uploadFileRows;
-    private File[] currFiles;
+    private ArrayList<File> currFiles;
 
     public UploadToExistingExpPanel() {
         selectFilesToUploadButton = new JButton("Select files");
         uploadFilesToExperimentButton = new JButton("Upload to experiment");
         uploadFileRows = new HashMap<String, UploadFileRow>();
+        currFiles = new ArrayList<File>();
 
         mainPanel = new JPanel(new BorderLayout());
         northPanel = new JPanel();
@@ -62,7 +63,9 @@ public class UploadToExistingExpPanel extends JPanel implements ExperimentPanel 
     }
 
     public void createUploadFileRow(String[] fileNames, File[] files) {
-        currFiles = files;
+        for(File f : files) {
+            currFiles.add(f);
+        }
         for (String fileName : fileNames) {
             UploadFileRow fileRow = new UploadFileRow(fileName, this);
             uploadFileRows.put(fileName, fileRow);
@@ -71,11 +74,13 @@ public class UploadToExistingExpPanel extends JPanel implements ExperimentPanel 
     }
 
     public void deleteFileRow(String fileName) {
-        // for(int i = 0; i < uploadFileRows.size(); i++) {
-        // if(uploadFileRows.get(i).getFileName().equals(fileName)) {
-        // uploadFileRows.remove(i);
-        // }
-        // }
+        uploadFileRows.remove(fileName);
+        for(File f : currFiles) {
+            if (f.getName().equals(fileName)) {
+                currFiles.remove(f);
+                break;
+            }
+        }
         uploadFileRows.remove(fileName);
         uploadFilesPanel.removeAll();
         repaintSelectedFiles();
