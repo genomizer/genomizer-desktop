@@ -1,4 +1,8 @@
-package gui.sysadmin;
+package gui.sysadmin.annotationview;
+
+import gui.sysadmin.SysadminController;
+import gui.sysadmin.SysadminTab;
+import gui.sysadmin.strings.SysStrings;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -16,11 +20,11 @@ public class AnnotationPopupListener implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
 
-        switch (SysAdminButton.fromString(e.getActionCommand())) {
-        case POPUP_CREATE_ANNOTATION:
-            System.out.println("Creating new annotation....");
-            sysController.sendNewAnnotation();
-            break;
+        switch (e.getActionCommand()) {
+            case SysStrings.POPUP_CREATE_ANNO:
+                System.out.println("Creating new annotation....");
+                sysController.sendNewAnnotation();
+                break;
 
         }
     }

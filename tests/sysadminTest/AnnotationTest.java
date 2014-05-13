@@ -1,14 +1,13 @@
 package sysadminTest;
 
 import static org.fest.assertions.api.Assertions.*;
-import gui.sysadmin.AnnotationTableModel;
+
 import gui.sysadmin.SysadminTab;
 import model.Model;
 
 import org.junit.Before;
 import org.junit.Test;
 
-import util.AnnotationData;
 import util.AnnotationDataType;
 import util.DeleteAnnoationData;
 import communication.Connection;
@@ -21,8 +20,8 @@ public class AnnotationTest {
 
 	@Before
 	public void setUp() throws Exception {
-		//con = new Connection("genomizer.apiary-mock.com:80");
-		con = new Connection("http://scratchy.cs.umu.se:7000");
+		con = new Connection("genomizer.apiary-mock.com:80");
+		//con = new Connection("http://scratchy.cs.umu.se:7000");
 		model = new Model(con);
 		model.loginUser("SysadminTests", "qwerty");
 		sysadminTab = new SysadminTab();

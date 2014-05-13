@@ -1,31 +1,22 @@
-package gui.sysadmin;
+package gui.sysadmin.annotationview;
 
-import java.awt.Component;
-import java.awt.Container;
-import java.awt.Dimension;
-import java.awt.Graphics;
-import java.awt.Insets;
-import java.awt.Point;
-import java.awt.Rectangle;
+import javax.swing.*;
+import javax.swing.border.Border;
+import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
-
-import javax.swing.JComponent;
-import javax.swing.SwingConstants;
-import javax.swing.SwingUtilities;
-import javax.swing.border.Border;
 
 public class ComponentTitledBorder implements Border, MouseListener,
         SwingConstants {
     int offset = 5;
 
-    Component comp;
+    Component  comp;
     JComponent container;
-    Rectangle rect;
-    Border border;
+    Rectangle  rect;
+    Border     border;
 
     public ComponentTitledBorder(Component comp, JComponent container,
-                                 Border border) {
+            Border border) {
         this.comp = comp;
         this.container = container;
         this.border = border;
@@ -39,11 +30,12 @@ public class ComponentTitledBorder implements Border, MouseListener,
 
     @Override
     public void paintBorder(Component c, Graphics g, int x, int y, int width,
-                            int height) {
+            int height) {
         Insets borderInsets = border.getBorderInsets(c);
         Insets insets = getBorderInsets(c);
         int temp = (insets.top - borderInsets.top) / 2;
-        border.paintBorder(c, g, x, y + 10 + temp, width, height - temp); // TODO:
+        border.paintBorder(c, g, x, y + 10 + temp, width,
+                height - temp); // TODO:
         // "y + 10 "
         // is
         // an

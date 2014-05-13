@@ -1,4 +1,5 @@
-package gui.sysadmin;
+package gui.sysadmin.usersview;
+
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -26,7 +27,6 @@ public class UsersViewCreator {
         JScrollPane scrollPane = new JScrollPane();
         String testme = "HEKJHFRKJEKJ";
         JList usersList = new JList();
-
 
         scrollPane.add(usersList);
 
