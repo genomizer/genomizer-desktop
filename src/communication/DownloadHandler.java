@@ -9,6 +9,7 @@ import java.io.PrintWriter;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.ArrayList;
 
 import org.apache.commons.codec.binary.Base64;
 
@@ -56,14 +57,13 @@ public class DownloadHandler {
 			BufferedReader in = new BufferedReader(new InputStreamReader(
 					conn.getInputStream()));
 			File file = new File(localFilePath);
-            char[] buf = new char[4096];
-            int count;
+            String buffer;
             int totalDownload = 0;
 			PrintWriter fileOut = new PrintWriter(new FileWriter(file));
-			while ((count = in.read(buf, 0, 4096)) != -1) {
-                fileOut.write(buf, 0, count);
-                totalDownload += count;
-				fileOut.flush();
+			while ((buffer = in.readLine()) != null) {
+                fileOut.println(buffer);
+                totalDownload += buffer.length()+1;
+                fileOut.flush();
 			}
             fileOut.close();
             System.out.println("Size: " + totalDownload
