@@ -6,27 +6,27 @@ import java.util.HashMap;
  * @author c12jvr.
  */
 public enum SysadminTabButtons {
-	/*
-	 * To add a new name for button, simple type in the name of the enum, and 
-	 * the name of the button within parenthesis. 
-	 * */
+    /*
+     * To add a new name for button, simple type in the name of the enum, and
+     * the name of the button within parenthesis.
+     * */
     ANNOTATIONS("Annotations"),
     USERS("Users"),
     TEST("Test"),
     PROCESS("Processes");
     private String name;
 
-    private SysadminTabButtons(String name){
+    private SysadminTabButtons(String name) {
         this.name = name;
         SysadminHelper.map.put(name, this);
     }
 
-    public String getValue(){
-        return name;
-    }
-
     public static SysadminTabButtons fromString(String string) {
         return SysadminHelper.map.get(string);
+    }
+
+    public String getValue() {
+        return name;
     }
 
     static class SysadminHelper {

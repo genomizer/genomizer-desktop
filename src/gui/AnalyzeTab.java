@@ -1,14 +1,7 @@
 package gui;
 
-import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.Dimension;
-
-import javax.swing.DefaultListModel;
-import javax.swing.JCheckBox;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.JScrollPane;
+import javax.swing.*;
+import java.awt.*;
 
 public class AnalyzeTab extends JPanel {
 
@@ -17,7 +10,7 @@ public class AnalyzeTab extends JPanel {
     private JPanel northWestPanel, northEastPanel;
     private JPanel southWestPanel, southEastPanel;
     private JLabel filesLabel, overlapLabel, regionAnalysisLabel;
-    private JLabel profileAnalysisLabel;
+    private JLabel        profileAnalysisLabel;
     private JCheckBoxList list;
 
     public AnalyzeTab() {

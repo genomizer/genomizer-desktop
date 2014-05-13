@@ -8,7 +8,7 @@ import java.awt.*;
  */
 public class ProcessViewCreator {
 
-    public ProcessViewCreator(){
+    public ProcessViewCreator() {
 
     }
 

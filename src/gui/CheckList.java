@@ -1,12 +1,8 @@
 package gui;
 
+import javax.swing.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-
-import javax.swing.JFrame;
-import javax.swing.JList;
-import javax.swing.JScrollPane;
-import javax.swing.ListSelectionModel;
 
 public class CheckList {
     public static void main(String args[]) {
@@ -15,10 +11,10 @@ public class CheckList {
 
         // Create a list containing CheckListItem's
 
-        JList list = new JList(new CheckListItem[]{
+        JList list = new JList(new CheckListItem[] {
                 new CheckListItem("apple"), new CheckListItem("orange"),
                 new CheckListItem("mango"), new CheckListItem("paw paw"),
-                new CheckListItem("banana")});
+                new CheckListItem("banana") });
 
         // Use a CheckListRenderer (see below)
         // to renderer list cells

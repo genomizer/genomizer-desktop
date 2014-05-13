@@ -1,16 +1,13 @@
 package gui;
 
-import java.awt.Component;
-
-import javax.swing.JCheckBox;
-import javax.swing.JList;
-import javax.swing.ListCellRenderer;
+import javax.swing.*;
+import java.awt.*;
 
 public class CheckListRenderer extends JCheckBox implements ListCellRenderer {
 
     @Override
     public Component getListCellRendererComponent(JList list, Object value,
-                                                  int index, boolean isSelected, boolean hasFocus) {
+            int index, boolean isSelected, boolean hasFocus) {
         setEnabled(list.isEnabled());
         setSelected(((CheckListItem) value).isSelected());
         setFont(list.getFont());

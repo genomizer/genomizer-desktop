@@ -1,21 +1,8 @@
 package gui;
 
-import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.Font;
-import java.awt.GridLayout;
-
-import javax.swing.GroupLayout;
-import javax.swing.JButton;
-import javax.swing.JCheckBox;
-import javax.swing.JComboBox;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.JScrollPane;
-import javax.swing.JTable;
-import javax.swing.JTextField;
-import javax.swing.SwingConstants;
+import javax.swing.*;
 import javax.swing.table.TableColumn;
+import java.awt.*;
 
 public class SearchTab extends JPanel {
 
@@ -35,22 +22,22 @@ public class SearchTab extends JPanel {
     private JTextField expID;
     private JTextField pubID;
 
-    private String[] expStrings0 = {"0", "Female"};
-    private String[] expStrings1 = {"1", "Cat", "Dog", "Rabbit", "Pig5"};
-    private String[] expStrings2 = {"2", "Cat", "Dog", "Rabbit", "Pig4"};
-    private String[] expStrings3 = {"3", "Cat", "Dog", "Rabbit", "Pig3"};
-    private String[] expStrings4 = {"4", "Cat", "Dog", "Rabbit", "Pig2"};
-    private String[] expStrings5 = {"5", "Cat", "Dog", "Rabbit", "Pig1"};
+    private String[] expStrings0 = { "0", "Female" };
+    private String[] expStrings1 = { "1", "Cat", "Dog", "Rabbit", "Pig5" };
+    private String[] expStrings2 = { "2", "Cat", "Dog", "Rabbit", "Pig4" };
+    private String[] expStrings3 = { "3", "Cat", "Dog", "Rabbit", "Pig3" };
+    private String[] expStrings4 = { "4", "Cat", "Dog", "Rabbit", "Pig2" };
+    private String[] expStrings5 = { "5", "Cat", "Dog", "Rabbit", "Pig1" };
 
-    private String[] pubStrings0 = {"0", "Cat", "Dog", "Rabbit", "Pig5"};
-    private String[] pubStrings1 = {"1", "Cat", "Dog", "Rabbit", "Pig5"};
-    private String[] pubStrings2 = {"2", "Cat", "Dog", "Rabbit", "Pig4"};
-    private String[] pubStrings3 = {"3", "Cat", "Dog", "Rabbit", "Pig3"};
-    private String[] pubStrings4 = {"4", "Cat", "Dog", "Rabbit", "Pig2"};
-    private String[] pubStrings5 = {"5", "Cat", "Dog", "Rabbit", "Pig1"};
-    private String[] pubStrings6 = {"6", "Cat", "Dog", "Rabbit", "Pig5"};
-    private String[] pubStrings7 = {"7", "Cat", "Dog", "Rabbit", "Pig4"};
-    private String[] pubStrings8 = {"8", "Cat", "Dog", "Rabbit", "Pig5"};
+    private String[] pubStrings0 = { "0", "Cat", "Dog", "Rabbit", "Pig5" };
+    private String[] pubStrings1 = { "1", "Cat", "Dog", "Rabbit", "Pig5" };
+    private String[] pubStrings2 = { "2", "Cat", "Dog", "Rabbit", "Pig4" };
+    private String[] pubStrings3 = { "3", "Cat", "Dog", "Rabbit", "Pig3" };
+    private String[] pubStrings4 = { "4", "Cat", "Dog", "Rabbit", "Pig2" };
+    private String[] pubStrings5 = { "5", "Cat", "Dog", "Rabbit", "Pig1" };
+    private String[] pubStrings6 = { "6", "Cat", "Dog", "Rabbit", "Pig5" };
+    private String[] pubStrings7 = { "7", "Cat", "Dog", "Rabbit", "Pig4" };
+    private String[] pubStrings8 = { "8", "Cat", "Dog", "Rabbit", "Pig5" };
 
     private JComboBox expBox0;
     private JComboBox expBox1;
@@ -203,7 +190,8 @@ public class SearchTab extends JPanel {
         gl.setVerticalGroup(gl
                         .createSequentialGroup()
                         .addGroup(
-                                gl.createParallelGroup(GroupLayout.Alignment.BASELINE)
+                                gl.createParallelGroup(
+                                        GroupLayout.Alignment.BASELINE)
                                         .addComponent(searchLabel)
                         )
                         .addGroup(
@@ -215,7 +203,8 @@ public class SearchTab extends JPanel {
                                                         .addComponent(expID)
                                                         .addComponent(pubLabel)
                                                         .addComponent(pubID)
-                                                        .addComponent(searchButton)
+                                                        .addComponent(
+                                                                searchButton)
                                         )
                                         .addGroup(
                                                 gl.createParallelGroup(
@@ -325,11 +314,11 @@ public class SearchTab extends JPanel {
     }
 
     public void initiateTable() {
-        String[] columnNames = {"Experiment ID", "Publication ID", "Species",
-                "Sex"};
-        Object[][] data = {{"0", "1", "Human", "F"},
-                {"1", "1", "Human", "M"}, {"2", "1", "Human", "M"},
-                {"3", "1", "Humanoid", "F"}, {"4", "none", "Human", "M"}};
+        String[] columnNames = { "Experiment ID", "Publication ID", "Species",
+                "Sex" };
+        Object[][] data = { { "0", "1", "Human", "F" },
+                { "1", "1", "Human", "M" }, { "2", "1", "Human", "M" },
+                { "3", "1", "Humanoid", "F" }, { "4", "none", "Human", "M" } };
         resultTable = new JTable(data, columnNames);
         resultTable.setBackground(Color.blue);
         resultTable.setForeground(Color.white);
