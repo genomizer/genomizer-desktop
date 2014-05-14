@@ -87,7 +87,10 @@ public class TreeTable extends JPanel {
                 
                 public void addAdditionalActionItems(
                         List<? extends Action> actions) {
-                    
+                    /*
+                     * Dummy method to prevent treetable from adding unwanted
+                     * alternatives from controlPopup
+                     */
                 }
             }
             
@@ -136,7 +139,7 @@ public class TreeTable extends JPanel {
             /* Retreive the headings from the experiment data */
             int nrOfColumns = 2;
             headings = new ArrayList<String>();
-            headings.add("Experiment Name");
+            headings.add("ExpID");
             headings.add("Experiment Created By");
             for (int i = 0; i < experiments.size(); i++) {
                 for (AnnotationDataValue annotation : experiments.get(i).annotations) {
@@ -156,7 +159,7 @@ public class TreeTable extends JPanel {
         for (final String heading : headings) {
             JCheckBox checkBox = new JCheckBox(heading);
             checkBox.setSelected(true);
-            if (heading.equals("Experiment Name")) {
+            if (heading.equals("ExpID")) {
                 checkBox.setEnabled(false);
             }
             checkBox.addItemListener(new ItemListener() {

@@ -37,7 +37,7 @@ public class ExperimentData {
         
         for (String heading : headings) {
             boolean hasValue = false;
-            if (heading.equals("Experiment Name")) {
+            if (heading.equals("ExpID")) {
                 if (name == null || name.equals("")) {
                     annotationList.add("-");
                 } else {
