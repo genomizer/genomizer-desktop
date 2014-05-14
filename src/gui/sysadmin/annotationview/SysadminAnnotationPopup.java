@@ -313,13 +313,25 @@ public class SysadminAnnotationPopup extends JPanel {
                 categories.add(field.getText());
 
             }
-            if (categories.isEmpty()) {
+            if (isCategoriesEmpty(categories)) {
+                categories.clear();
                 categories.add("Yes");
                 categories.add("No");
+                categories.add("Unknown");
             }
         }
 
         return categories.toArray(new String[categories.size()]);
+    }
+    
+    private boolean isCategoriesEmpty(ArrayList<String> categories){
+        for (String s : categories) {
+            if (!s.isEmpty()){
+                return false;
+            }
+        }
+        
+        return true;
     }
 
     public void closeWindow() {

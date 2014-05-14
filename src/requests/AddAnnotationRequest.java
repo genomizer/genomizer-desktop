@@ -12,7 +12,7 @@ public class AddAnnotationRequest extends Request {
         super("addAnnotation", "/annotation", "POST");
         this.name = name;
         this.type = categories;
-        this.defaultType = "unknown";
+        this.defaultType = "Unknown";
         this.forced = forced;
     }
 
