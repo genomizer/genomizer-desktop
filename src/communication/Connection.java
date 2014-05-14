@@ -27,6 +27,8 @@ public class Connection {
             responseBody = "";
             responseCode = 0;
             System.out.println(targetUrl);
+            System.out.println("the request.toJson(): " + request.toJson());
+            System.out.println("Hej!");
             URL url = new URL(targetUrl);
             HttpURLConnection connection = (HttpURLConnection) url
                     .openConnection();
