@@ -25,6 +25,7 @@ public class AnnotationsViewCreator {
     private JButton                    removeButton;
     private JTable                     table;
     private AnnotationTableModel       tablemodel;
+    private String searchBoxHint = "Search";
 
     public AnnotationsViewCreator() {
 
@@ -98,7 +99,7 @@ public class AnnotationsViewCreator {
 
     private JTextField buildSearchField() {
         Dimension searchDim = new Dimension(500, 30);
-        final JTextField searchField = new SearchTextField("Search");
+        final JTextField searchField = new SearchTextField(searchBoxHint);
 
         searchField.getDocument().addDocumentListener(
                 new SearchDocumentListener(rowSorter, searchField));
@@ -223,7 +224,7 @@ public class AnnotationsViewCreator {
         public void insertUpdate(DocumentEvent e) {
             try {
                 if (!(e.getDocument().getText(0, e.getLength())
-                        .equals("Search"))) {
+                        .equals(searchBoxHint))) {
                     newFilter(rowSorter, filterText);
                 }
             } catch (BadLocationException e1) {
