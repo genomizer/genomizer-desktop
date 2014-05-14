@@ -54,8 +54,9 @@ public class AnalyzeTab extends JPanel {
         southWestPanel.add(regionAnalysisLabel, BorderLayout.NORTH);
         southEastPanel.add(profileAnalysisLabel, BorderLayout.NORTH);
         southEastPanel.add(new JLabel("Number of jobs currently in queue: "
-                + numberOfJobs + " est. time until empty: N/A)."),
-                BorderLayout.SOUTH);
+                        + numberOfJobs + " est. time until empty: N/A)."),
+                BorderLayout.SOUTH
+        );
     }
 
     private void createLabels() {

@@ -13,7 +13,7 @@ import java.util.ArrayList;
 
 /**
  * Visual presentation of the process tab.
- * 
+ *
  * @author c11ann
  */
 public class ProcessTab extends JPanel {
@@ -70,7 +70,8 @@ public class ProcessTab extends JPanel {
     private final JButton convertButton = new JButton("Convert to WIG");
     private final JButton profileButton = new JButton("Create profile data");
     private final JButton regionButton = new JButton("Create region data");
-    private final JCheckBox scheduleButton = new JCheckBox("Schedule files");
+    // private final JCheckBox scheduleButton = new JCheckBox(
+    // "Schedule files");
 
     private final JCheckBox printMean = new JCheckBox("Print mean");
     private final JCheckBox printZeros = new JCheckBox("Print zeros");
@@ -108,9 +109,8 @@ public class ProcessTab extends JPanel {
         /* TEST */
         gFiles.add(0, "d_melanogaster_fb5_22");
         /* TEST */
-        gFiles.add(1, "E_melanogaster_fb6_23");
-        /* TEST */
         setGenomeReleaseFiles(gFiles);
+
         initBowtieParameters();
         writeToTimePanel();
 
@@ -170,7 +170,8 @@ public class ProcessTab extends JPanel {
     private void addEastPanels() {
         procQueuePanel.setBorder(new TitledBorder(UIManager
                 .getBorder("TitledBorder.border"), "Processing In Queue",
-                TitledBorder.LEADING, TitledBorder.TOP, null, null));
+                TitledBorder.LEADING, TitledBorder.TOP, null, null
+        ));
         this.add(procQueuePanel, BorderLayout.EAST);
         procQueuePanel.setPreferredSize(new Dimension(300, 100));
         addProcessInQueue();
@@ -378,7 +379,7 @@ public class ProcessTab extends JPanel {
     private void addFlagsToConv() {
         flagsPanel.add(flags);
         flags.setBorder(null);
-        flags.setText("-a -m 1 --best -p 10 -v 2");
+        flags.setText("-a -m 1 --best -p 10 -v 2 -q -S");
         flags.setPreferredSize(new Dimension(175, 45));
     }
 
@@ -473,14 +474,16 @@ public class ProcessTab extends JPanel {
         convertButton.setEnabled(false);
         convTabpanel.add(buttonPanel);
         buttonPanel.add(profileButton);
-        scheduleProcPanel.add(scheduleButton);
-        scheduleButton.setPreferredSize(new Dimension(297, 23));
+        // scheduleProcPanel.add(scheduleButton);
+        // scheduleButton.setPreferredSize(new Dimension(297, 23));
+        // scheduleProcPanel.add(scheduleButton);
+        // scheduleButton.setPreferredSize(new Dimension(297, 23));
     }
 
     /**
      * Gets all the parameters that the user has written in the raw to profile
      * tab when trying to create profile data from raw data.
-     * 
+     *
      * @return String[] - bowtieParameters
      */
     public String[] getBowtieParameters() {
@@ -501,7 +504,7 @@ public class ProcessTab extends JPanel {
 
     /**
      * Gets the step size from raw to profile tab.
-     * 
+     *
      * @return String - "y" + stepSize || "n" + stepSize
      */
     private String getStepSize() {
@@ -533,9 +536,8 @@ public class ProcessTab extends JPanel {
     /**
      * Sets the genomeReleaseFiles list, Retrieves all genome files a specific
      * species has.
-     * 
-     * @param ArrayList
-     *            <String> - genomeReleaseFiles
+     *
+     * @param genomeReleaseFiles
      */
     // TODO
     public void setGenomeReleaseFiles(ArrayList<String> genomeReleaseFiles) {
@@ -545,7 +547,7 @@ public class ProcessTab extends JPanel {
     /**
      * Returns all smoothing parameters in one string from the raw to profile
      * tab.
-     * 
+     *
      * @return String - all parameters in a string
      */
     private String getSmoothingParameters() {
@@ -570,7 +572,7 @@ public class ProcessTab extends JPanel {
 
     /**
      * Gets the selected genome files name from the combobox.
-     * 
+     *
      * @return String - Name of the selected genome file
      */
     private String getTextGenomeFileName() {
@@ -579,7 +581,7 @@ public class ProcessTab extends JPanel {
 
     /**
      * Gets the text in the flag parameter in raw to profile tab.
-     * 
+     *
      * @return
      */
     private String getTextFromFlags() {
@@ -588,9 +590,8 @@ public class ProcessTab extends JPanel {
 
     /**
      * Sets the fileData list with all selected files to process from workspace.
-     * 
-     * @param ArrayList
-     *            <FileData> - allFileData
+     *
+     * @param allFileData
      */
     public void setFileInfo(ArrayList<FileData> allFileData) {
         this.fileData = allFileData;
@@ -629,7 +630,7 @@ public class ProcessTab extends JPanel {
 
     /**
      * Gets the names of all the files that are marked in the fileList.
-     * 
+     *
      * @return ArrayList<String> - List of all the file names.
      */
     public ArrayList<String> getAllMarkedFiles() {
@@ -646,7 +647,7 @@ public class ProcessTab extends JPanel {
 
     /**
      * Gets the fileData of all the files that are marked in the fileList.
-     * 
+     *
      * @return ArrayList<FileData> - List of all the files.
      */
     public ArrayList<FileData> getAllMarkedFileData() {
@@ -666,11 +667,9 @@ public class ProcessTab extends JPanel {
 
     /**
      * Checks if an item in a list is selected.
-     * 
-     * @param arr
-     *            - the list
-     * @param checkItem
-     *            - the item in the list
+     *
+     * @param arr       - the list
+     * @param checkItem - the item in the list
      */
     private void checkItemIsSelected(ArrayList<String> arr,
             CheckListItem checkItem) {
@@ -696,7 +695,8 @@ public class ProcessTab extends JPanel {
     }
 
     public void addScheduleFileListener(ActionListener listener) {
-        scheduleButton.addActionListener(listener);
+        // scheduleButton.addActionListener(listener);
+        // scheduleButton.addActionListener(listener);
     }
 
     private int getNumberOfJobsInQueue() {
@@ -710,11 +710,9 @@ public class ProcessTab extends JPanel {
     /**
      * Prints message to genProfArea. The message is red if it is a warning
      * message, black otherwise.
-     * 
-     * @param String
-     *            - message - Whether or not create profile data succeeded
-     * @param String
-     *            - color - What color the message should have
+     *
+     * @param message - Whether or not create profile data succeeded
+     * @param color   - What color the message should have
      */
     public void printToProfileText(String message, String color) {
 
