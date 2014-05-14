@@ -17,29 +17,29 @@ import javax.swing.border.Border;
 
 public class ComponentTitledBorder implements Border, MouseListener,
         SwingConstants {
-    int offset = 5;
-
-    Component comp;
+    int        offset = 5;
+    
+    Component  comp;
     JComponent container;
-    Rectangle rect;
-    Border border;
-
+    Rectangle  rect;
+    Border     border;
+    
     public ComponentTitledBorder(Component comp, JComponent container,
-                                 Border border) {
+            Border border) {
         this.comp = comp;
         this.container = container;
         this.border = border;
         container.addMouseListener(this);
     }
-
+    
     @Override
     public boolean isBorderOpaque() {
         return true;
     }
-
+    
     @Override
     public void paintBorder(Component c, Graphics g, int x, int y, int width,
-                            int height) {
+            int height) {
         Insets borderInsets = border.getBorderInsets(c);
         Insets insets = getBorderInsets(c);
         int temp = (insets.top - borderInsets.top) / 2;
@@ -65,7 +65,7 @@ public class ComponentTitledBorder implements Border, MouseListener,
         rect = new Rectangle(offset, 0, size.width, size.height);
         SwingUtilities.paintComponent(g, comp, (Container) c, rect);
     }
-
+    
     @Override
     public Insets getBorderInsets(Component c) {
         Dimension size = comp.getPreferredSize();
@@ -73,7 +73,7 @@ public class ComponentTitledBorder implements Border, MouseListener,
         insets.top = Math.max(insets.top, size.height);
         return insets;
     }
-
+    
     private void dispatchEvent(MouseEvent me) {
         if (rect != null && rect.contains(me.getX(), me.getY())) {
             Point pt = me.getPoint();
@@ -81,33 +81,31 @@ public class ComponentTitledBorder implements Border, MouseListener,
             comp.setBounds(rect);
             comp.dispatchEvent(new MouseEvent(comp, me.getID(), me.getWhen(),
                     me.getModifiers(), pt.x, pt.y, me.getClickCount(), me
-                    .isPopupTrigger(), me.getButton()
-            ));
-            if (!comp.isValid())
-                container.repaint();
+                            .isPopupTrigger(), me.getButton()));
+            if (!comp.isValid()) container.repaint();
         }
     }
-
+    
     @Override
     public void mouseClicked(MouseEvent me) {
         dispatchEvent(me);
     }
-
+    
     @Override
     public void mouseEntered(MouseEvent me) {
         dispatchEvent(me);
     }
-
+    
     @Override
     public void mouseExited(MouseEvent me) {
         dispatchEvent(me);
     }
-
+    
     @Override
     public void mousePressed(MouseEvent me) {
         dispatchEvent(me);
     }
-
+    
     @Override
     public void mouseReleased(MouseEvent me) {
         dispatchEvent(me);
