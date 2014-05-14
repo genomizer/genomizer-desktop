@@ -70,7 +70,6 @@ public class TreeTable extends JPanel {
         ColumnControlButton controlButton = new ColumnControlButton(table) {
             @Override
             protected ColumnControlPopup createColumnControlPopup() {
-                System.out.println("hej");
                 return (new NFColumnControlPopup());
             }
             
