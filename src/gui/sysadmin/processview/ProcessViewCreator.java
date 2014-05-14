@@ -1,6 +1,7 @@
 package gui.sysadmin.processview;
 
 import javax.swing.*;
+import javax.swing.table.JTableHeader;
 import java.awt.*;
 
 /**
@@ -36,10 +37,23 @@ public class ProcessViewCreator {
     }
 
     private JPanel processListPanel(){
-        JPanel processPanel = new JPanel();
+        JPanel processPanel = new JPanel(new BorderLayout());
 
+
+        JTable table = new JTable(
+           new Object[][] {
+                   {"Test"},
+                   {"This"}
+           },
+           new String[] {"Processes in queue"}
+        );
+
+        table.setPreferredSize(new Dimension(50, 200));
+        table.setMaximumSize(new Dimension(50, 500));
+        table.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
         processPanel.setBackground(Color.DARK_GRAY);
-
+        JScrollPane scrollPane = new JScrollPane(table);
+        processPanel.add(scrollPane);
         return processPanel;
     }
 
