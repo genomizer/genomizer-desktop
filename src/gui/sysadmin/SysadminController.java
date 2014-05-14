@@ -37,7 +37,7 @@ public class SysadminController extends Observable {
         return new AnnotationPopupListener(sysTab);
     }
     
-    public ActionListener editAnnotationPopupListener() {
+    public ActionListener createEditAnnotationPopupListener() {
         return new EditAnnotationPopupListener(sysTab);
     }
     

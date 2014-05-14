@@ -164,7 +164,9 @@ public class AnnotationsViewCreator {
         System.out.println("Skapar editAnnotationPopup...");
         editPopup = new EditAnnotationPopup(table);
         editPopup.setBackground(Color.WHITE);
-        
+        // TODO: Adam, I added this line, this is where you add a listener, you
+        // can remove this now.
+        editPopup.addEditAnnotationListener(editPopupListener);
         JFrame popupFrame = new JFrame("Edit annotation");
         popupFrame.setLayout(new BorderLayout());
         popupFrame.add(editPopup, BorderLayout.CENTER);
