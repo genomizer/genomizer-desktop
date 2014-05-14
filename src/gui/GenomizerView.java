@@ -6,6 +6,14 @@ import util.AnnotationDataValue;
 import util.ExperimentData;
 import util.FileData;
 
+/**
+ * 
+ * A interface for the view part of an application used by genome researcher
+ * to make their daily job easier. 
+ * 
+ * @author
+ *
+ */
 import javax.swing.*;
 import java.awt.event.ActionListener;
 import java.io.File;
@@ -13,12 +21,17 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 public interface GenomizerView {
-
+    /**
+     * Method adding a listener to the analyze selected button.
+     * 
+     * @param listener
+     *          The listener
+     */
     public void addAnalyzeSelectedListener(ActionListener listener);
 
     public void addLoginListener(ActionListener listener);
-
-    void addScheduleFileListener(ActionListener listener);
+    
+    public void addScheduleFileListener(ActionListener listener);
 
     public void addSearchToWorkspaceListener(ActionListener listener);
 
@@ -72,9 +85,9 @@ public interface GenomizerView {
     public String getQuerySearchString();
 
     public String getIp();
-
-    ArrayList<ExperimentData> getSelectedDataInSearch();
-
+    
+    public ArrayList<ExperimentData> getSelectedDataInSearch();
+    
     public UploadTab getUploadTab();
 
     public int getSelectedRowAtAnnotationTable();
