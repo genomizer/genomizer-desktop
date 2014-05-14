@@ -38,7 +38,7 @@ public class GUI extends JFrame implements GenomizerView {
     private SysadminTab       sysadminTab;
     private QuerySearchTab    querySearchTab;
     private DownloadWindow    downloadWindow;
-    
+
     public GUI() {
 
         setLookAndFeel();
@@ -444,7 +444,7 @@ public class GUI extends JFrame implements GenomizerView {
 
     @Override
     public String getNewExpName() {
-        return uploadTab.getNewExpName();
+        return uploadTab.getNewExpID();
     }
 
     @Override
