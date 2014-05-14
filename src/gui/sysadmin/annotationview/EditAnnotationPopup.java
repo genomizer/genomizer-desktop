@@ -15,21 +15,20 @@ import java.util.ArrayList;
 
 public class EditAnnotationPopup extends JPanel {
 
-    private static final long serialVersionUID = -626744436260839622L;
-    private JPanel  addCategoriesPanel;
-    private JButton addButton, removeButton;
-    private ButtonModel createNewAnnotationButtonModel;
-    private JTextField  nameField;
-    private ArrayList<String> categories = new ArrayList<String>();
-    private boolean           forced     = false;
-    private JCheckBox forcedBox;
-    private JTable table;
+    private static final long  serialVersionUID = -626744436260839622L;
+    private JPanel             addCategoriesPanel;
+    private JButton            addButton, removeButton;
+    private ButtonModel        createNewAnnotationButtonModel;
+    private JTextField         nameField;
+    private ArrayList<String>  categories       = new ArrayList<String>();
+    private boolean            forced           = false;
+    private JCheckBox          forcedBox;
+    private JTable             table;
     private AnnotationDataType annotation;
 
     public EditAnnotationPopup(JTable table) {
-    	this.table = table;
-    	setAnnotation();
-
+        this.table = table;
+        setAnnotation();
 
         this.setLayout(new BorderLayout());
         JTabbedPane optionsPane = new JTabbedPane();
@@ -47,7 +46,8 @@ public class EditAnnotationPopup extends JPanel {
         JPanel topPanelInSecondTab = new JPanel();
 
         JLabel name = new JLabel("Name:");
-        JTextField nameField2 = new JTextField(nameField.getDocument(), annotation.getName(), 0);
+        JTextField nameField2 = new JTextField(nameField.getDocument(),
+                annotation.getName(), 0);
         nameField2.setPreferredSize(new Dimension(250, 30));
         topPanelInSecondTab.add(name);
         topPanelInSecondTab.add(nameField2);
@@ -65,8 +65,7 @@ public class EditAnnotationPopup extends JPanel {
         JPanel firstTab = new JPanel(new BorderLayout());
         JScrollPane scrollPane = new JScrollPane(firstTab);
         scrollPane
-                .setVerticalScrollBarPolicy(
-                        ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
+                .setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
 
         JPanel topPanelInFirstTab = buildTopPanelInFirstTab();
         JPanel midPanelInFirstTab = buildMidPanelInFirstTab();
@@ -91,10 +90,14 @@ public class EditAnnotationPopup extends JPanel {
 
         addCategoriesPanel = new JPanel(new GridLayout(0, 1));
 
-        JPanel baseCatPanel = createDeafultCategoryPanel(addCategoriesPanel);
+        JPanel baseCatPanel = createDeafultCategoryPanel(addCategoriesPanel, "");
         addCategoriesPanel.add(baseCatPanel);
 
         categoryPanel.add(addCategoriesPanel, BorderLayout.NORTH);
+
+        for (String value : annotation.getValues()) {
+            addAddedCategoryPanel(addCategoriesPanel, value);
+        }
 
         ComponentTitledBorder componentBorder = createDynamicBorder(
                 categoryPanel, catCheckBox);
@@ -105,11 +108,13 @@ public class EditAnnotationPopup extends JPanel {
         return midPanelInFirstTab;
     }
 
-    private JPanel createDeafultCategoryPanel(final JPanel addCategoriesPanel) {
+    private JPanel createDeafultCategoryPanel(final JPanel addCategoriesPanel,
+            String value) {
         JPanel baseCatPanel = new JPanel();
 
         JLabel categorylabel = new JLabel("Category:");
         final JTextField annotationTextField = new JTextField();
+        annotationTextField.setText(value);
         annotationTextField.setPreferredSize(new Dimension(200, 30));
 
         baseCatPanel.add(categorylabel);
@@ -173,14 +178,15 @@ public class EditAnnotationPopup extends JPanel {
         categoryPanel.add(removeButton);
     }
 
-    private void setAnnotation(){
+    private void setAnnotation() {
         if (table.getSelectedRow() != -1) {
             int row = table.getSelectedRow();
             row = table.convertRowIndexToModel(row);
             int col = 3;
-            annotation = (AnnotationDataType) table.getModel().getValueAt(row, col);
-        }else {
-        	System.out.println("You must select an annotation to edit");
+            annotation = (AnnotationDataType) table.getModel().getValueAt(row,
+                    col);
+        } else {
+            System.out.println("You must select an annotation to edit");
         }
     }
 
@@ -213,7 +219,7 @@ public class EditAnnotationPopup extends JPanel {
     private void buildCreateNewAnnotationButton(JPanel botPanelInFirstTab) {
 
         JButton createNewAnnotationButton = new JButton(
-                SysStrings.POPUP_CREATE_ANNO);
+                SysStrings.ANNOTATIONS_MODIFY);
 
         System.out.println("will create model");
 
@@ -224,7 +230,7 @@ public class EditAnnotationPopup extends JPanel {
             createNewAnnotationButton.setModel(createNewAnnotationButtonModel);
         }
         createNewAnnotationButtonModel
-                .setActionCommand(SysStrings.POPUP_CREATE_ANNO);
+                .setActionCommand(SysStrings.ANNOTATIONS_MODIFY);
         botPanelInFirstTab.add(createNewAnnotationButton);
     }
 
@@ -292,6 +298,24 @@ public class EditAnnotationPopup extends JPanel {
         createRemoveCategoryButton(newCategoryPanel);
         categoryHolderPanel.add(newCategoryPanel);
         annotationTextField.setText("");
+        repaint();
+    }
+
+    private void addAddedCategoryPanel(JPanel categoryHolderPanel, String value) {
+        JPanel newCategoryPanel = new JPanel();
+        JLabel categoryLabel = new JLabel("Category:");
+        final JTextField textField = new JTextField();
+        textField.setText(value);
+        textField.setEditable(false);
+        textField.setPreferredSize(new Dimension(200, 30));
+
+        newCategoryPanel.add(categoryLabel);
+        newCategoryPanel.add(textField);
+
+        categories.add(textField.getText());
+
+        createRemoveCategoryButton(newCategoryPanel);
+        categoryHolderPanel.add(newCategoryPanel);
         repaint();
     }
 
