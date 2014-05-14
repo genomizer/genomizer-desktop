@@ -8,6 +8,7 @@ import javax.swing.event.DocumentListener;
 import javax.swing.table.JTableHeader;
 import javax.swing.table.TableModel;
 import javax.swing.table.TableRowSorter;
+import javax.swing.text.BadLocationException;
 import java.awt.*;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
@@ -97,15 +98,7 @@ public class AnnotationsViewCreator {
 
     private JTextField buildSearchField() {
         Dimension searchDim = new Dimension(500, 30);
-        final JTextField searchField = new JTextField("Search...");
-        searchField.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseClicked(MouseEvent e) {
-                if (searchField.getText().equalsIgnoreCase("search...")) {
-                    searchField.setText("");
-                }
-            }
-        });
+        final JTextField searchField = new SearchTextField("Search");
 
         searchField.getDocument().addDocumentListener(
                 new SearchDocumentListener(rowSorter, searchField));
@@ -228,8 +221,15 @@ public class AnnotationsViewCreator {
 
         @Override
         public void insertUpdate(DocumentEvent e) {
-            newFilter(rowSorter, filterText);
-
+            try {
+                if (!(e.getDocument().getText(0, e.getLength())
+                        .equals("Search"))) {
+                    newFilter(rowSorter, filterText);
+                }
+            } catch (BadLocationException e1) {
+                //Do nothing, exception should not happen and even if it does
+                //nothing dangerous will occur
+            }
         }
 
         @Override
