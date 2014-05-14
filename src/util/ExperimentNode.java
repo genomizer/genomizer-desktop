@@ -11,7 +11,7 @@ public class ExperimentNode extends AbstractMutableTreeTableNode implements
         Comparable {
     
     private ExperimentData experiment;
-    private String[]       fileHeaders = new String[] {
+    private String[] fileHeaders = new String[] {
             "<html><b>File Name</html></b>", "<html><b>Date Added</html></b>",
             "<html><b>Uploaded By</html></b>" };
     

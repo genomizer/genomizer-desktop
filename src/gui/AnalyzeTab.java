@@ -14,11 +14,11 @@ public class AnalyzeTab extends JPanel {
     
     private static final long serialVersionUID = 9115232261189442160L;
     
-    private JPanel            northWestPanel, northEastPanel;
-    private JPanel            southWestPanel, southEastPanel;
-    private JLabel            filesLabel, overlapLabel, regionAnalysisLabel;
-    private JLabel            profileAnalysisLabel;
-    private JCheckBoxList     list;
+    private JPanel northWestPanel, northEastPanel;
+    private JPanel southWestPanel, southEastPanel;
+    private JLabel filesLabel, overlapLabel, regionAnalysisLabel;
+    private JLabel profileAnalysisLabel;
+    private JCheckBoxList list;
     
     public AnalyzeTab() {
         

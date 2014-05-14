@@ -2,7 +2,7 @@ package util;
 
 public class DeleteAnnoationData {
     
-    public String   id;
+    public String id;
     public String[] values;
     
     public DeleteAnnoationData(AnnotationDataType annotation) {

@@ -9,12 +9,12 @@ import javax.swing.*;
 
 public class LoginWindow extends JFrame {
     
-    private JButton        loginButton;
-    private JTextField     usernameField;
+    private JButton loginButton;
+    private JTextField usernameField;
     private JPasswordField passwordField;
-    private JTextField     ipField;
-    private JPanel         mainPanel;
-    private JLabel         errorLabel;
+    private JTextField ipField;
+    private JPanel mainPanel;
+    private JLabel errorLabel;
     
     public LoginWindow(final GenomizerView parent) {
         addWindowListener(new WindowAdapter() {

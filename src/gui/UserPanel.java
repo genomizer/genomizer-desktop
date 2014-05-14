@@ -9,10 +9,10 @@ import javax.swing.JPanel;
 
 public class UserPanel extends JPanel {
     
-    private String  name, username;
+    private String name, username;
     private boolean admin;
-    JLabel          usernameLabel, nameLabel;
-    JButton         logoutButton;
+    JLabel usernameLabel, nameLabel;
+    JButton logoutButton;
     
     public UserPanel() {
         setLayout(new GridBagLayout());
