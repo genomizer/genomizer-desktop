@@ -9,8 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Author: Isak Dunér Lundberg
- * Date: 2014-04-07
+ * Author: Isak Dunér Lundberg Date: 2014-04-07
  */
 public class SearchTextField extends JTextField implements FocusListener {
 

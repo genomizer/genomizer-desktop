@@ -356,8 +356,7 @@ public class TreeTable extends JPanel {
             DefaultTreeTableModel model = new DefaultTreeTableModel(
                     root,
                     Arrays.asList(
-                            headings.toArray(new String[headings.size()]))
-            );
+                            headings.toArray(new String[headings.size()])));
             table.setTreeTableModel(model);
             table.packAll();
             repaint();

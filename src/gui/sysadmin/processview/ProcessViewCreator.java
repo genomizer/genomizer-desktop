@@ -38,13 +38,8 @@ public class ProcessViewCreator {
     private JPanel processListPanel() {
         JPanel processPanel = new JPanel(new BorderLayout());
 
-        JTable table = new JTable(
-                new Object[][] {
-                        { "Test" },
-                        { "This" }
-                },
-                new String[] { "Processes in queue" }
-        );
+        JTable table = new JTable(new Object[][] { { "Test" }, { "This" } },
+                new String[] { "Processes in queue" });
 
         table.setPreferredSize(new Dimension(50, 200));
         table.setMaximumSize(new Dimension(50, 500));

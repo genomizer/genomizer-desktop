@@ -33,9 +33,10 @@ public class SysadminAnnotationPopup extends JPanel {
     private JButton addButton, removeButton;
     private ButtonModel createNewAnnotationButtonModel;
     private JTextField  nameField;
-    private ArrayList<String> categories = new ArrayList<String>();
-    private boolean           forced     = false;
+    // private ArrayList<String> categories = new ArrayList<String>();
+    private boolean forced = false;
     private JCheckBox forcedBox;
+    private ArrayList<JTextField> valueJTextFields = new ArrayList<JTextField>();
 
     public SysadminAnnotationPopup() {
         this.setLayout(new BorderLayout());
@@ -117,6 +118,7 @@ public class SysadminAnnotationPopup extends JPanel {
 
         JLabel categorylabel = new JLabel("Category:");
         final JTextField annotationTextField = new JTextField();
+        valueJTextFields.add(annotationTextField);
         annotationTextField.setPreferredSize(new Dimension(200, 30));
 
         baseCatPanel.add(categorylabel);
@@ -282,7 +284,7 @@ public class SysadminAnnotationPopup extends JPanel {
         newCategoryPanel.add(categoryLabel);
         newCategoryPanel.add(textField);
 
-        categories.add(textField.getText());
+        valueJTextFields.add(textField);
 
         createRemoveCategoryButton(newCategoryPanel);
         categoryHolderPanel.add(newCategoryPanel);
@@ -304,10 +306,11 @@ public class SysadminAnnotationPopup extends JPanel {
 
         // TODO: make a model for popup? this should not be in a pure view
         // class.
+        synchronized (valueJTextFields) {
 
-        // TODO: check if the typing field is empty:
-
-        synchronized (categories) {
+            for (JTextField field : valueJTextFields) {
+                field.get
+            }
 
             if (categories.isEmpty()) {
                 categories.add("Yes");

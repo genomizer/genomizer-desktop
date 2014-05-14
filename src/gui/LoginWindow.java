@@ -60,8 +60,8 @@ public class LoginWindow extends JDialog {
 
         ipField = new JTextField(20);
         ipField.setBounds(100, 70, 160, 25);
-        // ipField.setText("scratchy.cs.umu.se:7000");
-        ipField.setText("hankatt.cs.umu.se:7000");
+        ipField.setText("scratchy.cs.umu.se:7000");
+        // ipField.setText("hankatt.cs.umu.se:7000");
         mainPanel.add(ipField);
 
         loginButton = new JButton("login");

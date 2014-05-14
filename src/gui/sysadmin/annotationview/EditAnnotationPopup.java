@@ -91,10 +91,15 @@ public class EditAnnotationPopup extends JPanel {
 
         addCategoriesPanel = new JPanel(new GridLayout(0, 1));
 
-        JPanel baseCatPanel = createDeafultCategoryPanel(addCategoriesPanel);
+        JPanel baseCatPanel = createDeafultCategoryPanel(addCategoriesPanel,
+                "");
         addCategoriesPanel.add(baseCatPanel);
 
         categoryPanel.add(addCategoriesPanel, BorderLayout.NORTH);
+
+        for (String value : annotation.getValues()) {
+            addAddedCategoryPanel(addCategoriesPanel, value);
+        }
 
         ComponentTitledBorder componentBorder = createDynamicBorder(
                 categoryPanel, catCheckBox);
@@ -105,11 +110,13 @@ public class EditAnnotationPopup extends JPanel {
         return midPanelInFirstTab;
     }
 
-    private JPanel createDeafultCategoryPanel(final JPanel addCategoriesPanel) {
+    private JPanel createDeafultCategoryPanel(final JPanel addCategoriesPanel,
+            String value) {
         JPanel baseCatPanel = new JPanel();
 
         JLabel categorylabel = new JLabel("Category:");
         final JTextField annotationTextField = new JTextField();
+        annotationTextField.setText(value);
         annotationTextField.setPreferredSize(new Dimension(200, 30));
 
         baseCatPanel.add(categorylabel);
@@ -214,7 +221,7 @@ public class EditAnnotationPopup extends JPanel {
     private void buildCreateNewAnnotationButton(JPanel botPanelInFirstTab) {
 
         JButton createNewAnnotationButton = new JButton(
-                SysStrings.POPUP_CREATE_ANNO);
+                SysStrings.ANNOTATIONS_MODIFY);
 
         System.out.println("will create model");
 
@@ -225,7 +232,7 @@ public class EditAnnotationPopup extends JPanel {
             createNewAnnotationButton.setModel(createNewAnnotationButtonModel);
         }
         createNewAnnotationButtonModel
-                .setActionCommand(SysStrings.POPUP_CREATE_ANNO);
+                .setActionCommand(SysStrings.ANNOTATIONS_MODIFY);
         botPanelInFirstTab.add(createNewAnnotationButton);
     }
 
@@ -293,6 +300,25 @@ public class EditAnnotationPopup extends JPanel {
         createRemoveCategoryButton(newCategoryPanel);
         categoryHolderPanel.add(newCategoryPanel);
         annotationTextField.setText("");
+        repaint();
+    }
+
+    private void addAddedCategoryPanel(JPanel categoryHolderPanel,
+            String value) {
+        JPanel newCategoryPanel = new JPanel();
+        JLabel categoryLabel = new JLabel("Category:");
+        final JTextField textField = new JTextField();
+        textField.setText(value);
+        textField.setEditable(false);
+        textField.setPreferredSize(new Dimension(200, 30));
+
+        newCategoryPanel.add(categoryLabel);
+        newCategoryPanel.add(textField);
+
+        categories.add(textField.getText());
+
+        createRemoveCategoryButton(newCategoryPanel);
+        categoryHolderPanel.add(newCategoryPanel);
         repaint();
     }
 
