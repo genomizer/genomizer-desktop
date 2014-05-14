@@ -116,9 +116,6 @@ public interface GenomizerView {
     
     public String[] getParameters();
     
-
-    public String[] getBowtieParameters();
-
     public void selectFilesToNewExp(File[] files);
 
     public void selectFilesToExistingExp(File[] files);
