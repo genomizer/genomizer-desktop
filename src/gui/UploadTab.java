@@ -27,6 +27,7 @@ import javax.swing.JTextField;
 import util.ActivePanel;
 import util.AnnotationDataType;
 import util.AnnotationDataValue;
+import util.FileDrop;
 
 public class UploadTab extends JPanel implements ExperimentPanel {
     
@@ -138,6 +139,12 @@ public class UploadTab extends JPanel implements ExperimentPanel {
         repaintSelectedFiles();
         uploadBackground.add(uploadFilesPanel, BorderLayout.NORTH);
         uploadPanel.add(uploadBackground, BorderLayout.CENTER);
+
+        new FileDrop( newExpPanel, new FileDrop.Listener() {
+            public void  filesDropped( java.io.File[] files ) {
+                createUploadFileRow(files);
+            }
+        });
     }
     
     private void addAnnotationsForNewExp() throws NullPointerException {
