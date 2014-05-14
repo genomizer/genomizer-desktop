@@ -1,21 +1,14 @@
 package communication;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.PrintWriter;
+import org.apache.commons.codec.binary.Base64;
+
+import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.util.ArrayList;
-
-import org.apache.commons.codec.binary.Base64;
 
 /**
  * Created by Christoffer on 2014-04-30.
- *
  */
 public class DownloadHandler {
 

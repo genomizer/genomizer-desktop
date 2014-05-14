@@ -1,26 +1,17 @@
 package gui;
 
-import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
-import java.awt.Image;
-import java.awt.Insets;
+import util.ExperimentData;
+import util.TreeTable;
+
+import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.Collections;
 
-import javax.swing.ImageIcon;
-import javax.swing.JButton;
-import javax.swing.JPanel;
-
-import util.ExperimentData;
-import util.FileData;
-import util.TreeTable;
-
 public class WorkspaceTab extends JPanel {
-    
+
     private static final long serialVersionUID = -7278768268151806081L;
     private TreeTable table;
     private JPanel buttonPanel, filePanel;
@@ -77,10 +68,10 @@ public class WorkspaceTab extends JPanel {
         downloadButton = new JButton("Download selected");
         analyzeButton = new JButton("Analyze selected");
         analyzeButton.setEnabled(false);
-//        browseButton = new JButton("Browse files");
-//        browseButton.setEnabled(false);
-//        deleteButton = new JButton("Delete selected from database");
-//        deleteButton.setEnabled(false);
+        //        browseButton = new JButton("Browse files");
+        //        browseButton.setEnabled(false);
+        //        deleteButton = new JButton("Delete selected from database");
+        //        deleteButton.setEnabled(false);
         processButton = new JButton("Process selected");
     }
 
@@ -94,7 +85,7 @@ public class WorkspaceTab extends JPanel {
         // deleteButton.setBorderPainted(true);
         // deleteButton.setContentAreaFilled(false);
         // deleteButton.setIcon(deleteIcon);
-//        buttonPanel.add(deleteButton, gbc);
+        //        buttonPanel.add(deleteButton, gbc);
 
         gbc.gridx = 1;
         gbc.gridy = 0;
@@ -131,7 +122,7 @@ public class WorkspaceTab extends JPanel {
         // browseButton.setBorderPainted(true);
         // browseButton.setContentAreaFilled(false);
         // browseButton.setIcon(browseIcon);
-//        buttonPanel.add(browseButton, gbc);
+        //        buttonPanel.add(browseButton, gbc);
 
         gbc.gridx = 5;
         gbc.gridy = 0;
@@ -172,7 +163,8 @@ public class WorkspaceTab extends JPanel {
         return both.toArray(new String[both.size()]);
     }
 
-    public void addExperimentsToTable(ArrayList<ExperimentData> newExperiments) {
+    public void addExperimentsToTable(
+            ArrayList<ExperimentData> newExperiments) {
         ArrayList<ExperimentData> expList = new ArrayList<ExperimentData>();
         if (table.getContent() != null) {
             expList.addAll(table.getContent());

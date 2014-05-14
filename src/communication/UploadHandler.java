@@ -1,24 +1,18 @@
 package communication;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.PrintWriter;
+import org.apache.commons.codec.binary.Base64;
+
+import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
-
-import org.apache.commons.codec.binary.Base64;
 
 public class UploadHandler implements Runnable {
     private String url;
     private String filePath;
     private String userID;
     private String authString;
-    
+
     public UploadHandler(String url, String fileName, String userID,
             String authString) {
         this.url = url;
@@ -26,7 +20,7 @@ public class UploadHandler implements Runnable {
         this.userID = userID;
         this.authString = authString;
     }
-    
+
     @Override
     public void run() {
         try {
@@ -72,7 +66,7 @@ public class UploadHandler implements Runnable {
                 System.out.println(in.readLine());
             }
             conn.disconnect();
-            
+
         } catch (MalformedURLException e) {
             e.printStackTrace();
         } catch (FileNotFoundException e) {
@@ -81,9 +75,9 @@ public class UploadHandler implements Runnable {
             System.out.println("Connection error: " + e.getMessage() + " "
                     + url);
         }
-        
+
     }
-    
+
     private void sendMultiPartFormat(String urlFileName, String boundary,
             PrintWriter outputStream) {
         outputStream.println("--" + boundary);
@@ -96,16 +90,16 @@ public class UploadHandler implements Runnable {
                 + "\"uploadfile\"; filename=\"" + urlFileName + "\"\n"
                 + "Content-Type: application/octet-stream\n");
     }
-    
+
     private String getFileNameFromUrl(String url) {
         String[] urlSplit = url.split("/");
         String fileName = urlSplit[urlSplit.length - 1];
         System.out.println(fileName);
         return fileName;
-        
+
     }
-    
+
     public void sendSetupPackage() {
-        
+
     }
 }
