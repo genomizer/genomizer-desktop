@@ -46,6 +46,7 @@ public class Connection {
                 responseCode = connection.getResponseCode();
                 if (responseCode >= 300) {
                     System.out.println("Connection error: " + responseCode);
+                    System.out.println(request.toJson()); // TODO: remove line
                     return false;
                 }
                 return true;
