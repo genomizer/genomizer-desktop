@@ -39,7 +39,6 @@ public class QuerySearchTab extends JPanel {
     private ArrayList<QueryBuilderRow> rowList;
     private TreeTable resultsTable;
     private AnnotationDataType[] annotationTypes;
-    private JScrollPane bottomScroll;
     
     /**
      * Create a query search tab
@@ -59,7 +58,7 @@ public class QuerySearchTab extends JPanel {
      */
     private void showSearchView() {
         removeAll();
-        bottomScroll = new JScrollPane(bottomPanel);
+        JScrollPane bottomScroll = new JScrollPane(bottomPanel);
         bottomScroll.setBorder(BorderFactory.createEmptyBorder());
         add(topPanel, BorderLayout.NORTH);
         add(bottomScroll, BorderLayout.CENTER);
@@ -228,6 +227,7 @@ public class QuerySearchTab extends JPanel {
         }
         rowsPanel.revalidate();
         rowsPanel.repaint();
+        updateSearchArea();
     }
     
     /**
