@@ -1,6 +1,7 @@
 package gui.sysadmin;
 
 import gui.sysadmin.annotationview.AnnotationsViewCreator;
+import gui.sysadmin.chainfileview.ChainFileViewCreator;
 import gui.sysadmin.processview.ProcessViewCreator;
 import gui.sysadmin.strings.SysadminTabButtons;
 import gui.sysadmin.usersview.UsersViewCreator;
@@ -20,6 +21,7 @@ public class SysadminTab extends JPanel {
     private AnnotationsViewCreator annotationsView;
     private UsersViewCreator       usersView;
     private ProcessViewCreator     processView;
+    private ChainFileViewCreator   chainFileView;
 
     /**
      * Create the panel.
@@ -29,6 +31,7 @@ public class SysadminTab extends JPanel {
         this.annotationsView = new AnnotationsViewCreator();
         this.usersView = new UsersViewCreator();
         this.processView = new ProcessViewCreator();
+        this.chainFileView = new ChainFileViewCreator();
 
     }
 
@@ -52,6 +55,10 @@ public class SysadminTab extends JPanel {
                 case PROCESS:
                     sysadminTabPane.addTab(button.getValue(),
                             buildProcessView());
+                    break;
+                case CHAINFILE:
+                    sysadminTabPane
+                            .addTab(button.getValue(), buildChainFileView());
                     break;
             }
         }
@@ -93,6 +100,10 @@ public class SysadminTab extends JPanel {
 
     private JPanel buildProcessView() {
         return processView.buildProcessView();
+    }
+
+    private JPanel buildChainFileView() {
+        return chainFileView.buildChainFileView();
     }
 
     public void setController(SysadminController sysController) {

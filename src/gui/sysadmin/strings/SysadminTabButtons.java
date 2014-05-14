@@ -11,7 +11,7 @@ public enum SysadminTabButtons {
      * the name of the button within parenthesis.
      */
     ANNOTATIONS("Annotations"), USERS("Users"), TEST("Test"), PROCESS(
-            "Processes");
+            "Processes"), CHAINFILE("Chain file");
     private String name;
 
     private SysadminTabButtons(String name) {

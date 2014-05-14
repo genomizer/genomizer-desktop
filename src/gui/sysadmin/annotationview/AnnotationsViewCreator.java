@@ -88,12 +88,9 @@ public class AnnotationsViewCreator {
         searchPanel.setLayout(new BorderLayout());
         JPanel paneception = new JPanel(new GridLayout(1, 1));
 
-        JButton searchButton = new JButton("Search");
-
         // searchPanel.setPreferredSize(new Dimension(600, 40));
         searchPanel.setBackground(new Color(245, 245, 245));
         searchPanel.add(searchField, BorderLayout.CENTER);
-        paneception.add(searchButton);
         searchPanel.add(paneception, BorderLayout.EAST);
     }
 
