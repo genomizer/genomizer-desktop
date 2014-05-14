@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 import communication.HTTPURLUpload;
-import org.apache.http.protocol.HTTP;
+//import org.apache.http.protocol.HTTP;
 import requests.AddAnnotationRequest;
 import requests.AddExperimentRequest;
 import requests.AddFileToExperiment;
