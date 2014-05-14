@@ -1,5 +1,7 @@
 package requests;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.util.HashMap;
 
 import util.AnnotationDataValue;
@@ -59,7 +61,14 @@ public class RequestFactory {
     }
     
     public static SearchRequest makeSearchRequest(String annotationString) {
-        return new SearchRequest(annotationString);
+        String urlEncodedAnnotationString = annotationString;
+        try {
+            urlEncodedAnnotationString = URLEncoder
+                    .encode(annotationString, "UTF-8");
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
+        return new SearchRequest(urlEncodedAnnotationString);
     }
     
     public static rawToProfileRequest makeRawToProfileRequest(String fileName,

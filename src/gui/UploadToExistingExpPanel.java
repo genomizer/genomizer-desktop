@@ -54,6 +54,7 @@ public class UploadToExistingExpPanel extends JPanel implements ExperimentPanel 
         new FileDrop(this, new FileDrop.Listener() {
             public void filesDropped(java.io.File[] files) {
                 createUploadFileRow(files);
+                enableUploadButton(true);
             }
         });
         
@@ -65,12 +66,20 @@ public class UploadToExistingExpPanel extends JPanel implements ExperimentPanel 
         add(mainPanel);
         repaint();
         revalidate();
+        uploadFilesPanel.repaint();
+        uploadFilesPanel.revalidate();
     }
     
     public void createUploadFileRow(File[] files) {
         for (File f : files) {
-            UploadFileRow fileRow = new UploadFileRow(f, this);
-            uploadFileRows.put(f, fileRow);
+            if (!uploadFileRows.containsKey(f)) {
+                UploadFileRow fileRow = new UploadFileRow(f, this);
+                uploadFileRows.put(f, fileRow);
+            } else {
+                JOptionPane.showMessageDialog(this, "File already selected: "
+                                + f.getName() + "", "File error",
+                        JOptionPane.ERROR_MESSAGE);
+            }
         }
         repaintSelectedFiles();
     }
