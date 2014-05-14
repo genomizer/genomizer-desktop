@@ -7,9 +7,9 @@ public class SysStrings {
     public final static String ANNOTATIONS_ADD    = "Add";
     public final static String ANNOTATIONS_DELETE = "Remove";
     public final static String POPUP_CREATE_ANNO  = "Create annotation";
-
+    
     public SysStrings() {
-
+        
     }
-
+    
 }

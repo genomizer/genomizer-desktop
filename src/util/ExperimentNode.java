@@ -9,14 +9,13 @@ import java.util.ArrayList;
  */
 public class ExperimentNode extends AbstractMutableTreeTableNode implements
         Comparable {
-
+    
     private ExperimentData experiment;
-    private String[] fileHeaders = new String[] {
+    private String[]       fileHeaders = new String[] {
             "<html><b>File Name</html></b>", "<html><b>Date Added</html></b>",
             "<html><b>Uploaded By</html></b>" };
-
-    public ExperimentNode(ExperimentData experiment,
-            ArrayList<String> headings) {
+    
+    public ExperimentNode(ExperimentData experiment, ArrayList<String> headings) {
         super(experiment.getAnnotationValueList(headings).toArray());
         this.experiment = experiment;
         ArrayList<FileData> files = experiment.files;
@@ -48,25 +47,25 @@ public class ExperimentNode extends AbstractMutableTreeTableNode implements
             add(profileNode);
         }
     }
-
+    
     @Override
     public Object getValueAt(int columnIndex) {
         return getData()[columnIndex];
     }
-
+    
     @Override
     public int getColumnCount() {
         return getData().length;
     }
-
+    
     public Object[] getData() {
         return (Object[]) super.getUserObject();
     }
-
+    
     public ExperimentData getExperiment() {
         return experiment;
     }
-
+    
     @Override
     public int compareTo(Object o) {
         ExperimentNode node = (ExperimentNode) o;
@@ -75,5 +74,5 @@ public class ExperimentNode extends AbstractMutableTreeTableNode implements
         }
         return -1;
     }
-
+    
 }

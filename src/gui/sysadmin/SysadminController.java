@@ -15,39 +15,39 @@ import java.util.Observable;
 import java.util.Observer;
 
 public class SysadminController extends Observable {
-
+    
     private SysadminTab    sysTab;
     private GenomizerModel model;
-
+    
     public SysadminController(Observer observer) {
-
+        
         this.addObserver(observer);
-
+        
     }
-
+    
     public SysadminController(GenomizerModel model) {
         this.model = model;
     }
-
+    
     public ActionListener createAnnotationButtonListener() {
         return new AnnotationButtonsListener(sysTab);
     }
-
+    
     public ActionListener createAnnotationPopupListener() {
         return new AnnotationPopupListener(sysTab);
     }
-
+    
     public ActionListener editAnnotationPopupListener() {
         return new EditAnnotationPopupListener(sysTab);
     }
-
+    
     /* You need me */
     public void setSysadminPanel(SysadminTab sysTab) {
-
+        
         this.sysTab = sysTab;
-
+        
     }
-
+    
     public void sendNewAnnotation() {
         SysadminAnnotationPopup popup = sysTab.getAnnotationsView().getPop();
         try {
@@ -59,17 +59,17 @@ public class SysadminController extends Observable {
             JOptionPane.showMessageDialog(null, e.getMessage());
         }
     }
-
+    
     public util.AnnotationDataType[] getAnnotations() {
         return model.getAnnotations();
     }
-
+    
     public void updateAnnotationTable() {
         AnnotationTableModel tableModel = (AnnotationTableModel) sysTab
                 .getAnnotationsView().getTableModel();
         tableModel.setAnnotations(getAnnotations());
     }
-
+    
     public void deleteAnnotation() {
         if (sysTab.getAnnotationTable().getSelectedRow() != -1) {
             int row = sysTab.getAnnotationTable().getSelectedRow();
@@ -77,18 +77,17 @@ public class SysadminController extends Observable {
             int col = 3;
             AnnotationDataType annotation = (AnnotationDataType) sysTab
                     .getAnnotationTable().getModel().getValueAt(row, col);
-
+            
             try {
                 if (JOptionPane.showConfirmDialog(null,
                         "Are you sure you want to delete the "
-                                + annotation.name + " annotation?"
-                ) == JOptionPane.YES_OPTION) {
+                                + annotation.name + " annotation?") == JOptionPane.YES_OPTION) {
                     if (model.deleteAnnotation(new DeleteAnnoationData(
                             annotation))) {
                         JOptionPane.showMessageDialog(null, annotation.name
                                 + " has been remove!");
                         SwingUtilities.invokeLater(new Runnable() {
-
+                            
                             @Override
                             public void run() {
                                 updateAnnotationTable();

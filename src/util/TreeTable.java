@@ -21,12 +21,12 @@ import java.util.regex.Pattern;
  * Class the represents a treetable containing experiment and file data
  */
 public class TreeTable extends JPanel {
-
+    
     private JXTreeTable               table;
     private ArrayList<String>         headings;
     private ArrayList<ExperimentData> experiments;
     private ArrayList<Boolean>        sortingOrders;
-
+    
     /**
      * Tree Table empty constructor
      */
@@ -34,18 +34,19 @@ public class TreeTable extends JPanel {
         this.setLayout(new BorderLayout());
         initiateJXTreeTable();
     }
-
+    
     /**
      * Tree Table constructor with input content
-     *
-     * @param experimentData - the tree table content
+     * 
+     * @param experimentData
+     *            - the tree table content
      */
     public TreeTable(ArrayList<ExperimentData> experimentData) {
         this.setLayout(new BorderLayout());
         initiateJXTreeTable();
         setContent(experimentData);
     }
-
+    
     /**
      * Method for initating the JXTreeTable
      */
@@ -72,18 +73,17 @@ public class TreeTable extends JPanel {
         });
         JScrollPane scrollPane = new JScrollPane(table);
         scrollPane
-                .setHorizontalScrollBarPolicy(
-                        JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+                .setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
         scrollPane
-                .setVerticalScrollBarPolicy(
-                        JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
+                .setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
         add(scrollPane, BorderLayout.CENTER);
     }
-
+    
     /**
      * set new content for the tree table
-     *
-     * @param experimentData - new content
+     * 
+     * @param experimentData
+     *            - new content
      */
     public void setContent(ArrayList<ExperimentData> experimentData) {
         
@@ -98,8 +98,7 @@ public class TreeTable extends JPanel {
             headings.add("Experiment Name");
             headings.add("Experiment Created By");
             for (int i = 0; i < experiments.size(); i++) {
-                for (AnnotationDataValue annotation : experiments
-                        .get(i).annotations) {
+                for (AnnotationDataValue annotation : experiments.get(i).annotations) {
                     if (!headings.contains(annotation.name)) {
                         headings.add(annotation.name);
                         nrOfColumns++;
@@ -110,16 +109,17 @@ public class TreeTable extends JPanel {
             for (int i = 0; i < nrOfColumns; i++) {
                 sortingOrders.add(i, true);
             }
-
+            
         }
         /* Create the tree structure */
         createTreeStructure();
     }
-
+    
     /**
      * Sort the treetable data by column index
-     *
-     * @param sortByColumn - column index
+     * 
+     * @param sortByColumn
+     *            - column index
      */
     private void sortData(final int sortByColumn) {
         
@@ -131,7 +131,7 @@ public class TreeTable extends JPanel {
                 sortingOrders.set(i, true);
             }
         }
-
+        
         Collections.sort(experiments, new Comparator<ExperimentData>() {
             public int compare(ExperimentData a, ExperimentData b) {
                 final Pattern PATTERN = Pattern.compile("(\\D*)(\\d*)");
@@ -184,7 +184,7 @@ public class TreeTable extends JPanel {
                     } else if (m2.group(2).isEmpty()) {
                         return +1;
                     }
-
+                    
                     BigInteger n1 = new BigInteger(m1.group(2));
                     BigInteger n2 = new BigInteger(m2.group(2));
                     int numberCompare;
@@ -204,14 +204,14 @@ public class TreeTable extends JPanel {
                  */
                 return m1.hitEnd() && m2.hitEnd() ? 0 : m1.hitEnd() ? -1 : +1;
             }
-
+            
         });
-
+        
     }
-
+    
     /**
      * Return the selected data in the tree table
-     *
+     * 
      * @return
      */
     public ArrayList<ExperimentData> getSelectedData() {
@@ -231,8 +231,7 @@ public class TreeTable extends JPanel {
                 ExperimentData newExp = new ExperimentData(exp.name,
                         exp.createdBy, (ArrayList<FileData>) exp.files.clone(),
                         (ArrayList<AnnotationDataValue>) exp.annotations
-                                .clone()
-                );
+                                .clone());
                 if (!selectedExperiments.contains(exp)) {
                     selectedExperiments.add(newExp);
                 }
@@ -253,11 +252,10 @@ public class TreeTable extends JPanel {
                         }
                     } else {
                         ExperimentData exp = new ExperimentData(tempExp.name,
-                                tempExp.createdBy, newFile,
-                                tempExp.annotations);
+                                tempExp.createdBy, newFile, tempExp.annotations);
                         selectedExperiments.add(exp);
                     }
-
+                    
                 }
             } else {
                 /*
@@ -294,8 +292,7 @@ public class TreeTable extends JPanel {
                                 tempExp.createdBy,
                                 newFiles,
                                 (ArrayList<AnnotationDataValue>) tempExp.annotations
-                                        .clone()
-                        );
+                                        .clone());
                         selectedExperiments.add(exp);
                     }
                 }
@@ -303,7 +300,7 @@ public class TreeTable extends JPanel {
         }
         return selectedExperiments;
     }
-
+    
     /**
      * remove the currently selected files
      */
@@ -333,18 +330,18 @@ public class TreeTable extends JPanel {
         }
         this.setContent(experiments);
     }
-
+    
     public ArrayList<ExperimentData> getContent() {
         return experiments;
     }
-
+    
     /**
      * Create the tree structure of the tree table
      */
     private void createTreeStructure() {
         /* Create the tree root */
         SupportNode root = new SupportNode(new Object[] { "Root" });
-
+        
         try {
             for (ExperimentData experiment : experiments) {
                 /* Create experiment node and add to root */
@@ -355,16 +352,14 @@ public class TreeTable extends JPanel {
             /* Create the model and add it to the table */
             DefaultTreeTableModel model = new DefaultTreeTableModel(
                     root,
-                    Arrays.asList(
-                            headings.toArray(new String[headings.size()]))
-            );
+                    Arrays.asList(headings.toArray(new String[headings.size()])));
             table.setTreeTableModel(model);
             table.packAll();
             repaint();
             revalidate();
-
+            
         } catch (NullPointerException e) {
-
+            
         }
     }
 }
