@@ -58,11 +58,11 @@ public class QueryBuilderRow extends JPanel {
         removeAll();
         /* Create the panels */
         JPanel logicPanel = new JPanel();
-        logicPanel.setPreferredSize(new Dimension(80, 35));
+        logicPanel.setPreferredSize(new Dimension(70, 35));
         JPanel annotationPanel = new JPanel();
-        annotationPanel.setPreferredSize(new Dimension(185, 35));
+        annotationPanel.setPreferredSize(new Dimension(200, 35));
         JPanel inputPanel = new JPanel();
-        inputPanel.setPreferredSize(new Dimension(570, 35));
+        inputPanel.setPreferredSize(new Dimension(415, 35));
         JPanel buttonPanel = new JPanel();
         buttonPanel.setPreferredSize(new Dimension(50, 35));
         /* All rows except the first should have a logic field */
@@ -104,7 +104,7 @@ public class QueryBuilderRow extends JPanel {
      */
     private void setPlusButton() {
         plusButton = new JButton();
-        URL imageUrl = getClass().getResource("/icons/plus.png");
+        URL imageUrl = getClass().getResource("/icons/plus2.png");
         ImageIcon plusIcon = new ImageIcon(imageUrl);
         plusIcon = new ImageIcon(plusIcon.getImage().getScaledInstance(15, 15,
                 Image.SCALE_SMOOTH));
@@ -128,7 +128,7 @@ public class QueryBuilderRow extends JPanel {
      */
     private void setMinusButton() {
         minusButton = new JButton();
-        URL imageUrl = getClass().getResource("/icons/minus.png");
+        URL imageUrl = getClass().getResource("/icons/minus2.png");
         ImageIcon minusIcon = new ImageIcon(imageUrl);
         minusIcon = new ImageIcon(minusIcon.getImage().getScaledInstance(15,
                 15, Image.SCALE_SMOOTH));
@@ -153,7 +153,7 @@ public class QueryBuilderRow extends JPanel {
      * Method for constructing the text field for free text input
      */
     private void setTextField() {
-        textField = new JTextField(50);
+        textField = new JTextField(35);
         /*
          * The search field in the parent is updated when the text field content
          * is changed
@@ -208,12 +208,12 @@ public class QueryBuilderRow extends JPanel {
         for (int i = 0; i < annotationTypes.length; i++) {
             annotationNames[i] = annotationTypes[i].getName();
         }
-        System.out.println("annotation length: " + annotationNames.length);
         if (annotationNames.length > 0) {
             annotationBox = new JComboBox(annotationNames);
         } else {
             annotationBox = new JComboBox();
         }
+        annotationBox.setPrototypeDisplayValue("AAAAAAAAAAAAAAAAAAAAAAA");
         annotationBox.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
