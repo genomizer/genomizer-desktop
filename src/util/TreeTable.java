@@ -1,6 +1,8 @@
 package util;
 
 import java.awt.BorderLayout;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.math.BigInteger;
@@ -12,7 +14,8 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import javax.swing.JCheckBoxMenuItem;
+import javax.swing.Action;
+import javax.swing.JCheckBox;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -35,6 +38,9 @@ public class TreeTable extends JPanel {
     private ArrayList<String>         headings;
     private ArrayList<ExperimentData> experiments;
     private ArrayList<Boolean>        sortingOrders;
+    private ArrayList<String>         deselectedHeadings;
+    private ArrayList<String>         visibleHeadings;
+    private ArrayList<JCheckBox>      columnCheckBoxes;
     
     /**
      * Tree Table empty constructor
@@ -72,22 +78,16 @@ public class TreeTable extends JPanel {
                 @Override
                 public void addVisibilityActionItems(
                         List<? extends AbstractActionExt> actions) {
-                    for (int i = 0; i < actions.size(); i++) {
-                        AbstractActionExt action = actions.get(i);
-                        JCheckBoxMenuItem chk = new JCheckBoxMenuItem(action);
-                        // Disabling unwanted items but they will be still shown
-                        // for smooth user experience
-                        if (i == 0 || i == 1) {
-                            chk.setEnabled(false);
-                            chk.setSelected(false);
-                            // chk.setIcon(new
-                            // ImageIcon(Icons.class.getResource("check.png")));
-                        } else {
-                            chk.setSelected(true);
+                    if (!actions.isEmpty()) {
+                        for (JCheckBox checkBox : columnCheckBoxes) {
+                            getPopupMenu().add(checkBox);
                         }
-                        chk.addItemListener(action);
-                        super.addItem(chk);
                     }
+                }
+                
+                public void addAdditionalActionItems(
+                        List<? extends Action> actions) {
+                    
                 }
             }
             
@@ -152,7 +152,33 @@ public class TreeTable extends JPanel {
             }
             
         }
+        columnCheckBoxes = new ArrayList<JCheckBox>();
+        for (final String heading : headings) {
+            JCheckBox checkBox = new JCheckBox(heading);
+            checkBox.setSelected(true);
+            if (heading.equals("Experiment Name")) {
+                checkBox.setEnabled(false);
+            }
+            checkBox.addItemListener(new ItemListener() {
+                @Override
+                public void itemStateChanged(ItemEvent e) {
+                    if (e.getStateChange() == ItemEvent.DESELECTED) {
+                        System.out.println("deselected");
+                        deselectedHeadings.add(heading);
+                    } else {
+                        System.out.println("selected");
+                        deselectedHeadings.remove(heading);
+                    }
+                    createTreeStructure();
+                }
+            });
+            columnCheckBoxes.add(checkBox);
+        }
+        
         /* Create the tree structure */
+        visibleHeadings = new ArrayList<String>();
+        visibleHeadings.addAll(headings);
+        deselectedHeadings = new ArrayList<String>();
         createTreeStructure();
     }
     
@@ -176,10 +202,14 @@ public class TreeTable extends JPanel {
         Collections.sort(experiments, new Comparator<ExperimentData>() {
             public int compare(ExperimentData a, ExperimentData b) {
                 final Pattern PATTERN = Pattern.compile("(\\D*)(\\d*)");
-                ArrayList<String> entry1 = a.getAnnotationValueList(headings);
-                ArrayList<String> entry2 = b.getAnnotationValueList(headings);
+                ArrayList<String> entry1 = a
+                        .getAnnotationValueList(visibleHeadings);
+                ArrayList<String> entry2 = b
+                        .getAnnotationValueList(visibleHeadings);
                 if (sortByColumn > entry1.size() - 1
                         || sortByColumn > entry2.size() - 1) {
+                    return 1;
+                } else if (sortByColumn < 0) {
                     return 1;
                 }
                 if ((entry1.get(sortByColumn) == null || entry1.get(
@@ -384,24 +414,37 @@ public class TreeTable extends JPanel {
     private void createTreeStructure() {
         /* Create the tree root */
         SupportNode root = new SupportNode(new Object[] { "Root" });
+        visibleHeadings = new ArrayList<String>();
         int columnCount = table.getColumnCount();
         if (columnCount > 0) {
-            headings = new ArrayList<String>();
+            visibleHeadings = new ArrayList<String>();
             for (int i = 0; i < columnCount; i++) {
-                headings.add(table.getColumnName(i));
+                visibleHeadings.add(table.getColumnName(i));
             }
+            for (String heading : headings) {
+                if (!visibleHeadings.contains(heading)
+                        && !deselectedHeadings.contains(heading)) {
+                    visibleHeadings.add(heading);
+                }
+            }
+            visibleHeadings.removeAll(deselectedHeadings);
+            
+        } else {
+            visibleHeadings.addAll(headings);
         }
+        
         try {
             for (ExperimentData experiment : experiments) {
                 /* Create experiment node and add to root */
                 ExperimentNode experimentNode = new ExperimentNode(experiment,
-                        headings);
+                        visibleHeadings);
                 root.add(experimentNode);
             }
             /* Create the model and add it to the table */
-            DefaultTreeTableModel model = new DefaultTreeTableModel(
-                    root,
-                    Arrays.asList(headings.toArray(new String[headings.size()])));
+            DefaultTreeTableModel model = new DefaultTreeTableModel(root,
+                    Arrays.asList(visibleHeadings
+                            .toArray(new String[visibleHeadings.size()])));
+            
             table.setTreeTableModel(model);
             table.packAll();
             repaint();
