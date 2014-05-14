@@ -22,7 +22,7 @@ public class EditAnnotationPopupListener implements ActionListener {
         
         switch (e.getActionCommand()) {
             case SysStrings.ANNOTATIONS_MODIFY:
-                //TODO: Start working here Adam :)
+                // TODO: Start working here Adam :)
                 System.out.println("Editing annotation....");
                 break;
         

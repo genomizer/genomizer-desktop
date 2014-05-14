@@ -9,9 +9,9 @@ import model.Model;
 import javax.swing.*;
 
 public class Genomizer {
-
+    
     public static void main(String args[]) {
-
+        
         final GUI gui = new GUI();
         SearchTab st = new SearchTab();
         UploadTab ut = new UploadTab();
