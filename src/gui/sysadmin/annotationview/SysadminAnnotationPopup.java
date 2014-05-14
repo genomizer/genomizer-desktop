@@ -304,6 +304,10 @@ public class SysadminAnnotationPopup extends JPanel {
 
         // TODO: make a model for popup? this should not be in a pure view
         // class.
+        
+        //TODO: check if the typing field is empty:
+        
+        
         synchronized (categories) {
 
             if (categories.isEmpty()) {
