@@ -30,23 +30,23 @@ import util.AnnotationDataValue;
 
 public class UploadTab extends JPanel implements ExperimentPanel {
     
-    private static final long            serialVersionUID = -2830290705724588252L;
-    private JButton                      addToExistingExpButton, newExpButton,
-            selectButton, uploadButton;
-    private JPanel                       northPanel, expNamePanel, uploadPanel,
-            newExpPanel, uploadFilesPanel, uploadBackground;
-    private JTextArea                    experimentNameField;
-    private UploadToExistingExpPanel     uploadToExistingExpPanel;
-    private AnnotationDataType[]         annotations;
-    private ArrayList<String>            annotationHeaders;
-    private HashMap<String, JComboBox>   annotationBoxes;
-    private HashMap<String, JTextField>  annotationFields;
+    private static final long serialVersionUID = -2830290705724588252L;
+    private JButton addToExistingExpButton, newExpButton, selectButton,
+            uploadButton;
+    private JPanel northPanel, expNamePanel, uploadPanel, newExpPanel,
+            uploadFilesPanel, uploadBackground;
+    private JTextArea experimentNameField;
+    private UploadToExistingExpPanel uploadToExistingExpPanel;
+    private AnnotationDataType[] annotations;
+    private ArrayList<String> annotationHeaders;
+    private HashMap<String, JComboBox> annotationBoxes;
+    private HashMap<String, JTextField> annotationFields;
     private HashMap<File, UploadFileRow> uploadFileRows;
-    private ActivePanel                  activePanel;
-    private JLabel                       expNameLabel;
-    private JTextField                   expName;
-    private JScrollPane                  uploadScroll;
-    private JPanel                       buttonsPanel;
+    private ActivePanel activePanel;
+    private JLabel expNameLabel;
+    private JTextField expName;
+    private JScrollPane uploadScroll;
+    private JPanel buttonsPanel;
     
     public UploadTab() {
         annotationHeaders = new ArrayList<String>();
@@ -95,8 +95,10 @@ public class UploadTab extends JPanel implements ExperimentPanel {
         uploadToExistingExpPanel.setAnnotations(annotations);
         uploadToExistingExpPanel.addAnnotationsForExistingExp();
         uploadPanel.add(uploadToExistingExpPanel, BorderLayout.CENTER);
-  /*      setBorder(BorderFactory
-                .createTitledBorder("Upload to existing experiment")); */
+        /*
+         * setBorder(BorderFactory
+         * .createTitledBorder("Upload to existing experiment"));
+         */
         repaint();
         revalidate();
     }
@@ -123,8 +125,10 @@ public class UploadTab extends JPanel implements ExperimentPanel {
     
     private void createNewExpPanel() {
         killContentsOfUploadPanel();
-/*        setBorder(BorderFactory
-                .createTitledBorder("Create new experiment")); */
+        /*
+         * setBorder(BorderFactory
+         * .createTitledBorder("Create new experiment"));
+         */
         activePanel = ActivePanel.NEW;
         GridBagLayout gbl_panel = new GridBagLayout();
         gbl_panel.columnWidths = new int[] { 0, 0, 0, 0, 0, 0, 0 };

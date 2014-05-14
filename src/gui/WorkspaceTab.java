@@ -21,31 +21,21 @@ import util.TreeTable;
 
 public class WorkspaceTab extends JPanel {
     
-    private static final long  serialVersionUID     = -7278768268151806081L;
-    private TreeTable          table;
-    private JPanel             buttonPanel, filePanel;
-    private JButton            deleteButton, removeButton, downloadButton;
-    private JButton            analyzeButton, browseButton, processButton;
-    private ImageIcon          analyseIcon          = new ImageIcon(
-                                                            getClass()
-                                                                    .getResource(
-                                                                            "/icons/AnalyzeSelectedButton.png"));
-    private ImageIcon          browseIcon           = new ImageIcon(
-                                                            getClass()
-                                                                    .getResource(
-                                                                            "/icons/BrowseLocalFilesButton.png"));
-    private ImageIcon          deleteIcon           = new ImageIcon(
-                                                            getClass()
-                                                                    .getResource(
-                                                                            "/icons/DeleteSelectedButton.png"));
-    private ImageIcon          downloadSelectedIcon = new ImageIcon(
-                                                            getClass()
-                                                                    .getResource(
-                                                                            "/icons/DownloadSelectedButton.png"));
-    private ImageIcon          removeFromDBIcon     = new ImageIcon(
-                                                            getClass()
-                                                                    .getResource(
-                                                                            "/icons/RemoveFromDatabaseButton.png"));
+    private static final long serialVersionUID = -7278768268151806081L;
+    private TreeTable table;
+    private JPanel buttonPanel, filePanel;
+    private JButton deleteButton, removeButton, downloadButton;
+    private JButton analyzeButton, browseButton, processButton;
+    private ImageIcon analyseIcon = new ImageIcon(getClass().getResource(
+            "/icons/AnalyzeSelectedButton.png"));
+    private ImageIcon browseIcon = new ImageIcon(getClass().getResource(
+            "/icons/BrowseLocalFilesButton.png"));
+    private ImageIcon deleteIcon = new ImageIcon(getClass().getResource(
+            "/icons/DeleteSelectedButton.png"));
+    private ImageIcon downloadSelectedIcon = new ImageIcon(getClass()
+            .getResource("/icons/DownloadSelectedButton.png"));
+    private ImageIcon removeFromDBIcon = new ImageIcon(getClass().getResource(
+            "/icons/RemoveFromDatabaseButton.png"));
     private GridBagConstraints gbc;
     
     public WorkspaceTab() {

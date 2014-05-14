@@ -18,7 +18,7 @@ public class UploadHandler implements Runnable {
     private String filePath;
     private String userID;
     private String authString;
-
+    
     public UploadHandler(String url, String fileName, String userID,
             String authString) {
         this.url = url;
@@ -26,21 +26,21 @@ public class UploadHandler implements Runnable {
         this.userID = userID;
         this.authString = authString;
     }
-
+    
     @Override
     public void run() {
         try {
             String urlFileName = getFileNameFromUrl(url);
             sendSetupPackage();
             url = url.replaceFirst("\\u003d", "=");
-            //url = url.replaceFirst("8000", "8050");
+            // url = url.replaceFirst("8000", "8050");
             URL targetUrl = new URL(url);
             HttpURLConnection conn = (HttpURLConnection) targetUrl
                     .openConnection();
             conn.setDoOutput(true);
             byte[] authEncBytes = Base64.encodeBase64(authString.getBytes());
             String authStringEnc = new String(authEncBytes);
-            //conn.setReadTimeout(1000);
+            // conn.setReadTimeout(1000);
             conn.setRequestMethod("POST");
             // conn.setRequestProperty("path", url);
             String boundary = "WgiloelqGufNYwj9e2TMztCZON694FV";
@@ -72,7 +72,7 @@ public class UploadHandler implements Runnable {
                 System.out.println(in.readLine());
             }
             conn.disconnect();
-
+            
         } catch (MalformedURLException e) {
             e.printStackTrace();
         } catch (FileNotFoundException e) {
@@ -81,33 +81,31 @@ public class UploadHandler implements Runnable {
             System.out.println("Connection error: " + e.getMessage() + " "
                     + url);
         }
-
+        
     }
-
+    
     private void sendMultiPartFormat(String urlFileName, String boundary,
             PrintWriter outputStream) {
         outputStream.println("--" + boundary);
-        outputStream
-                .println("Content-Disposition: form-data; name=\"path\"\n");
+        outputStream.println("Content-Disposition: form-data; name=\"path\"\n");
         String path = url.split("=")[1];
         System.out.println(path);
         outputStream.println(path);
         outputStream.println("--" + boundary);
-        outputStream
-                .println("Content-Disposition: form-data; name=" +
-                        "\"uploadfile\"; filename=\"" + urlFileName + "\"\n"
-                        + "Content-Type: application/octet-stream\n");
+        outputStream.println("Content-Disposition: form-data; name="
+                + "\"uploadfile\"; filename=\"" + urlFileName + "\"\n"
+                + "Content-Type: application/octet-stream\n");
     }
-
+    
     private String getFileNameFromUrl(String url) {
         String[] urlSplit = url.split("/");
         String fileName = urlSplit[urlSplit.length - 1];
         System.out.println(fileName);
         return fileName;
-
+        
     }
-
+    
     public void sendSetupPackage() {
-
+        
     }
 }

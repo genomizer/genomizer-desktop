@@ -2,7 +2,7 @@ package gui;
 
 public class CheckListItem {
     
-    private String  label;
+    private String label;
     private boolean isSelected = false;
     
     public CheckListItem(String label) {

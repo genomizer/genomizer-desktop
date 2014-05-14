@@ -10,7 +10,7 @@ import requests.AddAnnotationRequest;
 public class SysadminController extends Observable {
     
     private static SysadminTab sysTab;
-    private GenomizerModel     model;
+    private GenomizerModel model;
     
     public SysadminController(Observer observer) {
         

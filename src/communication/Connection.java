@@ -11,7 +11,7 @@ import requests.Request;
 
 public class Connection {
     private String ip;
-    private int    responseCode;
+    private int responseCode;
     private String responseBody;
     
     public Connection(String ip) {

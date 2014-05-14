@@ -24,74 +24,60 @@ public class SearchTab extends JPanel {
      */
     private static final long serialVersionUID = -5281551884688417212L;
     
-    private JPanel            searchPanel;
-    private JPanel            resultPanel;
+    private JPanel searchPanel;
+    private JPanel resultPanel;
     
-    private JLabel            searchLabel;
-    private JLabel            expLabel;
-    private JLabel            pubLabel;
-    private JLabel            dataLabel;
+    private JLabel searchLabel;
+    private JLabel expLabel;
+    private JLabel pubLabel;
+    private JLabel dataLabel;
     
-    private JTextField        expID;
-    private JTextField        pubID;
+    private JTextField expID;
+    private JTextField pubID;
     
-    private String[]          expStrings0      = { "0", "Female" };
-    private String[]          expStrings1      = { "1", "Cat", "Dog", "Rabbit",
-            "Pig5"                            };
-    private String[]          expStrings2      = { "2", "Cat", "Dog", "Rabbit",
-            "Pig4"                            };
-    private String[]          expStrings3      = { "3", "Cat", "Dog", "Rabbit",
-            "Pig3"                            };
-    private String[]          expStrings4      = { "4", "Cat", "Dog", "Rabbit",
-            "Pig2"                            };
-    private String[]          expStrings5      = { "5", "Cat", "Dog", "Rabbit",
-            "Pig1"                            };
+    private String[] expStrings0 = { "0", "Female" };
+    private String[] expStrings1 = { "1", "Cat", "Dog", "Rabbit", "Pig5" };
+    private String[] expStrings2 = { "2", "Cat", "Dog", "Rabbit", "Pig4" };
+    private String[] expStrings3 = { "3", "Cat", "Dog", "Rabbit", "Pig3" };
+    private String[] expStrings4 = { "4", "Cat", "Dog", "Rabbit", "Pig2" };
+    private String[] expStrings5 = { "5", "Cat", "Dog", "Rabbit", "Pig1" };
     
-    private String[]          pubStrings0      = { "0", "Cat", "Dog", "Rabbit",
-            "Pig5"                            };
-    private String[]          pubStrings1      = { "1", "Cat", "Dog", "Rabbit",
-            "Pig5"                            };
-    private String[]          pubStrings2      = { "2", "Cat", "Dog", "Rabbit",
-            "Pig4"                            };
-    private String[]          pubStrings3      = { "3", "Cat", "Dog", "Rabbit",
-            "Pig3"                            };
-    private String[]          pubStrings4      = { "4", "Cat", "Dog", "Rabbit",
-            "Pig2"                            };
-    private String[]          pubStrings5      = { "5", "Cat", "Dog", "Rabbit",
-            "Pig1"                            };
-    private String[]          pubStrings6      = { "6", "Cat", "Dog", "Rabbit",
-            "Pig5"                            };
-    private String[]          pubStrings7      = { "7", "Cat", "Dog", "Rabbit",
-            "Pig4"                            };
-    private String[]          pubStrings8      = { "8", "Cat", "Dog", "Rabbit",
-            "Pig5"                            };
+    private String[] pubStrings0 = { "0", "Cat", "Dog", "Rabbit", "Pig5" };
+    private String[] pubStrings1 = { "1", "Cat", "Dog", "Rabbit", "Pig5" };
+    private String[] pubStrings2 = { "2", "Cat", "Dog", "Rabbit", "Pig4" };
+    private String[] pubStrings3 = { "3", "Cat", "Dog", "Rabbit", "Pig3" };
+    private String[] pubStrings4 = { "4", "Cat", "Dog", "Rabbit", "Pig2" };
+    private String[] pubStrings5 = { "5", "Cat", "Dog", "Rabbit", "Pig1" };
+    private String[] pubStrings6 = { "6", "Cat", "Dog", "Rabbit", "Pig5" };
+    private String[] pubStrings7 = { "7", "Cat", "Dog", "Rabbit", "Pig4" };
+    private String[] pubStrings8 = { "8", "Cat", "Dog", "Rabbit", "Pig5" };
     
-    private JComboBox         expBox0;
-    private JComboBox         expBox1;
-    private JComboBox         expBox2;
-    private JComboBox         expBox3;
-    private JComboBox         expBox4;
-    private JComboBox         expBox5;
+    private JComboBox expBox0;
+    private JComboBox expBox1;
+    private JComboBox expBox2;
+    private JComboBox expBox3;
+    private JComboBox expBox4;
+    private JComboBox expBox5;
     
-    private JComboBox         pubBox0;
-    private JComboBox         pubBox1;
-    private JComboBox         pubBox2;
-    private JComboBox         pubBox3;
-    private JComboBox         pubBox4;
-    private JComboBox         pubBox5;
-    private JComboBox         pubBox6;
-    private JComboBox         pubBox7;
-    private JComboBox         pubBox8;
+    private JComboBox pubBox0;
+    private JComboBox pubBox1;
+    private JComboBox pubBox2;
+    private JComboBox pubBox3;
+    private JComboBox pubBox4;
+    private JComboBox pubBox5;
+    private JComboBox pubBox6;
+    private JComboBox pubBox7;
+    private JComboBox pubBox8;
     
-    private JButton           searchButton;
+    private JButton searchButton;
     
-    private JCheckBox         rawCheckBox;
-    private JCheckBox         regionCheckBox;
-    private JCheckBox         profileCheckBox;
+    private JCheckBox rawCheckBox;
+    private JCheckBox regionCheckBox;
+    private JCheckBox profileCheckBox;
     
-    private JTable            resultTable;
+    private JTable resultTable;
     
-    private JScrollPane       resultScroll;
+    private JScrollPane resultScroll;
     
     public SearchTab() {
         BorderLayout bl = new BorderLayout();

@@ -24,18 +24,18 @@ import util.AnnotationDataType;
  * 
  */
 public class QueryBuilderRow extends JPanel {
-    private JComboBox             annotationBox;
-    private JComboBox             annotationAlternatives;
-    private JTextField            textField;
-    private JButton               plusButton;
-    private JButton               minusButton;
-    private JComboBox             logicBox;
-    private QuerySearchTab        parent;
-    private AnnotationDataType[]  annotationTypes;
+    private JComboBox annotationBox;
+    private JComboBox annotationAlternatives;
+    private JTextField textField;
+    private JButton plusButton;
+    private JButton minusButton;
+    private JComboBox logicBox;
+    private QuerySearchTab parent;
+    private AnnotationDataType[] annotationTypes;
     private static final String[] logicOperators = { "AND", "NOT", "OR" };
-    private boolean               dropdown       = false;
-    private boolean               firstRow       = false;
-    private boolean               lastRow        = false;
+    private boolean dropdown = false;
+    private boolean firstRow = false;
+    private boolean lastRow = false;
     
     public QueryBuilderRow(QuerySearchTab parent,
             AnnotationDataType[] annotationTypes) {
