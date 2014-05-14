@@ -2,8 +2,8 @@ package requests;
 
 public class rawToProfileRequest extends Request {
 
-    public String   fileName;
-    public String   fileID;
+    public String   filename;
+    public String   fileId;
     public String   expid;
     public String   processtype;
     public String[] parameters;
@@ -16,7 +16,7 @@ public class rawToProfileRequest extends Request {
      *
      *
      * @param fileName
-     * @param fileID
+     * @param fileId
      * @param expid
      * @param processtype
      * @param parameters
@@ -24,13 +24,13 @@ public class rawToProfileRequest extends Request {
      * @param genomeRelease
      * @param author
      */
-    public rawToProfileRequest(String fileName, String fileID, String expid,
+    public rawToProfileRequest(String filename, String fileId, String expid,
             String processtype, String[] parameters, String metadata,
             String genomeRelease, String author) {
 
         super("rawtoprofile", "/process", "PUT");
-        this.fileName = fileName;
-        this.fileID = fileID;
+        this.filename = filename;
+        this.fileId = fileId;
         this.expid = expid;
         this.processtype = processtype;
         this.parameters = parameters;

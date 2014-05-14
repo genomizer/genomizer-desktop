@@ -103,7 +103,7 @@ public interface GenomizerView {
     
     public void createNewExp(AnnotationDataType[] annotations);
     
-    public String[] getBowtieParameters();
+    public String[] getParameters();
     
     public void selectFilesToNewExp(File[] files);
     

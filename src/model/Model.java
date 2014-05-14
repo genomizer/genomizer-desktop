@@ -69,9 +69,43 @@ public class Model implements GenomizerModel {
             String processtype, String[] parameters, String metadata,
             String genomeRelease, String author) {
 
+        System.out.println("RAW TO PROFILE\n");
+        System.out.println("Filename: " + fileName);
+        System.out.println("File ID: " + fileID);
+        System.out.println("Expid: " + expid);
+        System.out.println("Processtype: " + processtype);
+        System.out.println("Parameter 1: " + parameters[0]);
+        System.out.println("Parameter 2: " + parameters[1]);
+        System.out.println("Parameter 3: " + parameters[2]);
+        System.out.println("Parameter 4: " + parameters[3]);
+        System.out.println("Parameter 5: " + parameters[4]);
+        System.out.println("Parameter 6: " + parameters[5]);
+        System.out.println("Parameter 7: " + parameters[6]);
+        System.out.println("Parameter 8: " + parameters[7]);
+        System.out.println("Metadata: " + metadata);
+        System.out.println("Genome Release: " + genomeRelease);
+        System.out.println("Author: " + author);
+        System.out.println("\n");
+
+
+        String parameters2[] = new String[8];
+
+        parameters2[0] = "-a -m 1 --best -p 10 -v 2 -q -S";
+        parameters2[1] = "d_melanogaster_fb5_22";
+        parameters2[2] = "y";
+        parameters2[3] = "y";
+        parameters2[4] = "10 1 5 0 0";
+        parameters2[5] = "y 10";
+        parameters2[6] = "single 4 0";
+        parameters2[7] = "150 1 7 0 0";
+
+        //       rawToProfileRequest rawToProfilerequest = RequestFactory
+        //              .makeRawToProfileRequest(fileName, fileID, expid, processtype,
+        //                     parameters, metadata, genomeRelease, author);
+
         rawToProfileRequest rawToProfilerequest = RequestFactory
-                .makeRawToProfileRequest(fileName, fileID, expid, processtype,
-                        parameters, metadata, genomeRelease, author);
+                .makeRawToProfileRequest("fileName", "66", "Exp1", "rawtoprofile",
+                        parameters2, "astringofmetadata", "hg38", "yuri");
 
         conn.sendRequest(rawToProfilerequest, userID, "application/json");
         if (conn.getResponseCode() == 201) {
@@ -199,7 +233,7 @@ public class Model implements GenomizerModel {
             if (a.getName().equalsIgnoreCase(name)) {
                 throw new IllegalArgumentException(
                         "Annotations must have a unique name, " + name
-                                + " already exists");
+                        + " already exists");
             }
         }
 
@@ -215,7 +249,7 @@ public class Model implements GenomizerModel {
             return true;
         } else {
             System.err
-                    .println("addAnnotaion FAILURE, did not recive 201 response");
+            .println("addAnnotaion FAILURE, did not recive 201 response");
             return false;
         }
     }
@@ -257,7 +291,7 @@ public class Model implements GenomizerModel {
     public boolean addNewExperiment(String expName, String username,
             AnnotationDataValue[] annotations) {
         AddExperimentRequest aER = new RequestFactory()
-                .makeAddExperimentRequest(expName, username, annotations);
+        .makeAddExperimentRequest(expName, username, annotations);
         System.out.println(aER.toJson());
         conn.sendRequest(aER, getUserID(), "application/json");
         Gson gson = new Gson();

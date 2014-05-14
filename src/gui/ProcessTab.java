@@ -56,13 +56,13 @@ public class ProcessTab extends JPanel {
     private final JPanel               RawToProfileMenuPanel = new JPanel();
     private final JPanel               timePanel             = new JPanel();
     private final JPanel               middlePanel           = new JPanel(
-                                                                     new GridLayout(
-                                                                             3,
-                                                                             1));
+            new GridLayout(
+                    3,
+                    1));
     private final JPanel               westPanel             = new JPanel(
-                                                                     new GridLayout(
-                                                                             2,
-                                                                             1));
+            new GridLayout(
+                    2,
+                    1));
 
     private final JPanel               flagsPanel            = new JPanel();
     private final JPanel               genomeReleasePanel    = new JPanel();
@@ -95,27 +95,27 @@ public class ProcessTab extends JPanel {
     private final JScrollPane          scrollFiles           = new JScrollPane();
 
     private final JButton              convertButton         = new JButton(
-                                                                     "Convert to WIG");
+            "Convert to WIG");
     private final JButton              profileButton         = new JButton(
-                                                                     "Create profile data");
+            "Create profile data");
     private final JButton              regionButton          = new JButton(
-                                                                     "Create region data");
-  //  private final JCheckBox            scheduleButton        = new JCheckBox(
-  //                                                                   "Schedule files");
+            "Create region data");
+    //  private final JCheckBox            scheduleButton        = new JCheckBox(
+    //                                                                   "Schedule files");
 
     private final JCheckBox            printMean             = new JCheckBox(
-                                                                     "Print mean");
+            "Print mean");
     private final JCheckBox            printZeros            = new JCheckBox(
-                                                                     "Print zeros");
+            "Print zeros");
     private final JCheckBox            stepSizeBox           = new JCheckBox(
-                                                                     "Step size");
+            "Step size");
     private final JComboBox<String>    genomeFile            = new JComboBox<String>();
 
     private final JTabbedPane          tabbedPane            = new JTabbedPane(
-                                                                     JTabbedPane.BOTTOM);
+            JTabbedPane.BOTTOM);
     private ArrayList<String>          genomeReleaseFiles;
     private ArrayList<FileData>        fileData;
-    private String[]                   bowtieParameters      = new String[4];
+    private String[]                   bowtieParameters      = new String[8];
 
     public ProcessTab() {
         setPreferredSize(new Dimension(1225, 725));
@@ -140,7 +140,6 @@ public class ProcessTab extends JPanel {
 
         /* TEST */ArrayList<String> gFiles = new ArrayList<String>();
         /* TEST */gFiles.add(0, "d_melanogaster_fb5_22");
-        /* TEST */gFiles.add(1, "E_melanogaster_fb6_23");
         /* TEST */setGenomeReleaseFiles(gFiles);
         initBowtieParameters();
         writeToTimePanel();
@@ -149,7 +148,7 @@ public class ProcessTab extends JPanel {
 
         /* TEST */// for(int i = 0; i < 20; i++){
         /* TEST */// itemList[i] = new CheckListItem( "[" + i + "] TESTjg.RAW"
-                  // );
+        // );
         /* TEST */// }
 
         /* TEST */// fileList.setListData(itemList);
@@ -337,7 +336,7 @@ public class ProcessTab extends JPanel {
      */
     private void addPanelsToRawToProfileTab() {
         RawToProfileMenuPanel
-                .setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
+        .setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
         RawToProfileMenuPanel.add(tabbedPane);
         convTabpanel.setPreferredSize(new Dimension(1222, 145));
 
@@ -409,7 +408,7 @@ public class ProcessTab extends JPanel {
     private void addFlagsToConv() {
         flagsPanel.add(flags);
         flags.setBorder(null);
-        flags.setText("-a -m 1 --best -p 10 -v 2");
+        flags.setText("-a -m 1 --best -p 10 -v 2 -q -S");
         flags.setPreferredSize(new Dimension(175, 45));
     }
 
@@ -504,8 +503,8 @@ public class ProcessTab extends JPanel {
         convertButton.setEnabled(false);
         convTabpanel.add(buttonPanel);
         buttonPanel.add(profileButton);
-   //     scheduleProcPanel.add(scheduleButton);
-   //     scheduleButton.setPreferredSize(new Dimension(297, 23));
+        //     scheduleProcPanel.add(scheduleButton);
+        //     scheduleButton.setPreferredSize(new Dimension(297, 23));
     }
 
     /**
@@ -726,7 +725,7 @@ public class ProcessTab extends JPanel {
     }
 
     public void addScheduleFileListener(ActionListener listener) {
-   //     scheduleButton.addActionListener(listener);
+        //     scheduleButton.addActionListener(listener);
     }
 
     private int getNumberOfJobsInQueue() {

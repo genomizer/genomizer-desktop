@@ -418,7 +418,7 @@ public class GUI extends JFrame implements GenomizerView {
     }
     
     @Override
-    public String[] getBowtieParameters() {
+    public String[] getParameters() {
         return processTab.getBowtieParameters();
     }
     
