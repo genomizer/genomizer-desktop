@@ -236,6 +236,7 @@ public class Controller {
             String pwd = view.getPassword();
             if (model.loginUser(username, pwd)) {
                 view.updateLoginAccepted(username, pwd, "Yuri Gagarin");
+                sysController.updateAnnotationTable();
             } else {
                 view.updateLoginAccepted(username, pwd, "Yuri Gagarin");
             }
