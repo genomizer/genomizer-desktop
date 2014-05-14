@@ -1,6 +1,7 @@
 package gui;
 
 import util.AnnotationDataType;
+import util.FileDrop;
 
 import javax.swing.*;
 
@@ -50,6 +51,12 @@ public class UploadToExistingExpPanel extends JPanel implements ExperimentPanel 
                 Double.MIN_VALUE };
         gbl_panel.rowWeights = new double[] { 0.0, 0.0, 0.0, Double.MIN_VALUE };
         northPanel.setLayout(gbl_panel);
+
+        new  FileDrop( this, new FileDrop.Listener() {
+            public void  filesDropped( java.io.File[] files ) {
+                createUploadFileRow(files);
+            }
+        });
         
         buttonsPanel.add(selectFilesToUploadButton);
         buttonsPanel.add(uploadFilesToExperimentButton);
