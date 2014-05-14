@@ -24,10 +24,10 @@ import util.FileData;
 public class GUI extends JFrame implements GenomizerView {
 
     private static final long serialVersionUID = 6659839768426124853L;
-    private JPanel            mainPanel;
-    private JPanel            processPanel;
-    private JTabbedPane       tabbedPane;
-    private SearchTab         searchTab;
+    private JPanel mainPanel;
+    private JPanel processPanel;
+    private JTabbedPane tabbedPane;
+    private SearchTab searchTab;
     // private LoginPanel loginPanel;
     private UserPanel         userPanel;
     private UploadTab         uploadTab;
@@ -38,7 +38,7 @@ public class GUI extends JFrame implements GenomizerView {
     private SysadminTab       sysadminTab;
     private QuerySearchTab    querySearchTab;
     private DownloadWindow    downloadWindow;
-
+    
     public GUI() {
 
         setLookAndFeel();

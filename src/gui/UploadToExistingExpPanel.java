@@ -1,6 +1,7 @@
 package gui;
 
 import util.AnnotationDataType;
+import util.FileDrop;
 
 import javax.swing.*;
 
@@ -13,12 +14,11 @@ import java.util.HashMap;
 
 public class UploadToExistingExpPanel extends JPanel implements ExperimentPanel {
     
-    private JButton                      selectFilesToUploadButton, uploadFilesToExperimentButton;
-    private ArrayList<JComboBox>         annotationBoxes;
-    private ArrayList<JTextField>        annotationFields;
-    private AnnotationDataType[]         annotations;
-    JPanel                               northPanel, centerPanel,
-            uploadFilesPanel, buttonsPanel, mainPanel;
+    private JButton selectFilesToUploadButton, uploadFilesToExperimentButton;
+    private ArrayList<JComboBox> annotationBoxes;
+    private ArrayList<JTextField> annotationFields;
+    private AnnotationDataType[] annotations;
+    JPanel northPanel, centerPanel, uploadFilesPanel, buttonsPanel, mainPanel;
     private HashMap<File, UploadFileRow> uploadFileRows;
     
     public UploadToExistingExpPanel() {
@@ -50,6 +50,12 @@ public class UploadToExistingExpPanel extends JPanel implements ExperimentPanel 
                 Double.MIN_VALUE };
         gbl_panel.rowWeights = new double[] { 0.0, 0.0, 0.0, Double.MIN_VALUE };
         northPanel.setLayout(gbl_panel);
+        
+        new FileDrop(this, new FileDrop.Listener() {
+            public void filesDropped(java.io.File[] files) {
+                createUploadFileRow(files);
+            }
+        });
         
         buttonsPanel.add(selectFilesToUploadButton);
         buttonsPanel.add(uploadFilesToExperimentButton);

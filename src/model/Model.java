@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 import communication.HTTPURLUpload;
-import org.apache.http.protocol.HTTP;
+// import org.apache.http.protocol.HTTP;
 import requests.AddAnnotationRequest;
 import requests.AddExperimentRequest;
 import requests.AddFileToExperiment;
@@ -34,8 +34,8 @@ import communication.UploadHandler;
 
 public class Model implements GenomizerModel {
     
-    private String        userID = "";
-    private Connection    conn;
+    private String userID = "";
+    private Connection conn;
     private SearchHistory searchHistory;
     
     public Model(Connection conn) {
@@ -59,7 +59,12 @@ public class Model implements GenomizerModel {
         this.conn = conn;
     }
     
-    @Override
+    /**
+     * Sends a rawToProfile request to the server, with which file the user
+     * wants to create profile data from.
+     * 
+     * Returns whether or not the server could create profile data or not.
+     */
     public boolean rawToProfile(String fileName, String fileID, String expid,
             String processtype, String[] parameters, String metadata,
             String genomeRelease, String author) {
@@ -126,19 +131,19 @@ public class Model implements GenomizerModel {
         HTTPURLUpload upload = new HTTPURLUpload(aFTER.URLupload,
                 f.getAbsolutePath());
         upload.sendFile("pvt", "pvt");
-
-        /*UploadHandler handler = new UploadHandler(aFTER.URLupload,
-                f.getAbsolutePath(), userID, "pvt:pvt");
-        Thread thread = new
-                Thread(handler);
-        thread.start();*/
-
-
+        
+        /*
+         * UploadHandler handler = new UploadHandler(aFTER.URLupload,
+         * f.getAbsolutePath(), userID, "pvt:pvt"); Thread thread = new
+         * Thread(handler); thread.start();
+         */
+        
         return true;
     }
     
     @Override
-    public boolean downloadFile(String url, String fileID, String path) {
+    public boolean downloadFile(final String url, String fileID,
+            final String path) {
         // Use this until search works on the server
         DownloadFileRequest request = RequestFactory.makeDownloadFileRequest(
                 fileID, ".wig");
@@ -149,8 +154,13 @@ public class Model implements GenomizerModel {
         DownloadFileResponse response = gson.fromJson(conn.getResponseBody(),
                 DownloadFileResponse.class);
         System.out.println(conn.getResponseBody());
-        DownloadHandler handler = new DownloadHandler("pvt", "pvt");
-        handler.download(url, path);
+        final DownloadHandler handler = new DownloadHandler("pvt", "pvt");
+        new Thread(new Runnable() {
+            @Override public void run() {
+                handler.download(url, path);
+            }
+        }).start();
+
         System.out.println("Test");
         return true;
     }

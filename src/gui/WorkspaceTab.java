@@ -20,7 +20,7 @@ import util.FileData;
 import util.TreeTable;
 
 public class WorkspaceTab extends JPanel {
-
+    
     private static final long serialVersionUID = -7278768268151806081L;
     private TreeTable table;
     private JPanel buttonPanel, filePanel;

@@ -39,83 +39,70 @@ import javax.swing.border.EtchedBorder;
  */
 public class ProcessTab extends JPanel {
     
-    private static final long          serialVersionUID      = -2830290705724588252L;
+    private static final long serialVersionUID = -2830290705724588252L;
     
-    private final JList<CheckListItem> fileList              = new JList<CheckListItem>();
-    private final JList<CheckListItem> scheduleList          = new JList<CheckListItem>();
-    private final JList<CheckListItem> processList           = new JList<CheckListItem>();
+    private final JList<CheckListItem> fileList = new JList<CheckListItem>();
+    private final JList<CheckListItem> scheduleList = new JList<CheckListItem>();
+    private final JList<CheckListItem> processList = new JList<CheckListItem>();
     
-    private final JPanel               convPanel             = new JPanel();
-    private final JPanel               buttonPanel           = new JPanel();
-    private final JPanel               filesPanel            = new JPanel();
-    private final JPanel               scheduleProcPanel     = new JPanel();
-    private final JPanel               genProfileDataPanel   = new JPanel();
-    private final JPanel               genRegionDataPanel    = new JPanel();
-    private final JPanel               convertFilesPanel     = new JPanel();
-    private final JPanel               procQueuePanel        = new JPanel();
-    private final JPanel               RawToProfileMenuPanel = new JPanel();
-    private final JPanel               timePanel             = new JPanel();
-    private final JPanel               middlePanel           = new JPanel(
-                                                                     new GridLayout(
-                                                                             3,
-                                                                             1));
-    private final JPanel               westPanel             = new JPanel(
-                                                                     new GridLayout(
-                                                                             2,
-                                                                             1));
+    private final JPanel convPanel = new JPanel();
+    private final JPanel buttonPanel = new JPanel();
+    private final JPanel filesPanel = new JPanel();
+    private final JPanel scheduleProcPanel = new JPanel();
+    private final JPanel genProfileDataPanel = new JPanel();
+    private final JPanel genRegionDataPanel = new JPanel();
+    private final JPanel convertFilesPanel = new JPanel();
+    private final JPanel procQueuePanel = new JPanel();
+    private final JPanel RawToProfileMenuPanel = new JPanel();
+    private final JPanel timePanel = new JPanel();
+    private final JPanel middlePanel = new JPanel(new GridLayout(3, 1));
+    private final JPanel westPanel = new JPanel(new GridLayout(2, 1));
     
-    private final JPanel               flagsPanel            = new JPanel();
-    private final JPanel               genomeReleasePanel    = new JPanel();
-    private final JPanel               windowSizePanel       = new JPanel();
-    private final JPanel               smoothTypePanel       = new JPanel();
-    private final JPanel               stepPositionPanel     = new JPanel();
-    private final JPanel               stepSizePanel         = new JPanel();
-    private final JPanel               checkBoxPanel         = new JPanel();
-    private final JPanel               createRegTabPanel     = new JPanel();
-    private final JPanel               convWigTabPanel       = new JPanel();
-    private final JPanel               convTabpanel          = new JPanel();
+    private final JPanel flagsPanel = new JPanel();
+    private final JPanel genomeReleasePanel = new JPanel();
+    private final JPanel windowSizePanel = new JPanel();
+    private final JPanel smoothTypePanel = new JPanel();
+    private final JPanel stepPositionPanel = new JPanel();
+    private final JPanel stepSizePanel = new JPanel();
+    private final JPanel checkBoxPanel = new JPanel();
+    private final JPanel createRegTabPanel = new JPanel();
+    private final JPanel convWigTabPanel = new JPanel();
+    private final JPanel convTabpanel = new JPanel();
     
-    private final JTextArea            textArea              = new JTextArea();
-    private final JTextArea            genProfArea           = new JTextArea();
-    private final JTextArea            genRegArea            = new JTextArea();
-    private final JTextArea            timeArea              = new JTextArea();
-    private final JTextArea            convertArea           = new JTextArea();
+    private final JTextArea textArea = new JTextArea();
+    private final JTextArea genProfArea = new JTextArea();
+    private final JTextArea genRegArea = new JTextArea();
+    private final JTextArea timeArea = new JTextArea();
+    private final JTextArea convertArea = new JTextArea();
     
-    private final JTextField           flags                 = new JTextField();
-    private final JTextField           smoothWindowSize      = new JTextField();
-    private final JTextField           smoothType            = new JTextField();
-    private final JTextField           stepPosition          = new JTextField();
-    private final JTextField           stepSize              = new JTextField();
+    private final JTextField flags = new JTextField();
+    private final JTextField smoothWindowSize = new JTextField();
+    private final JTextField smoothType = new JTextField();
+    private final JTextField stepPosition = new JTextField();
+    private final JTextField stepSize = new JTextField();
     
-    private final JScrollPane          scrollSchedule        = new JScrollPane();
-    private final JScrollPane          scrollConvert         = new JScrollPane();
-    private final JScrollPane          scrollRegion          = new JScrollPane();
-    private final JScrollPane          scrollProfile         = new JScrollPane();
-    private final JScrollPane          scrollProcessList     = new JScrollPane();
-    private final JScrollPane          scrollFiles           = new JScrollPane();
+    private final JScrollPane scrollSchedule = new JScrollPane();
+    private final JScrollPane scrollConvert = new JScrollPane();
+    private final JScrollPane scrollRegion = new JScrollPane();
+    private final JScrollPane scrollProfile = new JScrollPane();
+    private final JScrollPane scrollProcessList = new JScrollPane();
+    private final JScrollPane scrollFiles = new JScrollPane();
     
-    private final JButton              convertButton         = new JButton(
-                                                                     "Convert to WIG");
-    private final JButton              profileButton         = new JButton(
-                                                                     "Create profile data");
-    private final JButton              regionButton          = new JButton(
-                                                                     "Create region data");
-    private final JCheckBox            scheduleButton        = new JCheckBox(
-                                                                     "Schedule files");
+    private final JButton convertButton = new JButton("Convert to WIG");
+    private final JButton profileButton = new JButton("Create profile data");
+    private final JButton regionButton = new JButton("Create region data");
+    // private final JCheckBox scheduleButton = new JCheckBox(
+    // "Schedule files");
     
-    private final JCheckBox            printMean             = new JCheckBox(
-                                                                     "Print mean");
-    private final JCheckBox            printZeros            = new JCheckBox(
-                                                                     "Print zeros");
-    private final JCheckBox            stepSizeBox           = new JCheckBox(
-                                                                     "Step size");
-    private final JComboBox<String>    genomeFile            = new JComboBox<String>();
+    private final JCheckBox printMean = new JCheckBox("Print mean");
+    private final JCheckBox printZeros = new JCheckBox("Print zeros");
+    private final JCheckBox stepSizeBox = new JCheckBox("Step size");
+    private final JComboBox<String> genomeFile = new JComboBox<String>();
     
-    private final JTabbedPane          tabbedPane            = new JTabbedPane(
-                                                                     JTabbedPane.BOTTOM);
-    private ArrayList<String>          genomeReleaseFiles;
-    private ArrayList<FileData>        fileData;
-    private String[]                   bowtieParameters      = new String[4];
+    private final JTabbedPane tabbedPane = new JTabbedPane(JTabbedPane.BOTTOM);
+    private ArrayList<String> genomeReleaseFiles;
+    private ArrayList<FileData> fileData;
+    private String[] bowtieParameters = new String[4];
     
     public ProcessTab() {
         setPreferredSize(new Dimension(1225, 725));
@@ -504,8 +491,8 @@ public class ProcessTab extends JPanel {
         convertButton.setEnabled(false);
         convTabpanel.add(buttonPanel);
         buttonPanel.add(profileButton);
-        scheduleProcPanel.add(scheduleButton);
-        scheduleButton.setPreferredSize(new Dimension(297, 23));
+        // scheduleProcPanel.add(scheduleButton);
+        // scheduleButton.setPreferredSize(new Dimension(297, 23));
     }
     
     /**
@@ -726,7 +713,7 @@ public class ProcessTab extends JPanel {
     }
     
     public void addScheduleFileListener(ActionListener listener) {
-        scheduleButton.addActionListener(listener);
+        // scheduleButton.addActionListener(listener);
     }
     
     private int getNumberOfJobsInQueue() {

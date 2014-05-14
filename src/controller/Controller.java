@@ -34,8 +34,8 @@ import util.FileData;
 
 public class Controller {
     
-    private GenomizerView      view;
-    private GenomizerModel     model;
+    private GenomizerView view;
+    private GenomizerModel model;
     private final JFileChooser fileChooser = new JFileChooser();
     private SysadminController sysController;
     
@@ -80,6 +80,13 @@ public class Controller {
         }
     }
     
+    /**
+     * The listener to create profile data, Sends a request to the server for
+     * every RAW-file that the user wants to create profile data.
+     * 
+     * @author c11ann
+     * 
+     */
     class RawToProfileDataListener implements ActionListener, Runnable {
         @Override
         public void actionPerformed(ActionEvent e) {
@@ -148,6 +155,12 @@ public class Controller {
         
     }
     
+    /**
+     * The listener to create region data,
+     * 
+     * @author c11ann
+     * 
+     */
     class RawToRegionDataListener implements ActionListener, Runnable {
         @Override
         public void actionPerformed(ActionEvent e) {
@@ -163,6 +176,13 @@ public class Controller {
         }
     }
     
+    /**
+     * Listener thats keeps track of which files that the user wants to
+     * schedule.
+     * 
+     * @author c11ann
+     * 
+     */
     class ScheduleFileListener implements ActionListener, Runnable {
         @Override
         public void actionPerformed(ActionEvent e) {

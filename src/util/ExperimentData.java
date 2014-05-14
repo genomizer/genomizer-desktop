@@ -10,9 +10,9 @@ import com.google.gson.Gson;
  */
 public class ExperimentData {
     
-    public String                         name;
-    public String                         createdBy;
-    public ArrayList<FileData>            files;
+    public String name;
+    public String createdBy;
+    public ArrayList<FileData> files;
     public ArrayList<AnnotationDataValue> annotations;
     
     public ExperimentData(String name, String createdBy,
