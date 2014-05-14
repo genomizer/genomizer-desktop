@@ -28,7 +28,6 @@ public class Connection {
             responseCode = 0;
             System.out.println(targetUrl);
             System.out.println("the request.toJson(): " + request.toJson());
-            System.out.println("Hej!");
             URL url = new URL(targetUrl);
             HttpURLConnection connection = (HttpURLConnection) url
                     .openConnection();
@@ -58,8 +57,6 @@ public class Connection {
                         connection.getOutputStream(), true);
                 outputStream.println(request.toJson());
                 outputStream.flush();
-
-                System.out.println(request.toJson());
             }
             responseCode = connection.getResponseCode();
             if (responseCode >= 300) {
