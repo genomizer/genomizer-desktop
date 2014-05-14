@@ -37,26 +37,26 @@ public class WorkspaceTab extends JPanel {
     private ImageIcon removeFromDBIcon = new ImageIcon(getClass().getResource(
             "/icons/RemoveFromDatabaseButton.png"));
     private GridBagConstraints gbc;
-    
+
     public WorkspaceTab() {
         setLayout(new BorderLayout());
         buttonPanel = new JPanel();
         filePanel = new JPanel(new BorderLayout());
         add(buttonPanel, BorderLayout.NORTH);
         add(filePanel, BorderLayout.CENTER);
-        
+
         GridBagLayout layout = new GridBagLayout();
         gbc = new GridBagConstraints();
-        
+
         buttonPanel.setLayout(layout);
         gbc.ipadx = 10;
         gbc.ipady = 10;
         gbc.insets = new Insets(1, 1, 1, 1);
         gbc.anchor = GridBagConstraints.NORTHWEST;
-        
+
         buttonPanel.setBackground(new Color(210, 210, 210));
         filePanel.setBackground(Color.white);
-        
+
         createButtons();
         addToButtonPanel();
         buttonPanel.setVisible(true);
@@ -65,7 +65,7 @@ public class WorkspaceTab extends JPanel {
         filePanel.add(table, BorderLayout.CENTER);
         setVisible(true);
     }
-    
+
     private void createButtons() {
         removeButton = new JButton("Remove selected");
         removeButton.addActionListener(new ActionListener() {
@@ -77,15 +77,15 @@ public class WorkspaceTab extends JPanel {
         downloadButton = new JButton("Download selected");
         analyzeButton = new JButton("Analyze selected");
         analyzeButton.setEnabled(false);
-        browseButton = new JButton("Browse files");
-        browseButton.setEnabled(false);
-        deleteButton = new JButton("Delete selected from database");
-        deleteButton.setEnabled(false);
+//        browseButton = new JButton("Browse files");
+//        browseButton.setEnabled(false);
+//        deleteButton = new JButton("Delete selected from database");
+//        deleteButton.setEnabled(false);
         processButton = new JButton("Process selected");
     }
-    
+
     private void addToButtonPanel() {
-        
+
         gbc.gridx = 0;
         gbc.gridy = 0;
         // deleteIcon = new
@@ -94,8 +94,8 @@ public class WorkspaceTab extends JPanel {
         // deleteButton.setBorderPainted(true);
         // deleteButton.setContentAreaFilled(false);
         // deleteButton.setIcon(deleteIcon);
-        buttonPanel.add(deleteButton, gbc);
-        
+//        buttonPanel.add(deleteButton, gbc);
+
         gbc.gridx = 1;
         gbc.gridy = 0;
         // removeFromDBIcon = new ImageIcon(removeFromDBIcon.getImage()
@@ -104,7 +104,7 @@ public class WorkspaceTab extends JPanel {
         // removeButton.setContentAreaFilled(false);
         // removeButton.setIcon(removeFromDBIcon);
         buttonPanel.add(removeButton, gbc);
-        
+
         gbc.gridx = 2;
         gbc.gridy = 0;
         // downloadSelectedIcon = new ImageIcon(downloadSelectedIcon.getImage()
@@ -113,7 +113,7 @@ public class WorkspaceTab extends JPanel {
         // downloadButton.setContentAreaFilled(false);
         // downloadButton.setIcon(downloadSelectedIcon);
         buttonPanel.add(downloadButton, gbc);
-        
+
         gbc.gridx = 3;
         gbc.gridy = 0;
         // analyseIcon = new ImageIcon(analyseIcon.getImage().getScaledInstance(
@@ -122,7 +122,7 @@ public class WorkspaceTab extends JPanel {
         // analyzeButton.setContentAreaFilled(false);
         // analyzeButton.setIcon(analyseIcon);
         buttonPanel.add(analyzeButton, gbc);
-        
+
         gbc.gridx = 4;
         gbc.gridy = 0;
         // browseIcon = new
@@ -131,14 +131,14 @@ public class WorkspaceTab extends JPanel {
         // browseButton.setBorderPainted(true);
         // browseButton.setContentAreaFilled(false);
         // browseButton.setIcon(browseIcon);
-        buttonPanel.add(browseButton, gbc);
-        
+//        buttonPanel.add(browseButton, gbc);
+
         gbc.gridx = 5;
         gbc.gridy = 0;
-        
+
         buttonPanel.add(processButton, gbc);
     }
-    
+
     /**
      * Returns an ImageIcon, or null if the path was invalid.
      */
@@ -151,19 +151,19 @@ public class WorkspaceTab extends JPanel {
             return null;
         }
     }
-    
+
     public void addDownloadFileListener(ActionListener listener) {
         downloadButton.addActionListener(listener);
     }
-    
+
     public void addProcessFileListener(ActionListener listener) {
         processButton.addActionListener(listener);
     }
-    
+
     public void addAnalyzeSelectedListener(ActionListener listener) {
         analyzeButton.addActionListener(listener);
     }
-    
+
     private String[] concatArrays(String[] first, String[] second) {
         ArrayList<String> both = new ArrayList<String>(first.length
                 + second.length);
@@ -171,7 +171,7 @@ public class WorkspaceTab extends JPanel {
         Collections.addAll(both, second);
         return both.toArray(new String[both.size()]);
     }
-    
+
     public void addExperimentsToTable(ArrayList<ExperimentData> newExperiments) {
         ArrayList<ExperimentData> expList = new ArrayList<ExperimentData>();
         if (table.getContent() != null) {
@@ -195,7 +195,7 @@ public class WorkspaceTab extends JPanel {
         table.repaint();
         table.revalidate();
     }
-    
+
     public ArrayList<ExperimentData> getSelectedData() {
         return table.getSelectedData();
     }
