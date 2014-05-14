@@ -1,26 +1,17 @@
 package genomizerdesktop;
 
-import gui.AnalyzeTab;
-import gui.GUI;
-import gui.ProcessTab;
-import gui.QuerySearchTab;
-import gui.SearchTab;
-import gui.UploadTab;
-import gui.WorkspaceTab;
+import communication.Connection;
+import controller.Controller;
+import gui.*;
 import gui.sysadmin.SysadminTab;
-
-import javax.swing.SwingUtilities;
-
 import model.Model;
 
-import communication.Connection;
-
-import controller.Controller;
+import javax.swing.*;
 
 public class Genomizer {
-    
+
     public static void main(String args[]) {
-        
+
         final GUI gui = new GUI();
         SearchTab st = new SearchTab();
         UploadTab ut = new UploadTab();
