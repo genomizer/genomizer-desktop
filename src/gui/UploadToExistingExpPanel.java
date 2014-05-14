@@ -4,37 +4,36 @@ import util.AnnotationDataType;
 import util.FileDrop;
 
 import javax.swing.*;
-
 import java.awt.*;
 import java.awt.event.ActionListener;
 import java.io.File;
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-public class UploadToExistingExpPanel extends JPanel implements ExperimentPanel {
-    
+public class UploadToExistingExpPanel extends JPanel
+        implements ExperimentPanel {
+
     private JButton selectFilesToUploadButton, uploadFilesToExperimentButton;
     private ArrayList<JComboBox> annotationBoxes;
     private ArrayList<JTextField> annotationFields;
     private AnnotationDataType[] annotations;
     JPanel northPanel, centerPanel, uploadFilesPanel, buttonsPanel, mainPanel;
     private HashMap<File, UploadFileRow> uploadFileRows;
-    
+
     public UploadToExistingExpPanel() {
         selectFilesToUploadButton = new JButton("Select files");
         uploadFilesToExperimentButton = new JButton("Upload to experiment");
         uploadFileRows = new HashMap<File, UploadFileRow>();
-        
+
         mainPanel = new JPanel(new BorderLayout());
         northPanel = new JPanel();
         centerPanel = new JPanel(new BorderLayout());
         uploadFilesPanel = new JPanel(new GridLayout(0, 1));
         buttonsPanel = new JPanel(new FlowLayout());
-        
+
         build();
     }
-    
+
     /**
      * Builds/rebuilds the panel. This is not part of the constructor so it can
      * be called from elsewhere aswell.
@@ -50,17 +49,17 @@ public class UploadToExistingExpPanel extends JPanel implements ExperimentPanel 
                 Double.MIN_VALUE };
         gbl_panel.rowWeights = new double[] { 0.0, 0.0, 0.0, Double.MIN_VALUE };
         northPanel.setLayout(gbl_panel);
-        
+
         new FileDrop(this, new FileDrop.Listener() {
             public void filesDropped(java.io.File[] files) {
                 createUploadFileRow(files);
                 enableUploadButton(true);
             }
         });
-        
+
         buttonsPanel.add(selectFilesToUploadButton);
         buttonsPanel.add(uploadFilesToExperimentButton);
-        
+
         mainPanel.add(buttonsPanel, BorderLayout.SOUTH);
         uploadFilesToExperimentButton.setEnabled(false);
         add(mainPanel);
@@ -69,7 +68,7 @@ public class UploadToExistingExpPanel extends JPanel implements ExperimentPanel 
         uploadFilesPanel.repaint();
         uploadFilesPanel.revalidate();
     }
-    
+
     public void createUploadFileRow(File[] files) {
         for (File f : files) {
             if (!uploadFileRows.containsKey(f)) {
@@ -78,12 +77,13 @@ public class UploadToExistingExpPanel extends JPanel implements ExperimentPanel 
             } else {
                 JOptionPane.showMessageDialog(this, "File already selected: "
                                 + f.getName() + "", "File error",
-                        JOptionPane.ERROR_MESSAGE);
+                        JOptionPane.ERROR_MESSAGE
+                );
             }
         }
         repaintSelectedFiles();
     }
-    
+
     public void deleteFileRow(File f) {
         if (uploadFileRows.containsKey(f)) {
             uploadFileRows.remove(f);
@@ -95,19 +95,19 @@ public class UploadToExistingExpPanel extends JPanel implements ExperimentPanel 
                     JOptionPane.ERROR_MESSAGE);
         }
     }
-    
+
     public void addSelectFilesToUploadButtonListener(ActionListener listener) {
         selectFilesToUploadButton.addActionListener(listener);
     }
-    
+
     public void addUploadToExperimentButtonListener(ActionListener listener) {
         uploadFilesToExperimentButton.addActionListener(listener);
     }
-    
+
     public void setAnnotations(AnnotationDataType[] annotations) {
         this.annotations = annotations;
     }
-    
+
     public void addAnnotationsForExistingExp() throws NullPointerException {
         annotationBoxes = new ArrayList<JComboBox>();
         annotationFields = new ArrayList<JTextField>();
@@ -149,7 +149,7 @@ public class UploadToExistingExpPanel extends JPanel implements ExperimentPanel 
             }
         }
     }
-    
+
     private void repaintSelectedFiles() {
         if (!uploadFileRows.isEmpty()) {
             for (File f : uploadFileRows.keySet()) {
@@ -161,11 +161,11 @@ public class UploadToExistingExpPanel extends JPanel implements ExperimentPanel 
         repaint();
         revalidate();
     }
-    
+
     public void enableUploadButton(boolean b) {
         uploadFilesToExperimentButton.setEnabled(b);
     }
-    
+
     @Override
     public void removeAll() {
         uploadFilesPanel.removeAll();

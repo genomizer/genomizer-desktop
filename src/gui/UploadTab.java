@@ -1,36 +1,19 @@
 package gui;
 
-import java.awt.BorderLayout;
-import java.awt.Dimension;
-import java.awt.FlowLayout;
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
-import java.awt.GridLayout;
-import java.awt.Insets;
-import java.awt.event.ActionListener;
-import java.io.File;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Map.Entry;
-
-import javax.swing.BorderFactory;
-import javax.swing.JButton;
-import javax.swing.JComboBox;
-import javax.swing.JLabel;
-import javax.swing.JOptionPane;
-import javax.swing.JPanel;
-import javax.swing.JScrollPane;
-import javax.swing.JTextArea;
-import javax.swing.JTextField;
-
 import util.ActivePanel;
 import util.AnnotationDataType;
 import util.AnnotationDataValue;
 import util.FileDrop;
 
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.ActionListener;
+import java.io.File;
+import java.util.ArrayList;
+import java.util.HashMap;
+
 public class UploadTab extends JPanel implements ExperimentPanel {
-    
+
     private static final long serialVersionUID = -2830290705724588252L;
     private JButton addToExistingExpButton, newExpButton, selectButton,
             uploadButton;
@@ -49,11 +32,8 @@ public class UploadTab extends JPanel implements ExperimentPanel {
     private JScrollPane uploadScroll;
     private JPanel buttonsPanel;
 
-
     /**
      * Constructor creating a upload tab.
-     *
-     *
      */
     public UploadTab() {
         annotationHeaders = new ArrayList<String>();
@@ -92,8 +72,7 @@ public class UploadTab extends JPanel implements ExperimentPanel {
     /**
      * Displays a panel for adding to an existing experiment.
      *
-     * @param annotations
-     *            The annotations of the experiment.
+     * @param annotations The annotations of the experiment.
      */
     public void addExistingExpPanel(AnnotationDataType[] annotations) {
         killContentsOfUploadPanel();
@@ -150,8 +129,8 @@ public class UploadTab extends JPanel implements ExperimentPanel {
         uploadBackground.add(uploadFilesPanel, BorderLayout.NORTH);
         uploadPanel.add(uploadBackground, BorderLayout.CENTER);
 
-        new FileDrop( this, new FileDrop.Listener() {
-            public void  filesDropped( java.io.File[] files ) {
+        new FileDrop(this, new FileDrop.Listener() {
+            public void filesDropped(java.io.File[] files) {
                 createUploadFileRow(files);
                 enableUploadButton(true);
             }
@@ -229,8 +208,9 @@ public class UploadTab extends JPanel implements ExperimentPanel {
                 uploadFileRows.put(f, fileRow);
             } else {
                 JOptionPane.showMessageDialog(this, "File already selected: "
-                        + f.getName() + "", "File error",
-                        JOptionPane.ERROR_MESSAGE);
+                                + f.getName() + "", "File error",
+                        JOptionPane.ERROR_MESSAGE
+                );
             }
         }
         repaintSelectedFiles();
@@ -309,12 +289,14 @@ public class UploadTab extends JPanel implements ExperimentPanel {
             if (annotationBoxes.containsKey(annotationHeaders.get(i))) {
                 annotations[i] = new AnnotationDataValue(Integer.toString(i),
                         annotationHeaders.get(i), annotationBoxes
-                                .get(annotationHeaders.get(i))
-                                .getSelectedItem().toString());
+                        .get(annotationHeaders.get(i))
+                        .getSelectedItem().toString()
+                );
             } else if (annotationFields.containsKey(annotationHeaders.get(i))) {
                 annotations[i] = new AnnotationDataValue(Integer.toString(i),
                         annotationHeaders.get(i), annotationFields.get(
-                                annotationHeaders.get(i)).getText());
+                        annotationHeaders.get(i)).getText()
+                );
             }
         }
         return annotations;
