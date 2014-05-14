@@ -24,21 +24,22 @@ public class QuerySearchTab extends JPanel {
     /**
      *
      */
-    private static final long          serialVersionUID = -5171748087481537247L;
-    private JPanel                     topPanel;
-    private JPanel                     bottomPanel;
-    private JPanel                     rowsPanel;
-    private JPanel                     searchPanel;
-    private JPanel                     resultsHeaderPanel;
-    private JButton                    clearButton;
-    private JButton                    updateAnnotationsButton;
-    private JButton                    addToWorkspaceButton;
-    private JButton                    searchButton;
-    private JButton                    downloadButton;
-    private JTextArea                  searchArea;
+    private static final long serialVersionUID = -5171748087481537247L;
+    private JPanel topPanel;
+    private JPanel bottomPanel;
+    private JPanel rowsPanel;
+    private JPanel searchPanel;
+    private JPanel resultsHeaderPanel;
+    private JButton clearButton;
+    private JButton updateAnnotationsButton;
+    private JButton addToWorkspaceButton;
+    private JButton searchButton;
+    private JButton downloadButton;
+    private JTextArea searchArea;
     private ArrayList<QueryBuilderRow> rowList;
-    private TreeTable                  resultsTable;
-    private AnnotationDataType[]       annotationTypes;
+    private TreeTable resultsTable;
+    private AnnotationDataType[] annotationTypes;
+    private JScrollPane bottomScroll;
     
     /**
      * Create a query search tab
@@ -57,6 +58,11 @@ public class QuerySearchTab extends JPanel {
      * Show the search view of the tab
      */
     private void showSearchView() {
+        removeAll();
+        bottomScroll = new JScrollPane(bottomPanel);
+        bottomScroll.setBorder(BorderFactory.createEmptyBorder());
+        add(topPanel, BorderLayout.NORTH);
+        add(bottomScroll, BorderLayout.CENTER);
         topPanel.removeAll();
         bottomPanel.removeAll();
         topPanel.add(searchPanel);
@@ -69,6 +75,9 @@ public class QuerySearchTab extends JPanel {
      * Show the results view of the tab
      */
     private void showResultsView() {
+        removeAll();
+        add(topPanel, BorderLayout.NORTH);
+        add(bottomPanel, BorderLayout.CENTER);
         topPanel.removeAll();
         bottomPanel.removeAll();
         topPanel.add(resultsHeaderPanel);
@@ -89,10 +98,6 @@ public class QuerySearchTab extends JPanel {
         this.setLayout(new BorderLayout());
         bottomPanel = new JPanel(new BorderLayout());
         topPanel = new JPanel(new BorderLayout());
-        JScrollPane bottomScroll = new JScrollPane(bottomPanel);
-        bottomScroll.setBorder(BorderFactory.createEmptyBorder());
-        add(topPanel, BorderLayout.NORTH);
-        add(bottomScroll, BorderLayout.CENTER);
     }
     
     /**
