@@ -50,7 +50,8 @@ public class UploadToExistingExpPanel extends JPanel implements ExperimentPanel 
                 Double.MIN_VALUE };
         gbl_panel.rowWeights = new double[] { 0.0, 0.0, 0.0, Double.MIN_VALUE };
         northPanel.setLayout(gbl_panel);
-        
+
+        //Makes dragging & dropping of files into the panel possible
         new FileDrop(this, new FileDrop.Listener() {
             public void filesDropped(java.io.File[] files) {
                 createUploadFileRow(files);
@@ -69,7 +70,13 @@ public class UploadToExistingExpPanel extends JPanel implements ExperimentPanel 
         uploadFilesPanel.repaint();
         uploadFilesPanel.revalidate();
     }
-    
+
+    /**
+     * Creates an uploadFileRow from the provided files. Checks if the files are
+     * already in an uploadFileRow so there won't be duplicates. Displays an
+     * error message if it was selected and added previously.
+     * @param files The files to make an uploadFileRow out of.
+     */
     public void createUploadFileRow(File[] files) {
         for (File f : files) {
             if (!uploadFileRows.containsKey(f)) {
@@ -83,7 +90,12 @@ public class UploadToExistingExpPanel extends JPanel implements ExperimentPanel 
         }
         repaintSelectedFiles();
     }
-    
+
+    /**
+     * Deletes an uploadFileRow and calls repaintSelectedFiles() to repaint.
+     * If it fails to find the file, an error message is shown to the user.
+     * @param f This is used to identify which uploadFileRow to be deleted.
+     */
     public void deleteFileRow(File f) {
         if (uploadFileRows.containsKey(f)) {
             uploadFileRows.remove(f);
@@ -95,15 +107,27 @@ public class UploadToExistingExpPanel extends JPanel implements ExperimentPanel 
                     JOptionPane.ERROR_MESSAGE);
         }
     }
-    
+
+    /**
+     * Adds a listener for the "Select files" button.
+     * @param listener The listener to be added.
+     */
     public void addSelectFilesToUploadButtonListener(ActionListener listener) {
         selectFilesToUploadButton.addActionListener(listener);
     }
-    
+
+    /**
+     * Adds a listener to the upload button.
+     * @param listener The listener to be added.
+     */
     public void addUploadToExperimentButtonListener(ActionListener listener) {
         uploadFilesToExperimentButton.addActionListener(listener);
     }
-    
+
+    /**
+     * Sets the annotations.
+     * @param annotations The annotations to set the panel's annotations to.
+     */
     public void setAnnotations(AnnotationDataType[] annotations) {
         this.annotations = annotations;
     }
@@ -149,7 +173,12 @@ public class UploadToExistingExpPanel extends JPanel implements ExperimentPanel 
             }
         }
     }
-    
+
+    /**
+     * Checks if there are any uploadfilerows.
+     * Disables the uploadbutton if there aren't, and adds them to the panel if there are.
+     * After these updates, it repaints the panel.
+     */
     private void repaintSelectedFiles() {
         if (!uploadFileRows.isEmpty()) {
             for (File f : uploadFileRows.keySet()) {
@@ -161,11 +190,18 @@ public class UploadToExistingExpPanel extends JPanel implements ExperimentPanel 
         repaint();
         revalidate();
     }
-    
+
+    /**
+     * Sets the experiment button to either be enabled or disabled.
+     * @param b Whether it should be enabled (true) or disabled (false)
+     */
     public void enableUploadButton(boolean b) {
         uploadFilesToExperimentButton.setEnabled(b);
     }
-    
+
+    /**
+     * Removes everything in the panel and underlying panels.
+     */
     @Override
     public void removeAll() {
         uploadFilesPanel.removeAll();
