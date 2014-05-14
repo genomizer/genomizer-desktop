@@ -104,9 +104,12 @@ public class ProcessTab extends JPanel {
         addConvertTextArea();
         initFileList();
 
-        /* TEST */ArrayList<String> gFiles = new ArrayList<String>();
-        /* TEST */gFiles.add(0, "d_melanogaster_fb5_22");
-        /* TEST */setGenomeReleaseFiles(gFiles);
+        /* TEST */
+        ArrayList<String> gFiles = new ArrayList<String>();
+        /* TEST */
+        gFiles.add(0, "d_melanogaster_fb5_22");
+        /* TEST */
+        setGenomeReleaseFiles(gFiles);
 
         initBowtieParameters();
         writeToTimePanel();
@@ -167,7 +170,8 @@ public class ProcessTab extends JPanel {
     private void addEastPanels() {
         procQueuePanel.setBorder(new TitledBorder(UIManager
                 .getBorder("TitledBorder.border"), "Processing In Queue",
-                TitledBorder.LEADING, TitledBorder.TOP, null, null));
+                TitledBorder.LEADING, TitledBorder.TOP, null, null
+        ));
         this.add(procQueuePanel, BorderLayout.EAST);
         procQueuePanel.setPreferredSize(new Dimension(300, 100));
         addProcessInQueue();
@@ -664,10 +668,8 @@ public class ProcessTab extends JPanel {
     /**
      * Checks if an item in a list is selected.
      *
-     * @param arr
-     *            - the list
-     * @param checkItem
-     *            - the item in the list
+     * @param arr       - the list
+     * @param checkItem - the item in the list
      */
     private void checkItemIsSelected(ArrayList<String> arr,
             CheckListItem checkItem) {
@@ -709,10 +711,8 @@ public class ProcessTab extends JPanel {
      * Prints message to genProfArea. The message is red if it is a warning
      * message, black otherwise.
      *
-     * @param message
-     *            - Whether or not create profile data succeeded
-     * @param color
-     *            - What color the message should have
+     * @param message - Whether or not create profile data succeeded
+     * @param color   - What color the message should have
      */
     public void printToProfileText(String message, String color) {
 

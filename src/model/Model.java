@@ -224,7 +224,8 @@ public class Model implements GenomizerModel {
             if (a.getName().equalsIgnoreCase(name)) {
                 throw new IllegalArgumentException(
                         "Annotations must have a unique name, " + name
-                        + " already exists");
+                                + " already exists"
+                );
             }
         }
 
@@ -240,7 +241,8 @@ public class Model implements GenomizerModel {
             return true;
         } else {
             System.err
-            .println("addAnnotaion FAILURE, did not recive 201 response");
+                    .println(
+                            "addAnnotaion FAILURE, did not recive 201 response");
             return false;
         }
     }
@@ -275,7 +277,7 @@ public class Model implements GenomizerModel {
             System.out.println("responsecode: " + conn.getResponseCode());
             System.err.println("Could not get annotations!");
         }
-        return new AnnotationDataType[] {};
+        return new AnnotationDataType[] { };
     }
 
     @Override

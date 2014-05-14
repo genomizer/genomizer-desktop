@@ -410,7 +410,7 @@ public class Controller {
             }
             view.selectFilesToExistingExp(files);
             view.getUploadTab().getUploadToExistingExpPanel()
-            .enableUploadButton(true);
+                    .enableUploadButton(true);
         }
     }
 
