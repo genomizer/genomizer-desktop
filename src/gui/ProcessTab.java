@@ -710,7 +710,7 @@ public class ProcessTab extends JPanel {
      * message, black otherwise.
      *
      * @param message - Whether or not create profile data succeeded
-     * @param color - What color the message should have
+     * @param color   - What color the message should have
      */
     public void printToProfileText(String message, String color) {
 

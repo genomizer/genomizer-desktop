@@ -1,58 +1,39 @@
 package gui;
 
-import java.awt.BorderLayout;
-import java.awt.Dimension;
-import java.awt.FlowLayout;
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
-import java.awt.GridLayout;
-import java.awt.Insets;
-import java.awt.event.ActionListener;
-import java.io.File;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Map.Entry;
-
-import javax.swing.BorderFactory;
-import javax.swing.JButton;
-import javax.swing.JComboBox;
-import javax.swing.JLabel;
-import javax.swing.JOptionPane;
-import javax.swing.JPanel;
-import javax.swing.JScrollPane;
-import javax.swing.JTextArea;
-import javax.swing.JTextField;
-
 import util.ActivePanel;
 import util.AnnotationDataType;
 import util.AnnotationDataValue;
 import util.FileDrop;
 
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.ActionListener;
+import java.io.File;
+import java.util.ArrayList;
+import java.util.HashMap;
+
 public class UploadTab extends JPanel implements ExperimentPanel {
 
-    private static final long            serialVersionUID = -2830290705724588252L;
-    private JButton                      addToExistingExpButton, newExpButton,
+    private static final long serialVersionUID = -2830290705724588252L;
+    private JButton addToExistingExpButton, newExpButton,
             selectButton, uploadButton;
-    private JPanel                       northPanel, expNamePanel, uploadPanel,
+    private JPanel northPanel, expNamePanel, uploadPanel,
             newExpPanel, uploadFilesPanel, uploadBackground;
-    private JTextArea                    experimentNameField;
-    private UploadToExistingExpPanel     uploadToExistingExpPanel;
-    private AnnotationDataType[]         annotations;
-    private ArrayList<String>            annotationHeaders;
-    private HashMap<String, JComboBox>   annotationBoxes;
-    private HashMap<String, JTextField>  annotationFields;
+    private JTextArea experimentNameField;
+    private UploadToExistingExpPanel uploadToExistingExpPanel;
+    private AnnotationDataType[] annotations;
+    private ArrayList<String> annotationHeaders;
+    private HashMap<String, JComboBox> annotationBoxes;
+    private HashMap<String, JTextField> annotationFields;
     private HashMap<File, UploadFileRow> uploadFileRows;
-    private ActivePanel                  activePanel;
-    private JLabel                       expNameLabel;
-    private JTextField                   expID;
-    private JScrollPane                  uploadScroll;
-    private JPanel                       buttonsPanel;
+    private ActivePanel activePanel;
+    private JLabel expNameLabel;
+    private JTextField expID;
+    private JScrollPane uploadScroll;
+    private JPanel buttonsPanel;
 
     /**
      * Constructor creating a upload tab.
-     *
-     *
      */
     public UploadTab() {
         annotationHeaders = new ArrayList<String>();
@@ -91,8 +72,7 @@ public class UploadTab extends JPanel implements ExperimentPanel {
     /**
      * Method adding a listener to the "addToExistingExpButton".
      *
-     * @param listener
-     *            The listener to add file to existing experiment.
+     * @param listener The listener to add file to existing experiment.
      */
     public void addAddToExistingExpButtonListener(ActionListener listener) {
         addToExistingExpButton.addActionListener(listener);
@@ -101,8 +81,7 @@ public class UploadTab extends JPanel implements ExperimentPanel {
     /**
      * Method adding a listener to the "newExpButton".
      *
-     * @param listener
-     *            The listener to create a experiment.
+     * @param listener The listener to create a experiment.
      */
     public void addNewExpButtonListener(ActionListener listener) {
         newExpButton.addActionListener(listener);
@@ -111,8 +90,7 @@ public class UploadTab extends JPanel implements ExperimentPanel {
     /**
      * Method adding a listener to the "selectButton".
      *
-     * @param listener
-     *            The listener to select files.
+     * @param listener The listener to select files.
      */
     public void addSelectButtonListener(ActionListener listener) {
         selectButton.addActionListener(listener);
@@ -121,8 +99,7 @@ public class UploadTab extends JPanel implements ExperimentPanel {
     /**
      * Method adding a listener to the "uploadButton".
      *
-     * @param listener
-     *            The listener to start uploading selected files.
+     * @param listener The listener to start uploading selected files.
      */
     public void addUploadButtonListener(ActionListener listener) {
         uploadButton.addActionListener(listener);
@@ -140,8 +117,7 @@ public class UploadTab extends JPanel implements ExperimentPanel {
     /**
      * Displays a panel for adding to an existing experiment.
      *
-     * @param annotations
-     *            The annotations of the experiment.
+     * @param annotations The annotations of the experiment.
      */
     public void addExistingExpPanel(AnnotationDataType[] annotations) {
         killContentsOfUploadPanel();
@@ -162,9 +138,7 @@ public class UploadTab extends JPanel implements ExperimentPanel {
      * A method creating a panel for creating a new experiment to upload files
      * to it.
      *
-     * @param annotations
-     *          The annotations currently available at the server.
-     *
+     * @param annotations The annotations currently available at the server.
      */
     public void createNewExp(AnnotationDataType[] annotations) {
         killContentsOfUploadPanel();
@@ -258,8 +232,9 @@ public class UploadTab extends JPanel implements ExperimentPanel {
                 uploadFileRows.put(f, fileRow);
             } else {
                 JOptionPane.showMessageDialog(this, "File already selected: "
-                        + f.getName() + "", "File error",
-                        JOptionPane.ERROR_MESSAGE);
+                                + f.getName() + "", "File error",
+                        JOptionPane.ERROR_MESSAGE
+                );
             }
         }
         repaintSelectedFiles();
@@ -285,7 +260,6 @@ public class UploadTab extends JPanel implements ExperimentPanel {
      * chosen by the user, to make sure the new components won't overlap and end
      * up invisible. The method checks the Enum ActivePanel to check which panel
      * was the active one.
-     *
      */
     public void killContentsOfUploadPanel() {
         switch (activePanel) {
@@ -339,12 +313,14 @@ public class UploadTab extends JPanel implements ExperimentPanel {
             if (annotationBoxes.containsKey(annotationHeaders.get(i))) {
                 annotations[i] = new AnnotationDataValue(Integer.toString(i),
                         annotationHeaders.get(i), annotationBoxes
-                                .get(annotationHeaders.get(i))
-                                .getSelectedItem().toString());
+                        .get(annotationHeaders.get(i))
+                        .getSelectedItem().toString()
+                );
             } else if (annotationFields.containsKey(annotationHeaders.get(i))) {
                 annotations[i] = new AnnotationDataValue(Integer.toString(i),
                         annotationHeaders.get(i), annotationFields.get(
-                                annotationHeaders.get(i)).getText());
+                        annotationHeaders.get(i)).getText()
+                );
             }
         }
         return annotations;
