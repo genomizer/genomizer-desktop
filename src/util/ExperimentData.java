@@ -9,12 +9,12 @@ import java.util.Random;
  * Class representing experiment data
  */
 public class ExperimentData {
-    
+
     public String name;
     public String createdBy;
     public ArrayList<FileData> files;
     public ArrayList<AnnotationDataValue> annotations;
-    
+
     public ExperimentData(String name, String createdBy,
             ArrayList<FileData> files,
             ArrayList<AnnotationDataValue> annotations) {
@@ -23,39 +23,59 @@ public class ExperimentData {
         this.files = files;
         this.annotations = annotations;
     }
-    
+
     /**
      * Returns the list of annotations associated with the project (including
      * experiment name and creator of experiment
-     * 
+     *
      * @return
      */
-    public ArrayList<String> getAnnotationValueList(ArrayList<String> headings) {
+    public ArrayList<String> getAnnotationValueList(
+            ArrayList<String> headings) {
         ArrayList<String> annotationList = new ArrayList<String>();
-        annotationList.add(name);
-        annotationList.add(createdBy);
-        
+        // annotationList.add(name);
+        // annotationList.add(createdBy);
+
         for (String heading : headings) {
             boolean hasValue = false;
-            System.out.println("heading: " + heading);
-            for (AnnotationDataValue annotation : annotations) {
-                System.out.println("annotation: " + annotation.name);
-                if (annotation.name.equals(heading)) {
-                    annotationList.add(annotation.value);
-                    hasValue = true;
+            if (heading.equals("ExpID")) {
+                if (name == null || name.equals("")) {
+                    annotationList.add("-");
+                } else {
+                    annotationList.add(name);
+                }
+                hasValue = true;
+            } else if (heading.equals("Experiment Created By")) {
+                if (createdBy == null || createdBy.equals("")) {
+                    annotationList.add("-");
+                } else {
+                    annotationList.add(createdBy);
+                }
+                hasValue = true;
+            } else {
+                for (AnnotationDataValue annotation : annotations) {
+                    if (heading.equals(annotation.name)) {
+                        if (annotation.value == null
+                                || annotation.value.equals("")) {
+                            annotationList.add("-");
+                        } else {
+                            annotationList.add(annotation.value);
+                        }
+                        hasValue = true;
+                    }
                 }
             }
-            if (!hasValue && !heading.equals("Experiment Name")
-                    && !heading.equals("Experiment Created By")) {
-                annotationList.add("");
+
+            if (!hasValue) {
+                annotationList.add("-");
             }
         }
         return annotationList;
     }
-    
+
     /**
      * Add new files to the experiment
-     * 
+     *
      * @param newFiles
      */
     public void addFiles(ArrayList<FileData> newFiles) {
@@ -65,18 +85,18 @@ public class ExperimentData {
             }
         }
     }
-    
+
     /**
      * Remove a files from the experiment
-     * 
+     *
      * @param fileData
      */
     public void removeFile(FileData fileData) {
         files.remove(fileData);
     }
-    
+
     public static ExperimentData[] getExample() {
-        
+
         String[] names = { "Kalle", "Pelle", "Anna", "Nils", "Olle" };
         String[] dates = { "2012-04-30", "2013-02-02", "2008-02-20",
                 "2014-12-24", "2012-12-12" };
@@ -86,7 +106,7 @@ public class ExperimentData {
         String[] sexTypes = { "Male", "Female", "Unknown" };
         Random rand = new Random();
         Gson gson = new Gson();
-        
+
         ExperimentData[] searchResponses = new ExperimentData[20];
         for (int i = 0; i < 20; i++) {
             ArrayList<FileData> fileData = new ArrayList<FileData>();
@@ -94,8 +114,9 @@ public class ExperimentData {
                 String fileType = fileTypes[rand.nextInt(3)];
                 fileData.add(new FileData("" + i + j, "Experiment" + i,
                         fileType, "", names[rand.nextInt(5)], names[rand
-                                .nextInt(5)], false, "",
-                        dates[rand.nextInt(5)], "", "", "Exp" + i + "_file" + j));
+                        .nextInt(5)], false, "",
+                        dates[rand.nextInt(5)], "", "", "Exp" + i + "_file" + j
+                ));
             }
             ArrayList<AnnotationDataValue> annotationData = new ArrayList<AnnotationDataValue>();
             annotationData.add(new AnnotationDataValue("2", "Species",
@@ -109,15 +130,15 @@ public class ExperimentData {
                     .add(new AnnotationDataValue("2", "Annotationy", "y"));
             searchResponses[i] = new ExperimentData("Experiment" + i,
                     names[rand.nextInt(5)], fileData, annotationData);
-            
+
         }
-        
+
         return searchResponses;
-        
+
     }
-    
+
     public boolean equals(Object o) {
         return (((ExperimentData) o)).name.equals(name);
     }
-    
+
 }

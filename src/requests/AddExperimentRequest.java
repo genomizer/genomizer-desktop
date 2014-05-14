@@ -7,7 +7,7 @@ public class AddExperimentRequest extends Request {
     // @SerializedName("created by")
     public String createdBy;
     public AnnotationDataValue[] annotations;
-    
+
     public AddExperimentRequest(String experimentName, String createdBy,
             AnnotationDataValue[] annotations) {
         super("addexperiment", "/experiment", "POST");

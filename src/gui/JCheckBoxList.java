@@ -11,10 +11,10 @@ import java.awt.event.MouseEvent;
 
 public class JCheckBoxList extends JList {
     protected static Border noFocusBorder = new EmptyBorder(1, 1, 1, 1);
-    
+
     public JCheckBoxList() {
         setCellRenderer(new CheckBoxCellRenderer());
-        
+
         addMouseListener(new MouseAdapter() {
             @Override
             public void mousePressed(MouseEvent e) {
@@ -27,7 +27,7 @@ public class JCheckBoxList extends JList {
                 }
             }
         });
-        
+
         addKeyListener(new KeyAdapter() {
             @Override
             public void keyPressed(KeyEvent e) {
@@ -42,10 +42,10 @@ public class JCheckBoxList extends JList {
                 }
             }
         });
-        
+
         setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
     }
-    
+
     protected class CheckBoxCellRenderer implements ListCellRenderer {
         @Override
         public Component getListCellRendererComponent(JList list, Object value,
@@ -55,17 +55,18 @@ public class JCheckBoxList extends JList {
                     : getBackground());
             checkbox.setForeground(isSelected ? getSelectionForeground()
                     : getForeground());
-            
+
             checkbox.setEnabled(isEnabled());
             checkbox.setFont(getFont());
             checkbox.setFocusPainted(false);
-            
+
             checkbox.setBorderPainted(true);
             checkbox.setBorder(isSelected ? UIManager
-                    .getBorder("List.focusCellHighlightBorder") : noFocusBorder);
-            
+                    .getBorder("List.focusCellHighlightBorder") :
+                    noFocusBorder);
+
             return checkbox;
         }
     }
-    
+
 }

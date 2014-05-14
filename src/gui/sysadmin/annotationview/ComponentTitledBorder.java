@@ -9,12 +9,12 @@ import java.awt.event.MouseListener;
 public class ComponentTitledBorder implements Border, MouseListener,
         SwingConstants {
     int offset = 5;
-    
+
     Component comp;
     JComponent container;
     Rectangle rect;
     Border border;
-    
+
     public ComponentTitledBorder(Component comp, JComponent container,
             Border border) {
         this.comp = comp;
@@ -22,12 +22,12 @@ public class ComponentTitledBorder implements Border, MouseListener,
         this.border = border;
         container.addMouseListener(this);
     }
-    
+
     @Override
     public boolean isBorderOpaque() {
         return true;
     }
-    
+
     @Override
     public void paintBorder(Component c, Graphics g, int x, int y, int width,
             int height) {
@@ -56,7 +56,7 @@ public class ComponentTitledBorder implements Border, MouseListener,
         rect = new Rectangle(offset, 0, size.width, size.height);
         SwingUtilities.paintComponent(g, comp, (Container) c, rect);
     }
-    
+
     @Override
     public Insets getBorderInsets(Component c) {
         Dimension size = comp.getPreferredSize();
@@ -64,7 +64,7 @@ public class ComponentTitledBorder implements Border, MouseListener,
         insets.top = Math.max(insets.top, size.height);
         return insets;
     }
-    
+
     private void dispatchEvent(MouseEvent me) {
         if (rect != null && rect.contains(me.getX(), me.getY())) {
             Point pt = me.getPoint();
@@ -76,27 +76,27 @@ public class ComponentTitledBorder implements Border, MouseListener,
             if (!comp.isValid()) container.repaint();
         }
     }
-    
+
     @Override
     public void mouseClicked(MouseEvent me) {
         dispatchEvent(me);
     }
-    
+
     @Override
     public void mouseEntered(MouseEvent me) {
         dispatchEvent(me);
     }
-    
+
     @Override
     public void mouseExited(MouseEvent me) {
         dispatchEvent(me);
     }
-    
+
     @Override
     public void mousePressed(MouseEvent me) {
         dispatchEvent(me);
     }
-    
+
     @Override
     public void mouseReleased(MouseEvent me) {
         dispatchEvent(me);

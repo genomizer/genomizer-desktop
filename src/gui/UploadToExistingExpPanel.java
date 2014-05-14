@@ -1,6 +1,7 @@
 package gui;
 
 import util.AnnotationDataType;
+import util.FileDrop;
 
 import javax.swing.*;
 import java.awt.*;
@@ -9,30 +10,35 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-public class UploadToExistingExpPanel extends JPanel implements ExperimentPanel {
-    
+public class UploadToExistingExpPanel extends JPanel
+        implements ExperimentPanel {
+
     private JButton selectFilesToUploadButton, uploadFilesToExperimentButton;
     private ArrayList<JComboBox> annotationBoxes;
     private ArrayList<JTextField> annotationFields;
     private AnnotationDataType[] annotations;
     JPanel northPanel, centerPanel, uploadFilesPanel, buttonsPanel, mainPanel;
-    private HashMap<String, UploadFileRow> uploadFileRows;
-    private File[] currFiles;
-    
+    private HashMap<File, UploadFileRow> uploadFileRows;
+
+    /**
+     * Initiates an uploadToExistingExpPanel with its standard buttons
+     * and panels. Calls the method build() to build it further.
+     */
+
     public UploadToExistingExpPanel() {
         selectFilesToUploadButton = new JButton("Select files");
         uploadFilesToExperimentButton = new JButton("Upload to experiment");
-        uploadFileRows = new HashMap<String, UploadFileRow>();
-        
+        uploadFileRows = new HashMap<File, UploadFileRow>();
+
         mainPanel = new JPanel(new BorderLayout());
         northPanel = new JPanel();
         centerPanel = new JPanel(new BorderLayout());
         uploadFilesPanel = new JPanel(new GridLayout(0, 1));
         buttonsPanel = new JPanel(new FlowLayout());
-        
+
         build();
     }
-    
+
     /**
      * Builds/rebuilds the panel. This is not part of the constructor so it can
      * be called from elsewhere aswell.
@@ -41,8 +47,6 @@ public class UploadToExistingExpPanel extends JPanel implements ExperimentPanel 
         mainPanel.add(northPanel, BorderLayout.NORTH);
         mainPanel.add(centerPanel, BorderLayout.CENTER);
         centerPanel.add(uploadFilesPanel, BorderLayout.NORTH);
-        
-        setBorder(BorderFactory.createTitledBorder("Experiment"));
         GridBagLayout gbl_panel = new GridBagLayout();
         gbl_panel.columnWidths = new int[] { 0, 0, 0, 0, 0, 0, 0 };
         gbl_panel.rowHeights = new int[] { 0, 0, 0, 0 };
@@ -50,49 +54,94 @@ public class UploadToExistingExpPanel extends JPanel implements ExperimentPanel 
                 Double.MIN_VALUE };
         gbl_panel.rowWeights = new double[] { 0.0, 0.0, 0.0, Double.MIN_VALUE };
         northPanel.setLayout(gbl_panel);
-        
+
+        //Makes dragging & dropping of files into the panel possible
+        new FileDrop(this, new FileDrop.Listener() {
+            public void filesDropped(java.io.File[] files) {
+                createUploadFileRow(files);
+                enableUploadButton(true);
+            }
+        });
+
         buttonsPanel.add(selectFilesToUploadButton);
         buttonsPanel.add(uploadFilesToExperimentButton);
-        
+
         mainPanel.add(buttonsPanel, BorderLayout.SOUTH);
         uploadFilesToExperimentButton.setEnabled(false);
         add(mainPanel);
         repaint();
         revalidate();
+        uploadFilesPanel.repaint();
+        uploadFilesPanel.revalidate();
     }
-    
-    public void createUploadFileRow(String[] fileNames, File[] files) {
-        currFiles = files;
-        for (String fileName : fileNames) {
-            UploadFileRow fileRow = new UploadFileRow(fileName, this);
-            uploadFileRows.put(fileName, fileRow);
+
+    /**
+     * Creates an uploadFileRow from the provided files. Checks if the files are
+     * already in an uploadFileRow so there won't be duplicates. Displays an
+     * error message if it was selected and added previously.
+     *
+     * @param files The files to make an uploadFileRow out of.
+     */
+    public void createUploadFileRow(File[] files) {
+        for (File f : files) {
+            if (!uploadFileRows.containsKey(f)) {
+                UploadFileRow fileRow = new UploadFileRow(f, this);
+                uploadFileRows.put(f, fileRow);
+            } else {
+                JOptionPane.showMessageDialog(this, "File already selected: "
+                                + f.getName() + "", "File error",
+                        JOptionPane.ERROR_MESSAGE
+                );
+            }
         }
         repaintSelectedFiles();
     }
-    
-    public void deleteFileRow(String fileName) {
-        // for(int i = 0; i < uploadFileRows.size(); i++) {
-        // if(uploadFileRows.get(i).getFileName().equals(fileName)) {
-        // uploadFileRows.remove(i);
-        // }
-        // }
-        uploadFileRows.remove(fileName);
-        uploadFilesPanel.removeAll();
-        repaintSelectedFiles();
+
+    /**
+     * Deletes an uploadFileRow and calls repaintSelectedFiles() to repaint.
+     * If it fails to find the file, an error message is shown to the user.
+     *
+     * @param f This is used to identify which uploadFileRow to be deleted.
+     */
+    public void deleteFileRow(File f) {
+        if (uploadFileRows.containsKey(f)) {
+            uploadFileRows.remove(f);
+            uploadFilesPanel.removeAll();
+            repaintSelectedFiles();
+        } else {
+            JOptionPane.showMessageDialog(this,
+                    "Can't delete file: " + f.getName() + "", "File error",
+                    JOptionPane.ERROR_MESSAGE);
+        }
     }
-    
+
+    /**
+     * Adds a listener for the "Select files" button.
+     *
+     * @param listener The listener to be added.
+     */
     public void addSelectFilesToUploadButtonListener(ActionListener listener) {
         selectFilesToUploadButton.addActionListener(listener);
     }
-    
+
+    /**
+     * Adds a listener to the upload button.
+     *
+     * @param listener The listener to be added.
+     */
     public void addUploadToExperimentButtonListener(ActionListener listener) {
         uploadFilesToExperimentButton.addActionListener(listener);
     }
-    
+
+    /**
+     * Sets the annotations.
+     *
+     * @param annotations The annotations to set the panel's annotations to.
+     */
     public void setAnnotations(AnnotationDataType[] annotations) {
         this.annotations = annotations;
     }
-    
+
     public void addAnnotationsForExistingExp() throws NullPointerException {
         annotationBoxes = new ArrayList<JComboBox>();
         annotationFields = new ArrayList<JTextField>();
@@ -120,7 +169,7 @@ public class UploadToExistingExpPanel extends JPanel implements ExperimentPanel 
                     annotationFields.add(textField);
                     p.add(textField, BorderLayout.CENTER);
                     northPanel.add(p, gbc);
-                    textField.disable();
+                    textField.setEnabled(false);
                 } else {
                     JComboBox comboBox = new JComboBox(
                             annotations[i].getValues());
@@ -128,24 +177,42 @@ public class UploadToExistingExpPanel extends JPanel implements ExperimentPanel 
                     annotationBoxes.add(comboBox);
                     p.add(comboBox, BorderLayout.CENTER);
                     northPanel.add(p, gbc);
-                    comboBox.disable();
+                    comboBox.setEnabled(false);
                 }
                 x++;
             }
         }
     }
-    
+
+    /**
+     * Checks if there are any uploadfilerows.
+     * Disables the uploadbutton if there aren't, and adds them to the panel if there are.
+     * After these updates, it repaints the panel.
+     */
     private void repaintSelectedFiles() {
         if (!uploadFileRows.isEmpty()) {
-            for (File f : currFiles) {
-                uploadFilesPanel.add(uploadFileRows.get(f.getName()));
+            for (File f : uploadFileRows.keySet()) {
+                uploadFilesPanel.add(uploadFileRows.get(f));
             }
+        } else {
+            enableUploadButton(false);
         }
-        
         repaint();
         revalidate();
     }
-    
+
+    /**
+     * Sets the experiment button to either be enabled or disabled.
+     *
+     * @param b Whether it should be enabled (true) or disabled (false)
+     */
+    public void enableUploadButton(boolean b) {
+        uploadFilesToExperimentButton.setEnabled(b);
+    }
+
+    /**
+     * Removes everything in the panel and underlying panels.
+     */
     @Override
     public void removeAll() {
         uploadFilesPanel.removeAll();

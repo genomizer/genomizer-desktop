@@ -22,18 +22,18 @@ import java.net.URI;
 import java.net.URISyntaxException;
 
 public class HTTPURLUpload {
-    
+
     private String filePath;
     private String uploadPath;
-    
+
     public HTTPURLUpload(String uploadPath, String filePath) {
         this.filePath = filePath;
         this.uploadPath = uploadPath;
     }
-    
+
     public void sendFile(String username, String password) {
         // the URL where the file will be posted
-        
+
         URI postReceiverUrl = null;
         try {
             postReceiverUrl = new URIBuilder().setScheme("http")
@@ -43,40 +43,40 @@ public class HTTPURLUpload {
             // TODO Auto-generated catch block
             e1.printStackTrace();
         }
-        
+
         // new HttpClient
         HttpClientBuilder hcBuilder = HttpClients.custom();
-        
+
         CloseableHttpClient httpClient = hcBuilder.build();
-        
+
         // Authentication information
         CredentialsProvider credentialsProvider = new BasicCredentialsProvider();
         credentialsProvider.setCredentials(AuthScope.ANY,
                 new UsernamePasswordCredentials(username + ":" + password));
         HttpClientContext localContext = HttpClientContext.create();
         localContext.setCredentialsProvider(credentialsProvider);
-        
+
         // post header
         HttpPost httpPost = new HttpPost(postReceiverUrl);
-        
+
         File file = new File(filePath);
-        
+
         MultipartEntityBuilder reqEntity = MultipartEntityBuilder.create();
         reqEntity.setMode(HttpMultipartMode.BROWSER_COMPATIBLE);
-        
+
         // add the location on the server where the file should be saved
         reqEntity.addTextBody("path", uploadPath);
-        
+
         reqEntity.addBinaryBody("uploadfile", file);
         httpPost.setEntity(reqEntity.build());
-        
+
         HttpResponse response;
         try {
             // execute HTTP post request
             response = httpClient.execute(httpPost, localContext);
             HttpEntity resEntity = response.getEntity();
             if (resEntity != null) {
-                
+
                 // String responseStr = EntityUtils.toString(resEntity).trim();
                 // System.out.println("Response: " + responseStr);
             }
@@ -87,9 +87,9 @@ public class HTTPURLUpload {
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
-        
+
     }
-    
+
     /**
      * @param args
      */
@@ -99,5 +99,5 @@ public class HTTPURLUpload {
                 "/home/c11/c11vlg/Downloads/test.txt");
         uploader.sendFile("pvt", "pvt");
     }
-    
+
 }
