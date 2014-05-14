@@ -15,7 +15,6 @@ import javax.swing.JTextArea;
 
 import util.AnnotationDataType;
 import util.ExperimentData;
-import util.FileData;
 import util.TreeTable;
 
 /**
@@ -23,8 +22,8 @@ import util.TreeTable;
  */
 public class QuerySearchTab extends JPanel {
     /**
-	 *
-	 */
+     *
+     */
     private static final long          serialVersionUID = -5171748087481537247L;
     private JPanel                     topPanel;
     private JPanel                     bottomPanel;
