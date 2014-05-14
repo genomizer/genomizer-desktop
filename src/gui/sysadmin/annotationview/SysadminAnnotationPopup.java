@@ -25,18 +25,20 @@ import javax.swing.JTabbedPane;
 import javax.swing.JTextField;
 import javax.swing.ScrollPaneConstants;
 import javax.swing.SwingUtilities;
+import javax.swing.text.BadLocationException;
+import javax.swing.text.Document;
 
 public class SysadminAnnotationPopup extends JPanel {
 
-    private static final long serialVersionUID = -626744436260839622L;
-    private JPanel  addCategoriesPanel;
-    private JButton addButton, removeButton;
-    private ButtonModel createNewAnnotationButtonModel;
-    private JTextField  nameField;
+    private static final long     serialVersionUID = -626744436260839622L;
+    private JPanel                addCategoriesPanel;
+    private JButton               addButton, removeButton;
+    private ButtonModel           createNewAnnotationButtonModel;
+    private JTextField            nameField;
     // private ArrayList<String> categories = new ArrayList<String>();
-    private boolean forced = false;
-    private JCheckBox forcedBox;
-    private ArrayList<JTextField> valueJTextFields = new ArrayList<JTextField>();
+    private boolean               forced           = false;
+    private JCheckBox             forcedBox;
+    private ArrayList<JTextField> valueTexts       = new ArrayList<JTextField>();
 
     public SysadminAnnotationPopup() {
         this.setLayout(new BorderLayout());
@@ -50,7 +52,7 @@ public class SysadminAnnotationPopup extends JPanel {
     private JPanel buildSecondTab() {
 
         JPanel secondTab = new JPanel(new GridLayout(0, 1));
-        
+
         /* Create the top panel for the second tab */
         JPanel topPanelInSecondTab = new JPanel();
 
@@ -59,7 +61,7 @@ public class SysadminAnnotationPopup extends JPanel {
         nameField2.setPreferredSize(new Dimension(250, 30));
         topPanelInSecondTab.add(name);
         topPanelInSecondTab.add(nameField2);
-        
+
         /* Create bottom panel for the second tab */
         JPanel botPanelInSecondTab = buildBotPanelInFirstTab();
 
@@ -73,13 +75,12 @@ public class SysadminAnnotationPopup extends JPanel {
         JPanel firstTab = new JPanel(new BorderLayout());
         JScrollPane scrollPane = new JScrollPane(firstTab);
         scrollPane
-                .setVerticalScrollBarPolicy(
-                        ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
+                .setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
 
         JPanel topPanelInFirstTab = buildTopPanelInFirstTab();
         JPanel midPanelInFirstTab = buildMidPanelInFirstTab();
         JPanel botPanelInFirstTab = buildBotPanelInFirstTab();
-        
+
         /* Add all complete panels to the first tab */
         firstTab.add(topPanelInFirstTab, BorderLayout.NORTH);
         firstTab.add(midPanelInFirstTab, BorderLayout.CENTER);
@@ -118,7 +119,7 @@ public class SysadminAnnotationPopup extends JPanel {
 
         JLabel categorylabel = new JLabel("Category:");
         final JTextField annotationTextField = new JTextField();
-        valueJTextFields.add(annotationTextField);
+        valueTexts.add(annotationTextField);
         annotationTextField.setPreferredSize(new Dimension(200, 30));
 
         baseCatPanel.add(categorylabel);
@@ -284,7 +285,7 @@ public class SysadminAnnotationPopup extends JPanel {
         newCategoryPanel.add(categoryLabel);
         newCategoryPanel.add(textField);
 
-        valueJTextFields.add(textField);
+        valueTexts.add(textField);
 
         createRemoveCategoryButton(newCategoryPanel);
         categoryHolderPanel.add(newCategoryPanel);
@@ -302,24 +303,23 @@ public class SysadminAnnotationPopup extends JPanel {
 
     public String[] getNewAnnotationCategories() {
 
-        String[] newCategories;
+        ArrayList<String> categories = new ArrayList<String>();
 
         // TODO: make a model for popup? this should not be in a pure view
         // class.
-        synchronized (valueJTextFields) {
+        synchronized (valueTexts) {
 
-            for (JTextField field : valueJTextFields) {
-                field.get
+            for (JTextField field : valueTexts) {
+                categories.add(field.getText());
+
             }
-
             if (categories.isEmpty()) {
                 categories.add("Yes");
                 categories.add("No");
             }
-            newCategories = categories.toArray(new String[categories.size()]);
         }
 
-        return newCategories;
+        return categories.toArray(new String[categories.size()]);
     }
 
     public void closeWindow() {

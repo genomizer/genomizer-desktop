@@ -15,16 +15,18 @@ import java.util.ArrayList;
 
 public class EditAnnotationPopup extends JPanel {
 
-    private static final long serialVersionUID = -626744436260839622L;
-    private JPanel  addCategoriesPanel;
-    private JButton addButton, removeButton;
-    private ButtonModel createNewAnnotationButtonModel;
-    private JTextField  nameField;
-    private ArrayList<String> categories = new ArrayList<String>();
-    private boolean           forced     = false;
-    private JCheckBox          forcedBox;
-    private JTable             table;
-    private AnnotationDataType annotation;
+
+    private static final long     serialVersionUID = -626744436260839622L;
+    private JPanel                addCategoriesPanel;
+    private JButton               addButton, removeButton;
+    private ButtonModel           editAnnotationButtonModel;
+    private JTextField            nameField;
+    private ArrayList<String>     categories       = new ArrayList<String>();
+    private boolean               forced           = false;
+    private JCheckBox             forcedBox;
+    private JTable                table;
+    private AnnotationDataType    annotation;
+    private ArrayList<JTextField> valueTexts       = new ArrayList<JTextField>();
 
     public EditAnnotationPopup(JTable table) {
         this.table = table;
@@ -41,7 +43,7 @@ public class EditAnnotationPopup extends JPanel {
     private JPanel buildSecondTab() {
 
         JPanel secondTab = new JPanel(new GridLayout(0, 1));
-        
+
         /* Create the top panel for the second tab */
         JPanel topPanelInSecondTab = new JPanel();
 
@@ -51,7 +53,7 @@ public class EditAnnotationPopup extends JPanel {
         nameField2.setPreferredSize(new Dimension(250, 30));
         topPanelInSecondTab.add(name);
         topPanelInSecondTab.add(nameField2);
-        
+
         /* Create bottom panel for the second tab */
         JPanel botPanelInSecondTab = buildBotPanelInFirstTab();
 
@@ -71,7 +73,7 @@ public class EditAnnotationPopup extends JPanel {
         JPanel topPanelInFirstTab = buildTopPanelInFirstTab();
         JPanel midPanelInFirstTab = buildMidPanelInFirstTab();
         JPanel botPanelInFirstTab = buildBotPanelInFirstTab();
-        
+
         /* Add all complete panels to the first tab */
         firstTab.add(topPanelInFirstTab, BorderLayout.NORTH);
         firstTab.add(midPanelInFirstTab, BorderLayout.CENTER);
@@ -91,8 +93,7 @@ public class EditAnnotationPopup extends JPanel {
 
         addCategoriesPanel = new JPanel(new GridLayout(0, 1));
 
-        JPanel baseCatPanel = createDeafultCategoryPanel(addCategoriesPanel,
-                "");
+        JPanel baseCatPanel = createDeafultCategoryPanel(addCategoriesPanel, "");
         addCategoriesPanel.add(baseCatPanel);
 
         categoryPanel.add(addCategoriesPanel, BorderLayout.NORTH);
@@ -180,6 +181,10 @@ public class EditAnnotationPopup extends JPanel {
         categoryPanel.add(removeButton);
     }
 
+
+    /**
+     * Sets the local value for the annotation variable
+     */
     private void setAnnotation() {
         if (table.getSelectedRow() != -1) {
             int row = table.getSelectedRow();
@@ -209,7 +214,7 @@ public class EditAnnotationPopup extends JPanel {
         botPanelInFirstTab.add(forced);
         // botPanelInFirstTab.add(checkboxPanel);
         botPanelInFirstTab.add(forcedBox);
-        buildCreateNewAnnotationButton(botPanelInFirstTab);
+        buildEditAnnotationButton(botPanelInFirstTab);
 
         return botPanelInFirstTab;
     }
@@ -218,22 +223,21 @@ public class EditAnnotationPopup extends JPanel {
         forced = (forced == true) ? false : true;
     }
 
-    private void buildCreateNewAnnotationButton(JPanel botPanelInFirstTab) {
 
-        JButton createNewAnnotationButton = new JButton(
+    private void buildEditAnnotationButton(JPanel botPanelInFirstTab) {
+
+        JButton editAnnotationButton = new JButton(
                 SysStrings.ANNOTATIONS_MODIFY);
 
-        System.out.println("will create model");
-
-        if (createNewAnnotationButtonModel == null) {
-            createNewAnnotationButtonModel = createNewAnnotationButton
+        if (editAnnotationButtonModel == null) {
+            editAnnotationButtonModel = editAnnotationButton
                     .getModel();
         } else {
-            createNewAnnotationButton.setModel(createNewAnnotationButtonModel);
+            editAnnotationButton.setModel(editAnnotationButtonModel);
         }
-        createNewAnnotationButtonModel
+        editAnnotationButtonModel
                 .setActionCommand(SysStrings.ANNOTATIONS_MODIFY);
-        botPanelInFirstTab.add(createNewAnnotationButton);
+        botPanelInFirstTab.add(editAnnotationButton);
     }
 
     private JPanel buildTopPanelInFirstTab() {
@@ -303,8 +307,7 @@ public class EditAnnotationPopup extends JPanel {
         repaint();
     }
 
-    private void addAddedCategoryPanel(JPanel categoryHolderPanel,
-            String value) {
+    private void addAddedCategoryPanel(JPanel categoryHolderPanel, String value) {
         JPanel newCategoryPanel = new JPanel();
         JLabel categoryLabel = new JLabel("Category:");
         final JTextField textField = new JTextField();
@@ -332,20 +335,23 @@ public class EditAnnotationPopup extends JPanel {
 
     public String[] getNewAnnotationCategories() {
 
-        String[] newCategories;
+        ArrayList<String> categories = new ArrayList<String>();
 
         // TODO: make a model for popup? this should not be in a pure view
         // class.
-        synchronized (categories) {
+        synchronized (valueTexts) {
 
+            for (JTextField field : valueTexts) {
+                categories.add(field.getText());
+
+            }
             if (categories.isEmpty()) {
                 categories.add("Yes");
                 categories.add("No");
             }
-            newCategories = categories.toArray(new String[categories.size()]);
         }
 
-        return newCategories;
+        return categories.toArray(new String[categories.size()]);
     }
 
     public void closeWindow() {
@@ -354,10 +360,10 @@ public class EditAnnotationPopup extends JPanel {
         frame.setVisible(false);
     }
 
-    public void addAddAnnotationListener(ActionListener listener) {
+    public void addEditAnnotationListener(ActionListener listener) {
 
         System.out.println("Adding listnener to model");
-        createNewAnnotationButtonModel.addActionListener(listener);
+        editAnnotationButtonModel.addActionListener(listener);
     }
 
 }
