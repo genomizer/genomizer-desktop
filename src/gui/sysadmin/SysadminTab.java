@@ -106,7 +106,7 @@ public class SysadminTab extends JPanel {
     
     public void addAnnotationsPopup() {
         /* TODO FIX THIS SHIT! */
-        annotationsView.popup(createAnnotationPopupListener());
+        annotationsView.addPopup(createAnnotationPopupListener());
         
     }
     

@@ -145,7 +145,7 @@ public class AnnotationsViewCreator {
         rowSorter.setRowFilter(rf);
     }
     
-    public void popup(ActionListener popupListener) {
+    public void addPopup(ActionListener popupListener) {
         pop = new SysadminAnnotationPopup();
         pop.setBackground(Color.WHITE);
         
