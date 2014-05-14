@@ -75,8 +75,6 @@ public class UploadTab extends JPanel implements ExperimentPanel {
         selectButton = new JButton("Select files");
         uploadButton = new JButton("Upload Selected Files");
         newExpPanel = new JPanel();
-        newExpPanel.setBorder(BorderFactory
-                .createTitledBorder("Create new experiment"));
         expNameLabel = new JLabel();
         expName = new JTextField();
         expName.setColumns(10);
@@ -97,6 +95,8 @@ public class UploadTab extends JPanel implements ExperimentPanel {
         uploadToExistingExpPanel.setAnnotations(annotations);
         uploadToExistingExpPanel.addAnnotationsForExistingExp();
         uploadPanel.add(uploadToExistingExpPanel, BorderLayout.CENTER);
+  /*      setBorder(BorderFactory
+                .createTitledBorder("Upload to existing experiment")); */
         repaint();
         revalidate();
     }
@@ -123,6 +123,8 @@ public class UploadTab extends JPanel implements ExperimentPanel {
     
     private void createNewExpPanel() {
         killContentsOfUploadPanel();
+/*        setBorder(BorderFactory
+                .createTitledBorder("Create new experiment")); */
         activePanel = ActivePanel.NEW;
         GridBagLayout gbl_panel = new GridBagLayout();
         gbl_panel.columnWidths = new int[] { 0, 0, 0, 0, 0, 0, 0 };
