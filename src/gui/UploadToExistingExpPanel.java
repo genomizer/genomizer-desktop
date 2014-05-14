@@ -41,8 +41,7 @@ public class UploadToExistingExpPanel extends JPanel implements ExperimentPanel 
         mainPanel.add(northPanel, BorderLayout.NORTH);
         mainPanel.add(centerPanel, BorderLayout.CENTER);
         centerPanel.add(uploadFilesPanel, BorderLayout.NORTH);
-
-        setBorder(BorderFactory.createTitledBorder("Experiment"));
+        setBorder(BorderFactory.createTitledBorder("Upload to existing experiment"));
         GridBagLayout gbl_panel = new GridBagLayout();
         gbl_panel.columnWidths = new int[] { 0, 0, 0, 0, 0, 0, 0 };
         gbl_panel.rowHeights = new int[] { 0, 0, 0, 0 };

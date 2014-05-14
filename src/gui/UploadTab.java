@@ -73,7 +73,7 @@ public class UploadTab extends JPanel implements  ExperimentPanel {
 	selectButton = new JButton("Select files");
 	uploadButton = new JButton("Upload Selected Files");
 	newExpPanel = new JPanel();
-	newExpPanel.setBorder(BorderFactory.createTitledBorder("Experiment"));
+	newExpPanel.setBorder(BorderFactory.createTitledBorder("Create new experiment"));
 	expNameLabel = new JLabel();
 	expName = new JTextField();
 	expName.setColumns(10);

@@ -367,7 +367,7 @@ public class Controller {
 		@Override
 		public void run() {
             FileDialog fileDialog = new java.awt.FileDialog(
-                    (java.awt.Frame) null);
+                    (java.awt.Frame) view);
             fileDialog.setMultipleMode(true);
             fileDialog.setVisible(true);
             File[] files = fileDialog.getFiles();
@@ -470,7 +470,7 @@ public class Controller {
 		@Override
 		public void run() {
 			FileDialog fileDialog = new java.awt.FileDialog(
-					(java.awt.Frame) null);
+					(java.awt.Frame) view);
 			fileDialog.setMultipleMode(true);
 			fileDialog.setVisible(true);
 			File[] files = fileDialog.getFiles();
