@@ -4,8 +4,15 @@ import gui.CheckListItem;
 import gui.DownloadWindow;
 import gui.GenomizerView;
 import gui.UploadTab;
+import gui.sysadmin.SysadminController;
+import model.GenomizerModel;
+import util.AnnotationDataType;
+import util.AnnotationDataValue;
+import util.ExperimentData;
+import util.FileData;
 
-import java.awt.FileDialog;
+import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
@@ -14,28 +21,10 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import javax.swing.JFileChooser;
-import javax.swing.JList;
-import javax.swing.JOptionPane;
-import javax.swing.JPanel;
-import javax.swing.SwingUtilities;
-
-import gui.UploadTab;
-import gui.sysadmin.SysadminController;
-import requests.AddExperimentRequest;
-import requests.RequestFactory;
-import model.GenomizerModel;
-import requests.AddAnnotationRequest;
-import util.AnnotationDataType;
-import util.AnnotationDataValue;
-import util.DeleteAnnoationData;
-import util.ExperimentData;
-import util.FileData;
-
 public class Controller {
 
-    private GenomizerView      view;
-    private GenomizerModel     model;
+    private GenomizerView view;
+    private GenomizerModel model;
     private final JFileChooser fileChooser = new JFileChooser();
     private SysadminController sysController;
 
@@ -51,11 +40,16 @@ public class Controller {
         view.addRawToRegionDataListener(new RawToRegionDataListener());
         view.addScheduleFileListener(new ScheduleFileListener());
         view.addDownloadFileListener(new DownloadWindowListener());
-        view.addSelectFilesToUploadButtonListener(new SelectFilesToUploadButtonListener());
-        view.setSysadminController(sysController = new SysadminController(model));
-        view.addAddToExistingExpButtonListener(new AddToExistingExpButtonListener());
-        view.addUploadToExperimentButtonListener(new UploadToExperimentButtonListener());
-        view.addUpdateSearchAnnotationsListener(new updateSearchAnnotationsListener());
+        view.addSelectFilesToUploadButtonListener(
+                new SelectFilesToUploadButtonListener());
+        view.setSysadminController(
+                sysController = new SysadminController(model));
+        view.addAddToExistingExpButtonListener(
+                new AddToExistingExpButtonListener());
+        view.addUploadToExperimentButtonListener(
+                new UploadToExperimentButtonListener());
+        view.addUpdateSearchAnnotationsListener(
+                new updateSearchAnnotationsListener());
         view.addProcessFileListener(new ProcessFileListener());
         view.addSearchToWorkspaceListener(new SearchToWorkspaceListener());
         view.addNewExpButtonListener(new NewExpButtonListener());
@@ -79,13 +73,12 @@ public class Controller {
 
         }
     }
+
     /**
-     * The listener to create profile data,
-     * Sends a request to the server for every RAW-file that the user wants to
-     * create profile data.
+     * The listener to create profile data, Sends a request to the server for
+     * every RAW-file that the user wants to create profile data.
      *
      * @author c11ann
-     *
      */
     class RawToProfileDataListener implements ActionListener, Runnable {
         @Override
@@ -169,7 +162,6 @@ public class Controller {
      * The listener to create region data,
      *
      * @author c11ann
-     *
      */
     class RawToRegionDataListener implements ActionListener, Runnable {
         @Override
@@ -186,12 +178,11 @@ public class Controller {
         }
     }
 
-
     /**
-     * Listener thats keeps track of which files that the user wants to schedule.
+     * Listener thats keeps track of which files that the user wants to
+     * schedule.
      *
      * @author c11ann
-     *
      */
     class ScheduleFileListener implements ActionListener, Runnable {
         @Override
@@ -357,7 +348,7 @@ public class Controller {
              * fileDialog.setVisible(true); String directoryName =
              * fileDialog.getDirectory(); System.out.println("You chose " +
              * directoryName);
-             *
+             * 
              * if (fileData == null) {
              * System.err.println("No directory selected"); return; }
              */
@@ -397,7 +388,8 @@ public class Controller {
         }
     }
 
-    class SelectFilesToUploadButtonListener implements ActionListener, Runnable {
+    class SelectFilesToUploadButtonListener
+            implements ActionListener, Runnable {
 
         @Override
         public void actionPerformed(ActionEvent actionEvent) {

@@ -2,18 +2,17 @@ package requests;
 
 public class rawToProfileRequest extends Request {
 
-    public String   filename;
-    public String   fileId;
-    public String   expid;
-    public String   processtype;
+    public String filename;
+    public String fileId;
+    public String expid;
+    public String processtype;
     public String[] parameters;
-    public String   metadata;
-    public String   genomeRelease;
-    public String   author;
+    public String metadata;
+    public String genomeRelease;
+    public String author;
 
     /**
      * Creates the request for creating profile data from RAW-file.
-     *
      *
      * @param fileName
      * @param fileId

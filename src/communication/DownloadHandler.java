@@ -1,32 +1,25 @@
 package communication;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.PrintWriter;
+import org.apache.commons.codec.binary.Base64;
+
+import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.util.ArrayList;
-
-import org.apache.commons.codec.binary.Base64;
 
 /**
  * Created by Christoffer on 2014-04-30.
- * 
  */
 public class DownloadHandler {
-    
+
     private String username;
     private String password;
-    
+
     public DownloadHandler(String username, String password) {
         this.username = username;
         this.password = password;
     }
-    
+
     public boolean download(String url, String localFilePath) {
         try {
             // Use this url in the real version. vvv
@@ -37,7 +30,7 @@ public class DownloadHandler {
             url = url.replaceFirst("\\u003d", "=");
             url = url.replaceFirst("scratcy", "scratchy");
             url = url.replaceFirst("8090", "8000");
-            
+
             URL targetUrl = new URL(url);
             String authString = username + ":" + password;
             byte[] authEncBytes = Base64.encodeBase64(authString.getBytes());
@@ -66,11 +59,12 @@ public class DownloadHandler {
                 totalDownload += buffer.length() + 1;
                 fileOut.flush();
             }
+
             fileOut.close();
             System.out.println("Size: " + totalDownload + " Expected: "
                     + conn.getContentLength());
             conn.disconnect();
-            
+
         } catch (MalformedURLException e) {
             e.printStackTrace();
         } catch (IOException e) {

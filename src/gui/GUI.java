@@ -4,6 +4,7 @@ import gui.sysadmin.SysadminController;
 import gui.sysadmin.SysadminTab;
 
 import java.awt.BorderLayout;
+import java.awt.Dimension;
 import java.awt.event.ActionListener;
 import java.io.File;
 import java.util.ArrayList;
@@ -24,26 +25,27 @@ import util.FileData;
 public class GUI extends JFrame implements GenomizerView {
     
     private static final long serialVersionUID = 6659839768426124853L;
-    private JPanel            mainPanel;
-    private JPanel            processPanel;
-    private JTabbedPane       tabbedPane;
-    private SearchTab         searchTab;
+    private JPanel mainPanel;
+    private JPanel processPanel;
+    private JTabbedPane tabbedPane;
+    private SearchTab searchTab;
     // private LoginPanel loginPanel;
-    private UserPanel         userPanel;
-    private UploadTab         uploadTab;
-    private AnalyzeTab        analyzeTab;
-    private WorkspaceTab      workspaceTab;
-    private LoginWindow       loginWindow;
-    private ProcessTab        processTab;
-    private SysadminTab       sysadminTab;
-    private QuerySearchTab    querySearchTab;
-    private DownloadWindow    downloadWindow;
+    private UserPanel userPanel;
+    private UploadTab uploadTab;
+    private AnalyzeTab analyzeTab;
+    private WorkspaceTab workspaceTab;
+    private LoginWindow loginWindow;
+    private ProcessTab processTab;
+    private SysadminTab sysadminTab;
+    private QuerySearchTab querySearchTab;
+    private DownloadWindow downloadWindow;
     
     public GUI() {
         
         setLookAndFeel();
         this.setTitle("Genomizer");
-        setSize(800, 800);
+        setSize(1250, 850);
+        this.setMinimumSize(new Dimension(1250, 850));
         
         BorderLayout bl = new BorderLayout();
         mainPanel = new JPanel(bl);
@@ -304,7 +306,7 @@ public class GUI extends JFrame implements GenomizerView {
     
     public void setWorkspaceTab(WorkspaceTab workspaceTab) {
         this.workspaceTab = workspaceTab;
-        tabbedPane.add("WORKSPACE", workspaceTab);
+        tabbedPane.add("SELECTED FILES", workspaceTab);
     }
     
     public void setAnalyzeTab(AnalyzeTab analyzeTab) {
@@ -444,7 +446,7 @@ public class GUI extends JFrame implements GenomizerView {
     
     @Override
     public String getNewExpName() {
-        return uploadTab.getNewExpName();
+        return uploadTab.getNewExpID();
     }
     
     @Override

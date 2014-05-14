@@ -1,34 +1,25 @@
 package gui;
 
-import java.awt.BorderLayout;
-import java.awt.Dimension;
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
-import java.awt.Insets;
+import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
 
-import javax.swing.JButton;
-import javax.swing.JComboBox;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.JProgressBar;
-
 public class UploadFileRow extends JPanel {
     private ExperimentPanel parent;
-    private JPanel          filePanel;
-    private JLabel          fileLabel;
-    private JButton         closeButton;
-    private JComboBox       typeBox;
-    private JProgressBar    uploadBar;
-    private File            file;
-    
+    private JPanel filePanel;
+    private JLabel fileLabel;
+    private JButton closeButton;
+    private JComboBox typeBox;
+    private JProgressBar uploadBar;
+    private File file;
+
     public UploadFileRow(File f, ExperimentPanel parent) {
         this.parent = parent;
         setLayout(new BorderLayout());
         this.file = f;
-        
+
         filePanel = new JPanel();
         add(filePanel, BorderLayout.SOUTH);
         GridBagLayout gbl_panel = new GridBagLayout();
@@ -38,7 +29,7 @@ public class UploadFileRow extends JPanel {
                 Double.MIN_VALUE };
         gbl_panel.rowWeights = new double[] { 0.0, Double.MIN_VALUE };
         filePanel.setLayout(gbl_panel);
-        
+
         fileLabel = new JLabel(file.getName());
         GridBagConstraints gbc_lblFilename = new GridBagConstraints();
         gbc_lblFilename.anchor = GridBagConstraints.WEST;
@@ -46,7 +37,7 @@ public class UploadFileRow extends JPanel {
         gbc_lblFilename.gridx = 0;
         gbc_lblFilename.gridy = 0;
         filePanel.add(fileLabel, gbc_lblFilename);
-        
+
         uploadBar = new JProgressBar();
         GridBagConstraints gbc_progressBar = new GridBagConstraints();
         gbc_progressBar.insets = new Insets(0, 0, 0, 5);
@@ -54,7 +45,7 @@ public class UploadFileRow extends JPanel {
         gbc_progressBar.gridx = 0;
         gbc_progressBar.gridy = 1;
         filePanel.add(uploadBar, gbc_progressBar);
-        
+
         String[] fileTypes = { "Profile", "Raw", "Region" };
         typeBox = new JComboBox(fileTypes);
         typeBox.setPreferredSize(new Dimension(120, 31));
@@ -64,7 +55,7 @@ public class UploadFileRow extends JPanel {
         gbc_comboBox.gridx = 1;
         gbc_comboBox.gridy = 1;
         filePanel.add(typeBox, gbc_comboBox);
-        
+
         closeButton = new JButton("X");
         addCloseButtonListener(new closeButtonListener());
         GridBagConstraints gbc_btnX = new GridBagConstraints();
@@ -72,25 +63,25 @@ public class UploadFileRow extends JPanel {
         gbc_btnX.gridy = 1;
         filePanel.add(closeButton, gbc_btnX);
     }
-    
+
     public void addCloseButtonListener(ActionListener listener) {
         closeButton.addActionListener(listener);
     }
-    
+
     public String getFileName() {
         return file.getName();
     }
-    
+
     public String getType() {
         return typeBox.getSelectedItem().toString();
     }
-    
+
     class closeButtonListener implements ActionListener, Runnable {
         @Override
         public void actionPerformed(ActionEvent e) {
             new Thread(this).start();
         }
-        
+
         @Override
         public void run() {
             parent.deleteFileRow(file);

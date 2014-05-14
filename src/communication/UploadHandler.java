@@ -1,17 +1,11 @@
 package communication;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.PrintWriter;
+import org.apache.commons.codec.binary.Base64;
+
+import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
-
-import org.apache.commons.codec.binary.Base64;
 
 public class UploadHandler implements Runnable {
     private String url;
@@ -33,14 +27,14 @@ public class UploadHandler implements Runnable {
             String urlFileName = getFileNameFromUrl(url);
             sendSetupPackage();
             url = url.replaceFirst("\\u003d", "=");
-            //url = url.replaceFirst("8000", "8050");
+            // url = url.replaceFirst("8000", "8050");
             URL targetUrl = new URL(url);
             HttpURLConnection conn = (HttpURLConnection) targetUrl
                     .openConnection();
             conn.setDoOutput(true);
             byte[] authEncBytes = Base64.encodeBase64(authString.getBytes());
             String authStringEnc = new String(authEncBytes);
-            //conn.setReadTimeout(1000);
+            // conn.setReadTimeout(1000);
             conn.setRequestMethod("POST");
             // conn.setRequestProperty("path", url);
             String boundary = "WgiloelqGufNYwj9e2TMztCZON694FV";
@@ -87,16 +81,14 @@ public class UploadHandler implements Runnable {
     private void sendMultiPartFormat(String urlFileName, String boundary,
             PrintWriter outputStream) {
         outputStream.println("--" + boundary);
-        outputStream
-                .println("Content-Disposition: form-data; name=\"path\"\n");
+        outputStream.println("Content-Disposition: form-data; name=\"path\"\n");
         String path = url.split("=")[1];
         System.out.println(path);
         outputStream.println(path);
         outputStream.println("--" + boundary);
-        outputStream
-                .println("Content-Disposition: form-data; name=" +
-                        "\"uploadfile\"; filename=\"" + urlFileName + "\"\n"
-                        + "Content-Type: application/octet-stream\n");
+        outputStream.println("Content-Disposition: form-data; name="
+                + "\"uploadfile\"; filename=\"" + urlFileName + "\"\n"
+                + "Content-Type: application/octet-stream\n");
     }
 
     private String getFileNameFromUrl(String url) {

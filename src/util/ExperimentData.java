@@ -1,20 +1,20 @@
 package util;
 
+import com.google.gson.Gson;
+
 import java.util.ArrayList;
 import java.util.Random;
-
-import com.google.gson.Gson;
 
 /**
  * Class representing experiment data
  */
 public class ExperimentData {
-    
-    public String                         name;
-    public String                         createdBy;
-    public ArrayList<FileData>            files;
+
+    public String name;
+    public String createdBy;
+    public ArrayList<FileData> files;
     public ArrayList<AnnotationDataValue> annotations;
-    
+
     public ExperimentData(String name, String createdBy,
             ArrayList<FileData> files,
             ArrayList<AnnotationDataValue> annotations) {
@@ -23,21 +23,22 @@ public class ExperimentData {
         this.files = files;
         this.annotations = annotations;
     }
-    
+
     /**
      * Returns the list of annotations associated with the project (including
      * experiment name and creator of experiment
-     * 
+     *
      * @return
      */
-    public ArrayList<String> getAnnotationValueList(ArrayList<String> headings) {
+    public ArrayList<String> getAnnotationValueList(
+            ArrayList<String> headings) {
         ArrayList<String> annotationList = new ArrayList<String>();
         // annotationList.add(name);
         // annotationList.add(createdBy);
-        
+
         for (String heading : headings) {
             boolean hasValue = false;
-            if (heading.equals("Experiment Name")) {
+            if (heading.equals("ExpID")) {
                 if (name == null || name.equals("")) {
                     annotationList.add("-");
                 } else {
@@ -64,17 +65,17 @@ public class ExperimentData {
                     }
                 }
             }
-            
+
             if (!hasValue) {
                 annotationList.add("-");
             }
         }
         return annotationList;
     }
-    
+
     /**
      * Add new files to the experiment
-     * 
+     *
      * @param newFiles
      */
     public void addFiles(ArrayList<FileData> newFiles) {
@@ -84,18 +85,18 @@ public class ExperimentData {
             }
         }
     }
-    
+
     /**
      * Remove a files from the experiment
-     * 
+     *
      * @param fileData
      */
     public void removeFile(FileData fileData) {
         files.remove(fileData);
     }
-    
+
     public static ExperimentData[] getExample() {
-        
+
         String[] names = { "Kalle", "Pelle", "Anna", "Nils", "Olle" };
         String[] dates = { "2012-04-30", "2013-02-02", "2008-02-20",
                 "2014-12-24", "2012-12-12" };
@@ -105,7 +106,7 @@ public class ExperimentData {
         String[] sexTypes = { "Male", "Female", "Unknown" };
         Random rand = new Random();
         Gson gson = new Gson();
-        
+
         ExperimentData[] searchResponses = new ExperimentData[20];
         for (int i = 0; i < 20; i++) {
             ArrayList<FileData> fileData = new ArrayList<FileData>();
@@ -113,8 +114,9 @@ public class ExperimentData {
                 String fileType = fileTypes[rand.nextInt(3)];
                 fileData.add(new FileData("" + i + j, "Experiment" + i,
                         fileType, "", names[rand.nextInt(5)], names[rand
-                                .nextInt(5)], false, "",
-                        dates[rand.nextInt(5)], "", "", "Exp" + i + "_file" + j));
+                        .nextInt(5)], false, "",
+                        dates[rand.nextInt(5)], "", "", "Exp" + i + "_file" + j
+                ));
             }
             ArrayList<AnnotationDataValue> annotationData = new ArrayList<AnnotationDataValue>();
             annotationData.add(new AnnotationDataValue("2", "Species",
@@ -128,15 +130,15 @@ public class ExperimentData {
                     .add(new AnnotationDataValue("2", "Annotationy", "y"));
             searchResponses[i] = new ExperimentData("Experiment" + i,
                     names[rand.nextInt(5)], fileData, annotationData);
-            
+
         }
-        
+
         return searchResponses;
-        
+
     }
-    
+
     public boolean equals(Object o) {
         return (((ExperimentData) o)).name.equals(name);
     }
-    
+
 }

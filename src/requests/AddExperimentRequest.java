@@ -1,15 +1,13 @@
 package requests;
 
-import com.google.gson.annotations.SerializedName;
-
 import util.AnnotationDataValue;
 
 public class AddExperimentRequest extends Request {
-    public String                name;
+    public String name;
     // @SerializedName("created by")
-    public String                createdBy;
+    public String createdBy;
     public AnnotationDataValue[] annotations;
-    
+
     public AddExperimentRequest(String experimentName, String createdBy,
             AnnotationDataValue[] annotations) {
         super("addexperiment", "/experiment", "POST");
