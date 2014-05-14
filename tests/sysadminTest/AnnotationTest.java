@@ -14,8 +14,8 @@ import communication.Connection;
 
 public class AnnotationTest {
     
-    private Connection  con;
-    private Model       model;
+    private Connection con;
+    private Model model;
     private SysadminTab sysadminTab;
     
     @Before

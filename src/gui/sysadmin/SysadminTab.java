@@ -119,6 +119,7 @@ public class SysadminTab extends JPanel {
         /* TODO FIX THIS SHIT! */
         annotationsView.popup(createAnnotationPopupListener());
 
+        //annotationsView.addPopup(createAnnotationPopupListener());
     }
 
     public void editAnnotationPopup() {
@@ -136,8 +137,7 @@ public class SysadminTab extends JPanel {
     }
 
     public ActionListener editAnnotationPopupListener() {
-        return sysController.editAnnotationPopupListener();
-
+        return sysController.createEditAnnotationPopupListener();
     }
 
     public AnnotationsViewCreator getAnnotationsView() {

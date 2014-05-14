@@ -11,7 +11,7 @@ import java.net.URL;
 
 public class Connection {
     private String ip;
-    private int    responseCode;
+    private int responseCode;
     private String responseBody;
 
     public Connection(String ip) {
@@ -46,6 +46,7 @@ public class Connection {
                 responseCode = connection.getResponseCode();
                 if (responseCode >= 300) {
                     System.out.println("Connection error: " + responseCode);
+                    System.out.println(request.toJson()); // TODO: remove line
                     return false;
                 }
                 return true;

@@ -15,8 +15,8 @@ import java.util.Observable;
 import java.util.Observer;
 
 public class SysadminController extends Observable {
-
-    private SysadminTab    sysTab;
+    
+    private SysadminTab sysTab;
     private GenomizerModel model;
 
     public SysadminController(Observer observer) {
@@ -36,8 +36,8 @@ public class SysadminController extends Observable {
     public ActionListener createAnnotationPopupListener() {
         return new AnnotationPopupListener(sysTab);
     }
-
-    public ActionListener editAnnotationPopupListener() {
+    
+    public ActionListener createEditAnnotationPopupListener() {
         return new EditAnnotationPopupListener(sysTab);
     }
 

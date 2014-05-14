@@ -3,11 +3,11 @@ package requests;
 import util.DeleteAnnoationData;
 
 public class DeleteAnnotationRequest extends Request {
-
-    private DeleteAnnoationData deleteId;
-
+    
+    private DeleteAnnoationData[] deleteId;
+    
     public DeleteAnnotationRequest(DeleteAnnoationData deleteAnnoationData) {
         super("deleteAnnotation", "/annotation", "DELETE");
-        this.deleteId = deleteAnnoationData;
+        this.deleteId = new DeleteAnnoationData[] { deleteAnnoationData };
     }
 }

@@ -163,6 +163,10 @@ public class AnnotationsViewCreator {
         editPopup = new EditAnnotationPopup(table);
         editPopup.setBackground(Color.WHITE);
 
+        // TODO: Adam, I added this line, this is where you add a listener, you
+        // can remove this now.
+        editPopup.addEditAnnotationListener(editPopupListener);
+
         JFrame popupFrame = new JFrame("Edit annotation");
         popupFrame.setLayout(new BorderLayout());
         popupFrame.add(editPopup, BorderLayout.CENTER);
@@ -202,7 +206,7 @@ public class AnnotationsViewCreator {
     private class SearchDocumentListener implements DocumentListener {
 
         private TableRowSorter<TableModel> rowSorter;
-        private JTextField                 filterText;
+        private JTextField filterText;
 
         public SearchDocumentListener(TableRowSorter<TableModel> rowSorter,
                 JTextField filterText) {

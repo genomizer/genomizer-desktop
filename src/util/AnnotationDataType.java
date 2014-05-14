@@ -1,34 +1,34 @@
 package util;
 
 public class AnnotationDataType extends AnnotationData {
-
+    
     private String[] values;
-    private boolean  forced;
-
+    private boolean forced;
+    
     public AnnotationDataType(String id, String name, String[] values,
             Boolean forced) {
         super(id, name);
         this.values = values;
         this.forced = forced;
     }
-
+    
     @Override
     public String toString() {
         return name;
     }
-
+    
     public String getName() {
         return name;
     }
-
+    
     public String[] getValues() {
         return values;
     }
-
+    
     public boolean isForced() {
         return forced;
     }
-
+    
     public boolean getForced() {
         return forced;
     }

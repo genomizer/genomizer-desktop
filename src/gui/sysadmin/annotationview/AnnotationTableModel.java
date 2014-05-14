@@ -5,25 +5,25 @@ import util.AnnotationDataType;
 import javax.swing.table.AbstractTableModel;
 
 public class AnnotationTableModel extends AbstractTableModel {
-
+    
     private static final long serialVersionUID = 1414328728572140752L;
-
-    AnnotationDataType[] annotations = new AnnotationDataType[] { };
-
+    
+    AnnotationDataType[] annotations = new AnnotationDataType[] {};
+    
     @Override
     public int getRowCount() {
         return annotations.length;
     }
-
+    
     @Override
     public int getColumnCount() {
         // TODO Auto-generated method stub
         return 3;
     }
-
+    
     @Override
     public Object getValueAt(int rowIndex, int columnIndex) {
-
+        
         switch (columnIndex) {
             case 0:
                 return annotations[rowIndex].getName();
@@ -50,14 +50,14 @@ public class AnnotationTableModel extends AbstractTableModel {
                 return null;
         }
     }
-
+    
     public void setAnnotations(AnnotationDataType[] annotations) {
         synchronized (this.annotations) {
             this.annotations = annotations;
         }
         fireTableDataChanged();
     }
-
+    
     @Override
     public String getColumnName(int column) {
         switch (column) {
@@ -71,9 +71,9 @@ public class AnnotationTableModel extends AbstractTableModel {
                 break;
         }
         return null;
-
+        
     }
-
+    
     public AnnotationDataType getAnnotationData(int i) {
         return annotations[i];
     }
