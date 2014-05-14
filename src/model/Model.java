@@ -123,15 +123,17 @@ public class Model implements GenomizerModel {
         
         AddFileToExperimentResponse aFTER = ResponseParser
                 .parseUploadResponse(conn.getResponseBody());
-        HTTPURLUpload upload = new HTTPURLUpload(aFTER.URLupload,
+        /*HTTPURLUpload upload = new HTTPURLUpload(aFTER.URLupload,
                 f.getAbsolutePath());
-        upload.sendFile("pvt", "pvt");
-        /*
-         * UploadHandler handler = new UploadHandler(aFTER.URLupload,
-         * f.getAbsolutePath(), userID, "pvt:pvt"); Thread thread = new
-         * Thread(handler); thread.start();
-         */
-        
+        upload.sendFile("pvt", "pvt");*/
+
+        UploadHandler handler = new UploadHandler(aFTER.URLupload,
+                f.getAbsolutePath(), userID, "pvt:pvt");
+        Thread thread = new
+                Thread(handler);
+        thread.start();
+
+
         return true;
     }
     
