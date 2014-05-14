@@ -142,7 +142,8 @@ public class Model implements GenomizerModel {
     }
     
     @Override
-    public boolean downloadFile(String url, String fileID, String path) {
+    public boolean downloadFile(final String url, String fileID,
+            final String path) {
         // Use this until search works on the server
         DownloadFileRequest request = RequestFactory.makeDownloadFileRequest(
                 fileID, ".wig");
@@ -153,8 +154,13 @@ public class Model implements GenomizerModel {
         DownloadFileResponse response = gson.fromJson(conn.getResponseBody(),
                 DownloadFileResponse.class);
         System.out.println(conn.getResponseBody());
-        DownloadHandler handler = new DownloadHandler("pvt", "pvt");
-        handler.download(url, path);
+        final DownloadHandler handler = new DownloadHandler("pvt", "pvt");
+        new Thread(new Runnable() {
+            @Override public void run() {
+                handler.download(url, path);
+            }
+        }).start();
+
         System.out.println("Test");
         return true;
     }
