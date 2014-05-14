@@ -14,7 +14,7 @@ public class ProcessViewCreator {
     }
 
     public JPanel buildProcessView() {
-        JPanel mainPanel = new JPanel(new BorderLayout(0,0));
+        JPanel mainPanel = new JPanel(new BorderLayout(0, 0));
         JPanel mainContent = new JPanel(new BorderLayout());
         JPanel sideBar = new JPanel(new BorderLayout());
 
@@ -23,7 +23,6 @@ public class ProcessViewCreator {
         JPanel processTab = processListPanel();
         JPanel processInfo = processDetailedInfoPanel();
         JPanel serverInfo = serverInfoPanel();
-
 
         mainContent.add(processInfo, BorderLayout.NORTH);
         mainContent.add(serverInfo, BorderLayout.CENTER);
@@ -36,16 +35,15 @@ public class ProcessViewCreator {
 
     }
 
-    private JPanel processListPanel(){
+    private JPanel processListPanel() {
         JPanel processPanel = new JPanel(new BorderLayout());
 
-
         JTable table = new JTable(
-           new Object[][] {
-                   {"Test"},
-                   {"This"}
-           },
-           new String[] {"Processes in queue"}
+                new Object[][] {
+                        { "Test" },
+                        { "This" }
+                },
+                new String[] { "Processes in queue" }
         );
 
         table.setPreferredSize(new Dimension(50, 200));
@@ -57,13 +55,13 @@ public class ProcessViewCreator {
         return processPanel;
     }
 
-    private JPanel processDetailedInfoPanel(){
+    private JPanel processDetailedInfoPanel() {
         JPanel infoPanel = new JPanel();
         infoPanel.setBackground(Color.RED);
         return infoPanel;
     }
 
-    private JPanel serverInfoPanel(){
+    private JPanel serverInfoPanel() {
         JPanel serverPanel = new JPanel();
         serverPanel.setBackground(Color.BLUE);
         return serverPanel;

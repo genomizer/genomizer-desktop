@@ -75,8 +75,7 @@ public class ComponentTitledBorder implements Border, MouseListener,
                     me.getModifiers(), pt.x, pt.y, me.getClickCount(), me
                     .isPopupTrigger(), me.getButton()
             ));
-            if (!comp.isValid())
-                container.repaint();
+            if (!comp.isValid()) container.repaint();
         }
     }
 

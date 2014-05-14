@@ -18,6 +18,7 @@ public class AnnotationsViewCreator {
     private static final long serialVersionUID = 3718367832670081148L;
     private TableRowSorter<TableModel> rowSorter;
     private SysadminAnnotationPopup    pop;
+    private EditAnnotationPopup        editPopup;
     private JButton                    addButton;
     private JButton                    modifyButton;
     private JButton                    removeButton;
@@ -76,8 +77,6 @@ public class AnnotationsViewCreator {
         addButton = new JButton(SysStrings.ANNOTATIONS_ADD);
         removeButton = new JButton(SysStrings.ANNOTATIONS_DELETE);
         buttonPanel.add(modifyButton);
-        modifyButton.setEnabled(
-                false);        //Remove this when modify is implemented
         buttonPanel.add(addButton);
         buttonPanel.add(removeButton);
     }
@@ -124,14 +123,14 @@ public class AnnotationsViewCreator {
         this.rowSorter = rowSorter;
 
         JScrollPane scroll = new JScrollPane(table);
-        //scroll.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
-        //table.setPreferredSize(scroll.getSize());
+        // scroll.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
+        // table.setPreferredSize(scroll.getSize());
         JTableHeader header = table.getTableHeader();
 
         JPanel panel = new JPanel(new BorderLayout());
-        //panel.add(header, BorderLayout.NORTH);
+        // panel.add(header, BorderLayout.NORTH);
         panel.add(scroll, BorderLayout.CENTER);
-        //panel.add(table);
+        // panel.add(table);
         table.setSelectionMode(DefaultListSelectionModel.SINGLE_SELECTION);
         table.setRowSorter(rowSorter);
         return panel;
@@ -168,6 +167,21 @@ public class AnnotationsViewCreator {
         popupFrame.setVisible(true);
     }
 
+    public void editPopup(ActionListener editPopupListener) {
+        System.out.println("Skapar editAnnotationPopup...");
+        editPopup = new EditAnnotationPopup(table);
+        editPopup.setBackground(Color.WHITE);
+
+        JFrame popupFrame = new JFrame("Edit annotation");
+        popupFrame.setLayout(new BorderLayout());
+        popupFrame.add(editPopup, BorderLayout.CENTER);
+        popupFrame.pack();
+        popupFrame.setLocationRelativeTo(null);
+        popupFrame.setSize(new Dimension(600, 600));
+        popupFrame.setVisible(true);
+
+    }
+
     public JTable getTable() {
         return table;
     }
@@ -184,6 +198,10 @@ public class AnnotationsViewCreator {
 
     public SysadminAnnotationPopup getPop() {
         return pop;
+    }
+
+    public EditAnnotationPopup getEditPopup() {
+        return editPopup;
     }
 
     public TableModel getTableModel() {

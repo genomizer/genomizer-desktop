@@ -10,12 +10,12 @@ public class ProcessesQueueItem {
     private String toFile;
     private String status;
     private String convertType;
-    private long estTimeLeft;
+    private long   estTimeLeft;
 
     private int queuePriority;
     private int processPriority;
 
-    public ProcessesQueueItem(){
+    public ProcessesQueueItem() {
         user = "Isak";
         fromFile = "insectFly.WIG";
         toFile = "insectFly.profile";

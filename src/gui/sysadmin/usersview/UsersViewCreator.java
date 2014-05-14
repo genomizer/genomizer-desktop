@@ -1,12 +1,13 @@
 package gui.sysadmin.usersview;
 
-
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Dimension;
 
 import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.ListSelectionModel;
 
 public class UsersViewCreator {
 
@@ -24,13 +25,28 @@ public class UsersViewCreator {
 
     private JScrollPane buildUsersList() {
 
-        JScrollPane scrollPane = new JScrollPane();
-        String testme = "HEKJHFRKJEKJ";
-        JList usersList = new JList();
+        ;
 
-        scrollPane.add(usersList);
+        Object[] testers = { "Eric Cartman", "Kyle Broflovski",
+                "Kenny McCormick", "Stan Marsh", "Butters Stotch" };
+
+        String testme = "HEKJHFRKJEKJ";
+        JList usersList = new JList(testers);
+        usersList
+                .setSelectionMode(ListSelectionModel.SINGLE_INTERVAL_SELECTION);
+        usersList.setLayoutOrientation(JList.VERTICAL);
+        usersList.setName("Eric Cartman");
+
+        JScrollPane scrollPane = new JScrollPane(usersList);
+        scrollPane.setPreferredSize(new Dimension(250, 80));
 
         return scrollPane;
+    }
+
+    private JPanel buildSearchBar() {
+
+        JPanel searchPanel = new JPanel();
+        return searchPanel;
     }
 
 }

@@ -2,31 +2,18 @@ package gui.sysadmin.annotationview;
 
 import gui.sysadmin.strings.SysStrings;
 
-import java.awt.BorderLayout;
-import java.awt.Component;
-import java.awt.Dimension;
-import java.awt.GridLayout;
+import javax.swing.*;
+
+import util.AnnotationDataType;
+
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.net.URL;
 import java.util.ArrayList;
 
-import javax.swing.BorderFactory;
-import javax.swing.ButtonModel;
-import javax.swing.ImageIcon;
-import javax.swing.JButton;
-import javax.swing.JCheckBox;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.JScrollPane;
-import javax.swing.JTabbedPane;
-import javax.swing.JTextField;
-import javax.swing.ScrollPaneConstants;
-import javax.swing.SwingUtilities;
-
-public class SysadminAnnotationPopup extends JPanel {
+public class EditAnnotationPopup extends JPanel {
 
     private static final long serialVersionUID = -626744436260839622L;
     private JPanel  addCategoriesPanel;
@@ -35,9 +22,14 @@ public class SysadminAnnotationPopup extends JPanel {
     private JTextField  nameField;
     private ArrayList<String> categories = new ArrayList<String>();
     private boolean           forced     = false;
-    private JCheckBox forcedBox;
+    private JCheckBox          forcedBox;
+    private JTable             table;
+    private AnnotationDataType annotation;
 
-    public SysadminAnnotationPopup() {
+    public EditAnnotationPopup(JTable table) {
+        this.table = table;
+        setAnnotation();
+
         this.setLayout(new BorderLayout());
         JTabbedPane optionsPane = new JTabbedPane();
         nameField = new JTextField();
@@ -54,7 +46,8 @@ public class SysadminAnnotationPopup extends JPanel {
         JPanel topPanelInSecondTab = new JPanel();
 
         JLabel name = new JLabel("Name:");
-        JTextField nameField2 = new JTextField(nameField.getDocument(), "", 0);
+        JTextField nameField2 = new JTextField(nameField.getDocument(),
+                annotation.getName(), 0);
         nameField2.setPreferredSize(new Dimension(250, 30));
         topPanelInSecondTab.add(name);
         topPanelInSecondTab.add(nameField2);
@@ -180,10 +173,23 @@ public class SysadminAnnotationPopup extends JPanel {
         categoryPanel.add(removeButton);
     }
 
+    private void setAnnotation() {
+        if (table.getSelectedRow() != -1) {
+            int row = table.getSelectedRow();
+            row = table.convertRowIndexToModel(row);
+            int col = 3;
+            annotation = (AnnotationDataType) table.getModel().getValueAt(row,
+                    col);
+        } else {
+            System.out.println("You must select an annotation to edit");
+        }
+    }
+
     private JPanel buildBotPanelInFirstTab() {
         JPanel botPanelInFirstTab = new JPanel();
         JLabel forced = new JLabel("Forced Annotation:");
         forcedBox = new JCheckBox("Yes");
+        forcedBox.setSelected(annotation.getForced());
         forcedBox.addActionListener(new ActionListener() {
 
             @Override
@@ -225,7 +231,7 @@ public class SysadminAnnotationPopup extends JPanel {
 
     private JPanel buildTopPanelInFirstTab() {
         JPanel topPanelInFirstTab = new JPanel(new BorderLayout());
-        JLabel name = new JLabel("Annotation name:");
+        JLabel name = new JLabel("Name:");
 
         // nameField = new JTextField();
         nameField.setPreferredSize(new Dimension(250, 30));
@@ -304,9 +310,6 @@ public class SysadminAnnotationPopup extends JPanel {
 
         // TODO: make a model for popup? this should not be in a pure view
         // class.
-
-        // TODO: check if the typing field is empty:
-
         synchronized (categories) {
 
             if (categories.isEmpty()) {

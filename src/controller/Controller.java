@@ -121,8 +121,8 @@ public class Controller {
                     System.out.println("Parameter 4: " + parameters[3]);
 
                     isConverted = model.rawToProfile(fileName, fileID, expid,
-                            "rawtoprofile", parameters,
-                            metadata, genomeRelease, author);
+                            "rawtoprofile", parameters, metadata,
+                            genomeRelease, author);
 
                     if (isConverted.equals(true)) {
                         message = "The server has converted: " + fileName
@@ -228,8 +228,12 @@ public class Controller {
             if (searchResults != null) {
                 view.updateQuerySearchResults(searchResults);
             } else {
-                /*searchResults = new ArrayList<ExperimentData>(Arrays.asList(ExperimentData.getExample()));
-                 view.updateQuerySearchResults(searchResults);*/
+                /*
+                 * searchResults = new
+                 * ArrayList<ExperimentData>(Arrays.asList(ExperimentData
+                 * .getExample()));
+                 * view.updateQuerySearchResults(searchResults);
+                 */
                 JOptionPane.showMessageDialog(null, "No search results!",
                         "Search Warning", JOptionPane.WARNING_MESSAGE);
             }
@@ -262,9 +266,9 @@ public class Controller {
 
         @Override
         public void run() {
-            //			if (model.uploadFile()) {
-            //				 update view?
-            //			}
+            // if (model.uploadFile()) {
+            // update view?
+            // }
 
         }
     }
@@ -312,16 +316,16 @@ public class Controller {
             ArrayList<FileData> fileData = downloadWindow.getFiles();
             /*
              * >>>>>>> branch 'dev' of
-			 * https://github.com/genomizer/genomizer-desktop.git FileDialog
-			 * fileDialog = new FileDialog((java.awt.Frame) null,
-			 * "Choose a directory", FileDialog.SAVE);
-			 * fileDialog.setVisible(true); String directoryName =
-			 * fileDialog.getDirectory(); System.out.println("You chose " +
-			 * directoryName);
-			 *
-			 * if (fileData == null) {
-			 * System.err.println("No directory selected"); return; }
-			 */
+             * https://github.com/genomizer/genomizer-desktop.git FileDialog
+             * fileDialog = new FileDialog((java.awt.Frame) null,
+             * "Choose a directory", FileDialog.SAVE);
+             * fileDialog.setVisible(true); String directoryName =
+             * fileDialog.getDirectory(); System.out.println("You chose " +
+             * directoryName);
+             * 
+             * if (fileData == null) {
+             * System.err.println("No directory selected"); return; }
+             */
             fileChooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
             int ret = fileChooser.showOpenDialog(new JPanel());
             String directoryName;
@@ -405,15 +409,15 @@ public class Controller {
             AnnotationDataValue[] annotations = view.getUploadAnnotations();
             File[] files = view.getFilesToUpload();
             HashMap<String, String> types = view.getFilesToUploadTypes();
-            //Should be genome release from uploadTab
+            // Should be genome release from uploadTab
             String release = "rn5";
-            //Test purpose
+            // Test purpose
             for (AnnotationDataValue a : annotations) {
                 System.out.println(a.getName() + " " + a.getValue());
             }
-            //TODO: ändra till existerande experiment!
-            boolean created = model
-                    .addNewExperiment(expName, view.getUsername(), annotations);
+            // TODO: ändra till existerande experiment!
+            boolean created = model.addNewExperiment(expName,
+                    view.getUsername(), annotations);
             System.out.println(created);
             if (created) {
                 for (File f : files) {
@@ -510,15 +514,14 @@ public class Controller {
             if (files != null && files.length > 0 && annotations != null
                     && expName != null) {
                 HashMap<String, String> types = view.getFilesToUploadTypes();
-                //Should be genome release from uploadTab
+                // Should be genome release from uploadTab
                 String release = "rn5";
-                //Test purpose
+                // Test purpose
                 for (AnnotationDataValue a : annotations) {
                     System.out.println(a.getName() + " " + a.getValue());
                 }
-                boolean created = model
-                        .addNewExperiment(expName, view.getUsername(),
-                                annotations);
+                boolean created = model.addNewExperiment(expName,
+                        view.getUsername(), annotations);
                 System.out.println(created);
                 if (created) {
                     for (File f : files) {

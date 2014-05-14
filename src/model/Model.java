@@ -51,9 +51,8 @@ public class Model implements GenomizerModel {
             String genomeRelease, String author) {
 
         rawToProfileRequest rawToProfilerequest = RequestFactory
-                .makeRawToProfileRequest(fileName, fileID, expid,
-                        processtype, parameters, metadata,
-                        genomeRelease, author);
+                .makeRawToProfileRequest(fileName, fileID, expid, processtype,
+                        parameters, metadata, genomeRelease, author);
 
         conn.sendRequest(rawToProfilerequest, userID, "application/json");
         if (conn.getResponseCode() == 201) {
@@ -97,8 +96,7 @@ public class Model implements GenomizerModel {
 
     @Override
     public boolean uploadFile(String expName, File f, String type,
-            String username,
-            boolean isPrivate, String release) {
+            String username, boolean isPrivate, String release) {
         AddFileToExperiment request = RequestFactory.makeAddFile(expName,
                 f.getName(), type, "metameta", username, username, isPrivate,
                 release);
@@ -108,7 +106,8 @@ public class Model implements GenomizerModel {
         if (conn.getResponseCode() == 200) {
             url = conn.getResponseBody();
         }
-        //	    AddFileToExperimentResponse aFTER =  ResponseParser.parseUploadResponse(conn.getResponseBody());
+        // AddFileToExperimentResponse aFTER =
+        // ResponseParser.parseUploadResponse(conn.getResponseBody());
         UploadHandler handler = new UploadHandler(url, f.getAbsolutePath(),
                 userID, "pvt:pvt");
         Thread thread = new Thread(handler);
@@ -119,7 +118,7 @@ public class Model implements GenomizerModel {
 
     @Override
     public boolean downloadFile(String url, String fileID, String path) {
-        //Use this until search works on the server
+        // Use this until search works on the server
         DownloadFileRequest request = RequestFactory.makeDownloadFileRequest(
                 fileID, ".wig");
 
@@ -223,7 +222,7 @@ public class Model implements GenomizerModel {
             AnnotationDataType[] annotations = ResponseParser
                     .parseGetAnnotationResponse(conn.getResponseBody());
             for (int i = 0; i < annotations.length; i++) {
-                //System.out.println(annotations[i].name);
+                // System.out.println(annotations[i].name);
             }
             return annotations;
         } else {

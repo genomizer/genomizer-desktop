@@ -14,8 +14,8 @@ public interface GenomizerModel {
 
     public boolean logoutUser();
 
-    public boolean uploadFile(String ID, File f, String type,
-            String username, boolean isPrivate, String release);
+    public boolean uploadFile(String ID, File f, String type, String username,
+            boolean isPrivate, String release);
 
     public ArrayList<ExperimentData> search(String pubmedString);
 

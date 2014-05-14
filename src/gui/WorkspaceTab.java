@@ -18,22 +18,29 @@ public class WorkspaceTab extends JPanel {
     private JButton deleteButton, removeButton, downloadButton;
     private JButton analyzeButton, browseButton, processButton;
     private ImageIcon analyseIcon          = new ImageIcon(
-            getClass().getResource(
-                    "/icons/AnalyzeSelectedButton.png")
+            getClass()
+                    .getResource(
+                            "/icons/AnalyzeSelectedButton.png")
     );
     private ImageIcon browseIcon           = new ImageIcon(
-            getClass().getResource(
-                    "/icons/BrowseLocalFilesButton.png")
+            getClass()
+                    .getResource(
+                            "/icons/BrowseLocalFilesButton.png")
     );
     private ImageIcon deleteIcon           = new ImageIcon(
-            getClass().getResource(
-                    "/icons/DeleteSelectedButton.png")
+            getClass()
+                    .getResource(
+                            "/icons/DeleteSelectedButton.png")
     );
-    private ImageIcon downloadSelectedIcon = new ImageIcon(getClass()
-            .getResource("/icons/DownloadSelectedButton.png"));
+    private ImageIcon downloadSelectedIcon = new ImageIcon(
+            getClass()
+                    .getResource(
+                            "/icons/DownloadSelectedButton.png")
+    );
     private ImageIcon removeFromDBIcon     = new ImageIcon(
-            getClass().getResource(
-                    "/icons/RemoveFromDatabaseButton.png")
+            getClass()
+                    .getResource(
+                            "/icons/RemoveFromDatabaseButton.png")
     );
     private GridBagConstraints gbc;
 
@@ -87,47 +94,49 @@ public class WorkspaceTab extends JPanel {
 
         gbc.gridx = 0;
         gbc.gridy = 0;
-        //	deleteIcon = new ImageIcon(deleteIcon.getImage().getScaledInstance(175,
-        //		30, Image.SCALE_SMOOTH));
-        //	deleteButton.setBorderPainted(true);
-        //	deleteButton.setContentAreaFilled(false);
-        //	deleteButton.setIcon(deleteIcon);
+        // deleteIcon = new
+        // ImageIcon(deleteIcon.getImage().getScaledInstance(175,
+        // 30, Image.SCALE_SMOOTH));
+        // deleteButton.setBorderPainted(true);
+        // deleteButton.setContentAreaFilled(false);
+        // deleteButton.setIcon(deleteIcon);
         buttonPanel.add(deleteButton, gbc);
 
         gbc.gridx = 1;
         gbc.gridy = 0;
-        //	removeFromDBIcon = new ImageIcon(removeFromDBIcon.getImage()
-        //		.getScaledInstance(175, 30, Image.SCALE_SMOOTH));
-        //	removeButton.setBorderPainted(true);
-        //	removeButton.setContentAreaFilled(false);
-        //	removeButton.setIcon(removeFromDBIcon);
+        // removeFromDBIcon = new ImageIcon(removeFromDBIcon.getImage()
+        // .getScaledInstance(175, 30, Image.SCALE_SMOOTH));
+        // removeButton.setBorderPainted(true);
+        // removeButton.setContentAreaFilled(false);
+        // removeButton.setIcon(removeFromDBIcon);
         buttonPanel.add(removeButton, gbc);
 
         gbc.gridx = 2;
         gbc.gridy = 0;
-        //	downloadSelectedIcon = new ImageIcon(downloadSelectedIcon.getImage()
-        //		.getScaledInstance(175, 30, Image.SCALE_SMOOTH));
-        //	downloadButton.setBorderPainted(true);
-        //	downloadButton.setContentAreaFilled(false);
-        //	downloadButton.setIcon(downloadSelectedIcon);
+        // downloadSelectedIcon = new ImageIcon(downloadSelectedIcon.getImage()
+        // .getScaledInstance(175, 30, Image.SCALE_SMOOTH));
+        // downloadButton.setBorderPainted(true);
+        // downloadButton.setContentAreaFilled(false);
+        // downloadButton.setIcon(downloadSelectedIcon);
         buttonPanel.add(downloadButton, gbc);
 
         gbc.gridx = 3;
         gbc.gridy = 0;
-        //	analyseIcon = new ImageIcon(analyseIcon.getImage().getScaledInstance(
-        //		175, 30, Image.SCALE_SMOOTH));
-        //	analyzeButton.setBorderPainted(true);
-        //	analyzeButton.setContentAreaFilled(false);
-        //	analyzeButton.setIcon(analyseIcon);
+        // analyseIcon = new ImageIcon(analyseIcon.getImage().getScaledInstance(
+        // 175, 30, Image.SCALE_SMOOTH));
+        // analyzeButton.setBorderPainted(true);
+        // analyzeButton.setContentAreaFilled(false);
+        // analyzeButton.setIcon(analyseIcon);
         buttonPanel.add(analyzeButton, gbc);
 
         gbc.gridx = 4;
         gbc.gridy = 0;
-        //	browseIcon = new ImageIcon(browseIcon.getImage().getScaledInstance(175,
-        //		30, Image.SCALE_SMOOTH));
-        //	browseButton.setBorderPainted(true);
-        //	browseButton.setContentAreaFilled(false);
-        //	browseButton.setIcon(browseIcon);
+        // browseIcon = new
+        // ImageIcon(browseIcon.getImage().getScaledInstance(175,
+        // 30, Image.SCALE_SMOOTH));
+        // browseButton.setBorderPainted(true);
+        // browseButton.setContentAreaFilled(false);
+        // browseButton.setIcon(browseIcon);
         buttonPanel.add(browseButton, gbc);
 
         gbc.gridx = 5;

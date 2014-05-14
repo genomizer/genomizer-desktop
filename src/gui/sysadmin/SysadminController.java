@@ -3,6 +3,7 @@ package gui.sysadmin;
 import gui.sysadmin.annotationview.AnnotationButtonsListener;
 import gui.sysadmin.annotationview.AnnotationPopupListener;
 import gui.sysadmin.annotationview.AnnotationTableModel;
+import gui.sysadmin.annotationview.EditAnnotationPopupListener;
 import gui.sysadmin.annotationview.SysadminAnnotationPopup;
 import model.GenomizerModel;
 import util.AnnotationDataType;
@@ -34,6 +35,10 @@ public class SysadminController extends Observable {
 
     public ActionListener createAnnotationPopupListener() {
         return new AnnotationPopupListener(sysTab);
+    }
+
+    public ActionListener editAnnotationPopupListener() {
+        return new EditAnnotationPopupListener(sysTab);
     }
 
     /* You need me */
