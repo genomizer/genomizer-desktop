@@ -2,7 +2,6 @@ package requests;
 
 /**
  * Created by worfox on 2014-04-25.
- * 
  */
 
 public class AddFileToExperiment extends Request {
@@ -14,7 +13,7 @@ public class AddFileToExperiment extends Request {
     public String uploader;
     public boolean isPrivate;
     public String grVersion;
-    
+
     public AddFileToExperiment(String experimentId, String fileName,
             String type, String metaData, String author, String uploader,
             boolean isPrivate, String grVersion) {
@@ -28,5 +27,5 @@ public class AddFileToExperiment extends Request {
         this.isPrivate = isPrivate;
         this.grVersion = grVersion;
     }
-    
+
 }

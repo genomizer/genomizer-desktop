@@ -1,27 +1,28 @@
 package gui.sysadmin;
 
-import javax.swing.JTabbedPane;
+import javax.swing.*;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
 public class SysadminSideTabsListener implements ChangeListener {
-    
+
     private JTabbedPane sysadminTabPane;
     private SysadminTab sysTab;
-    
+
     public SysadminSideTabsListener(JTabbedPane sysadminTabPane,
             SysadminTab sysTab) {
-        
+
         this.sysadminTabPane = sysadminTabPane;
         this.sysTab = sysTab;
         sysadminTabPane.addChangeListener(this);
-        
+
     }
-    
+
     @Override
     public void stateChanged(ChangeEvent e) {
-        
-        switch (sysadminTabPane.getTitleAt(sysadminTabPane.getSelectedIndex())) {
+
+        switch (sysadminTabPane
+                .getTitleAt(sysadminTabPane.getSelectedIndex())) {
             case ButtonNames.ANNOTATIONS:
                 System.out.println("something");
                 break;
@@ -31,7 +32,7 @@ public class SysadminSideTabsListener implements ChangeListener {
             case ButtonNames.TEST:
                 break;
         }
-        
+
     }
-    
+
 }

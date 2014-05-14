@@ -446,7 +446,7 @@ public class GUI extends JFrame implements GenomizerView {
     
     @Override
     public String getNewExpName() {
-        return uploadTab.getNewExpName();
+        return uploadTab.getNewExpID();
     }
     
     @Override
