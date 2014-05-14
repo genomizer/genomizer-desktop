@@ -4,37 +4,36 @@ import util.AnnotationDataType;
 import util.FileDrop;
 
 import javax.swing.*;
-
 import java.awt.*;
 import java.awt.event.ActionListener;
 import java.io.File;
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-public class UploadToExistingExpPanel extends JPanel implements ExperimentPanel {
-    
+public class UploadToExistingExpPanel extends JPanel
+        implements ExperimentPanel {
+
     private JButton selectFilesToUploadButton, uploadFilesToExperimentButton;
     private ArrayList<JComboBox> annotationBoxes;
     private ArrayList<JTextField> annotationFields;
     private AnnotationDataType[] annotations;
     JPanel northPanel, centerPanel, uploadFilesPanel, buttonsPanel, mainPanel;
     private HashMap<File, UploadFileRow> uploadFileRows;
-    
+
     public UploadToExistingExpPanel() {
         selectFilesToUploadButton = new JButton("Select files");
         uploadFilesToExperimentButton = new JButton("Upload to experiment");
         uploadFileRows = new HashMap<File, UploadFileRow>();
-        
+
         mainPanel = new JPanel(new BorderLayout());
         northPanel = new JPanel();
         centerPanel = new JPanel(new BorderLayout());
         uploadFilesPanel = new JPanel(new GridLayout(0, 1));
         buttonsPanel = new JPanel(new FlowLayout());
-        
+
         build();
     }
-    
+
     /**
      * Builds/rebuilds the panel. This is not part of the constructor so it can
      * be called from elsewhere aswell.
@@ -58,10 +57,10 @@ public class UploadToExistingExpPanel extends JPanel implements ExperimentPanel 
                 enableUploadButton(true);
             }
         });
-        
+
         buttonsPanel.add(selectFilesToUploadButton);
         buttonsPanel.add(uploadFilesToExperimentButton);
-        
+
         mainPanel.add(buttonsPanel, BorderLayout.SOUTH);
         uploadFilesToExperimentButton.setEnabled(false);
         add(mainPanel);
@@ -75,6 +74,7 @@ public class UploadToExistingExpPanel extends JPanel implements ExperimentPanel 
      * Creates an uploadFileRow from the provided files. Checks if the files are
      * already in an uploadFileRow so there won't be duplicates. Displays an
      * error message if it was selected and added previously.
+     *
      * @param files The files to make an uploadFileRow out of.
      */
     public void createUploadFileRow(File[] files) {
@@ -85,7 +85,8 @@ public class UploadToExistingExpPanel extends JPanel implements ExperimentPanel 
             } else {
                 JOptionPane.showMessageDialog(this, "File already selected: "
                                 + f.getName() + "", "File error",
-                        JOptionPane.ERROR_MESSAGE);
+                        JOptionPane.ERROR_MESSAGE
+                );
             }
         }
         repaintSelectedFiles();
@@ -94,6 +95,7 @@ public class UploadToExistingExpPanel extends JPanel implements ExperimentPanel 
     /**
      * Deletes an uploadFileRow and calls repaintSelectedFiles() to repaint.
      * If it fails to find the file, an error message is shown to the user.
+     *
      * @param f This is used to identify which uploadFileRow to be deleted.
      */
     public void deleteFileRow(File f) {
@@ -110,6 +112,7 @@ public class UploadToExistingExpPanel extends JPanel implements ExperimentPanel 
 
     /**
      * Adds a listener for the "Select files" button.
+     *
      * @param listener The listener to be added.
      */
     public void addSelectFilesToUploadButtonListener(ActionListener listener) {
@@ -118,6 +121,7 @@ public class UploadToExistingExpPanel extends JPanel implements ExperimentPanel 
 
     /**
      * Adds a listener to the upload button.
+     *
      * @param listener The listener to be added.
      */
     public void addUploadToExperimentButtonListener(ActionListener listener) {
@@ -126,12 +130,13 @@ public class UploadToExistingExpPanel extends JPanel implements ExperimentPanel 
 
     /**
      * Sets the annotations.
+     *
      * @param annotations The annotations to set the panel's annotations to.
      */
     public void setAnnotations(AnnotationDataType[] annotations) {
         this.annotations = annotations;
     }
-    
+
     public void addAnnotationsForExistingExp() throws NullPointerException {
         annotationBoxes = new ArrayList<JComboBox>();
         annotationFields = new ArrayList<JTextField>();
@@ -193,6 +198,7 @@ public class UploadToExistingExpPanel extends JPanel implements ExperimentPanel 
 
     /**
      * Sets the experiment button to either be enabled or disabled.
+     *
      * @param b Whether it should be enabled (true) or disabled (false)
      */
     public void enableUploadButton(boolean b) {
