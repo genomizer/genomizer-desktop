@@ -7,16 +7,16 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class AnnotationButtonsListener implements ActionListener {
-
+    
     private SysadminTab sysTab;
-
+    
     public AnnotationButtonsListener(SysadminTab sysTab) {
         this.sysTab = sysTab;
     }
-
+    
     @Override
     public void actionPerformed(ActionEvent e) {
-
+        
         switch (e.getActionCommand()) {
             case SysStrings.ANNOTATIONS_ADD:
                 System.out.println("add");
@@ -30,8 +30,8 @@ public class AnnotationButtonsListener implements ActionListener {
                 System.out.println("delete");
                 sysTab.deleteAnnotation();
                 break;
-
+        
         }
     }
-
+    
 }

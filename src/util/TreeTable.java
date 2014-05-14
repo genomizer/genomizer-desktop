@@ -21,12 +21,12 @@ import java.util.regex.Pattern;
  * Class the represents a treetable containing experiment and file data
  */
 public class TreeTable extends JPanel {
-
+    
     private JXTreeTable               table;
     private ArrayList<String>         headings;
     private ArrayList<ExperimentData> experiments;
     private ArrayList<Boolean>        sortingOrders;
-
+    
     /**
      * Tree Table empty constructor
      */
@@ -34,18 +34,19 @@ public class TreeTable extends JPanel {
         this.setLayout(new BorderLayout());
         initiateJXTreeTable();
     }
-
+    
     /**
      * Tree Table constructor with input content
-     *
-     * @param experimentData - the tree table content
+     * 
+     * @param experimentData
+     *            - the tree table content
      */
     public TreeTable(ArrayList<ExperimentData> experimentData) {
         this.setLayout(new BorderLayout());
         initiateJXTreeTable();
         setContent(experimentData);
     }
-
+    
     /**
      * Method for initating the JXTreeTable
      */
@@ -54,10 +55,10 @@ public class TreeTable extends JPanel {
         // table.setColumnControlVisible(true);
         table.setShowGrid(true, true);
         table.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
-    /* Reordering of the columns is not allowed in this version */
+        /* Reordering of the columns is not allowed in this version */
         table.getTableHeader().setReorderingAllowed(false);
         table.setColumnMargin(10);
-    /* Add a mouse listener to check for column sorting */
+        /* Add a mouse listener to check for column sorting */
         table.getTableHeader().addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
@@ -71,57 +72,58 @@ public class TreeTable extends JPanel {
             }
         });
         JScrollPane scrollPane = new JScrollPane(table);
-        scrollPane.setHorizontalScrollBarPolicy(
-                JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
-        scrollPane.setVerticalScrollBarPolicy(
-                JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
+        scrollPane
+                .setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+        scrollPane
+                .setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
         add(scrollPane, BorderLayout.CENTER);
     }
-
+    
     /**
      * set new content for the tree table
-     *
-     * @param experimentData - new content
+     * 
+     * @param experimentData
+     *            - new content
      */
     public void setContent(ArrayList<ExperimentData> experimentData) {
-
-	/* Initiate the column sorting orders */
+        
+        /* Initiate the column sorting orders */
         sortingOrders = new ArrayList<Boolean>();
-	/* If the input experiment data is not null or empty */
+        /* If the input experiment data is not null or empty */
         if (experimentData != null && experimentData.size() > 0) {
             experiments = experimentData;
-	    /* Retreive the headings from the experiment data */
+            /* Retreive the headings from the experiment data */
             int nrOfColumns = 2;
             headings = new ArrayList<String>();
             headings.add("Experiment Name");
             headings.add("Experiment Created By");
             for (int i = 0; i < experiments.size(); i++) {
-                for (AnnotationDataValue annotation : experiments
-                        .get(i).annotations) {
+                for (AnnotationDataValue annotation : experiments.get(i).annotations) {
                     if (!headings.contains(annotation.name)) {
                         headings.add(annotation.name);
                         nrOfColumns++;
                     }
                 }
             }
-	    /* Initate the sorting orders as descending */
+            /* Initate the sorting orders as descending */
             for (int i = 0; i < nrOfColumns; i++) {
                 sortingOrders.add(i, true);
             }
-
+            
         }
-	/* Create the tree structure */
+        /* Create the tree structure */
         createTreeStructure();
     }
-
+    
     /**
      * Sort the treetable data by column index
-     *
-     * @param sortByColumn - column index
+     * 
+     * @param sortByColumn
+     *            - column index
      */
     private void sortData(final int sortByColumn) {
-
-	/* update the sorting orders for the columns */
+        
+        /* update the sorting orders for the columns */
         for (int i = 0; i < sortingOrders.size(); i++) {
             if (i == sortByColumn) {
                 sortingOrders.set(i, !sortingOrders.get(i));
@@ -129,7 +131,7 @@ public class TreeTable extends JPanel {
                 sortingOrders.set(i, true);
             }
         }
-
+        
         Collections.sort(experiments, new Comparator<ExperimentData>() {
             public int compare(ExperimentData a, ExperimentData b) {
                 final Pattern PATTERN = Pattern.compile("(\\D*)(\\d*)");
@@ -139,26 +141,30 @@ public class TreeTable extends JPanel {
                         || sortByColumn > entry2.size() - 1) {
                     return 1;
                 }
-                /*if((entry1.get(sortByColumn) == null || entry1.get(sortByColumn).equals("")) &&
-                        (entry2.get(sortByColumn) == null || entry2.get(sortByColumn).equals(""))) {
-                    return 0;
-                } else if((entry1.get(sortByColumn) == null || entry1.get(sortByColumn).equals("")) &&
-                        !(entry2.get(sortByColumn) == null || entry2.get(sortByColumn).equals(""))) {
-                    return -1;
-                } else if(!(entry1.get(sortByColumn) == null || entry1.get(sortByColumn).equals("")) &&
-                        (entry2.get(sortByColumn) == null || entry2.get(sortByColumn).equals(""))) {
-                    return 1;
-                }*/
-                Matcher m1 = PATTERN
-                        .matcher(entry1.get(sortByColumn).toLowerCase());
-                Matcher m2 = PATTERN
-                        .matcher(entry2.get(sortByColumn).toLowerCase());
-		/* The only way find() could fail is at the end of a string */
+                /*
+                 * if((entry1.get(sortByColumn) == null ||
+                 * entry1.get(sortByColumn).equals("")) &&
+                 * (entry2.get(sortByColumn) == null ||
+                 * entry2.get(sortByColumn).equals(""))) { return 0; } else
+                 * if((entry1.get(sortByColumn) == null ||
+                 * entry1.get(sortByColumn).equals("")) &&
+                 * !(entry2.get(sortByColumn) == null ||
+                 * entry2.get(sortByColumn).equals(""))) { return -1; } else
+                 * if(!(entry1.get(sortByColumn) == null ||
+                 * entry1.get(sortByColumn).equals("")) &&
+                 * (entry2.get(sortByColumn) == null ||
+                 * entry2.get(sortByColumn).equals(""))) { return 1; }
+                 */
+                Matcher m1 = PATTERN.matcher(entry1.get(sortByColumn)
+                        .toLowerCase());
+                Matcher m2 = PATTERN.matcher(entry2.get(sortByColumn)
+                        .toLowerCase());
+                /* The only way find() could fail is at the end of a string */
                 while (m1.find() && m2.find()) {
-		    /*
-		     * matcher.group(1) fetches any non-digits captured by the
-		     * first parentheses in PATTERN.
-		     */
+                    /*
+                     * matcher.group(1) fetches any non-digits captured by the
+                     * first parentheses in PATTERN.
+                     */
                     int nonDigitCompare;
                     if (sortingOrders.get(sortByColumn)) {
                         nonDigitCompare = m2.group(1).compareTo(m1.group(1));
@@ -168,17 +174,17 @@ public class TreeTable extends JPanel {
                     if (0 != nonDigitCompare) {
                         return nonDigitCompare;
                     }
-
-		    /*
-		     * matcher.group(2) fetches any digits captured by the
-		     * second parentheses in PATTERN.
-		     */
+                    
+                    /*
+                     * matcher.group(2) fetches any digits captured by the
+                     * second parentheses in PATTERN.
+                     */
                     if (m1.group(2).isEmpty()) {
                         return m2.group(2).isEmpty() ? 0 : -1;
                     } else if (m2.group(2).isEmpty()) {
                         return +1;
                     }
-
+                    
                     BigInteger n1 = new BigInteger(m1.group(2));
                     BigInteger n2 = new BigInteger(m2.group(2));
                     int numberCompare;
@@ -191,47 +197,46 @@ public class TreeTable extends JPanel {
                         return numberCompare;
                     }
                 }
-
-		/*
-		 * Handle if one string is a prefix of the other. Nothing comes
-		 * before something.
-		 */
+                
+                /*
+                 * Handle if one string is a prefix of the other. Nothing comes
+                 * before something.
+                 */
                 return m1.hitEnd() && m2.hitEnd() ? 0 : m1.hitEnd() ? -1 : +1;
             }
-
+            
         });
-
+        
     }
-
+    
     /**
      * Return the selected data in the tree table
-     *
+     * 
      * @return
      */
     public ArrayList<ExperimentData> getSelectedData() {
-	/* Get the data that are selected in the table */
+        /* Get the data that are selected in the table */
         int[] rows = table.getSelectedRows();
         ArrayList<ExperimentData> selectedExperiments = new ArrayList<ExperimentData>();
-	/* For each selected row */
+        /* For each selected row */
         for (int i = 0; i < rows.length; i++) {
-	    /* Get the node of the selected row */
+            /* Get the node of the selected row */
             TreePath path = table.getPathForRow(rows[i]);
             Object nodeObject = path.getLastPathComponent();
-	    /* Check type of node */
+            /* Check type of node */
             if (nodeObject instanceof ExperimentNode) {
-		/* If experiment node */
+                /* If experiment node */
                 ExperimentNode expNode = (ExperimentNode) nodeObject;
                 ExperimentData exp = expNode.getExperiment();
                 ExperimentData newExp = new ExperimentData(exp.name,
                         exp.createdBy, (ArrayList<FileData>) exp.files.clone(),
                         (ArrayList<AnnotationDataValue>) exp.annotations
-                                .clone()
-                );
+                                .clone());
                 if (!selectedExperiments.contains(exp)) {
                     selectedExperiments.add(newExp);
                 }
             } else if (nodeObject instanceof FileNode) {
-		/* If file node */
+                /* If file node */
                 FileNode fileNode = (FileNode) nodeObject;
                 ArrayList<FileData> newFile = new ArrayList<FileData>();
                 newFile.add(fileNode.getFile());
@@ -247,17 +252,16 @@ public class TreeTable extends JPanel {
                         }
                     } else {
                         ExperimentData exp = new ExperimentData(tempExp.name,
-                                tempExp.createdBy, newFile,
-                                tempExp.annotations);
+                                tempExp.createdBy, newFile, tempExp.annotations);
                         selectedExperiments.add(exp);
                     }
-
+                    
                 }
             } else {
-		/*
-		 * If support node (file headings node or raw/region/profile
-		 * node
-		 */
+                /*
+                 * If support node (file headings node or raw/region/profile
+                 * node
+                 */
                 SupportNode node = (SupportNode) nodeObject;
                 ArrayList<FileData> newFiles = new ArrayList<FileData>();
                 for (int j = 0; j < node.getChildCount(); j++) {
@@ -288,8 +292,7 @@ public class TreeTable extends JPanel {
                                 tempExp.createdBy,
                                 newFiles,
                                 (ArrayList<AnnotationDataValue>) tempExp.annotations
-                                        .clone()
-                        );
+                                        .clone());
                         selectedExperiments.add(exp);
                     }
                 }
@@ -297,7 +300,7 @@ public class TreeTable extends JPanel {
         }
         return selectedExperiments;
     }
-
+    
     /**
      * remove the currently selected files
      */
@@ -327,37 +330,36 @@ public class TreeTable extends JPanel {
         }
         this.setContent(experiments);
     }
-
+    
     public ArrayList<ExperimentData> getContent() {
         return experiments;
     }
-
+    
     /**
      * Create the tree structure of the tree table
      */
     private void createTreeStructure() {
-	/* Create the tree root */
+        /* Create the tree root */
         SupportNode root = new SupportNode(new Object[] { "Root" });
-
+        
         try {
             for (ExperimentData experiment : experiments) {
-	            /* Create experiment node and add to root */
+                /* Create experiment node and add to root */
                 ExperimentNode experimentNode = new ExperimentNode(experiment,
                         headings);
                 root.add(experimentNode);
             }
             /* Create the model and add it to the table */
-            DefaultTreeTableModel model = new DefaultTreeTableModel(root,
-                    Arrays.asList(
-                            headings.toArray(new String[headings.size()]))
-            );
+            DefaultTreeTableModel model = new DefaultTreeTableModel(
+                    root,
+                    Arrays.asList(headings.toArray(new String[headings.size()])));
             table.setTreeTableModel(model);
             table.packAll();
             repaint();
             revalidate();
-
+            
         } catch (NullPointerException e) {
-
+            
         }
     }
 }

@@ -13,29 +13,29 @@ import org.junit.Before;
 import org.junit.Test;
 
 public class GUITest {
-
-	private GUI gui;
-
-	@Before
-	public void setUp() throws Exception {
-		gui = new GUI();
-	}
-
-	@Test
-	public void testConstructor() {
-		assertNotNull(gui);
-		assertNotNull(gui.getFrame());
-	}
-
-	@Test
-	public void shouldImplementGenomizerView() {
-		assertTrue(gui instanceof GenomizerView);
-	}
-
-	@Test
-	public void shouldSetSearchPanel() {
-		JPanel oldPanel = gui.getSearchPanel();
-		gui.setSearchTab(new SearchTab());
-		assertFalse(oldPanel.equals(gui.getSearchPanel()));
-	}
+    
+    private GUI gui;
+    
+    @Before
+    public void setUp() throws Exception {
+        gui = new GUI();
+    }
+    
+    @Test
+    public void testConstructor() {
+        assertNotNull(gui);
+        assertNotNull(gui.getFrame());
+    }
+    
+    @Test
+    public void shouldImplementGenomizerView() {
+        assertTrue(gui instanceof GenomizerView);
+    }
+    
+    @Test
+    public void shouldSetSearchPanel() {
+        JPanel oldPanel = gui.getSearchPanel();
+        gui.setSearchTab(new SearchTab());
+        assertFalse(oldPanel.equals(gui.getSearchPanel()));
+    }
 }
