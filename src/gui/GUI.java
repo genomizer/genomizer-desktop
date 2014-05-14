@@ -2,17 +2,24 @@ package gui;
 
 import gui.sysadmin.SysadminController;
 import gui.sysadmin.SysadminTab;
-import util.AnnotationDataType;
-import util.AnnotationDataValue;
-import util.ExperimentData;
-import util.FileData;
 
-import javax.swing.*;
-import java.awt.*;
+import java.awt.BorderLayout;
 import java.awt.event.ActionListener;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
+
+import javax.swing.JFrame;
+import javax.swing.JList;
+import javax.swing.JPanel;
+import javax.swing.JTabbedPane;
+import javax.swing.UIManager;
+import javax.swing.UnsupportedLookAndFeelException;
+
+import util.AnnotationDataType;
+import util.AnnotationDataValue;
+import util.ExperimentData;
+import util.FileData;
 
 public class GUI extends JFrame implements GenomizerView {
 
@@ -22,15 +29,15 @@ public class GUI extends JFrame implements GenomizerView {
     private JTabbedPane tabbedPane;
     private SearchTab searchTab;
     // private LoginPanel loginPanel;
-    private UserPanel userPanel;
-    private UploadTab uploadTab;
-    private AnalyzeTab analyzeTab;
-    private WorkspaceTab workspaceTab;
-    private LoginWindow loginWindow;
-    private ProcessTab processTab;
-    private SysadminTab sysadminTab;
-    private QuerySearchTab querySearchTab;
-    private DownloadWindow downloadWindow;
+    private UserPanel         userPanel;
+    private UploadTab         uploadTab;
+    private AnalyzeTab        analyzeTab;
+    private WorkspaceTab      workspaceTab;
+    private LoginWindow       loginWindow;
+    private ProcessTab        processTab;
+    private SysadminTab       sysadminTab;
+    private QuerySearchTab    querySearchTab;
+    private DownloadWindow    downloadWindow;
 
     public GUI() {
 
@@ -261,8 +268,7 @@ public class GUI extends JFrame implements GenomizerView {
     }
 
     @Override
-    public void updateQuerySearchResults(
-            ArrayList<ExperimentData> searchResults) {
+    public void updateQuerySearchResults(ArrayList<ExperimentData> searchResults) {
         querySearchTab.updateSearchResults(searchResults);
     }
 
@@ -438,7 +444,7 @@ public class GUI extends JFrame implements GenomizerView {
 
     @Override
     public String getNewExpName() {
-        return uploadTab.getNewExpName();
+        return uploadTab.getNewExpID();
     }
 
     @Override
