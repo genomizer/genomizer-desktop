@@ -259,6 +259,11 @@ public class UploadTab extends JPanel implements ExperimentPanel {
                 revalidate();
                 activePanel = ActivePanel.NONE;
                 break;
+            case GEO:
+                repaint();
+                revalidate();
+                activePanel = ActivePanel.NONE;
+                break;
         }
     }
     

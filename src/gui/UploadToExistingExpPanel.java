@@ -13,8 +13,7 @@ import java.util.HashMap;
 
 public class UploadToExistingExpPanel extends JPanel implements ExperimentPanel {
     
-    private JButton                      selectFilesToUploadButton,
-            uploadFilesToExperimentButton;
+    private JButton                      selectFilesToUploadButton, uploadFilesToExperimentButton;
     private ArrayList<JComboBox>         annotationBoxes;
     private ArrayList<JTextField>        annotationFields;
     private AnnotationDataType[]         annotations;
