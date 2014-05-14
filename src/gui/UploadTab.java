@@ -165,6 +165,7 @@ public class UploadTab extends JPanel implements ExperimentPanel {
             new FileDrop(this, new FileDrop.Listener() {
                 public void filesDropped(java.io.File[] files) {
                     createUploadFileRow(files);
+                    enableUploadButton(true);
                 }
             });
         } catch (NullPointerException e) {
