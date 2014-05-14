@@ -1,4 +1,3 @@
-
 package genomizerdesktop;
 
 import communication.Connection;
