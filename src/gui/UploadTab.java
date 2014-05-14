@@ -144,7 +144,7 @@ public class UploadTab extends JPanel implements ExperimentPanel {
         uploadBackground.add(uploadFilesPanel, BorderLayout.NORTH);
         uploadPanel.add(uploadBackground, BorderLayout.CENTER);
 
-        new FileDrop( newExpPanel, new FileDrop.Listener() {
+        new FileDrop( this, new FileDrop.Listener() {
             public void  filesDropped( java.io.File[] files ) {
                 createUploadFileRow(files);
             }
