@@ -31,12 +31,12 @@ public class QueryBuilderRow extends JPanel {
 
     public QueryBuilderRow(QuerySearchTab parent,
             AnnotationDataType[] annotationTypes) {
-    /* The Parent query search tab */
+        /* The Parent query search tab */
         this.parent = parent;
-    /* The annotation information */
+        /* The annotation information */
         this.annotationTypes = annotationTypes;
         setLayout(new FlowLayout());
-	/* Set up the components (fieldBox must be set last) */
+        /* Set up the components (fieldBox must be set last) */
         setPlusButton();
         setMinusButton();
         setLogicBox();
@@ -54,9 +54,9 @@ public class QueryBuilderRow extends JPanel {
     public void setAs(Boolean firstRow, Boolean lastRow) {
         this.firstRow = firstRow;
         this.lastRow = lastRow;
-	/* Remove all current components */
+        /* Remove all current components */
         removeAll();
-	/* Create the panels */
+        /* Create the panels */
         JPanel logicPanel = new JPanel();
         logicPanel.setPreferredSize(new Dimension(80, 35));
         JPanel annotationPanel = new JPanel();
@@ -65,30 +65,30 @@ public class QueryBuilderRow extends JPanel {
         inputPanel.setPreferredSize(new Dimension(570, 35));
         JPanel buttonPanel = new JPanel();
         buttonPanel.setPreferredSize(new Dimension(50, 35));
-	/* All rows except the first should have a logic field */
+        /* All rows except the first should have a logic field */
         if (!firstRow) {
             logicPanel.add(logicBox);
         }
-	/* All rows should have a annotation field */
+        /* All rows should have a annotation field */
         annotationPanel.add(annotationBox);
-	/*
-	 * If the selected annotation has predefinied values the row should have
-	 * a dropdown menu with annotation alternatives, else it should have a
-	 * text field for free text input
-	 */
+        /*
+         * If the selected annotation has predefinied values the row should have
+         * a dropdown menu with annotation alternatives, else it should have a
+         * text field for free text input
+         */
         if (dropdown) {
             inputPanel.add(annotationAlternatives);
         } else {
             inputPanel.add(textField);
         }
-	/*
-	 * All rows except if there is only one row in the builder should have a
-	 * minus button
-	 */
+        /*
+         * All rows except if there is only one row in the builder should have a
+         * minus button
+         */
         if (!(firstRow && lastRow)) {
             buttonPanel.add(minusButton);
         }
-	/* The last row shoyld have a plus button */
+        /* The last row shoyld have a plus button */
         if (lastRow) {
             buttonPanel.add(plusButton);
         }
@@ -117,7 +117,7 @@ public class QueryBuilderRow extends JPanel {
         plusButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-		/* Add a row to the parent when button is clicked */
+                /* Add a row to the parent when button is clicked */
                 parent.addRow();
             }
         });
@@ -142,7 +142,7 @@ public class QueryBuilderRow extends JPanel {
         minusButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-		/* Remove the row and update the search area in the parent */
+                /* Remove the row and update the search area in the parent */
                 parent.removeRow(row);
                 parent.updateSearchArea();
             }
@@ -154,10 +154,10 @@ public class QueryBuilderRow extends JPanel {
      */
     private void setTextField() {
         textField = new JTextField(50);
-	/*
-	 * The search field in the parent is updated when the text field content
-	 * is changed
-	 */
+        /*
+         * The search field in the parent is updated when the text field content
+         * is changed
+         */
         textField.getDocument().addDocumentListener(new DocumentListener() {
             @Override
             public void changedUpdate(DocumentEvent e) {
@@ -183,14 +183,14 @@ public class QueryBuilderRow extends JPanel {
      */
     private void setAnnotationAlternatives(String[] alternatives) {
         annotationAlternatives = new JComboBox(alternatives);
-	/* Setting the width of the combobox */
+        /* Setting the width of the combobox */
         annotationAlternatives
                 .setPrototypeDisplayValue("AAAAAAAAAAAAAAAAAAAAAAA"
                         + "AAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
         annotationAlternatives.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-		/* Update search area in parent when selected item is changed */
+                /* Update search area in parent when selected item is changed */
                 parent.updateSearchArea();
             }
         });
@@ -203,7 +203,7 @@ public class QueryBuilderRow extends JPanel {
      */
     public void setAnnotationBox(AnnotationDataType[] annotations) {
         this.annotationTypes = annotations;
-	/* Get the annotation names */
+        /* Get the annotation names */
         String[] annotationNames = new String[annotationTypes.length];
         for (int i = 0; i < annotationTypes.length; i++) {
             annotationNames[i] = annotationTypes[i].getName();
@@ -217,25 +217,25 @@ public class QueryBuilderRow extends JPanel {
         annotationBox.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-		/*
-		 * When the selected item in the box is changed a check must be
-		 * made to know wether a free text field or a annotation
-		 * alternatives box should be displayed
-		 */
+                /*
+                 * When the selected item in the box is changed a check must be
+                 * made to know wether a free text field or a annotation
+                 * alternatives box should be displayed
+                 */
                 String annotation = (String) annotationBox.getSelectedItem();
                 for (int i = 0; i < annotationTypes.length; i++) {
                     if (annotation.equals(annotationTypes[i].getName())) {
                         String[] values = annotationTypes[i].getValues();
                         if (values != null) {
                             if (!values[0].equals("freetext")) {
-				/* Dropdown annotation alternatives box */
+                                /* Dropdown annotation alternatives box */
                                 dropdown = true;
                                 setAnnotationAlternatives(values);
                             } else {
-				/* Free text field */
+                                /* Free text field */
                                 dropdown = false;
                             }
-			    /* Update row and parent search area */
+                            /* Update row and parent search area */
                             setAs(firstRow, lastRow);
                             parent.updateSearchArea();
                             repaint();
@@ -245,10 +245,10 @@ public class QueryBuilderRow extends JPanel {
                 }
             }
         });
-	/*
-	 * Change selected item so the actionlistener will be called upon
-	 * starting the program
-	 */
+        /*
+         * Change selected item so the actionlistener will be called upon
+         * starting the program
+         */
         if (annotationBox.getSelectedIndex() != -1) {
             annotationBox.setSelectedIndex(0);
         }
@@ -262,10 +262,10 @@ public class QueryBuilderRow extends JPanel {
         logicBox.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-		/*
-		 * Update the parent search area when selected logic operator is
-		 * changed
-		 */
+                /*
+                 * Update the parent search area when selected logic operator is
+                 * changed
+                 */
                 parent.updateSearchArea();
             }
         });

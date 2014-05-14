@@ -50,7 +50,7 @@ public class SysadminAnnotationPopup extends JPanel {
     private JPanel buildSecondTab() {
 
         JPanel secondTab = new JPanel(new GridLayout(0, 1));
-
+        
         /* Create the top panel for the second tab */
         JPanel topPanelInSecondTab = new JPanel();
 
@@ -59,7 +59,7 @@ public class SysadminAnnotationPopup extends JPanel {
         nameField2.setPreferredSize(new Dimension(250, 30));
         topPanelInSecondTab.add(name);
         topPanelInSecondTab.add(nameField2);
-
+        
         /* Create bottom panel for the second tab */
         JPanel botPanelInSecondTab = buildBotPanelInFirstTab();
 
@@ -79,7 +79,7 @@ public class SysadminAnnotationPopup extends JPanel {
         JPanel topPanelInFirstTab = buildTopPanelInFirstTab();
         JPanel midPanelInFirstTab = buildMidPanelInFirstTab();
         JPanel botPanelInFirstTab = buildBotPanelInFirstTab();
-
+        
         /* Add all complete panels to the first tab */
         firstTab.add(topPanelInFirstTab, BorderLayout.NORTH);
         firstTab.add(midPanelInFirstTab, BorderLayout.CENTER);

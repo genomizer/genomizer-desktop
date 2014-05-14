@@ -23,9 +23,10 @@ public class DownloadHandler {
     public boolean download(String url, String localFilePath) {
         try {
             // Use this url in the real version. vvv
-            /*URL targetUrl = new URL(
-                    "http://scratchy.cs.umu.se:8090/html/download.php?path="
-							+ url);*/
+            /*
+             * URL targetUrl = new URL(
+             * "http://scratchy.cs.umu.se:8090/html/download.php?path=" + url);
+             */
             url = url.replaceFirst("\\u003d", "=");
             url = url.replaceFirst("scratcy", "scratchy");
             url = url.replaceFirst("8090", "8000");
@@ -59,8 +60,8 @@ public class DownloadHandler {
                 totalDownload += count;
                 fileOut.flush();
             }
-            System.out.println("Size: " + totalDownload
-                    + " Expected: " + conn.getContentLength());
+            System.out.println("Size: " + totalDownload + " Expected: "
+                    + conn.getContentLength());
             conn.disconnect();
 
         } catch (MalformedURLException e) {

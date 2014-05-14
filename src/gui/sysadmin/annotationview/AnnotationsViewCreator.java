@@ -8,6 +8,7 @@ import javax.swing.event.DocumentListener;
 import javax.swing.table.JTableHeader;
 import javax.swing.table.TableModel;
 import javax.swing.table.TableRowSorter;
+import javax.swing.text.BadLocationException;
 import java.awt.*;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
@@ -97,15 +98,7 @@ public class AnnotationsViewCreator {
 
     private JTextField buildSearchField() {
         Dimension searchDim = new Dimension(500, 30);
-        final JTextField searchField = new JTextField("Search...");
-        searchField.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseClicked(MouseEvent e) {
-                if (searchField.getText().equalsIgnoreCase("search...")) {
-                    searchField.setText("");
-                }
-            }
-        });
+        final JTextField searchField = new SearchTextField("Search");
 
         searchField.getDocument().addDocumentListener(
                 new SearchDocumentListener(rowSorter, searchField));
@@ -123,14 +116,14 @@ public class AnnotationsViewCreator {
         this.rowSorter = rowSorter;
 
         JScrollPane scroll = new JScrollPane(table);
-        //scroll.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
-        //table.setPreferredSize(scroll.getSize());
+        // scroll.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
+        // table.setPreferredSize(scroll.getSize());
         JTableHeader header = table.getTableHeader();
 
         JPanel panel = new JPanel(new BorderLayout());
-        //panel.add(header, BorderLayout.NORTH);
+        // panel.add(header, BorderLayout.NORTH);
         panel.add(scroll, BorderLayout.CENTER);
-        //panel.add(table);
+        // panel.add(table);
         table.setSelectionMode(DefaultListSelectionModel.SINGLE_SELECTION);
         table.setRowSorter(rowSorter);
         return panel;
@@ -168,9 +161,9 @@ public class AnnotationsViewCreator {
     }
 
     public void editPopup(ActionListener editPopupListener) {
-    	System.out.println("Skapar editAnnotationPopup...");
-    	editPopup = new EditAnnotationPopup(table);
-    	editPopup.setBackground(Color.WHITE);
+        System.out.println("Skapar editAnnotationPopup...");
+        editPopup = new EditAnnotationPopup(table);
+        editPopup.setBackground(Color.WHITE);
 
         JFrame popupFrame = new JFrame("Edit annotation");
         popupFrame.setLayout(new BorderLayout());
@@ -179,8 +172,6 @@ public class AnnotationsViewCreator {
         popupFrame.setLocationRelativeTo(null);
         popupFrame.setSize(new Dimension(600, 600));
         popupFrame.setVisible(true);
-
-
 
     }
 
@@ -203,7 +194,7 @@ public class AnnotationsViewCreator {
     }
 
     public EditAnnotationPopup getEditPopup() {
-    	return editPopup;
+        return editPopup;
     }
 
     public TableModel getTableModel() {
@@ -230,8 +221,15 @@ public class AnnotationsViewCreator {
 
         @Override
         public void insertUpdate(DocumentEvent e) {
-            newFilter(rowSorter, filterText);
-
+            try {
+                if (!(e.getDocument().getText(0, e.getLength())
+                        .equals("Search"))) {
+                    newFilter(rowSorter, filterText);
+                }
+            } catch (BadLocationException e1) {
+                //Do nothing, exception should not happen and even if it does
+                //nothing dangerous will occur
+            }
         }
 
         @Override

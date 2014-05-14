@@ -14,8 +14,10 @@ import java.util.HashMap;
 public class UploadTab extends JPanel implements ExperimentPanel {
 
     private static final long serialVersionUID = -2830290705724588252L;
-    private JButton addToExistingExpButton, newExpButton, selectButton, uploadButton;
-    private JPanel northPanel, expNamePanel, uploadPanel, newExpPanel, uploadFilesPanel, uploadBackground;
+    private JButton addToExistingExpButton,
+            newExpButton, selectButton, uploadButton;
+    private JPanel northPanel, expNamePanel,
+            uploadPanel, newExpPanel, uploadFilesPanel, uploadBackground;
     private JTextArea                      experimentNameField;
     private UploadToExistingExpPanel       uploadToExistingExpPanel;
     private AnnotationDataType[]           annotations;
@@ -207,9 +209,10 @@ public class UploadTab extends JPanel implements ExperimentPanel {
     }
 
     /**
-     * Removes the components in the panels when one of them gets chosen by the user, to make sure the new components
-     * won't overlap and end up invisible. The method checks the Enum ActivePanel to check which panel was the active
-     * one.
+     * Removes the components in the panels when one of them gets chosen by the
+     * user, to make sure the new components won't overlap and end up invisible.
+     * The method checks the Enum ActivePanel to check which panel was the
+     * active one.
      */
     public void killContentsOfUploadPanel() {
         switch (activePanel) {

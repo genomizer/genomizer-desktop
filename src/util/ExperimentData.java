@@ -25,8 +25,8 @@ public class ExperimentData {
     }
 
     /**
-     * Returns the list of annotations associated with the project
-     * (including experiment name and creator of experiment
+     * Returns the list of annotations associated with the project (including
+     * experiment name and creator of experiment
      *
      * @return
      */
@@ -46,8 +46,8 @@ public class ExperimentData {
                     hasValue = true;
                 }
             }
-            if (!hasValue && !heading.equals("Experiment Name") && !heading
-                    .equals("Experiment Created By")) {
+            if (!hasValue && !heading.equals("Experiment Name")
+                    && !heading.equals("Experiment Created By")) {
                 annotationList.add("");
             }
         }
@@ -93,19 +93,11 @@ public class ExperimentData {
             ArrayList<FileData> fileData = new ArrayList<FileData>();
             for (int j = 0; j < 5; j++) {
                 String fileType = fileTypes[rand.nextInt(3)];
-                fileData.add(new FileData(
-                        "" + i + j,
-                        "Experiment" + i,
-                        fileType,
-                        "",
-                        names[rand.nextInt(5)],
-                        names[rand.nextInt(5)],
-                        false,
-                        "",
-                        dates[rand.nextInt(5)],
-                        "",
-                        "",
-                        "Exp" + i + "_file" + j));
+                fileData.add(new FileData("" + i + j, "Experiment" + i,
+                        fileType, "", names[rand.nextInt(5)], names[rand
+                        .nextInt(5)], false, "",
+                        dates[rand.nextInt(5)], "", "", "Exp" + i + "_file" + j
+                ));
             }
             ArrayList<AnnotationDataValue> annotationData = new ArrayList<AnnotationDataValue>();
             annotationData.add(new AnnotationDataValue("2", "Species",

@@ -87,7 +87,7 @@ public interface GenomizerView {
 
     public void updateLogout();
 
-    //public void updateQuerySearchResults(ExperimentData[] searchResults);
+    // public void updateQuerySearchResults(ExperimentData[] searchResults);
 
     public void setSearchAnnotationTypes(AnnotationDataType[] annotationTypes);
 
@@ -121,4 +121,3 @@ public interface GenomizerView {
 
     void updateQuerySearchResults(ArrayList<ExperimentData> searchResults);
 }
-

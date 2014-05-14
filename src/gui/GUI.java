@@ -71,11 +71,10 @@ public class GUI extends JFrame implements GenomizerView {
     }
 
     /*
-    @Override
-	public void addAddAnnotationListener(ActionListener addAnnotationListener) {
-		sysadminTab.addAddAnnotationListener(addAnnotationListener);
-	}
-      */
+     * @Override public void addAddAnnotationListener(ActionListener
+     * addAnnotationListener) {
+     * sysadminTab.addAddAnnotationListener(addAnnotationListener); }
+     */
     public void addUpdateSearchAnnotationsListener(ActionListener listener) {
         querySearchTab.addUpdateAnnotationsListener(listener);
     }
@@ -94,12 +93,11 @@ public class GUI extends JFrame implements GenomizerView {
     public void addRawToProfileDataListener(ActionListener listener) {
         processTab.addRawToProfileDataListener(listener);
     }
-
+    
     /*
-    @Override
-	public void addAddPopupListener(ActionListener addPopupListener) {
-		sysadminTab.addAddPopupListener(addPopupListener);
-	} */
+     * @Override public void addAddPopupListener(ActionListener
+     * addPopupListener) { sysadminTab.addAddPopupListener(addPopupListener); }
+     */
 
     @Override
     public void addRawToRegionDataListener(ActionListener listener) {
@@ -165,26 +163,23 @@ public class GUI extends JFrame implements GenomizerView {
     public ArrayList<ExperimentData> getSelectedDataInSearch() {
         return querySearchTab.getSelectedData();
     }
-
+    
     /*
-	@Override
-	public String getNewAnnotationName() {
-		return sysadminTab.getNewAnnotationName();
-	}  */
+     * @Override public String getNewAnnotationName() { return
+     * sysadminTab.getNewAnnotationName(); }
+     */
 
     public UploadTab getUploadTab() {
         return uploadTab;
     }
-          /*
-	@Override
-	public String[] getNewAnnotionCategories() {
-		return sysadminTab.getNewAnnotationCategories();
-	}
-
-	@Override
-	public boolean getNewAnnotationForcedValue() {
-		return sysadminTab.getNewAnnotationForcedValue();
-	}   */
+    
+    /*
+     * @Override public String[] getNewAnnotionCategories() { return
+     * sysadminTab.getNewAnnotationCategories(); }
+     * 
+     * @Override public boolean getNewAnnotationForcedValue() { return
+     * sysadminTab.getNewAnnotationForcedValue(); }
+     */
 
     @Override
     public String getQuerySearchString() {
@@ -223,12 +218,10 @@ public class GUI extends JFrame implements GenomizerView {
     }
 
     /*
-	@Override
-	public AnnotationDataType getSelectedAnnoationAtAnnotationTable() {
-		// TODO Auto-generated method stub
-		return sysadminTab.getSelectedAnnotationAtAnnotationTable();
-	}
-      */
+     * @Override public AnnotationDataType
+     * getSelectedAnnoationAtAnnotationTable() { // TODO Auto-generated method
+     * stub return sysadminTab.getSelectedAnnotationAtAnnotationTable(); }
+     */
     @Override
     public int getSelectedRowAtAnnotationTable() {
         // TODO Auto-generated method stub
@@ -326,11 +319,11 @@ public class GUI extends JFrame implements GenomizerView {
     public void setSearchAnnotationTypes(AnnotationDataType[] annotationTypes) {
         querySearchTab.setAnnotationTypes(annotationTypes);
     }
-          /*
-	@Override
-	public void setAnnotationTableData(AnnotationDataType[] annotations) {
-		sysadminTab.setAnnotationTableData(annotations);
-	}                  */
+    
+    /*
+     * @Override public void setAnnotationTableData(AnnotationDataType[]
+     * annotations) { sysadminTab.setAnnotationTableData(annotations); }
+     */
 
     @Override
     public void setProccessFileList(ArrayList<FileData> allFileData) {
@@ -347,18 +340,12 @@ public class GUI extends JFrame implements GenomizerView {
         processTab.setFileInfo(allFileData);
 
     }
-
+    
     /*
-	@Override
-	public void closePopup() {
-		sysadminTab.closePopup();
-	}
-
-	@Override
-	public void annotationPopup() {
-		sysadminTab.popup();
-	}
-    */
+     * @Override public void closePopup() { sysadminTab.closePopup(); }
+     * 
+     * @Override public void annotationPopup() { sysadminTab.popup(); }
+     */
 
     @Override
     public void printToConvertText(String message, String color) {
@@ -381,11 +368,9 @@ public class GUI extends JFrame implements GenomizerView {
     }
 
     /*
-	@Override
-	public void addDeleteAnnotationListener(ActionListener listener) {
-		sysadminTab.addDeleteAnnotationListener(listener);
-	}
-	*/
+     * @Override public void addDeleteAnnotationListener(ActionListener
+     * listener) { sysadminTab.addDeleteAnnotationListener(listener); }
+     */
     @Override
     public void setSysadminController(SysadminController sysadminController) {
         sysadminTab.setController(sysadminController);
@@ -419,8 +404,8 @@ public class GUI extends JFrame implements GenomizerView {
 
     @Override
     public void selectFilesToExistingExp(String[] fileNames, File[] files) {
-        uploadTab.getUploadToExistingExpPanel()
-                .createUploadFileRow(fileNames, files);
+        uploadTab.getUploadToExistingExpPanel().createUploadFileRow(fileNames,
+                files);
     }
 
     public DownloadWindow getDownloadWindow() {

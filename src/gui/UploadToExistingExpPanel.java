@@ -12,11 +12,13 @@ import java.util.HashMap;
 public class UploadToExistingExpPanel extends JPanel
         implements ExperimentPanel {
 
-    private JButton selectFilesToUploadButton, uploadFilesToExperimentButton;
+    private JButton selectFilesToUploadButton,
+            uploadFilesToExperimentButton;
     private ArrayList<JComboBox>  annotationBoxes;
     private ArrayList<JTextField> annotationFields;
     private AnnotationDataType[]  annotations;
-    JPanel northPanel, centerPanel, uploadFilesPanel, buttonsPanel, mainPanel;
+    JPanel northPanel, centerPanel,
+            uploadFilesPanel, buttonsPanel, mainPanel;
     private HashMap<String, UploadFileRow> uploadFileRows;
     private File[]                         currFiles;
 
@@ -35,7 +37,8 @@ public class UploadToExistingExpPanel extends JPanel
     }
 
     /**
-     * Builds/rebuilds the panel. This is not part of the constructor so it can be called from elsewhere aswell.
+     * Builds/rebuilds the panel. This is not part of the constructor so it can
+     * be called from elsewhere aswell.
      */
     public void build() {
         mainPanel.add(northPanel, BorderLayout.NORTH);

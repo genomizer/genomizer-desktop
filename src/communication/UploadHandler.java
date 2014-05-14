@@ -76,14 +76,12 @@ public class UploadHandler implements Runnable {
     private void sendMultiPartFormat(String urlFileName, String boundary,
             PrintWriter outputStream) {
         outputStream.println("--" + boundary);
-        outputStream
-                .println("Content-Disposition: form-data; name=\"path\"");
+        outputStream.println("Content-Disposition: form-data; name=\"path\"");
         outputStream.println(url);
         outputStream.println("--" + boundary);
-        outputStream
-                .println("Content-Disposition: form-data; name=" +
-                        "\"uploadfile\"; filename=\"" + urlFileName + "\"\n"
-                        + "Content-Type: application/octet-stream\n");
+        outputStream.println("Content-Disposition: form-data; name="
+                + "\"uploadfile\"; filename=\"" + urlFileName + "\"\n"
+                + "Content-Type: application/octet-stream\n");
     }
 
     private String getFileNameFromUrl(String url) {

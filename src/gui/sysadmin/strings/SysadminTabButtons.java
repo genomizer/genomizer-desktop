@@ -9,11 +9,9 @@ public enum SysadminTabButtons {
     /*
      * To add a new name for button, simple type in the name of the enum, and
      * the name of the button within parenthesis.
-     * */
-    ANNOTATIONS("Annotations"),
-    USERS("Users"),
-    TEST("Test"),
-    PROCESS("Processes");
+     */
+    ANNOTATIONS("Annotations"), USERS("Users"), TEST("Test"), PROCESS(
+            "Processes");
     private String name;
 
     private SysadminTabButtons(String name) {

@@ -23,21 +23,35 @@ public class SearchTab extends JPanel {
     private JTextField pubID;
 
     private String[] expStrings0 = { "0", "Female" };
-    private String[] expStrings1 = { "1", "Cat", "Dog", "Rabbit", "Pig5" };
-    private String[] expStrings2 = { "2", "Cat", "Dog", "Rabbit", "Pig4" };
-    private String[] expStrings3 = { "3", "Cat", "Dog", "Rabbit", "Pig3" };
-    private String[] expStrings4 = { "4", "Cat", "Dog", "Rabbit", "Pig2" };
-    private String[] expStrings5 = { "5", "Cat", "Dog", "Rabbit", "Pig1" };
+    private String[] expStrings1 = { "1", "Cat", "Dog", "Rabbit",
+            "Pig5" };
+    private String[] expStrings2 = { "2", "Cat", "Dog", "Rabbit",
+            "Pig4" };
+    private String[] expStrings3 = { "3", "Cat", "Dog", "Rabbit",
+            "Pig3" };
+    private String[] expStrings4 = { "4", "Cat", "Dog", "Rabbit",
+            "Pig2" };
+    private String[] expStrings5 = { "5", "Cat", "Dog", "Rabbit",
+            "Pig1" };
 
-    private String[] pubStrings0 = { "0", "Cat", "Dog", "Rabbit", "Pig5" };
-    private String[] pubStrings1 = { "1", "Cat", "Dog", "Rabbit", "Pig5" };
-    private String[] pubStrings2 = { "2", "Cat", "Dog", "Rabbit", "Pig4" };
-    private String[] pubStrings3 = { "3", "Cat", "Dog", "Rabbit", "Pig3" };
-    private String[] pubStrings4 = { "4", "Cat", "Dog", "Rabbit", "Pig2" };
-    private String[] pubStrings5 = { "5", "Cat", "Dog", "Rabbit", "Pig1" };
-    private String[] pubStrings6 = { "6", "Cat", "Dog", "Rabbit", "Pig5" };
-    private String[] pubStrings7 = { "7", "Cat", "Dog", "Rabbit", "Pig4" };
-    private String[] pubStrings8 = { "8", "Cat", "Dog", "Rabbit", "Pig5" };
+    private String[] pubStrings0 = { "0", "Cat", "Dog", "Rabbit",
+            "Pig5" };
+    private String[] pubStrings1 = { "1", "Cat", "Dog", "Rabbit",
+            "Pig5" };
+    private String[] pubStrings2 = { "2", "Cat", "Dog", "Rabbit",
+            "Pig4" };
+    private String[] pubStrings3 = { "3", "Cat", "Dog", "Rabbit",
+            "Pig3" };
+    private String[] pubStrings4 = { "4", "Cat", "Dog", "Rabbit",
+            "Pig2" };
+    private String[] pubStrings5 = { "5", "Cat", "Dog", "Rabbit",
+            "Pig1" };
+    private String[] pubStrings6 = { "6", "Cat", "Dog", "Rabbit",
+            "Pig5" };
+    private String[] pubStrings7 = { "7", "Cat", "Dog", "Rabbit",
+            "Pig4" };
+    private String[] pubStrings8 = { "8", "Cat", "Dog", "Rabbit",
+            "Pig5" };
 
     private JComboBox expBox0;
     private JComboBox expBox1;
@@ -188,87 +202,84 @@ public class SearchTab extends JPanel {
         gl.linkSize(SwingConstants.HORIZONTAL, searchButton);
 
         gl.setVerticalGroup(gl
-                        .createSequentialGroup()
-                        .addGroup(
-                                gl.createParallelGroup(
-                                        GroupLayout.Alignment.BASELINE)
-                                        .addComponent(searchLabel)
-                        )
-                        .addGroup(
-                                gl.createSequentialGroup()
-                                        .addGroup(
-                                                gl.createParallelGroup(
-                                                        GroupLayout.Alignment.LEADING)
-                                                        .addComponent(expLabel)
-                                                        .addComponent(expID)
-                                                        .addComponent(pubLabel)
-                                                        .addComponent(pubID)
-                                                        .addComponent(
-                                                                searchButton)
-                                        )
-                                        .addGroup(
-                                                gl.createParallelGroup(
-                                                        GroupLayout.Alignment.LEADING)
-                                                        .addGroup(
-                                                                gl.createSequentialGroup()
-                                                                        .addGroup(
-                                                                                gl.createParallelGroup(
-                                                                                        GroupLayout.Alignment.BASELINE)
-                                                                                        .addComponent(
-                                                                                                expBox0)
-                                                                                        .addComponent(
-                                                                                                expBox1)
-                                                                                        .addComponent(
-                                                                                                expBox2)
-                                                                                        .addComponent(
-                                                                                                pubBox0)
-                                                                                        .addComponent(
-                                                                                                pubBox1)
-                                                                                        .addComponent(
-                                                                                                pubBox2)
-                                                                                        .addComponent(
-                                                                                                dataLabel)
-                                                                        )
-                                                                        .addGroup(
-                                                                                gl.createParallelGroup(
-                                                                                        GroupLayout.Alignment.BASELINE)
-                                                                                        .addComponent(
-                                                                                                expBox3)
-                                                                                        .addComponent(
-                                                                                                expBox4)
-                                                                                        .addComponent(
-                                                                                                expBox5)
-                                                                                        .addComponent(
-                                                                                                pubBox3)
-                                                                                        .addComponent(
-                                                                                                pubBox4)
-                                                                                        .addComponent(
-                                                                                                pubBox5)
-                                                                                        .addComponent(
-                                                                                                rawCheckBox)
-                                                                        )
-                                                                        .addGroup(
-                                                                                gl.createParallelGroup(
-                                                                                        GroupLayout.Alignment.BASELINE)
-                                                                                        .addComponent(
-                                                                                                pubBox6)
-                                                                                        .addComponent(
-                                                                                                pubBox7)
-                                                                                        .addComponent(
-                                                                                                pubBox8)
-                                                                                        .addComponent(
-                                                                                                regionCheckBox)
-                                                                        )
-                                                                        .addGroup(
-                                                                                gl.createParallelGroup(
-                                                                                        GroupLayout.Alignment.BASELINE)
-                                                                                        .addComponent(
-                                                                                                profileCheckBox)
-                                                                        )
-                                                        )
-                                        )
-                        )
-        );
+                .createSequentialGroup()
+                .addGroup(
+                        gl.createParallelGroup(GroupLayout.Alignment.BASELINE)
+                                .addComponent(searchLabel)
+                )
+                .addGroup(
+                        gl.createSequentialGroup()
+                                .addGroup(
+                                        gl.createParallelGroup(
+                                                GroupLayout.Alignment.LEADING)
+                                                .addComponent(expLabel)
+                                                .addComponent(expID)
+                                                .addComponent(pubLabel)
+                                                .addComponent(pubID)
+                                                .addComponent(searchButton)
+                                )
+                                .addGroup(
+                                        gl.createParallelGroup(
+                                                GroupLayout.Alignment.LEADING)
+                                                .addGroup(
+                                                        gl.createSequentialGroup()
+                                                                .addGroup(
+                                                                        gl.createParallelGroup(
+                                                                                GroupLayout.Alignment.BASELINE)
+                                                                                .addComponent(
+                                                                                        expBox0)
+                                                                                .addComponent(
+                                                                                        expBox1)
+                                                                                .addComponent(
+                                                                                        expBox2)
+                                                                                .addComponent(
+                                                                                        pubBox0)
+                                                                                .addComponent(
+                                                                                        pubBox1)
+                                                                                .addComponent(
+                                                                                        pubBox2)
+                                                                                .addComponent(
+                                                                                        dataLabel)
+                                                                )
+                                                                .addGroup(
+                                                                        gl.createParallelGroup(
+                                                                                GroupLayout.Alignment.BASELINE)
+                                                                                .addComponent(
+                                                                                        expBox3)
+                                                                                .addComponent(
+                                                                                        expBox4)
+                                                                                .addComponent(
+                                                                                        expBox5)
+                                                                                .addComponent(
+                                                                                        pubBox3)
+                                                                                .addComponent(
+                                                                                        pubBox4)
+                                                                                .addComponent(
+                                                                                        pubBox5)
+                                                                                .addComponent(
+                                                                                        rawCheckBox)
+                                                                )
+                                                                .addGroup(
+                                                                        gl.createParallelGroup(
+                                                                                GroupLayout.Alignment.BASELINE)
+                                                                                .addComponent(
+                                                                                        pubBox6)
+                                                                                .addComponent(
+                                                                                        pubBox7)
+                                                                                .addComponent(
+                                                                                        pubBox8)
+                                                                                .addComponent(
+                                                                                        regionCheckBox)
+                                                                )
+                                                                .addGroup(
+                                                                        gl.createParallelGroup(
+                                                                                GroupLayout.Alignment.BASELINE)
+                                                                                .addComponent(
+                                                                                        profileCheckBox)
+                                                                )
+                                                )
+                                )
+                ));
     }
 
     private void initiateSearchOptions() {

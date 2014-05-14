@@ -22,17 +22,17 @@ public class DownloadWindow extends JFrame {
     // Receives an ArrayList with the chosen files.
     public DownloadWindow(ArrayList<FileData> files) {
         this.files = files;
-        //Gets the names of the files
+        // Gets the names of the files
         ArrayList<String> fileNames = new ArrayList<String>();
         for (int i = 0; i < files.size(); i++) {
             fileNames.add(files.get(i).getName());
         }
-        //Sets up the DownloadWindow using the filenames.
+        // Sets up the DownloadWindow using the filenames.
         setUp(fileNames);
     }
 
     /**
-     * Private method that sets up the  DownloadWindow.
+     * Private method that sets up the DownloadWindow.
      *
      * @param data An ArrayList containing the Strings to set up the window with.
      */
@@ -42,7 +42,7 @@ public class DownloadWindow extends JFrame {
         add(panel);
         panel.add(new JLabel("test"), BorderLayout.NORTH);
 
-        //Set up the JTable
+        // Set up the JTable
         DefaultTableModel tableModel = new DefaultTableModel();
         table = new JTable(tableModel);
 
@@ -65,14 +65,14 @@ public class DownloadWindow extends JFrame {
                     "Click here to choose file format" });
         }
 
-        //Add comboboxes to each row in the table.
+        // Add comboboxes to each row in the table.
         JComboBox comboBox = new JComboBox();
         comboBox.addItem("RAW");
         comboBox.addItem("WIG");
         DefaultCellEditor cellEditor = new DefaultCellEditor(comboBox);
         formatConversionColumn.setCellEditor(cellEditor);
 
-        //        table.setBackground(Color.cyan);
+        // table.setBackground(Color.cyan);
         table.setRowHeight(30);
 
         JScrollPane scrollPane = new JScrollPane(table);
@@ -81,9 +81,9 @@ public class DownloadWindow extends JFrame {
 
         downloadButton = new JButton("Download");
 
-        //  downloadButton.setBorderPainted(true);
-        //  downloadButton.setContentAreaFilled(false);
-        //  downloadButton.setIcon(downloadIcon);
+        // downloadButton.setBorderPainted(true);
+        // downloadButton.setContentAreaFilled(false);
+        // downloadButton.setIcon(downloadIcon);
 
         JPanel flowSouth = new JPanel();
         flowSouth.add(downloadButton);
@@ -105,7 +105,8 @@ public class DownloadWindow extends JFrame {
     }
 
     /**
-     * @return files An ArrayList containing the FileData representing the files.
+     * @return files An ArrayList containing the FileData representing the
+     * files.
      */
     public ArrayList<FileData> getFiles() {
         return files;

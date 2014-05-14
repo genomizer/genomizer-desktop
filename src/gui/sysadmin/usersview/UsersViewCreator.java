@@ -1,6 +1,5 @@
 package gui.sysadmin.usersview;
 
-
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
@@ -33,10 +32,10 @@ public class UsersViewCreator {
 
         String testme = "HEKJHFRKJEKJ";
         JList usersList = new JList(testers);
-        usersList.setSelectionMode(ListSelectionModel.SINGLE_INTERVAL_SELECTION);
+        usersList
+                .setSelectionMode(ListSelectionModel.SINGLE_INTERVAL_SELECTION);
         usersList.setLayoutOrientation(JList.VERTICAL);
         usersList.setName("Eric Cartman");
-
 
         JScrollPane scrollPane = new JScrollPane(usersList);
         scrollPane.setPreferredSize(new Dimension(250, 80));

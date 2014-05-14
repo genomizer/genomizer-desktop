@@ -17,10 +17,6 @@ public class AnnotationDataType extends AnnotationData {
         return name;
     }
 
-    public String getId() {
-        return id;
-    }
-
     public String getName() {
         return name;
     }

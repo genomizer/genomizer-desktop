@@ -32,8 +32,8 @@ public class ResponseParser {
     public static AnnotationDataType[] parseGetAnnotationResponse(String json) {
         AnnotationDataType[] annotationResponses = null;
         try {
-            annotationResponses = gson
-                    .fromJson(json, AnnotationDataType[].class);
+            annotationResponses = gson.fromJson(json,
+                    AnnotationDataType[].class);
         } catch (JsonParseException e) {
             return null;
         }
