@@ -297,7 +297,7 @@ public class SysadminAnnotationPopup extends JPanel {
         return nameField.getText();
     }
 
-    public Boolean getNewAnnotationForcedValue() {
+    public boolean getNewAnnotationForcedValue() {
         return forced;
     }
 
