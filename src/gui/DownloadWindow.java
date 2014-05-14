@@ -11,12 +11,12 @@ import java.util.ArrayList;
 
 public class DownloadWindow extends JFrame {
     
-    private static final long   serialVersionUID = -7647204230941649167L;
-    private JPanel              panel;
-    private JTable              table;
-    private JButton             downloadButton;
-    private ImageIcon           downloadIcon     = new ImageIcon(
-                                                         "src/icons/DownloadButton.png");
+    private static final long serialVersionUID = -7647204230941649167L;
+    private JPanel panel;
+    private JTable table;
+    private JButton downloadButton;
+    private ImageIcon downloadIcon = new ImageIcon(
+            "src/icons/DownloadButton.png");
     private ArrayList<FileData> files;
     
     // Receives an ArrayList with the chosen files.

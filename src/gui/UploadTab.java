@@ -13,24 +13,24 @@ import java.util.HashMap;
 
 public class UploadTab extends JPanel implements ExperimentPanel {
     
-    private static final long              serialVersionUID = -2830290705724588252L;
-    private JButton                        addToExistingExpButton,
-            newExpButton, selectButton, uploadButton;
-    private JPanel                         northPanel, expNamePanel,
-            uploadPanel, newExpPanel, uploadFilesPanel, uploadBackground;
-    private JTextArea                      experimentNameField;
-    private UploadToExistingExpPanel       uploadToExistingExpPanel;
-    private AnnotationDataType[]           annotations;
-    private ArrayList<String>              annotationHeaders;
-    private ArrayList<File>                currFiles;
-    private HashMap<String, JComboBox>     annotationBoxes;
-    private HashMap<String, JTextField>    annotationFields;
+    private static final long serialVersionUID = -2830290705724588252L;
+    private JButton addToExistingExpButton, newExpButton, selectButton,
+            uploadButton;
+    private JPanel northPanel, expNamePanel, uploadPanel, newExpPanel,
+            uploadFilesPanel, uploadBackground;
+    private JTextArea experimentNameField;
+    private UploadToExistingExpPanel uploadToExistingExpPanel;
+    private AnnotationDataType[] annotations;
+    private ArrayList<String> annotationHeaders;
+    private ArrayList<File> currFiles;
+    private HashMap<String, JComboBox> annotationBoxes;
+    private HashMap<String, JTextField> annotationFields;
     private HashMap<String, UploadFileRow> uploadFileRows;
-    private ActivePanel                    activePanel;
-    private JLabel                         expNameLabel;
-    private JTextField                     expName;
-    private JScrollPane                    uploadScroll;
-    private JPanel                         buttonsPanel;
+    private ActivePanel activePanel;
+    private JLabel expNameLabel;
+    private JTextField expName;
+    private JScrollPane uploadScroll;
+    private JPanel buttonsPanel;
     
     public UploadTab() {
         currFiles = new ArrayList<File>();

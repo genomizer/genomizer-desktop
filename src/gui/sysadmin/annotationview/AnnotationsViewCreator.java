@@ -16,15 +16,15 @@ import java.awt.event.MouseEvent;
 
 public class AnnotationsViewCreator {
     
-    private static final long          serialVersionUID = 3718367832670081148L;
+    private static final long serialVersionUID = 3718367832670081148L;
     private TableRowSorter<TableModel> rowSorter;
-    private SysadminAnnotationPopup    pop;
-    private EditAnnotationPopup        editPopup;
-    private JButton                    addButton;
-    private JButton                    modifyButton;
-    private JButton                    removeButton;
-    private JTable                     table;
-    private AnnotationTableModel       tablemodel;
+    private SysadminAnnotationPopup pop;
+    private EditAnnotationPopup editPopup;
+    private JButton addButton;
+    private JButton modifyButton;
+    private JButton removeButton;
+    private JTable table;
+    private AnnotationTableModel tablemodel;
     
     public AnnotationsViewCreator() {
         
@@ -204,7 +204,7 @@ public class AnnotationsViewCreator {
     private class SearchDocumentListener implements DocumentListener {
         
         private TableRowSorter<TableModel> rowSorter;
-        private JTextField                 filterText;
+        private JTextField filterText;
         
         public SearchDocumentListener(TableRowSorter<TableModel> rowSorter,
                 JTextField filterText) {

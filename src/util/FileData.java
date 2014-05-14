@@ -1,18 +1,18 @@
 package util;
 
 public class FileData {
-    public String  id;
-    public String  expId;
-    public String  type;
-    public String  metaData;
-    public String  author;
-    public String  filename;
-    public String  uploader;
+    public String id;
+    public String expId;
+    public String type;
+    public String metaData;
+    public String author;
+    public String filename;
+    public String uploader;
     public boolean isPrivate;
-    public String  grVersion;
-    public String  date;
-    public String  path;
-    public String  url;
+    public String grVersion;
+    public String date;
+    public String path;
+    public String url;
     
     /**
      * Class representing files data

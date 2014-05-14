@@ -16,7 +16,7 @@ import java.util.Observer;
 
 public class SysadminController extends Observable {
     
-    private SysadminTab    sysTab;
+    private SysadminTab sysTab;
     private GenomizerModel model;
     
     public SysadminController(Observer observer) {

@@ -2,10 +2,10 @@ package requests;
 
 public class AddAnnotationRequest extends Request {
     
-    public String   name;
+    public String name;
     public String[] type;
-    public String   defaultType;
-    public Boolean  forced;
+    public String defaultType;
+    public Boolean forced;
     
     public AddAnnotationRequest(String name, String[] categories, Boolean forced) {
         super("addAnnotation", "/annotation", "POST");

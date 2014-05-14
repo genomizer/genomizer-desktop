@@ -9,7 +9,7 @@ import java.awt.event.ActionListener;
 
 public class AnnotationPopupListener implements ActionListener {
     
-    private SysadminTab        sysTab;
+    private SysadminTab sysTab;
     private SysadminController sysController;
     
     public AnnotationPopupListener(SysadminTab sysTab) {

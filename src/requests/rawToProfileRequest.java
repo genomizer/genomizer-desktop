@@ -2,14 +2,14 @@ package requests;
 
 public class rawToProfileRequest extends Request {
     
-    public String   fileName;
-    public String   fileID;
-    public String   expid;
-    public String   processtype;
+    public String fileName;
+    public String fileID;
+    public String expid;
+    public String processtype;
     public String[] parameters;
-    public String   metadata;
-    public String   genomeRelease;
-    public String   author;
+    public String metadata;
+    public String genomeRelease;
+    public String author;
     
     public rawToProfileRequest(String fileName, String fileID, String expid,
             String processtype, String[] parameters, String metadata,

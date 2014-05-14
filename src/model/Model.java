@@ -20,8 +20,8 @@ import java.util.Arrays;
 
 public class Model implements GenomizerModel {
     
-    private String        userID = "";
-    private Connection    conn;
+    private String userID = "";
+    private Connection conn;
     private SearchHistory searchHistory;
     
     public Model(Connection conn) {

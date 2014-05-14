@@ -23,8 +23,8 @@ import java.util.HashMap;
 
 public class Controller {
     
-    private GenomizerView      view;
-    private GenomizerModel     model;
+    private GenomizerView view;
+    private GenomizerModel model;
     private final JFileChooser fileChooser = new JFileChooser();
     private SysadminController sysController;
     

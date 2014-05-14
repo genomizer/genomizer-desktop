@@ -7,12 +7,12 @@ import java.awt.event.ActionListener;
 
 public class UploadFileRow extends JPanel {
     private ExperimentPanel parent;
-    private JPanel          filePanel;
-    private JLabel          fileLabel;
-    private JButton         closeButton;
-    private JComboBox       typeBox;
-    private JProgressBar    uploadBar;
-    private String          fileName;
+    private JPanel filePanel;
+    private JLabel fileLabel;
+    private JButton closeButton;
+    private JComboBox typeBox;
+    private JProgressBar uploadBar;
+    private String fileName;
     
     public UploadFileRow(String fileName, ExperimentPanel parent) {
         this.parent = parent;

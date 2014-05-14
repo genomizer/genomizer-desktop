@@ -22,10 +22,10 @@ import java.util.regex.Pattern;
  */
 public class TreeTable extends JPanel {
     
-    private JXTreeTable               table;
-    private ArrayList<String>         headings;
+    private JXTreeTable table;
+    private ArrayList<String> headings;
     private ArrayList<ExperimentData> experiments;
-    private ArrayList<Boolean>        sortingOrders;
+    private ArrayList<Boolean> sortingOrders;
     
     /**
      * Tree Table empty constructor

@@ -8,12 +8,12 @@ import java.awt.event.MouseListener;
 
 public class ComponentTitledBorder implements Border, MouseListener,
         SwingConstants {
-    int        offset = 5;
+    int offset = 5;
     
-    Component  comp;
+    Component comp;
     JComponent container;
-    Rectangle  rect;
-    Border     border;
+    Rectangle rect;
+    Border border;
     
     public ComponentTitledBorder(Component comp, JComponent container,
             Border border) {

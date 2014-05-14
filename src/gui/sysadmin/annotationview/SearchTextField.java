@@ -13,10 +13,10 @@ import java.util.List;
  */
 public class SearchTextField extends JTextField implements FocusListener {
     
-    private static Color searchHintText  = new Color(100, 100, 100);
+    private static Color searchHintText = new Color(100, 100, 100);
     private static Color searchTextColor = new Color(0, 0, 0);
     
-    private String       hintText;
+    private String hintText;
     
     public SearchTextField() {
         this.hintText = "";

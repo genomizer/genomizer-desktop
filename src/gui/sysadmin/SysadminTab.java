@@ -15,11 +15,11 @@ import java.awt.event.ActionListener;
 
 public class SysadminTab extends JPanel {
     
-    private JTabbedPane            sysadminTabPane;
-    private SysadminController     sysController;
+    private JTabbedPane sysadminTabPane;
+    private SysadminController sysController;
     private AnnotationsViewCreator annotationsView;
-    private UsersViewCreator       usersView;
-    private ProcessViewCreator     processView;
+    private UsersViewCreator usersView;
+    private ProcessViewCreator processView;
     
     /**
      * Create the panel.
