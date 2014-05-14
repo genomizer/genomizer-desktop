@@ -33,41 +33,46 @@ import communication.DownloadHandler;
 import communication.UploadHandler;
 
 public class Model implements GenomizerModel {
-    
+
     private String        userID = "";
     private Connection    conn;
     private SearchHistory searchHistory;
-    
+
     public Model(Connection conn) {
         searchHistory = new SearchHistory();
         this.setConn(conn);
     }
-    
+
     public String getUserID() {
         return userID;
     }
-    
+
     public void setUserID(String userID) {
         this.userID = userID;
     }
-    
+
     public Connection getConn() {
         return conn;
     }
-    
+
     public void setConn(Connection conn) {
         this.conn = conn;
     }
-    
-    @Override
+
+    /**
+     * Sends a rawToProfile request to the server, with
+     * which file the user wants to create profile data from.
+     *
+     * Returns whether or not the server could create profile data or not.
+     */
     public boolean rawToProfile(String fileName, String fileID, String expid,
             String processtype, String[] parameters, String metadata,
             String genomeRelease, String author) {
-        
+
         rawToProfileRequest rawToProfilerequest = RequestFactory
                 .makeRawToProfileRequest(fileName, fileID, expid, processtype,
                         parameters, metadata, genomeRelease, author);
-        
+
         conn.sendRequest(rawToProfilerequest, userID, "application/json");
         if (conn.getResponseCode() == 201) {
             return true;
@@ -76,7 +81,7 @@ public class Model implements GenomizerModel {
             return false;
         }
     }
-    
+
     @Override
     public boolean loginUser(String username, String password) {
         if (!username.isEmpty() && !password.isEmpty()) {
@@ -95,7 +100,7 @@ public class Model implements GenomizerModel {
         }
         return false;
     }
-    
+
     @Override
     public boolean logoutUser() {
         LogoutRequest request = RequestFactory.makeLogoutRequest();
@@ -107,7 +112,7 @@ public class Model implements GenomizerModel {
             return false;
         }
     }
-    
+
     @Override
     public boolean uploadFile(String expName, File f, String type,
             String username, boolean isPrivate, String release) {
@@ -120,7 +125,7 @@ public class Model implements GenomizerModel {
         if (conn.getResponseCode() == 200) {
             url = conn.getResponseBody();
         }
-        
+
         AddFileToExperimentResponse aFTER = ResponseParser
                 .parseUploadResponse(conn.getResponseBody());
         HTTPURLUpload upload = new HTTPURLUpload(aFTER.URLupload,
@@ -136,13 +141,13 @@ public class Model implements GenomizerModel {
 
         return true;
     }
-    
+
     @Override
     public boolean downloadFile(String url, String fileID, String path) {
         // Use this until search works on the server
         DownloadFileRequest request = RequestFactory.makeDownloadFileRequest(
                 fileID, ".wig");
-        
+
         System.out.println("Test: " + fileID);
         conn.sendRequest(request, userID, "text/plain");
         Gson gson = new Gson();
@@ -154,7 +159,7 @@ public class Model implements GenomizerModel {
         System.out.println("Test");
         return true;
     }
-    
+
     @Override
     public ArrayList<ExperimentData> search(String pubmedString) {
         searchHistory.addSearchToHistory(pubmedString);
@@ -170,21 +175,21 @@ public class Model implements GenomizerModel {
         }
         return null;
     }
-    
+
     @Override
     public void setIp(String ip) {
         conn.setIp(ip);
     }
-    
+
     @Override
     public boolean addNewAnnotation(String name, String[] categories,
             boolean forced) throws IllegalArgumentException {
-        
+
         if (name.isEmpty()) {
             throw new IllegalArgumentException(
                     "Must have a name for the annotation!");
         }
-        
+
         AnnotationDataType[] annotations = getAnnotations();
         if (annotations == null) {
             return false;
@@ -197,11 +202,11 @@ public class Model implements GenomizerModel {
                                 + " already exists");
             }
         }
-        
+
         if (categories == null || categories.length == 0) {
             categories = new String[] { "Yes", "No", "Unknown" };
         }
-        
+
         AddAnnotationRequest request = RequestFactory.makeAddAnnotationRequest(
                 name, categories, forced);
         conn.sendRequest(request, userID, "application/json");
@@ -214,10 +219,10 @@ public class Model implements GenomizerModel {
             return false;
         }
     }
-    
+
     @Override
     public boolean deleteAnnotation(DeleteAnnoationData deleteAnnoationData) {
-        
+
         DeleteAnnotationRequest request = RequestFactory
                 .makeDeleteAnnotationRequest(deleteAnnoationData);
         conn.sendRequest(request, userID, "application/json");
@@ -231,7 +236,7 @@ public class Model implements GenomizerModel {
         }
         return false;
     }
-    
+
     public synchronized AnnotationDataType[] getAnnotations() {
         GetAnnotationRequest request = RequestFactory
                 .makeGetAnnotationRequest();
@@ -247,7 +252,7 @@ public class Model implements GenomizerModel {
         }
         return new AnnotationDataType[] {};
     }
-    
+
     @Override
     public boolean addNewExperiment(String expName, String username,
             AnnotationDataValue[] annotations) {
@@ -263,5 +268,5 @@ public class Model implements GenomizerModel {
         }
         return false;
     }
-    
+
 }
