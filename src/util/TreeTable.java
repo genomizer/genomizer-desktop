@@ -34,13 +34,13 @@ import org.jdesktop.swingx.treetable.DefaultTreeTableModel;
  */
 public class TreeTable extends JPanel {
     
-    private JXTreeTable               table;
-    private ArrayList<String>         headings;
+    private JXTreeTable table;
+    private ArrayList<String> headings;
     private ArrayList<ExperimentData> experiments;
-    private ArrayList<Boolean>        sortingOrders;
-    private ArrayList<String>         deselectedHeadings;
-    private ArrayList<String>         visibleHeadings;
-    private ArrayList<JCheckBox>      columnCheckBoxes;
+    private ArrayList<Boolean> sortingOrders;
+    private ArrayList<String> deselectedHeadings;
+    private ArrayList<String> visibleHeadings;
+    private ArrayList<JCheckBox> columnCheckBoxes;
     
     /**
      * Tree Table empty constructor

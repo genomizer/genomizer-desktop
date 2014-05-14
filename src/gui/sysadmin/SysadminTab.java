@@ -8,10 +8,10 @@ import javax.swing.JTabbedPane;
 
 public class SysadminTab extends JPanel {
     
-    private JTabbedPane            sysadminTabPane;
-    private SysadminController     sysController;
+    private JTabbedPane sysadminTabPane;
+    private SysadminController sysController;
     private AnnotationsViewCreator annotationsView;
-    private JPanel                 usersView;
+    private JPanel usersView;
     
     /**
      * Create the panel.

@@ -3,7 +3,7 @@ package util;
 public class AnnotationDataType extends AnnotationData {
     
     private String[] values;
-    private boolean  forced;
+    private boolean forced;
     
     public AnnotationDataType(String id, String name, String[] values,
             Boolean forced) {

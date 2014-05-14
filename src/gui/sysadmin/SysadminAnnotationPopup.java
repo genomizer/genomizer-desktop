@@ -27,13 +27,13 @@ import javax.swing.SwingUtilities;
 public class SysadminAnnotationPopup extends JPanel {
     
     private static final long serialVersionUID = -626744436260839622L;
-    private JPanel            addCategoriesPanel;
-    private JButton           addButton, removeButton;
-    private ButtonModel       createNewAnnotationButtonModel;
-    private JTextField        nameField;
-    private ArrayList<String> categories       = new ArrayList<String>();
-    private boolean           forced           = false;
-    private JCheckBox         forcedBox;
+    private JPanel addCategoriesPanel;
+    private JButton addButton, removeButton;
+    private ButtonModel createNewAnnotationButtonModel;
+    private JTextField nameField;
+    private ArrayList<String> categories = new ArrayList<String>();
+    private boolean forced = false;
+    private JCheckBox forcedBox;
     
     public SysadminAnnotationPopup() {
         this.setLayout(new BorderLayout());

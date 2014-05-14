@@ -17,12 +17,12 @@ import javax.swing.JProgressBar;
 
 public class UploadFileRow extends JPanel {
     private ExperimentPanel parent;
-    private JPanel          filePanel;
-    private JLabel          fileLabel;
-    private JButton         closeButton;
-    private JComboBox       typeBox;
-    private JProgressBar    uploadBar;
-    private File            file;
+    private JPanel filePanel;
+    private JLabel fileLabel;
+    private JButton closeButton;
+    private JComboBox typeBox;
+    private JProgressBar uploadBar;
+    private File file;
     
     public UploadFileRow(File f, ExperimentPanel parent) {
         this.parent = parent;

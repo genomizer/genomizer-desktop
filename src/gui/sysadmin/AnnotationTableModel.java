@@ -9,7 +9,7 @@ public class AnnotationTableModel extends AbstractTableModel {
     
     private static final long serialVersionUID = 1414328728572140752L;
     
-    AnnotationDataType[]      annotations      = new AnnotationDataType[] {};
+    AnnotationDataType[] annotations = new AnnotationDataType[] {};
     
     @Override
     public int getRowCount() {
