@@ -189,6 +189,9 @@ public class GUI extends JFrame implements GenomizerView {
      * sysadminTab.getNewAnnotationName(); }
      */
 
+    /**
+     * @return The uploadTab.
+     */
     public UploadTab getUploadTab() {
         return uploadTab;
     }
@@ -201,16 +204,25 @@ public class GUI extends JFrame implements GenomizerView {
      * sysadminTab.getNewAnnotationForcedValue(); }
      */
 
+    /**
+     * @return The querySearchTab's searchString.
+     */
     @Override
     public String getQuerySearchString() {
         return querySearchTab.getSearchString();
     }
 
+    /**
+     * @return The marked file data from the process tab.
+     */
     @Override
     public ArrayList<FileData> getAllMarkedFileData() {
         return processTab.getAllMarkedFileData();
     }
 
+    /**
+     * @return The marked files from the process tab.
+     */
     @Override
     public ArrayList<String> getAllMarkedFiles() {
 
@@ -218,20 +230,32 @@ public class GUI extends JFrame implements GenomizerView {
 
     }
 
+    /**
+     * @return The search tab.
+     */
     public JPanel getSearchPanel() {
         return searchTab;
     }
 
+    /**
+     * @return The password input from the login window.
+     */
     @Override
     public String getPassword() {
         return loginWindow.getPasswordInput();
     }
 
+    /**
+     * @return The username input from the login window.
+     */
     @Override
     public String getUsername() {
         return loginWindow.getUsernameInput();
     }
 
+    /**
+     * @return The IP input from the login window.
+     */
     @Override
     public String getIp() {
         return loginWindow.getIPInput();
@@ -248,16 +272,30 @@ public class GUI extends JFrame implements GenomizerView {
         return 0;
     }
 
+    /**
+     * @return The JFrame, which is this object.
+     */
     @Override
     public JFrame getFrame() {
         return this;
     }
 
+    /**
+     * Sets the downloadWindow attribute of the GUI.
+     * @param downloadWindow The DownloadWindow to set the GUI's downloadWindow
+     * attribute to.
+     */
     @Override
     public void setDownloadWindow(DownloadWindow downloadWindow) {
         this.downloadWindow = downloadWindow;
     }
 
+    /**
+     *
+     * @param username
+     * @param pwd
+     * @param name
+     */
     @Override
     public void updateLoginAccepted(String username, String pwd, String name) {
         userPanel.setUserInfo(username, name, false);
@@ -268,29 +306,47 @@ public class GUI extends JFrame implements GenomizerView {
         querySearchTab.clickUpdateAnnotations();
     }
 
+    /**
+     *
+     * @param errorMessage
+     */
     @Override
     public void updateLoginNeglected(String errorMessage) {
         loginWindow.updateLoginFailed(errorMessage);
 
     }
 
+    /**
+     *
+     */
     @Override
     public void updateLogout() {
         this.setVisible(false);
         loginWindow.setVisible(true);
     }
 
+    /**
+     *
+     * @param searchResults
+     */
     @Override
     public void updateQuerySearchResults(ArrayList<ExperimentData> searchResults) {
         querySearchTab.updateSearchResults(searchResults);
     }
 
+    /**
+     * Sets the GUI's processTab attribute.
+     * @param processTab The ProcessTab to set the GUI's attribute to.
+     */
     public void setProcessTab(ProcessTab processTab) {
         this.processTab = processTab;
         tabbedPane.add("PROCESS", processTab);
 
     }
 
+    /**
+     * Sets the look and feel of the view.
+     */
     private void setLookAndFeel() {
 
         try {
@@ -302,36 +358,76 @@ public class GUI extends JFrame implements GenomizerView {
         }
     }
 
+    /**
+     * Sets the searchTab of the GUI.
+     * @param searchTab The SearchTab to set the attribute to.
+     */
     public void setSearchTab(SearchTab searchTab) {
         this.searchTab = searchTab;
         // tabbedPane.add("SEARCH", searchTab);
     }
 
+    /**
+     * Sets the uploadTab of the GUI. Also sets the name of the tab in the
+     * tabbedPane.
+     *
+     * @param uploadTab The UploadTab to set the attribute to.
+     */
     public void setUploadTab(UploadTab uploadTab) {
         this.uploadTab = uploadTab;
         tabbedPane.add("UPLOAD", uploadTab);
     }
 
+    /**
+     * Sets the workspaceTab of the GUI. Also sets the name of the tab in the
+     * tabbedPane.
+     *
+     * @param workspaceTab The WorkspaceTab to set the attribute to.
+     */
     public void setWorkspaceTab(WorkspaceTab workspaceTab) {
         this.workspaceTab = workspaceTab;
         tabbedPane.add("WORKSPACE", workspaceTab);
     }
 
+    /**
+     * Sets the analyzeTab of the GUI. Also sets the name of the tab in the
+     * tabbedPane.
+     *
+     * @param analyzeTab The AnalyzeTab to set the attribute to.
+     */
     public void setAnalyzeTab(AnalyzeTab analyzeTab) {
         this.analyzeTab = analyzeTab;
         tabbedPane.add("ANALYZE", analyzeTab);
     }
 
+    /**
+     * Sets the sysadminTab of the GUI. Also sets the name of the tab in the
+     * tabbedPane.
+     *
+     * @param sat The SysadminTab to set the attribute to.
+     */
     public void setSysAdminTab(SysadminTab sat) {
         this.sysadminTab = sat;
         tabbedPane.add("ADMINISTRATION", sysadminTab);
     }
 
+    /**
+     * Sets the querySearchTab of the GUI. Also sets the name of the tab in the
+     * tabbedPane.
+     *
+     * @param qst The QuerySearchTab to set the attribute to.
+     */
     public void setQuerySearchTab(QuerySearchTab qst) {
         this.querySearchTab = qst;
         tabbedPane.add("SEARCH", querySearchTab);
     }
 
+    /**
+     * Sets the annotationTypes of the querySearchTab.
+     *
+     * @param annotationTypes An array containing AnnotationDataTypes to set the
+     * querySearchTab's annotationTypes to.
+     */
     public void setSearchAnnotationTypes(AnnotationDataType[] annotationTypes) {
         querySearchTab.setAnnotationTypes(annotationTypes);
     }
@@ -341,6 +437,10 @@ public class GUI extends JFrame implements GenomizerView {
      * annotations) { sysadminTab.setAnnotationTableData(annotations); }
      */
 
+    /**
+     *
+     * @param allFileData
+     */
     @Override
     public void setProccessFileList(ArrayList<FileData> allFileData) {
 
@@ -363,22 +463,37 @@ public class GUI extends JFrame implements GenomizerView {
      * @Override public void annotationPopup() { sysadminTab.popup(); }
      */
 
+    /**
+     *
+     * @param message
+     * @param color
+     */
     @Override
     public void printToConvertText(String message, String color) {
         processTab.printToProfileText(message, color);
     }
 
+    /**
+     * @return The selected data in the workspace in the form of an arrayList
+     * containing the ExperimentData.
+     */
     @Override
     public ArrayList<ExperimentData> getSelectedDataInWorkspace() {
 
         return workspaceTab.getSelectedData();
     }
 
+    /**
+     * Repaint and revalidate the view.
+     */
     public void refreshGUI() {
         mainPanel.repaint();
         mainPanel.revalidate();
     }
 
+    /**
+     * Makes the loginWindow visible.
+     */
     public void showLoginWindow() {
         loginWindow.setVisible(true);
     }

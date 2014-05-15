@@ -1,17 +1,26 @@
 package genomizerdesktop;
 
-import communication.Connection;
-import controller.Controller;
-import gui.*;
+import gui.AnalyzeTab;
+import gui.GUI;
+import gui.ProcessTab;
+import gui.QuerySearchTab;
+import gui.SearchTab;
+import gui.UploadTab;
+import gui.WorkspaceTab;
 import gui.sysadmin.SysadminTab;
+
+import javax.swing.SwingUtilities;
+
 import model.Model;
 
-import javax.swing.*;
+import communication.Connection;
+
+import controller.Controller;
 
 public class Genomizer {
-
+    
     public static void main(String args[]) {
-
+        
         final GUI gui = new GUI();
         SearchTab st = new SearchTab();
         UploadTab ut = new UploadTab();
@@ -26,7 +35,7 @@ public class Genomizer {
         gui.setWorkspaceTab(wt);
         // gui.setAnalyzeTab(at);
         gui.setSysAdminTab(sat);
-        Connection con = new Connection("http://scratchy.cs.umu.se:7000");
+        Connection con = new Connection();
         Model model = new Model(con);
         Controller controller = new Controller(gui, model);
         SwingUtilities.invokeLater(new Runnable() {
