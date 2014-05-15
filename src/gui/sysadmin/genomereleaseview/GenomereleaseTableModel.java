@@ -6,10 +6,7 @@ import util.GenomeReleaseData;
 
 public class GenomereleaseTableModel extends AbstractTableModel {
 
-    /* Should be a datatype of its own later */
-    // private String[] grFilename;
-    // private String[] species;
-    // private String[] grVersion;
+
 
     GenomeReleaseData[] grData = new GenomeReleaseData[] {};
 
@@ -24,10 +21,7 @@ public class GenomereleaseTableModel extends AbstractTableModel {
 
         switch (columnIndex) {
             case 0:
-                return grData[rowIndex].getVersion();/*
-                                                      * Get this from new
-                                                      * datatype!
-                                                      */
+                return grData[rowIndex].getVersion();
 
             case 1:
                 return grData[rowIndex].getSpecies();
@@ -43,9 +37,7 @@ public class GenomereleaseTableModel extends AbstractTableModel {
     public void setGenomeReleases(GenomeReleaseData[] grData) {
 
         this.grData = grData;
-        // this.grFilename = grFilename;
-        // this.species = species;
-        // this.grVersion = grVersion;
+        fireTableDataChanged();
 
     }
 

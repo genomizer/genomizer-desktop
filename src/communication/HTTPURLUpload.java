@@ -67,7 +67,7 @@ public class HTTPURLUpload {
         localContext.setCredentialsProvider(credentialsProvider);
         
         // post header
-        HttpPost httpPost = new HttpPost(postReceiverUrl);
+        HttpPost httpPost = new HttpPost(uploadPath);
         System.out.println(httpPost.getURI().getRawQuery());
         // HttpPost httpPost = new HttpPost(filePath);
         

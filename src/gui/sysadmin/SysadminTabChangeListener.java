@@ -8,9 +8,12 @@ import javax.swing.event.ChangeListener;
 
 public class SysadminTabChangeListener implements ChangeListener {
 
+    private SysadminController sysContoller;
 
-    public SysadminTabChangeListener() {
 
+    public SysadminTabChangeListener(SysadminController sysContoller) {
+
+        this.sysContoller = sysContoller;
     }
 
     @Override
@@ -25,6 +28,9 @@ public class SysadminTabChangeListener implements ChangeListener {
             case SysStrings.GENOME:
 
                 System.out.println("Clicked the genome tab.");
+
+                sysContoller.setGenomeReleaseTable();
+
 
                 break;
             case SysStrings.ANNOTATIONS:

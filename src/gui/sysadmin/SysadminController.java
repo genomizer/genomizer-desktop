@@ -126,6 +126,7 @@ public class SysadminController extends Observable {
 
         try {
             // model.getGenomeReleases();
+            /** TODO Implement me.... */
         } catch (IllegalArgumentException e) {
             JOptionPane.showMessageDialog(null, e.getMessage());
         }
@@ -141,10 +142,14 @@ public class SysadminController extends Observable {
         GenomeReleaseData gr3 = new GenomeReleaseData("version3", "zebra",
                 "afilename.txt");
 
-        GenomeReleaseData[] grdarray = new GenomeReleaseData[3];
+        GenomeReleaseData gr4 = new GenomeReleaseData("version 1337",
+                "unicorn", "nyancat.song");
+
+        GenomeReleaseData[] grdarray = new GenomeReleaseData[4];
         grdarray[0] = gr1;
         grdarray[1] = gr2;
         grdarray[2] = gr3;
+        grdarray[3] = gr4;
 
         /*******************************************************************/
 
