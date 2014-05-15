@@ -2,14 +2,11 @@ package util;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.Component;
-import java.awt.Image;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.math.BigInteger;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -19,17 +16,13 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import javax.swing.Action;
-import javax.swing.Icon;
-import javax.swing.ImageIcon;
 import javax.swing.JCheckBox;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
-import javax.swing.JTree;
 import javax.swing.JViewport;
 import javax.swing.table.TableColumnModel;
-import javax.swing.tree.DefaultTreeCellRenderer;
 import javax.swing.tree.TreePath;
 
 import org.jdesktop.swingx.JXTreeTable;
@@ -61,8 +54,9 @@ public class TreeTable extends JPanel {
     
     /**
      * Tree Table constructor with input content
-     *
-     * @param experimentData - the tree table content
+     * 
+     * @param experimentData
+     *            - the tree table content
      */
     public TreeTable(ArrayList<ExperimentData> experimentData) {
         this.setLayout(new BorderLayout());
@@ -70,13 +64,12 @@ public class TreeTable extends JPanel {
         setContent(experimentData);
     }
     
-    
     /**
      * Method for initating the JXTreeTable
      */
     private void initiateJXTreeTable() {
         table = new JXTreeTable();
-        table.setBackground(new Color(234,235,238));
+        table.setBackground(new Color(234, 235, 238));
         table.setLeafIcon(null);
         table.setClosedIcon(null);
         table.setOpenIcon(null);
@@ -129,19 +122,18 @@ public class TreeTable extends JPanel {
         });
         JScrollPane scrollPane = new JScrollPane(table);
         scrollPane
-        .setHorizontalScrollBarPolicy(
-                JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+                .setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
         scrollPane
-        .setVerticalScrollBarPolicy(
-                JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
+                .setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
         scrollPane.getViewport().setScrollMode(JViewport.SIMPLE_SCROLL_MODE);
         add(scrollPane, BorderLayout.CENTER);
     }
     
     /**
      * set new content for the tree table
-     *
-     * @param experimentData - new content
+     * 
+     * @param experimentData
+     *            - new content
      */
     public void setContent(ArrayList<ExperimentData> experimentData) {
         
@@ -156,8 +148,7 @@ public class TreeTable extends JPanel {
             headings.add("ExpID");
             headings.add("Experiment Created By");
             for (int i = 0; i < experiments.size(); i++) {
-                for (AnnotationDataValue annotation : experiments
-                        .get(i).annotations) {
+                for (AnnotationDataValue annotation : experiments.get(i).annotations) {
                     if (!headings.contains(annotation.name)) {
                         headings.add(annotation.name);
                         nrOfColumns++;
@@ -192,16 +183,15 @@ public class TreeTable extends JPanel {
         }
         
         /* Create the tree structure */
-        visibleHeadings = new ArrayList<String>();
-        visibleHeadings.addAll(headings);
         deselectedHeadings = new ArrayList<String>();
         createTreeStructure();
     }
     
     /**
      * Sort the treetable data by column index
-     *
-     * @param sortByColumn - column index
+     * 
+     * @param sortByColumn
+     *            - column index
      */
     private void sortData(final int sortByColumn) {
         
@@ -299,7 +289,7 @@ public class TreeTable extends JPanel {
     
     /**
      * Return the selected data in the tree table
-     *
+     * 
      * @return
      */
     public ArrayList<ExperimentData> getSelectedData() {
@@ -319,8 +309,7 @@ public class TreeTable extends JPanel {
                 ExperimentData newExp = new ExperimentData(exp.name,
                         exp.createdBy, (ArrayList<FileData>) exp.files.clone(),
                         (ArrayList<AnnotationDataValue>) exp.annotations
-                        .clone()
-                        );
+                                .clone());
                 if (!selectedExperiments.contains(exp)) {
                     selectedExperiments.add(newExp);
                 }
@@ -341,8 +330,7 @@ public class TreeTable extends JPanel {
                         }
                     } else {
                         ExperimentData exp = new ExperimentData(tempExp.name,
-                                tempExp.createdBy, newFile,
-                                tempExp.annotations);
+                                tempExp.createdBy, newFile, tempExp.annotations);
                         selectedExperiments.add(exp);
                     }
                     
@@ -373,7 +361,7 @@ public class TreeTable extends JPanel {
                                 ArrayList<FileData> newFile = new ArrayList<FileData>();
                                 newFile.add(file);
                                 selectedExperiments.get(index)
-                                .addFiles(newFile);
+                                        .addFiles(newFile);
                             }
                         }
                     } else {
@@ -382,8 +370,7 @@ public class TreeTable extends JPanel {
                                 tempExp.createdBy,
                                 newFiles,
                                 (ArrayList<AnnotationDataValue>) tempExp.annotations
-                                .clone()
-                                );
+                                        .clone());
                         selectedExperiments.add(exp);
                     }
                 }
@@ -426,12 +413,7 @@ public class TreeTable extends JPanel {
         return experiments;
     }
     
-    /**
-     * Create the tree structure of the tree table
-     */
-    private void createTreeStructure() {
-        /* Create the tree root */
-        SupportNode root = new SupportNode(new Object[] { "Root" });
+    private void updateVisibleHeadings() {
         visibleHeadings = new ArrayList<String>();
         int columnCount = table.getColumnCount();
         if (columnCount > 0) {
@@ -450,7 +432,15 @@ public class TreeTable extends JPanel {
         } else {
             visibleHeadings.addAll(headings);
         }
-        
+    }
+    
+    /**
+     * Create the tree structure of the tree table
+     */
+    private void createTreeStructure() {
+        /* Create the tree root */
+        updateVisibleHeadings();
+        SupportNode root = new SupportNode(new Object[] { "Root" });
         try {
             for (ExperimentData experiment : experiments) {
                 /* Create experiment node and add to root */
@@ -461,8 +451,7 @@ public class TreeTable extends JPanel {
             /* Create the model and add it to the table */
             DefaultTreeTableModel model = new DefaultTreeTableModel(root,
                     Arrays.asList(visibleHeadings
-                            .toArray(new String[visibleHeadings.size()]))
-                    );
+                            .toArray(new String[visibleHeadings.size()])));
             
             table.setTreeTableModel(model);
             table.packAll();
