@@ -727,4 +727,11 @@ public class ProcessTab extends JPanel {
         return s;
     }
 
+    public String[] getOtherParameters() {
+        String[] s = new String[2];
+        s[0] = "y";
+        s[1] = "y";
+        return s;
+    }
+
 }

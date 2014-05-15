@@ -38,7 +38,7 @@ public class GUI extends JFrame implements GenomizerView {
     private SysadminTab sysadminTab;
     private QuerySearchTab querySearchTab;
     private DownloadWindow downloadWindow;
-    
+
     /**
      * Initiates the main view of the program.
      */
@@ -70,7 +70,7 @@ public class GUI extends JFrame implements GenomizerView {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setLocationRelativeTo(null);
     }
-    
+
     @Override
     public void addAnalyzeSelectedListener(ActionListener listener) {
         workspaceTab.addAnalyzeSelectedListener(listener);
@@ -165,17 +165,17 @@ public class GUI extends JFrame implements GenomizerView {
     public void addSearchResultsDownloadListener(ActionListener listener) {
         querySearchTab.addDownloadButtonListener(listener);
     }
-    
+
     /**
      * Adds the provided ExperimentDatas to the workspaceTab.
-     * 
+     *
      * @param experiments
      *            The ArrayList of ExperimentData to be added.
      */
     public void addToWorkspace(ArrayList<ExperimentData> experiments) {
         workspaceTab.addExperimentsToTable(experiments);
     }
-    
+
     /**
      * @return The data (files or experiments) that were selected in search.
      */
@@ -465,8 +465,13 @@ public class GUI extends JFrame implements GenomizerView {
     public void enableUploadButton(boolean b) {
         uploadTab.enableUploadButton(b);
     }
-    
+
     public String[] getRatioCalcParameters() {
         return processTab.getRatioCalcParameters();
+    }
+
+    @Override
+    public String[] getOtherParameters() {
+        return processTab.getOtherParameters();
     }
 }
