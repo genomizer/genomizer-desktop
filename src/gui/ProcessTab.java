@@ -46,7 +46,7 @@ public class ProcessTab extends JPanel {
     private final JPanel checkBoxPanel = new JPanel();
     private final JPanel createRegTabPanel = new JPanel();
     private final JPanel convWigTabPanel = new JPanel();
-    private final JPanel convTabpanel = new JPanel();
+    private final JPanel convTabpanel = new JPanel(new BorderLayout());
 
     private final JTextArea textArea = new JTextArea();
     private final JTextArea genProfArea = new JTextArea();
@@ -130,7 +130,7 @@ public class ProcessTab extends JPanel {
      */
     private void addNorthPanel() {
         RawToProfileMenuPanel.setAlignmentX(Component.RIGHT_ALIGNMENT);
-        RawToProfileMenuPanel.setPreferredSize(new Dimension(1200, 200));
+      //  RawToProfileMenuPanel.setPreferredSize(new Dimension(1200, 200));
 
         this.add(RawToProfileMenuPanel, BorderLayout.NORTH);
         addOptionsToRawToProfileTab();
@@ -295,7 +295,7 @@ public class ProcessTab extends JPanel {
         RawToProfileMenuPanel.add(tabbedPane, BorderLayout.CENTER);
 
         tabbedPane.addTab("Create profile data", null, convTabpanel, null);
-        convTabpanel.add(convPanel);
+        convTabpanel.add(convPanel,BorderLayout.NORTH);
         convPanel.add(flagsPanel);
         flagsPanel.setBorder(BorderFactory.createTitledBorder("Flags")/*new TitledBorder(null, "Flags",
                 TitledBorder.LEADING, TitledBorder.TOP, null, null)*/);
@@ -348,8 +348,7 @@ public class ProcessTab extends JPanel {
 
         checkBoxPanel.setLayout(gbl_checkBoxPanel);
         convPanel.add(stepSizePanel);
-        stepSizePanel.setBorder(new TitledBorder(null, "Step size",
-                TitledBorder.LEADING, TitledBorder.TOP, null, null));
+        stepSizePanel.setBorder(BorderFactory.createTitledBorder("Step size"));
 
         tabbedPane.addTab("Convert to WIG", null, convWigTabPanel, null);
 
@@ -363,7 +362,7 @@ public class ProcessTab extends JPanel {
         flagsPanel.add(flags);
         flags.setBorder(null);
         flags.setText("-a -m 1 --best -p 10 -v 2 -q -S");
-        flags.setPreferredSize(new Dimension(175, 45));
+        flags.setPreferredSize(new Dimension(180, 45));
     }
 
     /**
@@ -371,7 +370,7 @@ public class ProcessTab extends JPanel {
      */
     private void addGenomeFileToConv() {
         genomeReleasePanel.add(genomeFile);
-        genomeFile.setPreferredSize(new Dimension(175, 45));
+        genomeFile.setPreferredSize(new Dimension(180, 45));
         genomeFile.setBorder(null);
     }
 
@@ -380,7 +379,7 @@ public class ProcessTab extends JPanel {
      */
     private void addSmoothWindowSizeToConv() {
         windowSizePanel.add(smoothWindowSize);
-        smoothWindowSize.setPreferredSize(new Dimension(90, 45));
+        smoothWindowSize.setPreferredSize(new Dimension(70, 45));
         smoothWindowSize.setBorder(null);
         smoothWindowSize.setHorizontalAlignment(JTextField.CENTER);
     }
@@ -390,7 +389,7 @@ public class ProcessTab extends JPanel {
      */
     private void addSmoothTypeToConv() {
         smoothTypePanel.add(smoothType);
-        smoothType.setPreferredSize(new Dimension(90, 45));
+        smoothType.setPreferredSize(new Dimension(70, 45));
         smoothType.setBorder(null);
         smoothType.setHorizontalAlignment(JTextField.CENTER);
     }
@@ -400,7 +399,7 @@ public class ProcessTab extends JPanel {
      */
     private void addStepPositionToConv() {
         stepPositionPanel.add(stepPosition);
-        stepPosition.setPreferredSize(new Dimension(90, 45));
+        stepPosition.setPreferredSize(new Dimension(75, 45));
         stepPosition.setBorder(null);
         stepPosition.setHorizontalAlignment(JTextField.CENTER);
     }
@@ -410,7 +409,7 @@ public class ProcessTab extends JPanel {
      */
     private void addStepSizeToConv() {
         stepSizePanel.add(stepSize);
-        stepSize.setPreferredSize(new Dimension(80, 45));
+        stepSize.setPreferredSize(new Dimension(70, 45));
         stepSize.setBorder(null);
         stepSize.setHorizontalAlignment(JTextField.CENTER);
     }
@@ -455,7 +454,7 @@ public class ProcessTab extends JPanel {
         regionButton.setEnabled(false);
         convWigTabPanel.add(convertButton);
         convertButton.setEnabled(false);
-        convTabpanel.add(buttonPanel);
+        convTabpanel.add(buttonPanel,BorderLayout.SOUTH);
         buttonPanel.add(profileButton);
         // scheduleProcPanel.add(scheduleButton);
         // scheduleButton.setPreferredSize(new Dimension(297, 23));
@@ -725,6 +724,13 @@ public class ProcessTab extends JPanel {
         s[0] = "single 4 0";
         s[1] = "150 1 7 0 0";
 
+        return s;
+    }
+
+    public String[] getOtherParameters() {
+        String[] s = new String[2];
+        s[0] = "y";
+        s[1] = "y";
         return s;
     }
 

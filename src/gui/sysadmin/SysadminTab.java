@@ -19,7 +19,7 @@ public class SysadminTab extends JPanel {
     private AnnotationsViewCreator   annotationsView;
     private UsersViewCreator         usersView;
     private ProcessViewCreator       processView;
-    private GenomeReleaseViewCreator chainFileView;
+    private GenomeReleaseViewCreator genomeReleaseView;
 
     /**
      * Create the panel.
@@ -29,7 +29,7 @@ public class SysadminTab extends JPanel {
         this.annotationsView = new AnnotationsViewCreator();
         this.usersView = new UsersViewCreator();
         this.processView = new ProcessViewCreator();
-        this.chainFileView = new GenomeReleaseViewCreator();
+        this.genomeReleaseView = new GenomeReleaseViewCreator();
 
     }
 
@@ -47,16 +47,9 @@ public class SysadminTab extends JPanel {
                     sysadminTabPane.addTab(button.getValue(),
                             buildAnnotationsView());
                     break;
-                case USERS:
-                    sysadminTabPane.addTab(button.getValue(), buildUsersView());
-                    break;
-                case PROCESS:
+                case GENOMES:
                     sysadminTabPane.addTab(button.getValue(),
-                            buildProcessView());
-                    break;
-                case CHAINFILE:
-                    sysadminTabPane.addTab(button.getValue(),
-                            buildChainFileView());
+                            buildGenomeReleaseView());
                     break;
             }
         }
@@ -100,8 +93,8 @@ public class SysadminTab extends JPanel {
         return processView.buildProcessView();
     }
 
-    private JPanel buildChainFileView() {
-        return chainFileView.buildGenomeReleaseView();
+    private JPanel buildGenomeReleaseView() {
+        return genomeReleaseView.buildGenomeReleaseView();
     }
 
     public void setController(SysadminController sysController) {
