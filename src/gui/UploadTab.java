@@ -398,24 +398,49 @@ public class UploadTab extends JPanel implements ExperimentPanel {
         return types;
     }
 
+    private boolean forcedAnnotationCheck() {
+        boolean allForcedAnnotationsAreFilled = true;
+        String annotationName = null;
+        String text = null;
+        JTextField annotationField = null;
+        JComboBox<Object> annotationBox = null;
+
+        for(int i=0; i<annotations.length; i++) {
+            if(annotations[i].isForced()) {
+                annotationName = annotations[i].getName();
+                if(annotationFields.containsKey(annotationName)) {
+                    annotationField = annotationFields.get(annotationName);
+                    text = annotationField.getText();
+                    if(text == null || text.equals("")) {
+                        allForcedAnnotationsAreFilled = false;
+                    }
+                    text = null;
+                } else if (annotationBoxes.containsKey(annotationName)) {
+                    annotationBox = annotationBoxes.get(annotationName);
+                    text = (String)annotationBox.getSelectedItem();
+                    if(text == null || text.equals("")) {
+                        allForcedAnnotationsAreFilled = false;
+                    }
+
+                    text = null;
+                }
+            }
+        }
+        return allForcedAnnotationsAreFilled;
+    }
+
     /**
      * Sets the experiment button to either be enabled or disabled.
      *
      * @param b
      *            Whether it should be enabled (true) or disabled (false)
      */
-    private boolean forcedAnnotationCheck() {
-        boolean allForcedAnnotationsAreFilled = true;
-        String annotationName = new String();
-        for(int i=0; i<annotations.length; i++) {
-            if(annotations[i].isForced()) {
-                annotations[i].getName();
-            }
-        }
-    }
-
     public void enableUploadButton(boolean b) {
-        if(forcedAnnotationCheck()) {
+        if(b) {
+            if (forcedAnnotationCheck()) {
+                uploadButton.setEnabled(b);
+            }
+        } else {
             uploadButton.setEnabled(b);
         }
     }
