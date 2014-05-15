@@ -707,4 +707,9 @@ public class ProcessTab extends JPanel {
         ratioCalcButton.addActionListener(listener);
     }
 
+    public void setDefaultRatioPar() {
+        // TODO Auto-generated method stub
+
+    }
+
 }

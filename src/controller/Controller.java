@@ -594,6 +594,7 @@ public class Controller {
         public void run() {
 
             System.out.println("Ratio Calc");
+            view.setDefaultRatioPar();
 
         }
     }
