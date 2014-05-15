@@ -1,15 +1,9 @@
 package gui.sysadmin.genomereleaseview;
 
-import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.FlowLayout;
+import java.awt.*;
 
-import javax.swing.DefaultListSelectionModel;
-import javax.swing.JPanel;
-import javax.swing.JScrollPane;
-import javax.swing.JTable;
-import javax.swing.JTextField;
+import javax.swing.*;
+import javax.swing.border.Border;
 import javax.swing.table.JTableHeader;
 import javax.swing.table.TableModel;
 import javax.swing.table.TableRowSorter;
@@ -31,11 +25,26 @@ public class GenomeReleaseViewCreator {
     public JPanel buildGenomeReleasePanel(){
         JPanel mainPanel = new JPanel(new BorderLayout());
 
+        JPanel headerPanel = buildGenomeHeaderPanel();
         JPanel listPanel = buildGenomeFileList();
         JPanel addGenomePanel = buildAddGenomeFilePanel();
 
+        mainPanel.add(headerPanel, BorderLayout.NORTH);
         mainPanel.add(listPanel, BorderLayout.CENTER);
         mainPanel.add(addGenomePanel, BorderLayout.EAST);
+        return mainPanel;
+    }
+
+    private JPanel buildGenomeHeaderPanel() {
+        JPanel mainPanel = new JPanel(new BorderLayout());
+
+        JLabel label = new JLabel();
+        /** TODO: set variable string!*/
+        label.setText("Genome release files");
+
+        Border border = BorderFactory.createEmptyBorder(5, 5, 5, 5);
+        label.setBorder(border);
+        mainPanel.add(label, BorderLayout.WEST);
         return mainPanel;
     }
 
@@ -82,7 +91,7 @@ public class GenomeReleaseViewCreator {
         
         JScrollPane scrollPane = new JScrollPane(grTable);
         JTableHeader header2 = grTable.getTableHeader();
-        scrollPane.setPreferredSize(new Dimension(500, 80));
+        //scrollPane.setPreferredSize(new Dimension(500, 80));
 
         // JTable cfTable = new JTable(table, header);
         // cfTable.setSelectionMode(DefaultListSelectionModel.SINGLE_SELECTION);
