@@ -120,12 +120,9 @@ public class TreeTable extends JPanel {
                 }
             }
         });
-        JScrollPane scrollPane = new JScrollPane(table);
-        scrollPane
-                .setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
-        scrollPane
-                .setVerticalScrollBarPolicy(
-                        JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
+        JScrollPane scrollPane = new JScrollPane(table,
+                JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
+                JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
         scrollPane.getViewport().setScrollMode(JViewport.SIMPLE_SCROLL_MODE);
         add(scrollPane, BorderLayout.CENTER);
     }
@@ -430,12 +427,12 @@ public class TreeTable extends JPanel {
                     }
                 }
                 visibleHeadings.removeAll(deselectedHeadings);
-
+                
             } else {
                 visibleHeadings.addAll(headings);
             }
-        } catch(NullPointerException e) {
-
+        } catch (NullPointerException e) {
+            
         }
     }
     
