@@ -40,4 +40,6 @@ public interface GenomizerModel {
             AnnotationDataType oldAnnotation);
     
     public OngoingDownloads getOngoingDownloads();
+
+    boolean renameAnnotationField(String oldname, String newname);
 }
