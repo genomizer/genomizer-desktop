@@ -3,7 +3,6 @@ package communication;
 import java.io.File;
 import java.io.IOException;
 import java.net.URI;
-import java.net.URISyntaxException;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
@@ -13,7 +12,6 @@ import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.CredentialsProvider;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.client.protocol.HttpClientContext;
-import org.apache.http.client.utils.URIBuilder;
 import org.apache.http.entity.mime.HttpMultipartMode;
 import org.apache.http.entity.mime.MultipartEntityBuilder;
 import org.apache.http.impl.client.BasicCredentialsProvider;
@@ -45,14 +43,6 @@ public class HTTPURLUpload {
             path = uploadPath;
         }
         System.out.println("URL: " + uploadPath + " Path: " + path);
-        try {
-            postReceiverUrl = new URIBuilder().setScheme("http")
-                    .setHost("sterner.cc:8000").setPath("/upload.php")
-                    .addParameter("path", path).build();
-        } catch (URISyntaxException e1) {
-            // TODO Auto-generated catch block
-            e1.printStackTrace();
-        }
         
         // new HttpClient
         HttpClientBuilder hcBuilder = HttpClients.custom();
