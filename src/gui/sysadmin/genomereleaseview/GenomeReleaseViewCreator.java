@@ -1,10 +1,5 @@
 package gui.sysadmin.genomereleaseview;
 
-import java.awt.*;
-
-import javax.swing.*;
-import javax.swing.border.Border;
-
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.FlowLayout;
@@ -22,6 +17,8 @@ import util.GenomeReleaseData;
 
 public class GenomeReleaseViewCreator {
 
+    GenomereleaseTableModel grTablemodel;
+
     public GenomeReleaseViewCreator() {
 
     }
@@ -37,26 +34,11 @@ public class GenomeReleaseViewCreator {
     public JPanel buildGenomeReleasePanel(){
         JPanel mainPanel = new JPanel(new BorderLayout());
 
-        JPanel headerPanel = buildGenomeHeaderPanel();
         JPanel listPanel = buildGenomeFileList();
         JPanel addGenomePanel = buildAddGenomeFilePanel();
 
-        mainPanel.add(headerPanel, BorderLayout.NORTH);
         mainPanel.add(listPanel, BorderLayout.CENTER);
         mainPanel.add(addGenomePanel, BorderLayout.EAST);
-        return mainPanel;
-    }
-
-    private JPanel buildGenomeHeaderPanel() {
-        JPanel mainPanel = new JPanel(new BorderLayout());
-
-        JLabel label = new JLabel();
-        /** TODO: set variable string!*/
-        label.setText("Genome release files");
-
-        Border border = BorderFactory.createEmptyBorder(5, 5, 5, 5);
-        label.setBorder(border);
-        mainPanel.add(label, BorderLayout.WEST);
         return mainPanel;
     }
 
@@ -95,15 +77,15 @@ public class GenomeReleaseViewCreator {
 
         /***********************************************************************/
 
-        GenomereleaseTableModel tablemodel = new GenomereleaseTableModel();
+        grTablemodel = new GenomereleaseTableModel();
 
-        JTable grTable = new JTable(tablemodel);
-        tablemodel.setGenomeReleases(grdarray);
+        JTable grTable = new JTable(grTablemodel);
+        grTablemodel.setGenomeReleases(grdarray);
         /** Wrong array */
         grTable.setShowGrid(false);
 
         TableRowSorter<TableModel> rowSorter = new TableRowSorter<TableModel>(
-                tablemodel);
+                grTablemodel);
 
         grTable.setSelectionMode(DefaultListSelectionModel.SINGLE_SELECTION);
         grTable.setRowSorter(rowSorter);
@@ -165,6 +147,11 @@ public class GenomeReleaseViewCreator {
         JPanel mainPanel = new JPanel();
 
         return mainPanel;
+    }
+
+    public TableModel getTableModel() {
+        // TODO Auto-generated method stub
+        return grTablemodel;
     }
 
 }
