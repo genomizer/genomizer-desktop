@@ -41,7 +41,7 @@ public class AnnotationTableModel extends AbstractTableModel {
                 }
                 return string;
             case 2:
-                return annotations[rowIndex].getForced();
+                return annotations[rowIndex].isForced();
             case 3:
                 return annotations[rowIndex];
             default:

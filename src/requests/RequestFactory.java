@@ -5,6 +5,7 @@ import util.DeleteAnnoationData;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
+import java.util.ArrayList;
 import java.util.HashMap;
 
 public class RequestFactory {
@@ -31,6 +32,11 @@ public class RequestFactory {
     public static DownloadFileRequest makeDownloadFileRequest(String fileName,
             String fileFormat) {
         return new DownloadFileRequest(fileName, fileFormat);
+    }
+
+    public static EditAnnotationRequest makeChangeAnnotationRequest(
+            String name, String annotation) {
+        return new EditAnnotationRequest(name, annotation);
     }
 
     public static ChangeAnnotationRequest makeChangeAnnotationRequest(
