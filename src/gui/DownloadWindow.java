@@ -22,7 +22,6 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 
 import util.FileData;
-
 import communication.DownloadHandler;
 
 public class DownloadWindow extends JFrame {
@@ -33,8 +32,6 @@ public class DownloadWindow extends JFrame {
     private JPanel ongoingPanel;
     private JTable table;
     private JButton downloadButton;
-    private ImageIcon downloadIcon = new ImageIcon(
-            "src/icons/DownloadButton.png");
     private ArrayList<FileData> files;
     private CopyOnWriteArrayList<DownloadHandler> ongoingDownloads;
     private boolean running;
@@ -95,7 +92,7 @@ public class DownloadWindow extends JFrame {
         };
         
         // Add comboboxes to each row in the table.
-        JComboBox comboBox = new JComboBox(new String[] {"RAW", "WIG"});
+        JComboBox<String> comboBox = new JComboBox<String>(new String[] {"RAW", "WIG"});
         DefaultCellEditor cellEditor = new DefaultCellEditor(comboBox);
         table.getColumnModel().getColumn(1).setCellEditor(cellEditor);
         table.setRowHeight(30);

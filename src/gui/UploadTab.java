@@ -537,7 +537,6 @@ public class UploadTab extends JPanel implements ExperimentPanel {
             public void run() {
                 running = true;
                 while (running) {
-                    System.out.println("running");
                     for(File key : uploadFileRows.keySet()) {
                          
                     }
