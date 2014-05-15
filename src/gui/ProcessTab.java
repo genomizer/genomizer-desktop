@@ -708,7 +708,6 @@ public class ProcessTab extends JPanel {
     }
 
     public void setDefaultRatioPar() {
-        // TODO Auto-generated method stub
 
     }
 
