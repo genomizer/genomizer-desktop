@@ -26,12 +26,12 @@ public class ProcessTab extends JPanel {
 
     private final JPanel convPanel = new JPanel();
     private final JPanel buttonPanel = new JPanel();
-    private final JPanel filesPanel = new JPanel();
-    private final JPanel scheduleProcPanel = new JPanel();
-    private final JPanel genProfileDataPanel = new JPanel();
-    private final JPanel genRegionDataPanel = new JPanel();
-    private final JPanel convertFilesPanel = new JPanel();
-    private final JPanel procQueuePanel = new JPanel();
+    private final JPanel filesPanel = new JPanel(new BorderLayout());
+    private final JPanel scheduleProcPanel = new JPanel(new BorderLayout());
+    private final JPanel genProfileDataPanel = new JPanel(new BorderLayout());
+    private final JPanel genRegionDataPanel = new JPanel(new BorderLayout());
+    private final JPanel convertFilesPanel = new JPanel(new BorderLayout());
+    private final JPanel procQueuePanel = new JPanel(new BorderLayout());
     private final JPanel RawToProfileMenuPanel = new JPanel();
     private final JPanel timePanel = new JPanel();
     private final JPanel middlePanel = new JPanel(new GridLayout(3, 1));
@@ -146,7 +146,7 @@ public class ProcessTab extends JPanel {
         this.add(westPanel, BorderLayout.WEST);
         filesPanel.setBorder(new TitledBorder(null, "Files",
                 TitledBorder.LEADING, TitledBorder.TOP, null, null));
-        filesPanel.setPreferredSize(new Dimension(300, 100));
+        //    filesPanel.setPreferredSize(new Dimension(300, 100));
         addFilesScheduleToWestPanel();
         addScheduleProcPanel();
 
@@ -171,9 +171,8 @@ public class ProcessTab extends JPanel {
         procQueuePanel.setBorder(new TitledBorder(UIManager
                 .getBorder("TitledBorder.border"), "Processing In Queue",
                 TitledBorder.LEADING, TitledBorder.TOP, null, null
-        ));
+                ));
         this.add(procQueuePanel, BorderLayout.EAST);
-        procQueuePanel.setPreferredSize(new Dimension(300, 100));
         addProcessInQueue();
 
     }
@@ -182,7 +181,7 @@ public class ProcessTab extends JPanel {
      * Initiates the convertFilesPanel in the center panel.
      */
     private void addConvertFilesPanel() {
-        middlePanel.add(convertFilesPanel);
+        middlePanel.add(convertFilesPanel, BorderLayout.CENTER);
         convertFilesPanel.setBorder(new TitledBorder(null, "Convert Files",
                 TitledBorder.LEADING, TitledBorder.TOP, null, null));
     }
@@ -191,11 +190,10 @@ public class ProcessTab extends JPanel {
      * Initiates the genRegionDataPanel in the center panel.
      */
     private void addGenRegionDataPanel() {
-        middlePanel.add(genRegionDataPanel);
+        middlePanel.add(genRegionDataPanel, BorderLayout.CENTER);
         genRegionDataPanel.setBorder(new TitledBorder(null,
                 "Generate Region Data", TitledBorder.LEADING, TitledBorder.TOP,
                 null, null));
-        scrollRegion.setPreferredSize(new Dimension(610, 130));
         addScrollGenRegionData();
     }
 
@@ -203,11 +201,9 @@ public class ProcessTab extends JPanel {
      * Adds scrollpane to genRegionData in the genRedionDataPanel.
      */
     private void addScrollGenRegionData() {
-        genRegionDataPanel.add(scrollRegion);
+        genRegionDataPanel.add(scrollRegion, BorderLayout.CENTER);
         scrollRegion.setViewportView(genRegArea);
         genRegArea.setEditable(false);
-        genRegArea.setPreferredSize(new Dimension(590, 125));
-
         genRegionDataPanel.add(textArea);
     }
 
@@ -215,27 +211,22 @@ public class ProcessTab extends JPanel {
      * Initiates the genProfileDataPanel in the center panel.
      */
     private void addGenProfileDataPanel() {
-        middlePanel.add(genProfileDataPanel);
+        middlePanel.add(genProfileDataPanel,BorderLayout.CENTER);
         genProfileDataPanel.setBorder(new TitledBorder(null,
                 "Generate Profile Data", TitledBorder.LEADING,
                 TitledBorder.TOP, null, null));
-        scrollProfile.setPreferredSize(new Dimension(610, 130));
 
         genProfileDataPanel.add(scrollProfile);
         scrollProfile.setViewportView(genProfArea);
         genProfArea.setEditable(false);
-        genProfArea.setPreferredSize(new Dimension(590, 125));
     }
 
     /**
      * Initiates the scrollProcessList in procQueuePanel.
      */
     private void addProcessInQueue() {
-        scrollProcessList.setPreferredSize(new Dimension(290, 460));
-
-        procQueuePanel.add(scrollProcessList);
+        procQueuePanel.add(scrollProcessList,BorderLayout.CENTER);
         scrollProcessList.setViewportView(processList);
-        processList.setPreferredSize(new Dimension(270, 435));
     }
 
     /**
@@ -253,12 +244,9 @@ public class ProcessTab extends JPanel {
         scheduleProcPanel.setBorder(new TitledBorder(null,
                 "Scheduled Processing", TitledBorder.LEADING, TitledBorder.TOP,
                 null, null));
-        scheduleProcPanel.setPreferredSize(new Dimension(300, 100));
-        scrollSchedule.setPreferredSize(new Dimension(290, 185));
 
         scheduleProcPanel.add(scrollSchedule);
         scrollSchedule.setViewportView(scheduleList);
-        scheduleList.setPreferredSize(new Dimension(260, 180));
     }
 
     /**
@@ -266,12 +254,10 @@ public class ProcessTab extends JPanel {
      * the conversion succeeded.
      */
     private void addConvertTextArea() {
-        scrollConvert.setPreferredSize(new Dimension(610, 130));
 
         convertFilesPanel.add(scrollConvert);
         scrollConvert.setViewportView(convertArea);
         convertArea.setEditable(false);
-        convertArea.setPreferredSize(new Dimension(590, 125));
     }
 
     /**
@@ -279,8 +265,6 @@ public class ProcessTab extends JPanel {
      */
     private void addFilesScheduleToWestPanel() {
         westPanel.add(filesPanel);
-        scrollFiles.setPreferredSize(new Dimension(290, 215));
-
         filesPanel.add(scrollFiles);
 
         scrollFiles.setViewportView(fileList);
@@ -307,9 +291,8 @@ public class ProcessTab extends JPanel {
      */
     private void addPanelsToRawToProfileTab() {
         RawToProfileMenuPanel
-                .setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
-        RawToProfileMenuPanel.add(tabbedPane);
-        convTabpanel.setPreferredSize(new Dimension(1222, 145));
+        .setLayout(new BorderLayout());
+        RawToProfileMenuPanel.add(tabbedPane, BorderLayout.CENTER);
 
         tabbedPane.addTab("Create profile data", null, convTabpanel, null);
         convTabpanel.add(convPanel);
