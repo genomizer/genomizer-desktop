@@ -269,7 +269,6 @@ public class UploadTab extends JPanel implements ExperimentPanel {
                         public void actionPerformed(ActionEvent actionEvent) {
                             String text = (String) comboBox.getSelectedItem();
                             if (!text.equals("") && text != null) {
-                                System.out.println("trying1..");
                                 enableUploadButton(true);
                             }
                         }
@@ -435,7 +434,17 @@ public class UploadTab extends JPanel implements ExperimentPanel {
         return types;
     }
 
+    /**
+     * @return true if all forced annotations are filled, and there are files
+     * selected. Otherwise returns false.
+     */
     private boolean forcedAnnotationCheck() {
+
+        String expIDName = expID.getText();
+        if(expIDName == null || expIDName.equals("")) {
+            return false;
+        }
+
         boolean allForcedAnnotationsAreFilled = true;
         String annotationName = null;
         String text = null;
@@ -445,11 +454,9 @@ public class UploadTab extends JPanel implements ExperimentPanel {
         for(int i=0; i<annotations.length; i++) {
             if(annotations[i].isForced()) {
                 annotationName = annotations[i].getName();
-                System.out.println("annotation name: " + annotationName);
                 if(annotationFields.containsKey(annotationName)) {
                     annotationField = annotationFields.get(annotationName);
                     text = annotationField.getText();
-                    System.out.println("text: " + text);
                     if(text == null || text.equals("")) {
                         allForcedAnnotationsAreFilled = false;
                     }
@@ -459,7 +466,6 @@ public class UploadTab extends JPanel implements ExperimentPanel {
                     text = (String)annotationBox.getSelectedItem();
                     if(text == null || text.equals("")) {
                         allForcedAnnotationsAreFilled = false;
-                        System.out.println("box choices are empty");
                     }
 
                     text = null;
@@ -471,13 +477,16 @@ public class UploadTab extends JPanel implements ExperimentPanel {
 
     /**
      * Sets the experiment button to either be enabled or disabled.
+     * Only sets
      *
      * @param b
-     *            Whether it should be enabled (true) or disabled (false)
+     *            Whether it should try to:
+     *            enable the button (true)
+     *            or disable it (false)
      */
     public void enableUploadButton(boolean b) {
         if(b) {
-            if (forcedAnnotationCheck()) {
+            if (!uploadFileRows.isEmpty() && forcedAnnotationCheck()) {
                 uploadButton.setEnabled(b);
             }
         } else {
@@ -485,23 +494,22 @@ public class UploadTab extends JPanel implements ExperimentPanel {
         }
     }
 
-    // Listener for when the text in a textfield changes.
+    /**
+     * Listener for when the text in a textfield changes.
+     */
     private class FreetextListener implements DocumentListener {
         @Override
         public void insertUpdate(DocumentEvent documentEvent) {
-            System.out.println("insert");
             react();
         }
 
         @Override
         public void removeUpdate(DocumentEvent documentEvent) {
-            System.out.println("remove");
             react();
         }
 
         @Override
         public void changedUpdate(DocumentEvent documentEvent) {
-            System.out.println("changed");
             react();
         }
 

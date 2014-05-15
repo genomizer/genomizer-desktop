@@ -20,15 +20,15 @@ public class DownloadHandler {
     private HttpURLConnection conn;
     private String username;
     private String password;
-    private String fileID;
+    private String fileName;
     private boolean finished;
     private int totalDownload;
     private int perSecond;
     
-    public DownloadHandler(String username, String password, String fileID) {
+    public DownloadHandler(String username, String password, String fileName) {
         this.username = username;
         this.password = password;
-        this.fileID = fileID;
+        this.fileName = fileName;
     }
     
     public boolean download(String url, String localFilePath) {
@@ -41,6 +41,7 @@ public class DownloadHandler {
             url = url.replaceFirst("\\u003d", "=");
             url = url.replaceFirst("scratcy", "scratchy");
             url = url.replaceFirst("8090", "8000");
+            url = url.replaceFirst("scratchy.cs.umu.se", "sterner.cc");
             
             URL targetUrl = new URL(url);
             String authString = username + ":" + password;
@@ -74,14 +75,12 @@ public class DownloadHandler {
                 totalDownload += System.getProperty("line.separator").length();
                 if (System.currentTimeMillis() - previousTime > 1000) {
                     previousTime = System.currentTimeMillis();
-                    System.out.println("Downloaded " + totalDownload / 1024
-                            / 1024 + "MiB");
                     perSecond = totalDownload - previousDownload;
                     previousDownload = totalDownload;
-                    System.out.println(perSecond / 1024 / 1024 / 1 + "MiB/s");
                 }
             }
             fileOut.close();
+            finished = true;
             System.out.println("Size: " + totalDownload + " Expected: "
                     + conn.getContentLength());
             conn.disconnect();
@@ -91,7 +90,6 @@ public class DownloadHandler {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        finished = true;
         return true;
     }
     
@@ -107,11 +105,11 @@ public class DownloadHandler {
     }
     
     public int getCurrentSpeed() {
-        return perSecond / 1024 / 2014 / 1;
+        return perSecond;
     }
     
-    public String getFileID() {
-        return fileID;
+    public String getFileName() {
+        return fileName;
     }
     
     public boolean isFinished() {
