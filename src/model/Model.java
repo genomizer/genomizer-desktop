@@ -3,6 +3,7 @@ package model;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 import requests.AddAnnotationRequest;
 import requests.AddExperimentRequest;
@@ -22,7 +23,6 @@ import responses.NewExperimentResponse;
 import responses.ResponseParser;
 import util.AnnotationDataType;
 import util.AnnotationDataValue;
-import util.DeleteAnnoationData;
 import util.ExperimentData;
 
 import com.google.gson.Gson;
@@ -37,11 +37,11 @@ public class Model implements GenomizerModel {
     private String userID = "";
     private Connection conn;
     private SearchHistory searchHistory;
-    private OngoingDownloads ongoingDownloads;
+    private CopyOnWriteArrayList<DownloadHandler> ongoingDownloads;
     
     public Model(Connection conn) {
         searchHistory = new SearchHistory();
-        ongoingDownloads = new OngoingDownloads();
+        ongoingDownloads = new CopyOnWriteArrayList<DownloadHandler>();
         this.setConn(conn);
     }
     
@@ -89,25 +89,9 @@ public class Model implements GenomizerModel {
         System.out.println("Author: " + author);
         System.out.println("\n");
         
-        String parameters2[] = new String[8];
-        
-        parameters2[0] = "-a -m 1 --best -p 10 -v 2 -q -S";
-        parameters2[1] = "d_melanogaster_fb5_22";
-        parameters2[2] = "y";
-        parameters2[3] = "y";
-        parameters2[4] = "10 1 5 0 0";
-        parameters2[5] = "y 10";
-        parameters2[6] = "single 4 0";
-        parameters2[7] = "150 1 7 0 0";
-        
         rawToProfileRequest rawToProfilerequest = RequestFactory
                 .makeRawToProfileRequest(fileName, fileID, expid, processtype,
                         parameters, metadata, genomeRelease, author);
-        
-        // rawToProfileRequest rawToProfilerequest = RequestFactory
-        // .makeRawToProfileRequest("fileName", "66", "Exp1",
-        // "rawtoprofile", parameters2, "astringofmetadata",
-        // "hg38", "yuri");
         
         conn.sendRequest(rawToProfilerequest, userID, "application/json");
         if (conn.getResponseCode() == 201) {
@@ -192,8 +176,8 @@ public class Model implements GenomizerModel {
         System.out.println(conn.getResponseBody());
         final DownloadHandler handler = new DownloadHandler("pvt", "pvt",
                 fileID);
-        if(handler != null) {
-            ongoingDownloads.addOngoingDownload(handler);
+        if (handler != null) {
+            ongoingDownloads.add(handler);
         }
         new Thread(new Runnable() {
             @Override
@@ -269,11 +253,13 @@ public class Model implements GenomizerModel {
     @Override
     public boolean editAnnotation(String name, String[] categories,
             boolean forced, AnnotationDataType oldAnnotation) {
-        if (oldAnnotation.getName().equals(name)) {
+        if (!(oldAnnotation.getName().equals(name))) {
             for (int i = 0; i < categories.length; i++) {
                 if (!(categories[i]
                         .equalsIgnoreCase(oldAnnotation.getValues()[i]))) {
-                    System.out.println("A change was made in the categories");
+                    System.out
+                            .println("A change was made in annotation properties");
+                    // TODO: Code to create a request goes here
                 }
             }
         }
@@ -282,7 +268,7 @@ public class Model implements GenomizerModel {
     }
     
     @Override
-    public boolean deleteAnnotation(DeleteAnnoationData deleteAnnoationData) {
+    public boolean deleteAnnotation(String deleteAnnoationData) {
         
         DeleteAnnotationRequest request = RequestFactory
                 .makeDeleteAnnotationRequest(deleteAnnoationData);
@@ -330,8 +316,7 @@ public class Model implements GenomizerModel {
         return false;
     }
     
-    public OngoingDownloads getOngoingDownloads() {
+    public CopyOnWriteArrayList<DownloadHandler> getOngoingDownloads() {
         return ongoingDownloads;
     }
-    
 }

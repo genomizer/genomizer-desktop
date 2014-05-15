@@ -2,11 +2,13 @@ package model;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 import util.AnnotationDataType;
 import util.AnnotationDataValue;
-import util.DeleteAnnoationData;
 import util.ExperimentData;
+
+import communication.DownloadHandler;
 
 public interface GenomizerModel {
     
@@ -32,7 +34,7 @@ public interface GenomizerModel {
     
     public AnnotationDataType[] getAnnotations();
     
-    boolean deleteAnnotation(DeleteAnnoationData annotation);
+    boolean deleteAnnotation(String annotationName);
     
     public boolean addNewExperiment(String expName, String username,
             AnnotationDataValue[] annotations);
@@ -40,5 +42,5 @@ public interface GenomizerModel {
     boolean editAnnotation(String name, String[] categories, boolean forced,
             AnnotationDataType oldAnnotation);
     
-    public OngoingDownloads getOngoingDownloads();
+    public CopyOnWriteArrayList<DownloadHandler> getOngoingDownloads();
 }

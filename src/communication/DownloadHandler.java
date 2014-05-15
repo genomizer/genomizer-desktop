@@ -41,6 +41,7 @@ public class DownloadHandler {
             url = url.replaceFirst("\\u003d", "=");
             url = url.replaceFirst("scratcy", "scratchy");
             url = url.replaceFirst("8090", "8000");
+            url = url.replaceFirst("scratchy.cs.umu.se", "sterner.cc");
             
             URL targetUrl = new URL(url);
             String authString = username + ":" + password;
@@ -74,11 +75,8 @@ public class DownloadHandler {
                 totalDownload += System.getProperty("line.separator").length();
                 if (System.currentTimeMillis() - previousTime > 1000) {
                     previousTime = System.currentTimeMillis();
-                    System.out.println("Downloaded " + totalDownload / 1024
-                            / 1024 + "MiB");
                     perSecond = totalDownload - previousDownload;
                     previousDownload = totalDownload;
-                    System.out.println(perSecond / 1024 / 1024 / 1 + "MiB/s");
                 }
             }
             fileOut.close();
