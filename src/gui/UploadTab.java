@@ -211,11 +211,12 @@ public class UploadTab extends JPanel implements ExperimentPanel {
                 gbc.gridy = y;
                 JPanel p = new JPanel(new BorderLayout());
                 expNameLabel.setText("Experiment ID");
+                expNameLabel.setForeground(Color.RED);
                 p.add(expNameLabel, BorderLayout.NORTH);
                 p.add(expID, BorderLayout.CENTER);
                 newExpPanel.add(p, gbc);
                 x++;
-            } else if (annotations[i].isForced()) {
+            } else {
                 if (x > 6) {
                     x = 0;
                     y++;
@@ -225,7 +226,11 @@ public class UploadTab extends JPanel implements ExperimentPanel {
                 gbc.gridx = x;
                 gbc.gridy = y;
                 JPanel p = new JPanel(new BorderLayout());
+                String label = null;
                 JLabel annotationLabel = new JLabel(annotations[i].getName());
+                if(annotations[i].isForced()) {
+                    annotationLabel.setForeground(Color.RED);
+                }
                 annotationHeaders.add(annotations[i].getName());
                 p.add(annotationLabel, BorderLayout.NORTH);
                 if (annotations[i].getValues()[0].equals("freetext")) {
