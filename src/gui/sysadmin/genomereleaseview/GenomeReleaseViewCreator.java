@@ -60,12 +60,23 @@ public class GenomeReleaseViewCreator {
 
     private JPanel buildAddGenomeFilePanel() {
         JPanel mainPanel = new JPanel(new FlowLayout());
-        JTextField version = new JTextField(20);
-        JTextField species = new JTextField(20);
+        JLabel versionLabel = new JLabel();
+        JLabel speciesLabel = new JLabel();
+        JLabel fileLabel = new JLabel();
+
+        versionLabel.setText("Genome release version:");
+        speciesLabel.setText("Species:");
+        fileLabel.setText("Select file:");
 
 
-        mainPanel.add(version);
-        mainPanel.add(species);
+        JTextField versionText = new JTextField(20);
+        JTextField speciesText = new JTextField(20);
+
+        mainPanel.add(versionLabel);
+        mainPanel.add(versionText);
+        mainPanel.add(speciesLabel);
+        mainPanel.add(speciesText);
+        mainPanel.add(fileLabel);
         return mainPanel;
     }
 
