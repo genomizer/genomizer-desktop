@@ -195,7 +195,7 @@ public class UploadTab extends JPanel implements ExperimentPanel {
     /**
      * A method dynamically adding annotations from the server. In order to
      * customize the experiment, which the files should be uploaded to.
-     * 
+     *
      *
      * @throws NullPointerException
      *             if a annotation points at null value.
@@ -250,9 +250,10 @@ public class UploadTab extends JPanel implements ExperimentPanel {
                 p.add(expID, BorderLayout.CENTER);
                 newExpPanel.add(p, gbc);
                 x++;
-            } else if(!annotations[i].getValues()[0].equals("freetext") &&
-                    annotations[i].getValues().length > 0) {
 
+            } else if(!annotations[i].getValues()[0].equals("freetext") &&
+                    annotations[i].getValues().length > 0 &&
+                    annotations[i].isForced()) {
                 if (x > 6) {
                     x = 0;
                     y++;
@@ -266,6 +267,7 @@ public class UploadTab extends JPanel implements ExperimentPanel {
                 JLabel annotationLabel = new JLabel(annotations[i].getName());
                 if(annotations[i].isForced()) {
                     annotationLabel.setForeground(Color.RED);
+                    annotationLabel.setToolTipText("Red indicates a forced annotation");
                 }
                 annotationHeaders.add(annotations[i].getName());
                 p.add(annotationLabel, BorderLayout.NORTH);
