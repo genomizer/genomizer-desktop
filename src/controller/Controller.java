@@ -111,8 +111,8 @@ public class Controller {
                     parameters[3] = "y";
                     parameters[4] = view.getParameters()[2];
                     parameters[5] = view.getParameters()[3];
-                    parameters[6] = "single 4 0";
-                    parameters[7] = "150 1 7 0 0";
+                    parameters[6] = view.getRatioCalcParameters()[0]; //"single 4 0";
+                    parameters[7] = view.getRatioCalcParameters()[1]; //"150 1 7 0 0";
 
                     String expid = allMarked.get(i).expId;
                     String genomeRelease = allMarked.get(i).grVersion;
