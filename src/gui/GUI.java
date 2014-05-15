@@ -479,9 +479,20 @@ public class GUI extends JFrame implements GenomizerView {
     public void deleteUploadFileRow(File f) {
         uploadTab.deleteFileRow(f);
     }
-    
+
     @Override
     public void addRatioCalcListener(ActionListener listener) {
         processTab.addRatioCalcListener(listener);
+    }
+
+    @Override
+    public void setDefaultRatioPar() {
+        processTab.setDefaultRatioPar();
+    }
+
+    @Override
+    public void showRatioPopup() {
+        processTab.showRatioPopup();
+        
     }
 }

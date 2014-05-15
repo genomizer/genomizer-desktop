@@ -6,11 +6,13 @@ import gui.sysadmin.processview.ProcessViewCreator;
 import gui.sysadmin.strings.SysadminTabButtons;
 import gui.sysadmin.usersview.UsersViewCreator;
 
-import javax.swing.*;
-import javax.swing.table.TableModel;
-
-import java.awt.*;
+import java.awt.BorderLayout;
 import java.awt.event.ActionListener;
+
+import javax.swing.JPanel;
+import javax.swing.JTabbedPane;
+import javax.swing.JTable;
+import javax.swing.table.TableModel;
 
 public class SysadminTab extends JPanel {
 
@@ -150,5 +152,10 @@ public class SysadminTab extends JPanel {
 
     public JTable getAnnotationTable() {
         return annotationsView.getTable();
+    }
+    
+    public TableModel getGenomeReleaseTableModel() {
+        
+        return genomeReleaseView.getTableModel();
     }
 }

@@ -142,4 +142,8 @@ public interface GenomizerView {
     public void deleteUploadFileRow(File f);
 
     public void addRatioCalcListener(ActionListener listener);
+
+    public void setDefaultRatioPar();
+
+    public void showRatioPopup();
 }

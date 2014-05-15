@@ -13,7 +13,11 @@ import javax.swing.table.JTableHeader;
 import javax.swing.table.TableModel;
 import javax.swing.table.TableRowSorter;
 
+import util.GenomeReleaseData;
+
 public class GenomeReleaseViewCreator {
+
+    GenomereleaseTableModel grTablemodel;
 
     public GenomeReleaseViewCreator() {
 
@@ -53,20 +57,35 @@ public class GenomeReleaseViewCreator {
         JPanel mainPanel = new JPanel(new BorderLayout());
 
 
-        String[] files = { "canfile", "bananafile", "dummyfile", "annafile",
-                "snakefile" };
-        String[] versions = { "annaversion", "bananaversion", "dummyversion",
-                "cancanversion", "snakefile" };
-        String[] species = { "zebra", "ape", "fly", "dolphin", "dolphin" };
 
-        GenomereleaseTableModel tablemodel = new GenomereleaseTableModel();
 
-        JTable grTable = new JTable(tablemodel);
-        tablemodel.setGenomeReleases(files, species, versions);
+        /******************************* TEST *********************************/
+        GenomeReleaseData gr1 = new GenomeReleaseData("version1", "dolphin",
+                "filename.txt");
+
+        GenomeReleaseData gr2 = new GenomeReleaseData("version2", "pig",
+                "bfilename.txt");
+
+        GenomeReleaseData gr3 = new GenomeReleaseData("version3", "zebra",
+                "afilename.txt");
+
+
+        GenomeReleaseData[] grdarray = new GenomeReleaseData[3];
+        grdarray[0] = gr1;
+        grdarray[1] = gr2;
+        grdarray[2] = gr3;
+
+        /***********************************************************************/
+
+        grTablemodel = new GenomereleaseTableModel();
+
+        JTable grTable = new JTable(grTablemodel);
+        grTablemodel.setGenomeReleases(grdarray);
+        /** Wrong array */
         grTable.setShowGrid(false);
 
         TableRowSorter<TableModel> rowSorter = new TableRowSorter<TableModel>(
-                tablemodel);
+                grTablemodel);
 
         grTable.setSelectionMode(DefaultListSelectionModel.SINGLE_SELECTION);
         grTable.setRowSorter(rowSorter);
@@ -128,6 +147,11 @@ public class GenomeReleaseViewCreator {
         JPanel mainPanel = new JPanel();
 
         return mainPanel;
+    }
+
+    public TableModel getTableModel() {
+        // TODO Auto-generated method stub
+        return grTablemodel;
     }
 
 }

@@ -2,10 +2,13 @@ package model;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 import util.AnnotationDataType;
 import util.AnnotationDataValue;
 import util.ExperimentData;
+
+import communication.DownloadHandler;
 
 public interface GenomizerModel {
     
@@ -22,7 +25,8 @@ public interface GenomizerModel {
             String processtype, String[] parameters, String metadata,
             String genomeRelease, String author);
     
-    public boolean downloadFile(String url, String fileID, String path);
+    public boolean downloadFile(String url, String fileID, String path,
+            String fileName);
     
     public void setIp(String ip);
     
@@ -40,6 +44,8 @@ public interface GenomizerModel {
             AnnotationDataType oldAnnotation);
     
     public OngoingDownloads getOngoingDownloads();
-
+    
     boolean renameAnnotationField(String oldname, String newname);
+    
+    public CopyOnWriteArrayList<DownloadHandler> getOngoingDownloads();
 }

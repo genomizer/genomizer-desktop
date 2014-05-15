@@ -1,16 +1,9 @@
 package model;
 
-import com.google.gson.Gson;
-
-import communication.Connection;
-import communication.DownloadHandler;
-import communication.HTTPURLUpload;
-import requests.*;
-import responses.*;
-
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 import requests.AddAnnotationRequest;
 import requests.AddExperimentRequest;
@@ -33,6 +26,11 @@ import util.AnnotationDataType;
 import util.AnnotationDataValue;
 import util.ExperimentData;
 
+import com.google.gson.Gson;
+import communication.Connection;
+import communication.DownloadHandler;
+import communication.HTTPURLUpload;
+
 // import org.apache.http.protocol.HTTP;
 
 public class Model implements GenomizerModel {
@@ -43,10 +41,11 @@ public class Model implements GenomizerModel {
     private Connection conn;
     private SearchHistory searchHistory;
     private OngoingDownloads ongoingDownloads;
+    private CopyOnWriteArrayList<DownloadHandler> ongoingDownloads;
     
     public Model(Connection conn) {
         searchHistory = new SearchHistory();
-        ongoingDownloads = new OngoingDownloads();
+        ongoingDownloads = new CopyOnWriteArrayList<DownloadHandler>();
         this.setConn(conn);
     }
     
@@ -97,7 +96,6 @@ public class Model implements GenomizerModel {
         rawToProfileRequest rawToProfilerequest = RequestFactory
                 .makeRawToProfileRequest(fileName, fileID, expid, processtype,
                         parameters, metadata, genomeRelease, author);
-        
         conn.sendRequest(rawToProfilerequest, userID, JSON);
         if (conn.getResponseCode() == 201) {
             return true;
@@ -168,7 +166,7 @@ public class Model implements GenomizerModel {
     
     @Override
     public boolean downloadFile(final String url, String fileID,
-            final String path) {
+            final String path, String fileName) {
         // Use this until search works on the server
         DownloadFileRequest request = RequestFactory.makeDownloadFileRequest(
                 fileID, ".wig");
@@ -180,9 +178,9 @@ public class Model implements GenomizerModel {
                 DownloadFileResponse.class);
         System.out.println(conn.getResponseBody());
         final DownloadHandler handler = new DownloadHandler("pvt", "pvt",
-                fileID);
+                fileName);
         if (handler != null) {
-            ongoingDownloads.addOngoingDownload(handler);
+            ongoingDownloads.add(handler);
         }
         new Thread(new Runnable() {
             @Override
@@ -321,7 +319,7 @@ public class Model implements GenomizerModel {
         return false;
     }
     
-    public OngoingDownloads getOngoingDownloads() {
+    public CopyOnWriteArrayList<DownloadHandler> getOngoingDownloads() {
         return ongoingDownloads;
     }
     
