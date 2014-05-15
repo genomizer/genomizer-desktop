@@ -1,6 +1,8 @@
 Welcome to the Genomizer!
 Programvaruteknik, Umeå University Spring 2014
 
+** Bugs and problems are to be reported to the dev team as soon as possible, either by GitHub Issues or by mail to genomizer@mailinator.com **
+
 -------------------------------------------
 CHANGELOG v2.0 RELEASE DATE 14-05-16
 
@@ -12,6 +14,3 @@ CHANGELOG v2.0 RELEASE DATE 14-05-16
 - Process?
 - Upload files to existing experiment?
 - 
-
-** Bugs and problems are to be reported to the dev team as soon as possible, either by GitHub Issues or by mail to genomizer@mailinator.com **
- 
