@@ -426,23 +426,27 @@ public class TreeTable extends JPanel {
     }
     
     private void updateVisibleHeadings() {
-        visibleHeadings = new ArrayList<String>();
-        int columnCount = table.getColumnCount();
-        if (columnCount > 0) {
+        try {
             visibleHeadings = new ArrayList<String>();
-            for (int i = 0; i < columnCount; i++) {
-                visibleHeadings.add(table.getColumnName(i));
-            }
-            for (String heading : headings) {
-                if (!visibleHeadings.contains(heading)
-                        && !deselectedHeadings.contains(heading)) {
-                    visibleHeadings.add(heading);
+            int columnCount = table.getColumnCount();
+            if (columnCount > 0) {
+                visibleHeadings = new ArrayList<String>();
+                for (int i = 0; i < columnCount; i++) {
+                    visibleHeadings.add(table.getColumnName(i));
                 }
+                for (String heading : headings) {
+                    if (!visibleHeadings.contains(heading)
+                            && !deselectedHeadings.contains(heading)) {
+                        visibleHeadings.add(heading);
+                    }
+                }
+                visibleHeadings.removeAll(deselectedHeadings);
+
+            } else {
+                visibleHeadings.addAll(headings);
             }
-            visibleHeadings.removeAll(deselectedHeadings);
-            
-        } else {
-            visibleHeadings.addAll(headings);
+        } catch(NullPointerException e) {
+
         }
     }
     

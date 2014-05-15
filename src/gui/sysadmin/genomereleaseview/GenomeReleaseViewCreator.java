@@ -1,11 +1,11 @@
-package gui.sysadmin.chainfileview;
+package gui.sysadmin.genomereleaseview;
 
 import javax.swing.*;
 import java.awt.*;
 
-public class ChainFileViewCreator {
+public class GenomeReleaseViewCreator {
 
-    public ChainFileViewCreator() {
+    public GenomeReleaseViewCreator() {
 
     }
 
