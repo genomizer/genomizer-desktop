@@ -7,13 +7,29 @@ import communication.DownloadHandler;
 import communication.HTTPURLUpload;
 import requests.*;
 import responses.*;
-import util.AnnotationDataType;
-import util.AnnotationDataValue;
-import util.ExperimentData;
-
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
+
+import requests.AddAnnotationRequest;
+import requests.AddExperimentRequest;
+import requests.AddFileToExperiment;
+import requests.DeleteAnnotationRequest;
+import requests.DownloadFileRequest;
+import requests.GetAnnotationRequest;
+import requests.LoginRequest;
+import requests.LogoutRequest;
+import requests.RequestFactory;
+import requests.SearchRequest;
+import requests.rawToProfileRequest;
+import responses.AddFileToExperimentResponse;
+import responses.DownloadFileResponse;
+import responses.LoginResponse;
+import responses.NewExperimentResponse;
+import responses.ResponseParser;
+import util.AnnotationDataType;
+import util.AnnotationDataValue;
+import util.ExperimentData;
 
 // import org.apache.http.protocol.HTTP;
 
@@ -22,9 +38,11 @@ public class Model implements GenomizerModel {
     private String userID = "";
     private Connection conn;
     private SearchHistory searchHistory;
+    private OngoingDownloads ongoingDownloads;
     
     public Model(Connection conn) {
         searchHistory = new SearchHistory();
+        ongoingDownloads = new OngoingDownloads();
         this.setConn(conn);
     }
     
@@ -173,7 +191,11 @@ public class Model implements GenomizerModel {
         DownloadFileResponse response = gson.fromJson(conn.getResponseBody(),
                 DownloadFileResponse.class);
         System.out.println(conn.getResponseBody());
-        final DownloadHandler handler = new DownloadHandler("pvt", "pvt");
+        final DownloadHandler handler = new DownloadHandler("pvt", "pvt",
+                fileID);
+        if (handler != null) {
+            ongoingDownloads.addOngoingDownload(handler);
+        }
         new Thread(new Runnable() {
             @Override
             public void run() {
@@ -311,4 +333,7 @@ public class Model implements GenomizerModel {
         return false;
     }
     
+    public OngoingDownloads getOngoingDownloads() {
+        return ongoingDownloads;
+    }
 }
