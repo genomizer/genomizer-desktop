@@ -60,6 +60,14 @@ public class ProcessTab extends JPanel {
     private final JTextField stepPosition = new JTextField();
     private final JTextField stepSize = new JTextField();
 
+   // RATIO CALC
+    private final JTextField inputReads = new JTextField();
+    private final JTextField chromosome = new JTextField();
+    private final JTextField ratioWindowSize = new JTextField();
+    private final JTextField ratioStepPosition = new JTextField();
+    private final JCheckBox ratioPrintMean = new JCheckBox("Print mean");
+    private final JCheckBox ratioPrintZeros = new JCheckBox("Print zeros");
+
     private final JScrollPane scrollSchedule = new JScrollPane();
     private final JScrollPane scrollConvert = new JScrollPane();
     private final JScrollPane scrollRegion = new JScrollPane();
@@ -78,7 +86,8 @@ public class ProcessTab extends JPanel {
     private final JCheckBox printZeros = new JCheckBox("Print zeros");
     private final JCheckBox stepSizeBox = new JCheckBox("Step size");
     private final JComboBox<String> genomeFile = new JComboBox<String>();
-
+    private final JComboBox<String> single = new JComboBox<String>();
+    private final JComboBox<String> ratioSmoothType = new JComboBox<String>();
     private final JTabbedPane tabbedPane = new JTabbedPane(JTabbedPane.BOTTOM);
     private ArrayList<String> genomeReleaseFiles;
     private ArrayList<FileData> fileData;
@@ -105,6 +114,23 @@ public class ProcessTab extends JPanel {
         addConvertTextArea();
         initFileList();
 
+        ArrayList<String> ratioSmooth = new ArrayList<String>();
+        /* TEST */
+        ratioSmooth.add("1");
+        ratioSmooth.add("0");
+
+        ratioSmoothType.addItem(ratioSmooth.get(0));
+        ratioSmoothType.addItem(ratioSmooth.get(1));
+
+        /*TEST*/
+        ArrayList<String> comboSingle = new ArrayList<String>();
+        /* TEST */
+        comboSingle.add("single");
+        comboSingle.add("double");
+
+        single.addItem(comboSingle.get(0));
+        single.addItem(comboSingle.get(1));
+
         /* TEST */
         ArrayList<String> gFiles = new ArrayList<String>();
         /* TEST */
@@ -114,6 +140,7 @@ public class ProcessTab extends JPanel {
 
         initBowtieParameters();
         writeToTimePanel();
+        setUnusedRatioPar();
 
     }
 
@@ -708,7 +735,32 @@ public class ProcessTab extends JPanel {
     }
 
     public void setDefaultRatioPar() {
+/*
+        private final JTextField inputReads = new JTextField();
+        private final JTextField chromosome = new JTextField();
+        private final JTextField ratioWindowSize = new JTextField();
+        private final JTextField ratioSmoothType = new JTextField();
+        private final JTextField ratioStepPosition
+        private final JCheckBox ratioPrintMean
+        private final JCheckBox ratioPrintZeros
+  */
 
+        inputReads.setText("4");
+        chromosome.setText("0");
+        ratioWindowSize.setText("150");
+        ratioSmoothType.setSelectedIndex(0);
+        ratioStepPosition.setText("7");
+
+
+    }
+
+    private void setUnusedRatioPar() {
+
+                inputReads.setText("");
+                chromosome.setText("");
+                ratioWindowSize.setText("");
+                ratioSmoothType.setSelectedIndex(0);
+                ratioStepPosition.setText("");
     }
 
 }
