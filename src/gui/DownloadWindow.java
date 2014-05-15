@@ -19,6 +19,8 @@ import javax.swing.table.TableColumn;
 import model.OngoingDownloads;
 import util.FileData;
 
+import communication.DownloadHandler;
+
 public class DownloadWindow extends JFrame {
     
     private static final long serialVersionUID = -7647204230941649167L;
@@ -82,6 +84,16 @@ public class DownloadWindow extends JFrame {
         for (int i = 0; i < data.size(); i++) {
             tableModel.addRow(new Object[] { data.get(i),
                     "Click here to choose file format" });
+        }
+        ArrayList<DownloadHandler> handlers = ongoingDownloads
+                .getOngoingDownloads();
+        
+        if (handlers != null) {
+            for (DownloadHandler handler : handlers) {
+                tableModel.addRow(new Object[] {
+                        "Ongoing: " + handler.getFileID(),
+                        "Click here to choose file format" });
+            }
         }
         
         // Add comboboxes to each row in the table.
