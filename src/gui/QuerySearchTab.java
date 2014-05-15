@@ -5,6 +5,7 @@ import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 
 import javax.swing.BorderFactory;
@@ -112,6 +113,7 @@ public class QuerySearchTab extends JPanel {
     private void setUpSearchHeader() {
         searchPanel = new JPanel();
         searchButton = new JButton("Search");
+        searchButton.setMnemonic(KeyEvent.VK_ENTER);
         clearButton = new JButton("Clear");
         clearButton.addActionListener(new ActionListener() {
             @Override
