@@ -7,10 +7,14 @@ import util.ExperimentData;
 import util.FileData;
 
 import javax.swing.*;
+
+import communication.UploadHandler;
+
 import java.awt.event.ActionListener;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 /**
  * A interface for the view part of an application used by genome researcher
@@ -146,4 +150,7 @@ public interface GenomizerView {
     public void setDefaultRatioPar();
 
     public void showRatioPopup();
+    
+    public void setOngoingUploads(
+            CopyOnWriteArrayList<UploadHandler> ongoingUploads);
 }

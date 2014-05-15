@@ -9,15 +9,8 @@ import util.FileDrop;
 import javax.swing.*;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
+
 import java.awt.*;
-import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.FlowLayout;
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
-import java.awt.GridLayout;
-import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
@@ -31,6 +24,7 @@ import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JProgressBar;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
@@ -41,7 +35,7 @@ import util.ActivePanel;
 import util.AnnotationDataType;
 import util.AnnotationDataValue;
 import util.FileDrop;
-
+import communication.DownloadHandler;
 import communication.UploadHandler;
 
 /**
@@ -72,6 +66,7 @@ public class UploadTab extends JPanel implements ExperimentPanel {
     private JTextField expID;
     private JScrollPane uploadScroll;
     private JPanel buttonsPanel;
+    private boolean running;
 
     /**
      * Constructor creating a upload tab.
@@ -109,6 +104,7 @@ public class UploadTab extends JPanel implements ExperimentPanel {
         expID.getDocument().addDocumentListener(new FreetextListener());
         northPanel.add(newExpButton, BorderLayout.EAST);
         enableUploadButton(false);
+        updateProgress();
     }
 
     /**
@@ -533,6 +529,32 @@ public class UploadTab extends JPanel implements ExperimentPanel {
             CopyOnWriteArrayList<UploadHandler> ongoingUploads) {
         this.ongoingUploads = ongoingUploads;
     }
+    
+    
+    private void updateProgress() {
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                running = true;
+                while (running) {
+                    System.out.println("running");
+                    for(File key : uploadFileRows.keySet()) {
+                         
+                    }
+                    try {
+                        Thread.sleep(1000);
+                    } catch (InterruptedException e) {
+                        running = false;
+                    }
+                }
+            }
+        }).start();
+    }
+    
+    
+    
+    
+    
     /**
      * Listener for when the text in a textfield changes.
      */
@@ -556,4 +578,6 @@ public class UploadTab extends JPanel implements ExperimentPanel {
             enableUploadButton(true);
         }
     };
+    
+    
 }

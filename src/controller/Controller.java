@@ -58,6 +58,7 @@ public class Controller {
         view.addAnalyzeSelectedListener(new AnalyzeSelectedListener());
         fileListAddMouseListener(view.getfileList());
         view.addRatioCalcListener(new RatioCalcListener());
+        view.setOngoingUploads(model.getOngoingUploads());
     }
 
     class ConvertFileListener implements ActionListener, Runnable {

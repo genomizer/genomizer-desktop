@@ -9,12 +9,15 @@ import java.awt.event.ActionListener;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 import javax.swing.JFrame;
 import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
 import javax.swing.UIManager;
+
+import communication.UploadHandler;
 
 import util.AnnotationDataType;
 import util.AnnotationDataValue;
@@ -48,7 +51,7 @@ public class GUI extends JFrame implements GenomizerView {
         this.setTitle("Genomizer");
         setSize(1250, 900);
         this.setMinimumSize(new Dimension(1250, 900));
-
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         BorderLayout bl = new BorderLayout();
         mainPanel = new JPanel(bl);
         userPanel = new UserPanel();
@@ -630,5 +633,10 @@ public class GUI extends JFrame implements GenomizerView {
     public void showRatioPopup() {
         processTab.showRatioPopup();
 
+    }
+    
+    public void setOngoingUploads(
+            CopyOnWriteArrayList<UploadHandler> ongoingUploads) {
+        uploadTab.setOngoingUploads(ongoingUploads);
     }
 }
