@@ -18,6 +18,11 @@ public class GenomeReleaseViewCreator {
     }
 
     public JPanel buildGenomeReleasePanel(){
+        return buildGenomeFileList();
+    }
+
+
+    public JPanel buildGenomeFileList(){
         JPanel mainPanel = new JPanel(new BorderLayout());
 
         String[] header = new String[] { "Genome version", "Species",
