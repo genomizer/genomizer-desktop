@@ -6,7 +6,10 @@ import util.AnnotationDataValue;
 import util.FileDrop;
 
 import javax.swing.*;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
 import java.awt.*;
+import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
 import java.util.ArrayList;
@@ -192,7 +195,7 @@ public class UploadTab extends JPanel implements ExperimentPanel {
     /**
      * A method dynamically adding annotations from the server. In order to
      * customize the experiment, which the files should be uploaded to.
-     * 
+     *
      *
      * @throws NullPointerException
      *             if a annotation points at null value.
@@ -204,6 +207,35 @@ public class UploadTab extends JPanel implements ExperimentPanel {
         int y = 0;
         String[] annotationNames = new String[annotations.length];
         GridBagConstraints gbc = new GridBagConstraints();
+
+        //Listener for when the text in a textfield changes.
+        DocumentListener documentListener = new DocumentListener() {
+            @Override
+            public void insertUpdate(
+                    DocumentEvent documentEvent) {
+                System.out.println("insert");
+                react();
+            }
+
+            @Override
+            public void removeUpdate(
+                    DocumentEvent documentEvent) {
+                System.out.println("remove");
+                react();
+            }
+
+            @Override
+            public void changedUpdate(
+                    DocumentEvent documentEvent) {
+                System.out.println("changed");
+                react();
+            }
+
+            public void react() {
+                enableUploadButton(true);
+            }
+        };
+
         for (int i = 0; i < annotations.length; i++) {
             if (i == 0) {
                 gbc.anchor = GridBagConstraints.WEST;
@@ -218,7 +250,10 @@ public class UploadTab extends JPanel implements ExperimentPanel {
                 p.add(expID, BorderLayout.CENTER);
                 newExpPanel.add(p, gbc);
                 x++;
-            } else {
+
+            } else if(!annotations[i].getValues()[0].equals("freetext") &&
+                    annotations[i].getValues().length > 0 &&
+                    annotations[i].isForced()) {
                 if (x > 6) {
                     x = 0;
                     y++;
@@ -232,19 +267,46 @@ public class UploadTab extends JPanel implements ExperimentPanel {
                 JLabel annotationLabel = new JLabel(annotations[i].getName());
                 if(annotations[i].isForced()) {
                     annotationLabel.setForeground(Color.RED);
+                    annotationLabel.setToolTipText("Red indicates a forced annotation");
                 }
                 annotationHeaders.add(annotations[i].getName());
                 p.add(annotationLabel, BorderLayout.NORTH);
                 if (annotations[i].getValues()[0].equals("freetext")) {
-                    JTextField textField = new JTextField();
+                    final JTextField textField = new JTextField();
                     textField.setColumns(10);
+
+                    //Add listener for when the text in the textfield changes.
+                    textField.getDocument().addDocumentListener(documentListener);
+
                     annotationFields.put(annotations[i].getName(), textField);
                     p.add(textField, BorderLayout.CENTER);
                     newExpPanel.add(p, gbc);
+
+
                 } else {
-                    JComboBox comboBox = new JComboBox(
+                    final JComboBox comboBox = new JComboBox(
                             annotations[i].getValues());
                     comboBox.setPreferredSize(new Dimension(120, 31));
+
+                    /*
+                     * Listener for when the user chooses something in the
+                     * combobox.
+                     */
+                    comboBox.addActionListener(
+                            new ActionListener() {
+                                @Override
+                                public void actionPerformed(
+                                        ActionEvent actionEvent) {
+                                    String text = (String) comboBox
+                                            .getSelectedItem();
+                                    if (!text.equals("") && text != null) {
+                                        System.out.println("trying1..");
+                                        enableUploadButton(true);
+                                    }
+                                }
+                            }
+                    );
+
                     annotationBoxes.put(annotations[i].getName(), comboBox);
                     p.add(comboBox, BorderLayout.CENTER);
                     newExpPanel.add(p, gbc);
@@ -405,6 +467,40 @@ public class UploadTab extends JPanel implements ExperimentPanel {
         return types;
     }
 
+    private boolean forcedAnnotationCheck() {
+        boolean allForcedAnnotationsAreFilled = true;
+        String annotationName = null;
+        String text = null;
+        JTextField annotationField = null;
+        JComboBox<Object> annotationBox = null;
+
+        for(int i=0; i<annotations.length; i++) {
+            if(annotations[i].isForced()) {
+                annotationName = annotations[i].getName();
+                System.out.println("annotation name: " + annotationName);
+                if(annotationFields.containsKey(annotationName)) {
+                    annotationField = annotationFields.get(annotationName);
+                    text = annotationField.getText();
+                    System.out.println("text: " + text);
+                    if(text == null || text.equals("")) {
+                        allForcedAnnotationsAreFilled = false;
+                    }
+                    text = null;
+                } else if (annotationBoxes.containsKey(annotationName)) {
+                    annotationBox = annotationBoxes.get(annotationName);
+                    text = (String)annotationBox.getSelectedItem();
+                    if(text == null || text.equals("")) {
+                        allForcedAnnotationsAreFilled = false;
+                        System.out.println("box choices are empty");
+                    }
+
+                    text = null;
+                }
+            }
+        }
+        return allForcedAnnotationsAreFilled;
+    }
+
     /**
      * Sets the experiment button to either be enabled or disabled.
      *
@@ -412,6 +508,12 @@ public class UploadTab extends JPanel implements ExperimentPanel {
      *            Whether it should be enabled (true) or disabled (false)
      */
     public void enableUploadButton(boolean b) {
-        uploadButton.setEnabled(b);
+        if(b) {
+            if (forcedAnnotationCheck()) {
+                uploadButton.setEnabled(b);
+            }
+        } else {
+            uploadButton.setEnabled(b);
+        }
     }
 }

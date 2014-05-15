@@ -1,8 +1,17 @@
 package gui.sysadmin.genomereleaseview;
 
-import javax.swing.*;
-import javax.swing.border.Border;
-import java.awt.*;
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.FlowLayout;
+
+import javax.swing.DefaultListSelectionModel;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
+import javax.swing.JTextField;
+import javax.swing.table.JTableHeader;
+import javax.swing.table.TableModel;
+import javax.swing.table.TableRowSorter;
 
 public class GenomeReleaseViewCreator {
 
@@ -43,19 +52,29 @@ public class GenomeReleaseViewCreator {
     public JPanel buildGenomeFileList(){
         JPanel mainPanel = new JPanel(new BorderLayout());
 
-        String[] header = new String[] { "Genome version", "Species",
-                "File name"};
-        Object[][] table = new Object[][] {
-                { "hg38", "Human", "randomfilename.txt" },
-                { "hg36", "Human", "randomfilename.txt" },
-                { "hg32", "Human", "randomfilename.txt" },
-                { "rn5", "Rat", "randomfilename.txt"}
-        };
 
-        JTable cfTable = new JTable(table, header);
-        cfTable.setSelectionMode(DefaultListSelectionModel.SINGLE_SELECTION);
-        JScrollPane scrollPane = new JScrollPane(cfTable);
-        //scrollPane.setPreferredSize(new Dimension(500, 80));
+        String[] files = { "canfile", "bananafile", "dummyfile", "annafile",
+                "snakefile" };
+        String[] versions = { "annaversion", "bananaversion", "dummyversion",
+                "cancanversion", "snakefile" };
+        String[] species = { "zebra", "ape", "fly", "dolphin", "dolphin" };
+
+        GenomereleaseTableModel tablemodel = new GenomereleaseTableModel();
+
+        JTable grTable = new JTable(tablemodel);
+        tablemodel.setGenomeReleases(files, species, versions);
+        grTable.setShowGrid(false);
+
+        TableRowSorter<TableModel> rowSorter = new TableRowSorter<TableModel>(
+                tablemodel);
+
+        grTable.setSelectionMode(DefaultListSelectionModel.SINGLE_SELECTION);
+        grTable.setRowSorter(rowSorter);
+
+        JScrollPane scrollPane = new JScrollPane(grTable);
+        JTableHeader header2 = grTable.getTableHeader();
+
+
 
         mainPanel.add(scrollPane, BorderLayout.CENTER);
         return mainPanel;
@@ -81,10 +100,10 @@ public class GenomeReleaseViewCreator {
 
         JTable cfTable = new JTable(table, header);
         cfTable.setSelectionMode(DefaultListSelectionModel.SINGLE_SELECTION);
-        // cfTable.getTableHeader().setReorderingAllowed(false);
+
 
         JScrollPane scrollPane = new JScrollPane(cfTable);
-        scrollPane.setPreferredSize(new Dimension(500, 80));
+
 
         return scrollPane;
     }

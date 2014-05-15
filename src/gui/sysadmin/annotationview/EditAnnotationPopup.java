@@ -198,7 +198,7 @@ public class EditAnnotationPopup extends JPanel {
         JPanel botPanelInFirstTab = new JPanel();
         JLabel forced = new JLabel("Forced Annotation:");
         forcedBox = new JCheckBox("Yes");
-        forcedBox.setSelected(annotation.getForced());
+        forcedBox.setSelected(annotation.isForced());
         forcedBox.addActionListener(new ActionListener() {
 
             @Override
