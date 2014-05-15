@@ -2,6 +2,7 @@ package gui;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.GridBagConstraints;
@@ -36,6 +37,7 @@ public class UploadToExistingExpPanel extends JPanel
     private AnnotationDataType[] annotations;
     private JPanel northPanel, centerPanel, uploadFilesPanel, buttonsPanel, mainPanel;
     private HashMap<File, UploadFileRow> uploadFileRows;
+    private JPanel backgroundPanel;
 
     /**
      * Initiates an uploadToExistingExpPanel with its standard buttons
@@ -50,6 +52,7 @@ public class UploadToExistingExpPanel extends JPanel
         mainPanel = new JPanel(new BorderLayout());
         northPanel = new JPanel();
         centerPanel = new JPanel(new BorderLayout());
+        backgroundPanel = new JPanel();
         uploadFilesPanel = new JPanel(new GridLayout(0, 1));
         buttonsPanel = new JPanel(new FlowLayout());
 
@@ -63,7 +66,8 @@ public class UploadToExistingExpPanel extends JPanel
     public void build() {
         mainPanel.add(northPanel, BorderLayout.NORTH);
         mainPanel.add(centerPanel, BorderLayout.CENTER);
-        centerPanel.add(uploadFilesPanel, BorderLayout.NORTH);
+        centerPanel.add(backgroundPanel, BorderLayout.CENTER);
+        backgroundPanel.add(uploadFilesPanel, BorderLayout.NORTH);
         GridBagLayout gbl_panel = new GridBagLayout();
         gbl_panel.columnWidths = new int[] { 0, 0, 0, 0, 0, 0, 0 };
         gbl_panel.rowHeights = new int[] { 0, 0, 0, 0 };
