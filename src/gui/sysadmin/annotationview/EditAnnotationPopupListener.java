@@ -24,6 +24,8 @@ public class EditAnnotationPopupListener implements ActionListener {
             case SysStrings.ANNOTATIONS_MODIFY:
                 // TODO: Start working here Adam :)
                 System.out.println("Editing annotation....");
+                sysController.editAnnotation();
+
                 break;
 
         }

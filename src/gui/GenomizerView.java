@@ -134,4 +134,10 @@ public interface GenomizerView {
             ArrayList<ExperimentData> searchResults);
 
     public void enableUploadButton(boolean b);
+
+    public String[] getRatioCalcParameters();
+
+    public String[] getOtherParameters();
+
+    public void addRatioCalcListener(ActionListener listener);
 }

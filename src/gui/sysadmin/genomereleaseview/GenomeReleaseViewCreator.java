@@ -1,6 +1,7 @@
 package gui.sysadmin.genomereleaseview;
 
 import javax.swing.*;
+import javax.swing.border.Border;
 import java.awt.*;
 
 public class GenomeReleaseViewCreator {
@@ -13,14 +14,31 @@ public class GenomeReleaseViewCreator {
 
         JPanel mainPanel = new JPanel(new BorderLayout());
         mainPanel.setBackground(new Color(255, 250, 250));
-        mainPanel.add(buildGenomeReleasePanel(), BorderLayout.WEST);
+        mainPanel.add(buildGenomeReleasePanel(), BorderLayout.NORTH);
         return mainPanel;
     }
 
     public JPanel buildGenomeReleasePanel(){
-        return buildGenomeFileList();
+        JPanel mainPanel = new JPanel(new BorderLayout());
+
+        JPanel listPanel = buildGenomeFileList();
+        JPanel addGenomePanel = buildAddGenomeFilePanel();
+
+        mainPanel.add(listPanel, BorderLayout.CENTER);
+        mainPanel.add(addGenomePanel, BorderLayout.EAST);
+        return mainPanel;
     }
 
+    private JPanel buildAddGenomeFilePanel() {
+        JPanel mainPanel = new JPanel(new FlowLayout());
+        JTextField version = new JTextField(20);
+        JTextField species = new JTextField(20);
+
+
+        mainPanel.add(version);
+        mainPanel.add(species);
+        return mainPanel;
+    }
 
     public JPanel buildGenomeFileList(){
         JPanel mainPanel = new JPanel(new BorderLayout());
@@ -37,7 +55,7 @@ public class GenomeReleaseViewCreator {
         JTable cfTable = new JTable(table, header);
         cfTable.setSelectionMode(DefaultListSelectionModel.SINGLE_SELECTION);
         JScrollPane scrollPane = new JScrollPane(cfTable);
-        scrollPane.setPreferredSize(new Dimension(500, 80));
+        //scrollPane.setPreferredSize(new Dimension(500, 80));
 
         mainPanel.add(scrollPane, BorderLayout.CENTER);
         return mainPanel;

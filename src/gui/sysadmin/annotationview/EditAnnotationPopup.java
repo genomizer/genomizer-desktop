@@ -307,8 +307,9 @@ public class EditAnnotationPopup extends JPanel {
         JLabel categoryLabel = new JLabel("Category:");
         final JTextField textField = new JTextField();
         textField.setText(value);
-        textField.setEditable(false);
+        textField.setEditable(true);
         textField.setPreferredSize(new Dimension(200, 30));
+        valueTexts.add(textField);
 
         newCategoryPanel.add(categoryLabel);
         newCategoryPanel.add(textField);
@@ -359,6 +360,10 @@ public class EditAnnotationPopup extends JPanel {
 
         System.out.println("Adding listnener to model");
         editAnnotationButtonModel.addActionListener(listener);
+    }
+
+    public AnnotationDataType getAnnotation() {
+        return annotation;
     }
 
 }

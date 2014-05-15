@@ -5,14 +5,8 @@ import gui.DownloadWindow;
 import gui.GenomizerView;
 import gui.UploadTab;
 import gui.sysadmin.SysadminController;
-import model.GenomizerModel;
-import util.AnnotationDataType;
-import util.AnnotationDataValue;
-import util.ExperimentData;
-import util.FileData;
 
-import javax.swing.*;
-import java.awt.*;
+import java.awt.FileDialog;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
@@ -21,13 +15,24 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-public class Controller {
+import javax.swing.JFileChooser;
+import javax.swing.JList;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
 
+import model.GenomizerModel;
+import util.AnnotationDataType;
+import util.AnnotationDataValue;
+import util.ExperimentData;
+import util.FileData;
+
+public class Controller {
+    
     private GenomizerView view;
     private GenomizerModel model;
     private final JFileChooser fileChooser = new JFileChooser();
     private SysadminController sysController;
-
+    
     public Controller(GenomizerView view, GenomizerModel model) {
         this.view = view;
         this.model = model;
@@ -40,16 +45,11 @@ public class Controller {
         view.addRawToRegionDataListener(new RawToRegionDataListener());
         view.addScheduleFileListener(new ScheduleFileListener());
         view.addDownloadFileListener(new DownloadWindowListener());
-        view.addSelectFilesToUploadButtonListener(
-                new SelectFilesToUploadButtonListener());
-        view.setSysadminController(
-                sysController = new SysadminController(model));
-        view.addAddToExistingExpButtonListener(
-                new AddToExistingExpButtonListener());
-        view.addUploadToExperimentButtonListener(
-                new UploadToExperimentButtonListener());
-        view.addUpdateSearchAnnotationsListener(
-                new updateSearchAnnotationsListener());
+        view.addSelectFilesToUploadButtonListener(new SelectFilesToUploadButtonListener());
+        view.setSysadminController(sysController = new SysadminController(model));
+        view.addAddToExistingExpButtonListener(new AddToExistingExpButtonListener());
+        view.addUploadToExperimentButtonListener(new UploadToExperimentButtonListener());
+        view.addUpdateSearchAnnotationsListener(new updateSearchAnnotationsListener());
         view.addProcessFileListener(new ProcessFileListener());
         view.addSearchToWorkspaceListener(new SearchToWorkspaceListener());
         view.addNewExpButtonListener(new NewExpButtonListener());
@@ -57,27 +57,28 @@ public class Controller {
         view.addUploadButtonListener(new UploadNewExpListener());
         view.addAnalyzeSelectedListener(new AnalyzeSelectedListener());
         fileListAddMouseListener(view.getfileList());
+        view.addRatioCalcListener(new RatioCalcListener());
     }
-
+    
     class ConvertFileListener implements ActionListener, Runnable {
         @Override
         public void actionPerformed(ActionEvent e) {
             new Thread(this).start();
         }
-
+        
         @Override
         public void run() {
-
+            
             System.out.println("CONVERT");
             System.out.println(view.getAllMarkedFiles());
-
+            
         }
     }
-
+    
     /**
      * The listener to create profile data, Sends a request to the server for
      * every RAW-file that the user wants to create profile data.
-     *
+     * 
      * @author c11ann
      */
     class RawToProfileDataListener implements ActionListener, Runnable {
@@ -85,67 +86,49 @@ public class Controller {
         public void actionPerformed(ActionEvent e) {
             new Thread(this).start();
         }
-
+        
         @Override
         public void run() {
-
+            
             view.setBowtieParameters();
             ArrayList<FileData> allMarked = view.getAllMarkedFileData();
             int markedSize = allMarked.size();
             String message = null;
             Boolean isConverted = false;
-
+            
             if (!allMarked.isEmpty()) {
-
+                
                 for (int i = 0; i < markedSize; i++) {
-
+                    
                     String fileName = allMarked.get(i).filename;
                     String fileID = allMarked.get(i).id;
                     String author = view.getUsername();
                     String parameters[] = new String[8];
                     String processtype = "rawtoprofile";
-
+                    
                     parameters[0] = view.getParameters()[0];
                     parameters[1] = view.getParameters()[1];
-                    parameters[2] = "y";
-                    parameters[3] = "y";
-                    parameters[4] = "10 1 5 0 0"; //view.getParameters()[2];
-                    parameters[5] = "y 10"; // view.getParameters()[3];
-                    parameters[6] = "single 4 0";
-                    parameters[7] = "150 1 7 0 0";
-
+                    parameters[2] = view.getOtherParameters()[0];// "y";
+                    parameters[3] = view.getOtherParameters()[1];// "y";
+                    parameters[4] = view.getParameters()[2];
+                    parameters[5] = view.getParameters()[3];
+                    parameters[6] = view.getRatioCalcParameters()[0]; // "single 4 0";
+                    parameters[7] = view.getRatioCalcParameters()[1]; // "150 1 7 0 0";
+                    
                     String expid = allMarked.get(i).expId;
-                    String genomeRelease = "hg38";//allMarked.get(i).grVersion;
-                    String metadata = "-a -m 1 --best -p 10 -v 2 -q -S,d_melanogaster_fb5_22,1 1 1 0 0,n 0"; //allMarked.get(i).metaData;
-
-                    System.out.println("RAW TO PROFILE\n");
-                    //          System.out.println("Filename: " + fileName);
-                    //         System.out.println("File ID: " + fileID);
-                    //         System.out.println("Expid: " + expid);
-                    //         System.out.println("Processtype: " + processtype);
-                    //         System.out.println("Parameter 1: " + parameters[0]);
-                    //         System.out.println("Parameter 2: " + parameters[1]);
-                    //         System.out.println("Parameter 3: " + parameters[2]);
-                    //         System.out.println("Parameter 4: " + parameters[3]);
-                    //         System.out.println("Parameter 5: " + parameters[4]);
-                    //         System.out.println("Parameter 6: " + parameters[5]);
-                    ///         System.out.println("Parameter 7: " + parameters[6]);
-                    //        System.out.println("Parameter 8: " + parameters[7]);
-                    //        System.out.println("Metadata: " + metadata);
-                    //        System.out.println("Genome Release: " + genomeRelease);
-                    //        System.out.println("Author: " + view.getUsername());
-                    //       System.out.println("\n");
-
+                    String genomeRelease = allMarked.get(i).grVersion;
+                    String metadata = allMarked.get(i).metaData;
+                    
                     isConverted = model.rawToProfile(fileName, fileID, expid,
-                            processtype, parameters, metadata,
-                            genomeRelease, author);
-
+                            processtype, parameters, metadata, genomeRelease,
+                            author);
+                    
                     if (isConverted.equals(true)) {
                         message = "The server has converted: " + fileName
                                 + " with file id: " + fileID + " from " + expid
                                 + "\n";
                         view.printToConvertText(message, "green");
-
+                        
                     } else {
                         message = "WARNING - The server couldn't convert: "
                                 + fileName + " with file id: " + fileID
@@ -155,12 +138,12 @@ public class Controller {
                 }
             }
         }
-
+        
     }
-
+    
     /**
      * The listener to create region data,
-     *
+     * 
      * @author c11ann
      */
     class RawToRegionDataListener implements ActionListener, Runnable {
@@ -168,20 +151,20 @@ public class Controller {
         public void actionPerformed(ActionEvent e) {
             new Thread(this).start();
         }
-
+        
         @Override
         public void run() {
-
+            
             System.out.println("RAW TO REGION");
             System.out.println(view.getAllMarkedFiles());
-
+            
         }
     }
-
+    
     /**
      * Listener thats keeps track of which files that the user wants to
      * schedule.
-     *
+     * 
      * @author c11ann
      */
     class ScheduleFileListener implements ActionListener, Runnable {
@@ -189,22 +172,22 @@ public class Controller {
         public void actionPerformed(ActionEvent e) {
             new Thread(this).start();
         }
-
+        
         @Override
         public void run() {
-
+            
             System.out.println("SCHEDULEING FILE");
             System.out.println(view.getAllMarkedFiles());
-
+            
         }
     }
-
+    
     class ProcessFileListener implements ActionListener, Runnable {
         @Override
         public void actionPerformed(ActionEvent e) {
             new Thread(this).start();
         }
-
+        
         @Override
         public void run() {
             System.out.println("Process");
@@ -222,13 +205,13 @@ public class Controller {
             view.setProccessFileList(selectedFiles);
         }
     }
-
+    
     class LoginListener implements ActionListener, Runnable {
         @Override
         public void actionPerformed(ActionEvent e) {
             new Thread(this).start();
         }
-
+        
         @Override
         public void run() {
             model.setIp(view.getIp());
@@ -238,16 +221,16 @@ public class Controller {
                 view.updateLoginAccepted(username, pwd, "Desktop User");
                 sysController.updateAnnotationTable();
             } else {
-                view.updateLoginAccepted(username, pwd, "Desktop User");
+                view.updateLoginNeglected("Could not login");
             }
         }
     }
-
+    
     class QuerySearchListener implements ActionListener, Runnable {
         public void actionPerformed(ActionEvent e) {
             new Thread(this).start();
         }
-
+        
         @Override
         public void run() {
             String pubmed = view.getQuerySearchString();
@@ -266,13 +249,13 @@ public class Controller {
             }
         }
     }
-
+    
     class LogoutListener implements ActionListener, Runnable {
         @Override
         public void actionPerformed(ActionEvent e) {
             new Thread(this).start();
         }
-
+        
         @Override
         public void run() {
             if (model.logoutUser()) {
@@ -280,34 +263,34 @@ public class Controller {
             } else {
                 view.updateLogout();
             }
-
+            
         }
     }
-
+    
     class UploadListener implements ActionListener, Runnable {
-
+        
         @Override
         public void actionPerformed(ActionEvent actionEvent) {
             new Thread(this).start();
         }
-
+        
         @Override
         public void run() {
             // if (model.uploadFile()) {
             // update view?
             // }
-
+            
         }
     }
-
+    
     class DownloadWindowListener implements ActionListener, Runnable {
-
+        
         @Override
         public void actionPerformed(ActionEvent actionEvent) {
-
+            
             new Thread(this).start();
         }
-
+        
         @Override
         public void run() {
             // Skicka med arraylist<FileData> för de filer som ska nerladdas
@@ -321,24 +304,24 @@ public class Controller {
                     }
                 }
             }
-
-            DownloadWindow downloadWindow = new DownloadWindow(selectedFiles);
+            DownloadWindow downloadWindow = new DownloadWindow(selectedFiles,
+                    model.getOngoingDownloads());
             view.setDownloadWindow(downloadWindow);
             downloadWindow.addDownloadFileListener(new DownloadFileListener());
         }
     }
-
+    
     class DownloadFileListener implements ActionListener, Runnable {
-
+        
         @Override
         public void actionPerformed(ActionEvent actionEvent) {
-
+            
             new Thread(this).start();
         }
-
+        
         @Override
         public void run() {
-
+            
             DownloadWindow downloadWindow = view.getDownloadWindow();
             ArrayList<FileData> fileData = downloadWindow.getFiles();
             /*
@@ -361,7 +344,7 @@ public class Controller {
             } else {
                 return;
             }
-
+            
             for (FileData data : fileData) {
                 System.out.println(data.url);
                 model.downloadFile(data.url, data.id, directoryName + "/"
@@ -369,15 +352,15 @@ public class Controller {
             }
         }
     }
-
+    
     class AddToExistingExpButtonListener implements ActionListener, Runnable {
-
+        
         @Override
         public void actionPerformed(ActionEvent actionEvent) {
-
+            
             new Thread(this).start();
         }
-
+        
         @Override
         public void run() {
             UploadTab uploadTab = view.getUploadTab();
@@ -388,16 +371,14 @@ public class Controller {
             uploadTab.revalidate();
         }
     }
-
-    class SelectFilesToUploadButtonListener
-            implements ActionListener, Runnable {
-
+    
+    class SelectFilesToUploadButtonListener implements ActionListener, Runnable {
         @Override
         public void actionPerformed(ActionEvent actionEvent) {
-
+            
             new Thread(this).start();
         }
-
+        
         @Override
         public void run() {
             FileDialog fileDialog = new java.awt.FileDialog(
@@ -414,15 +395,15 @@ public class Controller {
                     .enableUploadButton(true);
         }
     }
-
+    
     class UploadToExperimentButtonListener implements ActionListener, Runnable {
-
+        
         @Override
         public void actionPerformed(ActionEvent actionEvent) {
-
+            
             new Thread(this).start();
         }
-
+        
         @Override
         public void run() {
             String expName = view.getNewExpName();
@@ -441,23 +422,30 @@ public class Controller {
             System.out.println(created);
             if (created) {
                 for (File f : files) {
-                    model.uploadFile(expName, f, types.get(f.getName()),
-                            view.getUsername(), false, release);
+                    if (model.uploadFile(expName, f, types.get(f.getName()),
+                            view.getUsername(), false, release)) {
+                        JOptionPane.showMessageDialog(null,
+                                "Upload of " + f.getName() + " complete",
+                                "Done", JOptionPane.PLAIN_MESSAGE);
+                    } else {
+                        JOptionPane.showMessageDialog(null,
+                                "Upload of " + f.getName() + " not complete",
+                                "Error", JOptionPane.ERROR_MESSAGE);
+                    }
                 }
-
+                
             }
-            JOptionPane.showMessageDialog(null, "Upload complete.");
         }
     }
-
+    
     class updateSearchAnnotationsListener implements ActionListener, Runnable {
-
+        
         @Override
         public void actionPerformed(ActionEvent actionEvent) {
-
+            
             new Thread(this).start();
         }
-
+        
         @Override
         public void run() {
             AnnotationDataType[] annotations = model.getAnnotations();
@@ -466,44 +454,44 @@ public class Controller {
             }
         }
     }
-
+    
     class SearchToWorkspaceListener implements ActionListener, Runnable {
-
+        
         @Override
         public void actionPerformed(ActionEvent actionEvent) {
-
+            
             new Thread(this).start();
         }
-
+        
         @Override
         public void run() {
             view.addToWorkspace(view.getSelectedDataInSearch());
         }
-
+        
     }
-
+    
     class NewExpButtonListener implements ActionListener, Runnable {
-
+        
         @Override
         public void actionPerformed(ActionEvent actionEvent) {
-
+            
             new Thread(this).start();
         }
-
+        
         @Override
         public void run() {
             AnnotationDataType[] annotations = model.getAnnotations();
             view.createNewExp(annotations);
         }
     }
-
+    
     class SelectFilesToNewExpListener implements ActionListener, Runnable {
-
+        
         @Override
         public void actionPerformed(ActionEvent e) {
             new Thread(this).start();
         }
-
+        
         @Override
         public void run() {
             FileDialog fileDialog = new java.awt.FileDialog(
@@ -515,14 +503,14 @@ public class Controller {
             view.enableUploadButton(true);
         }
     }
-
+    
     class UploadNewExpListener implements ActionListener, Runnable {
-
+        
         @Override
         public void actionPerformed(ActionEvent e) {
             new Thread(this).start();
         }
-
+        
         @Override
         public void run() {
             String expName = view.getNewExpName();
@@ -543,17 +531,57 @@ public class Controller {
                 if (created) {
                     for (File f : files) {
                         System.out.println(f.getName());
-                        model.uploadFile(expName, f, types.get(f.getName()),
-                                view.getUsername(), false, release);
+                        if (model.uploadFile(expName, f,
+                                types.get(f.getName()), view.getUsername(),
+                                false, release)) {
+                            JOptionPane.showMessageDialog(null, "Upload of "
+                                    + f.getName() + " complete", "Done",
+                                    JOptionPane.PLAIN_MESSAGE);
+                        } else {
+                            JOptionPane.showMessageDialog(null, "Upload of "
+                                    + f.getName() + " not complete", "Error",
+                                    JOptionPane.ERROR_MESSAGE);
+                        }
                     }
-
+                    
                 }
             }
         }
     }
-
+    
     class AnalyzeSelectedListener implements ActionListener, Runnable {
+        
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            new Thread(this).start();
+        }
+        
+        @Override
+        public void run() {
+            System.out.println("ANALYZE");
+        }
+    }
+    
+    private void fileListAddMouseListener(JList fileList) {
+        fileList.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent event) {
+                JList list = (JList) event.getSource();
+                
+                if (list.getModel().getSize() > 0) {
+                    int index = list.locationToIndex(event.getPoint());
+                    CheckListItem item = (CheckListItem) list.getModel()
+                            .getElementAt(index);
+                    
+                    item.setSelected(!item.isSelected());
+                    
+                    list.repaint(list.getCellBounds(index, index));
+                }
+            }
+        });
+    }
 
+    class RatioCalcListener implements ActionListener, Runnable {
         @Override
         public void actionPerformed(ActionEvent e) {
             new Thread(this).start();
@@ -561,26 +589,9 @@ public class Controller {
 
         @Override
         public void run() {
-            System.out.println("ANALYZE");
+
+            System.out.println("Ratio Calc");
+
         }
-    }
-
-    private void fileListAddMouseListener(JList fileList) {
-        fileList.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseClicked(MouseEvent event) {
-                JList list = (JList) event.getSource();
-
-                if (list.getModel().getSize() > 0) {
-                    int index = list.locationToIndex(event.getPoint());
-                    CheckListItem item = (CheckListItem) list.getModel()
-                            .getElementAt(index);
-
-                    item.setSelected(!item.isSelected());
-
-                    list.repaint(list.getCellBounds(index, index));
-                }
-            }
-        });
     }
 }
