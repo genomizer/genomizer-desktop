@@ -20,7 +20,8 @@ public class AnnotationTest {
     @Before
     public void setUp() throws Exception {
         // con = new Connection("genomizer.apiary-mock.com:80");
-        con = new Connection("http://scratchy.cs.umu.se:7000");
+        con = new Connection();
+        con.setIp("http://scratchy.cs.umu.se:7000");
         // con = new Connection("http://hagrid.cs.umu.se:7000");
         model = new Model(con);
         model.loginUser("SysadminTests", "qwerty");
@@ -135,6 +136,13 @@ public class AnnotationTest {
         model.renameAnnotationValue(toBeChanged.name, oldValue, newValue);
         AnnotationDataType actual = getSpecificAnnotationType(nameOfAnnotation);
         assertThat(actual.getValues()[0]).isEqualTo(newValue);
+    }
+    
+    @Test
+    public void shouldRemoveAnnotationValue() {
+        // TODO: use AnnotationDataType.indexOf(String valueToBeremoved) and
+        // remove a valueToBeRemoved!!!
+        fail("Not implemented yet!");
     }
     
     protected AnnotationDataType getSpecificAnnotationType(String name) {

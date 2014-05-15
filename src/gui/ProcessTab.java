@@ -57,7 +57,7 @@ public class ProcessTab extends JPanel {
 
     private final JTextField flags = new JTextField();
     private final JTextField smoothWindowSize = new JTextField();
-    private final JTextField smoothType = new JTextField();
+    private final JComboBox<String> smoothType = new JComboBox<String>();
     private final JTextField stepPosition = new JTextField();
     private final JTextField stepSize = new JTextField();
 
@@ -123,7 +123,9 @@ public class ProcessTab extends JPanel {
 
         ratioSmoothType.addItem(ratioSmooth.get(0));
         ratioSmoothType.addItem(ratioSmooth.get(1));
-
+        smoothType.addItem(ratioSmooth.get(0));
+        smoothType.addItem(ratioSmooth.get(1));
+        
         /*TEST*/
         ArrayList<String> comboSingle = new ArrayList<String>();
         /* TEST */
@@ -283,8 +285,8 @@ public class ProcessTab extends JPanel {
         addPanelsToRawToProfileTab();
         addFlagsToConv();
         addGenomeFileToConv();
-        addSmoothWindowSizeToConv();
         addSmoothTypeToConv();
+        addSmoothWindowSizeToConv();
         addStepPositionToConv();
         addStepSizeToConv();
         addPrintMeanToConv();
@@ -390,7 +392,7 @@ public class ProcessTab extends JPanel {
         smoothTypePanel.add(smoothType);
         smoothType.setPreferredSize(new Dimension(70, 45));
         smoothType.setBorder(null);
-        smoothType.setHorizontalAlignment(JTextField.CENTER);
+        //smoothType.setHorizontalAlignment(JTextField.CENTER);
     }
 
     /**
@@ -502,8 +504,9 @@ public class ProcessTab extends JPanel {
 
         stepSize.setText("10");
         smoothWindowSize.setText("10");
-        smoothType.setText("1");
+        smoothType.setSelectedIndex(0);
         stepPosition.setText("5");
+        printZeros.setSelected(true);
         genomeFile.removeAllItems();
 
         for (int i = 0; i < genomeReleaseFiles.size(); i++) {
@@ -536,7 +539,7 @@ public class ProcessTab extends JPanel {
         String printzeros = "0";
 
         smoothPar = smoothWindowSize.getText().trim() + " "
-                + smoothType.getText().trim() + " "
+                + smoothType.getSelectedItem() + " "
                 + stepPosition.getText().trim();
 
         if (printMean.isSelected()) {
@@ -767,12 +770,56 @@ public class ProcessTab extends JPanel {
 
     public void showRatioPopup() {
         
-        Object[] possibleValues = { "First", "Second", "Third" };
+     /*   Object[] single = { "single", "double"};
         ratioPopup.showInputDialog(null,
-        "Choose one", "Input",
+        "Single", "Ratio calculation",
         JOptionPane.INFORMATION_MESSAGE, null,
-        possibleValues, possibleValues[0]);
+        single, single[0]);
+       */
         
+        JPanel ratioPanel = new JPanel(new BorderLayout());
+        
+        JPanel topPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
+        JPanel centerPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
+        JPanel bottomPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
+        
+        topPanel.setBorder(BorderFactory.createTitledBorder("Ratio calculation"));
+        centerPanel.setBorder(BorderFactory.createTitledBorder("Ratio smoothing"));
+        bottomPanel.setBorder(BorderFactory.createTitledBorder(""));
+        
+        ratioPanel.add(topPanel,BorderLayout.NORTH);
+        ratioPanel.add(centerPanel,BorderLayout.CENTER);
+        ratioPanel.add(bottomPanel,BorderLayout.SOUTH);
+        
+        topPanel.add(single);
+        topPanel.add(inputReads);
+        topPanel.add(chromosome);
+        centerPanel.add(ratioWindowSize);
+        centerPanel.add(ratioSmoothType);
+        centerPanel.add(ratioStepPosition);
+        bottomPanel.add(ratioPrintZeros);
+        bottomPanel.add(ratioPrintMean);
+        
+       single.setPreferredSize(new Dimension(150,60));
+       inputReads.setBorder(BorderFactory.createTitledBorder("Input reads cut-off"));
+       inputReads.setPreferredSize(new Dimension(160,60));
+       chromosome.setBorder(BorderFactory.createTitledBorder("Chromosomes"));
+       chromosome.setPreferredSize(new Dimension(120,60));
+        
+       ratioWindowSize.setBorder(BorderFactory.createTitledBorder("Window size"));
+       ratioWindowSize.setPreferredSize(new Dimension(120,60));
+       ratioSmoothType.setBorder(BorderFactory.createTitledBorder("Smooth type"));
+       ratioSmoothType.setPreferredSize(new Dimension(120,60));
+       ratioStepPosition.setBorder(BorderFactory.createTitledBorder("Step position"));
+       ratioStepPosition.setPreferredSize(new Dimension(120,60));
+        
+       int result = JOptionPane.showConfirmDialog(null, ratioPanel, 
+                "Ratio calculation",  JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
+       
+       if (result == JOptionPane.OK_OPTION) {   
+           System.out.println("OK");
+       } 
+       //System.out.println();
     }
 
 }
