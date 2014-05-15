@@ -57,6 +57,7 @@ public class Controller {
         view.addUploadButtonListener(new UploadNewExpListener());
         view.addAnalyzeSelectedListener(new AnalyzeSelectedListener());
         fileListAddMouseListener(view.getfileList());
+        view.addRatioCalcListener(new RatioCalcListener());
     }
     
     class ConvertFileListener implements ActionListener, Runnable {
@@ -578,5 +579,19 @@ public class Controller {
                 }
             }
         });
+    }
+
+    class RatioCalcListener implements ActionListener, Runnable {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            new Thread(this).start();
+        }
+
+        @Override
+        public void run() {
+
+            System.out.println("Ratio Calc");
+
+        }
     }
 }

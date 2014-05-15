@@ -703,4 +703,8 @@ public class ProcessTab extends JPanel {
         return s;
     }
 
+    public void addRatioCalcListener(ActionListener listener) {
+        ratioCalcButton.addActionListener(listener);
+    }
+
 }

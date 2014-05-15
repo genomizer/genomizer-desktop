@@ -138,4 +138,6 @@ public interface GenomizerView {
     public String[] getRatioCalcParameters();
 
     public String[] getOtherParameters();
+
+    public void addRatioCalcListener(ActionListener listener);
 }
