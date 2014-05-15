@@ -65,7 +65,8 @@ public class DownloadHandler {
                     previousTime = System.currentTimeMillis();
                     System.out.println(
                             "Downloaded " + totalDownload / 1024 / 1024
-                                    + "MiB");
+                                    + "MiB"
+                    );
                     System.out
                             .println(totalDownload / 1024 / 1024 / 5 + "MiB/s");
                 }
