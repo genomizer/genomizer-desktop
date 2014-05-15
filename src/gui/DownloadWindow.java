@@ -146,7 +146,7 @@ public class DownloadWindow extends JFrame {
                         for (DownloadHandler handler : ongoingDownloads) {
                             if (!handler.isFinished()) {
                                 ongoingPanel.add(new JLabel(
-                                        handler.getFileID()
+                                        handler.getFileName()
                                                 + " ("
                                                 + (handler.getCurrentSpeed() / 1024 / 1024)
                                                 + "MiB/s)"));
