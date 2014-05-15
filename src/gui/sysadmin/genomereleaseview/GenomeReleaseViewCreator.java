@@ -2,7 +2,6 @@ package gui.sysadmin.genomereleaseview;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.Dimension;
 import java.awt.FlowLayout;
 
 import javax.swing.DefaultListSelectionModel;
@@ -74,7 +73,7 @@ public class GenomeReleaseViewCreator {
 
         JScrollPane scrollPane = new JScrollPane(grTable);
         JTableHeader header2 = grTable.getTableHeader();
-        scrollPane.setPreferredSize(new Dimension(500, 80));
+
 
 
         mainPanel.add(scrollPane, BorderLayout.CENTER);
@@ -101,10 +100,10 @@ public class GenomeReleaseViewCreator {
 
         JTable cfTable = new JTable(table, header);
         cfTable.setSelectionMode(DefaultListSelectionModel.SINGLE_SELECTION);
-        // cfTable.getTableHeader().setReorderingAllowed(false);
+
 
         JScrollPane scrollPane = new JScrollPane(cfTable);
-        scrollPane.setPreferredSize(new Dimension(500, 80));
+
 
         return scrollPane;
     }
