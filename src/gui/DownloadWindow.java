@@ -1,6 +1,7 @@
 package gui;
 
 import java.awt.BorderLayout;
+import java.awt.GridLayout;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
@@ -11,6 +12,7 @@ import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JProgressBar;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
@@ -24,7 +26,9 @@ import communication.DownloadHandler;
 public class DownloadWindow extends JFrame {
     
     private static final long serialVersionUID = -7647204230941649167L;
-    private JPanel panel;
+    private JPanel mainPanel;
+    private JPanel tablePanel;
+    private JPanel ongoingPanel;
     private JTable table;
     private JButton downloadButton;
     private ImageIcon downloadIcon = new ImageIcon(
@@ -41,6 +45,7 @@ public class DownloadWindow extends JFrame {
     public DownloadWindow(ArrayList<FileData> files,
             OngoingDownloads ongoingDownloads) {
         this.ongoingDownloads = ongoingDownloads;
+        this.setLayout(new BorderLayout());
         this.files = files;
         // Gets the names of the files
         ArrayList<String> fileNames = new ArrayList<String>();
@@ -48,7 +53,11 @@ public class DownloadWindow extends JFrame {
             fileNames.add(files.get(i).getName());
         }
         // Sets up the DownloadWindow using the filenames.
-        setUp(fileNames);
+        mainPanel = new JPanel(new BorderLayout());
+        setUpTablePanel(fileNames);
+        setUpOngoingPanel();
+        add(mainPanel, BorderLayout.CENTER);
+        updateProgress();
     }
     
     /**
@@ -57,11 +66,11 @@ public class DownloadWindow extends JFrame {
      * @param data
      *            An ArrayList containing the Strings to set up the window with.
      */
-    private void setUp(ArrayList<String> data) {
+    private void setUpTablePanel(ArrayList<String> data) {
         
-        panel = new JPanel(new BorderLayout(3, 3));
-        add(panel);
-        panel.add(new JLabel("test"), BorderLayout.NORTH);
+        tablePanel = new JPanel(new BorderLayout(3, 3));
+        mainPanel.add(tablePanel, BorderLayout.CENTER);
+        tablePanel.add(new JLabel("test"), BorderLayout.SOUTH);
         
         // Set up the JTable
         DefaultTableModel tableModel = new DefaultTableModel();
@@ -85,16 +94,6 @@ public class DownloadWindow extends JFrame {
             tableModel.addRow(new Object[] { data.get(i),
                     "Click here to choose file format" });
         }
-        ArrayList<DownloadHandler> handlers = ongoingDownloads
-                .getOngoingDownloads();
-        
-        if (handlers != null) {
-            for (DownloadHandler handler : handlers) {
-                tableModel.addRow(new Object[] {
-                        "Ongoing: " + handler.getFileID(),
-                        "Click here to choose file format" });
-            }
-        }
         
         // Add comboboxes to each row in the table.
         JComboBox comboBox = new JComboBox();
@@ -107,19 +106,60 @@ public class DownloadWindow extends JFrame {
         table.setRowHeight(30);
         
         JScrollPane scrollPane = new JScrollPane(table);
-        panel.add(scrollPane, BorderLayout.CENTER);
-        panel.add(table.getTableHeader(), BorderLayout.NORTH);
+        tablePanel.add(scrollPane, BorderLayout.CENTER);
+        tablePanel.add(table.getTableHeader(), BorderLayout.NORTH);
         
         downloadButton = new JButton("Download");
         
         JPanel flowSouth = new JPanel();
         flowSouth.add(downloadButton);
-        panel.add(flowSouth, BorderLayout.SOUTH);
+        tablePanel.add(flowSouth, BorderLayout.SOUTH);
         
         setTitle("DOWNLOAD FILES");
         setSize(500, 500);
         setLocationRelativeTo(null);
         setVisible(true);
+    }
+    
+    private void setUpOngoingPanel() {
+        ongoingPanel = new JPanel(new GridLayout(0, 1));
+        
+        mainPanel.add(ongoingPanel, BorderLayout.NORTH);
+    }
+    
+    private void updateProgress() {
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                while (true) {
+                    ongoingPanel.removeAll();
+                    ArrayList<DownloadHandler> handlers = ongoingDownloads
+                            .getOngoingDownloads();
+                    if (handlers != null) {
+                        for (DownloadHandler handler : handlers) {
+                            if (handler.getCurrentProgress() != handler
+                                    .getTotalSize()) {
+                                ongoingPanel.add(new JLabel(handler.getFileID()
+                                        + " (" + handler.getCurrentSpeed()
+                                        + "MiB/s)"));
+                                JProgressBar progress = new JProgressBar(0,
+                                        handler.getTotalSize());
+                                progress.setValue(handler.getCurrentProgress());
+                                progress.setStringPainted(true);
+                                ongoingPanel.add(progress);
+                            }
+                        }
+                        
+                    }
+                    revalidate();
+                    repaint();
+                    try {
+                        Thread.sleep(1000);
+                    } catch (InterruptedException e) {
+                    }
+                }
+            }
+        }).start();
     }
     
     /**

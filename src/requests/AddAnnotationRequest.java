@@ -8,7 +8,7 @@ public class AddAnnotationRequest extends Request {
     public Boolean forced;
     
     public AddAnnotationRequest(String name, String[] categories, Boolean forced) {
-        super("addAnnotation", "/annotation", "POST");
+        super("addAnnotation", "/annotation/field", "POST");
         this.name = name;
         this.type = categories;
         this.defaultType = "Unknown";

@@ -4,10 +4,7 @@ import util.DeleteAnnoationData;
 
 public class DeleteAnnotationRequest extends Request {
     
-    private DeleteAnnoationData deleteId;
-    
-    public DeleteAnnotationRequest(DeleteAnnoationData deleteAnnoationData) {
-        super("deleteAnnotation", "/annotation", "DELETE");
-        this.deleteId = deleteAnnoationData;
+    public DeleteAnnotationRequest(String annotationName) {
+        super("deleteAnnotation", "/annotation/field/" + annotationName, "DELETE");
     }
 }

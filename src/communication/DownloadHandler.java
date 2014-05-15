@@ -107,7 +107,7 @@ public class DownloadHandler {
     }
     
     public int getCurrentSpeed() {
-        return perSecond;
+        return perSecond / 1024 / 2014 / 1;
     }
     
     public String getFileID() {

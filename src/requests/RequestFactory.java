@@ -1,7 +1,6 @@
 package requests;
 
 import util.AnnotationDataValue;
-import util.DeleteAnnoationData;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
@@ -92,8 +91,8 @@ public class RequestFactory {
     }
 
     public static DeleteAnnotationRequest makeDeleteAnnotationRequest(
-            DeleteAnnoationData deleteAnnoationData) {
-        return new DeleteAnnotationRequest(deleteAnnoationData);
+            String annotationName) {
+        return new DeleteAnnotationRequest(annotationName);
     }
 
     public static GetAnnotationRequest makeGetAnnotationRequest() {

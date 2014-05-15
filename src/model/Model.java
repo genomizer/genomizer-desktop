@@ -1,5 +1,12 @@
 package model;
 
+import com.google.gson.Gson;
+
+import communication.Connection;
+import communication.DownloadHandler;
+import communication.HTTPURLUpload;
+import requests.*;
+import responses.*;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -22,13 +29,7 @@ import responses.NewExperimentResponse;
 import responses.ResponseParser;
 import util.AnnotationDataType;
 import util.AnnotationDataValue;
-import util.DeleteAnnoationData;
 import util.ExperimentData;
-
-import com.google.gson.Gson;
-import communication.Connection;
-import communication.DownloadHandler;
-import communication.HTTPURLUpload;
 
 // import org.apache.http.protocol.HTTP;
 
@@ -176,7 +177,7 @@ public class Model implements GenomizerModel {
         System.out.println(conn.getResponseBody());
         final DownloadHandler handler = new DownloadHandler("pvt", "pvt",
                 fileID);
-        if(handler != null) {
+        if (handler != null) {
             ongoingDownloads.addOngoingDownload(handler);
         }
         new Thread(new Runnable() {
@@ -253,11 +254,13 @@ public class Model implements GenomizerModel {
     @Override
     public boolean editAnnotation(String name, String[] categories,
             boolean forced, AnnotationDataType oldAnnotation) {
-        if (oldAnnotation.getName().equals(name)) {
+        if (!(oldAnnotation.getName().equals(name))) {
             for (int i = 0; i < categories.length; i++) {
                 if (!(categories[i]
                         .equalsIgnoreCase(oldAnnotation.getValues()[i]))) {
-                    System.out.println("A change was made in the categories");
+                    System.out
+                            .println("A change was made in annotation properties");
+                    // TODO: Code to create a request goes here
                 }
             }
         }
@@ -266,7 +269,7 @@ public class Model implements GenomizerModel {
     }
 
     @Override
-    public boolean deleteAnnotation(DeleteAnnoationData deleteAnnoationData) {
+    public boolean deleteAnnotation(String deleteAnnoationData) {
 
         DeleteAnnotationRequest request = RequestFactory
                 .makeDeleteAnnotationRequest(deleteAnnoationData);
@@ -317,5 +320,4 @@ public class Model implements GenomizerModel {
     public OngoingDownloads getOngoingDownloads() {
         return ongoingDownloads;
     }
-
 }
