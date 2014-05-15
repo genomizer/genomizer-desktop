@@ -61,7 +61,16 @@ public class GenomeReleaseViewCreator {
     }
 
     private JPanel buildAddGenomeFilePanel() {
-        JPanel mainPanel = new JPanel(new FlowLayout());
+        JPanel mainPanel = new JPanel(new BorderLayout());
+        JPanel containerPanel = new JPanel();
+
+        GroupLayout layout = new GroupLayout(containerPanel);
+        containerPanel.setLayout(layout);
+
+        layout.setAutoCreateGaps(true);
+        layout.setAutoCreateContainerGaps(true);
+
+
         JLabel versionLabel = new JLabel();
         JLabel speciesLabel = new JLabel();
         JLabel fileLabel = new JLabel();
@@ -74,11 +83,27 @@ public class GenomeReleaseViewCreator {
         JTextField versionText = new JTextField(20);
         JTextField speciesText = new JTextField(20);
 
-        mainPanel.add(versionLabel);
-        mainPanel.add(versionText);
-        mainPanel.add(speciesLabel);
-        mainPanel.add(speciesText);
-        mainPanel.add(fileLabel);
+        layout.setHorizontalGroup(
+                layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(
+                                GroupLayout.Alignment.LEADING)
+                                .addComponent(versionLabel)
+                                .addComponent(versionText)
+                                .addComponent(speciesLabel)
+                                .addComponent(speciesText)
+                                .addComponent(fileLabel))
+        );
+
+        layout.setVerticalGroup(
+            layout.createSequentialGroup()
+                .addComponent(versionLabel)
+                .addComponent(versionText)
+                .addComponent(speciesLabel)
+                .addComponent(speciesText)
+                .addComponent(fileLabel)
+        );
+
+        mainPanel.add(containerPanel, BorderLayout.NORTH);
         return mainPanel;
     }
 
