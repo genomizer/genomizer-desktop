@@ -55,7 +55,7 @@ public class GenomeReleaseViewCreator {
         JTable cfTable = new JTable(table, header);
         cfTable.setSelectionMode(DefaultListSelectionModel.SINGLE_SELECTION);
         JScrollPane scrollPane = new JScrollPane(cfTable);
-        scrollPane.setPreferredSize(new Dimension(500, 80));
+        //scrollPane.setPreferredSize(new Dimension(500, 80));
 
         mainPanel.add(scrollPane, BorderLayout.CENTER);
         return mainPanel;

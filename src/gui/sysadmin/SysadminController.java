@@ -3,6 +3,7 @@ package gui.sysadmin;
 import gui.sysadmin.annotationview.AnnotationButtonsListener;
 import gui.sysadmin.annotationview.AnnotationPopupListener;
 import gui.sysadmin.annotationview.AnnotationTableModel;
+import gui.sysadmin.annotationview.EditAnnotationPopup;
 import gui.sysadmin.annotationview.EditAnnotationPopupListener;
 import gui.sysadmin.annotationview.SysadminAnnotationPopup;
 import model.GenomizerModel;
@@ -55,6 +56,21 @@ public class SysadminController extends Observable {
                     popup.getNewAnnotationCategories(),
                     popup.getNewAnnotationForcedValue());
             updateAnnotationTable();
+        } catch (IllegalArgumentException e) {
+            JOptionPane.showMessageDialog(null, e.getMessage());
+        }
+    }
+
+    public void editAnnotation() {
+        System.out.println("Calling editAnnotation in syscontroller");
+        EditAnnotationPopup edPop = sysTab.getAnnotationsView().getEditPopup();
+        try {
+            System.out.println("Trying to ask model to please edit an annotation...");
+            model.editAnnotation(edPop.getNewAnnotationName(),
+                    edPop.getNewAnnotationCategories(),
+                    edPop.getNewAnnotationForcedValue(),
+                    edPop.getAnnotation());
+
         } catch (IllegalArgumentException e) {
             JOptionPane.showMessageDialog(null, e.getMessage());
         }

@@ -136,4 +136,6 @@ public interface GenomizerView {
     public void enableUploadButton(boolean b);
 
     public String[] getRatioCalcParameters();
+
+    public String[] getOtherParameters();
 }

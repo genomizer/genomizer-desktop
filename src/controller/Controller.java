@@ -303,7 +303,6 @@ public class Controller {
                     }
                 }
             }
-            
             DownloadWindow downloadWindow = new DownloadWindow(selectedFiles,
                     model.getOngoingDownloads());
             view.setDownloadWindow(downloadWindow);
