@@ -109,32 +109,14 @@ public class Controller {
                     parameters[1] = view.getParameters()[1];
                     parameters[2] = "y";
                     parameters[3] = "y";
-                    parameters[4] = "10 1 5 0 0"; //view.getParameters()[2];
-                    parameters[5] = "y 10"; // view.getParameters()[3];
+                    parameters[4] = view.getParameters()[2];
+                    parameters[5] = view.getParameters()[3];
                     parameters[6] = "single 4 0";
                     parameters[7] = "150 1 7 0 0";
 
                     String expid = allMarked.get(i).expId;
-                    String genomeRelease = "hg38";//allMarked.get(i).grVersion;
-                    String metadata = "-a -m 1 --best -p 10 -v 2 -q -S,d_melanogaster_fb5_22,1 1 1 0 0,n 0"; //allMarked.get(i).metaData;
-
-                    System.out.println("RAW TO PROFILE\n");
-                    //          System.out.println("Filename: " + fileName);
-                    //         System.out.println("File ID: " + fileID);
-                    //         System.out.println("Expid: " + expid);
-                    //         System.out.println("Processtype: " + processtype);
-                    //         System.out.println("Parameter 1: " + parameters[0]);
-                    //         System.out.println("Parameter 2: " + parameters[1]);
-                    //         System.out.println("Parameter 3: " + parameters[2]);
-                    //         System.out.println("Parameter 4: " + parameters[3]);
-                    //         System.out.println("Parameter 5: " + parameters[4]);
-                    //         System.out.println("Parameter 6: " + parameters[5]);
-                    ///         System.out.println("Parameter 7: " + parameters[6]);
-                    //        System.out.println("Parameter 8: " + parameters[7]);
-                    //        System.out.println("Metadata: " + metadata);
-                    //        System.out.println("Genome Release: " + genomeRelease);
-                    //        System.out.println("Author: " + view.getUsername());
-                    //       System.out.println("\n");
+                    String genomeRelease = allMarked.get(i).grVersion;
+                    String metadata = allMarked.get(i).metaData;
 
                     isConverted = model.rawToProfile(fileName, fileID, expid,
                             processtype, parameters, metadata,
@@ -349,7 +331,7 @@ public class Controller {
              * fileDialog.setVisible(true); String directoryName =
              * fileDialog.getDirectory(); System.out.println("You chose " +
              * directoryName);
-             * 
+             *
              * if (fileData == null) {
              * System.err.println("No directory selected"); return; }
              */
