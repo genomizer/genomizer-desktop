@@ -98,8 +98,7 @@ public class SysadminController extends Observable {
                 if (JOptionPane.showConfirmDialog(null,
                         "Are you sure you want to delete the "
                                 + annotation.name + " annotation?") == JOptionPane.YES_OPTION) {
-                    if (model.deleteAnnotation(new DeleteAnnoationData(
-                            annotation))) {
+                    if (model.deleteAnnotation(annotation.name)) {
                         JOptionPane.showMessageDialog(null, annotation.name
                                 + " has been remove!");
                         SwingUtilities.invokeLater(new Runnable() {

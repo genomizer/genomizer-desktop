@@ -2,7 +2,6 @@ package model;
 
 import util.AnnotationDataType;
 import util.AnnotationDataValue;
-import util.DeleteAnnoationData;
 import util.ExperimentData;
 
 import java.io.File;
@@ -32,7 +31,7 @@ public interface GenomizerModel {
 
     public AnnotationDataType[] getAnnotations();
 
-    boolean deleteAnnotation(DeleteAnnoationData annotation);
+    boolean deleteAnnotation(String annotationName);
 
     public boolean addNewExperiment(String expName, String username,
             AnnotationDataValue[] annotations);
