@@ -247,6 +247,12 @@ public class Model implements GenomizerModel {
         }
     }
 
+    public boolean editAnnotation(String name, String[] categories, boolean forced) {
+
+
+        return false;
+    }
+
     @Override
     public boolean deleteAnnotation(DeleteAnnoationData deleteAnnoationData) {
 

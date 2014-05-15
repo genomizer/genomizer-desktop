@@ -33,6 +33,11 @@ public class RequestFactory {
         return new DownloadFileRequest(fileName, fileFormat);
     }
 
+    public static EditAnnotationRequest makeChangeAnnotationRequest(
+            String name, String annotation) {
+        return new EditAnnotationRequest(name, annotation);
+    }
+
     public static ChangeAnnotationRequest makeChangeAnnotationRequest(
             String id, HashMap annotations) {
         return new ChangeAnnotationRequest(id, annotations);
