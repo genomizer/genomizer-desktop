@@ -1,5 +1,6 @@
 package util;
 
+import javax.swing.*;
 import java.awt.datatransfer.DataFlavor;
 import java.io.*;
 
@@ -508,33 +509,37 @@ public class FileDrop {
             final java.awt.dnd.DropTargetDragEvent evt) {
         boolean ok = false;
 
-        // Get data flavors being dragged
-        java.awt.datatransfer.DataFlavor[] flavors = evt
-                .getCurrentDataFlavors();
+        try {
+            // Get data flavors being dragged
+            java.awt.datatransfer.DataFlavor[] flavors = evt
+                    .getCurrentDataFlavors();
 
-        // See if any of the flavors are a file list
-        int i = 0;
-        while (!ok && i < flavors.length) {
-            // BEGIN 2007-09-12 Nathan Blomquist -- Linux (KDE/Gnome) support
-            // added.
-            // Is the flavor a file list?
-            final DataFlavor curFlavor = flavors[i];
-            if (curFlavor
-                    .equals(java.awt.datatransfer.DataFlavor.javaFileListFlavor)
-                    || curFlavor.isRepresentationClassReader()) {
-                ok = true;
-            }
-            // END 2007-09-12 Nathan Blomquist -- Linux (KDE/Gnome) support
-            // added.
-            i++;
-        } // end while: through flavors
+            // See if any of the flavors are a file list
+            int i = 0;
+            while (!ok && i < flavors.length) {
+                // BEGIN 2007-09-12 Nathan Blomquist -- Linux (KDE/Gnome) support
+                // added.
+                // Is the flavor a file list?
+                final DataFlavor curFlavor = flavors[i];
+                if (curFlavor
+                        .equals(java.awt.datatransfer.DataFlavor.javaFileListFlavor)
+                        || curFlavor.isRepresentationClassReader()) {
+                    ok = true;
+                }
+                // END 2007-09-12 Nathan Blomquist -- Linux (KDE/Gnome) support
+                // added.
+                i++;
+            } // end while: through flavors
 
-        // If logging is enabled, show data flavors
-        if (out != null) {
-            if (flavors.length == 0) log(out, "FileDrop: no data flavors.");
-            for (i = 0; i < flavors.length; i++)
-                log(out, flavors[i].toString());
-        } // end if: logging enabled
+            // If logging is enabled, show data flavors
+            if (out != null) {
+                if (flavors.length == 0) log(out, "FileDrop: no data flavors.");
+                for (i = 0; i < flavors.length; i++)
+                    log(out, flavors[i].toString());
+            } // end if: logging enabled
+        } catch (IllegalArgumentException e) {
+            JOptionPane.showMessageDialog(null, "Drag & drop failed.");
+        }
 
         return ok;
     } // end isDragOk
