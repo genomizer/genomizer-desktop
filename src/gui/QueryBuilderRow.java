@@ -162,7 +162,7 @@ public class QueryBuilderRow extends JPanel {
      * Method for constructing the text field for free text input
      */
     private void setTextField() {
-        textField = new JTextField(35);
+        textField = new JTextField(40);
         /*
          * The search field in the parent is updated when the text field content
          * is changed
