@@ -37,7 +37,7 @@ public class GUI extends JFrame implements GenomizerView {
         setLookAndFeel();
         this.setTitle("Genomizer");
         setSize(1250, 850);
-        this.setMinimumSize(new Dimension(1250, 850));
+        //this.setMinimumSize(new Dimension(1250, 850));
 
         BorderLayout bl = new BorderLayout();
         mainPanel = new JPanel(bl);
@@ -274,16 +274,22 @@ public class GUI extends JFrame implements GenomizerView {
     }
 
     private void setLookAndFeel() {
+//        try {
+//            UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+//        } catch (ClassNotFoundException e) {
+//            e.printStackTrace();
+//        } catch (InstantiationException e) {
+//            e.printStackTrace();
+//        } catch (IllegalAccessException e) {
+//            e.printStackTrace();
+//        } catch (UnsupportedLookAndFeelException e) {
+//            e.printStackTrace();
+//        }
+        
         try {
-            UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-        } catch (InstantiationException e) {
-            e.printStackTrace();
-        } catch (IllegalAccessException e) {
-            e.printStackTrace();
-        } catch (UnsupportedLookAndFeelException e) {
-            e.printStackTrace();
+            UIManager.setLookAndFeel("javax.swing.plaf.nimbus.NimbusLookAndFeel");
+        } catch (Exception e) {
+            // If Nimbus is not available, you can set the GUI to another look and feel.
         }
     }
 
