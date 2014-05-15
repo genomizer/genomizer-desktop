@@ -53,6 +53,8 @@ public class DownloadHandler {
             File file = new File(localFilePath);
             String buffer;
             int totalDownload = 0;
+            int previousDownload = 0;
+            int perSecond;
             BufferedWriter fileOut = new BufferedWriter(new FileWriter(file));
             Long previousTime = System.currentTimeMillis();
             while ((buffer = in.readLine()) != null) {
@@ -61,14 +63,15 @@ public class DownloadHandler {
                 fileOut.newLine();
                 totalDownload += System.getProperty("line.separator")
                         .length();
-                if (System.currentTimeMillis() - previousTime > 5000) {
+                if (System.currentTimeMillis() - previousTime > 1000) {
                     previousTime = System.currentTimeMillis();
                     System.out.println(
                             "Downloaded " + totalDownload / 1024 / 1024
                                     + "MiB"
                     );
-                    System.out
-                            .println(totalDownload / 1024 / 1024 / 5 + "MiB/s");
+                    perSecond = totalDownload - previousDownload;
+                    previousDownload = totalDownload;
+                    System.out.println(perSecond / 1024 / 1024 / 1 + "MiB/s");
                 }
             }
             fileOut.close();
