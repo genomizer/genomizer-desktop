@@ -435,8 +435,8 @@ public class UploadTab extends JPanel implements ExperimentPanel {
     }
 
     /**
-     * @return true if all forced annotations are filled, and there are files
-     * selected. Otherwise returns false.
+     * @return true if all forced annotation fields (including expID) are
+     * filled. Otherwise returns false.
      */
     private boolean forcedAnnotationCheck() {
 
