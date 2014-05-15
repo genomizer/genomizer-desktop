@@ -2,8 +2,6 @@ package util;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.awt.event.MouseAdapter;
@@ -18,7 +16,6 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import javax.swing.Action;
-import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -87,20 +84,6 @@ public class TreeTable extends JPanel {
                 public void addVisibilityActionItems(
                         List<? extends AbstractActionExt> actions) {
                     if (!actions.isEmpty()) {
-                        JButton deselectButton = new JButton("Deselect All");
-                        deselectButton.addActionListener(new ActionListener() {
-                            @Override
-                            public void actionPerformed(ActionEvent e) {
-                                for (JCheckBox checkBox : columnCheckBoxes) {
-                                    if (checkBox.isSelected()
-                                            && checkBox.isEnabled()) {
-                                        checkBox.setSelected(false);
-                                    }
-                                    getPopupMenu().add(checkBox);
-                                }
-                            }
-                        });
-                        getPopupMenu().add(deselectButton);
                         for (JCheckBox checkBox : columnCheckBoxes) {
                             getPopupMenu().add(checkBox);
                         }
@@ -121,12 +104,15 @@ public class TreeTable extends JPanel {
         table.setColumnControlVisible(true);
         table.setShowGrid(true, true);
         table.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
-        
+        /* Reordering of the columns is not allowed in this version */
+        // table.getTableHeader().setReorderingAllowed(false);
+        table.setColumnMargin(10);
         /* Add a mouse listener to check for column sorting */
         table.getTableHeader().addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
                 if (e.getClickCount() == 1 && experiments != null) {
+                    System.out.println("");
                     TableColumnModel cModel = table.getColumnModel();
                     int column = cModel.getColumnIndexAtX(e.getX());
                     sortData(column);
@@ -134,9 +120,12 @@ public class TreeTable extends JPanel {
                 }
             }
         });
-        JScrollPane scrollPane = new JScrollPane(table,
-                JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
-                JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+        JScrollPane scrollPane = new JScrollPane(table);
+        scrollPane
+                .setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+        scrollPane
+                .setVerticalScrollBarPolicy(
+                        JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
         scrollPane.getViewport().setScrollMode(JViewport.SIMPLE_SCROLL_MODE);
         add(scrollPane, BorderLayout.CENTER);
     }
