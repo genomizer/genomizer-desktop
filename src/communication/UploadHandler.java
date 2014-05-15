@@ -27,6 +27,7 @@ public class UploadHandler implements Runnable {
             String urlFileName = getFileNameFromUrl(url);
             sendSetupPackage();
             url = url.replaceFirst("\\u003d", "=");
+            url = url.replaceFirst("scratchy.cs.umu.se", "sterner.cc");
             // url = url.replaceFirst("8000", "8050");
             URL targetUrl = new URL(url);
             HttpURLConnection conn = (HttpURLConnection) targetUrl
@@ -41,20 +42,25 @@ public class UploadHandler implements Runnable {
             conn.setRequestProperty("Content-Type",
                     "multipart/form-data; boundary=" + boundary);
             conn.setRequestProperty("Authorization", "Basic " + authStringEnc);
-            PrintWriter outputStream = new PrintWriter(conn.getOutputStream(),
-                    true);
+            OutputStreamWriter outputStream = new OutputStreamWriter(conn.getOutputStream());
             File file = new File(filePath);
             BufferedReader reader = new BufferedReader(new FileReader(file));
             sendMultiPartFormat(urlFileName, boundary, outputStream);
             int totalSent = 0;
-            String buffer;
-            while (reader.ready()) {
-                buffer = reader.readLine();
-                outputStream.println(buffer);
-                totalSent += buffer.length() + 1;
+            char[] buff = new char[4096];
+            int count;
+            Long previousTime = System.currentTimeMillis();
+            while ((count = reader.read(buff, 0, 4096)) != -1) {
+                outputStream.write(buff);
+                totalSent += count;
+                if (System.currentTimeMillis() - previousTime > 1000) {
+                    previousTime = System.currentTimeMillis();
+                    System.out.println(totalSent / 1024 / 1024 / 5 + "MiB");
+                }
                 outputStream.flush();
             }
-            outputStream.println("\n--" + boundary + "--");
+            outputStream.write("\n--" + boundary + "--" + "\n");
+            outputStream.flush();
             int responseCode;
             if ((responseCode = conn.getResponseCode()) != 201) {
                 System.out
@@ -79,16 +85,21 @@ public class UploadHandler implements Runnable {
     }
 
     private void sendMultiPartFormat(String urlFileName, String boundary,
-            PrintWriter outputStream) {
-        outputStream.println("--" + boundary);
-        outputStream.println("Content-Disposition: form-data; name=\"path\"\n");
-        String path = url.split("=")[1];
-        System.out.println(path);
-        outputStream.println(path);
-        outputStream.println("--" + boundary);
-        outputStream.println("Content-Disposition: form-data; name="
-                + "\"uploadfile\"; filename=\"" + urlFileName + "\"\n"
-                + "Content-Type: application/octet-stream\n");
+            OutputStreamWriter outputStream) {
+        try {
+            outputStream.write("--" + boundary + "\n");
+            outputStream.write("Content-Disposition: form-data; name=\"path\"\n\n");
+            String path = url.split("=")[1];
+            System.out.println(path);
+            outputStream.write(path + "\n");
+            outputStream.write("--" + boundary + "\n");
+            outputStream.write("Content-Disposition: form-data; name="
+                    + "\"uploadfile\"; filename=\"" + urlFileName + "\"\n"
+                    + "Content-Type: application/octet-stream\n\n");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
     }
 
     private String getFileNameFromUrl(String url) {
