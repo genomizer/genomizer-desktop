@@ -76,6 +76,7 @@ public class TreeTable extends JPanel {
         table.setLeafIcon(null);
         table.setClosedIcon(null);
         table.setOpenIcon(null);
+        /* Custom column control for hiding columns */
         ColumnControlButton controlButton = new ColumnControlButton(table) {
             @Override
             protected ColumnControlPopup createColumnControlPopup() {
@@ -87,6 +88,7 @@ public class TreeTable extends JPanel {
                 public void addVisibilityActionItems(
                         List<? extends AbstractActionExt> actions) {
                     if (!actions.isEmpty()) {
+                        /* Hide all columns button */
                         JButton button = new JButton("Deselect All");
                         button.addActionListener(new ActionListener() {
                             @Override
@@ -99,6 +101,7 @@ public class TreeTable extends JPanel {
                                 }
                             }
                         });
+                        /* Add hide column checkboxes */
                         getPopupMenu().add(button);
                         for (JCheckBox checkBox : columnCheckBoxes) {
                             getPopupMenu().add(checkBox);
@@ -120,9 +123,6 @@ public class TreeTable extends JPanel {
         table.setColumnControlVisible(true);
         table.setShowGrid(true, true);
         table.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
-        /* Reordering of the columns is not allowed in this version */
-        // table.getTableHeader().setReorderingAllowed(false);
-        table.setColumnMargin(10);
         /* Add a mouse listener to check for column sorting */
         table.getTableHeader().addMouseListener(new MouseAdapter() {
             @Override
@@ -136,6 +136,7 @@ public class TreeTable extends JPanel {
                 }
             }
         });
+        /* Add a scroll pane */
         JScrollPane scrollPane = new JScrollPane(table,
                 JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
                 JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
