@@ -6,7 +6,10 @@ import util.AnnotationDataValue;
 import util.FileDrop;
 
 import javax.swing.*;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
 import java.awt.*;
+import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
 import java.util.ArrayList;
@@ -203,6 +206,35 @@ public class UploadTab extends JPanel implements ExperimentPanel {
         int y = 0;
         String[] annotationNames = new String[annotations.length];
         GridBagConstraints gbc = new GridBagConstraints();
+
+        //Listener for when the text in a textfield changes.
+        DocumentListener documentListener = new DocumentListener() {
+            @Override
+            public void insertUpdate(
+                    DocumentEvent documentEvent) {
+                System.out.println("insert");
+                react();
+            }
+
+            @Override
+            public void removeUpdate(
+                    DocumentEvent documentEvent) {
+                System.out.println("remove");
+                react();
+            }
+
+            @Override
+            public void changedUpdate(
+                    DocumentEvent documentEvent) {
+                System.out.println("changed");
+                react();
+            }
+
+            public void react() {
+                enableUploadButton(true);
+            }
+        };
+
         for (int i = 0; i < annotations.length; i++) {
             if (i == 0) {
                 gbc.anchor = GridBagConstraints.WEST;
@@ -216,7 +248,9 @@ public class UploadTab extends JPanel implements ExperimentPanel {
                 p.add(expID, BorderLayout.CENTER);
                 newExpPanel.add(p, gbc);
                 x++;
-            } else {
+            } else if(!annotations[i].getValues()[0].equals("freetext") &&
+                    annotations[i].getValues().length > 0) {
+
                 if (x > 6) {
                     x = 0;
                     y++;
@@ -234,15 +268,41 @@ public class UploadTab extends JPanel implements ExperimentPanel {
                 annotationHeaders.add(annotations[i].getName());
                 p.add(annotationLabel, BorderLayout.NORTH);
                 if (annotations[i].getValues()[0].equals("freetext")) {
-                    JTextField textField = new JTextField();
+                    final JTextField textField = new JTextField();
                     textField.setColumns(10);
+
+                    //Add listener for when the text in the textfield changes.
+                    textField.getDocument().addDocumentListener(documentListener);
+
                     annotationFields.put(annotations[i].getName(), textField);
                     p.add(textField, BorderLayout.CENTER);
                     newExpPanel.add(p, gbc);
+
+
                 } else {
-                    JComboBox comboBox = new JComboBox(
+                    final JComboBox comboBox = new JComboBox(
                             annotations[i].getValues());
                     comboBox.setPreferredSize(new Dimension(120, 31));
+
+                    /*
+                     * Listener for when the user chooses something in the
+                     * combobox.
+                     */
+                    comboBox.addActionListener(
+                            new ActionListener() {
+                                @Override
+                                public void actionPerformed(
+                                        ActionEvent actionEvent) {
+                                    String text = (String) comboBox
+                                            .getSelectedItem();
+                                    if (!text.equals("") && text != null) {
+                                        System.out.println("trying1..");
+                                        enableUploadButton(true);
+                                    }
+                                }
+                            }
+                    );
+
                     annotationBoxes.put(annotations[i].getName(), comboBox);
                     p.add(comboBox, BorderLayout.CENTER);
                     newExpPanel.add(p, gbc);
@@ -413,9 +473,11 @@ public class UploadTab extends JPanel implements ExperimentPanel {
         for(int i=0; i<annotations.length; i++) {
             if(annotations[i].isForced()) {
                 annotationName = annotations[i].getName();
+                System.out.println("annotation name: " + annotationName);
                 if(annotationFields.containsKey(annotationName)) {
                     annotationField = annotationFields.get(annotationName);
                     text = annotationField.getText();
+                    System.out.println("text: " + text);
                     if(text == null || text.equals("")) {
                         allForcedAnnotationsAreFilled = false;
                     }
@@ -425,6 +487,7 @@ public class UploadTab extends JPanel implements ExperimentPanel {
                     text = (String)annotationBox.getSelectedItem();
                     if(text == null || text.equals("")) {
                         allForcedAnnotationsAreFilled = false;
+                        System.out.println("box choices are empty");
                     }
 
                     text = null;
