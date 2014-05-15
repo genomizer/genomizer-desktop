@@ -477,7 +477,8 @@ public class UploadTab extends JPanel implements ExperimentPanel {
 
     /**
      * Sets the experiment button to either be enabled or disabled.
-     * Only sets
+     * Only enables it if there are selected files and all forced annotations
+     * fields are filled.
      *
      * @param b
      *            Whether it should try to:
