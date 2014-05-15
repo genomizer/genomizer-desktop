@@ -2,6 +2,8 @@ package util;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.awt.event.MouseAdapter;
@@ -16,6 +18,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import javax.swing.Action;
+import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -84,6 +87,19 @@ public class TreeTable extends JPanel {
                 public void addVisibilityActionItems(
                         List<? extends AbstractActionExt> actions) {
                     if (!actions.isEmpty()) {
+                        JButton button = new JButton("Deselect All");
+                        button.addActionListener(new ActionListener() {
+                            @Override
+                            public void actionPerformed(ActionEvent e) {
+                                for (JCheckBox checkBox : columnCheckBoxes) {
+                                    if (checkBox.isEnabled()
+                                            && checkBox.isSelected()) {
+                                        checkBox.setSelected(false);
+                                    }
+                                }
+                            }
+                        });
+                        getPopupMenu().add(button);
                         for (JCheckBox checkBox : columnCheckBoxes) {
                             getPopupMenu().add(checkBox);
                         }
@@ -120,11 +136,9 @@ public class TreeTable extends JPanel {
                 }
             }
         });
-        JScrollPane scrollPane = new JScrollPane(table);
-        scrollPane
-                .setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
-        scrollPane
-                .setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
+        JScrollPane scrollPane = new JScrollPane(table,
+                JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
+                JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
         scrollPane.getViewport().setScrollMode(JViewport.SIMPLE_SCROLL_MODE);
         add(scrollPane, BorderLayout.CENTER);
     }
@@ -414,23 +428,27 @@ public class TreeTable extends JPanel {
     }
     
     private void updateVisibleHeadings() {
-        visibleHeadings = new ArrayList<String>();
-        int columnCount = table.getColumnCount();
-        if (columnCount > 0) {
+        try {
             visibleHeadings = new ArrayList<String>();
-            for (int i = 0; i < columnCount; i++) {
-                visibleHeadings.add(table.getColumnName(i));
-            }
-            for (String heading : headings) {
-                if (!visibleHeadings.contains(heading)
-                        && !deselectedHeadings.contains(heading)) {
-                    visibleHeadings.add(heading);
+            int columnCount = table.getColumnCount();
+            if (columnCount > 0) {
+                visibleHeadings = new ArrayList<String>();
+                for (int i = 0; i < columnCount; i++) {
+                    visibleHeadings.add(table.getColumnName(i));
                 }
+                for (String heading : headings) {
+                    if (!visibleHeadings.contains(heading)
+                            && !deselectedHeadings.contains(heading)) {
+                        visibleHeadings.add(heading);
+                    }
+                }
+                visibleHeadings.removeAll(deselectedHeadings);
+                
+            } else {
+                visibleHeadings.addAll(headings);
             }
-            visibleHeadings.removeAll(deselectedHeadings);
+        } catch (NullPointerException e) {
             
-        } else {
-            visibleHeadings.addAll(headings);
         }
     }
     
