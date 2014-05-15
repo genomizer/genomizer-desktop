@@ -474,4 +474,9 @@ public class GUI extends JFrame implements GenomizerView {
     public String[] getOtherParameters() {
         return processTab.getOtherParameters();
     }
+
+    @Override
+    public void addRatioCalcListener(ActionListener listener) {
+        processTab.addRatioCalcListener(listener);
+    }
 }
