@@ -19,6 +19,16 @@ public class ResponseParser {
         return loginResponse;
     }
 
+    public static ExperimentData parseRetrieveExp(String json) {
+        ExperimentData retrieveExpResponse = null;
+        try {
+            retrieveExpResponse = gson.fromJson(json, ExperimentData.class);
+        } catch (JsonParseException e) {
+            return null;
+        }
+        return retrieveExpResponse;
+    }
+
     public static ExperimentData[] parseSearchResponse(String json) {
         ExperimentData[] searchResponses = null;
         try {

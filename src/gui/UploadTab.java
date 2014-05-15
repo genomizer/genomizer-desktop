@@ -3,6 +3,7 @@ package gui;
 import util.ActivePanel;
 import util.AnnotationDataType;
 import util.AnnotationDataValue;
+import util.ExperimentData;
 import util.FileDrop;
 
 import javax.swing.*;
@@ -132,16 +133,18 @@ public class UploadTab extends JPanel implements ExperimentPanel {
 
     /**
      * Displays a panel for adding to an existing experiment.
+     * @param ed
      *
      * @param annotations
      *            The annotations of the experiment.
      */
-    public void addExistingExpPanel(AnnotationDataType[] annotations) {
+    public void addExistingExpPanel(ExperimentData ed) {
         killContentsOfUploadPanel();
         activePanel = ActivePanel.EXISTING;
         uploadToExistingExpPanel.build();
-        uploadToExistingExpPanel.setAnnotations(annotations);
-        uploadToExistingExpPanel.addAnnotationsForExistingExp();
+        ArrayList<AnnotationDataValue> annots = ed.getAnnotations();
+        uploadToExistingExpPanel.addExistingExp(ed);
+//        uploadToExistingExpPanel.addAnnotationsForExistingExp();
         uploadPanel.add(uploadToExistingExpPanel, BorderLayout.CENTER);
         /*
          * setBorder(BorderFactory
@@ -490,6 +493,10 @@ public class UploadTab extends JPanel implements ExperimentPanel {
         }
     }
 
+    public String getSearchText() {
+        return experimentNameField.getText();
+    };
+
     // Listener for when the text in a textfield changes.
     private class FreetextListener implements DocumentListener {
         @Override
@@ -513,5 +520,5 @@ public class UploadTab extends JPanel implements ExperimentPanel {
         public void react() {
             enableUploadButton(true);
         }
-    };
+    }
 }
