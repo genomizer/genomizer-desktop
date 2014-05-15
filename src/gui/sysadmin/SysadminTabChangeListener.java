@@ -35,6 +35,11 @@ public class SysadminTabChangeListener implements ChangeListener {
                 break;
             case SysStrings.ANNOTATIONS:
                 System.out.println("Clicked the annotations tab.");
+                
+                /**
+                 * TODO Make sure the annotations are fetched here instead of
+                 * the main Controller.
+                 */
                 break;
 
         }
