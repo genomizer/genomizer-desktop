@@ -76,6 +76,7 @@ public class UploadTab extends JPanel implements ExperimentPanel {
         expNameLabel = new JLabel();
         expID = new JTextField();
         expID.setColumns(10);
+        expID.getDocument().addDocumentListener(new FreetextListener());
         northPanel.add(newExpButton, BorderLayout.EAST);
         enableUploadButton(false);
     }
@@ -207,53 +208,23 @@ public class UploadTab extends JPanel implements ExperimentPanel {
         int y = 0;
         String[] annotationNames = new String[annotations.length];
         GridBagConstraints gbc = new GridBagConstraints();
-
-        //Listener for when the text in a textfield changes.
-        DocumentListener documentListener = new DocumentListener() {
-            @Override
-            public void insertUpdate(
-                    DocumentEvent documentEvent) {
-                System.out.println("insert");
-                react();
-            }
-
-            @Override
-            public void removeUpdate(
-                    DocumentEvent documentEvent) {
-                System.out.println("remove");
-                react();
-            }
-
-            @Override
-            public void changedUpdate(
-                    DocumentEvent documentEvent) {
-                System.out.println("changed");
-                react();
-            }
-
-            public void react() {
-                enableUploadButton(true);
-            }
-        };
-
+        gbc.anchor = GridBagConstraints.WEST;
+        gbc.insets = new Insets(5, 0, 5, 30);
+        gbc.gridx = x;
+        gbc.gridy = y;
+        JPanel exp = new JPanel(new BorderLayout());
+        expNameLabel.setText("Experiment ID");
+        expNameLabel.setForeground(Color.RED);
+        expNameLabel.setToolTipText("Red indicates a forced annotation");
+        exp.add(expNameLabel, BorderLayout.NORTH);
+        exp.add(expID, BorderLayout.CENTER);
+        newExpPanel.add(exp, gbc);
+        x++;
         for (int i = 0; i < annotations.length; i++) {
-            if (i == 0) {
-                gbc.anchor = GridBagConstraints.WEST;
-                gbc.insets = new Insets(5, 0, 5, 30);
-                gbc.gridx = x;
-                gbc.gridy = y;
-                JPanel p = new JPanel(new BorderLayout());
-                expNameLabel.setText("Experiment ID");
-                expNameLabel.setForeground(Color.RED);
-                expNameLabel.setToolTipText("Red indicates a forced annotation");
-                p.add(expNameLabel, BorderLayout.NORTH);
-                p.add(expID, BorderLayout.CENTER);
-                newExpPanel.add(p, gbc);
-                x++;
 
-            } else if(!annotations[i].getValues()[0].equals("freetext") &&
-                    annotations[i].getValues().length > 0 &&
-                    annotations[i].isForced()) {
+            if (!annotations[i].getValues()[0].equals("freetext")
+                    && annotations[i].getValues().length > 0
+                    && annotations[i].isForced()) {
                 if (x > 6) {
                     x = 0;
                     y++;
@@ -265,9 +236,10 @@ public class UploadTab extends JPanel implements ExperimentPanel {
                 JPanel p = new JPanel(new BorderLayout());
                 String label = null;
                 JLabel annotationLabel = new JLabel(annotations[i].getName());
-                if(annotations[i].isForced()) {
+                if (annotations[i].isForced()) {
                     annotationLabel.setForeground(Color.RED);
-                    annotationLabel.setToolTipText("Red indicates a forced annotation");
+                    annotationLabel
+                            .setToolTipText("Red indicates a forced annotation");
                 }
                 annotationHeaders.add(annotations[i].getName());
                 p.add(annotationLabel, BorderLayout.NORTH);
@@ -275,13 +247,13 @@ public class UploadTab extends JPanel implements ExperimentPanel {
                     final JTextField textField = new JTextField();
                     textField.setColumns(10);
 
-                    //Add listener for when the text in the textfield changes.
-                    textField.getDocument().addDocumentListener(documentListener);
+                    // Add listener for when the text in the textfield changes.
+                    textField.getDocument().addDocumentListener(
+                            new FreetextListener());
 
                     annotationFields.put(annotations[i].getName(), textField);
                     p.add(textField, BorderLayout.CENTER);
                     newExpPanel.add(p, gbc);
-
 
                 } else {
                     final JComboBox comboBox = new JComboBox(
@@ -292,20 +264,16 @@ public class UploadTab extends JPanel implements ExperimentPanel {
                      * Listener for when the user chooses something in the
                      * combobox.
                      */
-                    comboBox.addActionListener(
-                            new ActionListener() {
-                                @Override
-                                public void actionPerformed(
-                                        ActionEvent actionEvent) {
-                                    String text = (String) comboBox
-                                            .getSelectedItem();
-                                    if (!text.equals("") && text != null) {
-                                        System.out.println("trying1..");
-                                        enableUploadButton(true);
-                                    }
-                                }
+                    comboBox.addActionListener(new ActionListener() {
+                        @Override
+                        public void actionPerformed(ActionEvent actionEvent) {
+                            String text = (String) comboBox.getSelectedItem();
+                            if (!text.equals("") && text != null) {
+                                System.out.println("trying1..");
+                                enableUploadButton(true);
                             }
-                    );
+                        }
+                    });
 
                     annotationBoxes.put(annotations[i].getName(), comboBox);
                     p.add(comboBox, BorderLayout.CENTER);
@@ -516,4 +484,29 @@ public class UploadTab extends JPanel implements ExperimentPanel {
             uploadButton.setEnabled(b);
         }
     }
+
+    // Listener for when the text in a textfield changes.
+    private class FreetextListener implements DocumentListener {
+        @Override
+        public void insertUpdate(DocumentEvent documentEvent) {
+            System.out.println("insert");
+            react();
+        }
+
+        @Override
+        public void removeUpdate(DocumentEvent documentEvent) {
+            System.out.println("remove");
+            react();
+        }
+
+        @Override
+        public void changedUpdate(DocumentEvent documentEvent) {
+            System.out.println("changed");
+            react();
+        }
+
+        public void react() {
+            enableUploadButton(true);
+        }
+    };
 }
