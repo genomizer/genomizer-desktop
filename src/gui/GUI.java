@@ -626,6 +626,6 @@ public class GUI extends JFrame implements GenomizerView {
     @Override
     public void showRatioPopup() {
         processTab.showRatioPopup();
-        
+
     }
 }

@@ -92,6 +92,9 @@ public class GenomeReleaseViewCreator {
         JPanel mainPanel = new JPanel(new BorderLayout());
         
         /******************************* TEST *********************************/
+        
+        /** TODO Call the syscontroller here to get the data from server */
+
         GenomeReleaseData gr1 = new GenomeReleaseData("version1", "dolphin",
                 "filename.txt");
         

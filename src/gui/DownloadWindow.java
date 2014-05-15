@@ -85,7 +85,12 @@ public class DownloadWindow extends JFrame {
             content[i][0] = data.get(i);
             content[i][1] = "Click here to choose file format";
         }
-        table = new JTable(content, headings);
+        table = new JTable(content, headings) {
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                return column == 1 ? true : false;
+            }
+        };
         
         // Add comboboxes to each row in the table.
         JComboBox comboBox = new JComboBox();
@@ -94,7 +99,6 @@ public class DownloadWindow extends JFrame {
         DefaultCellEditor cellEditor = new DefaultCellEditor(comboBox);
         table.getColumnModel().getColumn(1).setCellEditor(cellEditor);
         table.setRowHeight(30);
-        
         JScrollPane scrollPane = new JScrollPane(table);
         tablePanel.add(scrollPane, BorderLayout.CENTER);
         tablePanel.add(table.getTableHeader(), BorderLayout.NORTH);
