@@ -22,6 +22,8 @@ public class DownloadHandler {
     private String password;
     private String fileID;
     private boolean finished;
+    private int totalDownload;
+    private int perSecond;
     
     public DownloadHandler(String username, String password, String fileID) {
         this.username = username;
@@ -60,9 +62,9 @@ public class DownloadHandler {
                     conn.getInputStream()));
             File file = new File(localFilePath);
             String buffer;
-            int totalDownload = 0;
+            totalDownload = 0;
             int previousDownload = 0;
-            int perSecond;
+            
             BufferedWriter fileOut = new BufferedWriter(new FileWriter(file));
             Long previousTime = System.currentTimeMillis();
             while ((buffer = in.readLine()) != null) {
@@ -101,11 +103,11 @@ public class DownloadHandler {
     }
     
     public int getCurrentProgress() {
-        return 1;
+        return totalDownload;
     }
     
     public int getCurrentSpeed() {
-        return 1;
+        return perSecond;
     }
     
     public String getFileID() {

@@ -9,7 +9,7 @@ public class OngoingDownloads {
     private ArrayList<DownloadHandler> ongoingDownloads;
     
     public OngoingDownloads() {
-        
+        ongoingDownloads = new ArrayList<DownloadHandler>();
     }
     
     public void addOngoingDownload(DownloadHandler handler) {

@@ -192,7 +192,7 @@ public class Model implements GenomizerModel {
         System.out.println(conn.getResponseBody());
         final DownloadHandler handler = new DownloadHandler("pvt", "pvt",
                 fileID);
-        if (handler != null) {
+        if(handler != null) {
             ongoingDownloads.addOngoingDownload(handler);
         }
         new Thread(new Runnable() {
