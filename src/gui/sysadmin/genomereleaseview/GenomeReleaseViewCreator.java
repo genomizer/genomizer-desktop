@@ -4,11 +4,7 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.FlowLayout;
 
-import javax.swing.DefaultListSelectionModel;
-import javax.swing.JPanel;
-import javax.swing.JScrollPane;
-import javax.swing.JTable;
-import javax.swing.JTextField;
+import javax.swing.*;
 import javax.swing.table.JTableHeader;
 import javax.swing.table.TableModel;
 import javax.swing.table.TableRowSorter;
@@ -43,13 +39,49 @@ public class GenomeReleaseViewCreator {
     }
 
     private JPanel buildAddGenomeFilePanel() {
-        JPanel mainPanel = new JPanel(new FlowLayout());
-        JTextField version = new JTextField(20);
-        JTextField species = new JTextField(20);
+        JPanel mainPanel = new JPanel(new BorderLayout());
+        JPanel containerPanel = new JPanel();
+
+        GroupLayout layout = new GroupLayout(containerPanel);
+        containerPanel.setLayout(layout);
+
+        layout.setAutoCreateGaps(true);
+        layout.setAutoCreateContainerGaps(true);
 
 
-        mainPanel.add(version);
-        mainPanel.add(species);
+        JLabel versionLabel = new JLabel();
+        JLabel speciesLabel = new JLabel();
+        JLabel fileLabel = new JLabel();
+
+        versionLabel.setText("Genome release version:");
+        speciesLabel.setText("Species:");
+        fileLabel.setText("Select file:");
+
+
+        JTextField versionText = new JTextField(20);
+        JTextField speciesText = new JTextField(20);
+
+        layout.setHorizontalGroup(
+                layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(
+                                GroupLayout.Alignment.LEADING)
+                                .addComponent(versionLabel)
+                                .addComponent(versionText)
+                                .addComponent(speciesLabel)
+                                .addComponent(speciesText)
+                                .addComponent(fileLabel))
+        );
+
+        layout.setVerticalGroup(
+            layout.createSequentialGroup()
+                .addComponent(versionLabel)
+                .addComponent(versionText)
+                .addComponent(speciesLabel)
+                .addComponent(speciesText)
+                .addComponent(fileLabel)
+        );
+
+        mainPanel.add(containerPanel, BorderLayout.NORTH);
         return mainPanel;
     }
 
