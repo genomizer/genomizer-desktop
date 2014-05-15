@@ -30,10 +30,12 @@ public class GenomeReleaseViewCreator {
     
     public JPanel buildGenomeReleasePanel() {
         JPanel mainPanel = new JPanel(new BorderLayout());
-        
+
+        JPanel headerPanel = buildGenomeHeaderPanel();
         JPanel listPanel = buildGenomeFileList();
         JPanel addGenomePanel = buildAddGenomeFilePanel();
-        
+
+        mainPanel.add(headerPanel, BorderLayout.NORTH);
         mainPanel.add(listPanel, BorderLayout.CENTER);
         mainPanel.add(addGenomePanel, BorderLayout.EAST);
         return mainPanel;
