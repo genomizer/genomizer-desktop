@@ -3,7 +3,10 @@ package gui;
 import java.awt.BorderLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.util.ArrayList;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 import javax.swing.DefaultCellEditor;
 import javax.swing.ImageIcon;
@@ -18,7 +21,6 @@ import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumn;
 
-import model.OngoingDownloads;
 import util.FileData;
 
 import communication.DownloadHandler;
@@ -34,7 +36,8 @@ public class DownloadWindow extends JFrame {
     private ImageIcon downloadIcon = new ImageIcon(
             "src/icons/DownloadButton.png");
     private ArrayList<FileData> files;
-    private OngoingDownloads ongoingDownloads;
+    private CopyOnWriteArrayList<DownloadHandler> ongoingDownloads;
+    private boolean running;
     
     /**
      * Initiates a new DownloadWindow with the files it receives.
@@ -43,7 +46,7 @@ public class DownloadWindow extends JFrame {
      *            An ArrayList containing the FileData of the chosen files.
      */
     public DownloadWindow(ArrayList<FileData> files,
-            OngoingDownloads ongoingDownloads) {
+            CopyOnWriteArrayList<DownloadHandler> ongoingDownloads) {
         this.ongoingDownloads = ongoingDownloads;
         this.setLayout(new BorderLayout());
         this.files = files;
@@ -53,6 +56,11 @@ public class DownloadWindow extends JFrame {
             fileNames.add(files.get(i).getName());
         }
         // Sets up the DownloadWindow using the filenames.
+        addWindowListener(new WindowAdapter() {
+            public void windowClosing(WindowEvent e) {
+                running = false;
+            }
+        });
         mainPanel = new JPanel(new BorderLayout());
         setUpTablePanel(fileNames);
         setUpOngoingPanel();
@@ -131,22 +139,24 @@ public class DownloadWindow extends JFrame {
         new Thread(new Runnable() {
             @Override
             public void run() {
-                while (true) {
+                running = true;
+                while (running) {
                     ongoingPanel.removeAll();
-                    ArrayList<DownloadHandler> handlers = ongoingDownloads
-                            .getOngoingDownloads();
-                    if (handlers != null) {
-                        for (DownloadHandler handler : handlers) {
-                            if (handler.getCurrentProgress() != handler
-                                    .getTotalSize()) {
-                                ongoingPanel.add(new JLabel(handler.getFileID()
-                                        + " (" + handler.getCurrentSpeed()
-                                        + "MiB/s)"));
+                    if (ongoingDownloads != null) {
+                        for (DownloadHandler handler : ongoingDownloads) {
+                            if (!handler.isFinished()) {
+                                ongoingPanel.add(new JLabel(
+                                        handler.getFileID()
+                                                + " ("
+                                                + (handler.getCurrentSpeed() / 1024 / 1024)
+                                                + "MiB/s)"));
                                 JProgressBar progress = new JProgressBar(0,
                                         handler.getTotalSize());
                                 progress.setValue(handler.getCurrentProgress());
                                 progress.setStringPainted(true);
                                 ongoingPanel.add(progress);
+                            } else {
+                                ongoingDownloads.remove(handler);
                             }
                         }
                         
@@ -156,6 +166,7 @@ public class DownloadWindow extends JFrame {
                     try {
                         Thread.sleep(1000);
                     } catch (InterruptedException e) {
+                        running = false;
                     }
                 }
             }
