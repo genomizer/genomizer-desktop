@@ -61,39 +61,49 @@ public class GenomeReleaseViewCreator {
         
         layout.setAutoCreateGaps(true);
         layout.setAutoCreateContainerGaps(true);
-        
+        Border border = BorderFactory.createEmptyBorder(0, 5, 0, 0);
         JLabel versionLabel = new JLabel();
         JLabel speciesLabel = new JLabel();
         JLabel fileLabel = new JLabel();
         
         versionLabel.setText("Genome release version:");
         speciesLabel.setText("Species:");
-        fileLabel.setText("Select file:");
+        fileLabel.setText("Genome file:");
+
+        versionLabel.setBorder(border);
+        speciesLabel.setBorder(border);
+        fileLabel.setBorder(border);
 
         JButton addButton = new JButton("Add");
         JButton deleteButton = new JButton("Delete");
         JButton fileButton = new JButton("Select file");
 
+        FlowLayout flowLayout = new FlowLayout();
+        flowLayout.setAlignment(flowLayout.LEADING);
+
+
+        JPanel buttonPanel = new JPanel(flowLayout);
+        JPanel buttonCeptionPanel = new JPanel(new BorderLayout());
+
+
+        buttonPanel.add(fileButton);
+        buttonPanel.add(addButton);
+        buttonPanel.add(deleteButton);
         
         JTextField versionText = new JTextField(20);
         JTextField speciesText = new JTextField(20);
-        
+        buttonCeptionPanel.add(buttonPanel, BorderLayout.WEST);
         layout.setHorizontalGroup(layout.createSequentialGroup().addGroup(
                 layout.createParallelGroup(GroupLayout.Alignment.LEADING)
                         .addComponent(versionLabel).addComponent(versionText)
                         .addComponent(speciesLabel).addComponent(speciesText)
-                        .addComponent(fileLabel).addGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING)
-                        .addComponent(fileButton)
-                        .addComponent(addButton))
+                        .addComponent(fileLabel).addComponent(buttonCeptionPanel)
         ));
         
         layout.setVerticalGroup(layout.createSequentialGroup()
                 .addComponent(versionLabel).addComponent(versionText)
                 .addComponent(speciesLabel).addComponent(speciesText)
-                .addComponent(fileLabel)
-                .addGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING)
-                        .addComponent(fileButton)
-                        .addComponent(addButton))
+                .addComponent(fileLabel).addComponent(buttonCeptionPanel)
         );
         
         mainPanel.add(containerPanel, BorderLayout.NORTH);
