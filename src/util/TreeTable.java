@@ -2,6 +2,8 @@ package util;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.awt.event.MouseAdapter;
@@ -16,6 +18,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import javax.swing.Action;
+import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -84,6 +87,19 @@ public class TreeTable extends JPanel {
                 public void addVisibilityActionItems(
                         List<? extends AbstractActionExt> actions) {
                     if (!actions.isEmpty()) {
+                        JButton button = new JButton("Deselect All");
+                        button.addActionListener(new ActionListener() {
+                            @Override
+                            public void actionPerformed(ActionEvent e) {
+                                for (JCheckBox checkBox : columnCheckBoxes) {
+                                    if (checkBox.isEnabled()
+                                            && checkBox.isSelected()) {
+                                        checkBox.setSelected(false);
+                                    }
+                                }
+                            }
+                        });
+                        getPopupMenu().add(button);
                         for (JCheckBox checkBox : columnCheckBoxes) {
                             getPopupMenu().add(checkBox);
                         }
