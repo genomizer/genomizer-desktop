@@ -424,6 +424,7 @@ public class Controller {
                     if (model.uploadFile(expName, f,
                             types.get(f.getName()), view.getUsername(),
                             false, release)) {
+                        view.deleteUploadFileRow(f);
                         JOptionPane.showMessageDialog(null, "Upload of "
                                 + f.getName() + " complete", "Done",
                                 JOptionPane.PLAIN_MESSAGE);
@@ -534,6 +535,7 @@ public class Controller {
                         if (model.uploadFile(expName, f,
                                 types.get(f.getName()), view.getUsername(),
                                 false, release)) {
+                            view.deleteUploadFileRow(f);
                             JOptionPane.showMessageDialog(null, "Upload of "
                                     + f.getName() + " complete", "Done",
                                     JOptionPane.PLAIN_MESSAGE);
