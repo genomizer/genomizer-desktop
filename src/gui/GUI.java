@@ -544,6 +544,9 @@ public class GUI extends JFrame implements GenomizerView {
         uploadTab.getUploadToExistingExpPanel().createUploadFileRow(files);
     }
 
+    /**
+     * @return The GUI's downloadWindow.
+     */
     public DownloadWindow getDownloadWindow() {
         return downloadWindow;
     }
@@ -585,8 +588,8 @@ public class GUI extends JFrame implements GenomizerView {
 
     /**
      * Calls the uploadPanel's enableUploadButton method to try to either make
-     * the upload button enabled or disabled. If not all of the required
-     * annotation fields are filled, this method won't set it to true.
+     * the upload button enabled or disabled. If all of the required
+     * annotation fields are NOT filled, this method won't set it to true.
      *
      * @param b Whether it should try to make the button enabled (true) or
      *          disabled (false).
