@@ -19,7 +19,10 @@ public class DownloadWindow extends JFrame {
             "src/icons/DownloadButton.png");
     private ArrayList<FileData> files;
 
-    // Receives an ArrayList with the chosen files.
+    /**
+     * Initiates a new DownloadWindow with the files it receives.
+     * @param files An ArrayList containing the FileData of the chosen files.
+     */
     public DownloadWindow(ArrayList<FileData> files) {
         this.files = files;
         // Gets the names of the files
