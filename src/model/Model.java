@@ -13,6 +13,8 @@ import requests.DownloadFileRequest;
 import requests.GetAnnotationRequest;
 import requests.LoginRequest;
 import requests.LogoutRequest;
+import requests.RenameAnnotationRequest;
+import requests.RenameAnnotationValueRequest;
 import requests.RequestFactory;
 import requests.RetrieveExperimentRequest;
 import requests.SearchRequest;
@@ -27,22 +29,28 @@ import util.AnnotationDataValue;
 import util.ExperimentData;
 
 import com.google.gson.Gson;
+
 import communication.Connection;
 import communication.DownloadHandler;
 import communication.HTTPURLUpload;
+import communication.UploadHandler;
 
 // import org.apache.http.protocol.HTTP;
 
 public class Model implements GenomizerModel {
-
+   
+    private static final String TEXT_PLAIN = "text/plain";
+    private static final String JSON = "application/json";
     private String userID = "";
     private Connection conn;
     private SearchHistory searchHistory;
     private CopyOnWriteArrayList<DownloadHandler> ongoingDownloads;
-
+    private CopyOnWriteArrayList<UploadHandler> ongoingUploads;
+    
     public Model(Connection conn) {
         searchHistory = new SearchHistory();
         ongoingDownloads = new CopyOnWriteArrayList<DownloadHandler>();
+        ongoingUploads = new CopyOnWriteArrayList<UploadHandler>();
         this.setConn(conn);
     }
 
@@ -93,8 +101,7 @@ public class Model implements GenomizerModel {
         rawToProfileRequest rawToProfilerequest = RequestFactory
                 .makeRawToProfileRequest(fileName, fileID, expid, processtype,
                         parameters, metadata, genomeRelease, author);
-
-        conn.sendRequest(rawToProfilerequest, userID, "application/json");
+        conn.sendRequest(rawToProfilerequest, userID, JSON);
         if (conn.getResponseCode() == 201) {
             return true;
         } else {
@@ -108,7 +115,7 @@ public class Model implements GenomizerModel {
         if (!username.isEmpty() && !password.isEmpty()) {
             LoginRequest request = RequestFactory.makeLoginRequest(username,
                     password);
-            conn.sendRequest(request, userID, "application/json");
+            conn.sendRequest(request, userID, JSON);
             if (conn.getResponseCode() == 200) {
                 LoginResponse loginResponse = ResponseParser
                         .parseLoginResponse(conn.getResponseBody());
@@ -125,7 +132,7 @@ public class Model implements GenomizerModel {
     @Override
     public boolean logoutUser() {
         LogoutRequest request = RequestFactory.makeLogoutRequest();
-        conn.sendRequest(request, userID, "text/plain");
+        conn.sendRequest(request, userID, TEXT_PLAIN);
         if (conn.getResponseCode() == 200) {
             userID = "";
             return true;
@@ -141,7 +148,7 @@ public class Model implements GenomizerModel {
                 f.getName(), type, "metameta", username, username, isPrivate,
                 release);
         System.out.println(request.toJson());
-        conn.sendRequest(request, userID, "application/json");
+        conn.sendRequest(request, userID, JSON);
         String url = null;
         if (conn.getResponseCode() == 200) {
             url = conn.getResponseBody();
@@ -170,7 +177,7 @@ public class Model implements GenomizerModel {
                 fileID, ".wig");
 
         System.out.println("Test: " + fileID);
-        conn.sendRequest(request, userID, "text/plain");
+        conn.sendRequest(request, userID, TEXT_PLAIN);
         Gson gson = new Gson();
         DownloadFileResponse response = gson.fromJson(conn.getResponseBody(),
                 DownloadFileResponse.class);
@@ -195,7 +202,7 @@ public class Model implements GenomizerModel {
     public ArrayList<ExperimentData> search(String pubmedString) {
         searchHistory.addSearchToHistory(pubmedString);
         SearchRequest request = RequestFactory.makeSearchRequest(pubmedString);
-        conn.sendRequest(request, userID, "text/plain");
+        conn.sendRequest(request, userID, TEXT_PLAIN);
         if (conn.getResponseCode() == 200) {
             ExperimentData[] searchResponses = ResponseParser
                     .parseSearchResponse(conn.getResponseBody());
@@ -240,7 +247,7 @@ public class Model implements GenomizerModel {
 
         AddAnnotationRequest request = RequestFactory.makeAddAnnotationRequest(
                 name, categories, forced);
-        conn.sendRequest(request, userID, "application/json");
+        conn.sendRequest(request, userID, JSON);
         if (conn.getResponseCode() == 201) {
             System.err.println("addAnnotation sent succesfully!");
             return true;
@@ -273,7 +280,7 @@ public class Model implements GenomizerModel {
 
         DeleteAnnotationRequest request = RequestFactory
                 .makeDeleteAnnotationRequest(deleteAnnoationData);
-        conn.sendRequest(request, userID, "application/json");
+        conn.sendRequest(request, userID, JSON);
         if (conn.getResponseCode() == 200) {
             System.err.println("Annotation named " + deleteAnnoationData
                     + " deleted succesfully");
@@ -288,7 +295,7 @@ public class Model implements GenomizerModel {
     public synchronized AnnotationDataType[] getAnnotations() {
         GetAnnotationRequest request = RequestFactory
                 .makeGetAnnotationRequest();
-        conn.sendRequest(request, userID, "text/plain");
+        conn.sendRequest(request, userID, TEXT_PLAIN);
         if (conn.getResponseCode() == 200) {
             System.err.println("Sent getAnnotionrequestsuccess!");
             AnnotationDataType[] annotations = ResponseParser
@@ -307,7 +314,7 @@ public class Model implements GenomizerModel {
         AddExperimentRequest aER = RequestFactory.makeAddExperimentRequest(
                 expName, username, annotations);
         System.out.println(aER.toJson());
-        conn.sendRequest(aER, getUserID(), "application/json");
+        conn.sendRequest(aER, getUserID(), JSON);
         if (conn.getResponseCode() == 201) {
             return true;
         }
@@ -331,5 +338,34 @@ public class Model implements GenomizerModel {
             System.out.println("Couldn't retrieve experiment");
         }
         return null;
+    }
+    
+    public CopyOnWriteArrayList<UploadHandler> getOngoingUploads() {
+        return ongoingUploads;
+    }
+    
+    public boolean renameAnnotationField(String oldname, String newname) {
+        RenameAnnotationRequest request = RequestFactory
+                .makeRenameAnnotationFieldRequest(oldname, newname);
+        conn.sendRequest(request, userID, JSON);
+        if (conn.getResponseCode() == 200) {
+            System.err.println("Sent " + request.requestName + "success!");
+            return true;
+        } else {
+            System.out.println("responsecode: " + conn.getResponseCode());
+            return false;
+        }
+    }
+    
+    public void renameAnnotationValue(String name, String oldValue,
+            String newValue) {
+        RenameAnnotationValueRequest request = RequestFactory
+                .makeRenameAnnotationValueRequest(name, oldValue, newValue);
+        conn.sendRequest(request, userID, JSON);
+        if (conn.getResponseCode() == 201) {
+            System.err.println("Sent " + request.requestName + " success!");
+        } else {
+            System.out.println("responsecode: " + conn.getResponseCode());
+        }
     }
 }

@@ -18,8 +18,6 @@ import javax.swing.JPanel;
 import javax.swing.JProgressBar;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
-import javax.swing.table.DefaultTableModel;
-import javax.swing.table.TableColumn;
 
 import util.FileData;
 
@@ -81,38 +79,26 @@ public class DownloadWindow extends JFrame {
         tablePanel.add(new JLabel("test"), BorderLayout.SOUTH);
         
         // Set up the JTable
-        DefaultTableModel tableModel = new DefaultTableModel();
-        table = new JTable(tableModel);
-        
-        TableColumn fileNameColumn, formatConversionColumn;
-        fileNameColumn = new TableColumn();
-        formatConversionColumn = new TableColumn();
-        
-        tableModel.addColumn(fileNameColumn);
-        tableModel.addColumn(formatConversionColumn);
-        
-        fileNameColumn = table.getTableHeader().getColumnModel().getColumn(0);
-        formatConversionColumn = table.getTableHeader().getColumnModel()
-                .getColumn(1);
-        
-        fileNameColumn.setHeaderValue("File name");
-        formatConversionColumn.setHeaderValue("Format conversion");
-        
+        String[] headings = new String[] { "File Name", "Format Conversion" };
+        String[][] content = new String[data.size()][2];
         for (int i = 0; i < data.size(); i++) {
-            tableModel.addRow(new Object[] { data.get(i),
-                    "Click here to choose file format" });
+            content[i][0] = data.get(i);
+            content[i][1] = "Click here to choose file format";
         }
+        table = new JTable(content, headings) {
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                return column == 1 ? true : false;
+            }
+        };
         
         // Add comboboxes to each row in the table.
         JComboBox comboBox = new JComboBox();
         comboBox.addItem("RAW");
         comboBox.addItem("WIG");
         DefaultCellEditor cellEditor = new DefaultCellEditor(comboBox);
-        formatConversionColumn.setCellEditor(cellEditor);
-        
-        // table.setBackground(Color.cyan);
+        table.getColumnModel().getColumn(1).setCellEditor(cellEditor);
         table.setRowHeight(30);
-        
         JScrollPane scrollPane = new JScrollPane(table);
         tablePanel.add(scrollPane, BorderLayout.CENTER);
         tablePanel.add(table.getTableHeader(), BorderLayout.NORTH);
@@ -123,7 +109,7 @@ public class DownloadWindow extends JFrame {
         flowSouth.add(downloadButton);
         tablePanel.add(flowSouth, BorderLayout.SOUTH);
         
-        setTitle("DOWNLOAD FILES");
+        setTitle("Download Files");
         setSize(500, 500);
         setLocationRelativeTo(null);
         setVisible(true);
@@ -144,7 +130,8 @@ public class DownloadWindow extends JFrame {
                     ongoingPanel.removeAll();
                     if (ongoingDownloads != null) {
                         for (DownloadHandler handler : ongoingDownloads) {
-                            if (!handler.isFinished()) {
+                            if (!handler.isFinished()
+                                    && handler.getTotalSize() > 0) {
                                 ongoingPanel.add(new JLabel(
                                         handler.getFileName()
                                                 + " ("
