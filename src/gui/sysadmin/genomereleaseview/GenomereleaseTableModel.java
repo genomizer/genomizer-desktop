@@ -2,17 +2,21 @@ package gui.sysadmin.genomereleaseview;
 
 import javax.swing.table.AbstractTableModel;
 
+import util.GenomeReleaseData;
+
 public class GenomereleaseTableModel extends AbstractTableModel {
 
     /* Should be a datatype of its own later */
-    private String[] grFilename;
-    private String[] species;
-    private String[] grVersion;
+    // private String[] grFilename;
+    // private String[] species;
+    // private String[] grVersion;
+
+    GenomeReleaseData[] grData = new GenomeReleaseData[] {};
 
     @Override
     public int getRowCount() {
 
-        return grFilename.length;
+        return grData.length;
     }
 
     @Override
@@ -20,25 +24,28 @@ public class GenomereleaseTableModel extends AbstractTableModel {
 
         switch (columnIndex) {
             case 0:
-                return grVersion[rowIndex];/* Get this from new datatype! */
+                return grData[rowIndex].getVersion();/*
+                                                      * Get this from new
+                                                      * datatype!
+                                                      */
 
             case 1:
-                return species[rowIndex];
+                return grData[rowIndex].getSpecies();
 
             case 2:
-                return grFilename[rowIndex];
+                return grData[rowIndex].getFilename();
 
         }
 
         return null;
     }
 
-    public void setGenomeReleases(String[] grFilename, String[] species,
-            String[] grVersion) {
+    public void setGenomeReleases(GenomeReleaseData[] grData) {
 
-        this.grFilename = grFilename;
-        this.species = species;
-        this.grVersion = grVersion;
+        this.grData = grData;
+        // this.grFilename = grFilename;
+        // this.species = species;
+        // this.grVersion = grVersion;
 
     }
 
