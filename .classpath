@@ -5,7 +5,6 @@
 	<classpathentry kind="src" path="resources"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/4"/>
-	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/fest"/>
 	<classpathentry kind="lib" path="lib/swingx-all-1.6.4.jar"/>
 	<classpathentry kind="lib" path="lib/google-gson-2.2.4/gson-2.2.4-javadoc.jar"/>
 	<classpathentry kind="lib" path="lib/google-gson-2.2.4/gson-2.2.4-sources.jar"/>
@@ -17,5 +16,8 @@
 	<classpathentry kind="lib" path="lib/external-libs/httpclient-cache-4.3.3.jar"/>
 	<classpathentry kind="lib" path="lib/external-libs/httpcore-4.3.2.jar"/>
 	<classpathentry kind="lib" path="lib/external-libs/httpmime-4.3.3.jar"/>
+	<classpathentry kind="lib" path="lib/fest-assert-2.1.0/fest-assert-core-2.0M8.jar"/>
+	<classpathentry kind="lib" path="lib/fest-assert-2.1.0/fest-test-2.1.0.jar"/>
+	<classpathentry kind="lib" path="lib/fest-assert-2.1.0/fest-util-1.2.5.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
