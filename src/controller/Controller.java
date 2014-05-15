@@ -40,16 +40,11 @@ public class Controller {
         view.addRawToRegionDataListener(new RawToRegionDataListener());
         view.addScheduleFileListener(new ScheduleFileListener());
         view.addDownloadFileListener(new DownloadWindowListener());
-        view.addSelectFilesToUploadButtonListener(
-                new SelectFilesToUploadButtonListener());
-        view.setSysadminController(
-                sysController = new SysadminController(model));
-        view.addAddToExistingExpButtonListener(
-                new AddToExistingExpButtonListener());
-        view.addUploadToExperimentButtonListener(
-                new UploadToExperimentButtonListener());
-        view.addUpdateSearchAnnotationsListener(
-                new updateSearchAnnotationsListener());
+        view.addSelectFilesToUploadButtonListener(new SelectFilesToUploadButtonListener());
+        view.setSysadminController(sysController = new SysadminController(model));
+        view.addAddToExistingExpButtonListener(new AddToExistingExpButtonListener());
+        view.addUploadToExperimentButtonListener(new UploadToExperimentButtonListener());
+        view.addUpdateSearchAnnotationsListener(new updateSearchAnnotationsListener());
         view.addProcessFileListener(new ProcessFileListener());
         view.addSearchToWorkspaceListener(new SearchToWorkspaceListener());
         view.addNewExpButtonListener(new NewExpButtonListener());
@@ -109,36 +104,36 @@ public class Controller {
                     parameters[1] = view.getParameters()[1];
                     parameters[2] = "y";
                     parameters[3] = "y";
-                    parameters[4] = "10 1 5 0 0"; //view.getParameters()[2];
+                    parameters[4] = "10 1 5 0 0"; // view.getParameters()[2];
                     parameters[5] = "y 10"; // view.getParameters()[3];
                     parameters[6] = "single 4 0";
                     parameters[7] = "150 1 7 0 0";
 
                     String expid = allMarked.get(i).expId;
-                    String genomeRelease = "hg38";//allMarked.get(i).grVersion;
-                    String metadata = "-a -m 1 --best -p 10 -v 2 -q -S,d_melanogaster_fb5_22,1 1 1 0 0,n 0"; //allMarked.get(i).metaData;
+                    String genomeRelease = "hg38";// allMarked.get(i).grVersion;
+                    String metadata = "-a -m 1 --best -p 10 -v 2 -q -S,d_melanogaster_fb5_22,1 1 1 0 0,n 0"; // allMarked.get(i).metaData;
 
                     System.out.println("RAW TO PROFILE\n");
-                    //          System.out.println("Filename: " + fileName);
-                    //         System.out.println("File ID: " + fileID);
-                    //         System.out.println("Expid: " + expid);
-                    //         System.out.println("Processtype: " + processtype);
-                    //         System.out.println("Parameter 1: " + parameters[0]);
-                    //         System.out.println("Parameter 2: " + parameters[1]);
-                    //         System.out.println("Parameter 3: " + parameters[2]);
-                    //         System.out.println("Parameter 4: " + parameters[3]);
-                    //         System.out.println("Parameter 5: " + parameters[4]);
-                    //         System.out.println("Parameter 6: " + parameters[5]);
-                    ///         System.out.println("Parameter 7: " + parameters[6]);
-                    //        System.out.println("Parameter 8: " + parameters[7]);
-                    //        System.out.println("Metadata: " + metadata);
-                    //        System.out.println("Genome Release: " + genomeRelease);
-                    //        System.out.println("Author: " + view.getUsername());
-                    //       System.out.println("\n");
+                    // System.out.println("Filename: " + fileName);
+                    // System.out.println("File ID: " + fileID);
+                    // System.out.println("Expid: " + expid);
+                    // System.out.println("Processtype: " + processtype);
+                    // System.out.println("Parameter 1: " + parameters[0]);
+                    // System.out.println("Parameter 2: " + parameters[1]);
+                    // System.out.println("Parameter 3: " + parameters[2]);
+                    // System.out.println("Parameter 4: " + parameters[3]);
+                    // System.out.println("Parameter 5: " + parameters[4]);
+                    // System.out.println("Parameter 6: " + parameters[5]);
+                    // / System.out.println("Parameter 7: " + parameters[6]);
+                    // System.out.println("Parameter 8: " + parameters[7]);
+                    // System.out.println("Metadata: " + metadata);
+                    // System.out.println("Genome Release: " + genomeRelease);
+                    // System.out.println("Author: " + view.getUsername());
+                    // System.out.println("\n");
 
                     isConverted = model.rawToProfile(fileName, fileID, expid,
-                            processtype, parameters, metadata,
-                            genomeRelease, author);
+                            processtype, parameters, metadata, genomeRelease,
+                            author);
 
                     if (isConverted.equals(true)) {
                         message = "The server has converted: " + fileName
@@ -349,7 +344,7 @@ public class Controller {
              * fileDialog.setVisible(true); String directoryName =
              * fileDialog.getDirectory(); System.out.println("You chose " +
              * directoryName);
-             * 
+             *
              * if (fileData == null) {
              * System.err.println("No directory selected"); return; }
              */
@@ -389,8 +384,7 @@ public class Controller {
         }
     }
 
-    class SelectFilesToUploadButtonListener
-            implements ActionListener, Runnable {
+    class SelectFilesToUploadButtonListener implements ActionListener, Runnable {
 
         @Override
         public void actionPerformed(ActionEvent actionEvent) {
@@ -441,12 +435,21 @@ public class Controller {
             System.out.println(created);
             if (created) {
                 for (File f : files) {
-                    model.uploadFile(expName, f, types.get(f.getName()),
-                            view.getUsername(), false, release);
+                    if (model.uploadFile(expName, f,
+                            types.get(f.getName()), view.getUsername(),
+                            false, release)) {
+                        JOptionPane.showMessageDialog(null, "Upload of "
+                                + f.getName() + " complete", "Done",
+                                JOptionPane.PLAIN_MESSAGE);
+                    } else {
+                        JOptionPane.showMessageDialog(null, "Upload of "
+                                + f.getName() + " not complete", "Error",
+                                JOptionPane.ERROR_MESSAGE);
+                    }
                 }
 
             }
-            JOptionPane.showMessageDialog(null, "Upload complete.");
+//            JOptionPane.showMessageDialog(null, "Upload complete.");
         }
     }
 
@@ -543,8 +546,17 @@ public class Controller {
                 if (created) {
                     for (File f : files) {
                         System.out.println(f.getName());
-                        model.uploadFile(expName, f, types.get(f.getName()),
-                                view.getUsername(), false, release);
+                        if (model.uploadFile(expName, f,
+                                types.get(f.getName()), view.getUsername(),
+                                false, release)) {
+                            JOptionPane.showMessageDialog(null, "Upload of "
+                                    + f.getName() + " complete", "Done",
+                                    JOptionPane.PLAIN_MESSAGE);
+                        } else {
+                            JOptionPane.showMessageDialog(null, "Upload of "
+                                    + f.getName() + " not complete", "Error",
+                                    JOptionPane.ERROR_MESSAGE);
+                        }
                     }
 
                 }
