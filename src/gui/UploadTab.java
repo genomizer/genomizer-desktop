@@ -343,7 +343,19 @@ public class UploadTab extends JPanel implements ExperimentPanel {
         return types;
     }
 
+    private boolean forcedAnnotationCheck() {
+        boolean allForcedAnnotationsAreFilled = true;
+        String annotationName = new String();
+        for(int i=0; i<annotations.length; i++) {
+            if(annotations[i].isForced()) {
+                annotations[i].getName();
+            }
+        }
+    }
+
     public void enableUploadButton(boolean b) {
-        uploadButton.setEnabled(b);
+        if(forcedAnnotationCheck()) {
+            uploadButton.setEnabled(b);
+        }
     }
 }

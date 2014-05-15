@@ -28,8 +28,4 @@ public class AnnotationDataType extends AnnotationData {
     public boolean isForced() {
         return forced;
     }
-
-    public boolean getForced() {
-        return forced;
-    }
 }
