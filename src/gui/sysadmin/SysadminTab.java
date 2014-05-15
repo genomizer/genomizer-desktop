@@ -82,7 +82,6 @@ public class SysadminTab extends JPanel {
 
     private JPanel buildAnnotationsView() {
         JPanel panel = annotationsView.buildAnnotationsView();
-        sysController.updateAnnotationTable();
         return panel;
     }
 
