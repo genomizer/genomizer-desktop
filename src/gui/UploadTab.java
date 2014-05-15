@@ -76,6 +76,7 @@ public class UploadTab extends JPanel implements ExperimentPanel {
         expNameLabel = new JLabel();
         expID = new JTextField();
         expID.setColumns(10);
+        expID.getDocument().addDocumentListener(new FreetextListener());
         northPanel.add(newExpButton, BorderLayout.EAST);
         enableUploadButton(false);
     }
@@ -208,34 +209,6 @@ public class UploadTab extends JPanel implements ExperimentPanel {
         String[] annotationNames = new String[annotations.length];
         GridBagConstraints gbc = new GridBagConstraints();
 
-        //Listener for when the text in a textfield changes.
-        DocumentListener documentListener = new DocumentListener() {
-            @Override
-            public void insertUpdate(
-                    DocumentEvent documentEvent) {
-                System.out.println("insert");
-                react();
-            }
-
-            @Override
-            public void removeUpdate(
-                    DocumentEvent documentEvent) {
-                System.out.println("remove");
-                react();
-            }
-
-            @Override
-            public void changedUpdate(
-                    DocumentEvent documentEvent) {
-                System.out.println("changed");
-                react();
-            }
-
-            public void react() {
-                enableUploadButton(true);
-            }
-        };
-
         for (int i = 0; i < annotations.length; i++) {
             if (i == 0) {
                 gbc.anchor = GridBagConstraints.WEST;
@@ -276,7 +249,7 @@ public class UploadTab extends JPanel implements ExperimentPanel {
                     textField.setColumns(10);
 
                     //Add listener for when the text in the textfield changes.
-                    textField.getDocument().addDocumentListener(documentListener);
+                    textField.getDocument().addDocumentListener(new FreetextListener());
 
                     annotationFields.put(annotations[i].getName(), textField);
                     p.add(textField, BorderLayout.CENTER);
@@ -516,4 +489,29 @@ public class UploadTab extends JPanel implements ExperimentPanel {
             uploadButton.setEnabled(b);
         }
     }
+
+    // Listener for when the text in a textfield changes.
+    private class FreetextListener implements DocumentListener {
+        @Override
+        public void insertUpdate(DocumentEvent documentEvent) {
+            System.out.println("insert");
+            react();
+        }
+
+        @Override
+        public void removeUpdate(DocumentEvent documentEvent) {
+            System.out.println("remove");
+            react();
+        }
+
+        @Override
+        public void changedUpdate(DocumentEvent documentEvent) {
+            System.out.println("changed");
+            react();
+        }
+
+        public void react() {
+            enableUploadButton(true);
+        }
+    };
 }
