@@ -2,17 +2,24 @@ package gui;
 
 import gui.sysadmin.SysadminController;
 import gui.sysadmin.SysadminTab;
-import util.AnnotationDataType;
-import util.AnnotationDataValue;
-import util.ExperimentData;
-import util.FileData;
 
-import javax.swing.*;
-import java.awt.*;
+import java.awt.BorderLayout;
+import java.awt.Dimension;
 import java.awt.event.ActionListener;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
+
+import javax.swing.JFrame;
+import javax.swing.JList;
+import javax.swing.JPanel;
+import javax.swing.JTabbedPane;
+import javax.swing.UIManager;
+
+import util.AnnotationDataType;
+import util.AnnotationDataValue;
+import util.ExperimentData;
+import util.FileData;
 
 public class GUI extends JFrame implements GenomizerView {
 
@@ -32,12 +39,15 @@ public class GUI extends JFrame implements GenomizerView {
     private QuerySearchTab querySearchTab;
     private DownloadWindow downloadWindow;
 
+    /**
+     * Initiates the main view of the program.
+     */
     public GUI() {
 
         setLookAndFeel();
         this.setTitle("Genomizer");
-        setSize(1250, 850);
-        //this.setMinimumSize(new Dimension(1250, 850));
+        setSize(1250, 900);
+        this.setMinimumSize(new Dimension(1250, 900));
 
         BorderLayout bl = new BorderLayout();
         mainPanel = new JPanel(bl);
@@ -94,7 +104,7 @@ public class GUI extends JFrame implements GenomizerView {
     public void addRawToProfileDataListener(ActionListener listener) {
         processTab.addRawToProfileDataListener(listener);
     }
-    
+
     /*
      * @Override public void addAddPopupListener(ActionListener
      * addPopupListener) { sysadminTab.addAddPopupListener(addPopupListener); }
@@ -156,15 +166,24 @@ public class GUI extends JFrame implements GenomizerView {
         querySearchTab.addDownloadButtonListener(listener);
     }
 
+    /**
+     * Adds the provided ExperimentDatas to the workspaceTab.
+     *
+     * @param experiments
+     *            The ArrayList of ExperimentData to be added.
+     */
     public void addToWorkspace(ArrayList<ExperimentData> experiments) {
         workspaceTab.addExperimentsToTable(experiments);
     }
 
+    /**
+     * @return The data (files or experiments) that were selected in search.
+     */
     @Override
     public ArrayList<ExperimentData> getSelectedDataInSearch() {
         return querySearchTab.getSelectedData();
     }
-    
+
     /*
      * @Override public String getNewAnnotationName() { return
      * sysadminTab.getNewAnnotationName(); }
@@ -173,11 +192,11 @@ public class GUI extends JFrame implements GenomizerView {
     public UploadTab getUploadTab() {
         return uploadTab;
     }
-    
+
     /*
      * @Override public String[] getNewAnnotionCategories() { return
      * sysadminTab.getNewAnnotationCategories(); }
-     * 
+     *
      * @Override public boolean getNewAnnotationForcedValue() { return
      * sysadminTab.getNewAnnotationForcedValue(); }
      */
@@ -262,8 +281,7 @@ public class GUI extends JFrame implements GenomizerView {
     }
 
     @Override
-    public void updateQuerySearchResults(
-            ArrayList<ExperimentData> searchResults) {
+    public void updateQuerySearchResults(ArrayList<ExperimentData> searchResults) {
         querySearchTab.updateSearchResults(searchResults);
     }
 
@@ -274,22 +292,13 @@ public class GUI extends JFrame implements GenomizerView {
     }
 
     private void setLookAndFeel() {
-//        try {
-//            UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-//        } catch (ClassNotFoundException e) {
-//            e.printStackTrace();
-//        } catch (InstantiationException e) {
-//            e.printStackTrace();
-//        } catch (IllegalAccessException e) {
-//            e.printStackTrace();
-//        } catch (UnsupportedLookAndFeelException e) {
-//            e.printStackTrace();
-//        }
-        
+
         try {
-            UIManager.setLookAndFeel("javax.swing.plaf.nimbus.NimbusLookAndFeel");
+            UIManager
+                    .setLookAndFeel("javax.swing.plaf.nimbus.NimbusLookAndFeel");
         } catch (Exception e) {
-            // If Nimbus is not available, you can set the GUI to another look and feel.
+            // If Nimbus is not available, you can set the GUI to another look
+            // and feel.
         }
     }
 
@@ -305,7 +314,7 @@ public class GUI extends JFrame implements GenomizerView {
 
     public void setWorkspaceTab(WorkspaceTab workspaceTab) {
         this.workspaceTab = workspaceTab;
-        tabbedPane.add("SELECTED FILES", workspaceTab);
+        tabbedPane.add("WORKSPACE", workspaceTab);
     }
 
     public void setAnalyzeTab(AnalyzeTab analyzeTab) {
@@ -326,7 +335,7 @@ public class GUI extends JFrame implements GenomizerView {
     public void setSearchAnnotationTypes(AnnotationDataType[] annotationTypes) {
         querySearchTab.setAnnotationTypes(annotationTypes);
     }
-    
+
     /*
      * @Override public void setAnnotationTableData(AnnotationDataType[]
      * annotations) { sysadminTab.setAnnotationTableData(annotations); }
@@ -347,10 +356,10 @@ public class GUI extends JFrame implements GenomizerView {
         processTab.setFileInfo(allFileData);
 
     }
-    
+
     /*
      * @Override public void closePopup() { sysadminTab.closePopup(); }
-     * 
+     *
      * @Override public void annotationPopup() { sysadminTab.popup(); }
      */
 
@@ -455,5 +464,14 @@ public class GUI extends JFrame implements GenomizerView {
 
     public void enableUploadButton(boolean b) {
         uploadTab.enableUploadButton(b);
+    }
+
+    public String[] getRatioCalcParameters() {
+        return processTab.getRatioCalcParameters();
+    }
+
+    @Override
+    public String[] getOtherParameters() {
+        return processTab.getOtherParameters();
     }
 }

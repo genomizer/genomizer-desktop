@@ -2,6 +2,8 @@ package util;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.awt.event.MouseAdapter;
@@ -16,6 +18,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import javax.swing.Action;
+import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -73,6 +76,7 @@ public class TreeTable extends JPanel {
         table.setLeafIcon(null);
         table.setClosedIcon(null);
         table.setOpenIcon(null);
+        /* Custom column control for hiding columns */
         ColumnControlButton controlButton = new ColumnControlButton(table) {
             @Override
             protected ColumnControlPopup createColumnControlPopup() {
@@ -84,6 +88,21 @@ public class TreeTable extends JPanel {
                 public void addVisibilityActionItems(
                         List<? extends AbstractActionExt> actions) {
                     if (!actions.isEmpty()) {
+                        /* Hide all columns button */
+                        JButton button = new JButton("Deselect All");
+                        button.addActionListener(new ActionListener() {
+                            @Override
+                            public void actionPerformed(ActionEvent e) {
+                                for (JCheckBox checkBox : columnCheckBoxes) {
+                                    if (checkBox.isEnabled()
+                                            && checkBox.isSelected()) {
+                                        checkBox.setSelected(false);
+                                    }
+                                }
+                            }
+                        });
+                        /* Add hide column checkboxes */
+                        getPopupMenu().add(button);
                         for (JCheckBox checkBox : columnCheckBoxes) {
                             getPopupMenu().add(checkBox);
                         }
@@ -104,15 +123,11 @@ public class TreeTable extends JPanel {
         table.setColumnControlVisible(true);
         table.setShowGrid(true, true);
         table.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
-        /* Reordering of the columns is not allowed in this version */
-        // table.getTableHeader().setReorderingAllowed(false);
-        table.setColumnMargin(10);
         /* Add a mouse listener to check for column sorting */
         table.getTableHeader().addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
                 if (e.getClickCount() == 1 && experiments != null) {
-                    System.out.println("");
                     TableColumnModel cModel = table.getColumnModel();
                     int column = cModel.getColumnIndexAtX(e.getX());
                     sortData(column);
@@ -120,11 +135,10 @@ public class TreeTable extends JPanel {
                 }
             }
         });
-        JScrollPane scrollPane = new JScrollPane(table);
-        scrollPane
-                .setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
-        scrollPane
-                .setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
+        /* Add a scroll pane */
+        JScrollPane scrollPane = new JScrollPane(table,
+                JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
+                JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
         scrollPane.getViewport().setScrollMode(JViewport.SIMPLE_SCROLL_MODE);
         add(scrollPane, BorderLayout.CENTER);
     }
@@ -409,28 +423,39 @@ public class TreeTable extends JPanel {
         createTreeStructure();
     }
     
+    /**
+     * Get the tree table content
+     * 
+     * @return
+     */
     public ArrayList<ExperimentData> getContent() {
         return experiments;
     }
     
+    /**
+     * Update the visible headings in the table (with column order intact)
+     */
     private void updateVisibleHeadings() {
-        visibleHeadings = new ArrayList<String>();
-        int columnCount = table.getColumnCount();
-        if (columnCount > 0) {
+        try {
             visibleHeadings = new ArrayList<String>();
-            for (int i = 0; i < columnCount; i++) {
-                visibleHeadings.add(table.getColumnName(i));
-            }
-            for (String heading : headings) {
-                if (!visibleHeadings.contains(heading)
-                        && !deselectedHeadings.contains(heading)) {
-                    visibleHeadings.add(heading);
+            int columnCount = table.getColumnCount();
+            if (columnCount > 0) {
+                visibleHeadings = new ArrayList<String>();
+                for (int i = 0; i < columnCount; i++) {
+                    visibleHeadings.add(table.getColumnName(i));
                 }
+                for (String heading : headings) {
+                    if (!visibleHeadings.contains(heading)
+                            && !deselectedHeadings.contains(heading)) {
+                        visibleHeadings.add(heading);
+                    }
+                }
+                visibleHeadings.removeAll(deselectedHeadings);
+                
+            } else {
+                visibleHeadings.addAll(headings);
             }
-            visibleHeadings.removeAll(deselectedHeadings);
-            
-        } else {
-            visibleHeadings.addAll(headings);
+        } catch (NullPointerException e) {
         }
     }
     

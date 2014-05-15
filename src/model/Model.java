@@ -83,14 +83,14 @@ public class Model implements GenomizerModel {
         parameters2[6] = "single 4 0";
         parameters2[7] = "150 1 7 0 0";
 
-        // rawToProfileRequest rawToProfilerequest = RequestFactory
-        // .makeRawToProfileRequest(fileName, fileID, expid, processtype,
-        // parameters, metadata, genomeRelease, author);
+         rawToProfileRequest rawToProfilerequest = RequestFactory
+         .makeRawToProfileRequest(fileName, fileID, expid, processtype,
+         parameters, metadata, genomeRelease, author);
 
-        rawToProfileRequest rawToProfilerequest = RequestFactory
-                .makeRawToProfileRequest("fileName", "66", "Exp1",
-                        "rawtoprofile", parameters2, "astringofmetadata",
-                        "hg38", "yuri");
+    //    rawToProfileRequest rawToProfilerequest = RequestFactory
+    //            .makeRawToProfileRequest("fileName", "66", "Exp1",
+    //                    "rawtoprofile", parameters2, "astringofmetadata",
+    //                    "hg38", "yuri");
 
         conn.sendRequest(rawToProfilerequest, userID, "application/json");
         if (conn.getResponseCode() == 201) {
@@ -295,7 +295,7 @@ public class Model implements GenomizerModel {
     @Override
     public boolean addNewExperiment(String expName, String username,
             AnnotationDataValue[] annotations) {
-        AddExperimentRequest aER = new RequestFactory()
+        AddExperimentRequest aER = RequestFactory
                 .makeAddExperimentRequest(expName, username, annotations);
         System.out.println(aER.toJson());
         conn.sendRequest(aER, getUserID(), "application/json");

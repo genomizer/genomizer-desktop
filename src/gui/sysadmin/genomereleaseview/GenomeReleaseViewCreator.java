@@ -1,21 +1,66 @@
-package gui.sysadmin.chainfileview;
+package gui.sysadmin.genomereleaseview;
 
 import javax.swing.*;
+import javax.swing.border.Border;
 import java.awt.*;
 
-public class ChainFileViewCreator {
+public class GenomeReleaseViewCreator {
 
-    public ChainFileViewCreator() {
+    public GenomeReleaseViewCreator() {
 
     }
 
-    public JPanel buildChainFileView() {
+    public JPanel buildGenomeReleaseView() {
 
         JPanel mainPanel = new JPanel(new BorderLayout());
         mainPanel.setBackground(new Color(255, 250, 250));
-        mainPanel.add(buildChainFileList(), BorderLayout.WEST);
+        mainPanel.add(buildGenomeReleasePanel(), BorderLayout.NORTH);
         return mainPanel;
     }
+
+    public JPanel buildGenomeReleasePanel(){
+        JPanel mainPanel = new JPanel(new BorderLayout());
+
+        JPanel listPanel = buildGenomeFileList();
+        JPanel addGenomePanel = buildAddGenomeFilePanel();
+
+        mainPanel.add(listPanel, BorderLayout.CENTER);
+        mainPanel.add(addGenomePanel, BorderLayout.EAST);
+        return mainPanel;
+    }
+
+    private JPanel buildAddGenomeFilePanel() {
+        JPanel mainPanel = new JPanel(new FlowLayout());
+        JTextField version = new JTextField(20);
+        JTextField species = new JTextField(20);
+
+
+        mainPanel.add(version);
+        mainPanel.add(species);
+        return mainPanel;
+    }
+
+    public JPanel buildGenomeFileList(){
+        JPanel mainPanel = new JPanel(new BorderLayout());
+
+        String[] header = new String[] { "Genome version", "Species",
+                "File name"};
+        Object[][] table = new Object[][] {
+                { "hg38", "Human", "randomfilename.txt" },
+                { "hg36", "Human", "randomfilename.txt" },
+                { "hg32", "Human", "randomfilename.txt" },
+                { "rn5", "Rat", "randomfilename.txt"}
+        };
+
+        JTable cfTable = new JTable(table, header);
+        cfTable.setSelectionMode(DefaultListSelectionModel.SINGLE_SELECTION);
+        JScrollPane scrollPane = new JScrollPane(cfTable);
+        //scrollPane.setPreferredSize(new Dimension(500, 80));
+
+        mainPanel.add(scrollPane, BorderLayout.CENTER);
+        return mainPanel;
+    }
+
 
     private JScrollPane buildfileList() {
 

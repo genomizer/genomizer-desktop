@@ -1,7 +1,7 @@
 package gui.sysadmin;
 
 import gui.sysadmin.annotationview.AnnotationsViewCreator;
-import gui.sysadmin.chainfileview.ChainFileViewCreator;
+import gui.sysadmin.genomereleaseview.GenomeReleaseViewCreator;
 import gui.sysadmin.processview.ProcessViewCreator;
 import gui.sysadmin.strings.SysadminTabButtons;
 import gui.sysadmin.usersview.UsersViewCreator;
@@ -9,19 +9,17 @@ import gui.sysadmin.usersview.UsersViewCreator;
 import javax.swing.*;
 import javax.swing.table.TableModel;
 
-import util.AnnotationDataType;
-
 import java.awt.*;
 import java.awt.event.ActionListener;
 
 public class SysadminTab extends JPanel {
 
-    private JTabbedPane sysadminTabPane;
-    private SysadminController sysController;
-    private AnnotationsViewCreator annotationsView;
-    private UsersViewCreator usersView;
-    private ProcessViewCreator processView;
-    private ChainFileViewCreator chainFileView;
+    private JTabbedPane              sysadminTabPane;
+    private SysadminController       sysController;
+    private AnnotationsViewCreator   annotationsView;
+    private UsersViewCreator         usersView;
+    private ProcessViewCreator       processView;
+    private GenomeReleaseViewCreator genomeReleaseView;
 
     /**
      * Create the panel.
@@ -31,7 +29,7 @@ public class SysadminTab extends JPanel {
         this.annotationsView = new AnnotationsViewCreator();
         this.usersView = new UsersViewCreator();
         this.processView = new ProcessViewCreator();
-        this.chainFileView = new ChainFileViewCreator();
+        this.genomeReleaseView = new GenomeReleaseViewCreator();
 
     }
 
@@ -49,16 +47,9 @@ public class SysadminTab extends JPanel {
                     sysadminTabPane.addTab(button.getValue(),
                             buildAnnotationsView());
                     break;
-                case USERS:
-                    sysadminTabPane.addTab(button.getValue(), buildUsersView());
-                    break;
-                case PROCESS:
+                case GENOMES:
                     sysadminTabPane.addTab(button.getValue(),
-                            buildProcessView());
-                    break;
-                case CHAINFILE:
-                    sysadminTabPane.addTab(button.getValue(),
-                            buildChainFileView());
+                            buildGenomeReleaseView());
                     break;
             }
         }
@@ -102,8 +93,8 @@ public class SysadminTab extends JPanel {
         return processView.buildProcessView();
     }
 
-    private JPanel buildChainFileView() {
-        return chainFileView.buildChainFileView();
+    private JPanel buildGenomeReleaseView() {
+        return genomeReleaseView.buildGenomeReleaseView();
     }
 
     public void setController(SysadminController sysController) {
