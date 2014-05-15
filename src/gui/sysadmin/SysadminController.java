@@ -6,14 +6,17 @@ import gui.sysadmin.annotationview.AnnotationTableModel;
 import gui.sysadmin.annotationview.EditAnnotationPopup;
 import gui.sysadmin.annotationview.EditAnnotationPopupListener;
 import gui.sysadmin.annotationview.SysadminAnnotationPopup;
-import model.GenomizerModel;
-import util.AnnotationDataType;
-import util.DeleteAnnoationData;
+import gui.sysadmin.genomereleaseview.GenomereleaseTableModel;
 
-import javax.swing.*;
 import java.awt.event.ActionListener;
 import java.util.Observable;
 import java.util.Observer;
+
+import javax.swing.JOptionPane;
+import javax.swing.SwingUtilities;
+
+import model.GenomizerModel;
+import util.AnnotationDataType;
 
 public class SysadminController extends Observable {
 
@@ -80,13 +83,10 @@ public class SysadminController extends Observable {
         return model.getAnnotations();
     }
 
-    public void updateAnnotationTable() {
-        AnnotationTableModel tableModel = (AnnotationTableModel) sysTab
-                .getAnnotationsView().getTableModel();
-        tableModel.setAnnotations(getAnnotations());
-    }
+
 
     public void deleteAnnotation() {
+
         if (sysTab.getAnnotationTable().getSelectedRow() != -1) {
             int row = sysTab.getAnnotationTable().getSelectedRow();
             row = sysTab.getAnnotationTable().convertRowIndexToModel(row);
@@ -120,4 +120,31 @@ public class SysadminController extends Observable {
             System.out.println("Please select an annotation to delete");
         }
     }
+
+    public util.GenomeReleaseData[] getGenomeReleases() {
+
+        try {
+            // model.getGenomeReleases();
+        } catch (IllegalArgumentException e) {
+            JOptionPane.showMessageDialog(null, e.getMessage());
+        }
+
+        return null;
+        /** CHAAANGE MEEEE */
+    }
+
+    public void updateAnnotationTable() {
+        AnnotationTableModel tableModel = (AnnotationTableModel) sysTab
+                .getAnnotationsView().getTableModel();
+        tableModel.setAnnotations(getAnnotations());
+    }
+
+    public void setGenomeReleaseTable() {
+
+        GenomereleaseTableModel tableModel = (GenomereleaseTableModel) sysTab
+                .getGenomeReleaseTableModel();
+
+        tableModel.setGenomeReleases(getGenomeReleases());
+    }
+
 }
