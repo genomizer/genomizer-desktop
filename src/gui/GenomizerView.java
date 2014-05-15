@@ -13,12 +13,10 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 /**
- *
  * A interface for the view part of an application used by genome researcher
  * to make their daily job easier.
  *
  * @author
- *
  */
 
 public interface GenomizerView {
