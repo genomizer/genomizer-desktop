@@ -281,7 +281,7 @@ public class Model implements GenomizerModel {
     @Override
     public boolean addNewExperiment(String expName, String username,
             AnnotationDataValue[] annotations) {
-        AddExperimentRequest aER = new RequestFactory()
+        AddExperimentRequest aER = RequestFactory
                 .makeAddExperimentRequest(expName, username, annotations);
         System.out.println(aER.toJson());
         conn.sendRequest(aER, getUserID(), "application/json");
