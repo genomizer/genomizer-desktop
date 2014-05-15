@@ -20,15 +20,15 @@ public class DownloadHandler {
     private HttpURLConnection conn;
     private String username;
     private String password;
-    private String fileID;
+    private String fileName;
     private boolean finished;
     private int totalDownload;
     private int perSecond;
     
-    public DownloadHandler(String username, String password, String fileID) {
+    public DownloadHandler(String username, String password, String fileName) {
         this.username = username;
         this.password = password;
-        this.fileID = fileID;
+        this.fileName = fileName;
     }
     
     public boolean download(String url, String localFilePath) {
@@ -80,6 +80,7 @@ public class DownloadHandler {
                 }
             }
             fileOut.close();
+            finished = true;
             System.out.println("Size: " + totalDownload + " Expected: "
                     + conn.getContentLength());
             conn.disconnect();
@@ -89,7 +90,6 @@ public class DownloadHandler {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        finished = true;
         return true;
     }
     
@@ -108,8 +108,8 @@ public class DownloadHandler {
         return perSecond;
     }
     
-    public String getFileID() {
-        return fileID;
+    public String getFileName() {
+        return fileName;
     }
     
     public boolean isFinished() {

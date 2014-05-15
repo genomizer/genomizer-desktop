@@ -163,7 +163,7 @@ public class Model implements GenomizerModel {
     
     @Override
     public boolean downloadFile(final String url, String fileID,
-            final String path) {
+            final String path, String fileName) {
         // Use this until search works on the server
         DownloadFileRequest request = RequestFactory.makeDownloadFileRequest(
                 fileID, ".wig");
@@ -175,7 +175,7 @@ public class Model implements GenomizerModel {
                 DownloadFileResponse.class);
         System.out.println(conn.getResponseBody());
         final DownloadHandler handler = new DownloadHandler("pvt", "pvt",
-                fileID);
+                fileName);
         if (handler != null) {
             ongoingDownloads.add(handler);
         }

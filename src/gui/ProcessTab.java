@@ -5,6 +5,7 @@ import util.FileData;
 import javax.swing.*;
 import javax.swing.border.EtchedBorder;
 import javax.swing.border.TitledBorder;
+
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -89,6 +90,7 @@ public class ProcessTab extends JPanel {
     private final JComboBox<String> single = new JComboBox<String>();
     private final JComboBox<String> ratioSmoothType = new JComboBox<String>();
     private final JTabbedPane tabbedPane = new JTabbedPane(JTabbedPane.BOTTOM);
+    public final JOptionPane ratioPopup =  new JOptionPane();
     private ArrayList<String> genomeReleaseFiles;
     private ArrayList<FileData> fileData;
     private String[] bowtieParameters = new String[4];
@@ -761,6 +763,16 @@ public class ProcessTab extends JPanel {
                 ratioWindowSize.setText("");
                 ratioSmoothType.setSelectedIndex(0);
                 ratioStepPosition.setText("");
+    }
+
+    public void showRatioPopup() {
+        
+        Object[] possibleValues = { "First", "Second", "Third" };
+        ratioPopup.showInputDialog(null,
+        "Choose one", "Input",
+        JOptionPane.INFORMATION_MESSAGE, null,
+        possibleValues, possibleValues[0]);
+        
     }
 
 }
