@@ -107,13 +107,13 @@ public class Controller {
                     
                     parameters[0] = view.getParameters()[0];
                     parameters[1] = view.getParameters()[1];
-                    parameters[2] = "y";
-                    parameters[3] = "y";
+                    parameters[2] = view.getOtherParameters()[0];// "y";
+                    parameters[3] = view.getOtherParameters()[1];// "y";
                     parameters[4] = view.getParameters()[2];
                     parameters[5] = view.getParameters()[3];
-                    parameters[6] = view.getRatioCalcParameters()[0]; //"single 4 0";
-                    parameters[7] = view.getRatioCalcParameters()[1]; //"150 1 7 0 0";
-
+                    parameters[6] = view.getRatioCalcParameters()[0]; // "single 4 0";
+                    parameters[7] = view.getRatioCalcParameters()[1]; // "150 1 7 0 0";
+                    
                     String expid = allMarked.get(i).expId;
                     String genomeRelease = allMarked.get(i).grVersion;
                     String metadata = allMarked.get(i).metaData;
@@ -304,7 +304,8 @@ public class Controller {
                 }
             }
             
-            DownloadWindow downloadWindow = new DownloadWindow(selectedFiles);
+            DownloadWindow downloadWindow = new DownloadWindow(selectedFiles,
+                    model.getOngoingDownloads());
             view.setDownloadWindow(downloadWindow);
             downloadWindow.addDownloadFileListener(new DownloadFileListener());
         }
@@ -372,7 +373,6 @@ public class Controller {
     }
     
     class SelectFilesToUploadButtonListener implements ActionListener, Runnable {
-        
         @Override
         public void actionPerformed(ActionEvent actionEvent) {
             
@@ -422,12 +422,19 @@ public class Controller {
             System.out.println(created);
             if (created) {
                 for (File f : files) {
-                    model.uploadFile(expName, f, types.get(f.getName()),
-                            view.getUsername(), false, release);
+                    if (model.uploadFile(expName, f, types.get(f.getName()),
+                            view.getUsername(), false, release)) {
+                        JOptionPane.showMessageDialog(null,
+                                "Upload of " + f.getName() + " complete",
+                                "Done", JOptionPane.PLAIN_MESSAGE);
+                    } else {
+                        JOptionPane.showMessageDialog(null,
+                                "Upload of " + f.getName() + " not complete",
+                                "Error", JOptionPane.ERROR_MESSAGE);
+                    }
                 }
                 
             }
-            JOptionPane.showMessageDialog(null, "Upload complete.");
         }
     }
     
@@ -524,8 +531,17 @@ public class Controller {
                 if (created) {
                     for (File f : files) {
                         System.out.println(f.getName());
-                        model.uploadFile(expName, f, types.get(f.getName()),
-                                view.getUsername(), false, release);
+                        if (model.uploadFile(expName, f,
+                                types.get(f.getName()), view.getUsername(),
+                                false, release)) {
+                            JOptionPane.showMessageDialog(null, "Upload of "
+                                    + f.getName() + " complete", "Done",
+                                    JOptionPane.PLAIN_MESSAGE);
+                        } else {
+                            JOptionPane.showMessageDialog(null, "Upload of "
+                                    + f.getName() + " not complete", "Error",
+                                    JOptionPane.ERROR_MESSAGE);
+                        }
                     }
                     
                 }
