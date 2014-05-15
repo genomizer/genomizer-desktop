@@ -269,7 +269,6 @@ public class UploadTab extends JPanel implements ExperimentPanel {
                         public void actionPerformed(ActionEvent actionEvent) {
                             String text = (String) comboBox.getSelectedItem();
                             if (!text.equals("") && text != null) {
-                                System.out.println("trying1..");
                                 enableUploadButton(true);
                             }
                         }
@@ -436,6 +435,12 @@ public class UploadTab extends JPanel implements ExperimentPanel {
     }
 
     private boolean forcedAnnotationCheck() {
+
+        String expIDName = expID.getText();
+        if(expIDName == null || expIDName.equals("")) {
+            return false;
+        }
+
         boolean allForcedAnnotationsAreFilled = true;
         String annotationName = null;
         String text = null;
@@ -477,7 +482,7 @@ public class UploadTab extends JPanel implements ExperimentPanel {
      */
     public void enableUploadButton(boolean b) {
         if(b) {
-            if (forcedAnnotationCheck()) {
+            if (forcedAnnotationCheck() && !uploadFileRows.isEmpty()) {
                 uploadButton.setEnabled(b);
             }
         } else {
