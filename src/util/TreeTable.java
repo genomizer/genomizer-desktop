@@ -128,7 +128,6 @@ public class TreeTable extends JPanel {
             @Override
             public void mouseClicked(MouseEvent e) {
                 if (e.getClickCount() == 1 && experiments != null) {
-                    System.out.println("");
                     TableColumnModel cModel = table.getColumnModel();
                     int column = cModel.getColumnIndexAtX(e.getX());
                     sortData(column);
@@ -424,10 +423,18 @@ public class TreeTable extends JPanel {
         createTreeStructure();
     }
     
+    /**
+     * Get the tree table content
+     * 
+     * @return
+     */
     public ArrayList<ExperimentData> getContent() {
         return experiments;
     }
     
+    /**
+     * Update the visible headings in the table (with column order intact)
+     */
     private void updateVisibleHeadings() {
         try {
             visibleHeadings = new ArrayList<String>();
@@ -449,7 +456,6 @@ public class TreeTable extends JPanel {
                 visibleHeadings.addAll(headings);
             }
         } catch (NullPointerException e) {
-            
         }
     }
     
