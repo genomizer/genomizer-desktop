@@ -144,8 +144,8 @@ public class ProcessTab extends JPanel {
     private void addWestPanels() {
 
         this.add(westPanel, BorderLayout.WEST);
-        filesPanel.setBorder(new TitledBorder(null, "Files",
-                TitledBorder.LEADING, TitledBorder.TOP, null, null));
+        filesPanel.setBorder(BorderFactory.createTitledBorder("Files")/*new TitledBorder(null, "Files",
+                TitledBorder.LEADING, TitledBorder.TOP, null, null)*/);
         //    filesPanel.setPreferredSize(new Dimension(300, 100));
         addFilesScheduleToWestPanel();
         addScheduleProcPanel();
@@ -168,10 +168,10 @@ public class ProcessTab extends JPanel {
      * Initiates the east panel in the process tabs borderlayout.
      */
     private void addEastPanels() {
-        procQueuePanel.setBorder(new TitledBorder(UIManager
+        procQueuePanel.setBorder(BorderFactory.createTitledBorder("Processing In Queue")/*new TitledBorder(UIManager
                 .getBorder("TitledBorder.border"), "Processing In Queue",
                 TitledBorder.LEADING, TitledBorder.TOP, null, null
-                ));
+                )*/);
         this.add(procQueuePanel, BorderLayout.EAST);
         addProcessInQueue();
 
@@ -182,8 +182,8 @@ public class ProcessTab extends JPanel {
      */
     private void addConvertFilesPanel() {
         middlePanel.add(convertFilesPanel, BorderLayout.CENTER);
-        convertFilesPanel.setBorder(new TitledBorder(null, "Convert Files",
-                TitledBorder.LEADING, TitledBorder.TOP, null, null));
+        convertFilesPanel.setBorder(BorderFactory.createTitledBorder("Convert Files")/*new TitledBorder(null, "Convert Files",
+                TitledBorder.LEADING, TitledBorder.TOP, null, null)*/);
     }
 
     /**
@@ -191,9 +191,9 @@ public class ProcessTab extends JPanel {
      */
     private void addGenRegionDataPanel() {
         middlePanel.add(genRegionDataPanel, BorderLayout.CENTER);
-        genRegionDataPanel.setBorder(new TitledBorder(null,
+        genRegionDataPanel.setBorder(BorderFactory.createTitledBorder("Generate Region Data")/*new TitledBorder(null,
                 "Generate Region Data", TitledBorder.LEADING, TitledBorder.TOP,
-                null, null));
+                null, null)*/);
         addScrollGenRegionData();
     }
 
@@ -212,9 +212,9 @@ public class ProcessTab extends JPanel {
      */
     private void addGenProfileDataPanel() {
         middlePanel.add(genProfileDataPanel,BorderLayout.CENTER);
-        genProfileDataPanel.setBorder(new TitledBorder(null,
+        genProfileDataPanel.setBorder(BorderFactory.createTitledBorder("Generate Profile Data")/*new TitledBorder(null,
                 "Generate Profile Data", TitledBorder.LEADING,
-                TitledBorder.TOP, null, null));
+                TitledBorder.TOP, null, null)*/);
 
         genProfileDataPanel.add(scrollProfile);
         scrollProfile.setViewportView(genProfArea);
@@ -241,9 +241,9 @@ public class ProcessTab extends JPanel {
      * Initiates the scrollSchedule in scheduleProcPanel.
      */
     private void addScheduleProcPanel() {
-        scheduleProcPanel.setBorder(new TitledBorder(null,
+        scheduleProcPanel.setBorder(BorderFactory.createTitledBorder("Scheduled Processing")/*new TitledBorder(null,
                 "Scheduled Processing", TitledBorder.LEADING, TitledBorder.TOP,
-                null, null));
+                null, null)*/);
 
         scheduleProcPanel.add(scrollSchedule);
         scrollSchedule.setViewportView(scheduleList);
@@ -297,21 +297,21 @@ public class ProcessTab extends JPanel {
         tabbedPane.addTab("Create profile data", null, convTabpanel, null);
         convTabpanel.add(convPanel);
         convPanel.add(flagsPanel);
-        flagsPanel.setBorder(new TitledBorder(null, "Flags",
-                TitledBorder.LEADING, TitledBorder.TOP, null, null));
+        flagsPanel.setBorder(BorderFactory.createTitledBorder("Flags")/*new TitledBorder(null, "Flags",
+                TitledBorder.LEADING, TitledBorder.TOP, null, null)*/);
         convPanel.add(genomeReleasePanel);
-        genomeReleasePanel.setBorder(new TitledBorder(null,
+        genomeReleasePanel.setBorder(/*new TitledBorder(null,
                 "Genome release files", TitledBorder.LEADING, TitledBorder.TOP,
-                null, null));
+                null, null)*/BorderFactory.createTitledBorder("Genome release files"));
         convPanel.add(windowSizePanel);
-        windowSizePanel.setBorder(new TitledBorder(null, "Window size",
-                TitledBorder.LEADING, TitledBorder.TOP, null, null));
+        windowSizePanel.setBorder(/*new TitledBorder(null, "Window size",
+                TitledBorder.LEADING, TitledBorder.TOP, null, null)*/BorderFactory.createTitledBorder("Window size"));
         convPanel.add(smoothTypePanel);
-        smoothTypePanel.setBorder(new TitledBorder(null, "Smooth type",
-                TitledBorder.LEADING, TitledBorder.TOP, null, null));
+        smoothTypePanel.setBorder(/*new TitledBorder(null, "Smooth type",
+                TitledBorder.LEADING, TitledBorder.TOP, null, null)*/BorderFactory.createTitledBorder("Smooth type"));
         convPanel.add(stepPositionPanel);
-        stepPositionPanel.setBorder(new TitledBorder(null, "Step position",
-                TitledBorder.LEADING, TitledBorder.TOP, null, null));
+        stepPositionPanel.setBorder(/*new TitledBorder(null, "Step position",
+                TitledBorder.LEADING, TitledBorder.TOP, null, null)*/BorderFactory.createTitledBorder("Step position"));
         convPanel.setBorder(null);
         checkBoxPanel.setAlignmentY(1.0f);
         checkBoxPanel.setBorder(new EtchedBorder(EtchedBorder.LOWERED, null,
