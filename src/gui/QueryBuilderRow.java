@@ -1,18 +1,25 @@
 package gui;
 
-import util.AnnotationDataType;
-
-import javax.swing.*;
-import javax.swing.event.DocumentEvent;
-import javax.swing.event.DocumentListener;
-import java.awt.*;
+import java.awt.Dimension;
+import java.awt.FlowLayout;
+import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.net.URL;
 
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JComboBox;
+import javax.swing.JPanel;
+import javax.swing.JTextField;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
+
+import util.AnnotationDataType;
+
 /**
  * Class the represents a row in the query builder
- *
+ * 
  * @author bDtKarlsson
  */
 public class QueryBuilderRow extends JPanel {
@@ -28,7 +35,7 @@ public class QueryBuilderRow extends JPanel {
     private boolean dropdown = false;
     private boolean firstRow = false;
     private boolean lastRow = false;
-
+    
     public QueryBuilderRow(QuerySearchTab parent,
             AnnotationDataType[] annotationTypes) {
         /* The Parent query search tab */
@@ -44,12 +51,14 @@ public class QueryBuilderRow extends JPanel {
         setAnnotationAlternatives(new String[0]);
         setAnnotationBox(annotationTypes);
     }
-
+    
     /**
      * Method for setting information about the row
-     *
-     * @param firstRow - if the row is the first row
-     * @param lastRow  - if the row is the last row
+     * 
+     * @param firstRow
+     *            - if the row is the first row
+     * @param lastRow
+     *            - if the row is the last row
      */
     public void setAs(Boolean firstRow, Boolean lastRow) {
         this.firstRow = firstRow;
@@ -60,9 +69,9 @@ public class QueryBuilderRow extends JPanel {
         JPanel logicPanel = new JPanel();
         logicPanel.setPreferredSize(new Dimension(70, 35));
         JPanel annotationPanel = new JPanel();
-        annotationPanel.setPreferredSize(new Dimension(200, 35));
+        annotationPanel.setPreferredSize(new Dimension(240, 35));
         JPanel inputPanel = new JPanel();
-        inputPanel.setPreferredSize(new Dimension(415, 35));
+        inputPanel.setPreferredSize(new Dimension(450, 35));
         JPanel buttonPanel = new JPanel();
         buttonPanel.setPreferredSize(new Dimension(50, 35));
         /* All rows except the first should have a logic field */
@@ -92,13 +101,13 @@ public class QueryBuilderRow extends JPanel {
         if (lastRow) {
             buttonPanel.add(plusButton);
         }
-
+        
         add(logicPanel);
         add(annotationPanel);
         add(inputPanel);
         add(buttonPanel);
     }
-
+    
     /**
      * Method for constructing the plus button
      */
@@ -122,7 +131,7 @@ public class QueryBuilderRow extends JPanel {
             }
         });
     }
-
+    
     /**
      * Method for constructing a minus button
      */
@@ -148,7 +157,7 @@ public class QueryBuilderRow extends JPanel {
             }
         });
     }
-
+    
     /**
      * Method for constructing the text field for free text input
      */
@@ -163,23 +172,24 @@ public class QueryBuilderRow extends JPanel {
             public void changedUpdate(DocumentEvent e) {
                 parent.updateSearchArea();
             }
-
+            
             @Override
             public void removeUpdate(DocumentEvent e) {
                 parent.updateSearchArea();
             }
-
+            
             @Override
             public void insertUpdate(DocumentEvent e) {
                 parent.updateSearchArea();
             }
         });
     }
-
+    
     /**
      * Method for constructing the annotation alternatives combobox
-     *
-     * @param alternatives - the annotation alternatives
+     * 
+     * @param alternatives
+     *            - the annotation alternatives
      */
     private void setAnnotationAlternatives(String[] alternatives) {
         annotationAlternatives = new JComboBox(alternatives);
@@ -195,11 +205,12 @@ public class QueryBuilderRow extends JPanel {
             }
         });
     }
-
+    
     /**
      * Method for creating the annotations combobox
-     *
-     * @param annotations - the annotations
+     * 
+     * @param annotations
+     *            - the annotations
      */
     public void setAnnotationBox(AnnotationDataType[] annotations) {
         this.annotationTypes = annotations;
@@ -253,7 +264,7 @@ public class QueryBuilderRow extends JPanel {
             annotationBox.setSelectedIndex(0);
         }
     }
-
+    
     /**
      * Method for creating the logic box
      */
@@ -270,11 +281,11 @@ public class QueryBuilderRow extends JPanel {
             }
         });
     }
-
+    
     /**
      * Get text either from the freetext field or the annotation alternatives
      * box
-     *
+     * 
      * @return
      */
     public String getText() {
@@ -284,19 +295,19 @@ public class QueryBuilderRow extends JPanel {
             return (String) annotationAlternatives.getSelectedItem();
         }
     }
-
+    
     /**
      * Get the selected logic operator
-     *
+     * 
      * @return logic operator
      */
     public String getLogic() {
         return (String) logicBox.getSelectedItem();
     }
-
+    
     /**
      * Get the selected annotation
-     *
+     * 
      * @return the annotation
      */
     public String getAnnotation() {
