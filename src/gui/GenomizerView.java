@@ -144,4 +144,6 @@ public interface GenomizerView {
     public void addRatioCalcListener(ActionListener listener);
 
     public void setDefaultRatioPar();
+
+    public void showRatioPopup();
 }
