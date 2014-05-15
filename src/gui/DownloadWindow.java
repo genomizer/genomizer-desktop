@@ -100,10 +100,6 @@ public class DownloadWindow extends JFrame {
         
         downloadButton = new JButton("Download");
         
-        // downloadButton.setBorderPainted(true);
-        // downloadButton.setContentAreaFilled(false);
-        // downloadButton.setIcon(downloadIcon);
-        
         JPanel flowSouth = new JPanel();
         flowSouth.add(downloadButton);
         panel.add(flowSouth, BorderLayout.SOUTH);

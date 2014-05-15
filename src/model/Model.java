@@ -37,9 +37,11 @@ public class Model implements GenomizerModel {
     private String userID = "";
     private Connection conn;
     private SearchHistory searchHistory;
+    private OngoingDownloads ongoingDownloads;
     
     public Model(Connection conn) {
         searchHistory = new SearchHistory();
+        ongoingDownloads = new OngoingDownloads();
         this.setConn(conn);
     }
     
@@ -190,6 +192,7 @@ public class Model implements GenomizerModel {
         System.out.println(conn.getResponseBody());
         final DownloadHandler handler = new DownloadHandler("pvt", "pvt",
                 fileID);
+        ongoingDownloads.addOngoingDownload(handler);
         new Thread(new Runnable() {
             @Override
             public void run() {
