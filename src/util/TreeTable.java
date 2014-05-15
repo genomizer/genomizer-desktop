@@ -124,7 +124,8 @@ public class TreeTable extends JPanel {
         scrollPane
                 .setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
         scrollPane
-                .setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
+                .setVerticalScrollBarPolicy(
+                        JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
         scrollPane.getViewport().setScrollMode(JViewport.SIMPLE_SCROLL_MODE);
         add(scrollPane, BorderLayout.CENTER);
     }
@@ -414,23 +415,27 @@ public class TreeTable extends JPanel {
     }
     
     private void updateVisibleHeadings() {
-        visibleHeadings = new ArrayList<String>();
-        int columnCount = table.getColumnCount();
-        if (columnCount > 0) {
+        try {
             visibleHeadings = new ArrayList<String>();
-            for (int i = 0; i < columnCount; i++) {
-                visibleHeadings.add(table.getColumnName(i));
-            }
-            for (String heading : headings) {
-                if (!visibleHeadings.contains(heading)
-                        && !deselectedHeadings.contains(heading)) {
-                    visibleHeadings.add(heading);
+            int columnCount = table.getColumnCount();
+            if (columnCount > 0) {
+                visibleHeadings = new ArrayList<String>();
+                for (int i = 0; i < columnCount; i++) {
+                    visibleHeadings.add(table.getColumnName(i));
                 }
+                for (String heading : headings) {
+                    if (!visibleHeadings.contains(heading)
+                            && !deselectedHeadings.contains(heading)) {
+                        visibleHeadings.add(heading);
+                    }
+                }
+                visibleHeadings.removeAll(deselectedHeadings);
+
+            } else {
+                visibleHeadings.addAll(headings);
             }
-            visibleHeadings.removeAll(deselectedHeadings);
-            
-        } else {
-            visibleHeadings.addAll(headings);
+        } catch(NullPointerException e) {
+
         }
     }
     
