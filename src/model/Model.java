@@ -14,6 +14,7 @@ import requests.GetAnnotationRequest;
 import requests.LoginRequest;
 import requests.LogoutRequest;
 import requests.RenameAnnotationRequest;
+import requests.RenameAnnotationValueRequest;
 import requests.RequestFactory;
 import requests.SearchRequest;
 import requests.rawToProfileRequest;
@@ -27,6 +28,7 @@ import util.AnnotationDataValue;
 import util.ExperimentData;
 
 import com.google.gson.Gson;
+
 import communication.Connection;
 import communication.DownloadHandler;
 import communication.HTTPURLUpload;
@@ -324,7 +326,7 @@ public class Model implements GenomizerModel {
     
     public boolean renameAnnotationField(String oldname, String newname) {
         RenameAnnotationRequest request = RequestFactory
-                .makeRenameAnnotationRequest(oldname, newname);
+                .makeRenameAnnotationFieldRequest(oldname, newname);
         conn.sendRequest(request, userID, JSON);
         if (conn.getResponseCode() == 200) {
             System.err.println("Sent " + request.requestName + "success!");
@@ -332,6 +334,18 @@ public class Model implements GenomizerModel {
         } else {
             System.out.println("responsecode: " + conn.getResponseCode());
             return false;
+        }
+    }
+    
+    public void renameAnnotationValue(String name, String oldValue,
+            String newValue) {
+        RenameAnnotationValueRequest request = RequestFactory
+                .makeRenameAnnotationValueRequest(name, oldValue, newValue);
+        conn.sendRequest(request, userID, JSON);
+        if (conn.getResponseCode() == 201) {
+            System.err.println("Sent " + request.requestName + " success!");
+        } else {
+            System.out.println("responsecode: " + conn.getResponseCode());
         }
     }
 }
