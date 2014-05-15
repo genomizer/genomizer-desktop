@@ -66,6 +66,10 @@ public class SysadminController extends Observable {
         EditAnnotationPopup edPop = sysTab.getAnnotationsView().getEditPopup();
         try {
             System.out.println("Trying to ask model to please edit an annotation...");
+            model.editAnnotation(edPop.getNewAnnotationName(),
+                    edPop.getNewAnnotationCategories(),
+                    edPop.getNewAnnotationForcedValue(),
+                    edPop.getAnnotation());
 
         } catch (IllegalArgumentException e) {
             JOptionPane.showMessageDialog(null, e.getMessage());

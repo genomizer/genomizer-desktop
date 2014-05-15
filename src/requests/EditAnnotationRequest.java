@@ -1,7 +1,5 @@
 package requests;
 
-import java.util.HashMap;
-
 public class EditAnnotationRequest extends Request {
     public String name;
     public String annotation;

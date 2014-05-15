@@ -224,8 +224,7 @@ public class Model implements GenomizerModel {
             if (a.getName().equalsIgnoreCase(name)) {
                 throw new IllegalArgumentException(
                         "Annotations must have a unique name, " + name
-                                + " already exists"
-                );
+                                + " already exists");
             }
         }
 
@@ -241,14 +240,21 @@ public class Model implements GenomizerModel {
             return true;
         } else {
             System.err
-                    .println(
-                            "addAnnotaion FAILURE, did not recive 201 response");
+                    .println("addAnnotaion FAILURE, did not recive 201 response");
             return false;
         }
     }
 
-    public boolean editAnnotation(String name, String[] categories, boolean forced) {
-
+    @Override
+    public boolean editAnnotation(String name, String[] categories,
+            boolean forced, AnnotationDataType oldAnnotation) {
+        if (oldAnnotation.getName().equals(name)) {
+            for (int i = 0; i<categories.length; i++){
+                if(!(categories[i].equalsIgnoreCase(oldAnnotation.getValues()[i]))) {
+                    System.out.println("A change was made in the categories");
+                }
+            }
+        }
 
         return false;
     }
@@ -283,7 +289,7 @@ public class Model implements GenomizerModel {
             System.out.println("responsecode: " + conn.getResponseCode());
             System.err.println("Could not get annotations!");
         }
-        return new AnnotationDataType[] { };
+        return new AnnotationDataType[] {};
     }
 
     @Override

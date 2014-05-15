@@ -37,4 +37,6 @@ public interface GenomizerModel {
     public boolean addNewExperiment(String expName, String username,
             AnnotationDataValue[] annotations);
 
+    boolean editAnnotation(String name, String[] categories, boolean forced, AnnotationDataType oldAnnotation);
+
 }
