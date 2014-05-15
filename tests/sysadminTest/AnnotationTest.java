@@ -139,9 +139,35 @@ public class AnnotationTest {
     }
     
     @Test
+    public void shouldAddAnnotationValue() {
+        String annotationName = "SpeciesTEST";
+        String valueName = "horseTEST";
+        AnnotationDataType toBeEdited = getSpecificAnnotationType(annotationName);
+        int numberOfAnnotations = toBeEdited.getValues().length;
+        if (toBeEdited != null) {
+            if (model.addNewAnnotationValue(annotationName, valueName)) {
+                assertThat(toBeEdited.getValues().length).isEqualTo(
+                        numberOfAnnotations + 1);
+            }
+        }
+    }
+    
+    @Test
     public void shouldRemoveAnnotationValue() {
         // TODO: use AnnotationDataType.indexOf(String valueToBeremoved) and
         // remove a valueToBeRemoved!!!
+        String nameOfAnnotation = "SpeciesTEST";
+        String valueToBeRemoved = "manTEST";
+        AnnotationDataType toBeEdited = getSpecificAnnotationType(nameOfAnnotation);
+        int numberOfAnnotationValues = toBeEdited.getValues().length;
+        if (toBeEdited != null) {
+            if (model.removeAnnotationField(toBeEdited.name, valueToBeRemoved)) {
+                assertThat(toBeEdited.getValues().length).isEqualTo(
+                        numberOfAnnotationValues - 1);
+            } else {
+                fail("could not do model.removeAnnotationField()");
+            }
+        }
         fail("Not implemented yet!");
     }
     
