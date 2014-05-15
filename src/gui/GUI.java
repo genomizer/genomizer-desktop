@@ -189,6 +189,9 @@ public class GUI extends JFrame implements GenomizerView {
      * sysadminTab.getNewAnnotationName(); }
      */
 
+    /**
+     * @return The uploadTab.
+     */
     public UploadTab getUploadTab() {
         return uploadTab;
     }
@@ -201,16 +204,25 @@ public class GUI extends JFrame implements GenomizerView {
      * sysadminTab.getNewAnnotationForcedValue(); }
      */
 
+    /**
+     * @return The querySearchTab's searchString.
+     */
     @Override
     public String getQuerySearchString() {
         return querySearchTab.getSearchString();
     }
 
+    /**
+     * @return The marked file data from the process tab.
+     */
     @Override
     public ArrayList<FileData> getAllMarkedFileData() {
         return processTab.getAllMarkedFileData();
     }
 
+    /**
+     * @return The marked files from the process tab.
+     */
     @Override
     public ArrayList<String> getAllMarkedFiles() {
 
@@ -218,20 +230,32 @@ public class GUI extends JFrame implements GenomizerView {
 
     }
 
+    /**
+     * @return The search tab.
+     */
     public JPanel getSearchPanel() {
         return searchTab;
     }
 
+    /**
+     * @return The password input from the login window.
+     */
     @Override
     public String getPassword() {
         return loginWindow.getPasswordInput();
     }
 
+    /**
+     * @return The username input from the login window.
+     */
     @Override
     public String getUsername() {
         return loginWindow.getUsernameInput();
     }
 
+    /**
+     * @return The IP input from the login window.
+     */
     @Override
     public String getIp() {
         return loginWindow.getIPInput();
@@ -248,6 +272,9 @@ public class GUI extends JFrame implements GenomizerView {
         return 0;
     }
 
+    /**
+     * @return The JFrame, which means this.
+     */
     @Override
     public JFrame getFrame() {
         return this;
