@@ -41,7 +41,7 @@ public class LoginWindow extends JFrame {
         });
         setTitle("Genomizer Login");
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
-        setSize(270, 170);
+        setSize(270, 180);
         setResizable(false);
         this.setLocationRelativeTo(parent.getFrame());
         placeComponents();
@@ -84,7 +84,7 @@ public class LoginWindow extends JFrame {
         mainPanel.add(ipField);
         
         loginButton = new JButton("login");
-        loginButton.setBounds(10, 100, 80, 25);
+        loginButton.setBounds(10, 110, 80, 25);
         mainPanel.add(loginButton);
         
     }
@@ -123,9 +123,9 @@ public class LoginWindow extends JFrame {
     }
     
     public void paintErrorMessage(String message) {
-        errorLabel = new JLabel(message);
+        errorLabel = new JLabel("<html><b>" + message + "</b></html>");
         errorLabel.setIcon(UIManager.getIcon("OptionPane.warningIcon"));
-        errorLabel.setBounds(120, 100, 160, 25);
+        errorLabel.setBounds(120, 100, 150, 45);
         mainPanel.add(errorLabel);
         repaint();
     }
