@@ -40,7 +40,6 @@ public class Model implements GenomizerModel {
     private String userID = "";
     private Connection conn;
     private SearchHistory searchHistory;
-    private OngoingDownloads ongoingDownloads;
     private CopyOnWriteArrayList<DownloadHandler> ongoingDownloads;
     
     public Model(Connection conn) {

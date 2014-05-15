@@ -43,8 +43,6 @@ public interface GenomizerModel {
     boolean editAnnotation(String name, String[] categories, boolean forced,
             AnnotationDataType oldAnnotation);
     
-    public OngoingDownloads getOngoingDownloads();
-    
     boolean renameAnnotationField(String oldname, String newname);
     
     public CopyOnWriteArrayList<DownloadHandler> getOngoingDownloads();
