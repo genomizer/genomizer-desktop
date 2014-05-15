@@ -98,4 +98,9 @@ public class RequestFactory {
     public static GetAnnotationRequest makeGetAnnotationRequest() {
         return new GetAnnotationRequest();
     }
+
+    public static RenameAnnotationRequest makeRenameAnnotationRequest(
+            String oldname, String newname) {
+        return new RenameAnnotationRequest(oldname, newname);
+    }
 }
