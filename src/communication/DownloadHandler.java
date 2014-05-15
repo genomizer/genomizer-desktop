@@ -39,9 +39,6 @@ public class DownloadHandler {
              * "http://scratchy.cs.umu.se:8090/html/download.php?path=" + url);
              */
             url = url.replaceFirst("\\u003d", "=");
-            url = url.replaceFirst("scratcy", "scratchy");
-            url = url.replaceFirst("8090", "8000");
-            url = url.replaceFirst("scratchy.cs.umu.se", "sterner.cc");
             
             URL targetUrl = new URL(url);
             String authString = username + ":" + password;
