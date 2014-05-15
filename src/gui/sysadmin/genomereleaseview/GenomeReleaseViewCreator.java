@@ -1,8 +1,6 @@
 package gui.sysadmin.genomereleaseview;
 
-import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.FlowLayout;
+import java.awt.*;
 
 import javax.swing.*;
 import javax.swing.border.Border;
@@ -71,6 +69,11 @@ public class GenomeReleaseViewCreator {
         versionLabel.setText("Genome release version:");
         speciesLabel.setText("Species:");
         fileLabel.setText("Select file:");
+
+        JButton addButton = new JButton("Add");
+        JButton deleteButton = new JButton("Delete");
+        JButton fileButton = new JButton("Select file");
+
         
         JTextField versionText = new JTextField(20);
         JTextField speciesText = new JTextField(20);
@@ -79,12 +82,19 @@ public class GenomeReleaseViewCreator {
                 layout.createParallelGroup(GroupLayout.Alignment.LEADING)
                         .addComponent(versionLabel).addComponent(versionText)
                         .addComponent(speciesLabel).addComponent(speciesText)
-                        .addComponent(fileLabel)));
+                        .addComponent(fileLabel).addGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING)
+                        .addComponent(fileButton)
+                        .addComponent(addButton))
+        ));
         
         layout.setVerticalGroup(layout.createSequentialGroup()
                 .addComponent(versionLabel).addComponent(versionText)
                 .addComponent(speciesLabel).addComponent(speciesText)
-                .addComponent(fileLabel));
+                .addComponent(fileLabel)
+                .addGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING)
+                        .addComponent(fileButton)
+                        .addComponent(addButton))
+        );
         
         mainPanel.add(containerPanel, BorderLayout.NORTH);
         return mainPanel;
