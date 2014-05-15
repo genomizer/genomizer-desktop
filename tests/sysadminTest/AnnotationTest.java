@@ -121,9 +121,20 @@ public class AnnotationTest {
                 AnnotationDataType renamed = getSpecificAnnotationType(newname);
                 assertThat(renamed).isNotNull();
             } else {
-                fail("Does not renameAnnotaion");
+                fail("Does not rename Annotaion");
             }
         }
+    }
+    
+    @Test
+    public void shouldChangeNameOfAnnotationValues() {
+        String nameOfAnnotation = "SpeciesTEST";
+        AnnotationDataType toBeChanged = getSpecificAnnotationType(nameOfAnnotation);
+        String oldValue = "manTEST";
+        String newValue = "humanTEST";
+        model.renameAnnotationValue(toBeChanged.name, oldValue, newValue);
+        AnnotationDataType actual = getSpecificAnnotationType(nameOfAnnotation);
+        assertThat(actual.getValues()[0]).isEqualTo(newValue);
     }
     
     protected AnnotationDataType getSpecificAnnotationType(String name) {

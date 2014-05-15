@@ -1,7 +1,6 @@
 package gui.sysadmin.genomereleaseview;
 
 import java.awt.*;
-
 import javax.swing.*;
 import javax.swing.border.Border;
 import javax.swing.table.JTableHeader;
@@ -38,6 +37,19 @@ public class GenomeReleaseViewCreator {
         return mainPanel;
     }
 
+    private JPanel buildGenomeHeaderPanel() {
+        JPanel mainPanel = new JPanel(new BorderLayout());
+        
+        JLabel label = new JLabel();
+        /** TODO: set variable string! */
+        label.setText("Genome release files");
+        
+        Border border = BorderFactory.createEmptyBorder(5, 5, 5, 5);
+        label.setBorder(border);
+        mainPanel.add(label, BorderLayout.WEST);
+        return mainPanel;
+    }
+    
     private JPanel buildAddGenomeFilePanel() {
         JPanel mainPanel = new JPanel(new BorderLayout());
         JPanel containerPanel = new JPanel();

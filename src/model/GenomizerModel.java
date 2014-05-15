@@ -7,7 +7,6 @@ import java.util.concurrent.CopyOnWriteArrayList;
 import util.AnnotationDataType;
 import util.AnnotationDataValue;
 import util.ExperimentData;
-
 import communication.DownloadHandler;
 import communication.UploadHandler;
 
@@ -47,6 +46,8 @@ public interface GenomizerModel {
     boolean renameAnnotationField(String oldname, String newname);
     
     public CopyOnWriteArrayList<DownloadHandler> getOngoingDownloads();
+
+    void renameAnnotationValue(String name, String oldValue, String newValue);
     
     public CopyOnWriteArrayList<UploadHandler> getOngoingUploads();
 }
