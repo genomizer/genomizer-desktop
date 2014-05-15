@@ -118,24 +118,6 @@ public class Controller {
                     String genomeRelease = allMarked.get(i).grVersion;
                     String metadata = allMarked.get(i).metaData;
 
-                   // System.out.println("RAW TO PROFILE\n");
-                    //          System.out.println("Filename: " + fileName);
-                    //         System.out.println("File ID: " + fileID);
-                    //         System.out.println("Expid: " + expid);
-                    //         System.out.println("Processtype: " + processtype);
-                    //         System.out.println("Parameter 1: " + parameters[0]);
-                    //         System.out.println("Parameter 2: " + parameters[1]);
-                    //         System.out.println("Parameter 3: " + parameters[2]);
-                    //         System.out.println("Parameter 4: " + parameters[3]);
-                    //         System.out.println("Parameter 5: " + parameters[4]);
-                    //         System.out.println("Parameter 6: " + parameters[5]);
-                    ///         System.out.println("Parameter 7: " + parameters[6]);
-                    //        System.out.println("Parameter 8: " + parameters[7]);
-                    //        System.out.println("Metadata: " + metadata);
-                    //        System.out.println("Genome Release: " + genomeRelease);
-                    //        System.out.println("Author: " + view.getUsername());
-                    //       System.out.println("\n");
-
                     isConverted = model.rawToProfile(fileName, fileID, expid,
                             processtype, parameters, metadata,
                             genomeRelease, author);
