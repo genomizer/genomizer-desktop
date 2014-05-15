@@ -19,8 +19,10 @@ public class AnnotationTest {
     
     @Before
     public void setUp() throws Exception {
-        //con = new Connection("genomizer.apiary-mock.com:80");
-        con = new Connection("http://scratchy.cs.umu.se:7000");
+        // con = new Connection("genomizer.apiary-mock.com:80");
+        con = new Connection();
+        con.setIp("http://scratchy.cs.umu.se:7000");
+        // con = new Connection("http://hagrid.cs.umu.se:7000");
         model = new Model(con);
         model.loginUser("SysadminTests", "qwerty");
         sysadminTab = new SysadminTab();
@@ -33,20 +35,21 @@ public class AnnotationTest {
     
     @Test
     public void shouldGetPubmedAnnotation() {
-        assertThat(model.getAnnotations()[0].toString()).isEqualTo("pubmedId");
+        assertThat(model.getAnnotations()[0].toString()).isEqualTo(
+                "Development Stage");
     }
     
     @Test
     public void shouldGetSpeciesValues() {
-        String[] actual = model.getAnnotations()[2].getValues();
-        String[] expected = new String[] { "fly", "human", "rat" };
+        String[] actual = model.getAnnotations()[0].getValues();
+        String[] expected = new String[] { "freetext" };
         assertThat(actual).isEqualTo(expected);
     }
     
     @Test
     public void shouldAddNewFreeTextAnnotation() {
         assertThat(
-                model.addNewAnnotation("FREETEXTTEST",
+                model.addNewAnnotation("FREE TEXTTEST",
                         new String[] { "freetext" }, false)).isTrue();
     }
     
@@ -63,7 +66,9 @@ public class AnnotationTest {
             model.addNewAnnotation("SpeciesTEST", null, false);
             fail("This should throw an illegalargumentexception");
         } catch (Exception e) {
-            assertThat(e).hasMessage("Annotations must have a unique name, SpeciesTEST already exists");
+            assertThat(e)
+                    .hasMessage(
+                            "Annotations must have a unique name, SpeciesTEST already exists");
         }
     }
     
@@ -80,31 +85,18 @@ public class AnnotationTest {
     
     @Test
     public void shouldDeleteAnnotation() { // TODO: how do you delete data???
-        String name = "FREETEXTTEST";
-        //String name = "sex";
+        String name = "FREE TEXTTEST";
         AnnotationDataType toBeRemoved = getSpecificAnnotationType(name);
-        //System.out.println(toBeRemoved.name);
         if (toBeRemoved != null) {
-            if (model.deleteAnnotation(toBeRemoved.name)){
+            if (model.deleteAnnotation(toBeRemoved.name)) {
                 AnnotationDataType newAnnotation = getSpecificAnnotationType(name);
-                System.out.println("newannoanem" + newAnnotation.name);
                 assertThat(newAnnotation).isNull();
             } else {
                 fail("could not do model.deleteAnnotation()");
             }
+        } else {
+            fail("did not find toberemoved annotation");
         }
-        fail("Did not get annotation?");
-    }
-    
-    protected AnnotationDataType getSpecificAnnotationType(String name) {
-        AnnotationDataType[] annotations = model.getAnnotations();
-        AnnotationDataType specificAnnotation = null;
-        for (int i = 0; i < annotations.length; i++) {
-            if (annotations[i].name.equals(name)) {
-                specificAnnotation = annotations[i];
-            }
-        }
-        return specificAnnotation;
     }
     
     @Test
@@ -121,8 +113,46 @@ public class AnnotationTest {
     }
     
     @Test
-    public void shouldTestEdit() {
-        fail("Not implemented");
+    public void shouldChangeNameOfAnnotation() {
+        String oldname = "SpeciesTEST";
+        AnnotationDataType toBeRenamed = getSpecificAnnotationType(oldname);
+        if (toBeRenamed != null) {
+            String newname = "SpeciesRenamedTEST";
+            if (model.renameAnnotationField(oldname, newname)) {
+                AnnotationDataType renamed = getSpecificAnnotationType(newname);
+                assertThat(renamed).isNotNull();
+            } else {
+                fail("Does not rename Annotaion");
+            }
+        }
     }
     
+    @Test
+    public void shouldChangeNameOfAnnotationValues() {
+        String nameOfAnnotation = "SpeciesTEST";
+        AnnotationDataType toBeChanged = getSpecificAnnotationType(nameOfAnnotation);
+        String oldValue = "manTEST";
+        String newValue = "humanTEST";
+        model.renameAnnotationValue(toBeChanged.name, oldValue, newValue);
+        AnnotationDataType actual = getSpecificAnnotationType(nameOfAnnotation);
+        assertThat(actual.getValues()[0]).isEqualTo(newValue);
+    }
+    
+    @Test
+    public void shouldRemoveAnnotationValue() {
+        // TODO: use AnnotationDataType.indexOf(String valueToBeremoved) and
+        // remove a valueToBeRemoved!!!
+        fail("Not implemented yet!");
+    }
+    
+    protected AnnotationDataType getSpecificAnnotationType(String name) {
+        AnnotationDataType[] annotations = model.getAnnotations();
+        AnnotationDataType specificAnnotation = null;
+        for (int i = 0; i < annotations.length; i++) {
+            if (annotations[i].name.equals(name)) {
+                specificAnnotation = annotations[i];
+            }
+        }
+        return specificAnnotation;
+    }
 }

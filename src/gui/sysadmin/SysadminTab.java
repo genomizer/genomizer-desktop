@@ -6,11 +6,13 @@ import gui.sysadmin.processview.ProcessViewCreator;
 import gui.sysadmin.strings.SysadminTabButtons;
 import gui.sysadmin.usersview.UsersViewCreator;
 
-import javax.swing.*;
-import javax.swing.table.TableModel;
-
-import java.awt.*;
+import java.awt.BorderLayout;
 import java.awt.event.ActionListener;
+
+import javax.swing.JPanel;
+import javax.swing.JTabbedPane;
+import javax.swing.JTable;
+import javax.swing.table.TableModel;
 
 public class SysadminTab extends JPanel {
 
@@ -36,6 +38,8 @@ public class SysadminTab extends JPanel {
     private void createSysadminTabs() {
 
         sysadminTabPane = new JTabbedPane();
+        sysadminTabPane.addChangeListener(new SysadminTabChangeListener(
+                sysController));
 
         sysadminTabPane.setTabPlacement(JTabbedPane.LEFT);
         // SysStrings bNames = new SysStrings();
@@ -80,7 +84,6 @@ public class SysadminTab extends JPanel {
 
     private JPanel buildAnnotationsView() {
         JPanel panel = annotationsView.buildAnnotationsView();
-        sysController.updateAnnotationTable();
         return panel;
     }
 
@@ -150,5 +153,10 @@ public class SysadminTab extends JPanel {
 
     public JTable getAnnotationTable() {
         return annotationsView.getTable();
+    }
+
+    public TableModel getGenomeReleaseTableModel() {
+
+        return genomeReleaseView.getTableModel();
     }
 }
