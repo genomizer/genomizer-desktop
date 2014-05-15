@@ -273,7 +273,7 @@ public class ProcessTab extends JPanel {
         tabbedPane.addTab("Create profile data", null, convTabpanel, null);
         convTabpanel.add(convPanel,BorderLayout.NORTH);
         convPanel.add(flagsPanel);
-        flagsPanel.setBorder(BorderFactory.createTitledBorder("Flags"));
+        flagsPanel.setBorder(BorderFactory.createTitledBorder("Bowtie flags"));
         convPanel.add(genomeReleasePanel);
         genomeReleasePanel.setBorder(BorderFactory.createTitledBorder("Genome release files"));
         convPanel.add(windowSizePanel);
