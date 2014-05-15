@@ -30,6 +30,7 @@ import com.google.gson.Gson;
 import communication.Connection;
 import communication.DownloadHandler;
 import communication.HTTPURLUpload;
+import communication.UploadHandler;
 
 // import org.apache.http.protocol.HTTP;
 
@@ -41,10 +42,12 @@ public class Model implements GenomizerModel {
     private Connection conn;
     private SearchHistory searchHistory;
     private CopyOnWriteArrayList<DownloadHandler> ongoingDownloads;
+    private CopyOnWriteArrayList<UploadHandler> ongoingUploads;
     
     public Model(Connection conn) {
         searchHistory = new SearchHistory();
         ongoingDownloads = new CopyOnWriteArrayList<DownloadHandler>();
+        ongoingUploads = new CopyOnWriteArrayList<UploadHandler>();
         this.setConn(conn);
     }
     
@@ -320,6 +323,10 @@ public class Model implements GenomizerModel {
     
     public CopyOnWriteArrayList<DownloadHandler> getOngoingDownloads() {
         return ongoingDownloads;
+    }
+    
+    public CopyOnWriteArrayList<UploadHandler> getOngoingUploads() {
+        return ongoingUploads;
     }
     
     public boolean renameAnnotationField(String oldname, String newname) {
