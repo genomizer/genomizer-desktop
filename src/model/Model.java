@@ -246,6 +246,20 @@ public class Model implements GenomizerModel {
     }
 
     @Override
+    public boolean editAnnotation(String name, String[] categories,
+            boolean forced, AnnotationDataType oldAnnotation) {
+        if (oldAnnotation.getName().equals(name)) {
+            for (int i = 0; i<categories.length; i++){
+                if(!(categories[i].equalsIgnoreCase(oldAnnotation.getValues()[i]))) {
+                    System.out.println("A change was made in the categories");
+                }
+            }
+        }
+
+        return false;
+    }
+
+    @Override
     public boolean deleteAnnotation(DeleteAnnoationData deleteAnnoationData) {
 
         DeleteAnnotationRequest request = RequestFactory
