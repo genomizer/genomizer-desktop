@@ -140,6 +140,7 @@ public class ProcessTab extends JPanel {
 
         initBowtieParameters();
         writeToTimePanel();
+        setUnusedRatioPar();
 
     }
 
@@ -751,6 +752,15 @@ public class ProcessTab extends JPanel {
         ratioStepPosition.setText("7");
 
 
+    }
+
+    private void setUnusedRatioPar() {
+
+                inputReads.setText("");
+                chromosome.setText("");
+                ratioWindowSize.setText("");
+                ratioSmoothType.setSelectedIndex(0);
+                ratioStepPosition.setText("");
     }
 
 }
