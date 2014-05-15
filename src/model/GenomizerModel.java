@@ -25,7 +25,8 @@ public interface GenomizerModel {
             String processtype, String[] parameters, String metadata,
             String genomeRelease, String author);
     
-    public boolean downloadFile(String url, String fileID, String path);
+    public boolean downloadFile(String url, String fileID, String path,
+            String fileName);
     
     public void setIp(String ip);
     
