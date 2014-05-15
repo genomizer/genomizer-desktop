@@ -482,7 +482,7 @@ public class UploadTab extends JPanel implements ExperimentPanel {
      */
     public void enableUploadButton(boolean b) {
         if(b) {
-            if (forcedAnnotationCheck() && !uploadFileRows.isEmpty()) {
+            if (!uploadFileRows.isEmpty() && forcedAnnotationCheck()) {
                 uploadButton.setEnabled(b);
             }
         } else {
