@@ -523,6 +523,12 @@ public class GUI extends JFrame implements GenomizerView {
         uploadTab.addUploadButtonListener(listener);
     }
 
+    /**
+     * Creates a new experiment to upload to using the provided
+     * annotations.
+     *
+     * @param annotations The annotations of the new experiment.
+     */
     @Override
     public void createNewExp(AnnotationDataType[] annotations) {
         uploadTab.createNewExp(annotations);
@@ -577,6 +583,14 @@ public class GUI extends JFrame implements GenomizerView {
         return uploadTab.getTypes();
     }
 
+    /**
+     * Calls the uploadPanel's enableUploadButton method to try to either make
+     * the upload button enabled or disabled. If not all of the required
+     * annotation fields are filled, this method won't set it to true.
+     *
+     * @param b Whether it should try to make the button enabled (true) or
+     *          disabled (false).
+     */
     public void enableUploadButton(boolean b) {
         uploadTab.enableUploadButton(b);
     }
@@ -590,6 +604,10 @@ public class GUI extends JFrame implements GenomizerView {
         return processTab.getOtherParameters();
     }
 
+    /**
+     * Deletes a file row.
+     * @param f Used to identify which fileRow to be deleted.
+     */
     @Override
     public void deleteUploadFileRow(File f) {
         uploadTab.deleteFileRow(f);
