@@ -9,6 +9,7 @@ import util.AnnotationDataValue;
 import util.ExperimentData;
 
 import communication.DownloadHandler;
+import communication.UploadHandler;
 
 public interface GenomizerModel {
     
@@ -46,4 +47,6 @@ public interface GenomizerModel {
     boolean renameAnnotationField(String oldname, String newname);
     
     public CopyOnWriteArrayList<DownloadHandler> getOngoingDownloads();
+    
+    public CopyOnWriteArrayList<UploadHandler> getOngoingUploads();
 }
