@@ -101,7 +101,7 @@ public class SysadminTab extends JPanel {
     }
 
     private JPanel buildChainFileView() {
-        return chainFileView.buildChainFileView();
+        return chainFileView.buildGenomeReleaseView();
     }
 
     public void setController(SysadminController sysController) {

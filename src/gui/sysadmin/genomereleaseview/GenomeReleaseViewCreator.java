@@ -9,13 +9,35 @@ public class GenomeReleaseViewCreator {
 
     }
 
-    public JPanel buildChainFileView() {
+    public JPanel buildGenomeReleaseView() {
 
         JPanel mainPanel = new JPanel(new BorderLayout());
         mainPanel.setBackground(new Color(255, 250, 250));
-        mainPanel.add(buildChainFileList(), BorderLayout.WEST);
+        mainPanel.add(buildGenomeReleasePanel(), BorderLayout.WEST);
         return mainPanel;
     }
+
+    public JPanel buildGenomeReleasePanel(){
+        JPanel mainPanel = new JPanel(new BorderLayout());
+
+        String[] header = new String[] { "Genome version", "Species",
+                "File name"};
+        Object[][] table = new Object[][] {
+                { "hg38", "Human", "randomfilename.txt" },
+                { "hg36", "Human", "randomfilename.txt" },
+                { "hg32", "Human", "randomfilename.txt" },
+                { "rn5", "Rat", "randomfilename.txt"}
+        };
+
+        JTable cfTable = new JTable(table, header);
+        cfTable.setSelectionMode(DefaultListSelectionModel.SINGLE_SELECTION);
+        JScrollPane scrollPane = new JScrollPane(cfTable);
+        scrollPane.setPreferredSize(new Dimension(500, 80));
+
+        mainPanel.add(scrollPane, BorderLayout.CENTER);
+        return mainPanel;
+    }
+
 
     private JScrollPane buildfileList() {
 
