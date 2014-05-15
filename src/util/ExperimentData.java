@@ -15,6 +15,10 @@ public class ExperimentData {
     public ArrayList<FileData> files;
     public ArrayList<AnnotationDataValue> annotations;
 
+    public ExperimentData() {
+
+    }
+
     public ExperimentData(String name, String createdBy,
             ArrayList<FileData> files,
             ArrayList<AnnotationDataValue> annotations) {
@@ -24,6 +28,9 @@ public class ExperimentData {
         this.annotations = annotations;
     }
 
+    public String getName() {
+        return name;
+    }
     /**
      * Returns the list of annotations associated with the project (including
      * experiment name and creator of experiment
@@ -141,4 +148,7 @@ public class ExperimentData {
         return (((ExperimentData) o)).name.equals(name);
     }
 
+    public ArrayList<AnnotationDataValue> getAnnotations() {
+        return annotations;
+    }
 }

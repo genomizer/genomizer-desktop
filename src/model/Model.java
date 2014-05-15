@@ -16,6 +16,7 @@ import requests.LogoutRequest;
 import requests.RenameAnnotationRequest;
 import requests.RenameAnnotationValueRequest;
 import requests.RequestFactory;
+import requests.RetrieveExperimentRequest;
 import requests.SearchRequest;
 import requests.rawToProfileRequest;
 import responses.AddFileToExperimentResponse;
@@ -37,7 +38,7 @@ import communication.UploadHandler;
 // import org.apache.http.protocol.HTTP;
 
 public class Model implements GenomizerModel {
-    
+   
     private static final String TEXT_PLAIN = "text/plain";
     private static final String JSON = "application/json";
     private String userID = "";
@@ -52,23 +53,23 @@ public class Model implements GenomizerModel {
         ongoingUploads = new CopyOnWriteArrayList<UploadHandler>();
         this.setConn(conn);
     }
-    
+
     public String getUserID() {
         return userID;
     }
-    
+
     public void setUserID(String userID) {
         this.userID = userID;
     }
-    
+
     public Connection getConn() {
         return conn;
     }
-    
+
     public void setConn(Connection conn) {
         this.conn = conn;
     }
-    
+
     /**
      * Sends a rawToProfile request to the server, with which file the user
      * wants to create profile data from.
@@ -78,7 +79,7 @@ public class Model implements GenomizerModel {
     public boolean rawToProfile(String fileName, String fileID, String expid,
             String processtype, String[] parameters, String metadata,
             String genomeRelease, String author) {
-        
+
         System.out.println("RAW TO PROFILE\n");
         System.out.println("Filename: " + fileName);
         System.out.println("File ID: " + fileID);
@@ -96,7 +97,7 @@ public class Model implements GenomizerModel {
         System.out.println("Genome Release: " + genomeRelease);
         System.out.println("Author: " + author);
         System.out.println("\n");
-        
+
         rawToProfileRequest rawToProfilerequest = RequestFactory
                 .makeRawToProfileRequest(fileName, fileID, expid, processtype,
                         parameters, metadata, genomeRelease, author);
@@ -108,7 +109,7 @@ public class Model implements GenomizerModel {
             return false;
         }
     }
-    
+
     @Override
     public boolean loginUser(String username, String password) {
         if (!username.isEmpty() && !password.isEmpty()) {
@@ -127,7 +128,7 @@ public class Model implements GenomizerModel {
         }
         return false;
     }
-    
+
     @Override
     public boolean logoutUser() {
         LogoutRequest request = RequestFactory.makeLogoutRequest();
@@ -139,7 +140,7 @@ public class Model implements GenomizerModel {
             return false;
         }
     }
-    
+
     @Override
     public boolean uploadFile(String expName, File f, String type,
             String username, boolean isPrivate, String release) {
@@ -152,29 +153,29 @@ public class Model implements GenomizerModel {
         if (conn.getResponseCode() == 200) {
             url = conn.getResponseBody();
         }
-        
+
         AddFileToExperimentResponse aFTER = ResponseParser
                 .parseUploadResponse(conn.getResponseBody());
         HTTPURLUpload upload = new HTTPURLUpload(aFTER.URLupload,
                 f.getAbsolutePath());
         upload.sendFile("pvt", "pvt");
-        
+
         /*
          * UploadHandler handler = new UploadHandler(aFTER.URLupload,
          * f.getAbsolutePath(), userID, "pvt:pvt"); Thread thread = new
          * Thread(handler); thread.start();
          */
-        
+
         return true;
     }
-    
+
     @Override
     public boolean downloadFile(final String url, String fileID,
             final String path, String fileName) {
         // Use this until search works on the server
         DownloadFileRequest request = RequestFactory.makeDownloadFileRequest(
                 fileID, ".wig");
-        
+
         System.out.println("Test: " + fileID);
         conn.sendRequest(request, userID, TEXT_PLAIN);
         Gson gson = new Gson();
@@ -192,11 +193,11 @@ public class Model implements GenomizerModel {
                 handler.download(url, path);
             }
         }).start();
-        
+
         System.out.println("Test");
         return true;
     }
-    
+
     @Override
     public ArrayList<ExperimentData> search(String pubmedString) {
         searchHistory.addSearchToHistory(pubmedString);
@@ -212,21 +213,21 @@ public class Model implements GenomizerModel {
         }
         return null;
     }
-    
+
     @Override
     public void setIp(String ip) {
         conn.setIp(ip);
     }
-    
+
     @Override
     public boolean addNewAnnotation(String name, String[] categories,
             boolean forced) throws IllegalArgumentException {
-        
+
         if (name.isEmpty()) {
             throw new IllegalArgumentException(
                     "Must have a name for the annotation!");
         }
-        
+
         AnnotationDataType[] annotations = getAnnotations();
         if (annotations == null) {
             return false;
@@ -239,11 +240,11 @@ public class Model implements GenomizerModel {
                                 + " already exists");
             }
         }
-        
+
         if (categories == null || categories.length == 0) {
             categories = new String[] { "Yes", "No", "Unknown" };
         }
-        
+
         AddAnnotationRequest request = RequestFactory.makeAddAnnotationRequest(
                 name, categories, forced);
         conn.sendRequest(request, userID, JSON);
@@ -256,7 +257,7 @@ public class Model implements GenomizerModel {
             return false;
         }
     }
-    
+
     @Override
     public boolean editAnnotation(String name, String[] categories,
             boolean forced, AnnotationDataType oldAnnotation) {
@@ -270,13 +271,13 @@ public class Model implements GenomizerModel {
                 }
             }
         }
-        
+
         return false;
     }
-    
+
     @Override
     public boolean deleteAnnotation(String deleteAnnoationData) {
-        
+
         DeleteAnnotationRequest request = RequestFactory
                 .makeDeleteAnnotationRequest(deleteAnnoationData);
         conn.sendRequest(request, userID, JSON);
@@ -290,7 +291,7 @@ public class Model implements GenomizerModel {
         }
         return false;
     }
-    
+
     public synchronized AnnotationDataType[] getAnnotations() {
         GetAnnotationRequest request = RequestFactory
                 .makeGetAnnotationRequest();
@@ -306,7 +307,7 @@ public class Model implements GenomizerModel {
         }
         return new AnnotationDataType[] {};
     }
-    
+
     @Override
     public boolean addNewExperiment(String expName, String username,
             AnnotationDataValue[] annotations) {
@@ -314,17 +315,29 @@ public class Model implements GenomizerModel {
                 expName, username, annotations);
         System.out.println(aER.toJson());
         conn.sendRequest(aER, getUserID(), JSON);
-        Gson gson = new Gson();
-        NewExperimentResponse response = gson.fromJson(conn.getResponseBody(),
-                NewExperimentResponse.class);
         if (conn.getResponseCode() == 201) {
             return true;
         }
         return false;
     }
-    
+
     public CopyOnWriteArrayList<DownloadHandler> getOngoingDownloads() {
         return ongoingDownloads;
+    }
+
+    public ExperimentData retrieveExperiment(String expID) {
+        RetrieveExperimentRequest rER = RequestFactory.makeRetrieveExperimentRequest(expID);
+        conn.sendRequest(rER, getUserID(), "plain/text");
+        System.out.println(rER.toJson());
+        if (conn.getResponseCode() == 200) {
+            ExperimentData ed = ResponseParser
+                    .parseRetrieveExp(conn.getResponseBody());
+            return ed;
+        } else {
+            System.out.println("responsecode: " + conn.getResponseCode());
+            System.out.println("Couldn't retrieve experiment");
+        }
+        return null;
     }
     
     public CopyOnWriteArrayList<UploadHandler> getOngoingUploads() {

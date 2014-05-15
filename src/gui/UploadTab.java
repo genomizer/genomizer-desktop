@@ -1,5 +1,15 @@
 package gui;
 
+import util.ActivePanel;
+import util.AnnotationDataType;
+import util.AnnotationDataValue;
+import util.ExperimentData;
+import util.FileDrop;
+
+import javax.swing.*;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
+import java.awt.*;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
@@ -152,16 +162,17 @@ public class UploadTab extends JPanel implements ExperimentPanel {
     
     /**
      * Displays a panel for adding to an existing experiment.
-     * 
-     * @param annotations
-     *            The annotations of the experiment.
+
+     * @param ed
+     *
      */
-    public void addExistingExpPanel(AnnotationDataType[] annotations) {
+    public void addExistingExpPanel(ExperimentData ed) {
         killContentsOfUploadPanel();
         activePanel = ActivePanel.EXISTING;
         uploadToExistingExpPanel.build();
-        uploadToExistingExpPanel.setAnnotations(annotations);
-        uploadToExistingExpPanel.addAnnotationsForExistingExp();
+        ArrayList<AnnotationDataValue> annots = ed.getAnnotations();
+        uploadToExistingExpPanel.addExistingExp(ed);
+//        uploadToExistingExpPanel.addAnnotationsForExistingExp();
         uploadPanel.add(uploadToExistingExpPanel, BorderLayout.CENTER);
         /*
          * setBorder(BorderFactory
@@ -513,7 +524,15 @@ public class UploadTab extends JPanel implements ExperimentPanel {
             uploadButton.setEnabled(b);
         }
     }
-    
+
+    public String getSearchText() {
+        return experimentNameField.getText();
+    };
+
+    public void setOngoingUploads(
+            CopyOnWriteArrayList<UploadHandler> ongoingUploads) {
+        this.ongoingUploads = ongoingUploads;
+    }
     /**
      * Listener for when the text in a textfield changes.
      */
@@ -537,9 +556,4 @@ public class UploadTab extends JPanel implements ExperimentPanel {
             enableUploadButton(true);
         }
     };
-    
-    public void setOngoingUploads(
-            CopyOnWriteArrayList<UploadHandler> ongoingUploads) {
-        this.ongoingUploads = ongoingUploads;
-    }
 }
