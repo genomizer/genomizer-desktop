@@ -38,6 +38,7 @@ public class SysadminTab extends JPanel {
     private void createSysadminTabs() {
 
         sysadminTabPane = new JTabbedPane();
+        sysadminTabPane.addChangeListener(new SysadminTabChangeListener());
 
         sysadminTabPane.setTabPlacement(JTabbedPane.LEFT);
         // SysStrings bNames = new SysStrings();
@@ -82,7 +83,6 @@ public class SysadminTab extends JPanel {
 
     private JPanel buildAnnotationsView() {
         JPanel panel = annotationsView.buildAnnotationsView();
-        sysController.updateAnnotationTable();
         return panel;
     }
 
@@ -153,9 +153,9 @@ public class SysadminTab extends JPanel {
     public JTable getAnnotationTable() {
         return annotationsView.getTable();
     }
-    
+
     public TableModel getGenomeReleaseTableModel() {
-        
+
         return genomeReleaseView.getTableModel();
     }
 }
