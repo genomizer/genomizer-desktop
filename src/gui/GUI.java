@@ -627,6 +627,14 @@ public class GUI extends JFrame implements GenomizerView {
         processTab.addRatioCalcListener(listener);
     }
 
+    public void addCancelListener(ActionListener listener) {
+        ratioCalcPopup.addCancelListener(listener);
+    }
+
+    public void addOkListener(ActionListener listener) {
+        ratioCalcPopup.addOkListener(listener);
+    }
+
     @Override
     public void setDefaultRatioPar() {
         processTab.setDefaultRatioPar();
@@ -634,15 +642,13 @@ public class GUI extends JFrame implements GenomizerView {
 
     @Override
     public void showRatioPopup() {
-       //processTab.showRatioPopup();
         ratioCalcPopup.setVisible(true);
-
     }
 
     public void showProcessFeedback(ProcessFeedbackData[] processFeedbackData) {
         processTab.showProcessFeedback(processFeedbackData);
     }
-    
+
     public void setOngoingUploads(
             CopyOnWriteArrayList<UploadHandler> ongoingUploads) {
         uploadTab.setOngoingUploads(ongoingUploads);

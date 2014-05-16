@@ -5,7 +5,6 @@ import util.ProcessFeedbackData;
 
 import javax.swing.*;
 import javax.swing.border.EtchedBorder;
-import javax.swing.border.TitledBorder;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -24,7 +23,6 @@ public class ProcessTab extends JPanel {
 
     private final JList<CheckListItem> fileList = new JList<CheckListItem>();
     private final JList<CheckListItem> scheduleList = new JList<CheckListItem>();
-    private final JList<CheckListItem> processList = new JList<CheckListItem>();
 
     private final JPanel convPanel = new JPanel();
     private final JPanel buttonPanel = new JPanel();
@@ -33,7 +31,7 @@ public class ProcessTab extends JPanel {
     private final JPanel genProfileDataPanel = new JPanel(new BorderLayout());
     private final JPanel genRegionDataPanel = new JPanel(new BorderLayout());
     private final JPanel convertFilesPanel = new JPanel(new BorderLayout());
-    private final JPanel procQueuePanel = new JPanel(new BorderLayout());
+    private final JPanel procInfoPanel = new JPanel(new BorderLayout());
     private final JPanel RawToProfileMenuPanel = new JPanel();
     private final JPanel timePanel = new JPanel();
     private final JPanel middlePanel = new JPanel(new GridLayout(3, 1));
@@ -55,6 +53,7 @@ public class ProcessTab extends JPanel {
     private final JTextArea genRegArea = new JTextArea();
     private final JTextArea timeArea = new JTextArea();
     private final JTextArea convertArea = new JTextArea();
+    private final JTextArea procInfoArea = new JTextArea();
 
     private final JTextField flags = new JTextField();
     private final JTextField smoothWindowSize = new JTextField();
@@ -112,7 +111,7 @@ public class ProcessTab extends JPanel {
         addNorthPanel();
         addWestPanels();
         addMiddlePanel();
-        addEastPanels();
+        addProcessInfoPanel();
 
         addTimePanel();
         addConvertTextArea();
@@ -188,11 +187,20 @@ public class ProcessTab extends JPanel {
     /**
      * Initiates the east panel in the process tabs borderlayout.
      */
-    private void addEastPanels() {
-        procQueuePanel.setBorder(BorderFactory.createTitledBorder("Processing In Queue"));
-        this.add(procQueuePanel, BorderLayout.EAST);
-        addProcessInQueue();
-
+    private void addProcessInfoPanel() {
+        procInfoPanel.setBorder(
+                BorderFactory.createTitledBorder("Processing Information"));
+        procInfoPanel.setLayout(new BorderLayout());
+        JPanel procInfoSouthPanel = new JPanel(new FlowLayout());
+        JPanel procInfoCenterPanel = new JPanel(new BorderLayout());
+        this.add(procInfoPanel, BorderLayout.EAST);
+        procInfoPanel.add(procInfoSouthPanel, BorderLayout.SOUTH);
+        procInfoPanel.add(procInfoCenterPanel, BorderLayout.CENTER);
+        procInfoCenterPanel.add(scrollProcessList, BorderLayout.CENTER);
+        scrollProcessList.setViewportView(procInfoArea);
+        procInfoArea.setEditable(false);
+        processFeedbackButton.setSize(new Dimension(2,30));
+        procInfoSouthPanel.add(processFeedbackButton);
     }
 
     /**
@@ -200,7 +208,8 @@ public class ProcessTab extends JPanel {
      */
     private void addConvertFilesPanel() {
         middlePanel.add(convertFilesPanel, BorderLayout.CENTER);
-        convertFilesPanel.setBorder(BorderFactory.createTitledBorder("Convert Files"));
+        convertFilesPanel.setBorder(
+                BorderFactory.createTitledBorder("Convert Files"));
     }
 
     /**
@@ -208,7 +217,8 @@ public class ProcessTab extends JPanel {
      */
     private void addGenRegionDataPanel() {
         middlePanel.add(genRegionDataPanel, BorderLayout.CENTER);
-        genRegionDataPanel.setBorder(BorderFactory.createTitledBorder("Generate Region Data"));
+        genRegionDataPanel.setBorder(
+                BorderFactory.createTitledBorder("Generate Region Data"));
         addScrollGenRegionData();
     }
 
@@ -231,14 +241,6 @@ public class ProcessTab extends JPanel {
         genProfileDataPanel.add(scrollProfile);
         scrollProfile.setViewportView(genProfArea);
         genProfArea.setEditable(false);
-    }
-
-    /**
-     * Initiates the scrollProcessList in procQueuePanel.
-     */
-    private void addProcessInQueue() {
-        procQueuePanel.add(scrollProcessList,BorderLayout.CENTER);
-        scrollProcessList.setViewportView(processList);
     }
 
     /**
@@ -689,7 +691,7 @@ public class ProcessTab extends JPanel {
     }
 
     private int getNumberOfJobsInQueue() {
-        return this.processList.countComponents();
+        return 0;
     }
 
     public void showProcessFeedback(ProcessFeedbackData[] processFeedbackData) {

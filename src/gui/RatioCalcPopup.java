@@ -25,6 +25,12 @@ public class RatioCalcPopup extends JFrame{
 
     private JLabel errorLabel;
     private JPanel ratioPanel;
+    private JPanel buttonPanel;
+    private JPanel topPanel;
+    private JPanel centerPanel;
+    private JPanel bottomPanel;
+    private JButton cancelButton = new JButton("Cancel");
+    private JButton okButton = new JButton("Ok");
     private final JTextField inputReads = new JTextField();
     private final JTextField chromosome = new JTextField();
     private final JTextField ratioWindowSize = new JTextField();
@@ -43,7 +49,7 @@ public class RatioCalcPopup extends JFrame{
         });
         setTitle("Ratio calculation parameters");
         setResizable(false);
-        setSize(new Dimension(700,600));
+        setSize(new Dimension(480,325));
         this.setLocationRelativeTo(parent.getFrame());
         placeComponents();
     }
@@ -52,21 +58,20 @@ public class RatioCalcPopup extends JFrame{
      */
     private void placeComponents() {
 
-        ratioPanel = new JPanel(new FlowLayout());
+        ratioPanel = new JPanel(new BorderLayout());
 
-        JPanel topPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
-        JPanel centerPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
-        JPanel bottomPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
-        JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
+        topPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
+        centerPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
+        bottomPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
+        buttonPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
 
         topPanel.setBorder(BorderFactory.createTitledBorder("Ratio calculation"));
         centerPanel.setBorder(BorderFactory.createTitledBorder("Ratio smoothing"));
         bottomPanel.setBorder(BorderFactory.createTitledBorder(""));
 
-        ratioPanel.add(topPanel);
-        ratioPanel.add(centerPanel);
-        ratioPanel.add(bottomPanel);
-        ratioPanel.add(buttonPanel);
+        ratioPanel.add(topPanel, BorderLayout.NORTH);
+        ratioPanel.add(centerPanel, BorderLayout.CENTER);
+        ratioPanel.add(bottomPanel, BorderLayout.SOUTH);
 
         topPanel.add(single);
         topPanel.add(inputReads);
@@ -76,6 +81,9 @@ public class RatioCalcPopup extends JFrame{
         centerPanel.add(ratioStepPosition);
         bottomPanel.add(ratioPrintZeros);
         bottomPanel.add(ratioPrintMean);
+        buttonPanel.add(cancelButton);
+        buttonPanel.add(okButton);
+        bottomPanel.add(buttonPanel);
 
        single.setPreferredSize(new Dimension(150,60));
        inputReads.setBorder(BorderFactory.createTitledBorder("Input reads cut-off"));
@@ -99,8 +107,12 @@ public class RatioCalcPopup extends JFrame{
      * @param listener
      *            The listener to login to the server
      */
-    public void addLoginListener(ActionListener listener) {
-   //     loginButton.addActionListener(listener);
+    public void addOkListener(ActionListener listener) {
+        okButton.addActionListener(listener);
+    }
+
+    public void addCancelListener(ActionListener listener) {
+        cancelButton.addActionListener(listener);
     }
 
     public void updateLoginFailed(String errorMessage) {
@@ -113,6 +125,14 @@ public class RatioCalcPopup extends JFrame{
         errorLabel.setBounds(120, 100, 150, 45);
         ratioPanel.add(errorLabel);
         repaint();
+    }
+
+    public void disableOk(){
+        okButton.setEnabled(false);
+    }
+
+    public void enableOk(){
+        okButton.setEnabled(true);
     }
 
     public void removeErrorMessage() {
