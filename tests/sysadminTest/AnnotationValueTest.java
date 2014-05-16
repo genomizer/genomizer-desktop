@@ -22,6 +22,7 @@ public class AnnotationValueTest {
         // con = new Connection("genomizer.apiary-mock.com:80");
         con = new Connection();
         con.setIp("http://scratchy.cs.umu.se:7000");
+//        con.setIp("genomizer.apiary-mock.com:80");
         // con = new Connection("http://hagrid.cs.umu.se:7000");
         model = new Model(con);
         model.loginUser("SysadminTests", "qwerty");
@@ -32,11 +33,11 @@ public class AnnotationValueTest {
     public void shouldChangeNameOfAnnotationValues() {
         String nameOfAnnotation = "SpeciesTEST";
         AnnotationDataType toBeChanged = getSpecificAnnotationType(nameOfAnnotation);
-        String oldValue = "manTEST";
-        String newValue = "humanTEST";
+        String oldValue = "humanTEST";
+        String newValue = "manTEST";
         model.renameAnnotationValue(toBeChanged.name, oldValue, newValue);
         AnnotationDataType actual = getSpecificAnnotationType(nameOfAnnotation);
-        assertThat(actual.getValues()[1]).isEqualTo(newValue);
+        assertThat(actual.getValues()[0]).isEqualTo(newValue);
     }
     
     @Test
@@ -60,8 +61,8 @@ public class AnnotationValueTest {
     public void shouldRemoveAnnotationValue() {
         // TODO: use AnnotationDataType.indexOf(String valueToBeremoved) and
         // remove a valueToBeRemoved!!!
-        String nameOfAnnotation = "SpeciesTEST";
-        String valueToBeRemoved = "manTEST";
+        String nameOfAnnotation = "tissue";
+        String valueToBeRemoved = "leg";
         AnnotationDataType toBeEdited = getSpecificAnnotationType(nameOfAnnotation);
         int numberOfAnnotationValues = toBeEdited.getValues().length;
         if (toBeEdited != null) {
