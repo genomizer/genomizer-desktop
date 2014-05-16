@@ -627,6 +627,14 @@ public class GUI extends JFrame implements GenomizerView {
         processTab.addRatioCalcListener(listener);
     }
 
+    public void addCancelListener(ActionListener listener) {
+        ratioCalcPopup.addCancelListener(listener);
+    }
+
+    public void addOkListener(ActionListener listener) {
+        ratioCalcPopup.addOkListener(listener);
+    }
+
     @Override
     public void setDefaultRatioPar() {
         processTab.setDefaultRatioPar();
