@@ -114,7 +114,7 @@ public class Controller {
                     String processtype = "rawtoprofile";
 
                     parameters[0] = view.getParameters()[0];
-                    parameters[1] = view.getParameters()[1];
+                    parameters[1] = "";//view.getParameters()[1];
                     parameters[2] = view.getOtherParameters()[0];// "y";
                     parameters[3] = view.getOtherParameters()[1];// "y";
                     parameters[4] = view.getParameters()[2];
@@ -123,12 +123,14 @@ public class Controller {
                     parameters[7] = view.getRatioCalcParameters()[1]; // "150 1 7 0 0";
 
                     String expid = data.expId;
-                    String genomeRelease = data.grVersion;
+                    String genomeVersion = data.grVersion;
                     String metadata = data.metaData;
 
-                    isConverted = model.rawToProfile(fileName, fileID, expid,
-                            processtype, parameters, metadata, genomeRelease,
-                            author);
+                 //   isConverted = model.rawToProfile(fileName, fileID, expid,
+                 //           processtype, parameters, metadata, genomeRelease,
+                 //           author);
+
+                    isConverted = model.rawToProfile(expid,parameters, metadata, genomeVersion, author);
 
                     if (isConverted.equals(true)) {
                         message = "The server has converted: " + fileName
@@ -646,7 +648,7 @@ public class Controller {
         @Override
         public void run() {
             System.out.println("RATIO CALC");
-            view.setUnusedRatioPar();
+            view.getRatioCalcPopup().setDefaultRatioPar();
             view.showRatioPopup();
         }
     }
@@ -676,6 +678,7 @@ public class Controller {
         @Override
         public void run() {
             System.out.println("OK");
+            view.getRatioCalcPopup().hideRatioWindow();
         }
     }
 
@@ -688,9 +691,8 @@ public class Controller {
         @Override
         public void run() {
             System.out.println("CANCEL");
-            view.getRatioCalcPopup().setDefaultRatioPar();
+            view.setUnusedRatioPar();
             view.getRatioCalcPopup().hideRatioWindow();
-
         }
     }
 

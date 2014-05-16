@@ -72,11 +72,10 @@ public class RequestFactory {
         return new SearchRequest(urlEncodedAnnotationString);
     }
 
-    public static rawToProfileRequest makeRawToProfileRequest(String fileName,
-            String fileID, String expid, String processtype,
+    public static rawToProfileRequest makeRawToProfileRequest(String expid,
             String[] parameters, String metadata, String genomeRelease,
             String author) {
-        return new rawToProfileRequest(fileName, fileID, expid, processtype,
+        return new rawToProfileRequest(expid,
                 parameters, metadata, genomeRelease, author);
     }
 
@@ -94,7 +93,7 @@ public class RequestFactory {
     public static GetAnnotationRequest makeGetAnnotationRequest() {
         return new GetAnnotationRequest();
     }
-    
+
     public static GetGenomeReleasesRequest makeGetGenomeReleaseRequest() {
         return new GetGenomeReleasesRequest();
     }
@@ -115,7 +114,7 @@ public class RequestFactory {
         valueName = decodeToURL(valueName);
         return new RemoveAnnotationValueRequest(annotationName, valueName);
     }
-    
+
     protected static String decodeToURL(String string) {
         try {
             string = URLEncoder.encode(string, "UTF-8");
@@ -129,12 +128,12 @@ public class RequestFactory {
         }
         return string;
     }
-    
+
     public static AddNewAnnotationValueRequest makeAddNewAnnotationValueRequest(
             String annotationName, String valueName) {
         return new AddNewAnnotationValueRequest(annotationName, valueName);
     }
-    
+
     public static ProcessFeedbackRequest makeProcessFeedbackRequest() {
         return new ProcessFeedbackRequest();
     }

@@ -39,6 +39,8 @@ public class RatioCalcPopup extends JFrame {
     private final JCheckBox ratioPrintZeros = new JCheckBox("Print zeros");
     private final JComboBox<String> single = new JComboBox<String>();
     private final JComboBox<String> ratioSmoothType = new JComboBox<String>();
+    ArrayList<String> ratioSmooth = new ArrayList<String>();
+    ArrayList<String> comboSingle = new ArrayList<String>();
 
     public RatioCalcPopup(final GenomizerView parent) {
         addWindowListener(new WindowAdapter() {
@@ -159,6 +161,8 @@ public class RatioCalcPopup extends JFrame {
     private String getPrintZeros() {
         if (ratioPrintZeros.isSelected()) {
             return "1";
+        } else if(single.getItemAt(0).equals("")){
+            return "";
         } else {
             return "0";
         }
@@ -167,6 +171,8 @@ public class RatioCalcPopup extends JFrame {
     private String getPrintMean() {
         if (ratioPrintMean.isSelected()) {
             return "1";
+        } else if(single.getItemAt(0).equals("")){
+            return "";
         } else {
             return "0";
         }
@@ -198,17 +204,21 @@ public class RatioCalcPopup extends JFrame {
 
     public void setUnusedRatioPar() {
 
+        single.removeAllItems();
+        ratioSmoothType.removeAllItems();
         inputReads.setText("");
         chromosome.setText("");
         ratioWindowSize.setText("");
-        // ratioSmoothType.setSelectedIndex(0);
         ratioStepPosition.setText("");
+        single.addItem("");
+        ratioSmoothType.addItem("");
+
     }
 
     public void setDefaultRatioPar() {
 
-        ArrayList<String> ratioSmooth = new ArrayList<String>();
-        ArrayList<String> comboSingle = new ArrayList<String>();
+        single.removeAllItems();
+        ratioSmoothType.removeAllItems();
         ratioSmooth.add("1");
         ratioSmooth.add("0");
         comboSingle.add("single");
@@ -217,7 +227,6 @@ public class RatioCalcPopup extends JFrame {
         ratioSmoothType.addItem(ratioSmooth.get(1));
         single.addItem(comboSingle.get(0));
         single.addItem(comboSingle.get(1));
-        setUnusedRatioPar();
         inputReads.setText("4");
         chromosome.setText("0");
         ratioWindowSize.setText("150");

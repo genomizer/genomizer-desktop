@@ -82,16 +82,15 @@ public class Model implements GenomizerModel {
      * <p/>
      * Returns whether or not the server could create profile data or not.
      */
-    public boolean rawToProfile(String fileName, String fileID, String expid,
-            String processtype, String[] parameters, String metadata,
+    public boolean rawToProfile(String expid,String[] parameters, String metadata,
             String genomeRelease, String author) {
 
         // /hej anna
         System.out.println("RAW TO PROFILE\n");
-        System.out.println("Filename: " + fileName);
-        System.out.println("File ID: " + fileID);
+    //    System.out.println("Filename: " + fileName);
+     //   System.out.println("File ID: " + fileID);
         System.out.println("Expid: " + expid);
-        System.out.println("Processtype: " + processtype);
+     //   System.out.println("Processtype: " + processtype);
         System.out.println("Parameter 1: " + parameters[0]);
         System.out.println("Parameter 2: " + parameters[1]);
         System.out.println("Parameter 3: " + parameters[2]);
@@ -105,9 +104,14 @@ public class Model implements GenomizerModel {
         System.out.println("Author: " + author);
         System.out.println("\n");
 
-        rawToProfileRequest rawToProfilerequest = RequestFactory
-                .makeRawToProfileRequest(fileName, fileID, expid, processtype,
-                        parameters, metadata, genomeRelease, author);
+  //      rawToProfileRequest rawToProfilerequest = RequestFactory
+   //             .makeRawToProfileRequest(fileName, fileID, expid, processtype,
+   //                     parameters, metadata, genomeRelease, author);
+
+              rawToProfileRequest rawToProfilerequest = RequestFactory
+                             .makeRawToProfileRequest(expid,
+                                     parameters, metadata, genomeRelease, author);
+
         conn.sendRequest(rawToProfilerequest, userID, JSON);
         if (conn.getResponseCode() == 201) {
             return true;
