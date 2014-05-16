@@ -50,6 +50,7 @@ public class RatioCalcPopup extends JFrame {
         });
         setTitle("Ratio calculation parameters");
         setResizable(false);
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setSize(new Dimension(480, 325));
         this.setLocationRelativeTo(parent.getFrame());
         placeComponents();
@@ -226,5 +227,9 @@ public class RatioCalcPopup extends JFrame {
         ratioSmoothType.setSelectedIndex(0);
         ratioStepPosition.setText("7");
 
+    }
+
+    public void closeRatioWindow(){
+        this.setVisible(false);
     }
 }

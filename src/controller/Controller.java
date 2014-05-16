@@ -383,7 +383,8 @@ public class Controller {
                 adv.add(new AnnotationDataValue("5", "only", "Testtesttest"));
                 adv.add(new AnnotationDataValue("6", "a", "Testtesttest"));
                 adv.add(new AnnotationDataValue("7", "fake", "Testtesttest"));
-                adv.add(new AnnotationDataValue("8", "experiment", "Testtesttest"));
+                adv.add(new AnnotationDataValue("8", "experiment",
+                        "Testtesttest"));
                 ExperimentData ed = new ExperimentData("Experiment 11",
                         view.getUsername(), f, adv);
                 uploadTab.addExistingExpPanel(ed);
@@ -565,15 +566,15 @@ public class Controller {
                                     + f.getName() + " complete.", "Done",
                                     JOptionPane.PLAIN_MESSAGE);
                         } else {
-                            JOptionPane.showMessageDialog(null, "Couldn't upload "
-                                    + f.getName() + ".", "Error",
-                                    JOptionPane.ERROR_MESSAGE);
+                            JOptionPane.showMessageDialog(null,
+                                    "Couldn't upload " + f.getName() + ".",
+                                    "Error", JOptionPane.ERROR_MESSAGE);
                         }
                     }
                 } else {
                     JOptionPane.showMessageDialog(null,
-                            "Couldn't create experiment " + expName + ".", "Error",
-                            JOptionPane.ERROR_MESSAGE);
+                            "Couldn't create experiment " + expName + ".",
+                            "Error", JOptionPane.ERROR_MESSAGE);
                 }
             }
         }
@@ -650,7 +651,6 @@ public class Controller {
         @Override
         public void run() {
             System.out.println("OK");
-            //view.getRatioCalcPopup().okButton.setEnabled(false);
         }
     }
 
@@ -663,6 +663,9 @@ public class Controller {
         @Override
         public void run() {
             System.out.println("CANCEL");
+            view.getRatioCalcPopup().setDefaultRatioPar();
+            view.getRatioCalcPopup().closeRatioWindow();
+
         }
     }
 
