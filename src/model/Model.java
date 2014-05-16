@@ -5,25 +5,39 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.concurrent.CopyOnWriteArrayList;
 
-import requests.*;
+import javax.swing.JOptionPane;
+
+import requests.AddAnnotationRequest;
+import requests.AddExperimentRequest;
+import requests.AddFileToExperiment;
+import requests.AddNewAnnotationValueRequest;
+import requests.DownloadFileRequest;
+import requests.GetAnnotationRequest;
+import requests.LoginRequest;
+import requests.LogoutRequest;
+import requests.ProcessFeedbackRequest;
+import requests.RemoveAnnotationFieldRequest;
+import requests.RemoveAnnotationValueRequest;
+import requests.RenameAnnotationFieldRequest;
+import requests.RenameAnnotationValueRequest;
+import requests.RequestFactory;
+import requests.RetrieveExperimentRequest;
+import requests.SearchRequest;
+import requests.rawToProfileRequest;
 import responses.AddFileToExperimentResponse;
 import responses.DownloadFileResponse;
 import responses.LoginResponse;
-import responses.NewExperimentResponse;
 import responses.ResponseParser;
 import util.AnnotationDataType;
 import util.AnnotationDataValue;
 import util.ExperimentData;
+import util.ProcessFeedbackData;
 
 import com.google.gson.Gson;
-
 import communication.Connection;
 import communication.DownloadHandler;
 import communication.HTTPURLUpload;
 import communication.UploadHandler;
-import util.ProcessFeedbackData;
-
-import javax.swing.*;
 
 // import org.apache.http.protocol.HTTP;
 
@@ -35,12 +49,12 @@ public class Model implements GenomizerModel {
     private Connection conn;
     private ArrayList<String> searchHistory;
     private CopyOnWriteArrayList<DownloadHandler> ongoingDownloads;
-    private CopyOnWriteArrayList<UploadHandler> ongoingUploads;
+    private CopyOnWriteArrayList<HTTPURLUpload> ongoingUploads;
 
     public Model(Connection conn) {
         searchHistory = new ArrayList<String>();
         ongoingDownloads = new CopyOnWriteArrayList<DownloadHandler>();
-        ongoingUploads = new CopyOnWriteArrayList<UploadHandler>();
+        ongoingUploads = new CopyOnWriteArrayList<HTTPURLUpload>();
         this.setConn(conn);
     }
 
@@ -259,7 +273,7 @@ public class Model implements GenomizerModel {
         } else {
             System.out.println("No changes were made in name!");
         }
-
+        
         if (!(oldAnnotation.isForced() == forced)) {
             System.out
                     .println("Forced value changed! Calling changeAnnotationForced (?)");
@@ -267,13 +281,13 @@ public class Model implements GenomizerModel {
         } else {
             System.out.println("Forced value not changed");
         }
-
+        
         // TODO: If an annotation value has been added, call
         // addAnnotationValue(name, valueName)
-
+        
         // TODO: If an annotation value has been removed, call
         // removeAnnotationValue(name, valueName)
-
+        
         for (int i = 0; i < categories.length; i++) {
             if (!(categories[i].equals(oldAnnotation.getValues()[i]))) {
                 System.out
@@ -352,7 +366,7 @@ public class Model implements GenomizerModel {
         return null;
     }
 
-    public CopyOnWriteArrayList<UploadHandler> getOngoingUploads() {
+    public CopyOnWriteArrayList<HTTPURLUpload> getOngoingUploads() {
         return ongoingUploads;
     }
 
