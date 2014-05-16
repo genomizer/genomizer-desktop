@@ -31,7 +31,7 @@ public class AnnotationFieldTest {
     @Test
     public void shouldAddNewFreeTextAnnotation() {
         assertThat(
-                model.addNewAnnotation("FREE TEXTTEST",
+                model.addNewAnnotation("FREETEXTTEST",
                         new String[] { "freetext" }, false)).isTrue();
     }
     
@@ -93,6 +93,23 @@ public class AnnotationFieldTest {
         }
     }
     
+    @Test
+    public void shouldRenameAnnotationField(){
+        String oldAnnotationName = "FREETEXTTEST";
+        String newAnnotationName = "FREE TEXTTEST";
+        AnnotationDataType annotation = getSpecificAnnotationType(oldAnnotationName);
+        if (annotation != null) {
+            if(model.renameAnnotationField(oldAnnotationName, newAnnotationName)) {
+                annotation = getSpecificAnnotationType(newAnnotationName);
+                assertThat(annotation.name).isEqualTo(newAnnotationName);
+            } else {
+                fail("model does not complete operation.");
+            }
+        } else {
+            fail("Does not exist annotation named " + oldAnnotationName);
+        }
+    }
+    
     protected AnnotationDataType getSpecificAnnotationType(String name) {
         AnnotationDataType[] annotations = model.getAnnotations();
         AnnotationDataType specificAnnotation = null;
@@ -103,4 +120,5 @@ public class AnnotationFieldTest {
         }
         return specificAnnotation;
     }
+    
 }
