@@ -10,14 +10,6 @@ import javax.swing.*;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import java.awt.*;
-import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.FlowLayout;
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
-import java.awt.GridLayout;
-import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
@@ -538,6 +530,27 @@ public class UploadTab extends JPanel implements ExperimentPanel {
     public void setOngoingUploads(
             CopyOnWriteArrayList<UploadHandler> ongoingUploads) {
         this.ongoingUploads = ongoingUploads;
+    }
+
+    private void updateProgress() {
+        new Thread(new Runnable() {
+            private boolean running;
+
+            @Override
+            public void run() {
+                running = true;
+                while (running) {
+                    for (File key : uploadFileRows.keySet()) {
+
+                    }
+                    try {
+                        Thread.sleep(1000);
+                    } catch (InterruptedException e) {
+                        running = false;
+                    }
+                }
+            }
+        }).start();
     }
     /**
      * Listener for when the text in a textfield changes.
