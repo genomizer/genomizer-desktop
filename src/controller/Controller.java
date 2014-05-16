@@ -64,6 +64,7 @@ public class Controller {
         view.addProcessFeedbackListener(new ProcessFeedbackListener());
         view.addCancelListener(new CancelListener());
         view.addOkListener(new OkListener());
+        view.setOngoingUploads(model.getOngoingUploads());
     }
 
     class ConvertFileListener implements ActionListener, Runnable {
@@ -433,7 +434,7 @@ public class Controller {
             UploadToExistingExpPanel uploadToExistingExpPanel = view
                     .getUploadTab().getUploadToExistingExpPanel();
             uploadToExistingExpPanel.enableUploadButton(true);
-            uploadToExistingExpPanel.build();
+            uploadToExistingExpPanel.addFileDrop();
         }
     }
 
@@ -593,15 +594,15 @@ public class Controller {
                                     + f.getName() + " complete.", "Done",
                                     JOptionPane.PLAIN_MESSAGE);
                         } else {
-                            JOptionPane.showMessageDialog(null, "Couldn't upload "
-                                    + f.getName() + ".", "Error",
-                                    JOptionPane.ERROR_MESSAGE);
+                            JOptionPane.showMessageDialog(null,
+                                    "Couldn't upload " + f.getName() + ".",
+                                    "Error", JOptionPane.ERROR_MESSAGE);
                         }
                     }
                 } else {
                     JOptionPane.showMessageDialog(null,
-                            "Couldn't create experiment " + expName + ".", "Error",
-                            JOptionPane.ERROR_MESSAGE);
+                            "Couldn't create experiment " + expName + ".",
+                            "Error", JOptionPane.ERROR_MESSAGE);
                 }
             }
         }
@@ -678,7 +679,6 @@ public class Controller {
         @Override
         public void run() {
             System.out.println("OK");
-            //view.getRatioCalcPopup().okButton.setEnabled(false);
         }
     }
 
@@ -691,6 +691,9 @@ public class Controller {
         @Override
         public void run() {
             System.out.println("CANCEL");
+            view.getRatioCalcPopup().setDefaultRatioPar();
+            view.getRatioCalcPopup().closeRatioWindow();
+
         }
     }
 
