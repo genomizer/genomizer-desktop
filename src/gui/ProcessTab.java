@@ -599,7 +599,8 @@ public class ProcessTab extends JPanel {
         CheckListItem[] itemList = new CheckListItem[fileData.size()];
 
         for (int i = 0; i < fileData.size(); i++) {
-            itemList[i] = new CheckListItem(fileData.get(i).filename);
+            itemList[i] = new CheckListItem(fileData.get(i).filename,
+                    fileData.get(i).id);
         }
 
         fileList.setListData(itemList);
