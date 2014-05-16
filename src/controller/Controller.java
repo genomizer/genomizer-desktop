@@ -1,9 +1,6 @@
 package controller;
 
-import gui.CheckListItem;
-import gui.DownloadWindow;
-import gui.GenomizerView;
-import gui.UploadTab;
+import gui.*;
 import gui.sysadmin.SysadminController;
 
 import java.awt.FileDialog;
@@ -404,8 +401,10 @@ public class Controller {
                 fileNames[i] = files[i].getName();
             }
             view.selectFilesToExistingExp(files);
-            view.getUploadTab().getUploadToExistingExpPanel()
-                    .enableUploadButton(true);
+            UploadToExistingExpPanel uploadToExistingExpPanel =
+                    view.getUploadTab().getUploadToExistingExpPanel();
+            uploadToExistingExpPanel.enableUploadButton(true);
+            uploadToExistingExpPanel.build();
         }
     }
 
