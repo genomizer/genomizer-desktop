@@ -28,5 +28,11 @@ public class GenomeTextFieldListener implements KeyListener{
         } else {
             gr.enableClearButton(true);
         }
+
+        if(gr.allTextFieldsContainInfo()){
+            gr.enableAddButton(true);
+        } else {
+            gr.enableAddButton(false);
+        }
     }
 }

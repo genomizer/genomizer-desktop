@@ -129,7 +129,8 @@ public class GenomeReleaseViewCreator {
         speciesText = new JTextField(20);
         speciesText.addKeyListener(textListner);
         fileText = new JTextField(20);
-        fileText.setEditable(false);
+        fileText.addKeyListener(textListner);
+        //fileText.setEditable(false);
 
 
         layout.setHorizontalGroup(layout.createSequentialGroup().addGroup(
@@ -248,6 +249,8 @@ public class GenomeReleaseViewCreator {
         versionText.setText("");
         speciesText.setText("");
         fileText.setText("");
+        enableClearButton(false);
+        enableAddButton(false);
     }
 
     public boolean isTextFieldsEmpty(){
@@ -262,7 +265,13 @@ public class GenomeReleaseViewCreator {
     }
 
     public boolean allTextFieldsContainInfo(){
-        return true;
+        boolean returnValue = false;
+        if(!versionText.getText().equals("") && !speciesText.getText().equals("")
+                && !fileText.getText().equals("")){
+            returnValue = true;
+        }
+
+        return returnValue;
     }
 
     public void enableClearButton(boolean status){
@@ -273,7 +282,13 @@ public class GenomeReleaseViewCreator {
         this.addButton.setEnabled(status);
     }
 
-    public void enableDeleteButton(boolean status){
-        this.deleteButton.setEnabled(status);
+    /** TODO: change to return datatype*/
+    public void getNewGenomeReleaseData(){
+
+    }
+
+    /** TODO: change to return datatype*/
+    public void getDeleteGenomeReleaseData(){
+
     }
 }

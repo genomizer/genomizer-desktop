@@ -27,9 +27,9 @@ public class GenomeButtonListener implements ActionListener{
             case SysStrings.GENOME_BUTTON_ADD:
                 System.out.println("Add");
                 sysController.sendNewGenomeRelease();
+                sysTab.getGenomeReleaseView().clearTextFields();
                 break;
             case SysStrings.GENOME_BUTTON_CLEAR:
-                sysTab.getGenomeReleaseView().enableClearButton(false);
                 sysController.clearAddGenomeText();
                 break;
             case SysStrings.GENOME_BUTTON_DELETE:
