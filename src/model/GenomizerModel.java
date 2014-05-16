@@ -25,8 +25,7 @@ public interface GenomizerModel {
 
     public ArrayList<ExperimentData> search(String pubmedString);
 
-    public boolean rawToProfile(String fileName, String fileID, String expid,
-            String processtype, String[] parameters, String metadata,
+    public boolean rawToProfile(String expid, String[] parameters, String metadata,
             String genomeRelease, String author);
 
     public boolean downloadFile(String url, String fileID, String path,
@@ -66,4 +65,5 @@ public interface GenomizerModel {
 
 
     public ProcessFeedbackData[] getProcessFeedback();
+
 }

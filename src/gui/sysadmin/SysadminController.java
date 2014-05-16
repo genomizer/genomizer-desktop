@@ -5,7 +5,7 @@ import gui.sysadmin.annotationview.AnnotationPopupListener;
 import gui.sysadmin.annotationview.AnnotationTableModel;
 import gui.sysadmin.annotationview.EditAnnotationPopup;
 import gui.sysadmin.annotationview.EditAnnotationPopupListener;
-import gui.sysadmin.annotationview.SysadminAnnotationPopup;
+import gui.sysadmin.annotationview.AddAnnotationPopup;
 import gui.sysadmin.genomereleaseview.GenomereleaseTableModel;
 
 import java.awt.event.ActionListener;
@@ -54,7 +54,7 @@ public class SysadminController extends Observable {
     }
 
     public void sendNewAnnotation() {
-        SysadminAnnotationPopup popup = sysTab.getAnnotationsView().getPop();
+        AddAnnotationPopup popup = sysTab.getAnnotationsView().getPop();
         try {
             model.addNewAnnotation(popup.getNewAnnotationName(),
                     popup.getNewAnnotationCategories(),

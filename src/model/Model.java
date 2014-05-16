@@ -82,16 +82,15 @@ public class Model implements GenomizerModel {
      * <p/>
      * Returns whether or not the server could create profile data or not.
      */
-    public boolean rawToProfile(String fileName, String fileID, String expid,
-            String processtype, String[] parameters, String metadata,
+    public boolean rawToProfile(String expid,String[] parameters, String metadata,
             String genomeRelease, String author) {
 
         // /hej anna
         System.out.println("RAW TO PROFILE\n");
-        System.out.println("Filename: " + fileName);
-        System.out.println("File ID: " + fileID);
+    //    System.out.println("Filename: " + fileName);
+     //   System.out.println("File ID: " + fileID);
         System.out.println("Expid: " + expid);
-        System.out.println("Processtype: " + processtype);
+     //   System.out.println("Processtype: " + processtype);
         System.out.println("Parameter 1: " + parameters[0]);
         System.out.println("Parameter 2: " + parameters[1]);
         System.out.println("Parameter 3: " + parameters[2]);
@@ -105,11 +104,16 @@ public class Model implements GenomizerModel {
         System.out.println("Author: " + author);
         System.out.println("\n");
 
-        rawToProfileRequest rawToProfilerequest = RequestFactory
-                .makeRawToProfileRequest(fileName, fileID, expid, processtype,
-                        parameters, metadata, genomeRelease, author);
+  //      rawToProfileRequest rawToProfilerequest = RequestFactory
+   //             .makeRawToProfileRequest(fileName, fileID, expid, processtype,
+   //                     parameters, metadata, genomeRelease, author);
+
+              rawToProfileRequest rawToProfilerequest = RequestFactory
+                             .makeRawToProfileRequest(expid,
+                                     parameters, metadata, genomeRelease, author);
+
         conn.sendRequest(rawToProfilerequest, userID, JSON);
-        if (conn.getResponseCode() == 201) {
+        if (conn.getResponseCode() == 200) {
             return true;
         } else {
             System.out.println("Response Code: " + conn.getResponseCode());
@@ -267,6 +271,43 @@ public class Model implements GenomizerModel {
     }
 
     @Override
+    public boolean editAnnotation(String name, String[] categories,
+            boolean forced, AnnotationDataType oldAnnotation) {
+        if (!(oldAnnotation.getName().equals(name))) {
+            System.out
+                    .println("Name has been changed! Calling renameAnnotationField!");
+            renameAnnotationField(oldAnnotation.name, name);
+        } else {
+            System.out.println("No changes were made in name!");
+        }
+
+        if (!(oldAnnotation.isForced() == forced)) {
+            System.out
+                    .println("Forced value changed! Calling changeAnnotationForced (?)");
+            // changeAnnotationForced(name);
+        } else {
+            System.out.println("Forced value not changed");
+        }
+
+        // TODO: If an annotation value has been added, call
+        // addAnnotationValue(name, valueName)
+
+        // TODO: If an annotation value has been removed, call
+        // removeAnnotationValue(name, valueName)
+
+        for (int i = 0; i < categories.length; i++) {
+            if (!(categories[i].equals(oldAnnotation.getValues()[i]))) {
+                System.out
+                        .println("A change was made in annotation value! Calling renameAnnotationValue");
+                renameAnnotationValue(name, oldAnnotation.getValues()[i],
+                        categories[i]);
+            }
+        }
+
+        return false;
+    }
+
+    @Override
     public boolean deleteAnnotation(String deleteAnnoationData) {
 
         RemoveAnnotationFieldRequest request = RequestFactory
@@ -348,7 +389,8 @@ public class Model implements GenomizerModel {
             return ed;
         } else {
             System.out.println("responsecode: " + conn.getResponseCode());
-            JOptionPane.showMessageDialog(null, "Couldn't retrieve experiment");
+//            JOptionPane.showMessageDialog(null, "Couldn't retrieve experiment",
+//                    "ERROR", JOptionPane.ERROR_MESSAGE);
         }
         return null;
     }
@@ -424,13 +466,6 @@ public class Model implements GenomizerModel {
 
     @Override
     public boolean removeAnnotationField(String annotationName) {
-        // TODO Auto-generated method stub
-        return false;
-    }
-
-    @Override
-    public boolean editAnnotation(String name, String[] categories,
-            boolean forced, AnnotationDataType oldAnnotation) {
         // TODO Auto-generated method stub
         return false;
     }

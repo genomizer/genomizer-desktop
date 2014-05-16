@@ -9,6 +9,8 @@ import java.net.URL;
 
 import requests.Request;
 
+import javax.swing.*;
+
 public class Connection {
     private String ip;
     private int responseCode;
@@ -46,7 +48,8 @@ public class Connection {
                 connection.connect();
                 responseCode = connection.getResponseCode();
                 if (responseCode >= 300) {
-                    System.out.println("Connection error: " + responseCode);
+                    JOptionPane.showMessageDialog(null,
+                            "Connection error: " + responseCode);
                     return false;
                 }
                 return true;
@@ -60,7 +63,7 @@ public class Connection {
             }
             responseCode = connection.getResponseCode();
             if (responseCode >= 300) {
-                System.out.println("Connection error: " + responseCode);
+                JOptionPane.showMessageDialog(null,"Connection error: " + responseCode);
                 return false;
             }
             BufferedReader in = new BufferedReader(new InputStreamReader(
@@ -74,7 +77,7 @@ public class Connection {
             System.out.println(responseBody);
             connection.disconnect();
         } catch (IOException e) {
-            System.out.println("Connection error: " + e.getMessage());
+            JOptionPane.showMessageDialog(null,"Connection error: " + e.getMessage());
             return false;
         }
         return true;
