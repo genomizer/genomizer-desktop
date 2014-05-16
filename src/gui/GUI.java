@@ -38,6 +38,7 @@ public class GUI extends JFrame implements GenomizerView {
     private SysadminTab sysadminTab;
     private QuerySearchTab querySearchTab;
     private DownloadWindow downloadWindow;
+    private RatioCalcPopup ratioCalcPopup;
 
     /**
      * Initiates the main view of the program.
@@ -53,6 +54,7 @@ public class GUI extends JFrame implements GenomizerView {
         mainPanel = new JPanel(bl);
         userPanel = new UserPanel();
         loginWindow = new LoginWindow(this);
+        ratioCalcPopup = new RatioCalcPopup(this);
 
         add(mainPanel);
 
@@ -632,7 +634,8 @@ public class GUI extends JFrame implements GenomizerView {
 
     @Override
     public void showRatioPopup() {
-        processTab.showRatioPopup();
+       //processTab.showRatioPopup();
+        ratioCalcPopup.setVisible(true);
 
     }
 
