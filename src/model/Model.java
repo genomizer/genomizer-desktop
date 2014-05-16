@@ -86,7 +86,7 @@ public class Model implements GenomizerModel {
             String processtype, String[] parameters, String metadata,
             String genomeRelease, String author) {
 
-        ///hej anna
+        // /hej anna
         System.out.println("RAW TO PROFILE\n");
         System.out.println("Filename: " + fileName);
         System.out.println("File ID: " + fileID);
@@ -164,7 +164,7 @@ public class Model implements GenomizerModel {
             HTTPURLUpload upload = new HTTPURLUpload(aFTER.URLupload,
                     f.getAbsolutePath(), f.getName());
             ongoingUploads.add(upload);
-            if(upload.sendFile("pvt", "pvt")) {
+            if (upload.sendFile("pvt", "pvt")) {
                 return true;
             }
         }
@@ -411,14 +411,16 @@ public class Model implements GenomizerModel {
     }
 
     public ProcessFeedbackData[] getProcessFeedback() {
-        ProcessFeedbackRequest request = RequestFactory.makeProcessFeedbackRequest();
+        ProcessFeedbackRequest request = RequestFactory
+                .makeProcessFeedbackRequest();
         conn.sendRequest(request, userID, TEXT_PLAIN);
-        //System.out.println("proc feedback code: " +conn.getResponseCode());
+        // System.out.println("proc feedback code: " +conn.getResponseCode());
         if (conn.getResponseCode() == 200) {
-            return ResponseParser.parseProcessFeedbackResponse(conn.getResponseBody());
+            return ResponseParser.parseProcessFeedbackResponse(conn
+                    .getResponseBody());
         }
         return null;
-     }
+    }
 
     @Override
     public boolean removeAnnotationField(String annotationName) {

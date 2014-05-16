@@ -85,23 +85,28 @@ public class SysadminController extends Observable {
         if (!(oldAnnotation.isForced() == newAnnotation.isForced())) {
             System.out
                     .println("Forced value changed! Calling changeAnnotationForced (?)");
-            // changeAnnotationForced(name);
+            // model.changeAnnotationForced(name);
         } else {
             System.out.println("Forced value not changed");
         }
 
-        // TODO: If an annotation value has been added, call
-        // addAnnotationValue(name, valueName)
+        if (newAnnotation.getValues().length > oldAnnotation.getValues().length){
+            System.out.println("New value(s) added to " + oldAnnotation.name + "!");
+            //model.addAnnotationValue(name, valueName);
+        }
 
-        // TODO: If an annotation value has been removed, call
-        // removeAnnotationValue(name, valueName)
-
+        if (newAnnotation.getValues().length < oldAnnotation.getValues().length) {
+            System.out.println("Value removed from " + oldAnnotation.name);
+            //model.removeAnnotationValue(name, valueName);
+        }
 
         for (int i = 0; i < newAnnotation.getValues().length; i++) {
-            if (!(newAnnotation.getValues()[i].equals(oldAnnotation.getValues()[i]))) {
+            if (!(newAnnotation.getValues()[i]
+                    .equals(oldAnnotation.getValues()[i]))) {
                 System.out
                         .println("A change was made in annotation value! Calling renameAnnotationValue");
-                model.renameAnnotationValue(newAnnotation.name, oldAnnotation.getValues()[i],
+                model.renameAnnotationValue(newAnnotation.name,
+                        oldAnnotation.getValues()[i],
                         newAnnotation.getValues()[i]);
             }
         }
