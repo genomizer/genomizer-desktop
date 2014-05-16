@@ -2,9 +2,11 @@ package gui;
 
 import java.awt.BorderLayout;
 import java.awt.GridLayout;
+import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.concurrent.CopyOnWriteArrayList;
 
@@ -20,7 +22,6 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 
 import util.FileData;
-
 import communication.DownloadHandler;
 
 public class DownloadWindow extends JFrame {
@@ -31,8 +32,6 @@ public class DownloadWindow extends JFrame {
     private JPanel ongoingPanel;
     private JTable table;
     private JButton downloadButton;
-    private ImageIcon downloadIcon = new ImageIcon(
-            "src/icons/DownloadButton.png");
     private ArrayList<FileData> files;
     private CopyOnWriteArrayList<DownloadHandler> ongoingDownloads;
     private boolean running;
@@ -93,9 +92,7 @@ public class DownloadWindow extends JFrame {
         };
         
         // Add comboboxes to each row in the table.
-        JComboBox comboBox = new JComboBox();
-        comboBox.addItem("RAW");
-        comboBox.addItem("WIG");
+        JComboBox<String> comboBox = new JComboBox<String>(new String[] {"RAW", "WIG"});
         DefaultCellEditor cellEditor = new DefaultCellEditor(comboBox);
         table.getColumnModel().getColumn(1).setCellEditor(cellEditor);
         table.setRowHeight(30);
@@ -116,8 +113,7 @@ public class DownloadWindow extends JFrame {
     }
     
     private void setUpOngoingPanel() {
-        ongoingPanel = new JPanel(new GridLayout(0, 1));
-        
+        ongoingPanel = new JPanel(new GridLayout(0, 1));      
         mainPanel.add(ongoingPanel, BorderLayout.NORTH);
     }
     
@@ -129,19 +125,33 @@ public class DownloadWindow extends JFrame {
                 while (running) {
                     ongoingPanel.removeAll();
                     if (ongoingDownloads != null) {
-                        for (DownloadHandler handler : ongoingDownloads) {
+                        for (final DownloadHandler handler : ongoingDownloads) {
                             if (!handler.isFinished()
                                     && handler.getTotalSize() > 0) {
-                                ongoingPanel.add(new JLabel(
+                                JPanel south = new JPanel(new BorderLayout());
+                                JPanel north = new JPanel(new BorderLayout());
+                                double speed = handler.getCurrentSpeed() / 1024 / 2014;
+                                north.add(new JLabel(
                                         handler.getFileName()
                                                 + " ("
-                                                + (handler.getCurrentSpeed() / 1024 / 1024)
-                                                + "MiB/s)"));
+                                                + Math.round(speed*100.0)/100.0
+                                                + "Mb/s)"), BorderLayout.CENTER);
                                 JProgressBar progress = new JProgressBar(0,
                                         handler.getTotalSize());
                                 progress.setValue(handler.getCurrentProgress());
                                 progress.setStringPainted(true);
-                                ongoingPanel.add(progress);
+                                south.add(progress, BorderLayout.CENTER);
+                                JButton stopButton = new JButton("X");
+                                stopButton.addActionListener(new ActionListener() {
+                                    @Override
+                                    public void actionPerformed(ActionEvent e) {
+                                        handler.setFinished(true);
+                                        ongoingDownloads.remove(handler);
+                                    }
+                                });
+                                south.add(stopButton, BorderLayout.EAST);
+                                ongoingPanel.add(north);
+                                ongoingPanel.add(south);
                             } else {
                                 ongoingDownloads.remove(handler);
                             }
