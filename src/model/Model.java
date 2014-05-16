@@ -51,12 +51,12 @@ public class Model implements GenomizerModel {
     private Connection conn;
     private ArrayList<String> searchHistory;
     private CopyOnWriteArrayList<DownloadHandler> ongoingDownloads;
-    private CopyOnWriteArrayList<UploadHandler> ongoingUploads;
+    private CopyOnWriteArrayList<HTTPURLUpload> ongoingUploads;
 
     public Model(Connection conn) {
         searchHistory = new ArrayList<String>();
         ongoingDownloads = new CopyOnWriteArrayList<DownloadHandler>();
-        ongoingUploads = new CopyOnWriteArrayList<UploadHandler>();
+        ongoingUploads = new CopyOnWriteArrayList<HTTPURLUpload>();
         this.setConn(conn);
     }
 
@@ -159,21 +159,22 @@ public class Model implements GenomizerModel {
         String url = null;
         if (conn.getResponseCode() == 200) {
             url = conn.getResponseBody();
+            AddFileToExperimentResponse aFTER = ResponseParser
+                    .parseUploadResponse(conn.getResponseBody());
+            HTTPURLUpload upload = new HTTPURLUpload(aFTER.URLupload,
+                    f.getAbsolutePath());
+            ongoingUploads.add(upload);
+            if(upload.sendFile("pvt", "pvt")) {
+                return true;
+            }
         }
-
-        AddFileToExperimentResponse aFTER = ResponseParser
-                .parseUploadResponse(conn.getResponseBody());
-        HTTPURLUpload upload = new HTTPURLUpload(aFTER.URLupload,
-                f.getAbsolutePath());
-        upload.sendFile("pvt", "pvt");
+        return false;
 
         /*
          * UploadHandler handler = new UploadHandler(aFTER.URLupload,
          * f.getAbsolutePath(), userID, "pvt:pvt"); Thread thread = new
          * Thread(handler); thread.start();
          */
-
-        return true;
     }
 
     @Override
@@ -389,7 +390,7 @@ public class Model implements GenomizerModel {
         return null;
     }
 
-    public CopyOnWriteArrayList<UploadHandler> getOngoingUploads() {
+    public CopyOnWriteArrayList<HTTPURLUpload> getOngoingUploads() {
         return ongoingUploads;
     }
 
