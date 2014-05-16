@@ -113,7 +113,7 @@ public class Model implements GenomizerModel {
                                      parameters, metadata, genomeRelease, author);
 
         conn.sendRequest(rawToProfilerequest, userID, JSON);
-        if (conn.getResponseCode() == 201) {
+        if (conn.getResponseCode() == 200) {
             return true;
         } else {
             System.out.println("Response Code: " + conn.getResponseCode());

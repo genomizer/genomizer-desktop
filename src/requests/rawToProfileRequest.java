@@ -20,7 +20,7 @@ public class rawToProfileRequest extends Request {
     public rawToProfileRequest(String expid, String[] parameters, String metadata,
             String genomeVersion, String author) {
 
-        super("rawtoprofile", "/process", "PUT");
+        super("rawtoprofile", "/process/rawtoprofile", "PUT");
         this.expid = expid;
         this.parameters = parameters;
         this.metadata = metadata;
