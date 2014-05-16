@@ -133,7 +133,7 @@ public class Controller {
 
                     isConverted = model.rawToProfile(expid,parameters, metadata, genomeVersion, author);
 
-                    if (isConverted.equals(true)) {
+                    if (isConverted) {
                         message = "The server has converted: " + fileName
                                 + " with file id: " + fileID + " from " + expid
                                 + "\n";
