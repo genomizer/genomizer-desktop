@@ -22,6 +22,8 @@ CHANGELOG v2.0 RELEASE DATE 14-05-16
 - Process is unfortunately still not working all the way, no file will be generated
 - Some problems occur on files with same name
 - Uploading files to existing experiment is sensitive to experiment name, and must match precisely.
+- Can not upload files with spaces in the name.
+- Can not upload files that are compressed.
+- If errors occur during upload, the file is added to the database but is 'incomplete', this error is not catched as of now.
 - Annotations are case sensitive
-- 
-- 
+
