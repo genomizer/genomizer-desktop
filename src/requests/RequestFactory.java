@@ -70,12 +70,7 @@ public class RequestFactory {
     
     public static SearchRequest makeSearchRequest(String annotationString) {
         String urlEncodedAnnotationString = annotationString;
-        try {
-            urlEncodedAnnotationString = URLEncoder.encode(annotationString,
-                    "UTF-8");
-        } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
-        }
+        urlEncodedAnnotationString = decodeToURL(annotationString);
         return new SearchRequest(urlEncodedAnnotationString);
     }
     
@@ -94,16 +89,7 @@ public class RequestFactory {
     
     public static DeleteAnnotationRequest makeDeleteAnnotationRequest(
             String annotationName) {
-        try {
-            annotationName = URLEncoder.encode(annotationName, "UTF-8");
-        } catch (UnsupportedEncodingException e) {
-            JOptionPane.showMessageDialog(null, e.getMessage());
-            try {
-                annotationName = URLEncoder.encode(annotationName, "ASCII");
-            } catch (UnsupportedEncodingException e2) {
-                e.printStackTrace();
-            }
-        }
+        annotationName = decodeToURL(annotationName);
         return new DeleteAnnotationRequest(annotationName);
     }
     
@@ -123,14 +109,30 @@ public class RequestFactory {
     
     public static RemoveAnnotationValueRequest makeRemoveAnnotationValueRequest(
             String annotationName, String valueName) {
+        annotationName = decodeToURL(annotationName);
+        valueName = decodeToURL(valueName);
         return new RemoveAnnotationValueRequest(annotationName, valueName);
     }
-
+    
+    protected static String decodeToURL(String string) {
+        try {
+            string = URLEncoder.encode(string, "UTF-8");
+        } catch (UnsupportedEncodingException e) {
+            JOptionPane.showMessageDialog(null, e.getMessage());
+            try {
+                string = URLEncoder.encode(string, "ASCII");
+            } catch (UnsupportedEncodingException e2) {
+                e.printStackTrace();
+            }
+        }
+        return string;
+    }
+    
     public static AddNewAnnotationValueRequest makeAddNewAnnotationValueRequest(
             String annotationName, String valueName) {
         return new AddNewAnnotationValueRequest(annotationName, valueName);
     }
-
+    
     public static ProcessFeedbackRequest makeProcessFeedbackRequest() {
         return new ProcessFeedbackRequest();
     }
