@@ -5,25 +5,35 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.concurrent.CopyOnWriteArrayList;
 
-import requests.*;
+import requests.AddAnnotationRequest;
+import requests.AddExperimentRequest;
+import requests.AddFileToExperiment;
+import requests.AddNewAnnotationValueRequest;
+import requests.DeleteAnnotationRequest;
+import requests.DownloadFileRequest;
+import requests.GetAnnotationRequest;
+import requests.LoginRequest;
+import requests.LogoutRequest;
+import requests.RemoveAnnotationValueRequest;
+import requests.RenameAnnotationRequest;
+import requests.RenameAnnotationValueRequest;
+import requests.RequestFactory;
+import requests.RetrieveExperimentRequest;
+import requests.SearchRequest;
+import requests.rawToProfileRequest;
 import responses.AddFileToExperimentResponse;
 import responses.DownloadFileResponse;
 import responses.LoginResponse;
-import responses.NewExperimentResponse;
 import responses.ResponseParser;
 import util.AnnotationDataType;
 import util.AnnotationDataValue;
 import util.ExperimentData;
 
 import com.google.gson.Gson;
-
 import communication.Connection;
 import communication.DownloadHandler;
 import communication.HTTPURLUpload;
 import communication.UploadHandler;
-import util.ProcessFeedbackData;
-
-import javax.swing.*;
 
 // import org.apache.http.protocol.HTTP;
 
@@ -33,12 +43,12 @@ public class Model implements GenomizerModel {
     private static final String JSON = "application/json";
     private String userID = "";
     private Connection conn;
-    private ArrayList<String> searchHistory;
+    private SearchHistory searchHistory;
     private CopyOnWriteArrayList<DownloadHandler> ongoingDownloads;
     private CopyOnWriteArrayList<UploadHandler> ongoingUploads;
 
     public Model(Connection conn) {
-        searchHistory = new ArrayList<String>();
+        searchHistory = new SearchHistory();
         ongoingDownloads = new CopyOnWriteArrayList<DownloadHandler>();
         ongoingUploads = new CopyOnWriteArrayList<UploadHandler>();
         this.setConn(conn);
@@ -190,7 +200,7 @@ public class Model implements GenomizerModel {
 
     @Override
     public ArrayList<ExperimentData> search(String pubmedString) {
-        searchHistory.add(pubmedString);
+        searchHistory.addSearchToHistory(pubmedString);
         SearchRequest request = RequestFactory.makeSearchRequest(pubmedString);
         conn.sendRequest(request, userID, TEXT_PLAIN);
         if (conn.getResponseCode() == 200) {
@@ -252,33 +262,13 @@ public class Model implements GenomizerModel {
     public boolean editAnnotation(String name, String[] categories,
             boolean forced, AnnotationDataType oldAnnotation) {
         if (!(oldAnnotation.getName().equals(name))) {
-            System.out
-                    .println("Name has been changed! Calling renameAnnotationField!");
-            renameAnnotationField(oldAnnotation.name, name);
-        } else {
-            System.out.println("No changes were made in name!");
-        }
-
-        if (!(oldAnnotation.isForced() == forced)) {
-            System.out
-                    .println("Forced value changed! Calling changeAnnotationForced (?)");
-            // changeAnnotationForced(name);
-        } else {
-            System.out.println("Forced value not changed");
-        }
-
-        // TODO: If an annotation value has been added, call
-        // addAnnotationValue(name, valueName)
-
-        // TODO: If an annotation value has been removed, call
-        // removeAnnotationValue(name, valueName)
-
-        for (int i = 0; i < categories.length; i++) {
-            if (!(categories[i].equals(oldAnnotation.getValues()[i]))) {
-                System.out
-                        .println("A change was made in annotation value! Calling renameAnnotationValue");
-                renameAnnotationValue(name, oldAnnotation.getValues()[i],
-                        categories[i]);
+            for (int i = 0; i < categories.length; i++) {
+                if (!(categories[i]
+                        .equalsIgnoreCase(oldAnnotation.getValues()[i]))) {
+                    System.out
+                            .println("A change was made in annotation properties");
+                    // TODO: Code to create a request goes here
+                }
             }
         }
 
@@ -313,7 +303,7 @@ public class Model implements GenomizerModel {
             return annotations;
         } else {
             System.out.println("responsecode: " + conn.getResponseCode());
-            JOptionPane.showMessageDialog(null, "Could not get annotations!");
+            System.err.println("Could not get annotations!");
         }
         return new AnnotationDataType[] {};
     }
@@ -346,7 +336,7 @@ public class Model implements GenomizerModel {
             return ed;
         } else {
             System.out.println("responsecode: " + conn.getResponseCode());
-            JOptionPane.showMessageDialog(null, "Couldn't retrieve experiment");
+            System.out.println("Couldn't retrieve experiment");
         }
         return null;
     }
@@ -368,27 +358,24 @@ public class Model implements GenomizerModel {
         }
     }
 
-    public boolean renameAnnotationValue(String name, String oldValue,
+    public void renameAnnotationValue(String name, String oldValue,
             String newValue) {
         RenameAnnotationValueRequest request = RequestFactory
                 .makeRenameAnnotationValueRequest(name, oldValue, newValue);
         conn.sendRequest(request, userID, JSON);
         if (conn.getResponseCode() == 201) {
             System.err.println("Sent " + request.requestName + " success!");
-            return true;
         } else {
             System.out.println("responsecode: " + conn.getResponseCode());
         }
-        return false;
     }
 
-    public boolean removeAnnotationValue(String annotationName, String valueName) {
+    public boolean removeAnnotationField(String annotationName, String valueName) {
         RemoveAnnotationValueRequest request = RequestFactory
                 .makeRemoveAnnotationValueRequest(annotationName, valueName);
         conn.sendRequest(request, userID, JSON);
         if (conn.getResponseCode() == 200) {
             System.err.println("Sent " + request.requestName + " success!");
-            return true;
         } else {
             System.out.println("Response code: " + conn.getResponseCode());
         }
@@ -401,25 +388,9 @@ public class Model implements GenomizerModel {
         conn.sendRequest(request, userID, JSON);
         if (conn.getResponseCode() == 201) {
             System.err.println("Sent " + request.requestName + " success!");
-            return true;
         } else {
             System.out.println("Response code: " + conn.getResponseCode());
         }
-        return false;
-    }
-
-    public ProcessFeedbackData[] getProcessFeedback() {
-        ProcessFeedbackRequest request = RequestFactory.makeProcessFeedbackRequest();
-        conn.sendRequest(request, userID, TEXT_PLAIN);
-        if (conn.getResponseCode() == 200) {
-            return ResponseParser.parseProcessFeedbackResponse(conn.getResponseBody());
-        }
-        return null;
-     }
-
-    @Override
-    public boolean removeAnnotationField(String annotationName) {
-        // TODO Auto-generated method stub
         return false;
     }
 }
