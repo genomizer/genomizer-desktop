@@ -746,14 +746,6 @@ public class ProcessTab extends JPanel {
 
     }
 
-    public String[] getRatioCalcParameters() {
-        String[] s = new String[2];
-        s[0] = "single 4 0";
-        s[1] = "150 1 7 0 0";
-
-        return s;
-    }
-
     public String[] getOtherParameters() {
         String[] s = new String[2];
         s[0] = "y";
