@@ -64,6 +64,7 @@ public class Controller {
         view.addProcessFeedbackListener(new ProcessFeedbackListener());
         view.addCancelListener(new CancelListener());
         view.addOkListener(new OkListener());
+        view.setOngoingUploads(model.getOngoingUploads());
     }
 
     class ConvertFileListener implements ActionListener, Runnable {
