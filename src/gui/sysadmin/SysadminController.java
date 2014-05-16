@@ -67,18 +67,21 @@ public class SysadminController extends Observable {
     }
 
     public void editAnnotation() {
-        System.out.println("Calling editAnnotation in syscontroller");
         EditAnnotationPopup edPop = sysTab.getAnnotationsView().getEditPopup();
         AnnotationDataType oldAnnotation = edPop.getAnnotation();
         AnnotationDataType newAnnotation = new AnnotationDataType(
                 edPop.getNewAnnotationName(),
                 edPop.getNewAnnotationCategories(),
                 edPop.getNewAnnotationForcedValue());
-
+/*
+        for(int i=0; i<newAnnotation.getValues().length; i++){
+        System.out.println(newAnnotation.getValues()[i]);
+        }
+*/
         if (!(oldAnnotation.name.equals(newAnnotation.name))) {
             System.out
                     .println("Name has been changed! Calling renameAnnotationField!");
-            model.renameAnnotationField(oldAnnotation.name, newAnnotation.name);
+            //model.renameAnnotationField(oldAnnotation.name, newAnnotation.name);
         } else {
             System.out.println("No changes were made in name!");
         }
@@ -90,7 +93,8 @@ public class SysadminController extends Observable {
         } else {
             System.out.println("Forced value not changed");
         }
-
+        System.out.println("There are " + newAnnotation.getValues().length + " new values");
+        System.out.println("There are " + oldAnnotation.getValues().length + " old values");
         if (newAnnotation.getValues().length > oldAnnotation.getValues().length){
             System.out.println("New value(s) added to " + oldAnnotation.name + "!");
             //model.addAnnotationValue(name, valueName);
@@ -100,18 +104,15 @@ public class SysadminController extends Observable {
             System.out.println("Value removed from " + oldAnnotation.name);
             //model.removeAnnotationValue(name, valueName);
         }
-
+/*
         for (int i = 0; i < newAnnotation.getValues().length; i++) {
-            if (!(newAnnotation.getValues()[i]
-                    .equals(oldAnnotation.getValues()[i]))) {
-                System.out
-                        .println("A change was made in annotation value! Calling renameAnnotationValue");
+
                 model.renameAnnotationValue(newAnnotation.name,
                         oldAnnotation.getValues()[i],
                         newAnnotation.getValues()[i]);
             }
         }
-
+*/
     }
 
     public util.AnnotationDataType[] getAnnotations() {
