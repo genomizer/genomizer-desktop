@@ -21,10 +21,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 import model.GenomizerModel;
-import util.AnnotationDataType;
-import util.AnnotationDataValue;
-import util.ExperimentData;
-import util.FileData;
+import util.*;
 
 public class Controller {
 
@@ -58,6 +55,7 @@ public class Controller {
         view.addAnalyzeSelectedListener(new AnalyzeSelectedListener());
         fileListAddMouseListener(view.getfileList());
         view.addRatioCalcListener(new RatioCalcListener());
+        view.addProcessFeedbackListener(new ProcessFeedbackListener());
         view.setOngoingUploads(model.getOngoingUploads());
     }
 
@@ -603,7 +601,24 @@ public class Controller {
         public void run() {
             System.out.println("RATIO CALC");
             view.setDefaultRatioPar();
-            view.showRatioPopup();        
+            view.showRatioPopup();
         }
     }
+
+    class ProcessFeedbackListener implements ActionListener, Runnable {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            new Thread(this).start();
+        }
+
+        @Override
+        public void run() {
+            ProcessFeedbackData[] processFeedbackData = model.getProcessFeedback();
+            if(processFeedbackData != null) {
+                view.showProcessFeedback(processFeedbackData);
+            }
+        }
+    }
+
+
 }
