@@ -50,12 +50,13 @@ public class UploadToExistingExpPanel extends JPanel
         uploadFileRows = new HashMap<File, UploadFileRow>();
 
         mainPanel = new JPanel(new BorderLayout());
-        northPanel = new JPanel();
+        northPanel = new JPanel(new BorderLayout());
         centerPanel = new JPanel(new BorderLayout());
-        backgroundPanel = new JPanel();
+        backgroundPanel = new JPanel(new BorderLayout());
         uploadFilesPanel = new JPanel(new GridLayout(0, 1));
         buttonsPanel = new JPanel(new FlowLayout());
 
+        setLayout(new BorderLayout());
         build();
     }
 
@@ -65,9 +66,8 @@ public class UploadToExistingExpPanel extends JPanel
      */
     public void build() {
         mainPanel.add(northPanel, BorderLayout.NORTH);
+        centerPanel.add(uploadFilesPanel, BorderLayout.NORTH);
         mainPanel.add(centerPanel, BorderLayout.CENTER);
-        centerPanel.add(backgroundPanel, BorderLayout.CENTER);
-        backgroundPanel.add(uploadFilesPanel, BorderLayout.NORTH);
         GridBagLayout gbl_panel = new GridBagLayout();
         gbl_panel.columnWidths = new int[] { 0, 0, 0, 0, 0, 0, 0 };
         gbl_panel.rowHeights = new int[] { 0, 0, 0, 0 };
@@ -84,17 +84,18 @@ public class UploadToExistingExpPanel extends JPanel
             }
         });
 
-        buttonsPanel.add(selectFilesToUploadButton);
-        buttonsPanel.add(uploadFilesToExperimentButton);
+//        buttonsPanel.add(selectFilesToUploadButton);
+//        buttonsPanel.add(uploadFilesToExperimentButton);
 
-        mainPanel.add(buttonsPanel, BorderLayout.SOUTH);
-        uploadFilesToExperimentButton.setEnabled(false);
-        add(mainPanel);
+
+//        mainPanel.add(buttonsPanel, BorderLayout.SOUTH);
+//        uploadFilesToExperimentButton.setEnabled(false);
+        add(mainPanel, BorderLayout.CENTER);
+//        repaint();
+//        revalidate();
+//        uploadFilesPanel.repaint();
+//        uploadFilesPanel.revalidate();
         repaintSelectedFiles();
-        repaint();
-        revalidate();
-        uploadFilesPanel.repaint();
-        uploadFilesPanel.revalidate();
     }
 
     /**
@@ -218,6 +219,9 @@ public class UploadToExistingExpPanel extends JPanel
         } else {
             enableUploadButton(false);
         }
+        buttonsPanel.add(selectFilesToUploadButton);
+        buttonsPanel.add(uploadFilesToExperimentButton);
+        uploadFilesPanel.add(buttonsPanel);
         repaint();
         revalidate();
     }
