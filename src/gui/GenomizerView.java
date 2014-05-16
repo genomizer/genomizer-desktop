@@ -1,10 +1,7 @@
 package gui;
 
 import gui.sysadmin.SysadminController;
-import util.AnnotationDataType;
-import util.AnnotationDataValue;
-import util.ExperimentData;
-import util.FileData;
+import util.*;
 
 import javax.swing.*;
 
@@ -152,6 +149,8 @@ public interface GenomizerView {
     public void setDefaultRatioPar();
 
     public void showRatioPopup();
+
+    public void showProcessFeedback(ProcessFeedbackData[] processFeedbackData);
     
     public void setOngoingUploads(
             CopyOnWriteArrayList<UploadHandler> ongoingUploads);
