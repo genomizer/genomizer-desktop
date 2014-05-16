@@ -2,10 +2,12 @@ package gui.sysadmin.genomereleaseview;
 
 import com.sun.org.apache.xpath.internal.SourceTree;
 import gui.sysadmin.strings.SysStrings;
+import util.FileData;
 
 import java.awt.*;
 import java.awt.event.ActionListener;
 import java.io.File;
+import java.io.IOException;
 import javax.swing.*;
 import javax.swing.border.Border;
 import javax.swing.table.JTableHeader;
@@ -132,7 +134,7 @@ public class GenomeReleaseViewCreator {
         speciesText.addKeyListener(textListner);
         fileText = new JTextField(20);
         fileText.addKeyListener(textListner);
-        //fileText.setEditable(false);
+        fileText.setEditable(false);
 
 
         layout.setHorizontalGroup(layout.createSequentialGroup().addGroup(
@@ -296,16 +298,21 @@ public class GenomeReleaseViewCreator {
 
     public void selectFile(){
         JFileChooser fileChooser = new JFileChooser();
-        fileChooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
         fileChooser.setMultiSelectionEnabled(false);
         int ret = fileChooser.showOpenDialog(new JPanel());
+
         String directoryName = "";
-        File[] files;
-        System.out.println(ret);
         if (ret == JFileChooser.APPROVE_OPTION) {
-            files = fileChooser.getSelectedFiles();
-            System.out.println(directoryName);
-            System.out.println(files.length);
+            try {
+                directoryName = fileChooser.getSelectedFile()
+                        .getCanonicalPath();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            fileText.setText(directoryName);
+            enableClearButton(true);
+            if(allTextFieldsContainInfo())
+                enableAddButton(true);
         } else {
             return;
         }
