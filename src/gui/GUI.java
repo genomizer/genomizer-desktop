@@ -127,6 +127,10 @@ public class GUI extends JFrame implements GenomizerView {
         querySearchTab.addAddToWorkspaceButtonListener(listener);
     }
 
+    public void addProcessFeedbackListener(ActionListener listener) {
+        processTab.addProcessFeedbackListener(listener);
+    }
+
     @Override
     public void addLogoutListener(ActionListener listener) {
 

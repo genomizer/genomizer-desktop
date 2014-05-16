@@ -68,6 +68,8 @@ public interface GenomizerView {
 
     public void addSelectButtonListener(ActionListener listener);
 
+    public void addProcessFeedbackListener(ActionListener listener);
+
     public void addUploadButtonListener(ActionListener listener);
 
     public void addToWorkspace(ArrayList<ExperimentData> experiments);
