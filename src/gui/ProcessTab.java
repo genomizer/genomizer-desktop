@@ -694,10 +694,12 @@ public class ProcessTab extends JPanel {
     }
 
     public void showProcessFeedback(ProcessFeedbackData[] processFeedbackData) {
-        procInfoArea.setText("" +
-                "Experiment Name: exp1\n" +
-                "Status: ongoing\n" +
-                "Time Started: 12:46");
+        for(int i=0; i<30; i++) {
+            procInfoArea.setText(procInfoArea.getText() +
+                    "Experiment Name: exp" + i + "\n" +
+                    "Status: ongoing\n" +
+                    "Time Started: 12:46\n\n");
+        }
     }
 
     private int getTimeApprox() {
