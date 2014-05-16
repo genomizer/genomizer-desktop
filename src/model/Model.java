@@ -162,7 +162,7 @@ public class Model implements GenomizerModel {
             AddFileToExperimentResponse aFTER = ResponseParser
                     .parseUploadResponse(conn.getResponseBody());
             HTTPURLUpload upload = new HTTPURLUpload(aFTER.URLupload,
-                    f.getAbsolutePath());
+                    f.getAbsolutePath(), f.getName());
             ongoingUploads.add(upload);
             if(upload.sendFile("pvt", "pvt")) {
                 return true;
