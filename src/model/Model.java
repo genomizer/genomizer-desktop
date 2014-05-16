@@ -14,6 +14,7 @@ import requests.DownloadFileRequest;
 import requests.GetAnnotationRequest;
 import requests.LoginRequest;
 import requests.LogoutRequest;
+import requests.ProcessFeedbackRequest;
 import requests.RemoveAnnotationValueRequest;
 import requests.RenameAnnotationRequest;
 import requests.RenameAnnotationValueRequest;
@@ -28,6 +29,7 @@ import responses.ResponseParser;
 import util.AnnotationDataType;
 import util.AnnotationDataValue;
 import util.ExperimentData;
+import util.ProcessFeedbackData;
 
 import com.google.gson.Gson;
 import communication.Connection;
@@ -393,4 +395,22 @@ public class Model implements GenomizerModel {
         }
         return false;
     }
+
+
+    public ProcessFeedbackData[] getProcessFeedback() {
+        ProcessFeedbackRequest request = RequestFactory.makeProcessFeedbackRequest();
+        conn.sendRequest(request, userID, TEXT_PLAIN);
+        //System.out.println("proc feedback code: " +conn.getResponseCode());
+        if (conn.getResponseCode() == 200) {
+            return ResponseParser.parseProcessFeedbackResponse(conn.getResponseBody());
+        }
+        return null;
+     }
+
+    @Override
+    public boolean removeAnnotationField(String annotationName) {
+        // TODO Auto-generated method stub
+        return false;
+    }
+
 }
