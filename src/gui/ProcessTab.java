@@ -199,7 +199,6 @@ public class ProcessTab extends JPanel {
         procInfoCenterPanel.add(scrollProcessList, BorderLayout.CENTER);
         scrollProcessList.setViewportView(procInfoArea);
         procInfoArea.setEditable(false);
-        processFeedbackButton.setSize(new Dimension(2,30));
         procInfoSouthPanel.add(processFeedbackButton);
     }
 
@@ -695,7 +694,10 @@ public class ProcessTab extends JPanel {
     }
 
     public void showProcessFeedback(ProcessFeedbackData[] processFeedbackData) {
-        //show process feedback
+        procInfoArea.setText("" +
+                "Experiment Name: exp1\n" +
+                "Status: ongoing\n" +
+                "Time Started: 12:46");
     }
 
     private int getTimeApprox() {
