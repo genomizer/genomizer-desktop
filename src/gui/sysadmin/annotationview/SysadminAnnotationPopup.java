@@ -11,6 +11,7 @@ import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 import javax.swing.BorderFactory;
 import javax.swing.ButtonModel;
@@ -173,6 +174,11 @@ public class SysadminAnnotationPopup extends JPanel {
             @Override
             public void actionPerformed(ActionEvent e) {
                 categoryPanel.getParent().remove(categoryPanel);
+                for (Component c : categoryPanel.getComponents()) {
+                    if (c.getName() != null && c.getName().equals("textField")) {
+                        valueTexts.remove(c);
+                    }
+                }
                 repaint();
                 
             }
@@ -276,6 +282,7 @@ public class SysadminAnnotationPopup extends JPanel {
         JPanel newCategoryPanel = new JPanel();
         JLabel categoryLabel = new JLabel("Category:");
         final JTextField textField = new JTextField();
+        textField.setName("textField");
         textField.setText(annotationTextField.getText());
         textField.setEditable(false);
         textField.setPreferredSize(new Dimension(200, 30));
@@ -308,8 +315,9 @@ public class SysadminAnnotationPopup extends JPanel {
         synchronized (valueTexts) {
             
             for (JTextField field : valueTexts) {
-                categories.add(field.getText());
-                
+                if (!field.getText().isEmpty()) {
+                    categories.add(field.getText());
+                }
             }
             if (isCategoriesEmpty(categories)) {
                 categories.clear();

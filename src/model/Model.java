@@ -13,6 +13,7 @@ import requests.AddFileToExperiment;
 import requests.AddNewAnnotationValueRequest;
 import requests.DownloadFileRequest;
 import requests.GetAnnotationRequest;
+import requests.GetGenomeReleasesRequest;
 import requests.LoginRequest;
 import requests.LogoutRequest;
 import requests.ProcessFeedbackRequest;
@@ -31,6 +32,7 @@ import responses.ResponseParser;
 import util.AnnotationDataType;
 import util.AnnotationDataValue;
 import util.ExperimentData;
+import util.GenomeReleaseData;
 import util.ProcessFeedbackData;
 
 import com.google.gson.Gson;
@@ -160,7 +162,8 @@ public class Model implements GenomizerModel {
             AddFileToExperimentResponse aFTER = ResponseParser
                     .parseUploadResponse(conn.getResponseBody());
             HTTPURLUpload upload = new HTTPURLUpload(aFTER.URLupload,
-                    f.getAbsolutePath());
+                    f.getAbsolutePath(), f.getName());
+            ongoingUploads.add(upload);
             if(upload.sendFile("pvt", "pvt")) {
                 return true;
             }
@@ -273,7 +276,7 @@ public class Model implements GenomizerModel {
         } else {
             System.out.println("No changes were made in name!");
         }
-        
+
         if (!(oldAnnotation.isForced() == forced)) {
             System.out
                     .println("Forced value changed! Calling changeAnnotationForced (?)");
@@ -281,13 +284,13 @@ public class Model implements GenomizerModel {
         } else {
             System.out.println("Forced value not changed");
         }
-        
+
         // TODO: If an annotation value has been added, call
         // addAnnotationValue(name, valueName)
-        
+
         // TODO: If an annotation value has been removed, call
         // removeAnnotationValue(name, valueName)
-        
+
         for (int i = 0; i < categories.length; i++) {
             if (!(categories[i].equals(oldAnnotation.getValues()[i]))) {
                 System.out
@@ -331,6 +334,27 @@ public class Model implements GenomizerModel {
             JOptionPane.showMessageDialog(null, "Could not get annotations!");
         }
         return new AnnotationDataType[] {};
+    }
+
+    /** TODO NOT CALLED ANYWHERE YET! */
+    public GenomeReleaseData[] getGenomeReleases() {
+        GetGenomeReleasesRequest request = RequestFactory
+                .makeGetGenomeReleaseRequest();
+        conn.sendRequest(request, userID, TEXT_PLAIN);
+        if (conn.getResponseCode() == 200) {
+            System.err.println("Sent getGenomerReleaseRequestSuccess!");
+            GenomeReleaseData[] genomeReleases = ResponseParser
+                    .parseGetGenomeReleaseResponse(conn.getResponseBody());
+            return genomeReleases;
+        } else {
+
+            System.out.println("GenomeRelease responsecode: "
+                    + conn.getResponseCode());
+            JOptionPane
+                    .showMessageDialog(null, "Could not get genomereleases!");
+        }
+
+        return new GenomeReleaseData[] {};
     }
 
     @Override

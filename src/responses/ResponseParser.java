@@ -53,7 +53,7 @@ public class ResponseParser {
         return annotationResponses;
     }
 
-    /** TODO NOT CALLED ANYWHERE YET! */
+
     public static GenomeReleaseData[] parseGetGenomeReleaseResponse(String json) {
 
         GenomeReleaseData[] genomeReleaseResponses = null;
@@ -64,7 +64,7 @@ public class ResponseParser {
         } catch (JsonParseException e) {
             return null;
         }
-        
+
         return genomeReleaseResponses;
     }
 
