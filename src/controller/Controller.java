@@ -649,7 +649,7 @@ public class Controller {
         @Override
         public void run() {
             System.out.println("RATIO CALC");
-            view.setDefaultRatioPar();
+            view.setUnusedRatioPar();
             view.showRatioPopup();
         }
     }
