@@ -1,6 +1,7 @@
 package gui.sysadmin;
 
 import gui.sysadmin.annotationview.AnnotationsViewCreator;
+import gui.sysadmin.genomereleaseview.GenomeButtonListener;
 import gui.sysadmin.genomereleaseview.GenomeReleaseViewCreator;
 import gui.sysadmin.processview.ProcessViewCreator;
 import gui.sysadmin.strings.SysadminTabButtons;
@@ -31,7 +32,9 @@ public class SysadminTab extends JPanel {
         this.annotationsView = new AnnotationsViewCreator();
         this.usersView = new UsersViewCreator();
         this.processView = new ProcessViewCreator();
-        this.genomeReleaseView = new GenomeReleaseViewCreator();
+
+        ActionListener listener = new GenomeButtonListener(this);
+        this.genomeReleaseView = new GenomeReleaseViewCreator(listener);
 
     }
 
@@ -57,28 +60,6 @@ public class SysadminTab extends JPanel {
                     break;
             }
         }
-
-        // for (int i = 0; i < buttonNameStrings.length; i++) {
-        //
-        // switch (buttonNameStrings[i]) {
-        //
-        // case SysStrings.ANNOTATIONS:
-        // sysadminTabPane.addTab(buttonNameStrings[i],
-        // buildAnnotationsView());
-        // break;
-        // /*
-        // case SysStrings.USERS:
-        // sysadminTabPane.addTab(buttonNameStrings[i], new JPanel());
-        // break;
-        //
-        // case SysStrings.TEST:
-        // sysadminTabPane.addTab(buttonNameStrings[i], new JPanel());
-        // break;
-        // */
-        // }
-        //
-        // }
-
         add(sysadminTabPane);
     }
 

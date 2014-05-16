@@ -3,6 +3,7 @@ package gui.sysadmin.genomereleaseview;
 import gui.sysadmin.strings.SysStrings;
 
 import java.awt.*;
+import java.awt.event.ActionListener;
 import javax.swing.*;
 import javax.swing.border.Border;
 import javax.swing.table.JTableHeader;
@@ -12,9 +13,14 @@ import javax.swing.table.TableRowSorter;
 public class GenomeReleaseViewCreator {
 
     GenomereleaseTableModel grTablemodel;
+    ActionListener buttonListener;
 
-    public GenomeReleaseViewCreator() {
+    JTextField versionText;
+    JTextField speciesText;
+    JTextField fileText;
 
+    public GenomeReleaseViewCreator(ActionListener buttonListener) {
+        this.buttonListener = buttonListener;
     }
 
     public JPanel buildGenomeReleaseView() {
@@ -77,10 +83,13 @@ public class GenomeReleaseViewCreator {
         fileLabel.setBorder(border);
 
         JButton addButton = new JButton(SysStrings.GENOME_BUTTON_ADD);
+        addButton.addActionListener(buttonListener);
         JButton clearButton = new JButton(SysStrings.GENOME_BUTTON_CLEAR);
+        clearButton.addActionListener(buttonListener);
         JButton deleteButton = new JButton(SysStrings.GENOME_BUTTON_DELETE);
-        deleteButton.setEnabled(false);
+        deleteButton.addActionListener(buttonListener);
         JButton fileButton = new JButton(SysStrings.GENOME_BUTTON_FILE);
+        fileButton.addActionListener(buttonListener);
 
         FlowLayout flowLayout = new FlowLayout();
         flowLayout.setAlignment(flowLayout.LEADING);
@@ -102,9 +111,9 @@ public class GenomeReleaseViewCreator {
         buttonCeptionPanel.add(buttonPanel, BorderLayout.WEST);
         buttonCepDeletePanel.add(buttonDeletePanel, BorderLayout.WEST);
         
-        JTextField versionText = new JTextField(20);
-        JTextField speciesText = new JTextField(20);
-        JTextField fileText = new JTextField(20);
+        versionText = new JTextField(20);
+        speciesText = new JTextField(20);
+        fileText = new JTextField(20);
         fileText.setEditable(false);
 
 
@@ -208,4 +217,15 @@ public class GenomeReleaseViewCreator {
         return grTablemodel;
     }
 
+    public JTextField getVersionText() {
+        return versionText;
+    }
+
+    public JTextField getSpeciesText() {
+        return speciesText;
+    }
+
+    public JTextField getFileText() {
+        return fileText;
+    }
 }
