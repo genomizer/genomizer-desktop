@@ -469,11 +469,4 @@ public class Model implements GenomizerModel {
         // TODO Auto-generated method stub
         return false;
     }
-
-    @Override
-    public boolean editAnnotation(String name, String[] categories,
-            boolean forced, AnnotationDataType oldAnnotation) {
-        // TODO Auto-generated method stub
-        return false;
-    }
 }
