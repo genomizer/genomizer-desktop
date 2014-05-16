@@ -186,7 +186,8 @@ public class UploadToExistingExpPanel extends JPanel
     }
 
     /**
-     * Sets the experiment button to either be enabled or disabled.
+     * Tries to set the experiment button to either be enabled or disabled.
+     * If there are no fileRows, it won't be set to true.
      *
      * @param b Whether it should be enabled (true) or disabled (false)
      */
@@ -208,6 +209,11 @@ public class UploadToExistingExpPanel extends JPanel
         super.removeAll();
     }
 
+    /**
+     *
+     *
+     * @param ed The experiment to be added, in the form of ExperimentData
+     */
     public void addExistingExp(ExperimentData ed) {
         build();
         ArrayList<AnnotationDataValue> annot = ed.getAnnotations();

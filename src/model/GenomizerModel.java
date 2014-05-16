@@ -53,8 +53,6 @@ public interface GenomizerModel {
 
     public boolean renameAnnotationValue(String name, String oldValue, String newValue);
     
-    public CopyOnWriteArrayList<HTTPURLUpload> getOngoingUploads();
-    
     public boolean removeAnnotationValue(String annotationName, String valueName);
 
     public boolean removeAnnotationField(String annotationName);
