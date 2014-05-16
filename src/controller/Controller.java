@@ -603,7 +603,7 @@ public class Controller {
         public void run() {
             System.out.println("RATIO CALC");
             view.setDefaultRatioPar();
-            view.showRatioPopup();        
+            view.showRatioPopup();
         }
     }
 }
