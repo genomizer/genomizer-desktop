@@ -381,15 +381,21 @@ public class Controller {
         public void run() {
             UploadTab uploadTab = view.getUploadTab();
             String expID = uploadTab.getSearchText();
-            try {
-                ExperimentData ed = model.retrieveExperiment(expID);
-                ArrayList<FileData> f = new ArrayList<FileData>();
-                uploadTab.addExistingExpPanel(ed);
-                // uploadTab.repaint();
-                // uploadTab.revalidate();
-            } catch (NullPointerException e) {
+            if(expID.length() > 0) {
+                try {
+                    ExperimentData ed = model.retrieveExperiment(expID);
+                    ArrayList<FileData> f = new ArrayList<FileData>();
+                    uploadTab.addExistingExpPanel(ed);
+                    // uploadTab.repaint();
+                    // uploadTab.revalidate();
+                } catch (NullPointerException e) {
+                    JOptionPane.showMessageDialog(null,
+                            "Couldn't find or retrieve experiment", "ERROR",
+                            JOptionPane.ERROR_MESSAGE);
+                }
+            } else {
                 JOptionPane.showMessageDialog(null,
-                        "Couldn't find or retrieve experiment", "ERROR",
+                        "Please fill in experiment name", "ERROR",
                         JOptionPane.ERROR_MESSAGE);
             }
         }
@@ -425,6 +431,7 @@ public class Controller {
             }
             UploadToExistingExpPanel uploadToExistingExpPanel = view
                     .getUploadTab().getUploadToExistingExpPanel();
+            uploadToExistingExpPanel.createUploadFileRow(files);
             uploadToExistingExpPanel.enableUploadButton(true);
             uploadToExistingExpPanel.addFileDrop();
         }
@@ -454,7 +461,7 @@ public class Controller {
             for (File f : files) {
                 if (model.uploadFile(ed.getName(), f, types.get(f.getName()),
                         view.getUsername(), false, release)) {
-                    view.deleteUploadFileRow(f);
+                    view.getUploadTab().getUploadToExistingExpPanel().deleteFileRow(f);
                     JOptionPane.showMessageDialog(null,
                             "Upload of " + f.getName() + " complete", "Done",
                             JOptionPane.PLAIN_MESSAGE);
