@@ -389,10 +389,6 @@ public class Model implements GenomizerModel {
         return null;
     }
 
-    public CopyOnWriteArrayList<UploadHandler> getOngoingUploads() {
-        return ongoingUploads;
-    }
-
     public boolean renameAnnotationField(String oldname, String newname) {
         RenameAnnotationFieldRequest request = RequestFactory
                 .makeRenameAnnotationFieldRequest(oldname, newname);
