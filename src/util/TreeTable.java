@@ -390,6 +390,12 @@ public class TreeTable extends JPanel {
                 }
             }
         }
+        for(ExperimentData data : selectedExperiments) {
+            System.out.println("selected: " + data.name);
+            for(FileData fileData : data.files) {
+                System.out.println("files: " + fileData.filename);
+            }
+        }
         return selectedExperiments;
     }
     

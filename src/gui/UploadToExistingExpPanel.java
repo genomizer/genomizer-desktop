@@ -38,6 +38,7 @@ public class UploadToExistingExpPanel extends JPanel
     private JPanel northPanel, centerPanel, uploadFilesPanel, buttonsPanel, mainPanel;
     private HashMap<File, UploadFileRow> uploadFileRows;
     private JPanel backgroundPanel;
+    private ExperimentData ed;
 
     /**
      * Initiates an uploadToExistingExpPanel with its standard buttons
@@ -60,14 +61,18 @@ public class UploadToExistingExpPanel extends JPanel
         build();
     }
 
+    public HashMap<File, UploadFileRow> getFileRows() {
+        return uploadFileRows;
+    }
+
     /**
      * Builds/rebuilds the panel. This is not part of the constructor so it can
      * be called from elsewhere aswell.
      */
     public void build() {
-        mainPanel.add(northPanel, BorderLayout.NORTH);
+        add(northPanel, BorderLayout.NORTH);
         centerPanel.add(uploadFilesPanel, BorderLayout.NORTH);
-        mainPanel.add(centerPanel, BorderLayout.CENTER);
+        add(centerPanel, BorderLayout.CENTER);
         GridBagLayout gbl_panel = new GridBagLayout();
         gbl_panel.columnWidths = new int[] { 0, 0, 0, 0, 0, 0, 0 };
         gbl_panel.rowHeights = new int[] { 0, 0, 0, 0 };
@@ -76,13 +81,7 @@ public class UploadToExistingExpPanel extends JPanel
         gbl_panel.rowWeights = new double[] { 0.0, 0.0, 0.0, Double.MIN_VALUE };
         northPanel.setLayout(gbl_panel);
 
-        //Makes dragging & dropping of files into the panel possible
-        new FileDrop(this, new FileDrop.Listener() {
-            public void filesDropped(java.io.File[] files) {
-                createUploadFileRow(files);
-                enableUploadButton(true);
-            }
-        });
+        addFileDrop();
 
 //        buttonsPanel.add(selectFilesToUploadButton);
 //        buttonsPanel.add(uploadFilesToExperimentButton);
@@ -90,7 +89,7 @@ public class UploadToExistingExpPanel extends JPanel
 
 //        mainPanel.add(buttonsPanel, BorderLayout.SOUTH);
 //        uploadFilesToExperimentButton.setEnabled(false);
-        add(mainPanel, BorderLayout.CENTER);
+//        add(mainPanel, BorderLayout.CENTER);
 //        repaint();
 //        revalidate();
 //        uploadFilesPanel.repaint();
@@ -108,6 +107,7 @@ public class UploadToExistingExpPanel extends JPanel
     public void createUploadFileRow(File[] files) {
         for (File f : files) {
             if (!uploadFileRows.containsKey(f)) {
+                System.out.println("added");
                 UploadFileRow fileRow = new UploadFileRow(f, this);
                 uploadFileRows.put(f, fileRow);
             } else {
@@ -128,6 +128,7 @@ public class UploadToExistingExpPanel extends JPanel
      */
     public void deleteFileRow(File f) {
         if (uploadFileRows.containsKey(f)) {
+            System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!!!!<<<<<<<<<<<<<<<<");
             uploadFileRows.remove(f);
             uploadFilesPanel.removeAll();
             repaintSelectedFiles();
@@ -215,6 +216,7 @@ public class UploadToExistingExpPanel extends JPanel
      * @param ed The experiment to be added, in the form of ExperimentData
      */
     public void addExistingExp(ExperimentData ed) {
+        this.ed = ed;
         build();
         ArrayList<AnnotationDataValue> annot = ed.getAnnotations();
         GridBagConstraints gbc = new GridBagConstraints();
@@ -225,9 +227,11 @@ public class UploadToExistingExpPanel extends JPanel
         gbc.gridx = x;
         gbc.gridy = y;
         JPanel exp = new JPanel(new BorderLayout());
-        exp.setBorder(BorderFactory
-                .createTitledBorder("Experiment ID"));
+        JLabel expHeader = new JLabel("Experiment ID");
         JLabel expID = new JLabel(ed.getName());
+        expID.setOpaque(true);
+        expID.setBackground(Color.yellow);
+        exp.add(expHeader, BorderLayout.NORTH);
         exp.add(expID, BorderLayout.CENTER);
         northPanel.add(exp, gbc);
         x++;
@@ -241,12 +245,44 @@ public class UploadToExistingExpPanel extends JPanel
             gbc.gridx = x;
             gbc.gridy = y;
             JPanel p = new JPanel(new BorderLayout());
-            p.setBorder(BorderFactory
-                    .createTitledBorder(adv.getName()));
+            JLabel annotationHeader = new JLabel(adv.getName());
             JLabel annotationValue = new JLabel(adv.getValue());
+            annotationValue.setOpaque(true);
+            annotationValue.setBackground(Color.yellow);
+            p.add(annotationHeader, BorderLayout.NORTH);
             p.add(annotationValue, BorderLayout.CENTER);
             northPanel.add(p, gbc);
             x++;
         }
+    }
+
+    public ExperimentData getExperiment() {
+        return ed;
+    }
+
+    public ArrayList<File> getFilesToUpload() {
+        ArrayList<File> files = new ArrayList<File>();
+        for (File f : uploadFileRows.keySet()) {
+            files.add(f);
+        }
+        return files;
+    }
+
+    public HashMap<String, String> getTypes() {
+        HashMap<String, String> types = new HashMap<String, String>();
+        for (File f : uploadFileRows.keySet()) {
+            types.put(f.getName(), uploadFileRows.get(f).getType());
+        }
+        return types;
+    }
+
+    public void addFileDrop() {
+        //Makes dragging & dropping of files into the panel possible
+        new FileDrop(this, new FileDrop.Listener() {
+            public void filesDropped(java.io.File[] files) {
+                createUploadFileRow(files);
+                enableUploadButton(true);
+            }
+        });
     }
 }

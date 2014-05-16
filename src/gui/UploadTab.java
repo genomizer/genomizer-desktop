@@ -545,10 +545,21 @@ public class UploadTab extends JPanel implements ExperimentPanel {
                     for (File key : uploadFileRows.keySet()) {
                         UploadFileRow row = uploadFileRows.get(key);
                         for(HTTPURLUpload upload : ongoingUploads) {
+                            if(upload.getFileName().equals(row.getFileName())) {
+                                row.updateProgressBar(upload.getCurrentProgress());
+                            }
+                        }
+                    }
+                    for (File key : uploadToExistingExpPanel.getFileRows().keySet()) {
+                        UploadFileRow row = uploadToExistingExpPanel.getFileRows().get(key);
+                        for(HTTPURLUpload upload : ongoingUploads) {
+                            if(upload.getFileName().equals(row.getFileName())) {
+                                row.updateProgressBar(upload.getCurrentProgress());
+                            }
                         }
                     }
                     try {
-                        Thread.sleep(1000);
+                        Thread.sleep(100);
                     } catch (InterruptedException e) {
                         running = false;
                     }

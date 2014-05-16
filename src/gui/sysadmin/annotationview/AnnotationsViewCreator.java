@@ -19,7 +19,7 @@ public class AnnotationsViewCreator {
 
     private static final long serialVersionUID = 3718367832670081148L;
     private TableRowSorter<TableModel> rowSorter;
-    private SysadminAnnotationPopup pop;
+    private AddAnnotationPopup pop;
     private EditAnnotationPopup editPopup;
     private JButton addButton;
     private JButton modifyButton;
@@ -163,7 +163,7 @@ public class AnnotationsViewCreator {
     }
 
     public void popup(ActionListener popupListener) {
-        pop = new SysadminAnnotationPopup();
+        pop = new AddAnnotationPopup();
         pop.setBackground(Color.WHITE);
 
         pop.addAddAnnotationListener(popupListener);
@@ -210,7 +210,7 @@ public class AnnotationsViewCreator {
 
     }
 
-    public SysadminAnnotationPopup getPop() {
+    public AddAnnotationPopup getPop() {
         return pop;
     }
 
