@@ -77,13 +77,7 @@ public class UploadToExistingExpPanel extends JPanel
         gbl_panel.rowWeights = new double[] { 0.0, 0.0, 0.0, Double.MIN_VALUE };
         northPanel.setLayout(gbl_panel);
 
-        //Makes dragging & dropping of files into the panel possible
-        new FileDrop(this, new FileDrop.Listener() {
-            public void filesDropped(java.io.File[] files) {
-                createUploadFileRow(files);
-                enableUploadButton(true);
-            }
-        });
+        addFileDrop();
 
 //        buttonsPanel.add(selectFilesToUploadButton);
 //        buttonsPanel.add(uploadFilesToExperimentButton);
@@ -187,7 +181,8 @@ public class UploadToExistingExpPanel extends JPanel
     }
 
     /**
-     * Sets the experiment button to either be enabled or disabled.
+     * Tries to set the experiment button to either be enabled or disabled.
+     * If there are no fileRows, it won't be set to true.
      *
      * @param b Whether it should be enabled (true) or disabled (false)
      */
@@ -209,6 +204,11 @@ public class UploadToExistingExpPanel extends JPanel
         super.removeAll();
     }
 
+    /**
+     *
+     *
+     * @param ed The experiment to be added, in the form of ExperimentData
+     */
     public void addExistingExp(ExperimentData ed) {
         this.ed = ed;
         build();
@@ -264,5 +264,15 @@ public class UploadToExistingExpPanel extends JPanel
             types.put(f.getName(), uploadFileRows.get(f).getType());
         }
         return types;
+    }
+    
+    public void addFileDrop() {
+        //Makes dragging & dropping of files into the panel possible
+        new FileDrop(this, new FileDrop.Listener() {
+            public void filesDropped(java.io.File[] files) {
+                createUploadFileRow(files);
+                enableUploadButton(true);
+            }
+        });
     }
 }

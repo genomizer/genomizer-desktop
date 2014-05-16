@@ -102,6 +102,7 @@ public class UploadTab extends JPanel implements ExperimentPanel {
         expID.getDocument().addDocumentListener(new FreetextListener());
         northPanel.add(newExpButton, BorderLayout.EAST);
         enableUploadButton(false);
+        updateProgress();
     }
 
     /**
@@ -542,10 +543,15 @@ public class UploadTab extends JPanel implements ExperimentPanel {
                 running = true;
                 while (running) {
                     for (File key : uploadFileRows.keySet()) {
-
+                        UploadFileRow row = uploadFileRows.get(key);
+                        for(HTTPURLUpload upload : ongoingUploads) {
+                            if(upload.getFileName().equals(row.getFileName())) {
+                                row.updateProgressBar(upload.getCurrentProgress());
+                            }
+                        }
                     }
                     try {
-                        Thread.sleep(1000);
+                        Thread.sleep(100);
                     } catch (InterruptedException e) {
                         running = false;
                     }

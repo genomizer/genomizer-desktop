@@ -8,9 +8,11 @@ import communication.HTTPURLUpload;
 import util.AnnotationDataType;
 import util.AnnotationDataValue;
 import util.ExperimentData;
+import util.GenomeReleaseData;
+import util.ProcessFeedbackData;
+
 import communication.DownloadHandler;
 import communication.UploadHandler;
-import util.ProcessFeedbackData;
 
 public interface GenomizerModel {
 
@@ -23,8 +25,7 @@ public interface GenomizerModel {
 
     public ArrayList<ExperimentData> search(String pubmedString);
 
-    public boolean rawToProfile(String fileName, String fileID, String expid,
-            String processtype, String[] parameters, String metadata,
+    public boolean rawToProfile(String expid, String[] parameters, String metadata,
             String genomeRelease, String author);
 
     public boolean downloadFile(String url, String fileID, String path,
@@ -37,6 +38,8 @@ public interface GenomizerModel {
 
     public AnnotationDataType[] getAnnotations();
 
+    public GenomeReleaseData[] getGenomeReleases();
+
     boolean deleteAnnotation(String annotationName);
 
     public boolean addNewExperiment(String expName, String username,
@@ -44,20 +47,23 @@ public interface GenomizerModel {
 
     boolean editAnnotation(String name, String[] categories, boolean forced,
             AnnotationDataType oldAnnotation);
-    
+
     boolean renameAnnotationField(String oldname, String newname);
-    
+
     public CopyOnWriteArrayList<DownloadHandler> getOngoingDownloads();
 
     public ExperimentData retrieveExperiment(String expID);
 
     public boolean renameAnnotationValue(String name, String oldValue, String newValue);
-    
+
     public CopyOnWriteArrayList<HTTPURLUpload> getOngoingUploads();
-    
+
+
     public boolean removeAnnotationValue(String annotationName, String valueName);
 
     public boolean removeAnnotationField(String annotationName);
 
+
     public ProcessFeedbackData[] getProcessFeedback();
+
 }

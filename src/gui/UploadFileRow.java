@@ -90,10 +90,11 @@ public class UploadFileRow extends JPanel {
         return typeBox.getSelectedItem().toString();
     }
     
-    public void updateProgressBar(int progress, int total) {
+    public void updateProgressBar(float progress) {
+        /*Progress is handled as %*/
         uploadBar.setMinimum(0);
-        uploadBar.setMaximum(total);
-        uploadBar.setValue(progress);
+        uploadBar.setMaximum(100);
+        uploadBar.setValue((int)progress);
     }
     
     class closeButtonListener implements ActionListener, Runnable {

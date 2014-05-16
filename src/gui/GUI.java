@@ -642,6 +642,11 @@ public class GUI extends JFrame implements GenomizerView {
     }
 
     @Override
+    public void setUnusedRatioPar() {
+        ratioCalcPopup.setUnusedRatioPar();
+    }
+
+    @Override
     public void showRatioPopup() {
         ratioCalcPopup.setVisible(true);
     }

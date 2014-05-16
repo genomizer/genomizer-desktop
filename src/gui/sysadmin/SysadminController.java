@@ -5,7 +5,7 @@ import gui.sysadmin.annotationview.AnnotationPopupListener;
 import gui.sysadmin.annotationview.AnnotationTableModel;
 import gui.sysadmin.annotationview.EditAnnotationPopup;
 import gui.sysadmin.annotationview.EditAnnotationPopupListener;
-import gui.sysadmin.annotationview.SysadminAnnotationPopup;
+import gui.sysadmin.annotationview.AddAnnotationPopup;
 import gui.sysadmin.genomereleaseview.GenomereleaseTableModel;
 
 import java.awt.event.ActionListener;
@@ -54,7 +54,7 @@ public class SysadminController extends Observable {
     }
 
     public void sendNewAnnotation() {
-        SysadminAnnotationPopup popup = sysTab.getAnnotationsView().getPop();
+        AddAnnotationPopup popup = sysTab.getAnnotationsView().getPop();
         try {
             model.addNewAnnotation(popup.getNewAnnotationName(),
                     popup.getNewAnnotationCategories(),
@@ -68,23 +68,54 @@ public class SysadminController extends Observable {
     public void editAnnotation() {
         System.out.println("Calling editAnnotation in syscontroller");
         EditAnnotationPopup edPop = sysTab.getAnnotationsView().getEditPopup();
-        try {
-            System.out.println("Trying to ask model to please edit an annotation...");
-            model.editAnnotation(edPop.getNewAnnotationName(),
-                    edPop.getNewAnnotationCategories(),
-                    edPop.getNewAnnotationForcedValue(),
-                    edPop.getAnnotation());
+        AnnotationDataType oldAnnotation = edPop.getAnnotation();
+        AnnotationDataType newAnnotation = new AnnotationDataType(
+                edPop.getNewAnnotationName(),
+                edPop.getNewAnnotationCategories(),
+                edPop.getNewAnnotationForcedValue());
 
-        } catch (IllegalArgumentException e) {
-            JOptionPane.showMessageDialog(null, e.getMessage());
+        if (!(oldAnnotation.name.equals(newAnnotation.name))) {
+            System.out
+                    .println("Name has been changed! Calling renameAnnotationField!");
+            model.renameAnnotationField(oldAnnotation.name, newAnnotation.name);
+        } else {
+            System.out.println("No changes were made in name!");
         }
+
+        if (!(oldAnnotation.isForced() == newAnnotation.isForced())) {
+            System.out
+                    .println("Forced value changed! Calling changeAnnotationForced (?)");
+            // model.changeAnnotationForced(name);
+        } else {
+            System.out.println("Forced value not changed");
+        }
+
+        if (newAnnotation.getValues().length > oldAnnotation.getValues().length){
+            System.out.println("New value(s) added to " + oldAnnotation.name + "!");
+            //model.addAnnotationValue(name, valueName);
+        }
+
+        if (newAnnotation.getValues().length < oldAnnotation.getValues().length) {
+            System.out.println("Value removed from " + oldAnnotation.name);
+            //model.removeAnnotationValue(name, valueName);
+        }
+
+        for (int i = 0; i < newAnnotation.getValues().length; i++) {
+            if (!(newAnnotation.getValues()[i]
+                    .equals(oldAnnotation.getValues()[i]))) {
+                System.out
+                        .println("A change was made in annotation value! Calling renameAnnotationValue");
+                model.renameAnnotationValue(newAnnotation.name,
+                        oldAnnotation.getValues()[i],
+                        newAnnotation.getValues()[i]);
+            }
+        }
+
     }
 
     public util.AnnotationDataType[] getAnnotations() {
         return model.getAnnotations();
     }
-
-
 
     public void deleteAnnotation() {
 
@@ -124,8 +155,10 @@ public class SysadminController extends Observable {
 
     public util.GenomeReleaseData[] getGenomeReleases() {
 
+        GenomeReleaseData[] grdarray = null;
+
         try {
-            // model.getGenomeReleases();
+            // grdarray = model.getGenomeReleases();
             /** TODO Implement me.... */
         } catch (IllegalArgumentException e) {
             JOptionPane.showMessageDialog(null, e.getMessage());
@@ -157,7 +190,7 @@ public class SysadminController extends Observable {
         GenomeReleaseData gr8 = new GenomeReleaseData("version 666", "devil",
                 "burn.txt");
 
-        GenomeReleaseData[] grdarray = new GenomeReleaseData[8];
+        grdarray = new GenomeReleaseData[8];
         grdarray[0] = gr1;
         grdarray[1] = gr2;
         grdarray[2] = gr3;

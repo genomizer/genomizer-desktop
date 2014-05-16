@@ -1,5 +1,6 @@
 package controller;
 
+import communication.HTTPURLUpload;
 import gui.CheckListItem;
 import gui.DownloadWindow;
 import gui.GenomizerView;
@@ -62,9 +63,9 @@ public class Controller {
         fileListAddMouseListener(view.getfileList());
         view.addRatioCalcListener(new RatioCalcListener());
         view.addProcessFeedbackListener(new ProcessFeedbackListener());
-        view.setOngoingUploads(model.getOngoingUploads());
         view.addCancelListener(new CancelListener());
         view.addOkListener(new OkListener());
+        view.setOngoingUploads(model.getOngoingUploads());
     }
 
     class ConvertFileListener implements ActionListener, Runnable {
@@ -114,7 +115,7 @@ public class Controller {
                     String processtype = "rawtoprofile";
 
                     parameters[0] = view.getParameters()[0];
-                    parameters[1] = view.getParameters()[1];
+                    parameters[1] = "";//view.getParameters()[1];
                     parameters[2] = view.getOtherParameters()[0];// "y";
                     parameters[3] = view.getOtherParameters()[1];// "y";
                     parameters[4] = view.getParameters()[2];
@@ -123,14 +124,16 @@ public class Controller {
                     parameters[7] = view.getRatioCalcParameters()[1]; // "150 1 7 0 0";
 
                     String expid = data.expId;
-                    String genomeRelease = data.grVersion;
+                    String genomeVersion = data.grVersion;
                     String metadata = data.metaData;
 
-                    isConverted = model.rawToProfile(fileName, fileID, expid,
-                            processtype, parameters, metadata, genomeRelease,
-                            author);
+                 //   isConverted = model.rawToProfile(fileName, fileID, expid,
+                 //           processtype, parameters, metadata, genomeRelease,
+                 //           author);
 
-                    if (isConverted.equals(true)) {
+                    isConverted = model.rawToProfile(expid,parameters, metadata, genomeVersion, author);
+
+                    if (isConverted) {
                         message = "The server has converted: " + fileName
                                 + " with file id: " + fileID + " from " + expid
                                 + "\n";
@@ -401,14 +404,16 @@ public class Controller {
 
         @Override
         public void run() {
-            /*
-             * fileChooser.setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES
-             * ); int ret = fileChooser.showOpenDialog(new JPanel()); String
-             * directoryName = ""; File[] files; if (ret ==
-             * JFileChooser.APPROVE_OPTION) { files =
-             * fileChooser.getSelectedFiles(); System.out.println(files[1].); }
-             * else { return; }
-             */
+            /*fileChooser.setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES);
+            int ret = fileChooser.showOpenDialog(new JPanel());
+            String directoryName = "";
+            File[] files;
+            if (ret == JFileChooser.APPROVE_OPTION) {
+                files = fileChooser.getSelectedFiles();
+                System.out.println(files[1].);
+            } else {
+                return;
+            }*/
             FileDialog fileDialog = new java.awt.FileDialog(
                     (java.awt.Frame) view);
             fileDialog.setMultipleMode(true);
@@ -418,9 +423,10 @@ public class Controller {
             for (int i = 0; i < files.length; i++) {
                 fileNames[i] = files[i].getName();
             }
-            view.selectFilesToExistingExp(files);
-            view.getUploadTab().getUploadToExistingExpPanel()
-                    .enableUploadButton(true);
+            UploadToExistingExpPanel uploadToExistingExpPanel = view
+                    .getUploadTab().getUploadToExistingExpPanel();
+            uploadToExistingExpPanel.enableUploadButton(true);
+            uploadToExistingExpPanel.addFileDrop();
         }
     }
 
@@ -572,9 +578,11 @@ public class Controller {
                                 types.get(f.getName()), view.getUsername(),
                                 false, release)) {
                             view.deleteUploadFileRow(f);
-                            JOptionPane.showMessageDialog(null, "Upload of "
-                                    + f.getName() + " complete.", "Done",
-                                    JOptionPane.PLAIN_MESSAGE);
+                            for (HTTPURLUpload upload : model.getOngoingUploads()) {
+                                if (f.getName().equals(upload.getFileName())) {
+                                    model.getOngoingUploads().remove(upload);
+                                }
+                            }
                         } else {
                             JOptionPane.showMessageDialog(null,
                                     "Couldn't upload " + f.getName() + ".",
@@ -631,7 +639,7 @@ public class Controller {
         @Override
         public void run() {
             System.out.println("RATIO CALC");
-            view.setDefaultRatioPar();
+            view.getRatioCalcPopup().setDefaultRatioPar();
             view.showRatioPopup();
         }
     }
@@ -661,7 +669,7 @@ public class Controller {
         @Override
         public void run() {
             System.out.println("OK");
-            // view.getRatioCalcPopup().okButton.setEnabled(false);
+            view.getRatioCalcPopup().hideRatioWindow();
         }
     }
 
@@ -674,6 +682,8 @@ public class Controller {
         @Override
         public void run() {
             System.out.println("CANCEL");
+            view.setUnusedRatioPar();
+            view.getRatioCalcPopup().hideRatioWindow();
         }
     }
 

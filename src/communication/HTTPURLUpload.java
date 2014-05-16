@@ -29,8 +29,11 @@ public class HTTPURLUpload {
 
     private String filePath;
     private String uploadPath;
+    private String fileName;
+    private float currentProgress;
 
-    public HTTPURLUpload(String uploadPath, String filePath) {
+    public HTTPURLUpload(String uploadPath, String filePath,  String fileName) {
+        this.fileName = fileName;
         this.filePath = filePath;
         this.uploadPath = uploadPath;
     }
@@ -80,7 +83,8 @@ public class HTTPURLUpload {
             @Override
             public void progress(float progress) {
                 if (progress != -1) {
-                    System.out.println(progress);
+                    currentProgress = progress;
+                    //System.out.println(progress);
                 }
             }
 
@@ -116,8 +120,16 @@ public class HTTPURLUpload {
      */
     public static void main(String[] args) {
         HTTPURLUpload uploader = new HTTPURLUpload(
-                "/var/www/data/test0x64.txt", "/home/dv12/dv12csr/test.txt");
+                "/var/www/data/test0x64.txt", "/home/dv12/dv12csr/test.txt", "test.txt");
         uploader.sendFile("pvt", "pvt");
+    }
+
+    public String getFileName() {
+        return fileName;
+    }
+
+    public float getCurrentProgress() {
+        return currentProgress;
     }
 
 }

@@ -13,6 +13,7 @@ import requests.AddFileToExperiment;
 import requests.AddNewAnnotationValueRequest;
 import requests.DownloadFileRequest;
 import requests.GetAnnotationRequest;
+import requests.GetGenomeReleasesRequest;
 import requests.LoginRequest;
 import requests.LogoutRequest;
 import requests.ProcessFeedbackRequest;
@@ -31,6 +32,7 @@ import responses.ResponseParser;
 import util.AnnotationDataType;
 import util.AnnotationDataValue;
 import util.ExperimentData;
+import util.GenomeReleaseData;
 import util.ProcessFeedbackData;
 
 import com.google.gson.Gson;
@@ -80,16 +82,15 @@ public class Model implements GenomizerModel {
      * <p/>
      * Returns whether or not the server could create profile data or not.
      */
-    public boolean rawToProfile(String fileName, String fileID, String expid,
-            String processtype, String[] parameters, String metadata,
+    public boolean rawToProfile(String expid,String[] parameters, String metadata,
             String genomeRelease, String author) {
 
-        ///hej anna
+        // /hej anna
         System.out.println("RAW TO PROFILE\n");
-        System.out.println("Filename: " + fileName);
-        System.out.println("File ID: " + fileID);
+    //    System.out.println("Filename: " + fileName);
+     //   System.out.println("File ID: " + fileID);
         System.out.println("Expid: " + expid);
-        System.out.println("Processtype: " + processtype);
+     //   System.out.println("Processtype: " + processtype);
         System.out.println("Parameter 1: " + parameters[0]);
         System.out.println("Parameter 2: " + parameters[1]);
         System.out.println("Parameter 3: " + parameters[2]);
@@ -103,11 +104,16 @@ public class Model implements GenomizerModel {
         System.out.println("Author: " + author);
         System.out.println("\n");
 
-        rawToProfileRequest rawToProfilerequest = RequestFactory
-                .makeRawToProfileRequest(fileName, fileID, expid, processtype,
-                        parameters, metadata, genomeRelease, author);
+  //      rawToProfileRequest rawToProfilerequest = RequestFactory
+   //             .makeRawToProfileRequest(fileName, fileID, expid, processtype,
+   //                     parameters, metadata, genomeRelease, author);
+
+              rawToProfileRequest rawToProfilerequest = RequestFactory
+                             .makeRawToProfileRequest(expid,
+                                     parameters, metadata, genomeRelease, author);
+
         conn.sendRequest(rawToProfilerequest, userID, JSON);
-        if (conn.getResponseCode() == 201) {
+        if (conn.getResponseCode() == 200) {
             return true;
         } else {
             System.out.println("Response Code: " + conn.getResponseCode());
@@ -160,9 +166,9 @@ public class Model implements GenomizerModel {
             AddFileToExperimentResponse aFTER = ResponseParser
                     .parseUploadResponse(conn.getResponseBody());
             HTTPURLUpload upload = new HTTPURLUpload(aFTER.URLupload,
-                    f.getAbsolutePath());
+                    f.getAbsolutePath(), f.getName());
             ongoingUploads.add(upload);
-            if(upload.sendFile("pvt", "pvt")) {
+            if (upload.sendFile("pvt", "pvt")) {
                 return true;
             }
         }
@@ -334,6 +340,27 @@ public class Model implements GenomizerModel {
         return new AnnotationDataType[] {};
     }
 
+    /** TODO NOT CALLED ANYWHERE YET! */
+    public GenomeReleaseData[] getGenomeReleases() {
+        GetGenomeReleasesRequest request = RequestFactory
+                .makeGetGenomeReleaseRequest();
+        conn.sendRequest(request, userID, TEXT_PLAIN);
+        if (conn.getResponseCode() == 200) {
+            System.err.println("Sent getGenomerReleaseRequestSuccess!");
+            GenomeReleaseData[] genomeReleases = ResponseParser
+                    .parseGetGenomeReleaseResponse(conn.getResponseBody());
+            return genomeReleases;
+        } else {
+
+            System.out.println("GenomeRelease responsecode: "
+                    + conn.getResponseCode());
+            JOptionPane
+                    .showMessageDialog(null, "Could not get genomereleases!");
+        }
+
+        return new GenomeReleaseData[] {};
+    }
+
     @Override
     public boolean addNewExperiment(String expName, String username,
             AnnotationDataValue[] annotations) {
@@ -426,17 +453,26 @@ public class Model implements GenomizerModel {
     }
 
     public ProcessFeedbackData[] getProcessFeedback() {
-        ProcessFeedbackRequest request = RequestFactory.makeProcessFeedbackRequest();
+        ProcessFeedbackRequest request = RequestFactory
+                .makeProcessFeedbackRequest();
         conn.sendRequest(request, userID, TEXT_PLAIN);
-        //System.out.println("proc feedback code: " +conn.getResponseCode());
+        // System.out.println("proc feedback code: " +conn.getResponseCode());
         if (conn.getResponseCode() == 200) {
-            return ResponseParser.parseProcessFeedbackResponse(conn.getResponseBody());
+            return ResponseParser.parseProcessFeedbackResponse(conn
+                    .getResponseBody());
         }
         return null;
-     }
+    }
 
     @Override
     public boolean removeAnnotationField(String annotationName) {
+        // TODO Auto-generated method stub
+        return false;
+    }
+
+    @Override
+    public boolean editAnnotation(String name, String[] categories,
+            boolean forced, AnnotationDataType oldAnnotation) {
         // TODO Auto-generated method stub
         return false;
     }
