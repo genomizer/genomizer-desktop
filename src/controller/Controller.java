@@ -590,9 +590,6 @@ public class Controller {
                                 types.get(f.getName()), view.getUsername(),
                                 false, release)) {
                             view.deleteUploadFileRow(f);
-                            JOptionPane.showMessageDialog(null, "Upload of "
-                                    + f.getName() + " complete.", "Done",
-                                    JOptionPane.PLAIN_MESSAGE);
                         } else {
                             JOptionPane.showMessageDialog(null,
                                     "Couldn't upload " + f.getName() + ".",

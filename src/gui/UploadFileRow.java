@@ -92,14 +92,8 @@ public class UploadFileRow extends JPanel {
     
     public void updateProgressBar(float progress) {
         uploadBar.setMinimum(0);
-        System.out.println((int) file.length());
         uploadBar.setMaximum(100);
-        System.out.println((int) progress);
         uploadBar.setValue((int)progress);
-        repaint();
-        revalidate();
-        uploadBar.revalidate();
-        uploadBar.repaint();
     }
     
     class closeButtonListener implements ActionListener, Runnable {
