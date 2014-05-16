@@ -63,7 +63,7 @@ public class Connection {
             }
             responseCode = connection.getResponseCode();
             if (responseCode >= 300) {
-                JOptionPane.showMessageDialog(null,"Connection error: " + responseCode);
+                System.out.println("Connection error: " + responseCode);
                 return false;
             }
             BufferedReader in = new BufferedReader(new InputStreamReader(
@@ -77,7 +77,7 @@ public class Connection {
             System.out.println(responseBody);
             connection.disconnect();
         } catch (IOException e) {
-            JOptionPane.showMessageDialog(null,"Connection error: " + e.getMessage());
+            System.out.println("Connection error: " + e.getMessage());
             return false;
         }
         return true;
