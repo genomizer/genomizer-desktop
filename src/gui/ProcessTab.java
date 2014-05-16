@@ -1,6 +1,7 @@
 package gui;
 
 import util.FileData;
+import util.ProcessFeedbackData;
 
 import javax.swing.*;
 import javax.swing.border.EtchedBorder;
@@ -80,6 +81,7 @@ public class ProcessTab extends JPanel {
     private final JButton profileButton = new JButton("Create profile data");
     private final JButton regionButton = new JButton("Create region data");
     private final JButton ratioCalcButton = new JButton("Use ratio calculation");
+    private final JButton processFeedbackButton = new JButton("Get information about processes");
     // private final JCheckBox scheduleButton = new JCheckBox(
     // "Schedule files");
 
@@ -125,7 +127,7 @@ public class ProcessTab extends JPanel {
         ratioSmoothType.addItem(ratioSmooth.get(1));
         smoothType.addItem(ratioSmooth.get(0));
         smoothType.addItem(ratioSmooth.get(1));
-        
+
         /*TEST*/
         ArrayList<String> comboSingle = new ArrayList<String>();
         /* TEST */
@@ -669,6 +671,10 @@ public class ProcessTab extends JPanel {
         convertButton.addActionListener(listener);
     }
 
+    public void addProcessFeedbackListener(ActionListener listener) {
+        processFeedbackButton.addActionListener(listener);
+    }
+
     public void addRawToProfileDataListener(ActionListener listener) {
         profileButton.addActionListener(listener);
     }
@@ -684,6 +690,10 @@ public class ProcessTab extends JPanel {
 
     private int getNumberOfJobsInQueue() {
         return this.processList.countComponents();
+    }
+
+    public void showProcessFeedback(ProcessFeedbackData[] processFeedbackData) {
+        //show process feedback
     }
 
     private int getTimeApprox() {
@@ -769,28 +779,28 @@ public class ProcessTab extends JPanel {
     }
 
     public void showRatioPopup() {
-        
+
      /*   Object[] single = { "single", "double"};
         ratioPopup.showInputDialog(null,
         "Single", "Ratio calculation",
         JOptionPane.INFORMATION_MESSAGE, null,
         single, single[0]);
        */
-        
+
         JPanel ratioPanel = new JPanel(new BorderLayout());
-        
+
         JPanel topPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
         JPanel centerPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
         JPanel bottomPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
-        
+
         topPanel.setBorder(BorderFactory.createTitledBorder("Ratio calculation"));
         centerPanel.setBorder(BorderFactory.createTitledBorder("Ratio smoothing"));
         bottomPanel.setBorder(BorderFactory.createTitledBorder(""));
-        
+
         ratioPanel.add(topPanel,BorderLayout.NORTH);
         ratioPanel.add(centerPanel,BorderLayout.CENTER);
         ratioPanel.add(bottomPanel,BorderLayout.SOUTH);
-        
+
         topPanel.add(single);
         topPanel.add(inputReads);
         topPanel.add(chromosome);
@@ -799,26 +809,26 @@ public class ProcessTab extends JPanel {
         centerPanel.add(ratioStepPosition);
         bottomPanel.add(ratioPrintZeros);
         bottomPanel.add(ratioPrintMean);
-        
+
        single.setPreferredSize(new Dimension(150,60));
        inputReads.setBorder(BorderFactory.createTitledBorder("Input reads cut-off"));
        inputReads.setPreferredSize(new Dimension(160,60));
        chromosome.setBorder(BorderFactory.createTitledBorder("Chromosomes"));
        chromosome.setPreferredSize(new Dimension(120,60));
-        
+
        ratioWindowSize.setBorder(BorderFactory.createTitledBorder("Window size"));
        ratioWindowSize.setPreferredSize(new Dimension(120,60));
        ratioSmoothType.setBorder(BorderFactory.createTitledBorder("Smooth type"));
        ratioSmoothType.setPreferredSize(new Dimension(120,60));
        ratioStepPosition.setBorder(BorderFactory.createTitledBorder("Step position"));
        ratioStepPosition.setPreferredSize(new Dimension(120,60));
-        
-       int result = JOptionPane.showConfirmDialog(null, ratioPanel, 
+
+       int result = JOptionPane.showConfirmDialog(null, ratioPanel,
                 "Ratio calculation",  JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
-       
-       if (result == JOptionPane.OK_OPTION) {   
+
+       if (result == JOptionPane.OK_OPTION) {
            System.out.println("OK");
-       } 
+       }
        //System.out.println();
     }
 

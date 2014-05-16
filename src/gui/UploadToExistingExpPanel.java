@@ -87,6 +87,7 @@ public class UploadToExistingExpPanel extends JPanel
 //        buttonsPanel.add(selectFilesToUploadButton);
 //        buttonsPanel.add(uploadFilesToExperimentButton);
 
+
 //        mainPanel.add(buttonsPanel, BorderLayout.SOUTH);
 //        uploadFilesToExperimentButton.setEnabled(false);
         add(mainPanel, BorderLayout.CENTER);
@@ -231,7 +232,11 @@ public class UploadToExistingExpPanel extends JPanel
      * @param b Whether it should be enabled (true) or disabled (false)
      */
     public void enableUploadButton(boolean b) {
-        uploadFilesToExperimentButton.setEnabled(b);
+        if(b && !uploadFileRows.isEmpty()) {
+            uploadFilesToExperimentButton.setEnabled(b);
+        } else {
+            uploadFilesToExperimentButton.setEnabled(false);
+        }
     }
 
     /**

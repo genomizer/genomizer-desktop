@@ -21,10 +21,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 import model.GenomizerModel;
-import util.AnnotationDataType;
-import util.AnnotationDataValue;
-import util.ExperimentData;
-import util.FileData;
+import util.*;
 
 public class Controller {
 

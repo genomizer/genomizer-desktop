@@ -6,12 +6,10 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 import javax.swing.DefaultCellEditor;
-import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
@@ -22,6 +20,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 
 import util.FileData;
+
 import communication.DownloadHandler;
 
 public class DownloadWindow extends JFrame {
@@ -92,7 +91,8 @@ public class DownloadWindow extends JFrame {
         };
         
         // Add comboboxes to each row in the table.
-        JComboBox<String> comboBox = new JComboBox<String>(new String[] {"RAW", "WIG"});
+        JComboBox<String> comboBox = new JComboBox<String>(new String[] {
+                "RAW", "WIG" });
         DefaultCellEditor cellEditor = new DefaultCellEditor(comboBox);
         table.getColumnModel().getColumn(1).setCellEditor(cellEditor);
         table.setRowHeight(30);
@@ -113,7 +113,7 @@ public class DownloadWindow extends JFrame {
     }
     
     private void setUpOngoingPanel() {
-        ongoingPanel = new JPanel(new GridLayout(0, 1));      
+        ongoingPanel = new JPanel(new GridLayout(0, 1));
         mainPanel.add(ongoingPanel, BorderLayout.NORTH);
     }
     
@@ -131,24 +131,25 @@ public class DownloadWindow extends JFrame {
                                 JPanel south = new JPanel(new BorderLayout());
                                 JPanel north = new JPanel(new BorderLayout());
                                 double speed = handler.getCurrentSpeed() / 1024 / 2014;
-                                north.add(new JLabel(
-                                        handler.getFileName()
-                                                + " ("
-                                                + Math.round(speed*100.0)/100.0
-                                                + "Mb/s)"), BorderLayout.CENTER);
+                                north.add(new JLabel(handler.getFileName()
+                                        + " (" + Math.round(speed * 100.0)
+                                        / 100.0 + "Mb/s)"), BorderLayout.CENTER);
                                 JProgressBar progress = new JProgressBar(0,
                                         handler.getTotalSize());
                                 progress.setValue(handler.getCurrentProgress());
                                 progress.setStringPainted(true);
                                 south.add(progress, BorderLayout.CENTER);
                                 JButton stopButton = new JButton("X");
-                                stopButton.addActionListener(new ActionListener() {
-                                    @Override
-                                    public void actionPerformed(ActionEvent e) {
-                                        handler.setFinished(true);
-                                        ongoingDownloads.remove(handler);
-                                    }
-                                });
+                                stopButton
+                                        .addActionListener(new ActionListener() {
+                                            @Override
+                                            public void actionPerformed(
+                                                    ActionEvent e) {
+                                                handler.setFinished(true);
+                                                ongoingDownloads
+                                                        .remove(handler);
+                                            }
+                                        });
                                 south.add(stopButton, BorderLayout.EAST);
                                 ongoingPanel.add(north);
                                 ongoingPanel.add(south);
@@ -161,7 +162,7 @@ public class DownloadWindow extends JFrame {
                     revalidate();
                     repaint();
                     try {
-                        Thread.sleep(1000);
+                        Thread.sleep(100);
                     } catch (InterruptedException e) {
                         running = false;
                     }

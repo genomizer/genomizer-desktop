@@ -4,6 +4,7 @@ import com.google.gson.Gson;
 import com.google.gson.JsonParseException;
 import util.AnnotationDataType;
 import util.ExperimentData;
+import util.ProcessFeedbackData;
 
 public class ResponseParser {
 
@@ -58,5 +59,16 @@ public class ResponseParser {
 
         }
         return url;
+    }
+
+    public static ProcessFeedbackData[] parseProcessFeedbackResponse(String json) {
+        ProcessFeedbackData[] processFeedbackData = null;
+        try {
+            processFeedbackData = gson.fromJson(json,
+                    ProcessFeedbackData[].class);
+        } catch (JsonParseException e) {
+            return null;
+        }
+        return processFeedbackData;
     }
 }
