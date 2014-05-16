@@ -702,11 +702,12 @@ public class ProcessTab extends JPanel {
     }
 
     public void showProcessFeedback(ProcessFeedbackData[] processFeedbackData) {
-        procInfoArea.setText("");
+        procInfoArea.setText("FAKE DATA FOR TESTING:\n------------------------------------------\n");
         for (int i = 0; i < 30; i++) {
             procInfoArea.setText(procInfoArea.getText() +
                     "Experiment Name: exp" + i + "\n" +
                     "Status: ongoing\n" +
+                    "Author: -\n" +
                     "Time Started: 12:46\n\n");
         }
     }
