@@ -24,7 +24,7 @@ import util.FileData;
 import communication.DownloadHandler;
 
 public class DownloadWindow extends JFrame {
-    
+
     private static final long serialVersionUID = -7647204230941649167L;
     private JPanel mainPanel;
     private JPanel tablePanel;
@@ -34,10 +34,10 @@ public class DownloadWindow extends JFrame {
     private ArrayList<FileData> files;
     private CopyOnWriteArrayList<DownloadHandler> ongoingDownloads;
     private boolean running;
-    
+
     /**
      * Initiates a new DownloadWindow with the files it receives.
-     * 
+     *
      * @param files
      *            An ArrayList containing the FileData of the chosen files.
      */
@@ -63,60 +63,61 @@ public class DownloadWindow extends JFrame {
         add(mainPanel, BorderLayout.CENTER);
         updateProgress();
     }
-    
+
     /**
      * Private method that sets up the DownloadWindow.
-     * 
+     *
      * @param data
      *            An ArrayList containing the Strings to set up the window with.
      */
     private void setUpTablePanel(ArrayList<String> data) {
-        
+
         tablePanel = new JPanel(new BorderLayout(3, 3));
         mainPanel.add(tablePanel, BorderLayout.CENTER);
         tablePanel.add(new JLabel("test"), BorderLayout.SOUTH);
-        
+
         // Set up the JTable
         String[] headings = new String[] { "File Name", "Format Conversion" };
         String[][] content = new String[data.size()][2];
         for (int i = 0; i < data.size(); i++) {
             content[i][0] = data.get(i);
-            content[i][1] = "Click here to choose file format";
+            content[i][1] = "File format not implemented";
         }
         table = new JTable(content, headings) {
             @Override
             public boolean isCellEditable(int row, int column) {
-                return column == 1 ? true : false;
+                //return column == 1? true : false;
+                return false;
             }
         };
-        
+
         // Add comboboxes to each row in the table.
         JComboBox<String> comboBox = new JComboBox<String>(new String[] {
                 "RAW", "WIG" });
         DefaultCellEditor cellEditor = new DefaultCellEditor(comboBox);
-        table.getColumnModel().getColumn(1).setCellEditor(cellEditor);
+     //   table.getColumnModel().getColumn(1).setCellEditor(cellEditor);
         table.setRowHeight(30);
         JScrollPane scrollPane = new JScrollPane(table);
         tablePanel.add(scrollPane, BorderLayout.CENTER);
         tablePanel.add(table.getTableHeader(), BorderLayout.NORTH);
-        
+
         downloadButton = new JButton("Download");
-        
+
         JPanel flowSouth = new JPanel();
         flowSouth.add(downloadButton);
         tablePanel.add(flowSouth, BorderLayout.SOUTH);
-        
+
         setTitle("Download Files");
         setSize(500, 500);
         setLocationRelativeTo(null);
         setVisible(true);
     }
-    
+
     private void setUpOngoingPanel() {
         ongoingPanel = new JPanel(new GridLayout(0, 1));
         mainPanel.add(ongoingPanel, BorderLayout.NORTH);
     }
-    
+
     private void updateProgress() {
         new Thread(new Runnable() {
             @Override
@@ -157,7 +158,7 @@ public class DownloadWindow extends JFrame {
                                 ongoingDownloads.remove(handler);
                             }
                         }
-                        
+
                     }
                     revalidate();
                     repaint();
@@ -170,17 +171,17 @@ public class DownloadWindow extends JFrame {
             }
         }).start();
     }
-    
+
     /**
      * Adds a listener for pressing the download button.
-     * 
+     *
      * @param listener
      *            The listener to be added.
      */
     public void addDownloadFileListener(ActionListener listener) {
         downloadButton.addActionListener(listener);
     }
-    
+
     /**
      * @return files An ArrayList containing the FileData representing the
      *         files.

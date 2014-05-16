@@ -201,6 +201,7 @@ public class ProcessTab extends JPanel {
         scrollProcessList.setViewportView(procInfoArea);
         procInfoArea.setEditable(false);
         procInfoSouthPanel.add(processFeedbackButton);
+        processFeedbackButton.setEnabled(false);
     }
 
     /**
