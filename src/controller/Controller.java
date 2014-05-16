@@ -47,16 +47,11 @@ public class Controller {
         view.addRawToRegionDataListener(new RawToRegionDataListener());
         view.addScheduleFileListener(new ScheduleFileListener());
         view.addDownloadFileListener(new DownloadWindowListener());
-        view.addSelectFilesToUploadButtonListener(
-                new SelectFilesToUploadButtonListener());
-        view.setSysadminController(
-                sysController = new SysadminController(model));
-        view.addAddToExistingExpButtonListener(
-                new AddToExistingExpButtonListener());
-        view.addUploadToExperimentButtonListener(
-                new UploadToExperimentButtonListener());
-        view.addUpdateSearchAnnotationsListener(
-                new updateSearchAnnotationsListener());
+        view.addSelectFilesToUploadButtonListener(new SelectFilesToUploadButtonListener());
+        view.setSysadminController(sysController = new SysadminController(model));
+        view.addAddToExistingExpButtonListener(new AddToExistingExpButtonListener());
+        view.addUploadToExperimentButtonListener(new UploadToExperimentButtonListener());
+        view.addUpdateSearchAnnotationsListener(new updateSearchAnnotationsListener());
         view.addProcessFileListener(new ProcessFileListener());
         view.addSearchToWorkspaceListener(new SearchToWorkspaceListener());
         view.addNewExpButtonListener(new NewExpButtonListener());
@@ -377,17 +372,19 @@ public class Controller {
             UploadTab uploadTab = view.getUploadTab();
             String expID = uploadTab.getSearchText();
             try {
-//                ExperimentData ed = model.retrieveExperiment(expID);
+                // ExperimentData ed = model.retrieveExperiment(expID);
                 ArrayList<FileData> f = new ArrayList<FileData>();
                 ArrayList<AnnotationDataValue> adv = new ArrayList<>();
                 adv.add(new AnnotationDataValue("0", "Species", "Cyborg"));
                 adv.add(new AnnotationDataValue("1", "Sex", "Robot"));
-                ExperimentData ed = new ExperimentData("Experiment 11", view.getUsername(), f, adv);
+                ExperimentData ed = new ExperimentData("Experiment 11",
+                        view.getUsername(), f, adv);
                 uploadTab.addExistingExpPanel(ed);
-//            uploadTab.repaint();
-//            uploadTab.revalidate();
+                // uploadTab.repaint();
+                // uploadTab.revalidate();
             } catch (NullPointerException e) {
-                JOptionPane.showMessageDialog(null, "Couldn't find experiment", "ERROR", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(null, "Couldn't find experiment",
+                        "ERROR", JOptionPane.ERROR_MESSAGE);
             }
         }
     }
@@ -407,12 +404,12 @@ public class Controller {
             fileDialog.setVisible(true);
             File[] files = fileDialog.getFiles();
             String[] fileNames = new String[files.length];
-            for(int i = 0; i < files.length; i++) {
+            for (int i = 0; i < files.length; i++) {
                 fileNames[i] = files[i].getName();
             }
             view.selectFilesToExistingExp(files);
-            UploadToExistingExpPanel uploadToExistingExpPanel =
-                    view.getUploadTab().getUploadToExistingExpPanel();
+            UploadToExistingExpPanel uploadToExistingExpPanel = view
+                    .getUploadTab().getUploadToExistingExpPanel();
             uploadToExistingExpPanel.enableUploadButton(true);
             uploadToExistingExpPanel.build();
         }
@@ -456,7 +453,6 @@ public class Controller {
                                 "Error", JOptionPane.ERROR_MESSAGE);
                     }
                 }
-
             }
         }
     }
@@ -559,15 +555,18 @@ public class Controller {
                                 false, release)) {
                             view.deleteUploadFileRow(f);
                             JOptionPane.showMessageDialog(null, "Upload of "
-                                    + f.getName() + " complete", "Done",
+                                    + f.getName() + " complete.", "Done",
                                     JOptionPane.PLAIN_MESSAGE);
                         } else {
-                            JOptionPane.showMessageDialog(null, "Upload of "
-                                    + f.getName() + " not complete", "Error",
+                            JOptionPane.showMessageDialog(null, "Couldn't upload "
+                                    + f.getName() + ".", "Error",
                                     JOptionPane.ERROR_MESSAGE);
                         }
                     }
-
+                } else {
+                    JOptionPane.showMessageDialog(null,
+                            "Couldn't create experiment " + expName + ".", "Error",
+                            JOptionPane.ERROR_MESSAGE);
                 }
             }
         }
@@ -627,10 +626,11 @@ public class Controller {
 
         @Override
         public void run() {
-            ProcessFeedbackData[] processFeedbackData = model.getProcessFeedback();
-          //  if(processFeedbackData != null) {
-                view.showProcessFeedback(processFeedbackData);
-          //  }
+            ProcessFeedbackData[] processFeedbackData = model
+                    .getProcessFeedback();
+            // if(processFeedbackData != null) {
+            view.showProcessFeedback(processFeedbackData);
+            // }
         }
     }
 
@@ -638,7 +638,7 @@ public class Controller {
         @Override
         public void actionPerformed(ActionEvent e) {
             new Thread(this).start();
-            }
+        }
 
         @Override
         public void run() {

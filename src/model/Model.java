@@ -143,21 +143,21 @@ public class Model implements GenomizerModel {
         String url = null;
         if (conn.getResponseCode() == 200) {
             url = conn.getResponseBody();
+            AddFileToExperimentResponse aFTER = ResponseParser
+                    .parseUploadResponse(conn.getResponseBody());
+            HTTPURLUpload upload = new HTTPURLUpload(aFTER.URLupload,
+                    f.getAbsolutePath());
+            if(upload.sendFile("pvt", "pvt")) {
+                return true;
+            }
         }
-
-        AddFileToExperimentResponse aFTER = ResponseParser
-                .parseUploadResponse(conn.getResponseBody());
-        HTTPURLUpload upload = new HTTPURLUpload(aFTER.URLupload,
-                f.getAbsolutePath());
-        upload.sendFile("pvt", "pvt");
+        return false;
 
         /*
          * UploadHandler handler = new UploadHandler(aFTER.URLupload,
          * f.getAbsolutePath(), userID, "pvt:pvt"); Thread thread = new
          * Thread(handler); thread.start();
          */
-
-        return true;
     }
 
     @Override
