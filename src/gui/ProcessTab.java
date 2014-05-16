@@ -1,6 +1,7 @@
 package gui;
 
 import util.FileData;
+import util.ProcessFeedbackData;
 
 import javax.swing.*;
 import javax.swing.border.EtchedBorder;
@@ -669,6 +670,10 @@ public class ProcessTab extends JPanel {
         convertButton.addActionListener(listener);
     }
 
+    public void addProcessFeedbackListener(ActionListener listener) {
+        //processFeedbackButton.addActionListener(listener);
+    }
+
     public void addRawToProfileDataListener(ActionListener listener) {
         profileButton.addActionListener(listener);
     }
@@ -684,6 +689,10 @@ public class ProcessTab extends JPanel {
 
     private int getNumberOfJobsInQueue() {
         return this.processList.countComponents();
+    }
+
+    public void showProcessFeedback(ProcessFeedbackData[] processFeedbackData) {
+        //show process feedback
     }
 
     private int getTimeApprox() {
