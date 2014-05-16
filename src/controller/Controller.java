@@ -692,7 +692,7 @@ public class Controller {
         public void run() {
             System.out.println("CANCEL");
             view.getRatioCalcPopup().setDefaultRatioPar();
-            view.getRatioCalcPopup().closeRatioWindow();
+            view.getRatioCalcPopup().hideRatioWindow();
 
         }
     }

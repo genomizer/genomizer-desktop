@@ -267,43 +267,6 @@ public class Model implements GenomizerModel {
     }
 
     @Override
-    public boolean editAnnotation(String name, String[] categories,
-            boolean forced, AnnotationDataType oldAnnotation) {
-        if (!(oldAnnotation.getName().equals(name))) {
-            System.out
-                    .println("Name has been changed! Calling renameAnnotationField!");
-            renameAnnotationField(oldAnnotation.name, name);
-        } else {
-            System.out.println("No changes were made in name!");
-        }
-
-        if (!(oldAnnotation.isForced() == forced)) {
-            System.out
-                    .println("Forced value changed! Calling changeAnnotationForced (?)");
-            // changeAnnotationForced(name);
-        } else {
-            System.out.println("Forced value not changed");
-        }
-
-        // TODO: If an annotation value has been added, call
-        // addAnnotationValue(name, valueName)
-
-        // TODO: If an annotation value has been removed, call
-        // removeAnnotationValue(name, valueName)
-
-        for (int i = 0; i < categories.length; i++) {
-            if (!(categories[i].equals(oldAnnotation.getValues()[i]))) {
-                System.out
-                        .println("A change was made in annotation value! Calling renameAnnotationValue");
-                renameAnnotationValue(name, oldAnnotation.getValues()[i],
-                        categories[i]);
-            }
-        }
-
-        return false;
-    }
-
-    @Override
     public boolean deleteAnnotation(String deleteAnnoationData) {
 
         RemoveAnnotationFieldRequest request = RequestFactory
@@ -459,6 +422,13 @@ public class Model implements GenomizerModel {
 
     @Override
     public boolean removeAnnotationField(String annotationName) {
+        // TODO Auto-generated method stub
+        return false;
+    }
+
+    @Override
+    public boolean editAnnotation(String name, String[] categories,
+            boolean forced, AnnotationDataType oldAnnotation) {
         // TODO Auto-generated method stub
         return false;
     }
