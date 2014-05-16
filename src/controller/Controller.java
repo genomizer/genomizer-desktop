@@ -635,6 +635,7 @@ public class Controller {
         @Override
         public void run() {
             System.out.println("OK");
+            view.getRatioCalcPopup().okButton.setEnabled(false);
         }
     }
 
