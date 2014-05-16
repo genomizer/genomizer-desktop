@@ -1,5 +1,6 @@
 package gui;
 
+import communication.HTTPURLUpload;
 import gui.sysadmin.SysadminController;
 import gui.sysadmin.SysadminTab;
 
@@ -605,7 +606,7 @@ public class GUI extends JFrame implements GenomizerView {
     }
 
     public String[] getRatioCalcParameters() {
-        return processTab.getRatioCalcParameters();
+        return ratioCalcPopup.getRatioCalcParameters();
     }
 
     @Override
@@ -637,7 +638,7 @@ public class GUI extends JFrame implements GenomizerView {
 
     @Override
     public void setDefaultRatioPar() {
-        processTab.setDefaultRatioPar();
+        ratioCalcPopup.setDefaultRatioPar();
     }
 
     @Override
@@ -650,7 +651,7 @@ public class GUI extends JFrame implements GenomizerView {
     }
 
     public void setOngoingUploads(
-            CopyOnWriteArrayList<UploadHandler> ongoingUploads) {
+            CopyOnWriteArrayList<HTTPURLUpload> ongoingUploads) {
         uploadTab.setOngoingUploads(ongoingUploads);
     }
 

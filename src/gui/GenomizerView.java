@@ -1,5 +1,6 @@
 package gui;
 
+import communication.HTTPURLUpload;
 import gui.sysadmin.SysadminController;
 import util.*;
 
@@ -153,7 +154,7 @@ public interface GenomizerView {
     public void showProcessFeedback(ProcessFeedbackData[] processFeedbackData);
 
     public void setOngoingUploads(
-            CopyOnWriteArrayList<UploadHandler> ongoingUploads);
+            CopyOnWriteArrayList<HTTPURLUpload> ongoingUploads);
 
     public void addOkListener(ActionListener listener);
 

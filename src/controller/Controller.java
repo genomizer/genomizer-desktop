@@ -13,6 +13,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -344,9 +345,14 @@ public class Controller {
              */
             fileChooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
             int ret = fileChooser.showOpenDialog(new JPanel());
-            String directoryName;
+            String directoryName = "";
             if (ret == JFileChooser.APPROVE_OPTION) {
-                directoryName = fileChooser.getSelectedFile().getAbsolutePath();
+                try {
+                    directoryName = fileChooser.getSelectedFile().getCanonicalPath();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                System.out.println(directoryName);
             } else {
                 return;
             }
@@ -405,6 +411,16 @@ public class Controller {
 
         @Override
         public void run() {
+            /*fileChooser.setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES);
+            int ret = fileChooser.showOpenDialog(new JPanel());
+            String directoryName = "";
+            File[] files;
+            if (ret == JFileChooser.APPROVE_OPTION) {
+                files = fileChooser.getSelectedFiles();
+                System.out.println(files[1].);
+            } else {
+                return;
+            }*/
             FileDialog fileDialog = new java.awt.FileDialog(
                     (java.awt.Frame) view);
             fileDialog.setMultipleMode(true);
@@ -520,11 +536,24 @@ public class Controller {
 
         @Override
         public void run() {
-            FileDialog fileDialog = new java.awt.FileDialog(
+            /*FileDialog fileDialog = new java.awt.FileDialog(
                     (java.awt.Frame) view);
             fileDialog.setMultipleMode(true);
             fileDialog.setVisible(true);
-            File[] files = fileDialog.getFiles();
+            File[] files = fileDialog.getFiles();*/
+
+            fileChooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
+            fileChooser.setMultiSelectionEnabled(true);
+            int ret = fileChooser.showOpenDialog(new JPanel());
+            String directoryName = "";
+            File[] files;
+            System.out.println(ret);
+            if (ret == JFileChooser.APPROVE_OPTION) {
+                files = fileChooser.getSelectedFiles();
+                System.out.println(directoryName);
+            } else {
+                return;
+            }
             view.selectFilesToNewExp(files);
             view.enableUploadButton(true);
         }
@@ -650,7 +679,7 @@ public class Controller {
         @Override
         public void run() {
             System.out.println("OK");
-            view.getRatioCalcPopup().okButton.setEnabled(false);
+            //view.getRatioCalcPopup().okButton.setEnabled(false);
         }
     }
 

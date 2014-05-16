@@ -1,5 +1,6 @@
 package gui;
 
+import communication.HTTPURLUpload;
 import util.ActivePanel;
 import util.AnnotationDataType;
 import util.AnnotationDataValue;
@@ -55,7 +56,7 @@ public class UploadTab extends JPanel implements ExperimentPanel {
     private UploadToExistingExpPanel uploadToExistingExpPanel;
     private AnnotationDataType[] annotations;
     private ArrayList<String> annotationHeaders;
-    private CopyOnWriteArrayList<UploadHandler> ongoingUploads;
+    private CopyOnWriteArrayList<HTTPURLUpload> ongoingUploads;
     private HashMap<String, JComboBox> annotationBoxes;
     private HashMap<String, JTextField> annotationFields;
     private HashMap<File, UploadFileRow> uploadFileRows;
@@ -528,7 +529,7 @@ public class UploadTab extends JPanel implements ExperimentPanel {
     };
 
     public void setOngoingUploads(
-            CopyOnWriteArrayList<UploadHandler> ongoingUploads) {
+            CopyOnWriteArrayList<HTTPURLUpload> ongoingUploads) {
         this.ongoingUploads = ongoingUploads;
     }
 
