@@ -382,19 +382,21 @@ public class Model implements GenomizerModel {
         }
     }
 
-    public void renameAnnotationValue(String name, String oldValue,
+    public boolean renameAnnotationValue(String name, String oldValue,
             String newValue) {
         RenameAnnotationValueRequest request = RequestFactory
                 .makeRenameAnnotationValueRequest(name, oldValue, newValue);
         conn.sendRequest(request, userID, JSON);
         if (conn.getResponseCode() == 201) {
             System.err.println("Sent " + request.requestName + " success!");
+            return true;
         } else {
             System.out.println("responsecode: " + conn.getResponseCode());
         }
+        return false;
     }
 
-    public boolean removeAnnotationField(String annotationName, String valueName) {
+    public boolean removeAnnotationValue(String annotationName, String valueName) {
         RemoveAnnotationValueRequest request = RequestFactory
                 .makeRemoveAnnotationValueRequest(annotationName, valueName);
         conn.sendRequest(request, userID, JSON);
@@ -413,9 +415,11 @@ public class Model implements GenomizerModel {
         conn.sendRequest(request, userID, JSON);
         if (conn.getResponseCode() == 201) {
             System.err.println("Sent " + request.requestName + " success!");
+            return true;
         } else {
             System.out.println("Response code: " + conn.getResponseCode());
         }
         return false;
     }
+
 }

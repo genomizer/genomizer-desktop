@@ -49,9 +49,9 @@ public interface GenomizerModel {
 
     public ExperimentData retrieveExperiment(String expID);
 
-    public void renameAnnotationValue(String name, String oldValue, String newValue);
+    public boolean renameAnnotationValue(String name, String oldValue, String newValue);
     
     public CopyOnWriteArrayList<UploadHandler> getOngoingUploads();
     
-    public boolean removeAnnotationField(String annotationName, String valueName);
+    public boolean removeAnnotationValue(String annotationName, String valueName);
 }
