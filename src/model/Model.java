@@ -51,12 +51,12 @@ public class Model implements GenomizerModel {
     private Connection conn;
     private ArrayList<String> searchHistory;
     private CopyOnWriteArrayList<DownloadHandler> ongoingDownloads;
-    private CopyOnWriteArrayList<HTTPURLUpload> ongoingUploads;
+    private CopyOnWriteArrayList<UploadHandler> ongoingUploads;
 
     public Model(Connection conn) {
         searchHistory = new ArrayList<String>();
         ongoingDownloads = new CopyOnWriteArrayList<DownloadHandler>();
-        ongoingUploads = new CopyOnWriteArrayList<HTTPURLUpload>();
+        ongoingUploads = new CopyOnWriteArrayList<UploadHandler>();
         this.setConn(conn);
     }
 
@@ -82,15 +82,16 @@ public class Model implements GenomizerModel {
      * <p/>
      * Returns whether or not the server could create profile data or not.
      */
-    public boolean rawToProfile(String expid,String[] parameters, String metadata,
+    public boolean rawToProfile(String fileName, String fileID, String expid,
+            String processtype, String[] parameters, String metadata,
             String genomeRelease, String author) {
 
-        // /hej anna
+        ///hej anna
         System.out.println("RAW TO PROFILE\n");
-    //    System.out.println("Filename: " + fileName);
-     //   System.out.println("File ID: " + fileID);
+        System.out.println("Filename: " + fileName);
+        System.out.println("File ID: " + fileID);
         System.out.println("Expid: " + expid);
-     //   System.out.println("Processtype: " + processtype);
+        System.out.println("Processtype: " + processtype);
         System.out.println("Parameter 1: " + parameters[0]);
         System.out.println("Parameter 2: " + parameters[1]);
         System.out.println("Parameter 3: " + parameters[2]);
@@ -104,16 +105,11 @@ public class Model implements GenomizerModel {
         System.out.println("Author: " + author);
         System.out.println("\n");
 
-  //      rawToProfileRequest rawToProfilerequest = RequestFactory
-   //             .makeRawToProfileRequest(fileName, fileID, expid, processtype,
-   //                     parameters, metadata, genomeRelease, author);
-
-              rawToProfileRequest rawToProfilerequest = RequestFactory
-                             .makeRawToProfileRequest(expid,
-                                     parameters, metadata, genomeRelease, author);
-
+        rawToProfileRequest rawToProfilerequest = RequestFactory
+                .makeRawToProfileRequest(fileName, fileID, expid, processtype,
+                        parameters, metadata, genomeRelease, author);
         conn.sendRequest(rawToProfilerequest, userID, JSON);
-        if (conn.getResponseCode() == 200) {
+        if (conn.getResponseCode() == 201) {
             return true;
         } else {
             System.out.println("Response Code: " + conn.getResponseCode());
@@ -163,22 +159,21 @@ public class Model implements GenomizerModel {
         String url = null;
         if (conn.getResponseCode() == 200) {
             url = conn.getResponseBody();
-            AddFileToExperimentResponse aFTER = ResponseParser
-                    .parseUploadResponse(conn.getResponseBody());
-            HTTPURLUpload upload = new HTTPURLUpload(aFTER.URLupload,
-                    f.getAbsolutePath(), f.getName());
-            ongoingUploads.add(upload);
-            if (upload.sendFile("pvt", "pvt")) {
-                return true;
-            }
         }
-        return false;
+
+        AddFileToExperimentResponse aFTER = ResponseParser
+                .parseUploadResponse(conn.getResponseBody());
+        HTTPURLUpload upload = new HTTPURLUpload(aFTER.URLupload,
+                f.getAbsolutePath());
+        upload.sendFile("pvt", "pvt");
 
         /*
          * UploadHandler handler = new UploadHandler(aFTER.URLupload,
          * f.getAbsolutePath(), userID, "pvt:pvt"); Thread thread = new
          * Thread(handler); thread.start();
          */
+        
+        return true;
     }
 
     @Override
@@ -340,7 +335,7 @@ public class Model implements GenomizerModel {
         return new AnnotationDataType[] {};
     }
 
-    /** TODO NOT CALLED ANYWHERE YET! */
+    /** TODO NOT CALLED YET */
     public GenomeReleaseData[] getGenomeReleases() {
         GetGenomeReleasesRequest request = RequestFactory
                 .makeGetGenomeReleaseRequest();
@@ -389,13 +384,12 @@ public class Model implements GenomizerModel {
             return ed;
         } else {
             System.out.println("responsecode: " + conn.getResponseCode());
-//            JOptionPane.showMessageDialog(null, "Couldn't retrieve experiment",
-//                    "ERROR", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null, "Couldn't retrieve experiment");
         }
         return null;
     }
 
-    public CopyOnWriteArrayList<HTTPURLUpload> getOngoingUploads() {
+    public CopyOnWriteArrayList<UploadHandler> getOngoingUploads() {
         return ongoingUploads;
     }
 
@@ -453,16 +447,14 @@ public class Model implements GenomizerModel {
     }
 
     public ProcessFeedbackData[] getProcessFeedback() {
-        ProcessFeedbackRequest request = RequestFactory
-                .makeProcessFeedbackRequest();
+        ProcessFeedbackRequest request = RequestFactory.makeProcessFeedbackRequest();
         conn.sendRequest(request, userID, TEXT_PLAIN);
-        // System.out.println("proc feedback code: " +conn.getResponseCode());
+        //System.out.println("proc feedback code: " +conn.getResponseCode());
         if (conn.getResponseCode() == 200) {
-            return ResponseParser.parseProcessFeedbackResponse(conn
-                    .getResponseBody());
+            return ResponseParser.parseProcessFeedbackResponse(conn.getResponseBody());
         }
         return null;
-    }
+     }
 
     @Override
     public boolean removeAnnotationField(String annotationName) {
