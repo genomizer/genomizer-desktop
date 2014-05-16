@@ -149,6 +149,8 @@ public interface GenomizerView {
 
     public void setDefaultRatioPar();
 
+    public void setUnusedRatioPar();
+
     public void showRatioPopup();
 
     public void showProcessFeedback(ProcessFeedbackData[] processFeedbackData);

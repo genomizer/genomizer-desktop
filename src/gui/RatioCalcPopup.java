@@ -49,21 +49,9 @@ public class RatioCalcPopup extends JFrame {
         });
         setTitle("Ratio calculation parameters");
         setResizable(false);
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setSize(new Dimension(480, 325));
         this.setLocationRelativeTo(parent.getFrame());
         placeComponents();
-
-        ArrayList<String> ratioSmooth = new ArrayList<String>();
-        ArrayList<String> comboSingle = new ArrayList<String>();
-        ratioSmooth.add("1");
-        ratioSmooth.add("0");
-        comboSingle.add("single");
-        comboSingle.add("double");
-        ratioSmoothType.addItem(ratioSmooth.get(0));
-        ratioSmoothType.addItem(ratioSmooth.get(1));
-        single.addItem(comboSingle.get(0));
-        single.addItem(comboSingle.get(1));
         setUnusedRatioPar();
     }
 
@@ -158,18 +146,12 @@ public class RatioCalcPopup extends JFrame {
 
     public String[] getRatioCalcParameters() {
         String[] s = new String[2];
-        s[0] = "";
-        s[1] = "";
 
-        if (okButton.isSelected()) {
+        s[0] = getSingle() + " " + getInputReads() + " " + getChromosomes();
 
-            s[0] = getSingle() + " " + getInputReads() + " " + getChromosomes();
-            // s[1] = "150 1 7 0 0";
-
-            s[1] = getWindowSize() + " " + getSmoothType() + " "
-                    + getStepPosition() + " " + getPrintMean() + " "
-                    + getPrintZeros();
-        }
+        s[1] = getWindowSize() + " " + getSmoothType() + " "
+                + getStepPosition() + " " + getPrintMean() + " "
+                + getPrintZeros();
 
         return s;
     }
@@ -214,17 +196,28 @@ public class RatioCalcPopup extends JFrame {
         return single.getSelectedItem().toString().trim();
     }
 
-    private void setUnusedRatioPar() {
+    public void setUnusedRatioPar() {
 
         inputReads.setText("");
         chromosome.setText("");
         ratioWindowSize.setText("");
-        ratioSmoothType.setSelectedIndex(0);
+        // ratioSmoothType.setSelectedIndex(0);
         ratioStepPosition.setText("");
     }
 
     public void setDefaultRatioPar() {
 
+        ArrayList<String> ratioSmooth = new ArrayList<String>();
+        ArrayList<String> comboSingle = new ArrayList<String>();
+        ratioSmooth.add("1");
+        ratioSmooth.add("0");
+        comboSingle.add("single");
+        comboSingle.add("double");
+        ratioSmoothType.addItem(ratioSmooth.get(0));
+        ratioSmoothType.addItem(ratioSmooth.get(1));
+        single.addItem(comboSingle.get(0));
+        single.addItem(comboSingle.get(1));
+        setUnusedRatioPar();
         inputReads.setText("4");
         chromosome.setText("0");
         ratioWindowSize.setText("150");
