@@ -31,9 +31,9 @@ public class SysadminTab extends JPanel {
     public SysadminTab() {
         setLayout(new BorderLayout());
         this.annotationsView = new AnnotationsViewCreator();
-        this.usersView = new UsersViewCreator();
-        this.processView = new ProcessViewCreator();
-        this.genomeReleaseView = new GenomeReleaseViewCreator();
+        //this.usersView = new UsersViewCreator();
+        //this.processView = new ProcessViewCreator();
+        //this.genomeReleaseView = new GenomeReleaseViewCreator();
 
     }
 
@@ -54,8 +54,8 @@ public class SysadminTab extends JPanel {
                             buildAnnotationsView());
                     break;
                 case GENOMES:
-                    sysadminTabPane.addTab(button.getValue(),
-                            buildGenomeReleaseView());
+                    //sysadminTabPane.addTab(button.getValue(),
+                    //        buildGenomeReleaseView());
                     break;
             }
         }

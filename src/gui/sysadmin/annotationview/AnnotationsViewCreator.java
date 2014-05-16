@@ -78,6 +78,7 @@ public class AnnotationsViewCreator {
 
         buttonPanel.setLayout(new BorderLayout());
         modifyButton = new JButton(SysStrings.ANNOTATIONS_MODIFY);
+        modifyButton.setEnabled(false);
         addButton = new JButton(SysStrings.ANNOTATIONS_ADD);
         removeButton = new JButton(SysStrings.ANNOTATIONS_DELETE);
 
