@@ -13,7 +13,7 @@ import java.net.URL;
 import org.apache.commons.codec.binary.Base64;
 
 /**
- * Created by Christoffer on 2014-04-30.
+ * Created by Christoffer Sterner on 2014-04-30.
  */
 public class DownloadHandler {
     
