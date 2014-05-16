@@ -36,6 +36,12 @@ public class GenomereleaseTableModel extends AbstractTableModel {
 
     public void setGenomeReleases(GenomeReleaseData[] grData) {
 
+        if (grData == null) {
+            
+            System.out.println("Oh noes...");
+            
+        }
+
         this.grData = grData;
         fireTableDataChanged();
 

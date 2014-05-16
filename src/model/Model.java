@@ -39,7 +39,6 @@ import com.google.gson.Gson;
 import communication.Connection;
 import communication.DownloadHandler;
 import communication.HTTPURLUpload;
-import communication.UploadHandler;
 
 // import org.apache.http.protocol.HTTP;
 
@@ -82,15 +81,16 @@ public class Model implements GenomizerModel {
      * <p/>
      * Returns whether or not the server could create profile data or not.
      */
-    public boolean rawToProfile(String expid,String[] parameters, String metadata,
+    public boolean rawToProfile(String expid, String[] parameters,
+            String metadata,
             String genomeRelease, String author) {
 
         // /hej anna
         System.out.println("RAW TO PROFILE\n");
-    //    System.out.println("Filename: " + fileName);
-     //   System.out.println("File ID: " + fileID);
+        // System.out.println("Filename: " + fileName);
+        // System.out.println("File ID: " + fileID);
         System.out.println("Expid: " + expid);
-     //   System.out.println("Processtype: " + processtype);
+        // System.out.println("Processtype: " + processtype);
         System.out.println("Parameter 1: " + parameters[0]);
         System.out.println("Parameter 2: " + parameters[1]);
         System.out.println("Parameter 3: " + parameters[2]);
@@ -385,8 +385,9 @@ public class Model implements GenomizerModel {
             return ed;
         } else {
             System.out.println("responsecode: " + conn.getResponseCode());
-//            JOptionPane.showMessageDialog(null, "Couldn't retrieve experiment",
-//                    "ERROR", JOptionPane.ERROR_MESSAGE);
+            // JOptionPane.showMessageDialog(null,
+            // "Couldn't retrieve experiment",
+            // "ERROR", JOptionPane.ERROR_MESSAGE);
         }
         return null;
     }

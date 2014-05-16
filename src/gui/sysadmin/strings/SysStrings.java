@@ -20,7 +20,7 @@ public class SysStrings {
     public final static String GENOME_BUTTON_ADD = "Add release";
     public final static String GENOME_BUTTON_DELETE = "Delete selected file";
     public final static String GENOME_BUTTON_CLEAR = "Clear";
-    public final static String GENOME_BUTTON_FILE = "Select file";
+    public final static String GENOME_BUTTON_FILE = "Browse files...";
 
     public SysStrings() {
 

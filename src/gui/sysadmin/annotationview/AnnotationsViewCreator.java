@@ -81,9 +81,9 @@ public class AnnotationsViewCreator {
         addButton = new JButton(SysStrings.ANNOTATIONS_ADD);
         removeButton = new JButton(SysStrings.ANNOTATIONS_DELETE);
 
-        modifyButton.setMinimumSize(new Dimension(90, 10));
-        addButton.setMinimumSize(new Dimension(90, 10));
-        removeButton.setMinimumSize(new Dimension(90, 10));
+        modifyButton.setMinimumSize(new Dimension(80, 10));
+        addButton.setMinimumSize(new Dimension(80, 10));
+        removeButton.setMinimumSize(new Dimension(80, 10));
 
 
 

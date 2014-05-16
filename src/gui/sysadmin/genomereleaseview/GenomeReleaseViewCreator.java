@@ -1,9 +1,13 @@
 package gui.sysadmin.genomereleaseview;
 
+import com.sun.org.apache.xpath.internal.SourceTree;
 import gui.sysadmin.strings.SysStrings;
+import util.FileData;
 
 import java.awt.*;
 import java.awt.event.ActionListener;
+import java.io.File;
+import java.io.IOException;
 import javax.swing.*;
 import javax.swing.border.Border;
 import javax.swing.table.JTableHeader;
@@ -130,7 +134,7 @@ public class GenomeReleaseViewCreator {
         speciesText.addKeyListener(textListner);
         fileText = new JTextField(20);
         fileText.addKeyListener(textListner);
-        //fileText.setEditable(false);
+        fileText.setEditable(false);
 
 
         layout.setHorizontalGroup(layout.createSequentialGroup().addGroup(
@@ -290,5 +294,27 @@ public class GenomeReleaseViewCreator {
     /** TODO: change to return datatype*/
     public void getDeleteGenomeReleaseData(){
 
+    }
+
+    public void selectFile(){
+        JFileChooser fileChooser = new JFileChooser();
+        fileChooser.setMultiSelectionEnabled(false);
+        int ret = fileChooser.showOpenDialog(new JPanel());
+
+        String directoryName = "";
+        if (ret == JFileChooser.APPROVE_OPTION) {
+            try {
+                directoryName = fileChooser.getSelectedFile()
+                        .getCanonicalPath();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            fileText.setText(directoryName);
+            enableClearButton(true);
+            if(allTextFieldsContainInfo())
+                enableAddButton(true);
+        } else {
+            return;
+        }
     }
 }

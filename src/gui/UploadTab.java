@@ -253,8 +253,7 @@ public class UploadTab extends JPanel implements ExperimentPanel {
         x++;
         for (int i = 0; i < annotations.length; i++) {
 
-            if (!annotations[i].getValues()[0].equals("freetext")
-                    && annotations[i].getValues().length > 0
+            if (annotations[i].getValues().length > 0
                     && annotations[i].isForced()) {
                 if (x > 6) {
                     x = 0;
