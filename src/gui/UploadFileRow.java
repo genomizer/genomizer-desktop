@@ -22,8 +22,6 @@ public class UploadFileRow extends JPanel {
     private JButton closeButton;
     private JComboBox typeBox;
     private JProgressBar uploadBar;
-    private int currentProgress;
-    private int totalSize;
     private File file;
     
     public UploadFileRow(File f, ExperimentPanel parent) {
@@ -37,7 +35,6 @@ public class UploadFileRow extends JPanel {
     }
     
     private void setContent() {
-        filePanel.removeAll();
         GridBagLayout gbl_panel = new GridBagLayout();
         gbl_panel.columnWidths = new int[] { 0, 0, 0, 0 };
         gbl_panel.rowHeights = new int[] { 0, 0 };
@@ -54,7 +51,8 @@ public class UploadFileRow extends JPanel {
         gbc_lblFilename.gridy = 0;
         filePanel.add(fileLabel, gbc_lblFilename);
         
-        uploadBar = new JProgressBar(0, totalSize);
+        uploadBar = new JProgressBar(0, 100);
+        uploadBar.setStringPainted(true);
         GridBagConstraints gbc_progressBar = new GridBagConstraints();
         gbc_progressBar.insets = new Insets(0, 0, 0, 5);
         gbc_progressBar.fill = GridBagConstraints.HORIZONTAL;
@@ -93,9 +91,9 @@ public class UploadFileRow extends JPanel {
     }
     
     public void updateProgressBar(int progress, int total) {
-        totalSize = total;
-        currentProgress = progress;
-        setContent();
+        uploadBar.setMinimum(0);
+        uploadBar.setMaximum(total);
+        uploadBar.setValue(progress);
     }
     
     class closeButtonListener implements ActionListener, Runnable {

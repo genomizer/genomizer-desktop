@@ -9,11 +9,13 @@ import javax.swing.event.ChangeListener;
 public class SysadminTabChangeListener implements ChangeListener {
 
     private SysadminController sysContoller;
+    private String lastTab;
 
 
     public SysadminTabChangeListener(SysadminController sysContoller) {
 
         this.sysContoller = sysContoller;
+        lastTab = SysStrings.ANNOTATIONS;
     }
 
     @Override
@@ -28,13 +30,26 @@ public class SysadminTabChangeListener implements ChangeListener {
             case SysStrings.GENOME:
 
                 System.out.println("Clicked the genome tab.");
-
                 sysContoller.setGenomeReleaseTable();
+                lastTab = SysStrings.GENOME;
+
 
 
                 break;
             case SysStrings.ANNOTATIONS:
                 System.out.println("Clicked the annotations tab.");
+
+                if (lastTab.equals(SysStrings.ANNOTATIONS)) {
+
+                } else {
+
+                    sysContoller.updateAnnotationTable();
+                }
+
+                /**
+                 * TODO Make sure the annotations are fetched here instead of
+                 * the main Controller.
+                 */
                 break;
 
         }

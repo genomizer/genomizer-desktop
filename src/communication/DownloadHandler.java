@@ -13,7 +13,7 @@ import java.net.URL;
 import org.apache.commons.codec.binary.Base64;
 
 /**
- * Created by Christoffer on 2014-04-30.
+ * Created by Christoffer Sterner on 2014-04-30.
  */
 public class DownloadHandler {
     
@@ -65,7 +65,7 @@ public class DownloadHandler {
             
             BufferedWriter fileOut = new BufferedWriter(new FileWriter(file));
             Long previousTime = System.currentTimeMillis();
-            while ((buffer = in.readLine()) != null) {
+            while (((buffer = in.readLine()) != null) && !finished) {
                 fileOut.write(buffer);
                 totalDownload += buffer.length();
                 fileOut.newLine();
@@ -101,7 +101,7 @@ public class DownloadHandler {
         return totalDownload;
     }
     
-    public int getCurrentSpeed() {
+    public double getCurrentSpeed() {
         return perSecond;
     }
     
@@ -111,6 +111,10 @@ public class DownloadHandler {
     
     public boolean isFinished() {
         return finished;
+    }
+    
+    public void setFinished(boolean finished) {
+        this.finished = finished;
     }
     
 }

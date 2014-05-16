@@ -40,10 +40,11 @@ public class LoginWindow extends JFrame {
             }
         });
         setTitle("Genomizer Login");
-        setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setSize(270, 180);
         setResizable(false);
         this.setLocationRelativeTo(parent.getFrame());
+
         placeComponents();
     }
     

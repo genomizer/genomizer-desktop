@@ -4,10 +4,11 @@ import util.AnnotationDataValue;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
-import java.util.ArrayList;
 import java.util.HashMap;
 
 import javax.swing.JOptionPane;
+
+import requests.AddNewAnnotationValueRequest;
 
 public class RequestFactory {
     
@@ -95,8 +96,7 @@ public class RequestFactory {
             String annotationName) {
         try {
             annotationName = URLEncoder.encode(annotationName, "UTF-8");
-        }
-        catch (UnsupportedEncodingException e) {
+        } catch (UnsupportedEncodingException e) {
             JOptionPane.showMessageDialog(null, e.getMessage());
             try {
                 annotationName = URLEncoder.encode(annotationName, "ASCII");
@@ -115,9 +115,23 @@ public class RequestFactory {
             String oldname, String newname) {
         return new RenameAnnotationRequest(oldname, newname);
     }
-
+    
     public static RenameAnnotationValueRequest makeRenameAnnotationValueRequest(
             String name, String oldValue, String newValue) {
         return new RenameAnnotationValueRequest(name, oldValue, newValue);
+    }
+    
+    public static RemoveAnnotationValueRequest makeRemoveAnnotationValueRequest(
+            String annotationName, String valueName) {
+        return new RemoveAnnotationValueRequest(annotationName, valueName);
+    }
+
+    public static AddNewAnnotationValueRequest makeAddNewAnnotationValueRequest(
+            String annotationName, String valueName) {
+        return new AddNewAnnotationValueRequest(annotationName, valueName);
+    }
+
+    public static ProcessFeedbackRequest makeProcessFeedbackRequest() {
+        return new ProcessFeedbackRequest();
     }
 }

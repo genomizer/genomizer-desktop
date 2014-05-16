@@ -20,7 +20,8 @@ public class AnnotationTest {
     @Before
     public void setUp() throws Exception {
         // con = new Connection("genomizer.apiary-mock.com:80");
-        con = new Connection("http://scratchy.cs.umu.se:7000");
+        con = new Connection();
+        con.setIp("http://scratchy.cs.umu.se:7000");
         // con = new Connection("http://hagrid.cs.umu.se:7000");
         model = new Model(con);
         model.loginUser("SysadminTests", "qwerty");
@@ -135,6 +136,39 @@ public class AnnotationTest {
         model.renameAnnotationValue(toBeChanged.name, oldValue, newValue);
         AnnotationDataType actual = getSpecificAnnotationType(nameOfAnnotation);
         assertThat(actual.getValues()[0]).isEqualTo(newValue);
+    }
+    
+    @Test
+    public void shouldAddAnnotationValue() {
+        String annotationName = "SpeciesTEST";
+        String valueName = "horseTEST";
+        AnnotationDataType toBeEdited = getSpecificAnnotationType(annotationName);
+        int numberOfAnnotations = toBeEdited.getValues().length;
+        if (toBeEdited != null) {
+            if (model.addNewAnnotationValue(annotationName, valueName)) {
+                assertThat(toBeEdited.getValues().length).isEqualTo(
+                        numberOfAnnotations + 1);
+            }
+        }
+    }
+    
+    @Test
+    public void shouldRemoveAnnotationValue() {
+        // TODO: use AnnotationDataType.indexOf(String valueToBeremoved) and
+        // remove a valueToBeRemoved!!!
+        String nameOfAnnotation = "SpeciesTEST";
+        String valueToBeRemoved = "manTEST";
+        AnnotationDataType toBeEdited = getSpecificAnnotationType(nameOfAnnotation);
+        int numberOfAnnotationValues = toBeEdited.getValues().length;
+        if (toBeEdited != null) {
+            if (model.removeAnnotationField(toBeEdited.name, valueToBeRemoved)) {
+                assertThat(toBeEdited.getValues().length).isEqualTo(
+                        numberOfAnnotationValues - 1);
+            } else {
+                fail("could not do model.removeAnnotationField()");
+            }
+        }
+        fail("Not implemented yet!");
     }
     
     protected AnnotationDataType getSpecificAnnotationType(String name) {

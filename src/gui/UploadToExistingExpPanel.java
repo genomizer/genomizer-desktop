@@ -1,14 +1,32 @@
 package gui;
 
-import util.AnnotationDataType;
-import util.FileDrop;
-
-import javax.swing.*;
-import java.awt.*;
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Component;
+import java.awt.Dimension;
+import java.awt.FlowLayout;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.GridLayout;
+import java.awt.Insets;
 import java.awt.event.ActionListener;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
+
+import javax.swing.AbstractButton;
+import javax.swing.BorderFactory;
+import javax.swing.JButton;
+import javax.swing.JComboBox;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JTextField;
+
+import util.AnnotationDataType;
+import util.AnnotationDataValue;
+import util.ExperimentData;
+import util.FileDrop;
 
 public class UploadToExistingExpPanel extends JPanel
         implements ExperimentPanel {
@@ -17,8 +35,9 @@ public class UploadToExistingExpPanel extends JPanel
     private ArrayList<JComboBox> annotationBoxes;
     private ArrayList<JTextField> annotationFields;
     private AnnotationDataType[] annotations;
-    JPanel northPanel, centerPanel, uploadFilesPanel, buttonsPanel, mainPanel;
+    private JPanel northPanel, centerPanel, uploadFilesPanel, buttonsPanel, mainPanel;
     private HashMap<File, UploadFileRow> uploadFileRows;
+    private JPanel backgroundPanel;
 
     /**
      * Initiates an uploadToExistingExpPanel with its standard buttons
@@ -33,6 +52,7 @@ public class UploadToExistingExpPanel extends JPanel
         mainPanel = new JPanel(new BorderLayout());
         northPanel = new JPanel();
         centerPanel = new JPanel(new BorderLayout());
+        backgroundPanel = new JPanel();
         uploadFilesPanel = new JPanel(new GridLayout(0, 1));
         buttonsPanel = new JPanel(new FlowLayout());
 
@@ -46,7 +66,8 @@ public class UploadToExistingExpPanel extends JPanel
     public void build() {
         mainPanel.add(northPanel, BorderLayout.NORTH);
         mainPanel.add(centerPanel, BorderLayout.CENTER);
-        centerPanel.add(uploadFilesPanel, BorderLayout.NORTH);
+        centerPanel.add(backgroundPanel, BorderLayout.CENTER);
+        backgroundPanel.add(uploadFilesPanel, BorderLayout.NORTH);
         GridBagLayout gbl_panel = new GridBagLayout();
         gbl_panel.columnWidths = new int[] { 0, 0, 0, 0, 0, 0, 0 };
         gbl_panel.rowHeights = new int[] { 0, 0, 0, 0 };
@@ -69,6 +90,7 @@ public class UploadToExistingExpPanel extends JPanel
         mainPanel.add(buttonsPanel, BorderLayout.SOUTH);
         uploadFilesToExperimentButton.setEnabled(false);
         add(mainPanel);
+        repaintSelectedFiles();
         repaint();
         revalidate();
         uploadFilesPanel.repaint();
@@ -151,7 +173,6 @@ public class UploadToExistingExpPanel extends JPanel
         for (int i = 0; i < annotations.length; i++) {
             if (annotations[i].isForced()) {
                 if (x > 6) {
-                    System.out.println("H�R");
                     x = 0;
                     y++;
                 }
@@ -218,5 +239,41 @@ public class UploadToExistingExpPanel extends JPanel
         uploadFilesPanel.removeAll();
         northPanel.removeAll();
         super.removeAll();
+    }
+
+    public void addExistingExp(ExperimentData ed) {
+        build();
+        ArrayList<AnnotationDataValue> annot = ed.getAnnotations();
+        GridBagConstraints gbc = new GridBagConstraints();
+        gbc.anchor = GridBagConstraints.WEST;
+        gbc.insets = new Insets(5, 0, 5, 30);
+        int x = 0;
+        int y = 0;
+        gbc.gridx = x;
+        gbc.gridy = y;
+        JPanel exp = new JPanel(new BorderLayout());
+        exp.setBorder(BorderFactory
+                .createTitledBorder("Experiment ID"));
+        JLabel expID = new JLabel(ed.getName());
+        exp.add(expID, BorderLayout.CENTER);
+        northPanel.add(exp, gbc);
+        x++;
+        for(AnnotationDataValue adv : annot) {
+            if (x > 6) {
+                x = 0;
+                y++;
+            }
+            gbc.anchor = GridBagConstraints.WEST;
+            gbc.insets = new Insets(5, 0, 5, 30);
+            gbc.gridx = x;
+            gbc.gridy = y;
+            JPanel p = new JPanel(new BorderLayout());
+            p.setBorder(BorderFactory
+                    .createTitledBorder(adv.getName()));
+            JLabel annotationValue = new JLabel(adv.getValue());
+            p.add(annotationValue, BorderLayout.CENTER);
+            northPanel.add(p, gbc);
+            x++;
+        }
     }
 }

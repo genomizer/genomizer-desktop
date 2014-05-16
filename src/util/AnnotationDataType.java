@@ -27,4 +27,14 @@ public class AnnotationDataType extends AnnotationData {
     public boolean isForced() {
         return forced;
     }
+    
+    public int indexOf(String value) {
+        for (int i = 0; i < values.length; i++) {
+            if (values[i].equals(value)){
+                return i;
+            }
+        }
+        return -1;
+        
+    }
 }
