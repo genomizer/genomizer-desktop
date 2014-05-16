@@ -5,25 +5,41 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.concurrent.CopyOnWriteArrayList;
 
-import requests.*;
+import javax.swing.JOptionPane;
+
+import requests.AddAnnotationRequest;
+import requests.AddExperimentRequest;
+import requests.AddFileToExperiment;
+import requests.AddNewAnnotationValueRequest;
+import requests.DownloadFileRequest;
+import requests.GetAnnotationRequest;
+import requests.GetGenomeReleasesRequest;
+import requests.LoginRequest;
+import requests.LogoutRequest;
+import requests.ProcessFeedbackRequest;
+import requests.RemoveAnnotationFieldRequest;
+import requests.RemoveAnnotationValueRequest;
+import requests.RenameAnnotationFieldRequest;
+import requests.RenameAnnotationValueRequest;
+import requests.RequestFactory;
+import requests.RetrieveExperimentRequest;
+import requests.SearchRequest;
+import requests.rawToProfileRequest;
 import responses.AddFileToExperimentResponse;
 import responses.DownloadFileResponse;
 import responses.LoginResponse;
-import responses.NewExperimentResponse;
 import responses.ResponseParser;
 import util.AnnotationDataType;
 import util.AnnotationDataValue;
 import util.ExperimentData;
+import util.GenomeReleaseData;
+import util.ProcessFeedbackData;
 
 import com.google.gson.Gson;
-
 import communication.Connection;
 import communication.DownloadHandler;
 import communication.HTTPURLUpload;
 import communication.UploadHandler;
-import util.ProcessFeedbackData;
-
-import javax.swing.*;
 
 // import org.apache.http.protocol.HTTP;
 
@@ -35,12 +51,12 @@ public class Model implements GenomizerModel {
     private Connection conn;
     private ArrayList<String> searchHistory;
     private CopyOnWriteArrayList<DownloadHandler> ongoingDownloads;
-    private CopyOnWriteArrayList<UploadHandler> ongoingUploads;
+    private CopyOnWriteArrayList<HTTPURLUpload> ongoingUploads;
 
     public Model(Connection conn) {
         searchHistory = new ArrayList<String>();
         ongoingDownloads = new CopyOnWriteArrayList<DownloadHandler>();
-        ongoingUploads = new CopyOnWriteArrayList<UploadHandler>();
+        ongoingUploads = new CopyOnWriteArrayList<HTTPURLUpload>();
         this.setConn(conn);
     }
 
@@ -70,7 +86,7 @@ public class Model implements GenomizerModel {
             String processtype, String[] parameters, String metadata,
             String genomeRelease, String author) {
 
-        ///
+        ///hej anna
         System.out.println("RAW TO PROFILE\n");
         System.out.println("Filename: " + fileName);
         System.out.println("File ID: " + fileID);
@@ -143,21 +159,22 @@ public class Model implements GenomizerModel {
         String url = null;
         if (conn.getResponseCode() == 200) {
             url = conn.getResponseBody();
+            AddFileToExperimentResponse aFTER = ResponseParser
+                    .parseUploadResponse(conn.getResponseBody());
+            HTTPURLUpload upload = new HTTPURLUpload(aFTER.URLupload,
+                    f.getAbsolutePath());
+            ongoingUploads.add(upload);
+            if(upload.sendFile("pvt", "pvt")) {
+                return true;
+            }
         }
-
-        AddFileToExperimentResponse aFTER = ResponseParser
-                .parseUploadResponse(conn.getResponseBody());
-        HTTPURLUpload upload = new HTTPURLUpload(aFTER.URLupload,
-                f.getAbsolutePath());
-        upload.sendFile("pvt", "pvt");
+        return false;
 
         /*
          * UploadHandler handler = new UploadHandler(aFTER.URLupload,
          * f.getAbsolutePath(), userID, "pvt:pvt"); Thread thread = new
          * Thread(handler); thread.start();
          */
-
-        return true;
     }
 
     @Override
@@ -319,6 +336,27 @@ public class Model implements GenomizerModel {
         return new AnnotationDataType[] {};
     }
 
+    /** TODO NOT CALLED ANYWHERE YET! */
+    public GenomeReleaseData[] getGenomeReleases() {
+        GetGenomeReleasesRequest request = RequestFactory
+                .makeGetGenomeReleaseRequest();
+        conn.sendRequest(request, userID, TEXT_PLAIN);
+        if (conn.getResponseCode() == 200) {
+            System.err.println("Sent getGenomerReleaseRequestSuccess!");
+            GenomeReleaseData[] genomeReleases = ResponseParser
+                    .parseGetGenomeReleaseResponse(conn.getResponseBody());
+            return genomeReleases;
+        } else {
+
+            System.out.println("GenomeRelease responsecode: "
+                    + conn.getResponseCode());
+            JOptionPane
+                    .showMessageDialog(null, "Could not get genomereleases!");
+        }
+
+        return new GenomeReleaseData[] {};
+    }
+
     @Override
     public boolean addNewExperiment(String expName, String username,
             AnnotationDataValue[] annotations) {
@@ -352,7 +390,7 @@ public class Model implements GenomizerModel {
         return null;
     }
 
-    public CopyOnWriteArrayList<UploadHandler> getOngoingUploads() {
+    public CopyOnWriteArrayList<HTTPURLUpload> getOngoingUploads() {
         return ongoingUploads;
     }
 

@@ -13,6 +13,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -47,16 +48,11 @@ public class Controller {
         view.addRawToRegionDataListener(new RawToRegionDataListener());
         view.addScheduleFileListener(new ScheduleFileListener());
         view.addDownloadFileListener(new DownloadWindowListener());
-        view.addSelectFilesToUploadButtonListener(
-                new SelectFilesToUploadButtonListener());
-        view.setSysadminController(
-                sysController = new SysadminController(model));
-        view.addAddToExistingExpButtonListener(
-                new AddToExistingExpButtonListener());
-        view.addUploadToExperimentButtonListener(
-                new UploadToExperimentButtonListener());
-        view.addUpdateSearchAnnotationsListener(
-                new updateSearchAnnotationsListener());
+        view.addSelectFilesToUploadButtonListener(new SelectFilesToUploadButtonListener());
+        view.setSysadminController(sysController = new SysadminController(model));
+        view.addAddToExistingExpButtonListener(new AddToExistingExpButtonListener());
+        view.addUploadToExperimentButtonListener(new UploadToExperimentButtonListener());
+        view.addUpdateSearchAnnotationsListener(new updateSearchAnnotationsListener());
         view.addProcessFileListener(new ProcessFileListener());
         view.addSearchToWorkspaceListener(new SearchToWorkspaceListener());
         view.addNewExpButtonListener(new NewExpButtonListener());
@@ -66,7 +62,6 @@ public class Controller {
         fileListAddMouseListener(view.getfileList());
         view.addRatioCalcListener(new RatioCalcListener());
         view.addProcessFeedbackListener(new ProcessFeedbackListener());
-        view.setOngoingUploads(model.getOngoingUploads());
         view.addCancelListener(new CancelListener());
         view.addOkListener(new OkListener());
     }
@@ -109,10 +104,10 @@ public class Controller {
 
             if (!allMarked.isEmpty()) {
 
-                for (int i = 0; i < markedSize; i++) {
+                for (FileData data : allMarked) {
 
-                    String fileName = allMarked.get(i).filename;
-                    String fileID = allMarked.get(i).id;
+                    String fileName = data.filename;
+                    String fileID = data.id;
                     String author = view.getUsername();
                     String parameters[] = new String[8];
                     String processtype = "rawtoprofile";
@@ -126,9 +121,9 @@ public class Controller {
                     parameters[6] = view.getRatioCalcParameters()[0]; // "single 4 0";
                     parameters[7] = view.getRatioCalcParameters()[1]; // "150 1 7 0 0";
 
-                    String expid = allMarked.get(i).expId;
-                    String genomeRelease = allMarked.get(i).grVersion;
-                    String metadata = allMarked.get(i).metaData;
+                    String expid = data.expId;
+                    String genomeRelease = data.grVersion;
+                    String metadata = data.metaData;
 
                     isConverted = model.rawToProfile(fileName, fileID, expid,
                             processtype, parameters, metadata, genomeRelease,
@@ -349,9 +344,14 @@ public class Controller {
              */
             fileChooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
             int ret = fileChooser.showOpenDialog(new JPanel());
-            String directoryName;
+            String directoryName = "";
             if (ret == JFileChooser.APPROVE_OPTION) {
-                directoryName = fileChooser.getSelectedFile().getAbsolutePath();
+                try {
+                    directoryName = fileChooser.getSelectedFile().getCanonicalPath();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                System.out.println(directoryName);
             } else {
                 return;
             }
@@ -377,17 +377,26 @@ public class Controller {
             UploadTab uploadTab = view.getUploadTab();
             String expID = uploadTab.getSearchText();
             try {
-//                ExperimentData ed = model.retrieveExperiment(expID);
+                ExperimentData ed = model.retrieveExperiment(expID);
                 ArrayList<FileData> f = new ArrayList<FileData>();
-                ArrayList<AnnotationDataValue> adv = new ArrayList<>();
-                adv.add(new AnnotationDataValue("0", "Species", "Cyborg"));
-                adv.add(new AnnotationDataValue("1", "Sex", "Robot"));
-                ExperimentData ed = new ExperimentData("Experiment 11", view.getUsername(), f, adv);
+//                ArrayList<AnnotationDataValue> adv = new ArrayList<>();
+//                adv.add(new AnnotationDataValue("0", "Species", "Cyborg"));
+//                adv.add(new AnnotationDataValue("1", "Sex", "Robot"));
+//                adv.add(new AnnotationDataValue("2", "Real", "Testtesttest"));
+//                adv.add(new AnnotationDataValue("3", "This", "Testtesttest"));
+//                adv.add(new AnnotationDataValue("4", "is", "Testtesttest"));
+//                adv.add(new AnnotationDataValue("5", "only", "Testtesttest"));
+//                adv.add(new AnnotationDataValue("6", "a", "Testtesttest"));
+//                adv.add(new AnnotationDataValue("7", "fake", "Testtesttest"));
+//                adv.add(new AnnotationDataValue("8", "experiment", "Testtesttest"));
+//                ExperimentData ed = new ExperimentData("Experiment 11",
+//                        view.getUsername(), f, adv);
                 uploadTab.addExistingExpPanel(ed);
-//            uploadTab.repaint();
-//            uploadTab.revalidate();
+                // uploadTab.repaint();
+                // uploadTab.revalidate();
             } catch (NullPointerException e) {
-                JOptionPane.showMessageDialog(null, "Couldn't find experiment", "ERROR", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(null, "Couldn't find experiment",
+                        "ERROR", JOptionPane.ERROR_MESSAGE);
             }
         }
     }
@@ -401,18 +410,28 @@ public class Controller {
 
         @Override
         public void run() {
+            /*fileChooser.setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES);
+            int ret = fileChooser.showOpenDialog(new JPanel());
+            String directoryName = "";
+            File[] files;
+            if (ret == JFileChooser.APPROVE_OPTION) {
+                files = fileChooser.getSelectedFiles();
+                System.out.println(files[1].);
+            } else {
+                return;
+            }*/
             FileDialog fileDialog = new java.awt.FileDialog(
                     (java.awt.Frame) view);
             fileDialog.setMultipleMode(true);
             fileDialog.setVisible(true);
             File[] files = fileDialog.getFiles();
             String[] fileNames = new String[files.length];
-            for(int i = 0; i < files.length; i++) {
+            for (int i = 0; i < files.length; i++) {
                 fileNames[i] = files[i].getName();
             }
             view.selectFilesToExistingExp(files);
-            UploadToExistingExpPanel uploadToExistingExpPanel =
-                    view.getUploadTab().getUploadToExistingExpPanel();
+            UploadToExistingExpPanel uploadToExistingExpPanel = view
+                    .getUploadTab().getUploadToExistingExpPanel();
             uploadToExistingExpPanel.enableUploadButton(true);
             uploadToExistingExpPanel.build();
         }
@@ -456,7 +475,6 @@ public class Controller {
                                 "Error", JOptionPane.ERROR_MESSAGE);
                     }
                 }
-
             }
         }
     }
@@ -517,11 +535,24 @@ public class Controller {
 
         @Override
         public void run() {
-            FileDialog fileDialog = new java.awt.FileDialog(
+            /*FileDialog fileDialog = new java.awt.FileDialog(
                     (java.awt.Frame) view);
             fileDialog.setMultipleMode(true);
             fileDialog.setVisible(true);
-            File[] files = fileDialog.getFiles();
+            File[] files = fileDialog.getFiles();*/
+
+            fileChooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
+            fileChooser.setMultiSelectionEnabled(true);
+            int ret = fileChooser.showOpenDialog(new JPanel());
+            String directoryName = "";
+            File[] files;
+            System.out.println(ret);
+            if (ret == JFileChooser.APPROVE_OPTION) {
+                files = fileChooser.getSelectedFiles();
+                System.out.println(directoryName);
+            } else {
+                return;
+            }
             view.selectFilesToNewExp(files);
             view.enableUploadButton(true);
         }
@@ -559,15 +590,18 @@ public class Controller {
                                 false, release)) {
                             view.deleteUploadFileRow(f);
                             JOptionPane.showMessageDialog(null, "Upload of "
-                                    + f.getName() + " complete", "Done",
+                                    + f.getName() + " complete.", "Done",
                                     JOptionPane.PLAIN_MESSAGE);
                         } else {
-                            JOptionPane.showMessageDialog(null, "Upload of "
-                                    + f.getName() + " not complete", "Error",
+                            JOptionPane.showMessageDialog(null, "Couldn't upload "
+                                    + f.getName() + ".", "Error",
                                     JOptionPane.ERROR_MESSAGE);
                         }
                     }
-
+                } else {
+                    JOptionPane.showMessageDialog(null,
+                            "Couldn't create experiment " + expName + ".", "Error",
+                            JOptionPane.ERROR_MESSAGE);
                 }
             }
         }
@@ -627,10 +661,11 @@ public class Controller {
 
         @Override
         public void run() {
-            ProcessFeedbackData[] processFeedbackData = model.getProcessFeedback();
-          //  if(processFeedbackData != null) {
-                view.showProcessFeedback(processFeedbackData);
-          //  }
+            ProcessFeedbackData[] processFeedbackData = model
+                    .getProcessFeedback();
+            // if(processFeedbackData != null) {
+            view.showProcessFeedback(processFeedbackData);
+            // }
         }
     }
 
@@ -638,12 +673,12 @@ public class Controller {
         @Override
         public void actionPerformed(ActionEvent e) {
             new Thread(this).start();
-            }
+        }
 
         @Override
         public void run() {
             System.out.println("OK");
-            view.getRatioCalcPopup().okButton.setEnabled(false);
+            //view.getRatioCalcPopup().okButton.setEnabled(false);
         }
     }
 

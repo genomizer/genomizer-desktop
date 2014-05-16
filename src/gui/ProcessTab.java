@@ -702,11 +702,12 @@ public class ProcessTab extends JPanel {
     }
 
     public void showProcessFeedback(ProcessFeedbackData[] processFeedbackData) {
-        procInfoArea.setText("");
+        procInfoArea.setText("FAKE DATA FOR TESTING:\n------------------------------------------\n");
         for (int i = 0; i < 30; i++) {
             procInfoArea.setText(procInfoArea.getText() +
                     "Experiment Name: exp" + i + "\n" +
                     "Status: ongoing\n" +
+                    "Author: -\n" +
                     "Time Started: 12:46\n\n");
         }
     }
@@ -743,14 +744,6 @@ public class ProcessTab extends JPanel {
                 + getTimeApprox() + " min )");
         timePanel.add(timeArea);
 
-    }
-
-    public String[] getRatioCalcParameters() {
-        String[] s = new String[2];
-        s[0] = "single 4 0";
-        s[1] = "150 1 7 0 0";
-
-        return s;
     }
 
     public String[] getOtherParameters() {
