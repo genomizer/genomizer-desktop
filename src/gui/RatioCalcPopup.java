@@ -18,7 +18,6 @@ import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 import javax.swing.UIManager;
 
@@ -40,6 +39,8 @@ public class RatioCalcPopup extends JFrame {
     private final JCheckBox ratioPrintZeros = new JCheckBox("Print zeros");
     private final JComboBox<String> single = new JComboBox<String>();
     private final JComboBox<String> ratioSmoothType = new JComboBox<String>();
+    ArrayList<String> ratioSmooth = new ArrayList<String>();
+    ArrayList<String> comboSingle = new ArrayList<String>();
 
     public RatioCalcPopup(final GenomizerView parent) {
         addWindowListener(new WindowAdapter() {
@@ -50,21 +51,9 @@ public class RatioCalcPopup extends JFrame {
         });
         setTitle("Ratio calculation parameters");
         setResizable(false);
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setSize(new Dimension(480, 325));
         this.setLocationRelativeTo(parent.getFrame());
         placeComponents();
-
-        ArrayList<String> ratioSmooth = new ArrayList<String>();
-        ArrayList<String> comboSingle = new ArrayList<String>();
-        ratioSmooth.add("1");
-        ratioSmooth.add("0");
-        comboSingle.add("single");
-        comboSingle.add("double");
-        ratioSmoothType.addItem(ratioSmooth.get(0));
-        ratioSmoothType.addItem(ratioSmooth.get(1));
-        single.addItem(comboSingle.get(0));
-        single.addItem(comboSingle.get(1));
         setUnusedRatioPar();
     }
 
@@ -161,7 +150,6 @@ public class RatioCalcPopup extends JFrame {
         String[] s = new String[2];
 
         s[0] = getSingle() + " " + getInputReads() + " " + getChromosomes();
-        // s[1] = "150 1 7 0 0";
 
         s[1] = getWindowSize() + " " + getSmoothType() + " "
                 + getStepPosition() + " " + getPrintMean() + " "
@@ -173,6 +161,8 @@ public class RatioCalcPopup extends JFrame {
     private String getPrintZeros() {
         if (ratioPrintZeros.isSelected()) {
             return "1";
+        } else if(single.getItemAt(0).equals("")){
+            return "";
         } else {
             return "0";
         }
@@ -181,6 +171,8 @@ public class RatioCalcPopup extends JFrame {
     private String getPrintMean() {
         if (ratioPrintMean.isSelected()) {
             return "1";
+        } else if(single.getItemAt(0).equals("")){
+            return "";
         } else {
             return "0";
         }
@@ -210,17 +202,31 @@ public class RatioCalcPopup extends JFrame {
         return single.getSelectedItem().toString().trim();
     }
 
-    private void setUnusedRatioPar() {
+    public void setUnusedRatioPar() {
 
+        single.removeAllItems();
+        ratioSmoothType.removeAllItems();
         inputReads.setText("");
         chromosome.setText("");
         ratioWindowSize.setText("");
-        ratioSmoothType.setSelectedIndex(0);
         ratioStepPosition.setText("");
+        single.addItem("");
+        ratioSmoothType.addItem("");
+
     }
 
     public void setDefaultRatioPar() {
 
+        single.removeAllItems();
+        ratioSmoothType.removeAllItems();
+        ratioSmooth.add("1");
+        ratioSmooth.add("0");
+        comboSingle.add("single");
+        comboSingle.add("double");
+        ratioSmoothType.addItem(ratioSmooth.get(0));
+        ratioSmoothType.addItem(ratioSmooth.get(1));
+        single.addItem(comboSingle.get(0));
+        single.addItem(comboSingle.get(1));
         inputReads.setText("4");
         chromosome.setText("0");
         ratioWindowSize.setText("150");
@@ -229,7 +235,7 @@ public class RatioCalcPopup extends JFrame {
 
     }
 
-    public void closeRatioWindow(){
+    public void hideRatioWindow() {
         this.setVisible(false);
     }
 }
