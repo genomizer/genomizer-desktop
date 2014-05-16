@@ -103,6 +103,7 @@ public class UploadToExistingExpPanel extends JPanel
     public void createUploadFileRow(File[] files) {
         for (File f : files) {
             if (!uploadFileRows.containsKey(f)) {
+                System.out.println("added");
                 UploadFileRow fileRow = new UploadFileRow(f, this);
                 uploadFileRows.put(f, fileRow);
             } else {
@@ -123,6 +124,7 @@ public class UploadToExistingExpPanel extends JPanel
      */
     public void deleteFileRow(File f) {
         if (uploadFileRows.containsKey(f)) {
+            System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!!!!<<<<<<<<<<<<<<<<");
             uploadFileRows.remove(f);
             uploadFilesPanel.removeAll();
             repaintSelectedFiles();
@@ -265,7 +267,7 @@ public class UploadToExistingExpPanel extends JPanel
         }
         return types;
     }
-    
+
     public void addFileDrop() {
         //Makes dragging & dropping of files into the panel possible
         new FileDrop(this, new FileDrop.Listener() {
