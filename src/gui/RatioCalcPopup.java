@@ -18,7 +18,6 @@ import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 import javax.swing.UIManager;
 
@@ -159,13 +158,18 @@ public class RatioCalcPopup extends JFrame {
 
     public String[] getRatioCalcParameters() {
         String[] s = new String[2];
+        s[0] = "";
+        s[1] = "";
 
-        s[0] = getSingle() + " " + getInputReads() + " " + getChromosomes();
-        // s[1] = "150 1 7 0 0";
+        if (okButton.isSelected()) {
 
-        s[1] = getWindowSize() + " " + getSmoothType() + " "
-                + getStepPosition() + " " + getPrintMean() + " "
-                + getPrintZeros();
+            s[0] = getSingle() + " " + getInputReads() + " " + getChromosomes();
+            // s[1] = "150 1 7 0 0";
+
+            s[1] = getWindowSize() + " " + getSmoothType() + " "
+                    + getStepPosition() + " " + getPrintMean() + " "
+                    + getPrintZeros();
+        }
 
         return s;
     }
@@ -229,7 +233,7 @@ public class RatioCalcPopup extends JFrame {
 
     }
 
-    public void closeRatioWindow(){
+    public void hideRatioWindow() {
         this.setVisible(false);
     }
 }
