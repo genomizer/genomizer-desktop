@@ -13,7 +13,7 @@ import java.awt.event.MouseAdapter;
 import java.util.ArrayList;
 
 /**
- * Visual  presentation of the process tab.
+ * Visual presentation of the process tab.
  *
  * @author c11ann
  */
@@ -61,14 +61,6 @@ public class ProcessTab extends JPanel {
     private final JTextField stepPosition = new JTextField();
     private final JTextField stepSize = new JTextField();
 
-    // RATIO CALC
-    private final JTextField inputReads = new JTextField();
-    private final JTextField chromosome = new JTextField();
-    private final JTextField ratioWindowSize = new JTextField();
-    private final JTextField ratioStepPosition = new JTextField();
-    private final JCheckBox ratioPrintMean = new JCheckBox("Print mean");
-    private final JCheckBox ratioPrintZeros = new JCheckBox("Print zeros");
-
     private final JScrollPane scrollSchedule = new JScrollPane();
     private final JScrollPane scrollConvert = new JScrollPane();
     private final JScrollPane scrollRegion = new JScrollPane();
@@ -79,8 +71,7 @@ public class ProcessTab extends JPanel {
     private final JButton convertButton = new JButton("Convert to WIG");
     private final JButton profileButton = new JButton("Create profile data");
     private final JButton regionButton = new JButton("Create region data");
-    private final JButton ratioCalcButton = new JButton(
-            "Use ratio calculation");
+    private final JButton ratioCalcButton = new JButton("Use ratio calculation");
     private final JButton processFeedbackButton = new JButton(
             "Get information about processes");
     // private final JCheckBox scheduleButton = new JCheckBox(
@@ -90,8 +81,8 @@ public class ProcessTab extends JPanel {
     private final JCheckBox printZeros = new JCheckBox("Print zeros");
     private final JCheckBox stepSizeBox = new JCheckBox("Step size");
     private final JComboBox<String> genomeFile = new JComboBox<String>();
-    private final JComboBox<String> single = new JComboBox<String>();
-    private final JComboBox<String> ratioSmoothType = new JComboBox<String>();
+ //   private final JComboBox<String> single = new JComboBox<String>();
+//    private final JComboBox<String> ratioSmoothType = new JComboBox<String>();
     private final JTabbedPane tabbedPane = new JTabbedPane(JTabbedPane.BOTTOM);
     public final JOptionPane ratioPopup = new JOptionPane();
     private ArrayList<String> genomeReleaseFiles;
@@ -123,20 +114,14 @@ public class ProcessTab extends JPanel {
         /* TEST */
         ratioSmooth.add("1");
         ratioSmooth.add("0");
-
-        ratioSmoothType.addItem(ratioSmooth.get(0));
-        ratioSmoothType.addItem(ratioSmooth.get(1));
         smoothType.addItem(ratioSmooth.get(0));
         smoothType.addItem(ratioSmooth.get(1));
 
-        /*TEST*/
+        /* TEST */
         ArrayList<String> comboSingle = new ArrayList<String>();
         /* TEST */
         comboSingle.add("single");
         comboSingle.add("double");
-
-        single.addItem(comboSingle.get(0));
-        single.addItem(comboSingle.get(1));
 
         /* TEST */
         ArrayList<String> gFiles = new ArrayList<String>();
@@ -147,7 +132,6 @@ public class ProcessTab extends JPanel {
 
         initBowtieParameters();
         writeToTimePanel();
-        setUnusedRatioPar();
 
     }
 
@@ -190,8 +174,8 @@ public class ProcessTab extends JPanel {
      * Initiates the east panel in the process tabs borderlayout.
      */
     private void addProcessInfoPanel() {
-        procInfoPanel.setBorder(
-                BorderFactory.createTitledBorder("Processing Information"));
+        procInfoPanel.setBorder(BorderFactory
+                .createTitledBorder("Processing Information"));
         procInfoPanel.setLayout(new BorderLayout());
         JPanel procInfoSouthPanel = new JPanel(new FlowLayout());
         JPanel procInfoCenterPanel = new JPanel(new BorderLayout());
@@ -209,8 +193,8 @@ public class ProcessTab extends JPanel {
      */
     private void addConvertFilesPanel() {
         middlePanel.add(convertFilesPanel, BorderLayout.CENTER);
-        convertFilesPanel.setBorder(
-                BorderFactory.createTitledBorder("Convert Files"));
+        convertFilesPanel.setBorder(BorderFactory
+                .createTitledBorder("Convert Files"));
     }
 
     /**
@@ -218,8 +202,8 @@ public class ProcessTab extends JPanel {
      */
     private void addGenRegionDataPanel() {
         middlePanel.add(genRegionDataPanel, BorderLayout.CENTER);
-        genRegionDataPanel.setBorder(
-                BorderFactory.createTitledBorder("Generate Region Data"));
+        genRegionDataPanel.setBorder(BorderFactory
+                .createTitledBorder("Generate Region Data"));
         addScrollGenRegionData();
     }
 
@@ -238,8 +222,8 @@ public class ProcessTab extends JPanel {
      */
     private void addGenProfileDataPanel() {
         middlePanel.add(genProfileDataPanel, BorderLayout.CENTER);
-        genProfileDataPanel.setBorder(
-                BorderFactory.createTitledBorder("Generate Profile Data"));
+        genProfileDataPanel.setBorder(BorderFactory
+                .createTitledBorder("Generate Profile Data"));
         genProfileDataPanel.add(scrollProfile);
         scrollProfile.setViewportView(genProfArea);
         genProfArea.setEditable(false);
@@ -257,8 +241,8 @@ public class ProcessTab extends JPanel {
      * Initiates the scrollSchedule in scheduleProcPanel.
      */
     private void addScheduleProcPanel() {
-        scheduleProcPanel.setBorder(
-                BorderFactory.createTitledBorder("Scheduled Processing"));
+        scheduleProcPanel.setBorder(BorderFactory
+                .createTitledBorder("Scheduled Processing"));
         scheduleProcPanel.add(scrollSchedule);
         scrollSchedule.setViewportView(scheduleList);
     }
@@ -304,8 +288,7 @@ public class ProcessTab extends JPanel {
      * Initiates all panels to the raw to profile tab.
      */
     private void addPanelsToRawToProfileTab() {
-        RawToProfileMenuPanel
-                .setLayout(new BorderLayout());
+        RawToProfileMenuPanel.setLayout(new BorderLayout());
         RawToProfileMenuPanel.add(tabbedPane, BorderLayout.CENTER);
 
         tabbedPane.addTab("Create profile data", null, convTabpanel, null);
@@ -313,17 +296,17 @@ public class ProcessTab extends JPanel {
         convPanel.add(flagsPanel);
         flagsPanel.setBorder(BorderFactory.createTitledBorder("Bowtie flags"));
         convPanel.add(genomeReleasePanel);
-        genomeReleasePanel.setBorder(
-                BorderFactory.createTitledBorder("Genome release files"));
+        genomeReleasePanel.setBorder(BorderFactory
+                .createTitledBorder("Genome release files"));
         convPanel.add(windowSizePanel);
-        windowSizePanel
-                .setBorder(BorderFactory.createTitledBorder("Window size"));
+        windowSizePanel.setBorder(BorderFactory
+                .createTitledBorder("Window size"));
         convPanel.add(smoothTypePanel);
-        smoothTypePanel
-                .setBorder(BorderFactory.createTitledBorder("Smooth type"));
+        smoothTypePanel.setBorder(BorderFactory
+                .createTitledBorder("Smooth type"));
         convPanel.add(stepPositionPanel);
-        stepPositionPanel
-                .setBorder(BorderFactory.createTitledBorder("Step position"));
+        stepPositionPanel.setBorder(BorderFactory
+                .createTitledBorder("Step position"));
         convPanel.setBorder(null);
         checkBoxPanel.setAlignmentY(1.0f);
         checkBoxPanel.setBorder(new EtchedBorder(EtchedBorder.LOWERED, null,
@@ -403,7 +386,7 @@ public class ProcessTab extends JPanel {
         smoothTypePanel.add(smoothType);
         smoothType.setPreferredSize(new Dimension(70, 45));
         smoothType.setBorder(null);
-        //smoothType.setHorizontalAlignment(JTextField.CENTER);
+        // smoothType.setHorizontalAlignment(JTextField.CENTER);
     }
 
     /**
@@ -662,8 +645,10 @@ public class ProcessTab extends JPanel {
     /**
      * Checks if an item in a list is selected.
      *
-     * @param arr       - the list
-     * @param checkItem - the item in the list
+     * @param arr
+     *            - the list
+     * @param checkItem
+     *            - the item in the list
      */
     private void checkItemIsSelected(ArrayList<String> arr,
             CheckListItem checkItem) {
@@ -704,10 +689,9 @@ public class ProcessTab extends JPanel {
     public void showProcessFeedback(ProcessFeedbackData[] processFeedbackData) {
         procInfoArea.setText("");
         for (int i = 0; i < 30; i++) {
-            procInfoArea.setText(procInfoArea.getText() +
-                    "Experiment Name: exp" + i + "\n" +
-                    "Status: ongoing\n" +
-                    "Time Started: 12:46\n\n");
+            procInfoArea.setText(procInfoArea.getText()
+                    + "Experiment Name: exp" + i + "\n" + "Status: ongoing\n"
+                    + "Time Started: 12:46\n\n");
         }
     }
 
@@ -719,8 +703,10 @@ public class ProcessTab extends JPanel {
      * Prints message to genProfArea. The message is red if it is a warning
      * message, black otherwise.
      *
-     * @param message - Whether or not create profile data succeeded
-     * @param color   - What color the message should have
+     * @param message
+     *            - Whether or not create profile data succeeded
+     * @param color
+     *            - What color the message should have
      */
     public void printToProfileText(String message, String color) {
 
@@ -745,14 +731,6 @@ public class ProcessTab extends JPanel {
 
     }
 
-    public String[] getRatioCalcParameters() {
-        String[] s = new String[2];
-        s[0] = "single 4 0";
-        s[1] = "150 1 7 0 0";
-
-        return s;
-    }
-
     public String[] getOtherParameters() {
         String[] s = new String[2];
         s[0] = "y";
@@ -762,34 +740,6 @@ public class ProcessTab extends JPanel {
 
     public void addRatioCalcListener(ActionListener listener) {
         ratioCalcButton.addActionListener(listener);
-    }
-
-    public void setDefaultRatioPar() {
-/*
-        private final JTextField inputReads = new JTextField();
-        private final JTextField chromosome = new JTextField();
-        private final JTextField ratioWindowSize = new JTextField();
-        private final JTextField ratioSmoothType = new JTextField();
-        private final JTextField ratioStepPosition
-        private final JCheckBox ratioPrintMean
-        private final JCheckBox ratioPrintZeros
-  */
-
-        inputReads.setText("4");
-        chromosome.setText("0");
-        ratioWindowSize.setText("150");
-        ratioSmoothType.setSelectedIndex(0);
-        ratioStepPosition.setText("7");
-
-    }
-
-    private void setUnusedRatioPar() {
-
-        inputReads.setText("");
-        chromosome.setText("");
-        ratioWindowSize.setText("");
-        ratioSmoothType.setSelectedIndex(0);
-        ratioStepPosition.setText("");
     }
 
 }

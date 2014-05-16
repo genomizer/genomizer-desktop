@@ -605,7 +605,7 @@ public class GUI extends JFrame implements GenomizerView {
     }
 
     public String[] getRatioCalcParameters() {
-        return processTab.getRatioCalcParameters();
+        return ratioCalcPopup.getRatioCalcParameters();
     }
 
     @Override
@@ -637,7 +637,7 @@ public class GUI extends JFrame implements GenomizerView {
 
     @Override
     public void setDefaultRatioPar() {
-        processTab.setDefaultRatioPar();
+        ratioCalcPopup.setDefaultRatioPar();
     }
 
     @Override

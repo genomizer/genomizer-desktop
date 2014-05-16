@@ -9,6 +9,7 @@ import java.awt.GridBagLayout;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.util.ArrayList;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
@@ -52,6 +53,18 @@ public class RatioCalcPopup extends JFrame{
         setSize(new Dimension(480,325));
         this.setLocationRelativeTo(parent.getFrame());
         placeComponents();
+
+        ArrayList<String> ratioSmooth = new ArrayList<String>();
+        ArrayList<String> comboSingle = new ArrayList<String>();
+        ratioSmooth.add("1");
+        ratioSmooth.add("0");
+        comboSingle.add("single");
+        comboSingle.add("double");
+        ratioSmoothType.addItem(ratioSmooth.get(0));
+        ratioSmoothType.addItem(ratioSmooth.get(1));
+        single.addItem(comboSingle.get(0));
+        single.addItem(comboSingle.get(1));
+        setUnusedRatioPar();
     }
     /**
      * Sets the layout and looks to the login window
@@ -127,20 +140,39 @@ public class RatioCalcPopup extends JFrame{
         repaint();
     }
 
-    public void disableOk(){
-        okButton.setEnabled(false);
-    }
-
-    public void enableOk(){
-        okButton.setEnabled(true);
-    }
-
     public void removeErrorMessage() {
         if (errorLabel != null) {
             ratioPanel.remove(errorLabel);
             errorLabel = null;
             repaint();
         }
+    }
+
+    public String[] getRatioCalcParameters() {
+        String[] s = new String[2];
+        s[0] = "single 4 0";
+        s[1] = "150 1 7 0 0";
+
+        return s;
+    }
+
+    private void setUnusedRatioPar() {
+
+        inputReads.setText("");
+        chromosome.setText("");
+        ratioWindowSize.setText("");
+        ratioSmoothType.setSelectedIndex(0);
+        ratioStepPosition.setText("");
+    }
+
+    public void setDefaultRatioPar() {
+
+        inputReads.setText("4");
+        chromosome.setText("0");
+        ratioWindowSize.setText("150");
+        ratioSmoothType.setSelectedIndex(0);
+        ratioStepPosition.setText("7");
+
     }
 }
 
