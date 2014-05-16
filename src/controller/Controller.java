@@ -620,9 +620,9 @@ public class Controller {
         @Override
         public void run() {
             ProcessFeedbackData[] processFeedbackData = model.getProcessFeedback();
-            if(processFeedbackData != null) {
+          //  if(processFeedbackData != null) {
                 view.showProcessFeedback(processFeedbackData);
-            }
+          //  }
         }
     }
 
