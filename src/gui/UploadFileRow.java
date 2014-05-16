@@ -92,7 +92,7 @@ public class UploadFileRow extends JPanel {
     
     public void updateProgressBar(float progress) {
         uploadBar.setMinimum(0);
-        uploadBar.setMaximum((int)file.length());
+        uploadBar.setMaximum(100);
         uploadBar.setValue((int)progress);
     }
     
