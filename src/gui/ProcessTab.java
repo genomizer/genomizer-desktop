@@ -190,11 +190,11 @@ public class ProcessTab extends JPanel {
     private void addProcessInfoPanel() {
         procInfoPanel.setBorder(
                 BorderFactory.createTitledBorder("Processing Information"));
+        procInfoPanel.setLayout(new BorderLayout());
         this.add(procInfoPanel, BorderLayout.EAST);
         procInfoPanel.add(scrollProcessList, BorderLayout.CENTER);
         scrollProcessList.setViewportView(procInfoArea);
         procInfoArea.setEditable(false);
-        processFeedbackButton.setPreferredSize(new Dimension(2,40));
         procInfoPanel.add(processFeedbackButton, BorderLayout.SOUTH);
     }
 
@@ -203,7 +203,8 @@ public class ProcessTab extends JPanel {
      */
     private void addConvertFilesPanel() {
         middlePanel.add(convertFilesPanel, BorderLayout.CENTER);
-        convertFilesPanel.setBorder(BorderFactory.createTitledBorder("Convert Files"));
+        convertFilesPanel.setBorder(
+                BorderFactory.createTitledBorder("Convert Files"));
     }
 
     /**
@@ -211,7 +212,8 @@ public class ProcessTab extends JPanel {
      */
     private void addGenRegionDataPanel() {
         middlePanel.add(genRegionDataPanel, BorderLayout.CENTER);
-        genRegionDataPanel.setBorder(BorderFactory.createTitledBorder("Generate Region Data"));
+        genRegionDataPanel.setBorder(
+                BorderFactory.createTitledBorder("Generate Region Data"));
         addScrollGenRegionData();
     }
 
