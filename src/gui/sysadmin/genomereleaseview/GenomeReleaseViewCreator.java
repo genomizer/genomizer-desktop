@@ -1,5 +1,7 @@
 package gui.sysadmin.genomereleaseview;
 
+import gui.sysadmin.strings.SysStrings;
+
 import java.awt.*;
 import javax.swing.*;
 import javax.swing.border.Border;
@@ -66,45 +68,60 @@ public class GenomeReleaseViewCreator {
         JLabel speciesLabel = new JLabel();
         JLabel fileLabel = new JLabel();
 
-        versionLabel.setText("Genome release version:");
-        speciesLabel.setText("Species:");
-
-        fileLabel.setText("Genome file:");
+        versionLabel.setText(SysStrings.GENOME_TEXT_GR_VERSION);
+        speciesLabel.setText(SysStrings.GENOME_TEXT_SPECIES);
+        fileLabel.setText(SysStrings.GENOME_TEXT_GFILE);
 
         versionLabel.setBorder(border);
         speciesLabel.setBorder(border);
         fileLabel.setBorder(border);
 
-        JButton addButton = new JButton("Add");
-        JButton deleteButton = new JButton("Delete");
-        JButton fileButton = new JButton("Select file");
+        JButton addButton = new JButton(SysStrings.GENOME_BUTTON_ADD);
+        JButton clearButton = new JButton(SysStrings.GENOME_BUTTON_CLEAR);
+        JButton deleteButton = new JButton(SysStrings.GENOME_BUTTON_DELETE);
+        deleteButton.setEnabled(false);
+        JButton fileButton = new JButton(SysStrings.GENOME_BUTTON_FILE);
 
         FlowLayout flowLayout = new FlowLayout();
         flowLayout.setAlignment(flowLayout.LEADING);
 
 
         JPanel buttonPanel = new JPanel(flowLayout);
+        JPanel buttonDeletePanel = new JPanel(flowLayout);
+
         JPanel buttonCeptionPanel = new JPanel(new BorderLayout());
+        JPanel buttonCepDeletePanel = new JPanel(new BorderLayout());
 
 
         buttonPanel.add(fileButton);
         buttonPanel.add(addButton);
-        buttonPanel.add(deleteButton);
+        buttonPanel.add(clearButton);
+
+        buttonDeletePanel.add(deleteButton);
+
+        buttonCeptionPanel.add(buttonPanel, BorderLayout.WEST);
+        buttonCepDeletePanel.add(buttonDeletePanel, BorderLayout.WEST);
         
         JTextField versionText = new JTextField(20);
         JTextField speciesText = new JTextField(20);
-        buttonCeptionPanel.add(buttonPanel, BorderLayout.WEST);
+        JTextField fileText = new JTextField(20);
+        fileText.setEditable(false);
+
+
         layout.setHorizontalGroup(layout.createSequentialGroup().addGroup(
                 layout.createParallelGroup(GroupLayout.Alignment.LEADING)
                         .addComponent(versionLabel).addComponent(versionText)
                         .addComponent(speciesLabel).addComponent(speciesText)
-                        .addComponent(fileLabel).addComponent(buttonCeptionPanel)
+                        .addComponent(fileLabel).addComponent(fileText)
+                        .addComponent(buttonCeptionPanel)
+                        .addComponent(buttonCepDeletePanel)
         ));
         
         layout.setVerticalGroup(layout.createSequentialGroup()
                 .addComponent(versionLabel).addComponent(versionText)
                 .addComponent(speciesLabel).addComponent(speciesText)
-                .addComponent(fileLabel).addComponent(buttonCeptionPanel)
+                .addComponent(fileLabel).addComponent(fileText).addComponent(buttonCeptionPanel)
+                .addComponent(buttonCepDeletePanel)
         );
         
 
