@@ -1,6 +1,10 @@
 package controller;
 
-import gui.*;
+import gui.CheckListItem;
+import gui.DownloadWindow;
+import gui.GenomizerView;
+import gui.UploadTab;
+import gui.UploadToExistingExpPanel;
 import gui.sysadmin.SysadminController;
 
 import java.awt.FileDialog;
@@ -18,7 +22,11 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 import model.GenomizerModel;
-import util.*;
+import util.AnnotationDataType;
+import util.AnnotationDataValue;
+import util.ExperimentData;
+import util.FileData;
+import util.ProcessFeedbackData;
 
 public class Controller {
 
@@ -399,7 +407,7 @@ public class Controller {
             fileDialog.setVisible(true);
             File[] files = fileDialog.getFiles();
             String[] fileNames = new String[files.length];
-            for (int i = 0; i < files.length; i++) {
+            for(int i = 0; i < files.length; i++) {
                 fileNames[i] = files[i].getName();
             }
             view.selectFilesToExistingExp(files);
@@ -630,7 +638,7 @@ public class Controller {
         @Override
         public void actionPerformed(ActionEvent e) {
             new Thread(this).start();
-        }
+            }
 
         @Override
         public void run() {
