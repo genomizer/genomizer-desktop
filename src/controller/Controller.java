@@ -104,10 +104,10 @@ public class Controller {
 
             if (!allMarked.isEmpty()) {
 
-                for (int i = 0; i < markedSize; i++) {
+                for (FileData data : allMarked) {
 
-                    String fileName = allMarked.get(i).filename;
-                    String fileID = allMarked.get(i).id;
+                    String fileName = data.filename;
+                    String fileID = data.id;
                     String author = view.getUsername();
                     String parameters[] = new String[8];
                     String processtype = "rawtoprofile";
@@ -121,9 +121,9 @@ public class Controller {
                     parameters[6] = view.getRatioCalcParameters()[0]; // "single 4 0";
                     parameters[7] = view.getRatioCalcParameters()[1]; // "150 1 7 0 0";
 
-                    String expid = allMarked.get(i).expId;
-                    String genomeRelease = allMarked.get(i).grVersion;
-                    String metadata = allMarked.get(i).metaData;
+                    String expid = data.expId;
+                    String genomeRelease = data.grVersion;
+                    String metadata = data.metaData;
 
                     isConverted = model.rawToProfile(fileName, fileID, expid,
                             processtype, parameters, metadata, genomeRelease,
