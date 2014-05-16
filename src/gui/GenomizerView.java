@@ -158,4 +158,6 @@ public interface GenomizerView {
     public void addOkListener(ActionListener listener);
 
     public void addCancelListener(ActionListener listener);
+
+    public RatioCalcPopup getRatioCalcPopup();
 }

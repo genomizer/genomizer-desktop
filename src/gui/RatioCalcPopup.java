@@ -29,8 +29,8 @@ public class RatioCalcPopup extends JFrame{
     private JPanel topPanel;
     private JPanel centerPanel;
     private JPanel bottomPanel;
-    private JButton cancelButton = new JButton("Cancel");
-    private JButton okButton = new JButton("Ok");
+    public JButton cancelButton = new JButton("Cancel");
+    public JButton okButton = new JButton("Ok");
     private final JTextField inputReads = new JTextField();
     private final JTextField chromosome = new JTextField();
     private final JTextField ratioWindowSize = new JTextField();
