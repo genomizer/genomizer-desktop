@@ -11,9 +11,8 @@ public class ConnectionFactory {
 
     }
 
-    public Connection getNewConnection() {
-        Connection conn = new Connection();
-        conn.setIp(ip);
+    public Connection makeConnection() {
+        Connection conn = new Connection(ip);
         return conn;
     }
 

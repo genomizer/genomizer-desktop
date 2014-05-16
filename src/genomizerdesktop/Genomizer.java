@@ -35,8 +35,7 @@ public class Genomizer {
         gui.setWorkspaceTab(wt);
         // gui.setAnalyzeTab(at);
         gui.setSysAdminTab(sat);
-        Connection con = new Connection();
-        Model model = new Model(con);
+        Model model = new Model();
         Controller controller = new Controller(gui, model);
         SwingUtilities.invokeLater(new Runnable() {
             public void run() {
