@@ -653,4 +653,8 @@ public class GUI extends JFrame implements GenomizerView {
             CopyOnWriteArrayList<UploadHandler> ongoingUploads) {
         uploadTab.setOngoingUploads(ongoingUploads);
     }
+
+    public RatioCalcPopup getRatioCalcPopup() {
+        return this.ratioCalcPopup;
+    }
 }
