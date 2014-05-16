@@ -416,4 +416,10 @@ public class Model implements GenomizerModel {
         }
         return null;
      }
+
+    @Override
+    public boolean removeAnnotationField(String annotationName) {
+        // TODO Auto-generated method stub
+        return false;
+    }
 }
