@@ -228,7 +228,11 @@ public class UploadToExistingExpPanel extends JPanel
      * @param b Whether it should be enabled (true) or disabled (false)
      */
     public void enableUploadButton(boolean b) {
-        uploadFilesToExperimentButton.setEnabled(b);
+        if(b && !uploadFileRows.isEmpty()) {
+            uploadFilesToExperimentButton.setEnabled(b);
+        } else {
+            uploadFilesToExperimentButton.setEnabled(false);
+        }
     }
 
     /**
