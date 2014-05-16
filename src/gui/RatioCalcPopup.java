@@ -22,7 +22,7 @@ import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 import javax.swing.UIManager;
 
-public class RatioCalcPopup extends JFrame{
+public class RatioCalcPopup extends JFrame {
 
     private JLabel errorLabel;
     private JPanel ratioPanel;
@@ -41,16 +41,16 @@ public class RatioCalcPopup extends JFrame{
     private final JComboBox<String> single = new JComboBox<String>();
     private final JComboBox<String> ratioSmoothType = new JComboBox<String>();
 
-    public RatioCalcPopup(final GenomizerView parent){
+    public RatioCalcPopup(final GenomizerView parent) {
         addWindowListener(new WindowAdapter() {
             @Override
-           public void windowClosed(WindowEvent e) {
+            public void windowClosed(WindowEvent e) {
                 parent.getFrame().dispose();
             }
         });
         setTitle("Ratio calculation parameters");
         setResizable(false);
-        setSize(new Dimension(480,325));
+        setSize(new Dimension(480, 325));
         this.setLocationRelativeTo(parent.getFrame());
         placeComponents();
 
@@ -66,6 +66,7 @@ public class RatioCalcPopup extends JFrame{
         single.addItem(comboSingle.get(1));
         setUnusedRatioPar();
     }
+
     /**
      * Sets the layout and looks to the login window
      */
@@ -78,8 +79,10 @@ public class RatioCalcPopup extends JFrame{
         bottomPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
         buttonPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
 
-        topPanel.setBorder(BorderFactory.createTitledBorder("Ratio calculation"));
-        centerPanel.setBorder(BorderFactory.createTitledBorder("Ratio smoothing"));
+        topPanel.setBorder(BorderFactory
+                .createTitledBorder("Ratio calculation"));
+        centerPanel.setBorder(BorderFactory
+                .createTitledBorder("Ratio smoothing"));
         bottomPanel.setBorder(BorderFactory.createTitledBorder(""));
 
         ratioPanel.add(topPanel, BorderLayout.NORTH);
@@ -98,25 +101,30 @@ public class RatioCalcPopup extends JFrame{
         buttonPanel.add(okButton);
         bottomPanel.add(buttonPanel);
 
-       single.setPreferredSize(new Dimension(150,60));
-       inputReads.setBorder(BorderFactory.createTitledBorder("Input reads cut-off"));
-       inputReads.setPreferredSize(new Dimension(160,60));
-       chromosome.setBorder(BorderFactory.createTitledBorder("Chromosomes"));
-       chromosome.setPreferredSize(new Dimension(120,60));
+        single.setPreferredSize(new Dimension(150, 60));
+        inputReads.setBorder(BorderFactory
+                .createTitledBorder("Input reads cut-off"));
+        inputReads.setPreferredSize(new Dimension(160, 60));
+        chromosome.setBorder(BorderFactory.createTitledBorder("Chromosomes"));
+        chromosome.setPreferredSize(new Dimension(120, 60));
 
-       ratioWindowSize.setBorder(BorderFactory.createTitledBorder("Window size"));
-       ratioWindowSize.setPreferredSize(new Dimension(120,60));
-       ratioSmoothType.setBorder(BorderFactory.createTitledBorder("Smooth type"));
-       ratioSmoothType.setPreferredSize(new Dimension(120,60));
-       ratioStepPosition.setBorder(BorderFactory.createTitledBorder("Step position"));
-       ratioStepPosition.setPreferredSize(new Dimension(120,60));
+        ratioWindowSize.setBorder(BorderFactory
+                .createTitledBorder("Window size"));
+        ratioWindowSize.setPreferredSize(new Dimension(120, 60));
+        ratioSmoothType.setBorder(BorderFactory
+                .createTitledBorder("Smooth type"));
+        ratioSmoothType.setPreferredSize(new Dimension(120, 60));
+        ratioStepPosition.setBorder(BorderFactory
+                .createTitledBorder("Step position"));
+        ratioStepPosition.setPreferredSize(new Dimension(120, 60));
 
-       this.add(ratioPanel);
+        this.add(ratioPanel);
 
     }
 
     /**
      * Adds listener to the loginbutton
+     *
      * @param listener
      *            The listener to login to the server
      */
@@ -150,10 +158,55 @@ public class RatioCalcPopup extends JFrame{
 
     public String[] getRatioCalcParameters() {
         String[] s = new String[2];
-        s[0] = "single 4 0";
-        s[1] = "150 1 7 0 0";
+
+        s[0] = getSingle() + " " + getInputReads() + " " + getChromosomes();
+        // s[1] = "150 1 7 0 0";
+
+        s[1] = getWindowSize() + " " + getSmoothType() + " "
+                + getStepPosition() + " " + getPrintMean() + " "
+                + getPrintZeros();
 
         return s;
+    }
+
+    private String getPrintZeros() {
+        if (ratioPrintZeros.isSelected()) {
+            return "1";
+        } else {
+            return "0";
+        }
+    }
+
+    private String getPrintMean() {
+        if (ratioPrintMean.isSelected()) {
+            return "1";
+        } else {
+            return "0";
+        }
+    }
+
+    private String getStepPosition() {
+        return ratioStepPosition.getText().trim();
+    }
+
+    private String getSmoothType() {
+        return ratioSmoothType.getSelectedItem().toString().trim();
+    }
+
+    private String getWindowSize() {
+        return ratioWindowSize.getText().trim();
+    }
+
+    private String getChromosomes() {
+        return chromosome.getText().trim();
+    }
+
+    private String getInputReads() {
+        return inputReads.getText().trim();
+    }
+
+    private String getSingle() {
+        return single.getSelectedItem().toString().trim();
     }
 
     private void setUnusedRatioPar() {
@@ -175,5 +228,3 @@ public class RatioCalcPopup extends JFrame{
 
     }
 }
-
-
