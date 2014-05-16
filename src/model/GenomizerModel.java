@@ -58,4 +58,5 @@ public interface GenomizerModel {
     public boolean removeAnnotationField(String annotationName);
 
     public ProcessFeedbackData[] getProcessFeedback();
+
 }

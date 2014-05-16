@@ -12,6 +12,8 @@ CHANGELOG v2.0 RELEASE DATE 14-05-16
 - Changed Look & Feel to be more consecutive over all platforms.
 - Search results can be sorted by columns and user can choose which annotations to view.
 - Upload to new Experiment
+- Drag and Drop files to upload tab and they are added
+- 
 
 - Process?
 - Upload files to existing experiment?
