@@ -50,12 +50,13 @@ public class UploadToExistingExpPanel extends JPanel
         uploadFileRows = new HashMap<File, UploadFileRow>();
 
         mainPanel = new JPanel(new BorderLayout());
-        northPanel = new JPanel();
+        northPanel = new JPanel(new BorderLayout());
         centerPanel = new JPanel(new BorderLayout());
-        backgroundPanel = new JPanel();
+        backgroundPanel = new JPanel(new BorderLayout());
         uploadFilesPanel = new JPanel(new GridLayout(0, 1));
         buttonsPanel = new JPanel(new FlowLayout());
 
+        setLayout(new BorderLayout());
         build();
     }
 
@@ -65,9 +66,8 @@ public class UploadToExistingExpPanel extends JPanel
      */
     public void build() {
         mainPanel.add(northPanel, BorderLayout.NORTH);
+        centerPanel.add(uploadFilesPanel, BorderLayout.NORTH);
         mainPanel.add(centerPanel, BorderLayout.CENTER);
-        centerPanel.add(backgroundPanel, BorderLayout.CENTER);
-        backgroundPanel.add(uploadFilesPanel, BorderLayout.NORTH);
         GridBagLayout gbl_panel = new GridBagLayout();
         gbl_panel.columnWidths = new int[] { 0, 0, 0, 0, 0, 0, 0 };
         gbl_panel.rowHeights = new int[] { 0, 0, 0, 0 };
@@ -84,17 +84,18 @@ public class UploadToExistingExpPanel extends JPanel
             }
         });
 
-        buttonsPanel.add(selectFilesToUploadButton);
-        buttonsPanel.add(uploadFilesToExperimentButton);
+//        buttonsPanel.add(selectFilesToUploadButton);
+//        buttonsPanel.add(uploadFilesToExperimentButton);
 
-        mainPanel.add(buttonsPanel, BorderLayout.SOUTH);
-        uploadFilesToExperimentButton.setEnabled(false);
-        add(mainPanel);
+
+//        mainPanel.add(buttonsPanel, BorderLayout.SOUTH);
+//        uploadFilesToExperimentButton.setEnabled(false);
+        add(mainPanel, BorderLayout.CENTER);
+//        repaint();
+//        revalidate();
+//        uploadFilesPanel.repaint();
+//        uploadFilesPanel.revalidate();
         repaintSelectedFiles();
-        repaint();
-        revalidate();
-        uploadFilesPanel.repaint();
-        uploadFilesPanel.revalidate();
     }
 
     /**
@@ -164,47 +165,6 @@ public class UploadToExistingExpPanel extends JPanel
         this.annotations = annotations;
     }
 
-    public void addAnnotationsForExistingExp() throws NullPointerException {
-        annotationBoxes = new ArrayList<JComboBox>();
-        annotationFields = new ArrayList<JTextField>();
-        int x = 0;
-        int y = 0;
-        String[] annotationNames = new String[annotations.length];
-        for (int i = 0; i < annotations.length; i++) {
-            if (annotations[i].isForced()) {
-                if (x > 6) {
-                    x = 0;
-                    y++;
-                }
-                GridBagConstraints gbc = new GridBagConstraints();
-                gbc.anchor = GridBagConstraints.WEST;
-                gbc.insets = new Insets(5, 0, 5, 30);
-                gbc.gridx = x;
-                gbc.gridy = y;
-                JPanel p = new JPanel(new BorderLayout());
-                JLabel annotationLabel = new JLabel(annotations[i].getName());
-                p.add(annotationLabel, BorderLayout.NORTH);
-                if (annotations[i].getValues()[0].equals("freetext")) {
-                    JTextField textField = new JTextField();
-                    textField.setColumns(10);
-                    annotationFields.add(textField);
-                    p.add(textField, BorderLayout.CENTER);
-                    northPanel.add(p, gbc);
-                    textField.setEnabled(false);
-                } else {
-                    JComboBox comboBox = new JComboBox(
-                            annotations[i].getValues());
-                    comboBox.setPreferredSize(new Dimension(120, 31));
-                    annotationBoxes.add(comboBox);
-                    p.add(comboBox, BorderLayout.CENTER);
-                    northPanel.add(p, gbc);
-                    comboBox.setEnabled(false);
-                }
-                x++;
-            }
-        }
-    }
-
     /**
      * Checks if there are any uploadfilerows.
      * Disables the uploadbutton if there aren't, and adds them to the panel if there are.
@@ -218,6 +178,9 @@ public class UploadToExistingExpPanel extends JPanel
         } else {
             enableUploadButton(false);
         }
+        buttonsPanel.add(selectFilesToUploadButton);
+        buttonsPanel.add(uploadFilesToExperimentButton);
+        uploadFilesPanel.add(buttonsPanel);
         repaint();
         revalidate();
     }
@@ -228,7 +191,11 @@ public class UploadToExistingExpPanel extends JPanel
      * @param b Whether it should be enabled (true) or disabled (false)
      */
     public void enableUploadButton(boolean b) {
-        uploadFilesToExperimentButton.setEnabled(b);
+        if(b && !uploadFileRows.isEmpty()) {
+            uploadFilesToExperimentButton.setEnabled(b);
+        } else {
+            uploadFilesToExperimentButton.setEnabled(false);
+        }
     }
 
     /**

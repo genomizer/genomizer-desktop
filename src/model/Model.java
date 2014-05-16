@@ -70,6 +70,7 @@ public class Model implements GenomizerModel {
             String processtype, String[] parameters, String metadata,
             String genomeRelease, String author) {
 
+        ///hej anna
         System.out.println("RAW TO PROFILE\n");
         System.out.println("Filename: " + fileName);
         System.out.println("File ID: " + fileID);
@@ -288,7 +289,7 @@ public class Model implements GenomizerModel {
     @Override
     public boolean deleteAnnotation(String deleteAnnoationData) {
 
-        DeleteAnnotationRequest request = RequestFactory
+        RemoveAnnotationFieldRequest request = RequestFactory
                 .makeDeleteAnnotationRequest(deleteAnnoationData);
         conn.sendRequest(request, userID, JSON);
         if (conn.getResponseCode() == 200) {
@@ -356,7 +357,7 @@ public class Model implements GenomizerModel {
     }
 
     public boolean renameAnnotationField(String oldname, String newname) {
-        RenameAnnotationRequest request = RequestFactory
+        RenameAnnotationFieldRequest request = RequestFactory
                 .makeRenameAnnotationFieldRequest(oldname, newname);
         conn.sendRequest(request, userID, JSON);
         if (conn.getResponseCode() == 200) {
@@ -368,19 +369,21 @@ public class Model implements GenomizerModel {
         }
     }
 
-    public void renameAnnotationValue(String name, String oldValue,
+    public boolean renameAnnotationValue(String name, String oldValue,
             String newValue) {
         RenameAnnotationValueRequest request = RequestFactory
                 .makeRenameAnnotationValueRequest(name, oldValue, newValue);
         conn.sendRequest(request, userID, JSON);
         if (conn.getResponseCode() == 201) {
             System.err.println("Sent " + request.requestName + " success!");
+            return true;
         } else {
             System.out.println("responsecode: " + conn.getResponseCode());
         }
+        return false;
     }
 
-    public boolean removeAnnotationField(String annotationName, String valueName) {
+    public boolean removeAnnotationValue(String annotationName, String valueName) {
         RemoveAnnotationValueRequest request = RequestFactory
                 .makeRemoveAnnotationValueRequest(annotationName, valueName);
         conn.sendRequest(request, userID, JSON);
@@ -399,6 +402,7 @@ public class Model implements GenomizerModel {
         conn.sendRequest(request, userID, JSON);
         if (conn.getResponseCode() == 201) {
             System.err.println("Sent " + request.requestName + " success!");
+            return true;
         } else {
             System.out.println("Response code: " + conn.getResponseCode());
         }
@@ -408,9 +412,16 @@ public class Model implements GenomizerModel {
     public ProcessFeedbackData[] getProcessFeedback() {
         ProcessFeedbackRequest request = RequestFactory.makeProcessFeedbackRequest();
         conn.sendRequest(request, userID, TEXT_PLAIN);
+        //System.out.println("proc feedback code: " +conn.getResponseCode());
         if (conn.getResponseCode() == 200) {
             return ResponseParser.parseProcessFeedbackResponse(conn.getResponseBody());
         }
         return null;
      }
+
+    @Override
+    public boolean removeAnnotationField(String annotationName) {
+        // TODO Auto-generated method stub
+        return false;
+    }
 }
