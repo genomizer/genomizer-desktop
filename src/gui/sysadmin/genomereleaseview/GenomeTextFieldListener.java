@@ -10,11 +10,7 @@ public class GenomeTextFieldListener implements KeyListener{
 
     GenomeReleaseViewCreator gr;
 
-    public GenomeTextFieldListener(){
-
-    }
-
-    public void setGenomeView(GenomeReleaseViewCreator gr){
+    public GenomeTextFieldListener(GenomeReleaseViewCreator gr){
         this.gr = gr;
     }
 
@@ -27,7 +23,7 @@ public class GenomeTextFieldListener implements KeyListener{
     }
 
     @Override public void keyReleased(KeyEvent keyEvent) {
-        if(!gr.isTextFieldsEmpty()){
+        if(gr.isTextFieldsEmpty()){
             gr.enableClearButton(false);
         } else {
             gr.enableClearButton(true);

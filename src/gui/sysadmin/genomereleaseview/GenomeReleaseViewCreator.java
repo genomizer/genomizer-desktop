@@ -33,7 +33,6 @@ public class GenomeReleaseViewCreator {
             GenomeTextFieldListener textListener) {
         this.buttonListener = buttonListener;
         this.textListner = textListener;
-        textListener.setGenomeView(this);
         JPanel mainPanel = new JPanel(new BorderLayout());
         mainPanel.setBackground(new Color(255, 250, 250));
         mainPanel.add(buildGenomeReleasePanel(), BorderLayout.NORTH);
@@ -93,10 +92,15 @@ public class GenomeReleaseViewCreator {
 
         addButton = new JButton(SysStrings.GENOME_BUTTON_ADD);
         addButton.addActionListener(buttonListener);
+        addButton.setEnabled(false);
+
         clearButton = new JButton(SysStrings.GENOME_BUTTON_CLEAR);
         clearButton.addActionListener(buttonListener);
+        clearButton.setEnabled(false);
+
         deleteButton = new JButton(SysStrings.GENOME_BUTTON_DELETE);
         deleteButton.addActionListener(buttonListener);
+
         fileButton = new JButton(SysStrings.GENOME_BUTTON_FILE);
         fileButton.addActionListener(buttonListener);
 
@@ -121,7 +125,9 @@ public class GenomeReleaseViewCreator {
         buttonCepDeletePanel.add(buttonDeletePanel, BorderLayout.WEST);
         
         versionText = new JTextField(20);
+        versionText.addKeyListener(textListner);
         speciesText = new JTextField(20);
+        speciesText.addKeyListener(textListner);
         fileText = new JTextField(20);
         fileText.setEditable(false);
 
@@ -245,7 +251,18 @@ public class GenomeReleaseViewCreator {
     }
 
     public boolean isTextFieldsEmpty(){
-        return false;
+        boolean returnValue = true;
+
+        if(!versionText.getText().equals("") || !speciesText.getText().equals("")
+                || !fileText.getText().equals("")){
+            returnValue = false;
+        }
+
+        return returnValue;
+    }
+
+    public boolean allTextFieldsContainInfo(){
+        return true;
     }
 
     public void enableClearButton(boolean status){

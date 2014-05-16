@@ -78,7 +78,7 @@ public class SysadminTab extends JPanel {
 
     private JPanel buildGenomeReleaseView() {
         ActionListener listener = new GenomeButtonListener(this);
-        GenomeTextFieldListener textListener = new GenomeTextFieldListener();
+        GenomeTextFieldListener textListener = new GenomeTextFieldListener(genomeReleaseView);
         return genomeReleaseView.buildGenomeReleaseView(listener, textListener);
     }
 

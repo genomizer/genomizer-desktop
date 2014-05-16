@@ -14,9 +14,11 @@ import java.awt.event.ActionListener;
  */
 public class GenomeButtonListener implements ActionListener{
 
+    SysadminTab sysTab;
     SysadminController sysController;
 
     public GenomeButtonListener(SysadminTab sysTab){
+        this.sysTab = sysTab;
         this.sysController = sysTab.getSysController();
     }
 
@@ -27,6 +29,7 @@ public class GenomeButtonListener implements ActionListener{
                 sysController.sendNewGenomeRelease();
                 break;
             case SysStrings.GENOME_BUTTON_CLEAR:
+                sysTab.getGenomeReleaseView().enableClearButton(false);
                 sysController.clearAddGenomeText();
                 break;
             case SysStrings.GENOME_BUTTON_DELETE:
