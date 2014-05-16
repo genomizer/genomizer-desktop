@@ -45,11 +45,16 @@ public class Controller {
         view.addRawToRegionDataListener(new RawToRegionDataListener());
         view.addScheduleFileListener(new ScheduleFileListener());
         view.addDownloadFileListener(new DownloadWindowListener());
-        view.addSelectFilesToUploadButtonListener(new SelectFilesToUploadButtonListener());
-        view.setSysadminController(sysController = new SysadminController(model));
-        view.addAddToExistingExpButtonListener(new AddToExistingExpButtonListener());
-        view.addUploadToExperimentButtonListener(new UploadToExperimentButtonListener());
-        view.addUpdateSearchAnnotationsListener(new updateSearchAnnotationsListener());
+        view.addSelectFilesToUploadButtonListener(
+                new SelectFilesToUploadButtonListener());
+        view.setSysadminController(
+                sysController = new SysadminController(model));
+        view.addAddToExistingExpButtonListener(
+                new AddToExistingExpButtonListener());
+        view.addUploadToExperimentButtonListener(
+                new UploadToExperimentButtonListener());
+        view.addUpdateSearchAnnotationsListener(
+                new updateSearchAnnotationsListener());
         view.addProcessFileListener(new ProcessFileListener());
         view.addSearchToWorkspaceListener(new SearchToWorkspaceListener());
         view.addNewExpButtonListener(new NewExpButtonListener());
@@ -58,6 +63,7 @@ public class Controller {
         view.addAnalyzeSelectedListener(new AnalyzeSelectedListener());
         fileListAddMouseListener(view.getfileList());
         view.addRatioCalcListener(new RatioCalcListener());
+        view.addProcessFeedbackListener(new ProcessFeedbackListener());
         view.setOngoingUploads(model.getOngoingUploads());
     }
 
@@ -603,7 +609,24 @@ public class Controller {
         public void run() {
             System.out.println("RATIO CALC");
             view.setDefaultRatioPar();
-            view.showRatioPopup();        
+            view.showRatioPopup();
         }
     }
+
+    class ProcessFeedbackListener implements ActionListener, Runnable {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            new Thread(this).start();
+        }
+
+        @Override
+        public void run() {
+            ProcessFeedbackData[] processFeedbackData = model.getProcessFeedback();
+            if(processFeedbackData != null) {
+                view.showProcessFeedback(processFeedbackData);
+            }
+        }
+    }
+
+
 }
