@@ -1,9 +1,11 @@
 package gui.sysadmin.genomereleaseview;
 
+import com.sun.org.apache.xpath.internal.SourceTree;
 import gui.sysadmin.strings.SysStrings;
 
 import java.awt.*;
 import java.awt.event.ActionListener;
+import java.io.File;
 import javax.swing.*;
 import javax.swing.border.Border;
 import javax.swing.table.JTableHeader;
@@ -290,5 +292,22 @@ public class GenomeReleaseViewCreator {
     /** TODO: change to return datatype*/
     public void getDeleteGenomeReleaseData(){
 
+    }
+
+    public void selectFile(){
+        JFileChooser fileChooser = new JFileChooser();
+        fileChooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
+        fileChooser.setMultiSelectionEnabled(false);
+        int ret = fileChooser.showOpenDialog(new JPanel());
+        String directoryName = "";
+        File[] files;
+        System.out.println(ret);
+        if (ret == JFileChooser.APPROVE_OPTION) {
+            files = fileChooser.getSelectedFiles();
+            System.out.println(directoryName);
+            System.out.println(files.length);
+        } else {
+            return;
+        }
     }
 }

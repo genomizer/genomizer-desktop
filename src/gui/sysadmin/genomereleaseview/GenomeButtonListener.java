@@ -36,6 +36,7 @@ public class GenomeButtonListener implements ActionListener{
                 System.out.println("Delete");
                 break;
             case SysStrings.GENOME_BUTTON_FILE:
+                sysTab.getGenomeReleaseView().selectFile();
                 System.out.println("File");
                 break;
         }
