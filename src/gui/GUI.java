@@ -19,10 +19,7 @@ import javax.swing.UIManager;
 
 import communication.UploadHandler;
 
-import util.AnnotationDataType;
-import util.AnnotationDataValue;
-import util.ExperimentData;
-import util.FileData;
+import util.*;
 
 public class GUI extends JFrame implements GenomizerView {
 
@@ -637,6 +634,10 @@ public class GUI extends JFrame implements GenomizerView {
     public void showRatioPopup() {
         processTab.showRatioPopup();
 
+    }
+
+    public void showProcessFeedback(ProcessFeedbackData[] processFeedbackData) {
+        processTab.showProcessFeedback(processFeedbackData);
     }
     
     public void setOngoingUploads(
