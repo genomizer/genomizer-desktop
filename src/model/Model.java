@@ -47,12 +47,12 @@ public class Model implements GenomizerModel {
     private static final String JSON = "application/json";
     private String userID = "";
     private Connection conn;
-    private SearchHistory searchHistory;
+    private ArrayList<String> searchHistory;
     private CopyOnWriteArrayList<DownloadHandler> ongoingDownloads;
     private CopyOnWriteArrayList<UploadHandler> ongoingUploads;
     
     public Model(Connection conn) {
-        searchHistory = new SearchHistory();
+        searchHistory = new ArrayList<String>();
         ongoingDownloads = new CopyOnWriteArrayList<DownloadHandler>();
         ongoingUploads = new CopyOnWriteArrayList<UploadHandler>();
         this.setConn(conn);
@@ -204,7 +204,7 @@ public class Model implements GenomizerModel {
     
     @Override
     public ArrayList<ExperimentData> search(String pubmedString) {
-        searchHistory.addSearchToHistory(pubmedString);
+        searchHistory.add(pubmedString);
         SearchRequest request = RequestFactory.makeSearchRequest(pubmedString);
         conn.sendRequest(request, userID, TEXT_PLAIN);
         if (conn.getResponseCode() == 200) {
