@@ -191,6 +191,12 @@ public class UploadTab extends JPanel implements ExperimentPanel {
      */
     public void createNewExp(AnnotationDataType[] annotations) {
         killContentsOfUploadPanel();
+
+        JLabel redTextLabel = new JLabel("Red text = forced annotation.");
+        redTextLabel.setOpaque(true);
+        redTextLabel.setForeground(Color.red);
+        uploadFilesPanel.add(redTextLabel, BorderLayout.NORTH);
+
         /*
          * setBorder(BorderFactory
          * .createTitledBorder("Create new experiment"));
