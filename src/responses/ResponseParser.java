@@ -62,6 +62,8 @@ public class ResponseParser {
                     GenomeReleaseData[].class);
 
         } catch (JsonParseException e) {
+            
+            System.out.println("Could not parse json GR.");
             return null;
         }
 

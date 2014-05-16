@@ -1,11 +1,11 @@
 package gui.sysadmin;
 
+import gui.sysadmin.annotationview.AddAnnotationPopup;
 import gui.sysadmin.annotationview.AnnotationButtonsListener;
 import gui.sysadmin.annotationview.AnnotationPopupListener;
 import gui.sysadmin.annotationview.AnnotationTableModel;
 import gui.sysadmin.annotationview.EditAnnotationPopup;
 import gui.sysadmin.annotationview.EditAnnotationPopupListener;
-import gui.sysadmin.annotationview.AddAnnotationPopup;
 import gui.sysadmin.genomereleaseview.GenomereleaseTableModel;
 
 import java.awt.event.ActionListener;
@@ -158,47 +158,49 @@ public class SysadminController extends Observable {
         GenomeReleaseData[] grdarray = null;
 
         try {
-            // grdarray = model.getGenomeReleases();
-            /** TODO Implement me.... */
+            grdarray = model.getGenomeReleases();
+
         } catch (IllegalArgumentException e) {
             JOptionPane.showMessageDialog(null, e.getMessage());
         }
 
+
+
         /** TODO Fix this */
         /********************* EXAMPLE DATA ONLY ****************************/
-        GenomeReleaseData gr1 = new GenomeReleaseData("version1", "dolphin",
-                "filename.txt");
-
-        GenomeReleaseData gr2 = new GenomeReleaseData("version2", "pig",
-                "bfilename.txt");
-
-        GenomeReleaseData gr3 = new GenomeReleaseData("version3", "zebra",
-                "afilename.txt");
-
-        GenomeReleaseData gr4 = new GenomeReleaseData("version 1337",
-                "unicorn", "nyancat.song");
-
-        GenomeReleaseData gr5 = new GenomeReleaseData("version 3333",
-                "nyancat", "mimimimimi");
-
-        GenomeReleaseData gr6 = new GenomeReleaseData("version 4333",
-                "nyancat", "wiOOiiOO");
-
-        GenomeReleaseData gr7 = new GenomeReleaseData("version 5333",
-                "unicorn", "coffee icecream");
-
-        GenomeReleaseData gr8 = new GenomeReleaseData("version 666", "devil",
-                "burn.txt");
-
-        grdarray = new GenomeReleaseData[8];
-        grdarray[0] = gr1;
-        grdarray[1] = gr2;
-        grdarray[2] = gr3;
-        grdarray[3] = gr4;
-        grdarray[4] = gr5;
-        grdarray[5] = gr6;
-        grdarray[6] = gr7;
-        grdarray[7] = gr8;
+        // GenomeReleaseData gr1 = new GenomeReleaseData("version1", "dolphin",
+        // "filename.txt");
+        //
+        // GenomeReleaseData gr2 = new GenomeReleaseData("version2", "pig",
+        // "bfilename.txt");
+        //
+        // GenomeReleaseData gr3 = new GenomeReleaseData("version3", "zebra",
+        // "afilename.txt");
+        //
+        // GenomeReleaseData gr4 = new GenomeReleaseData("version 1337",
+        // "unicorn", "nyancat.song");
+        //
+        // GenomeReleaseData gr5 = new GenomeReleaseData("version 3333",
+        // "nyancat", "mimimimimi");
+        //
+        // GenomeReleaseData gr6 = new GenomeReleaseData("version 4333",
+        // "nyancat", "wiOOiiOO");
+        //
+        // GenomeReleaseData gr7 = new GenomeReleaseData("version 5333",
+        // "unicorn", "coffee icecream");
+        //
+        // GenomeReleaseData gr8 = new GenomeReleaseData("version 666", "devil",
+        // "burn.txt");
+        //
+        // grdarray = new GenomeReleaseData[8];
+        // grdarray[0] = gr1;
+        // grdarray[1] = gr2;
+        // grdarray[2] = gr3;
+        // grdarray[3] = gr4;
+        // grdarray[4] = gr5;
+        // grdarray[5] = gr6;
+        // grdarray[6] = gr7;
+        // grdarray[7] = gr8;
 
         /*******************************************************************/
 

@@ -2,29 +2,35 @@ package util;
 
 public class GenomeReleaseData {
 
-    private String version;
-    private String species;
-    private String filename;
+    private String genomeVersion;
+    private String specie;
+    private String path;
+    private String fileName;
 
-    public GenomeReleaseData(String version, String species, String filename) {
+    public GenomeReleaseData(String genomeVersion, String specie, String path,
+            String fileName) {
 
-        this.version = version;
-        this.species = species;
-        this.filename = filename;
+        this.genomeVersion = genomeVersion;
+        this.specie = specie;
+        this.path = path;
+        this.fileName = fileName;
 
     }
 
     public String getVersion() {
-        return version;
+        return genomeVersion;
     }
 
     public String getSpecies() {
-        return species;
+        return specie;
     }
 
     public String getFilename() {
-        return filename;
+        return fileName;
     }
 
+    public String getPath() {
+        return path;
+    }
 
 }
