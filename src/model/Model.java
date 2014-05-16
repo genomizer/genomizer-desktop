@@ -49,12 +49,12 @@ public class Model implements GenomizerModel {
     private Connection conn;
     private ArrayList<String> searchHistory;
     private CopyOnWriteArrayList<DownloadHandler> ongoingDownloads;
-    private CopyOnWriteArrayList<UploadHandler> ongoingUploads;
+    private CopyOnWriteArrayList<HTTPURLUpload> ongoingUploads;
 
     public Model(Connection conn) {
         searchHistory = new ArrayList<String>();
         ongoingDownloads = new CopyOnWriteArrayList<DownloadHandler>();
-        ongoingUploads = new CopyOnWriteArrayList<UploadHandler>();
+        ongoingUploads = new CopyOnWriteArrayList<HTTPURLUpload>();
         this.setConn(conn);
     }
 
@@ -366,7 +366,7 @@ public class Model implements GenomizerModel {
         return null;
     }
 
-    public CopyOnWriteArrayList<UploadHandler> getOngoingUploads() {
+    public CopyOnWriteArrayList<HTTPURLUpload> getOngoingUploads() {
         return ongoingUploads;
     }
 
