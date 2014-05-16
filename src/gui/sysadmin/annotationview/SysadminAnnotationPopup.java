@@ -25,8 +25,6 @@ import javax.swing.JTabbedPane;
 import javax.swing.JTextField;
 import javax.swing.ScrollPaneConstants;
 import javax.swing.SwingUtilities;
-import javax.swing.text.BadLocationException;
-import javax.swing.text.Document;
 
 public class SysadminAnnotationPopup extends JPanel {
     
@@ -211,7 +209,7 @@ public class SysadminAnnotationPopup extends JPanel {
     private void buildCreateNewAnnotationButton(JPanel botPanelInFirstTab) {
         
         JButton createNewAnnotationButton = new JButton(
-                SysStrings.POPUP_CREATE_ANNO);
+                SysStrings.ANNOTATIONS_POPUP_CREATE_ANNO);
         
         System.out.println("will create model");
         
@@ -222,7 +220,7 @@ public class SysadminAnnotationPopup extends JPanel {
             createNewAnnotationButton.setModel(createNewAnnotationButtonModel);
         }
         createNewAnnotationButtonModel
-                .setActionCommand(SysStrings.POPUP_CREATE_ANNO);
+                .setActionCommand(SysStrings.ANNOTATIONS_POPUP_CREATE_ANNO);
         botPanelInFirstTab.add(createNewAnnotationButton);
     }
     

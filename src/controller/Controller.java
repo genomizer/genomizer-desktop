@@ -42,11 +42,16 @@ public class Controller {
         view.addRawToRegionDataListener(new RawToRegionDataListener());
         view.addScheduleFileListener(new ScheduleFileListener());
         view.addDownloadFileListener(new DownloadWindowListener());
-        view.addSelectFilesToUploadButtonListener(new SelectFilesToUploadButtonListener());
-        view.setSysadminController(sysController = new SysadminController(model));
-        view.addAddToExistingExpButtonListener(new AddToExistingExpButtonListener());
-        view.addUploadToExperimentButtonListener(new UploadToExperimentButtonListener());
-        view.addUpdateSearchAnnotationsListener(new updateSearchAnnotationsListener());
+        view.addSelectFilesToUploadButtonListener(
+                new SelectFilesToUploadButtonListener());
+        view.setSysadminController(
+                sysController = new SysadminController(model));
+        view.addAddToExistingExpButtonListener(
+                new AddToExistingExpButtonListener());
+        view.addUploadToExperimentButtonListener(
+                new UploadToExperimentButtonListener());
+        view.addUpdateSearchAnnotationsListener(
+                new updateSearchAnnotationsListener());
         view.addProcessFileListener(new ProcessFileListener());
         view.addSearchToWorkspaceListener(new SearchToWorkspaceListener());
         view.addNewExpButtonListener(new NewExpButtonListener());

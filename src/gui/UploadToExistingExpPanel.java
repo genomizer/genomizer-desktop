@@ -90,6 +90,7 @@ public class UploadToExistingExpPanel extends JPanel
         mainPanel.add(buttonsPanel, BorderLayout.SOUTH);
         uploadFilesToExperimentButton.setEnabled(false);
         add(mainPanel);
+        repaintSelectedFiles();
         repaint();
         revalidate();
         uploadFilesPanel.repaint();

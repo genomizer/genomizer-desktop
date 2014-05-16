@@ -695,6 +695,10 @@ public class ProcessTab extends JPanel {
         //show process feedback
     }
 
+    public void showProcessFeedback(ProcessFeedbackData[] processFeedbackData) {
+        //show process feedback
+    }
+
     private int getTimeApprox() {
         return 450;
     }

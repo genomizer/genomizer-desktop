@@ -9,6 +9,7 @@ import util.AnnotationDataValue;
 import util.ExperimentData;
 import communication.DownloadHandler;
 import communication.UploadHandler;
+import util.ProcessFeedbackData;
 
 public interface GenomizerModel {
 
@@ -54,4 +55,6 @@ public interface GenomizerModel {
     public CopyOnWriteArrayList<UploadHandler> getOngoingUploads();
     
     public boolean removeAnnotationField(String annotationName, String valueName);
+
+    public ProcessFeedbackData[] getProcessFeedback();
 }
