@@ -5,25 +5,41 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.concurrent.CopyOnWriteArrayList;
 
-import requests.*;
+import javax.swing.JOptionPane;
+
+import requests.AddAnnotationRequest;
+import requests.AddExperimentRequest;
+import requests.AddFileToExperiment;
+import requests.AddNewAnnotationValueRequest;
+import requests.DownloadFileRequest;
+import requests.GetAnnotationRequest;
+import requests.GetGenomeReleasesRequest;
+import requests.LoginRequest;
+import requests.LogoutRequest;
+import requests.ProcessFeedbackRequest;
+import requests.RemoveAnnotationFieldRequest;
+import requests.RemoveAnnotationValueRequest;
+import requests.RenameAnnotationFieldRequest;
+import requests.RenameAnnotationValueRequest;
+import requests.RequestFactory;
+import requests.RetrieveExperimentRequest;
+import requests.SearchRequest;
+import requests.rawToProfileRequest;
 import responses.AddFileToExperimentResponse;
 import responses.DownloadFileResponse;
 import responses.LoginResponse;
-import responses.NewExperimentResponse;
 import responses.ResponseParser;
 import util.AnnotationDataType;
 import util.AnnotationDataValue;
 import util.ExperimentData;
+import util.GenomeReleaseData;
+import util.ProcessFeedbackData;
 
 import com.google.gson.Gson;
-
 import communication.Connection;
 import communication.DownloadHandler;
 import communication.HTTPURLUpload;
 import communication.UploadHandler;
-import util.ProcessFeedbackData;
-
-import javax.swing.*;
 
 // import org.apache.http.protocol.HTTP;
 
@@ -317,6 +333,27 @@ public class Model implements GenomizerModel {
             JOptionPane.showMessageDialog(null, "Could not get annotations!");
         }
         return new AnnotationDataType[] {};
+    }
+
+    /** TODO NOT CALLED ANYWHERE YET! */
+    public GenomeReleaseData[] getGenomeReleases() {
+        GetGenomeReleasesRequest request = RequestFactory
+                .makeGetGenomeReleaseRequest();
+        conn.sendRequest(request, userID, TEXT_PLAIN);
+        if (conn.getResponseCode() == 200) {
+            System.err.println("Sent getGenomerReleaseRequestSuccess!");
+            GenomeReleaseData[] genomeReleases = ResponseParser
+                    .parseGetGenomeReleaseResponse(conn.getResponseBody());
+            return genomeReleases;
+        } else {
+
+            System.out.println("GenomeRelease responsecode: "
+                    + conn.getResponseCode());
+            JOptionPane
+                    .showMessageDialog(null, "Could not get genomereleases!");
+        }
+
+        return new GenomeReleaseData[] {};
     }
 
     @Override

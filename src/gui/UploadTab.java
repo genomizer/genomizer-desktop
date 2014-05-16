@@ -1,5 +1,6 @@
 package gui;
 
+import communication.HTTPURLUpload;
 import util.ActivePanel;
 import util.AnnotationDataType;
 import util.AnnotationDataValue;
@@ -10,14 +11,6 @@ import javax.swing.*;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import java.awt.*;
-import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.FlowLayout;
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
-import java.awt.GridLayout;
-import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
@@ -63,7 +56,7 @@ public class UploadTab extends JPanel implements ExperimentPanel {
     private UploadToExistingExpPanel uploadToExistingExpPanel;
     private AnnotationDataType[] annotations;
     private ArrayList<String> annotationHeaders;
-    private CopyOnWriteArrayList<UploadHandler> ongoingUploads;
+    private CopyOnWriteArrayList<HTTPURLUpload> ongoingUploads;
     private HashMap<String, JComboBox> annotationBoxes;
     private HashMap<String, JTextField> annotationFields;
     private HashMap<File, UploadFileRow> uploadFileRows;
@@ -109,6 +102,7 @@ public class UploadTab extends JPanel implements ExperimentPanel {
         expID.getDocument().addDocumentListener(new FreetextListener());
         northPanel.add(newExpButton, BorderLayout.EAST);
         enableUploadButton(false);
+        updateProgress();
     }
 
     /**
@@ -536,8 +530,31 @@ public class UploadTab extends JPanel implements ExperimentPanel {
     };
 
     public void setOngoingUploads(
-            CopyOnWriteArrayList<UploadHandler> ongoingUploads) {
+            CopyOnWriteArrayList<HTTPURLUpload> ongoingUploads) {
         this.ongoingUploads = ongoingUploads;
+    }
+
+    private void updateProgress() {
+        new Thread(new Runnable() {
+            private boolean running;
+
+            @Override
+            public void run() {
+                running = true;
+                while (running) {
+                    for (File key : uploadFileRows.keySet()) {
+                        UploadFileRow row = uploadFileRows.get(key);
+                        for(HTTPURLUpload upload : ongoingUploads) {
+                        }
+                    }
+                    try {
+                        Thread.sleep(1000);
+                    } catch (InterruptedException e) {
+                        running = false;
+                    }
+                }
+            }
+        }).start();
     }
     /**
      * Listener for when the text in a textfield changes.
