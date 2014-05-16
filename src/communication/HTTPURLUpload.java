@@ -1,5 +1,10 @@
 package communication;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.net.URI;
+
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.auth.AuthScope;
@@ -8,7 +13,6 @@ import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.CredentialsProvider;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.client.protocol.HttpClientContext;
-import org.apache.http.client.utils.URIBuilder;
 import org.apache.http.entity.mime.HttpMultipartMode;
 import org.apache.http.entity.mime.MultipartEntityBuilder;
 import org.apache.http.impl.client.BasicCredentialsProvider;
@@ -16,11 +20,6 @@ import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClientBuilder;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.util.EntityUtils;
-
-import java.io.File;
-import java.io.IOException;
-import java.net.URI;
-import java.net.URISyntaxException;
 
 public class HTTPURLUpload {
 
@@ -32,7 +31,7 @@ public class HTTPURLUpload {
         this.uploadPath = uploadPath;
     }
 
-    public void sendFile(String username, String password) {
+    public boolean sendFile(String username, String password) {
         // the URL where the file will be posted
 
         URI postReceiverUrl = null;
@@ -45,14 +44,6 @@ public class HTTPURLUpload {
             path = uploadPath;
         }
         System.out.println("URL: " + uploadPath + " Path: " + path);
-        try {
-            postReceiverUrl = new URIBuilder().setScheme("http")
-                    .setHost("scratchy.cs.umu.se:8000").setPath("/upload.php")
-                    .addParameter("path", path).build();
-        } catch (URISyntaxException e1) {
-            // TODO Auto-generated catch block
-            e1.printStackTrace();
-        }
 
         // new HttpClient
         HttpClientBuilder hcBuilder = HttpClients.custom();
@@ -67,7 +58,7 @@ public class HTTPURLUpload {
         localContext.setCredentialsProvider(credentialsProvider);
 
         // post header
-        HttpPost httpPost = new HttpPost(postReceiverUrl);
+        HttpPost httpPost = new HttpPost(uploadPath);
         System.out.println(httpPost.getURI().getRawQuery());
         // HttpPost httpPost = new HttpPost(filePath);
 
@@ -97,11 +88,13 @@ public class HTTPURLUpload {
         } catch (ClientProtocolException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
+        }  catch (FileNotFoundException e) {
+            return false;
         } catch (IOException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
-
+        return true;
     }
 
     /**
