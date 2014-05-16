@@ -27,7 +27,7 @@ import javax.swing.JTextField;
 import javax.swing.ScrollPaneConstants;
 import javax.swing.SwingUtilities;
 
-public class SysadminAnnotationPopup extends JPanel {
+public class AddAnnotationPopup extends JPanel {
     
     private static final int FREETEXT_TAB = 1;
     private static final long serialVersionUID = -626744436260839622L;
@@ -41,7 +41,7 @@ public class SysadminAnnotationPopup extends JPanel {
     private ArrayList<JTextField> valueTexts = new ArrayList<JTextField>();
     private JTabbedPane optionsPane;
     
-    public SysadminAnnotationPopup() {
+    public AddAnnotationPopup() {
         this.setLayout(new BorderLayout());
         optionsPane = new JTabbedPane();
         nameField = new JTextField();
