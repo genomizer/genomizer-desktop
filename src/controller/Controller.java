@@ -1,6 +1,9 @@
 package controller;
 
-import gui.*;
+import gui.CheckListItem;
+import gui.DownloadWindow;
+import gui.GenomizerView;
+import gui.UploadTab;
 import gui.sysadmin.SysadminController;
 
 import java.awt.FileDialog;
@@ -630,11 +633,12 @@ public class Controller {
         @Override
         public void actionPerformed(ActionEvent e) {
             new Thread(this).start();
-        }
+            }
 
         @Override
         public void run() {
             System.out.println("OK");
+            view.getRatioCalcPopup().okButton.setEnabled(false);
         }
     }
 
