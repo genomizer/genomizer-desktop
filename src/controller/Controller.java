@@ -407,7 +407,7 @@ public class Controller {
             fileDialog.setVisible(true);
             File[] files = fileDialog.getFiles();
             String[] fileNames = new String[files.length];
-            for (int i = 0; i < files.length; i++) {
+            for(int i = 0; i < files.length; i++) {
                 fileNames[i] = files[i].getName();
             }
             view.selectFilesToExistingExp(files);

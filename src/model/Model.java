@@ -289,7 +289,7 @@ public class Model implements GenomizerModel {
     @Override
     public boolean deleteAnnotation(String deleteAnnoationData) {
 
-        DeleteAnnotationRequest request = RequestFactory
+        RemoveAnnotationFieldRequest request = RequestFactory
                 .makeDeleteAnnotationRequest(deleteAnnoationData);
         conn.sendRequest(request, userID, JSON);
         if (conn.getResponseCode() == 200) {
@@ -357,7 +357,7 @@ public class Model implements GenomizerModel {
     }
 
     public boolean renameAnnotationField(String oldname, String newname) {
-        RenameAnnotationRequest request = RequestFactory
+        RenameAnnotationFieldRequest request = RequestFactory
                 .makeRenameAnnotationFieldRequest(oldname, newname);
         conn.sendRequest(request, userID, JSON);
         if (conn.getResponseCode() == 200) {
