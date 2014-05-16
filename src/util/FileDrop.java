@@ -538,7 +538,10 @@ public class FileDrop {
                     log(out, flavors[i].toString());
             } // end if: logging enabled
         } catch (IllegalArgumentException e) {
-            JOptionPane.showMessageDialog(null, "Drag & drop failed.");
+            JOptionPane.showMessageDialog(null, "Dropping file(s) failed for " +
+                    "unknown reason. " +
+                "Please try the file browser instead or restart the " +
+                    "program.");
         }
 
         return ok;
