@@ -85,10 +85,10 @@ public class RequestFactory {
         return new AddAnnotationRequest(name, categories, forced);
     }
 
-    public static DeleteAnnotationRequest makeDeleteAnnotationRequest(
+    public static RemoveAnnotationFieldRequest makeDeleteAnnotationRequest(
             String annotationName) {
         annotationName = decodeToURL(annotationName);
-        return new DeleteAnnotationRequest(annotationName);
+        return new RemoveAnnotationFieldRequest(annotationName);
     }
 
     public static GetAnnotationRequest makeGetAnnotationRequest() {
@@ -99,9 +99,9 @@ public class RequestFactory {
         return new GetGenomeReleasesRequest();
     }
 
-    public static RenameAnnotationRequest makeRenameAnnotationFieldRequest(
+    public static RenameAnnotationFieldRequest makeRenameAnnotationFieldRequest(
             String oldname, String newname) {
-        return new RenameAnnotationRequest(oldname, newname);
+        return new RenameAnnotationFieldRequest(oldname, newname);
     }
 
     public static RenameAnnotationValueRequest makeRenameAnnotationValueRequest(
