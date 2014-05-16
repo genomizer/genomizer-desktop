@@ -1,10 +1,12 @@
 package responses;
 
-import com.google.gson.Gson;
-import com.google.gson.JsonParseException;
 import util.AnnotationDataType;
 import util.ExperimentData;
+import util.GenomeReleaseData;
 import util.ProcessFeedbackData;
+
+import com.google.gson.Gson;
+import com.google.gson.JsonParseException;
 
 public class ResponseParser {
 
@@ -49,6 +51,21 @@ public class ResponseParser {
             return null;
         }
         return annotationResponses;
+    }
+
+    /** TODO NOT CALLED ANYWHERE YET! */
+    public static GenomeReleaseData[] parseGetGenomeReleaseResponse(String json) {
+
+        GenomeReleaseData[] genomeReleaseResponses = null;
+        try {
+            genomeReleaseResponses = gson.fromJson(json,
+                    GenomeReleaseData[].class);
+
+        } catch (JsonParseException e) {
+            return null;
+        }
+        
+        return genomeReleaseResponses;
     }
 
     public static AddFileToExperimentResponse parseUploadResponse(String json) {
