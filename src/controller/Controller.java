@@ -62,6 +62,8 @@ public class Controller {
         view.addRatioCalcListener(new RatioCalcListener());
         view.addProcessFeedbackListener(new ProcessFeedbackListener());
         view.setOngoingUploads(model.getOngoingUploads());
+        //view.addCancelListener(listener);
+        //view.addOkListener(listener);
     }
 
     class ConvertFileListener implements ActionListener, Runnable {
