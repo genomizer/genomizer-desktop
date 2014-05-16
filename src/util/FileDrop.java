@@ -538,8 +538,7 @@ public class FileDrop {
                     log(out, flavors[i].toString());
             } // end if: logging enabled
         } catch (IllegalArgumentException e) {
-         //   JOptionPane.showMessageDialog(null, "Drag & drop failed.");
-            System.err.println("fail.");
+            JOptionPane.showMessageDialog(null, "Drag & drop failed.");
         }
 
         return ok;
