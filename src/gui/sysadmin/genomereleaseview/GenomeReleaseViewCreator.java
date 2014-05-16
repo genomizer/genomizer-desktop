@@ -12,19 +12,28 @@ import javax.swing.table.TableRowSorter;
 
 public class GenomeReleaseViewCreator {
 
-    GenomereleaseTableModel grTablemodel;
-    ActionListener buttonListener;
+    private GenomereleaseTableModel grTablemodel;
+    private ActionListener          buttonListener;
 
-    JTextField versionText;
-    JTextField speciesText;
-    JTextField fileText;
+    private JTextField versionText;
+    private JTextField speciesText;
+    private JTextField fileText;
 
-    public GenomeReleaseViewCreator(ActionListener buttonListener) {
-        this.buttonListener = buttonListener;
+    private JButton addButton;
+    private JButton clearButton;
+    private JButton deleteButton;
+    private JButton fileButton;
+    private GenomeTextFieldListener textListner;
+
+    public GenomeReleaseViewCreator() {
+
     }
 
-    public JPanel buildGenomeReleaseView() {
-
+    public JPanel buildGenomeReleaseView(ActionListener buttonListener,
+            GenomeTextFieldListener textListener) {
+        this.buttonListener = buttonListener;
+        this.textListner = textListener;
+        textListener.setGenomeView(this);
         JPanel mainPanel = new JPanel(new BorderLayout());
         mainPanel.setBackground(new Color(255, 250, 250));
         mainPanel.add(buildGenomeReleasePanel(), BorderLayout.NORTH);
@@ -82,13 +91,13 @@ public class GenomeReleaseViewCreator {
         speciesLabel.setBorder(border);
         fileLabel.setBorder(border);
 
-        JButton addButton = new JButton(SysStrings.GENOME_BUTTON_ADD);
+        addButton = new JButton(SysStrings.GENOME_BUTTON_ADD);
         addButton.addActionListener(buttonListener);
-        JButton clearButton = new JButton(SysStrings.GENOME_BUTTON_CLEAR);
+        clearButton = new JButton(SysStrings.GENOME_BUTTON_CLEAR);
         clearButton.addActionListener(buttonListener);
-        JButton deleteButton = new JButton(SysStrings.GENOME_BUTTON_DELETE);
+        deleteButton = new JButton(SysStrings.GENOME_BUTTON_DELETE);
         deleteButton.addActionListener(buttonListener);
-        JButton fileButton = new JButton(SysStrings.GENOME_BUTTON_FILE);
+        fileButton = new JButton(SysStrings.GENOME_BUTTON_FILE);
         fileButton.addActionListener(buttonListener);
 
         FlowLayout flowLayout = new FlowLayout();
@@ -217,15 +226,37 @@ public class GenomeReleaseViewCreator {
         return grTablemodel;
     }
 
-    public JTextField getVersionText() {
-        return versionText;
+    public String getVersionText() {
+        return versionText.getText();
     }
 
-    public JTextField getSpeciesText() {
-        return speciesText;
+    public String getSpeciesText() {
+        return speciesText.getText();
     }
 
-    public JTextField getFileText() {
-        return fileText;
+    public String getFileText() {
+        return fileText.getText();
+    }
+
+    public void clearTextFields(){
+        versionText.setText("");
+        speciesText.setText("");
+        fileText.setText("");
+    }
+
+    public boolean isTextFieldsEmpty(){
+        return false;
+    }
+
+    public void enableClearButton(boolean status){
+        this.clearButton.setEnabled(status);
+    }
+
+    public void enableAddButton(boolean status){
+        this.addButton.setEnabled(status);
+    }
+
+    public void enableDeleteButton(boolean status){
+        this.deleteButton.setEnabled(status);
     }
 }

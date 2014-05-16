@@ -3,6 +3,7 @@ package gui.sysadmin;
 import gui.sysadmin.annotationview.AnnotationsViewCreator;
 import gui.sysadmin.genomereleaseview.GenomeButtonListener;
 import gui.sysadmin.genomereleaseview.GenomeReleaseViewCreator;
+import gui.sysadmin.genomereleaseview.GenomeTextFieldListener;
 import gui.sysadmin.processview.ProcessViewCreator;
 import gui.sysadmin.strings.SysadminTabButtons;
 import gui.sysadmin.usersview.UsersViewCreator;
@@ -32,9 +33,7 @@ public class SysadminTab extends JPanel {
         this.annotationsView = new AnnotationsViewCreator();
         this.usersView = new UsersViewCreator();
         this.processView = new ProcessViewCreator();
-
-        ActionListener listener = new GenomeButtonListener(this);
-        this.genomeReleaseView = new GenomeReleaseViewCreator(listener);
+        this.genomeReleaseView = new GenomeReleaseViewCreator();
 
     }
 
@@ -78,7 +77,9 @@ public class SysadminTab extends JPanel {
     }
 
     private JPanel buildGenomeReleaseView() {
-        return genomeReleaseView.buildGenomeReleaseView();
+        ActionListener listener = new GenomeButtonListener(this);
+        GenomeTextFieldListener textListener = new GenomeTextFieldListener();
+        return genomeReleaseView.buildGenomeReleaseView(listener, textListener);
     }
 
     public void setController(SysadminController sysController) {
@@ -139,5 +140,9 @@ public class SysadminTab extends JPanel {
     public TableModel getGenomeReleaseTableModel() {
 
         return genomeReleaseView.getTableModel();
+    }
+
+    public GenomeReleaseViewCreator getGenomeReleaseView() {
+        return genomeReleaseView;
     }
 }

@@ -24,9 +24,10 @@ public class GenomeButtonListener implements ActionListener{
         switch(actionEvent.getActionCommand()){
             case SysStrings.GENOME_BUTTON_ADD:
                 System.out.println("Add");
+                sysController.sendNewGenomeRelease();
                 break;
             case SysStrings.GENOME_BUTTON_CLEAR:
-                System.out.println("Clear");
+                sysController.clearAddGenomeText();
                 break;
             case SysStrings.GENOME_BUTTON_DELETE:
                 System.out.println("Delete");
