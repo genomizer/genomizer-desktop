@@ -352,7 +352,7 @@ public class Model implements GenomizerModel {
             JOptionPane
                     .showMessageDialog(null, "Could not get genomereleases!");
         }
-        
+
         return new GenomeReleaseData[] {};
     }
 

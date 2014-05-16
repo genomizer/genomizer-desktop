@@ -2,7 +2,9 @@ package communication;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FilterOutputStream;
 import java.io.IOException;
+import java.io.OutputStream;
 import java.net.URI;
 
 import org.apache.http.HttpEntity;
@@ -13,7 +15,9 @@ import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.CredentialsProvider;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.client.protocol.HttpClientContext;
+import org.apache.http.entity.HttpEntityWrapper;
 import org.apache.http.entity.mime.HttpMultipartMode;
+import org.apache.http.entity.mime.MultipartEntity;
 import org.apache.http.entity.mime.MultipartEntityBuilder;
 import org.apache.http.impl.client.BasicCredentialsProvider;
 import org.apache.http.impl.client.CloseableHttpClient;
@@ -71,8 +75,18 @@ public class HTTPURLUpload {
         reqEntity.addTextBody("path", path);
 
         reqEntity.addBinaryBody("uploadfile", file);
-        httpPost.setEntity(reqEntity.build());
+        ProgressHttpEntityWrapper.ProgressCallback progressCallback = new ProgressHttpEntityWrapper.ProgressCallback() {
 
+            @Override
+            public void progress(float progress) {
+                if (progress != -1) {
+                    System.out.println(progress);
+                }
+            }
+
+        };
+        httpPost.setEntity(new ProgressHttpEntityWrapper(reqEntity.build(), progressCallback));
+        
         try {
             HttpResponse response;
             // execute HTTP post request

@@ -4,6 +4,7 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.concurrent.CopyOnWriteArrayList;
 
+import communication.HTTPURLUpload;
 import util.AnnotationDataType;
 import util.AnnotationDataValue;
 import util.ExperimentData;
@@ -52,7 +53,7 @@ public interface GenomizerModel {
 
     public boolean renameAnnotationValue(String name, String oldValue, String newValue);
     
-    public CopyOnWriteArrayList<UploadHandler> getOngoingUploads();
+    public CopyOnWriteArrayList<HTTPURLUpload> getOngoingUploads();
     
     public boolean removeAnnotationValue(String annotationName, String valueName);
 
