@@ -76,13 +76,7 @@ public class UploadToExistingExpPanel extends JPanel
         gbl_panel.rowWeights = new double[] { 0.0, 0.0, 0.0, Double.MIN_VALUE };
         northPanel.setLayout(gbl_panel);
 
-        //Makes dragging & dropping of files into the panel possible
-        new FileDrop(this, new FileDrop.Listener() {
-            public void filesDropped(java.io.File[] files) {
-                createUploadFileRow(files);
-                enableUploadButton(true);
-            }
-        });
+        addFileDrop();
 
 //        buttonsPanel.add(selectFilesToUploadButton);
 //        buttonsPanel.add(uploadFilesToExperimentButton);
@@ -248,5 +242,15 @@ public class UploadToExistingExpPanel extends JPanel
             northPanel.add(p, gbc);
             x++;
         }
+    }
+
+    public void addFileDrop() {
+        //Makes dragging & dropping of files into the panel possible
+        new FileDrop(this, new FileDrop.Listener() {
+            public void filesDropped(java.io.File[] files) {
+                createUploadFileRow(files);
+                enableUploadButton(true);
+            }
+        });
     }
 }
