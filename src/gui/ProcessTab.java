@@ -727,6 +727,7 @@ public class ProcessTab extends JPanel {
     public void printToProfileText(String message, String color) {
 
         genProfArea.append(message);
+        genProfArea.setForeground(Color.black);
 
         if (color.equals("red")) {
             genProfArea.setForeground(Color.RED);

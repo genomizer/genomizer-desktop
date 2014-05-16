@@ -104,10 +104,6 @@ public class Model implements GenomizerModel {
         System.out.println("Author: " + author);
         System.out.println("\n");
 
-  //      rawToProfileRequest rawToProfilerequest = RequestFactory
-   //             .makeRawToProfileRequest(fileName, fileID, expid, processtype,
-   //                     parameters, metadata, genomeRelease, author);
-
               rawToProfileRequest rawToProfilerequest = RequestFactory
                              .makeRawToProfileRequest(expid,
                                      parameters, metadata, genomeRelease, author);
