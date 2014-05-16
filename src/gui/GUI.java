@@ -19,10 +19,7 @@ import javax.swing.UIManager;
 
 import communication.UploadHandler;
 
-import util.AnnotationDataType;
-import util.AnnotationDataValue;
-import util.ExperimentData;
-import util.FileData;
+import util.*;
 
 public class GUI extends JFrame implements GenomizerView {
 
@@ -41,6 +38,7 @@ public class GUI extends JFrame implements GenomizerView {
     private SysadminTab sysadminTab;
     private QuerySearchTab querySearchTab;
     private DownloadWindow downloadWindow;
+    private RatioCalcPopup ratioCalcPopup;
 
     /**
      * Initiates the main view of the program.
@@ -56,6 +54,7 @@ public class GUI extends JFrame implements GenomizerView {
         mainPanel = new JPanel(bl);
         userPanel = new UserPanel();
         loginWindow = new LoginWindow(this);
+        ratioCalcPopup = new RatioCalcPopup(this);
 
         add(mainPanel);
 
@@ -125,6 +124,10 @@ public class GUI extends JFrame implements GenomizerView {
 
     public void addSearchToWorkspaceListener(ActionListener listener) {
         querySearchTab.addAddToWorkspaceButtonListener(listener);
+    }
+
+    public void addProcessFeedbackListener(ActionListener listener) {
+        processTab.addProcessFeedbackListener(listener);
     }
 
     @Override
@@ -631,8 +634,13 @@ public class GUI extends JFrame implements GenomizerView {
 
     @Override
     public void showRatioPopup() {
-        processTab.showRatioPopup();
+       //processTab.showRatioPopup();
+        ratioCalcPopup.setVisible(true);
 
+    }
+
+    public void showProcessFeedback(ProcessFeedbackData[] processFeedbackData) {
+        processTab.showProcessFeedback(processFeedbackData);
     }
     
     public void setOngoingUploads(

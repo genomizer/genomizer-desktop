@@ -21,7 +21,7 @@ public class AnnotationPopupListener implements ActionListener {
     public void actionPerformed(ActionEvent e) {
 
         switch (e.getActionCommand()) {
-            case SysStrings.POPUP_CREATE_ANNO:
+            case SysStrings.ANNOTATIONS_POPUP_CREATE_ANNO:
                 System.out.println("Creating new annotation....");
                 sysController.sendNewAnnotation();
                 break;

@@ -5,22 +5,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.concurrent.CopyOnWriteArrayList;
 
-import requests.AddAnnotationRequest;
-import requests.AddExperimentRequest;
-import requests.AddFileToExperiment;
-import requests.AddNewAnnotationValueRequest;
-import requests.DeleteAnnotationRequest;
-import requests.DownloadFileRequest;
-import requests.GetAnnotationRequest;
-import requests.LoginRequest;
-import requests.LogoutRequest;
-import requests.RemoveAnnotationValueRequest;
-import requests.RenameAnnotationRequest;
-import requests.RenameAnnotationValueRequest;
-import requests.RequestFactory;
-import requests.RetrieveExperimentRequest;
-import requests.SearchRequest;
-import requests.rawToProfileRequest;
+import requests.*;
 import responses.AddFileToExperimentResponse;
 import responses.DownloadFileResponse;
 import responses.LoginResponse;
@@ -36,6 +21,7 @@ import communication.Connection;
 import communication.DownloadHandler;
 import communication.HTTPURLUpload;
 import communication.UploadHandler;
+import util.ProcessFeedbackData;
 
 import javax.swing.*;
 
@@ -422,4 +408,12 @@ public class Model implements GenomizerModel {
         return false;
     }
 
+    public ProcessFeedbackData[] getProcessFeedback() {
+        ProcessFeedbackRequest request = RequestFactory.makeProcessFeedbackRequest();
+        conn.sendRequest(request, userID, TEXT_PLAIN);
+        if (conn.getResponseCode() == 200) {
+            return ResponseParser.parseProcessFeedbackResponse(conn.getResponseBody());
+        }
+        return null;
+     }
 }
