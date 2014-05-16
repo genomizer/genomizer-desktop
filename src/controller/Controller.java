@@ -59,8 +59,8 @@ public class Controller {
         view.addRatioCalcListener(new RatioCalcListener());
         view.addProcessFeedbackListener(new ProcessFeedbackListener());
         view.setOngoingUploads(model.getOngoingUploads());
-        //view.addCancelListener(listener);
-        //view.addOkListener(listener);
+        view.addCancelListener(new CancelListener());
+        view.addOkListener(new OkListener());
     }
 
     class ConvertFileListener implements ActionListener, Runnable {
@@ -626,5 +626,28 @@ public class Controller {
         }
     }
 
+    class OkListener implements ActionListener, Runnable {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            new Thread(this).start();
+        }
+
+        @Override
+        public void run() {
+            System.out.println("OK");
+        }
+    }
+
+    class CancelListener implements ActionListener, Runnable {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            new Thread(this).start();
+        }
+
+        @Override
+        public void run() {
+            System.out.println("CANCEL");
+        }
+    }
 
 }
