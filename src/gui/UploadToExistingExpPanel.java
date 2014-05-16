@@ -61,6 +61,10 @@ public class UploadToExistingExpPanel extends JPanel
         build();
     }
 
+    public HashMap<File, UploadFileRow> getFileRows() {
+        return uploadFileRows;
+    }
+
     /**
      * Builds/rebuilds the panel. This is not part of the constructor so it can
      * be called from elsewhere aswell.
