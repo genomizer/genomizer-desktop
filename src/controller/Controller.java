@@ -60,6 +60,7 @@ public class Controller {
         view.addAnalyzeSelectedListener(new AnalyzeSelectedListener());
         fileListAddMouseListener(view.getfileList());
         view.addRatioCalcListener(new RatioCalcListener());
+        view.addProcessFeedbackListener(new ProcessFeedbackListener());
         view.setOngoingUploads(model.getOngoingUploads());
     }
 
@@ -619,7 +620,6 @@ public class Controller {
         public void run() {
             ProcessFeedbackData[] processFeedbackData = model.getProcessFeedback();
             if(processFeedbackData != null) {
-                //view.showProcessFeedback
             }
         }
     }
