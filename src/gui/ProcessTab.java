@@ -14,7 +14,7 @@ import java.awt.event.MouseAdapter;
 import java.util.ArrayList;
 
 /**
- * Visual presentation of the process tab.
+ * Visual  presentation of the process tab.
  *
  * @author c11ann
  */
