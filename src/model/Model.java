@@ -37,6 +37,8 @@ import communication.DownloadHandler;
 import communication.HTTPURLUpload;
 import communication.UploadHandler;
 
+import javax.swing.*;
+
 // import org.apache.http.protocol.HTTP;
 
 public class Model implements GenomizerModel {
@@ -305,7 +307,7 @@ public class Model implements GenomizerModel {
             return annotations;
         } else {
             System.out.println("responsecode: " + conn.getResponseCode());
-            System.err.println("Could not get annotations!");
+            JOptionPane.showMessageDialog(null, "Could not get annotations!");
         }
         return new AnnotationDataType[] {};
     }
@@ -338,7 +340,7 @@ public class Model implements GenomizerModel {
             return ed;
         } else {
             System.out.println("responsecode: " + conn.getResponseCode());
-            System.out.println("Couldn't retrieve experiment");
+            JOptionPane.showMessageDialog(null, "Couldn't retrieve experiment");
         }
         return null;
     }
