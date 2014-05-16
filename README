@@ -13,10 +13,11 @@ CHANGELOG v2.0 RELEASE DATE 14-05-16
 - Search results can be sorted by columns and user can choose which annotations to view.
 - Upload to new Experiment
 - Drag and drop files to upload tab and they are added
-- 
+- Sending request for converting RawToProfile on Process, but all user choices are not implemented yet, and genome file chooser is not functional. 
 
 NOTES;
 
-- Process: Ratio calculation is added and other functionality, but unfortunately not usable just yet :(
-- Uploading files to existing experiment is disabled
+- Process is unfortunately still not working all the way, no file will be generated
+- Uploading files to existing experiment is disabled, non-functional
+- 
 - 
