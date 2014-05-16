@@ -410,21 +410,21 @@ public class Controller {
 
         @Override
         public void run() {
-            /*fileChooser.setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES);
+            fileChooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
+            fileChooser.setMultiSelectionEnabled(true);
             int ret = fileChooser.showOpenDialog(new JPanel());
-            String directoryName = "";
             File[] files;
             if (ret == JFileChooser.APPROVE_OPTION) {
                 files = fileChooser.getSelectedFiles();
-                System.out.println(files[1].);
             } else {
                 return;
-            }*/
-            FileDialog fileDialog = new java.awt.FileDialog(
+            }
+
+            /*FileDialog fileDialog = new java.awt.FileDialog(
                     (java.awt.Frame) view);
             fileDialog.setMultipleMode(true);
             fileDialog.setVisible(true);
-            File[] files = fileDialog.getFiles();
+            File[] files = fileDialog.getFiles();*/
             String[] fileNames = new String[files.length];
             for (int i = 0; i < files.length; i++) {
                 fileNames[i] = files[i].getName();
@@ -462,9 +462,11 @@ public class Controller {
                 if (model.uploadFile(ed.getName(), f, types.get(f.getName()),
                         view.getUsername(), false, release)) {
                     view.getUploadTab().getUploadToExistingExpPanel().deleteFileRow(f);
-                    JOptionPane.showMessageDialog(null,
-                            "Upload of " + f.getName() + " complete", "Done",
-                            JOptionPane.PLAIN_MESSAGE);
+                    for (HTTPURLUpload upload : model.getOngoingUploads()) {
+                        if (f.getName().equals(upload.getFileName())) {
+                            model.getOngoingUploads().remove(upload);
+                        }
+                    }
                 } else {
                     JOptionPane.showMessageDialog(null,
                             "Upload of " + f.getName() + " not complete",

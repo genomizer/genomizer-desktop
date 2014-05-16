@@ -61,6 +61,10 @@ public class UploadToExistingExpPanel extends JPanel
         build();
     }
 
+    public HashMap<File, UploadFileRow> getFileRows() {
+        return uploadFileRows;
+    }
+
     /**
      * Builds/rebuilds the panel. This is not part of the constructor so it can
      * be called from elsewhere aswell.
@@ -225,6 +229,8 @@ public class UploadToExistingExpPanel extends JPanel
         JPanel exp = new JPanel(new BorderLayout());
         JLabel expHeader = new JLabel("Experiment ID");
         JLabel expID = new JLabel(ed.getName());
+        expID.setOpaque(true);
+        expID.setBackground(Color.yellow);
         exp.add(expHeader, BorderLayout.NORTH);
         exp.add(expID, BorderLayout.CENTER);
         northPanel.add(exp, gbc);
@@ -241,6 +247,8 @@ public class UploadToExistingExpPanel extends JPanel
             JPanel p = new JPanel(new BorderLayout());
             JLabel annotationHeader = new JLabel(adv.getName());
             JLabel annotationValue = new JLabel(adv.getValue());
+            annotationValue.setOpaque(true);
+            annotationValue.setBackground(Color.yellow);
             p.add(annotationHeader, BorderLayout.NORTH);
             p.add(annotationValue, BorderLayout.CENTER);
             northPanel.add(p, gbc);
