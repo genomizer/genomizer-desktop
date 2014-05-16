@@ -81,6 +81,7 @@ public class ProcessTab extends JPanel {
     private final JButton profileButton = new JButton("Create profile data");
     private final JButton regionButton = new JButton("Create region data");
     private final JButton ratioCalcButton = new JButton("Use ratio calculation");
+    private final JButton processFeedbackButton = new JButton("Get information about processes");
     // private final JCheckBox scheduleButton = new JCheckBox(
     // "Schedule files");
 
@@ -671,7 +672,7 @@ public class ProcessTab extends JPanel {
     }
 
     public void addProcessFeedbackListener(ActionListener listener) {
-        //processFeedbackButton.addActionListener(listener);
+        processFeedbackButton.addActionListener(listener);
     }
 
     public void addRawToProfileDataListener(ActionListener listener) {
