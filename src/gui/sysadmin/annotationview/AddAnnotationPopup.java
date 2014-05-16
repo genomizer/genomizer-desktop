@@ -27,8 +27,9 @@ import javax.swing.JTextField;
 import javax.swing.ScrollPaneConstants;
 import javax.swing.SwingUtilities;
 
-public class SysadminAnnotationPopup extends JPanel {
+public class AddAnnotationPopup extends JPanel {
     
+    private static final int FREETEXT_TAB = 1;
     private static final long serialVersionUID = -626744436260839622L;
     private JPanel addCategoriesPanel;
     private JButton addButton, removeButton;
@@ -38,10 +39,11 @@ public class SysadminAnnotationPopup extends JPanel {
     private boolean forced = false;
     private JCheckBox forcedBox;
     private ArrayList<JTextField> valueTexts = new ArrayList<JTextField>();
+    private JTabbedPane optionsPane;
     
-    public SysadminAnnotationPopup() {
+    public AddAnnotationPopup() {
         this.setLayout(new BorderLayout());
-        JTabbedPane optionsPane = new JTabbedPane();
+        optionsPane = new JTabbedPane();
         nameField = new JTextField();
         optionsPane.addTab("DropDownLists", buildFirstTab());
         optionsPane.addTab("Free Text", buildSecondTab());
@@ -312,6 +314,11 @@ public class SysadminAnnotationPopup extends JPanel {
         
         // TODO: make a model for popup? this should not be in a pure view
         // class.
+        
+        if ( optionsPane.getSelectedIndex() == FREETEXT_TAB ){
+            return new String[] {"freetext"};
+        }
+        
         synchronized (valueTexts) {
             
             for (JTextField field : valueTexts) {

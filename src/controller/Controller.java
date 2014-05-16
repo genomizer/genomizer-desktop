@@ -1,5 +1,6 @@
 package controller;
 
+import communication.HTTPURLUpload;
 import gui.CheckListItem;
 import gui.DownloadWindow;
 import gui.GenomizerView;
@@ -592,6 +593,11 @@ public class Controller {
                                 types.get(f.getName()), view.getUsername(),
                                 false, release)) {
                             view.deleteUploadFileRow(f);
+                            for (HTTPURLUpload upload : model.getOngoingUploads()) {
+                                if (f.getName().equals(upload.getFileName())) {
+                                    model.getOngoingUploads().remove(upload);
+                                }
+                            }
                         } else {
                             JOptionPane.showMessageDialog(null,
                                     "Couldn't upload " + f.getName() + ".",
