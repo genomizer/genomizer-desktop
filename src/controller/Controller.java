@@ -348,7 +348,8 @@ public class Controller {
             String directoryName = "";
             if (ret == JFileChooser.APPROVE_OPTION) {
                 try {
-                    directoryName = fileChooser.getSelectedFile().getCanonicalPath();
+                    directoryName = fileChooser.getSelectedFile()
+                            .getCanonicalPath();
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
@@ -380,24 +381,13 @@ public class Controller {
             try {
                 ExperimentData ed = model.retrieveExperiment(expID);
                 ArrayList<FileData> f = new ArrayList<FileData>();
-//                ArrayList<AnnotationDataValue> adv = new ArrayList<>();
-//                adv.add(new AnnotationDataValue("0", "Species", "Cyborg"));
-//                adv.add(new AnnotationDataValue("1", "Sex", "Robot"));
-//                adv.add(new AnnotationDataValue("2", "Real", "Testtesttest"));
-//                adv.add(new AnnotationDataValue("3", "This", "Testtesttest"));
-//                adv.add(new AnnotationDataValue("4", "is", "Testtesttest"));
-//                adv.add(new AnnotationDataValue("5", "only", "Testtesttest"));
-//                adv.add(new AnnotationDataValue("6", "a", "Testtesttest"));
-//                adv.add(new AnnotationDataValue("7", "fake", "Testtesttest"));
-//                adv.add(new AnnotationDataValue("8", "experiment", "Testtesttest"));
-//                ExperimentData ed = new ExperimentData("Experiment 11",
-//                        view.getUsername(), f, adv);
                 uploadTab.addExistingExpPanel(ed);
                 // uploadTab.repaint();
                 // uploadTab.revalidate();
             } catch (NullPointerException e) {
-                JOptionPane.showMessageDialog(null, "Couldn't find experiment",
-                        "ERROR", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(null,
+                        "Couldn't find or retrieve experiment", "ERROR",
+                        JOptionPane.ERROR_MESSAGE);
             }
         }
     }
@@ -411,16 +401,14 @@ public class Controller {
 
         @Override
         public void run() {
-            /*fileChooser.setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES);
-            int ret = fileChooser.showOpenDialog(new JPanel());
-            String directoryName = "";
-            File[] files;
-            if (ret == JFileChooser.APPROVE_OPTION) {
-                files = fileChooser.getSelectedFiles();
-                System.out.println(files[1].);
-            } else {
-                return;
-            }*/
+            /*
+             * fileChooser.setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES
+             * ); int ret = fileChooser.showOpenDialog(new JPanel()); String
+             * directoryName = ""; File[] files; if (ret ==
+             * JFileChooser.APPROVE_OPTION) { files =
+             * fileChooser.getSelectedFiles(); System.out.println(files[1].); }
+             * else { return; }
+             */
             FileDialog fileDialog = new java.awt.FileDialog(
                     (java.awt.Frame) view);
             fileDialog.setMultipleMode(true);
@@ -431,10 +419,8 @@ public class Controller {
                 fileNames[i] = files[i].getName();
             }
             view.selectFilesToExistingExp(files);
-            UploadToExistingExpPanel uploadToExistingExpPanel = view
-                    .getUploadTab().getUploadToExistingExpPanel();
-            uploadToExistingExpPanel.enableUploadButton(true);
-            uploadToExistingExpPanel.build();
+            view.getUploadTab().getUploadToExistingExpPanel()
+                    .enableUploadButton(true);
         }
     }
 
@@ -448,33 +434,28 @@ public class Controller {
 
         @Override
         public void run() {
-            String expName = view.getNewExpName();
-            AnnotationDataValue[] annotations = view.getUploadAnnotations();
-            ArrayList<File> files = view.getFilesToUpload();
-            HashMap<String, String> types = view.getFilesToUploadTypes();
+            ArrayList<File> files = view.getUploadTab()
+                    .getUploadToExistingExpPanel().getFilesToUpload();
+            HashMap<String, String> types = view.getUploadTab()
+                    .getUploadToExistingExpPanel().getTypes();
             // Should be genome release from uploadTab
             String release = "rn5";
-            // Test purpose
-            for (AnnotationDataValue a : annotations) {
-                System.out.println(a.getName() + " " + a.getValue());
-            }
+
             // TODO: ändra till existerande experiment!
-            boolean created = model.addNewExperiment(expName,
-                    view.getUsername(), annotations);
-            System.out.println(created);
-            if (created) {
-                for (File f : files) {
-                    if (model.uploadFile(expName, f, types.get(f.getName()),
-                            view.getUsername(), false, release)) {
-                        view.deleteUploadFileRow(f);
-                        JOptionPane.showMessageDialog(null,
-                                "Upload of " + f.getName() + " complete",
-                                "Done", JOptionPane.PLAIN_MESSAGE);
-                    } else {
-                        JOptionPane.showMessageDialog(null,
-                                "Upload of " + f.getName() + " not complete",
-                                "Error", JOptionPane.ERROR_MESSAGE);
-                    }
+            ExperimentData ed = view.getUploadTab()
+                    .getUploadToExistingExpPanel().getExperiment();
+
+            for (File f : files) {
+                if (model.uploadFile(ed.getName(), f, types.get(f.getName()),
+                        view.getUsername(), false, release)) {
+                    view.deleteUploadFileRow(f);
+                    JOptionPane.showMessageDialog(null,
+                            "Upload of " + f.getName() + " complete", "Done",
+                            JOptionPane.PLAIN_MESSAGE);
+                } else {
+                    JOptionPane.showMessageDialog(null,
+                            "Upload of " + f.getName() + " not complete",
+                            "Error", JOptionPane.ERROR_MESSAGE);
                 }
             }
         }
@@ -536,11 +517,12 @@ public class Controller {
 
         @Override
         public void run() {
-            /*FileDialog fileDialog = new java.awt.FileDialog(
-                    (java.awt.Frame) view);
-            fileDialog.setMultipleMode(true);
-            fileDialog.setVisible(true);
-            File[] files = fileDialog.getFiles();*/
+            /*
+             * FileDialog fileDialog = new java.awt.FileDialog( (java.awt.Frame)
+             * view); fileDialog.setMultipleMode(true);
+             * fileDialog.setVisible(true); File[] files =
+             * fileDialog.getFiles();
+             */
 
             fileChooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
             fileChooser.setMultiSelectionEnabled(true);
@@ -594,15 +576,15 @@ public class Controller {
                                     + f.getName() + " complete.", "Done",
                                     JOptionPane.PLAIN_MESSAGE);
                         } else {
-                            JOptionPane.showMessageDialog(null, "Couldn't upload "
-                                    + f.getName() + ".", "Error",
-                                    JOptionPane.ERROR_MESSAGE);
+                            JOptionPane.showMessageDialog(null,
+                                    "Couldn't upload " + f.getName() + ".",
+                                    "Error", JOptionPane.ERROR_MESSAGE);
                         }
                     }
                 } else {
                     JOptionPane.showMessageDialog(null,
-                            "Couldn't create experiment " + expName + ".", "Error",
-                            JOptionPane.ERROR_MESSAGE);
+                            "Couldn't create experiment " + expName + ".",
+                            "Error", JOptionPane.ERROR_MESSAGE);
                 }
             }
         }
@@ -679,7 +661,7 @@ public class Controller {
         @Override
         public void run() {
             System.out.println("OK");
-            //view.getRatioCalcPopup().okButton.setEnabled(false);
+            // view.getRatioCalcPopup().okButton.setEnabled(false);
         }
     }
 

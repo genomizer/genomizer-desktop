@@ -274,7 +274,7 @@ public class Model implements GenomizerModel {
         } else {
             System.out.println("No changes were made in name!");
         }
-        
+
         if (!(oldAnnotation.isForced() == forced)) {
             System.out
                     .println("Forced value changed! Calling changeAnnotationForced (?)");
@@ -282,13 +282,13 @@ public class Model implements GenomizerModel {
         } else {
             System.out.println("Forced value not changed");
         }
-        
+
         // TODO: If an annotation value has been added, call
         // addAnnotationValue(name, valueName)
-        
+
         // TODO: If an annotation value has been removed, call
         // removeAnnotationValue(name, valueName)
-        
+
         for (int i = 0; i < categories.length; i++) {
             if (!(categories[i].equals(oldAnnotation.getValues()[i]))) {
                 System.out
@@ -362,7 +362,8 @@ public class Model implements GenomizerModel {
             return ed;
         } else {
             System.out.println("responsecode: " + conn.getResponseCode());
-            JOptionPane.showMessageDialog(null, "Couldn't retrieve experiment");
+//            JOptionPane.showMessageDialog(null, "Couldn't retrieve experiment",
+//                    "ERROR", JOptionPane.ERROR_MESSAGE);
         }
         return null;
     }
