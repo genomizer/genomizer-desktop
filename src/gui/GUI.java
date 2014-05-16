@@ -634,15 +634,13 @@ public class GUI extends JFrame implements GenomizerView {
 
     @Override
     public void showRatioPopup() {
-       //processTab.showRatioPopup();
         ratioCalcPopup.setVisible(true);
-
     }
 
     public void showProcessFeedback(ProcessFeedbackData[] processFeedbackData) {
         processTab.showProcessFeedback(processFeedbackData);
     }
-    
+
     public void setOngoingUploads(
             CopyOnWriteArrayList<UploadHandler> ongoingUploads) {
         uploadTab.setOngoingUploads(ongoingUploads);
