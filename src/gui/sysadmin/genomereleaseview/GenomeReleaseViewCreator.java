@@ -1,8 +1,13 @@
 package gui.sysadmin.genomereleaseview;
 
+import com.sun.org.apache.xpath.internal.SourceTree;
 import gui.sysadmin.strings.SysStrings;
+import util.FileData;
 
 import java.awt.*;
+import java.awt.event.ActionListener;
+import java.io.File;
+import java.io.IOException;
 import javax.swing.*;
 import javax.swing.border.Border;
 import javax.swing.table.JTableHeader;
@@ -11,14 +16,27 @@ import javax.swing.table.TableRowSorter;
 
 public class GenomeReleaseViewCreator {
 
-    GenomereleaseTableModel grTablemodel;
+    private GenomereleaseTableModel grTablemodel;
+    private ActionListener          buttonListener;
+
+    private JTextField versionText;
+    private JTextField speciesText;
+    private JTextField fileText;
+
+    private JButton addButton;
+    private JButton clearButton;
+    private JButton deleteButton;
+    private JButton fileButton;
+    private GenomeTextFieldListener textListner;
 
     public GenomeReleaseViewCreator() {
 
     }
 
-    public JPanel buildGenomeReleaseView() {
-
+    public JPanel buildGenomeReleaseView(ActionListener buttonListener,
+            GenomeTextFieldListener textListener) {
+        this.buttonListener = buttonListener;
+        this.textListner = textListener;
         JPanel mainPanel = new JPanel(new BorderLayout());
         mainPanel.setBackground(new Color(255, 250, 250));
         mainPanel.add(buildGenomeReleasePanel(), BorderLayout.NORTH);
@@ -76,11 +94,19 @@ public class GenomeReleaseViewCreator {
         speciesLabel.setBorder(border);
         fileLabel.setBorder(border);
 
-        JButton addButton = new JButton(SysStrings.GENOME_BUTTON_ADD);
-        JButton clearButton = new JButton(SysStrings.GENOME_BUTTON_CLEAR);
-        JButton deleteButton = new JButton(SysStrings.GENOME_BUTTON_DELETE);
-        deleteButton.setEnabled(false);
-        JButton fileButton = new JButton(SysStrings.GENOME_BUTTON_FILE);
+        addButton = new JButton(SysStrings.GENOME_BUTTON_ADD);
+        addButton.addActionListener(buttonListener);
+        addButton.setEnabled(false);
+
+        clearButton = new JButton(SysStrings.GENOME_BUTTON_CLEAR);
+        clearButton.addActionListener(buttonListener);
+        clearButton.setEnabled(false);
+
+        deleteButton = new JButton(SysStrings.GENOME_BUTTON_DELETE);
+        deleteButton.addActionListener(buttonListener);
+
+        fileButton = new JButton(SysStrings.GENOME_BUTTON_FILE);
+        fileButton.addActionListener(buttonListener);
 
         FlowLayout flowLayout = new FlowLayout();
         flowLayout.setAlignment(flowLayout.LEADING);
@@ -102,9 +128,12 @@ public class GenomeReleaseViewCreator {
         buttonCeptionPanel.add(buttonPanel, BorderLayout.WEST);
         buttonCepDeletePanel.add(buttonDeletePanel, BorderLayout.WEST);
         
-        JTextField versionText = new JTextField(20);
-        JTextField speciesText = new JTextField(20);
-        JTextField fileText = new JTextField(20);
+        versionText = new JTextField(20);
+        versionText.addKeyListener(textListner);
+        speciesText = new JTextField(20);
+        speciesText.addKeyListener(textListner);
+        fileText = new JTextField(20);
+        fileText.addKeyListener(textListner);
         fileText.setEditable(false);
 
 
@@ -208,4 +237,84 @@ public class GenomeReleaseViewCreator {
         return grTablemodel;
     }
 
+    public String getVersionText() {
+        return versionText.getText();
+    }
+
+    public String getSpeciesText() {
+        return speciesText.getText();
+    }
+
+    public String getFileText() {
+        return fileText.getText();
+    }
+
+    public void clearTextFields(){
+        versionText.setText("");
+        speciesText.setText("");
+        fileText.setText("");
+        enableClearButton(false);
+        enableAddButton(false);
+    }
+
+    public boolean isTextFieldsEmpty(){
+        boolean returnValue = true;
+
+        if(!versionText.getText().equals("") || !speciesText.getText().equals("")
+                || !fileText.getText().equals("")){
+            returnValue = false;
+        }
+
+        return returnValue;
+    }
+
+    public boolean allTextFieldsContainInfo(){
+        boolean returnValue = false;
+        if(!versionText.getText().equals("") && !speciesText.getText().equals("")
+                && !fileText.getText().equals("")){
+            returnValue = true;
+        }
+
+        return returnValue;
+    }
+
+    public void enableClearButton(boolean status){
+        this.clearButton.setEnabled(status);
+    }
+
+    public void enableAddButton(boolean status){
+        this.addButton.setEnabled(status);
+    }
+
+    /** TODO: change to return datatype*/
+    public void getNewGenomeReleaseData(){
+
+    }
+
+    /** TODO: change to return datatype*/
+    public void getDeleteGenomeReleaseData(){
+
+    }
+
+    public void selectFile(){
+        JFileChooser fileChooser = new JFileChooser();
+        fileChooser.setMultiSelectionEnabled(false);
+        int ret = fileChooser.showOpenDialog(new JPanel());
+
+        String directoryName = "";
+        if (ret == JFileChooser.APPROVE_OPTION) {
+            try {
+                directoryName = fileChooser.getSelectedFile()
+                        .getCanonicalPath();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            fileText.setText(directoryName);
+            enableClearButton(true);
+            if(allTextFieldsContainInfo())
+                enableAddButton(true);
+        } else {
+            return;
+        }
+    }
 }
