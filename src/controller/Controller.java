@@ -62,7 +62,6 @@ public class Controller {
         fileListAddMouseListener(view.getfileList());
         view.addRatioCalcListener(new RatioCalcListener());
         view.addProcessFeedbackListener(new ProcessFeedbackListener());
-        view.setOngoingUploads(model.getOngoingUploads());
         view.addCancelListener(new CancelListener());
         view.addOkListener(new OkListener());
     }
