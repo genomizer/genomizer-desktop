@@ -462,9 +462,11 @@ public class Controller {
                 if (model.uploadFile(ed.getName(), f, types.get(f.getName()),
                         view.getUsername(), false, release)) {
                     view.getUploadTab().getUploadToExistingExpPanel().deleteFileRow(f);
-                    JOptionPane.showMessageDialog(null,
-                            "Upload of " + f.getName() + " complete", "Done",
-                            JOptionPane.PLAIN_MESSAGE);
+                    for (HTTPURLUpload upload : model.getOngoingUploads()) {
+                        if (f.getName().equals(upload.getFileName())) {
+                            model.getOngoingUploads().remove(upload);
+                        }
+                    }
                 } else {
                     JOptionPane.showMessageDialog(null,
                             "Upload of " + f.getName() + " not complete",
