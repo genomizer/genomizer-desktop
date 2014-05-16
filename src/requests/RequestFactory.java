@@ -130,4 +130,8 @@ public class RequestFactory {
             String annotationName, String valueName) {
         return new AddNewAnnotationValueRequest(annotationName, valueName);
     }
+
+    public static ProcessFeedbackRequest makeProcessFeedbackRequest() {
+        return new ProcessFeedbackRequest();
+    }
 }
