@@ -377,6 +377,13 @@ public class Controller {
                 ArrayList<AnnotationDataValue> adv = new ArrayList<>();
                 adv.add(new AnnotationDataValue("0", "Species", "Cyborg"));
                 adv.add(new AnnotationDataValue("1", "Sex", "Robot"));
+                adv.add(new AnnotationDataValue("2", "Real", "Testtesttest"));
+                adv.add(new AnnotationDataValue("3", "This", "Testtesttest"));
+                adv.add(new AnnotationDataValue("4", "is", "Testtesttest"));
+                adv.add(new AnnotationDataValue("5", "only", "Testtesttest"));
+                adv.add(new AnnotationDataValue("6", "a", "Testtesttest"));
+                adv.add(new AnnotationDataValue("7", "fake", "Testtesttest"));
+                adv.add(new AnnotationDataValue("8", "experiment", "Testtesttest"));
                 ExperimentData ed = new ExperimentData("Experiment 11",
                         view.getUsername(), f, adv);
                 uploadTab.addExistingExpPanel(ed);
