@@ -599,7 +599,8 @@ public class ProcessTab extends JPanel {
         CheckListItem[] itemList = new CheckListItem[fileData.size()];
 
         for (int i = 0; i < fileData.size(); i++) {
-            itemList[i] = new CheckListItem(fileData.get(i).filename);
+            itemList[i] = new CheckListItem(fileData.get(i).filename,
+                    fileData.get(i).id);
         }
 
         fileList.setListData(itemList);
@@ -727,6 +728,7 @@ public class ProcessTab extends JPanel {
     public void printToProfileText(String message, String color) {
 
         genProfArea.append(message);
+        genProfArea.setForeground(Color.black);
 
         if (color.equals("red")) {
             genProfArea.setForeground(Color.RED);

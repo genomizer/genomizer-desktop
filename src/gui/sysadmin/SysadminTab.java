@@ -1,7 +1,9 @@
 package gui.sysadmin;
 
 import gui.sysadmin.annotationview.AnnotationsViewCreator;
+import gui.sysadmin.genomereleaseview.GenomeButtonListener;
 import gui.sysadmin.genomereleaseview.GenomeReleaseViewCreator;
+import gui.sysadmin.genomereleaseview.GenomeTextFieldListener;
 import gui.sysadmin.processview.ProcessViewCreator;
 import gui.sysadmin.strings.SysadminTabButtons;
 import gui.sysadmin.usersview.UsersViewCreator;
@@ -57,28 +59,6 @@ public class SysadminTab extends JPanel {
                     break;
             }
         }
-
-        // for (int i = 0; i < buttonNameStrings.length; i++) {
-        //
-        // switch (buttonNameStrings[i]) {
-        //
-        // case SysStrings.ANNOTATIONS:
-        // sysadminTabPane.addTab(buttonNameStrings[i],
-        // buildAnnotationsView());
-        // break;
-        // /*
-        // case SysStrings.USERS:
-        // sysadminTabPane.addTab(buttonNameStrings[i], new JPanel());
-        // break;
-        //
-        // case SysStrings.TEST:
-        // sysadminTabPane.addTab(buttonNameStrings[i], new JPanel());
-        // break;
-        // */
-        // }
-        //
-        // }
-
         add(sysadminTabPane);
     }
 
@@ -97,7 +77,9 @@ public class SysadminTab extends JPanel {
     }
 
     private JPanel buildGenomeReleaseView() {
-        return genomeReleaseView.buildGenomeReleaseView();
+        ActionListener listener = new GenomeButtonListener(this);
+        GenomeTextFieldListener textListener = new GenomeTextFieldListener(genomeReleaseView);
+        return genomeReleaseView.buildGenomeReleaseView(listener, textListener);
     }
 
     public void setController(SysadminController sysController) {
@@ -158,5 +140,9 @@ public class SysadminTab extends JPanel {
     public TableModel getGenomeReleaseTableModel() {
 
         return genomeReleaseView.getTableModel();
+    }
+
+    public GenomeReleaseViewCreator getGenomeReleaseView() {
+        return genomeReleaseView;
     }
 }

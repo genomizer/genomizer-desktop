@@ -5,6 +5,7 @@ import gui.sysadmin.annotationview.AnnotationPopupListener;
 import gui.sysadmin.annotationview.AnnotationTableModel;
 import gui.sysadmin.annotationview.EditAnnotationPopup;
 import gui.sysadmin.annotationview.EditAnnotationPopupListener;
+import gui.sysadmin.genomereleaseview.GenomeReleaseViewCreator;
 import gui.sysadmin.annotationview.AddAnnotationPopup;
 import gui.sysadmin.genomereleaseview.GenomereleaseTableModel;
 
@@ -219,5 +220,18 @@ public class SysadminController extends Observable {
 
         tableModel.setGenomeReleases(getGenomeReleases());
     }
+
+    public void sendNewGenomeRelease(){
+        GenomeReleaseViewCreator gr = sysTab.getGenomeReleaseView();
+        System.out.println("Version: " + gr.getVersionText() + " Species: "
+                + gr.getSpeciesText() + " File: "+ gr.getFileText());
+    }
+
+    public void clearAddGenomeText(){
+        GenomeReleaseViewCreator gr = sysTab.getGenomeReleaseView();
+        gr.clearTextFields();
+    }
+
+
 
 }

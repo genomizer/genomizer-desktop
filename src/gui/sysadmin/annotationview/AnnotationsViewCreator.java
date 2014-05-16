@@ -3,6 +3,7 @@ package gui.sysadmin.annotationview;
 import gui.sysadmin.strings.SysStrings;
 
 import javax.swing.*;
+import javax.swing.border.Border;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import javax.swing.table.JTableHeader;
@@ -69,18 +70,36 @@ public class AnnotationsViewCreator {
     }
     
     private void buildButtonPanel(JPanel buttonPanel) {
-        buttonPanel.setBackground(new Color(215, 200, 200));
-        buttonPanel.setLayout(new GridLayout(20, 1));
-        modifyButton = new JButton(SysStrings.ANNOTATIONS_MODIFY); // TODO:
-        // load
-        // from
-        // a
-        // list
+
+        JPanel containerPanel = new JPanel();
+
+        GroupLayout layout = new GroupLayout(containerPanel);
+        containerPanel.setLayout(layout);
+
+        buttonPanel.setLayout(new BorderLayout());
+        modifyButton = new JButton(SysStrings.ANNOTATIONS_MODIFY);
         addButton = new JButton(SysStrings.ANNOTATIONS_ADD);
         removeButton = new JButton(SysStrings.ANNOTATIONS_DELETE);
-        buttonPanel.add(modifyButton);
-        buttonPanel.add(addButton);
-        buttonPanel.add(removeButton);
+
+        modifyButton.setMinimumSize(new Dimension(90, 10));
+        addButton.setMinimumSize(new Dimension(90, 10));
+        removeButton.setMinimumSize(new Dimension(90, 10));
+
+
+
+
+        layout.setHorizontalGroup(layout.createSequentialGroup().addGroup(
+                layout.createParallelGroup(GroupLayout.Alignment.LEADING)
+                        .addComponent(modifyButton).addComponent(addButton)
+                        .addComponent(removeButton)
+        ));
+
+        layout.setVerticalGroup(layout.createSequentialGroup()
+                        .addComponent(modifyButton).addComponent(addButton)
+                        .addComponent(removeButton)
+        );
+
+        buttonPanel.add(containerPanel);
     }
     
     private void buildSearchPanel(JPanel searchPanel) {
