@@ -191,11 +191,16 @@ public class ProcessTab extends JPanel {
         procInfoPanel.setBorder(
                 BorderFactory.createTitledBorder("Processing Information"));
         procInfoPanel.setLayout(new BorderLayout());
+        JPanel procInfoSouthPanel = new JPanel(new FlowLayout());
+        JPanel procInfoCenterPanel = new JPanel(new BorderLayout());
         this.add(procInfoPanel, BorderLayout.EAST);
-        procInfoPanel.add(scrollProcessList, BorderLayout.CENTER);
+        procInfoPanel.add(procInfoSouthPanel, BorderLayout.SOUTH);
+        procInfoPanel.add(procInfoCenterPanel, BorderLayout.CENTER);
+        procInfoCenterPanel.add(scrollProcessList, BorderLayout.CENTER);
         scrollProcessList.setViewportView(procInfoArea);
         procInfoArea.setEditable(false);
-        procInfoPanel.add(processFeedbackButton, BorderLayout.SOUTH);
+        processFeedbackButton.setSize(new Dimension(2,30));
+        procInfoSouthPanel.add(processFeedbackButton);
     }
 
     /**
