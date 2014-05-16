@@ -64,6 +64,7 @@ public class Controller {
         view.addProcessFeedbackListener(new ProcessFeedbackListener());
         view.addCancelListener(new CancelListener());
         view.addOkListener(new OkListener());
+        view.setOngoingUploads(model.getOngoingUploads());
     }
 
     class ConvertFileListener implements ActionListener, Runnable {
@@ -433,7 +434,7 @@ public class Controller {
             UploadToExistingExpPanel uploadToExistingExpPanel = view
                     .getUploadTab().getUploadToExistingExpPanel();
             uploadToExistingExpPanel.enableUploadButton(true);
-            uploadToExistingExpPanel.build();
+            uploadToExistingExpPanel.addFileDrop();
         }
     }
 
@@ -691,7 +692,7 @@ public class Controller {
         public void run() {
             System.out.println("CANCEL");
             view.getRatioCalcPopup().setDefaultRatioPar();
-            view.getRatioCalcPopup().closeRatioWindow();
+            view.getRatioCalcPopup().hideRatioWindow();
 
         }
     }
