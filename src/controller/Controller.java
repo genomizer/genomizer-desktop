@@ -1,9 +1,6 @@
 package controller;
 
-import gui.CheckListItem;
-import gui.DownloadWindow;
-import gui.GenomizerView;
-import gui.UploadTab;
+import gui.*;
 import gui.sysadmin.SysadminController;
 
 import java.awt.FileDialog;
@@ -62,6 +59,8 @@ public class Controller {
         view.addRatioCalcListener(new RatioCalcListener());
         view.addProcessFeedbackListener(new ProcessFeedbackListener());
         view.setOngoingUploads(model.getOngoingUploads());
+        view.addCancelListener(new CancelListener());
+        view.addOkListener(new OkListener());
     }
 
     class ConvertFileListener implements ActionListener, Runnable {
@@ -404,8 +403,10 @@ public class Controller {
                 fileNames[i] = files[i].getName();
             }
             view.selectFilesToExistingExp(files);
-            view.getUploadTab().getUploadToExistingExpPanel()
-                    .enableUploadButton(true);
+            UploadToExistingExpPanel uploadToExistingExpPanel =
+                    view.getUploadTab().getUploadToExistingExpPanel();
+            uploadToExistingExpPanel.enableUploadButton(true);
+            uploadToExistingExpPanel.build();
         }
     }
 
@@ -625,5 +626,28 @@ public class Controller {
         }
     }
 
+    class OkListener implements ActionListener, Runnable {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            new Thread(this).start();
+        }
+
+        @Override
+        public void run() {
+            System.out.println("OK");
+        }
+    }
+
+    class CancelListener implements ActionListener, Runnable {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            new Thread(this).start();
+        }
+
+        @Override
+        public void run() {
+            System.out.println("CANCEL");
+        }
+    }
 
 }

@@ -151,7 +151,11 @@ public interface GenomizerView {
     public void showRatioPopup();
 
     public void showProcessFeedback(ProcessFeedbackData[] processFeedbackData);
-    
+
     public void setOngoingUploads(
             CopyOnWriteArrayList<UploadHandler> ongoingUploads);
+
+    public void addOkListener(ActionListener listener);
+
+    public void addCancelListener(ActionListener listener);
 }
