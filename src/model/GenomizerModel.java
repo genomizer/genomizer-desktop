@@ -58,6 +58,7 @@ public interface GenomizerModel {
 
     public CopyOnWriteArrayList<UploadHandler> getOngoingUploads();
 
+
     public boolean removeAnnotationValue(String annotationName, String valueName);
 
     public boolean removeAnnotationField(String annotationName);
