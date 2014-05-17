@@ -60,7 +60,7 @@ public class DownloadHandler {
 
             FileOutputStream fileOut = new FileOutputStream(file);
             Long previousTime = System.currentTimeMillis();
-            if (!isImage()) {
+            if (!isBinaryFile()) {
                 BufferedReader reader = new BufferedReader(new InputStreamReader(in));
                 BufferedWriter writer = new BufferedWriter(new FileWriter(file));
                 while ((buffer = reader.readLine()) != null && !isFinished()) {
@@ -115,9 +115,9 @@ public class DownloadHandler {
         return -1;
     }
 
-    public boolean isImage() {
+    public boolean isBinaryFile() {
         return fileName.endsWith(".jpg") || fileName.endsWith(".png") || fileName.endsWith(".jpeg") ||
-                fileName.endsWith(".gif");
+                fileName.endsWith(".gif") || fileName.endsWith(".tar.gz");
     }
 
     public int getCurrentProgress() {
