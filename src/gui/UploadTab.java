@@ -6,10 +6,12 @@ import util.AnnotationDataType;
 import util.AnnotationDataValue;
 import util.ExperimentData;
 import util.FileDrop;
+import util.IconFactory;
 
 import javax.swing.*;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
+
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -34,7 +36,6 @@ import util.ActivePanel;
 import util.AnnotationDataType;
 import util.AnnotationDataValue;
 import util.FileDrop;
-
 import communication.UploadHandler;
 
 /**
@@ -77,14 +78,21 @@ public class UploadTab extends JPanel implements ExperimentPanel {
         uploadToExistingExpPanel = new UploadToExistingExpPanel();
         northPanel = new JPanel();
         expNamePanel = new JPanel();
-        expNamePanel.setBorder(BorderFactory.createTitledBorder(""));
         add(northPanel, BorderLayout.NORTH);
         northPanel.add(new JLabel("Experiment name: "));
         experimentNameField = new JTextArea();
         experimentNameField.setColumns(30);
         expNamePanel.add(experimentNameField);
         northPanel.add(expNamePanel);
-        addToExistingExpButton = new JButton("Add to existing experiment");
+        northPanel.setBorder(BorderFactory.createTitledBorder("Upload"));
+        addToExistingExpButton = new JButton(IconFactory.getSearchIcon(35, 35));
+        addToExistingExpButton.setRolloverIcon(IconFactory.getSearchHoverIcon(37, 37));
+        addToExistingExpButton.setBorderPainted(true);
+        addToExistingExpButton.setContentAreaFilled(false);
+        addToExistingExpButton.setPreferredSize(new Dimension(37, 37));
+        addToExistingExpButton.setFocusable(true);
+        addToExistingExpButton.setFocusPainted(false);
+        addToExistingExpButton.setToolTipText("Search for experiment");
         northPanel.add(addToExistingExpButton, BorderLayout.EAST);
         uploadPanel = new JPanel(new BorderLayout());
         uploadScroll = new JScrollPane(uploadPanel);
@@ -92,9 +100,30 @@ public class UploadTab extends JPanel implements ExperimentPanel {
         uploadBackground = new JPanel(new BorderLayout());
         buttonsPanel = new JPanel(new FlowLayout());
         uploadFilesPanel = new JPanel(new GridLayout(0, 1));
-        newExpButton = new JButton("Create new experiment");
-        selectButton = new JButton("Select files");
-        uploadButton = new JButton("Upload Selected Files");
+        newExpButton = new JButton(IconFactory.getNewExperimentIcon(35, 35));
+        newExpButton.setRolloverIcon(IconFactory.getNewExperimentHoverIcon(37, 37));
+        newExpButton.setBorderPainted(true);
+        newExpButton.setContentAreaFilled(false);
+        newExpButton.setFocusable(true);
+        newExpButton.setFocusPainted(false);
+        newExpButton.setPreferredSize(new Dimension(37,37));
+        newExpButton.setToolTipText("Create new experiment");
+        selectButton = new JButton(IconFactory.getBrowseIcon(40, 40));
+        selectButton.setRolloverIcon(IconFactory.getBrowseHoverIcon(42, 42));
+        selectButton.setBorderPainted(true);
+        selectButton.setContentAreaFilled(false);
+        selectButton.setFocusable(true);
+        selectButton.setFocusPainted(false);
+        selectButton.setPreferredSize(new Dimension(42,42));
+        selectButton.setToolTipText("Browse for files");
+        uploadButton = new JButton(IconFactory.getUploadIcon(40, 40));
+        uploadButton.setRolloverIcon(IconFactory.getUploadHoverIcon(42, 42));
+        uploadButton.setBorderPainted(true);
+        uploadButton.setContentAreaFilled(false);
+        uploadButton.setFocusable(true);
+        uploadButton.setFocusPainted(false);
+        uploadButton.setPreferredSize(new Dimension(40,40));
+        uploadButton.setToolTipText("Upload");
         newExpPanel = new JPanel();
         expNameLabel = new JLabel();
         expID = new JTextField();
@@ -186,9 +215,8 @@ public class UploadTab extends JPanel implements ExperimentPanel {
     public void createNewExp(AnnotationDataType[] annotations) {
         killContentsOfUploadPanel();
 
-        JLabel redTextLabel = new JLabel("Red text = forced annotation.");
+        JLabel redTextLabel = new JLabel("<html><b>Bolded text = forced annotation.</b></html>");
         redTextLabel.setOpaque(true);
-        redTextLabel.setForeground(Color.red);
         uploadFilesPanel.add(redTextLabel, BorderLayout.NORTH);
 
         /*
@@ -244,9 +272,9 @@ public class UploadTab extends JPanel implements ExperimentPanel {
         gbc.gridx = x;
         gbc.gridy = y;
         JPanel exp = new JPanel(new BorderLayout());
-        expNameLabel.setText("Experiment ID");
-        expNameLabel.setForeground(Color.RED);
-        expNameLabel.setToolTipText("Red indicates a forced annotation");
+        expNameLabel.setText("<html><b>Experiment ID</b></html>");
+        //expNameLabel.setForeground(Color.RED);
+        expNameLabel.setToolTipText("Bold indicates a forced annotation");
         exp.add(expNameLabel, BorderLayout.NORTH);
         exp.add(expID, BorderLayout.CENTER);
         newExpPanel.add(exp, gbc);
@@ -265,11 +293,11 @@ public class UploadTab extends JPanel implements ExperimentPanel {
                 gbc.gridy = y;
                 JPanel p = new JPanel(new BorderLayout());
                 String label = null;
-                JLabel annotationLabel = new JLabel(annotations[i].getName());
+                JLabel annotationLabel = new JLabel("<html><b>" + annotations[i].getName() + "</b></html>");
                 if (annotations[i].isForced()) {
-                    annotationLabel.setForeground(Color.RED);
+                    //annotationLabel.setForeground(Color.RED);
                     annotationLabel
-                            .setToolTipText("Red indicates a forced annotation");
+                            .setToolTipText("Bold indicates a forced annotation");
                 }
                 annotationHeaders.add(annotations[i].getName());
                 p.add(annotationLabel, BorderLayout.NORTH);
@@ -349,6 +377,7 @@ public class UploadTab extends JPanel implements ExperimentPanel {
             enableUploadButton(false);
         }
         buttonsPanel.add(selectButton);
+        buttonsPanel.add(Box.createHorizontalStrut(20));
         buttonsPanel.add(uploadButton);
         uploadFilesPanel.add(buttonsPanel);
         repaint();

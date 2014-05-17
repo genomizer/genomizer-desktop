@@ -1,12 +1,18 @@
 package gui;
 
 import util.ExperimentData;
+import util.IconFactory;
 import util.TreeTable;
 
+import javax.imageio.ImageIO;
 import javax.swing.*;
+
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 
@@ -17,35 +23,19 @@ public class WorkspaceTab extends JPanel {
     private JPanel buttonPanel, filePanel;
     private JButton deleteButton, removeButton, downloadButton;
     private JButton analyzeButton, browseButton, processButton;
-    private ImageIcon analyseIcon = new ImageIcon(getClass().getResource(
-            "/icons/AnalyzeSelectedButton.png"));
-    private ImageIcon browseIcon = new ImageIcon(getClass().getResource(
-            "/icons/BrowseLocalFilesButton.png"));
-    private ImageIcon deleteIcon = new ImageIcon(getClass().getResource(
-            "/icons/DeleteSelectedButton.png"));
-    private ImageIcon downloadSelectedIcon = new ImageIcon(getClass()
-            .getResource("/icons/DownloadSelectedButton.png"));
-    private ImageIcon removeFromDBIcon = new ImageIcon(getClass().getResource(
-            "/icons/RemoveFromDatabaseButton.png"));
-    private GridBagConstraints gbc;
-
+    
     public WorkspaceTab() {
         setLayout(new BorderLayout());
         buttonPanel = new JPanel();
+        buttonPanel.setBorder(BorderFactory
+                .createTitledBorder("Workspace"));
         filePanel = new JPanel(new BorderLayout());
         add(buttonPanel, BorderLayout.NORTH);
         add(filePanel, BorderLayout.CENTER);
 
-        GridBagLayout layout = new GridBagLayout();
-        gbc = new GridBagConstraints();
+        buttonPanel.setLayout(new FlowLayout());
 
-        buttonPanel.setLayout(layout);
-        gbc.ipadx = 10;
-        gbc.ipady = 10;
-        gbc.insets = new Insets(1, 1, 1, 1);
-        gbc.anchor = GridBagConstraints.NORTHWEST;
-
-        buttonPanel.setBackground(new Color(210, 210, 210));
+        //buttonPanel.setBackground(new Color(210, 210, 210));
         filePanel.setBackground(Color.white);
 
         createButtons();
@@ -58,76 +48,66 @@ public class WorkspaceTab extends JPanel {
     }
 
     private void createButtons() {
-        removeButton = new JButton("Remove selected");
+        removeButton = new JButton(IconFactory.getClearIcon(50,50));
+        removeButton.setRolloverIcon(IconFactory.getClearHoverIcon(52,52));
+        removeButton.setBorderPainted(true);
+        removeButton.setContentAreaFilled(false);
+        removeButton.setFocusable(true);
+        removeButton.setFocusPainted(false);
+        removeButton.setPreferredSize(new Dimension(52,52));
+        removeButton.setToolTipText("Remove selected from workspace");
         removeButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 table.removeSelectedData();
             }
         });
-        downloadButton = new JButton("Download selected");
-        analyzeButton = new JButton("Analyze selected");
+        downloadButton = new JButton(IconFactory.getDownloadIcon(45,45));
+        downloadButton.setRolloverIcon(IconFactory.getDownloadHoverIcon(47,47));
+        downloadButton.setBorderPainted(true);
+        downloadButton.setContentAreaFilled(false);
+        downloadButton.setFocusable(true);
+        downloadButton.setFocusPainted(false);
+        downloadButton.setPreferredSize(new Dimension(47,47));
+        downloadButton.setToolTipText("Download selected");
+        
+        analyzeButton = new JButton(IconFactory.getAnalyzeIcon(50,50));
+        analyzeButton.setRolloverIcon(IconFactory.getAnalyzeHoverIcon(52,52));
+        analyzeButton.setBorderPainted(true);
+        analyzeButton.setContentAreaFilled(false);
+        analyzeButton.setFocusable(true);
+        analyzeButton.setFocusPainted(false);
+        analyzeButton.setPreferredSize(new Dimension(52,52));
         analyzeButton.setEnabled(false);
-        //        browseButton = new JButton("Browse files");
-        //        browseButton.setEnabled(false);
-        //        deleteButton = new JButton("Delete selected from database");
-        //        deleteButton.setEnabled(false);
-        processButton = new JButton("Process selected");
+        analyzeButton.setToolTipText("Analyze selected");
+        
+        processButton = new JButton(IconFactory.getProcessIcon(50,50));
+        processButton.setRolloverIcon(IconFactory.getProcessHoverIcon(52,52));
+        processButton.setBorderPainted(true);
+        processButton.setContentAreaFilled(false);
+        processButton.setFocusable(true);
+        processButton.setFocusPainted(false);
+        processButton.setPreferredSize(new Dimension(52,52));
+        processButton.setToolTipText("Process selected");
+        //processButton.setEnabled(false);
     }
 
     private void addToButtonPanel() {
+        buttonPanel.add(removeButton);
 
-        gbc.gridx = 0;
-        gbc.gridy = 0;
-        // deleteIcon = new
-        // ImageIcon(deleteIcon.getImage().getScaledInstance(175,
-        // 30, Image.SCALE_SMOOTH));
-        // deleteButton.setBorderPainted(true);
-        // deleteButton.setContentAreaFilled(false);
-        // deleteButton.setIcon(deleteIcon);
-        //        buttonPanel.add(deleteButton, gbc);
+        buttonPanel.add(Box.createHorizontalStrut(50));
+        
+        buttonPanel.add(downloadButton);
+        
+        buttonPanel.add(Box.createHorizontalStrut(50));
 
-        gbc.gridx = 1;
-        gbc.gridy = 0;
-        // removeFromDBIcon = new ImageIcon(removeFromDBIcon.getImage()
-        // .getScaledInstance(175, 30, Image.SCALE_SMOOTH));
-        // removeButton.setBorderPainted(true);
-        // removeButton.setContentAreaFilled(false);
-        // removeButton.setIcon(removeFromDBIcon);
-        buttonPanel.add(removeButton, gbc);
+        buttonPanel.add(analyzeButton);
+        
+        buttonPanel.add(Box.createHorizontalStrut(50));
 
-        gbc.gridx = 2;
-        gbc.gridy = 0;
-        // downloadSelectedIcon = new ImageIcon(downloadSelectedIcon.getImage()
-        // .getScaledInstance(175, 30, Image.SCALE_SMOOTH));
-        // downloadButton.setBorderPainted(true);
-        // downloadButton.setContentAreaFilled(false);
-        // downloadButton.setIcon(downloadSelectedIcon);
-        buttonPanel.add(downloadButton, gbc);
-
-        gbc.gridx = 3;
-        gbc.gridy = 0;
-        // analyseIcon = new ImageIcon(analyseIcon.getImage().getScaledInstance(
-        // 175, 30, Image.SCALE_SMOOTH));
-        // analyzeButton.setBorderPainted(true);
-        // analyzeButton.setContentAreaFilled(false);
-        // analyzeButton.setIcon(analyseIcon);
-        buttonPanel.add(analyzeButton, gbc);
-
-        gbc.gridx = 4;
-        gbc.gridy = 0;
-        // browseIcon = new
-        // ImageIcon(browseIcon.getImage().getScaledInstance(175,
-        // 30, Image.SCALE_SMOOTH));
-        // browseButton.setBorderPainted(true);
-        // browseButton.setContentAreaFilled(false);
-        // browseButton.setIcon(browseIcon);
-        //        buttonPanel.add(browseButton, gbc);
-
-        gbc.gridx = 5;
-        gbc.gridy = 0;
-
-        buttonPanel.add(processButton, gbc);
+        buttonPanel.add(processButton);
+        
+        
     }
 
     /**

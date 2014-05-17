@@ -33,7 +33,8 @@ public class Genomizer {
         gui.setUploadTab(ut);
         gui.setProcessTab(pt);
         gui.setWorkspaceTab(wt);
-        // gui.setAnalyzeTab(at);
+        //gui.setAnalyzeTab(at);
+       
         gui.setSysAdminTab(sat);
         Model model = new Model();
         Controller controller = new Controller(gui, model);

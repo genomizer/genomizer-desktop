@@ -15,6 +15,8 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JProgressBar;
 
+import util.IconFactory;
+
 public class UploadFileRow extends JPanel {
     private ExperimentPanel parent;
     private JPanel filePanel;
@@ -69,8 +71,14 @@ public class UploadFileRow extends JPanel {
         gbc_comboBox.gridx = 1;
         gbc_comboBox.gridy = 1;
         filePanel.add(typeBox, gbc_comboBox);
-        
-        closeButton = new JButton("X");
+        closeButton = new JButton(IconFactory.getStopIcon(30,30));
+        closeButton.setRolloverIcon(IconFactory.getStopHoverIcon(32,32));
+        closeButton.setBorderPainted(true);
+        closeButton.setContentAreaFilled(false);
+        closeButton.setFocusable(true);
+        closeButton.setFocusPainted(false);
+        closeButton.setPreferredSize(new Dimension(32,32));
+        closeButton.setToolTipText("Remove selected from workspace");
         addCloseButtonListener(new closeButtonListener());
         GridBagConstraints gbc_btnX = new GridBagConstraints();
         gbc_btnX.gridx = 2;
