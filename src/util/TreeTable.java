@@ -78,7 +78,6 @@ public class TreeTable extends JPanel {
             }
         };
         table.setOpaque(true);
-        
         table.setLeafIcon(null);
         table.setClosedIcon(null);
         table.setOpenIcon(null);

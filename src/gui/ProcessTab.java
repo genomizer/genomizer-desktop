@@ -275,16 +275,16 @@ public class ProcessTab extends JPanel {
         processFeedbackButton.setContentAreaFilled(false);
         processFeedbackButton.setFocusable(true);
         processFeedbackButton.setFocusPainted(false);
-        processFeedbackButton.setPreferredSize(new Dimension(35,35));
+        processFeedbackButton.setPreferredSize(new Dimension(32,32));
         processFeedbackButton.setToolTipText("Get current processes from server");
         
-        addToFileListButton = new JButton(IconFactory.getBackIcon(30,30));
-        addToFileListButton.setRolloverIcon(IconFactory.getBackHoverIcon(32,32));
+        addToFileListButton = new JButton(IconFactory.getAddToListIcon(30,30));
+        addToFileListButton.setRolloverIcon(IconFactory.getAddToListHoverIcon(32,32));
         addToFileListButton.setBorderPainted(true);
         addToFileListButton.setContentAreaFilled(false);
         addToFileListButton.setFocusable(true);
         addToFileListButton.setFocusPainted(false);
-        addToFileListButton.setPreferredSize(new Dimension(35,35));
+        addToFileListButton.setPreferredSize(new Dimension(32,32));
         addToFileListButton.setToolTipText("Add selected to file list");
         procInfoSouthPanel.add(addToFileListButton);
         procInfoSouthPanel.add(Box.createHorizontalStrut(35));

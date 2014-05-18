@@ -121,25 +121,14 @@ public class QuerySearchTab extends JPanel {
      */
     private void setUpSearchHeader() {
         searchPanel = new JPanel(new FlowLayout());
-
-        searchButton = new JButton(IconFactory.getSearchIcon(28, 28));
-        searchButton.setRolloverIcon(IconFactory.getSearchHoverIcon(30, 30));
-        searchButton.setBorderPainted(true);
-        searchButton.setContentAreaFilled(false);
-        searchButton.setFocusable(true);
-        searchButton.setFocusPainted(false);
-        searchButton.setPreferredSize(new Dimension(30,30));
-        searchButton.setToolTipText("Search for data");
         
-        clearButton = new JButton(IconFactory.getClearIcon(35, 35));
-        clearButton.setRolloverIcon(IconFactory.getClearHoverIcon(37, 37));
-        clearButton.setBorderPainted(true);
-        clearButton.setContentAreaFilled(false);
-        clearButton.setFocusable(true);
-        clearButton.setFocusPainted(false);
-        //clearButton.setIcon(clearIcon);
-        clearButton.setPreferredSize(new Dimension(37,37));
-        clearButton.setToolTipText("Clear search fields");
+        searchButton = CustomButtonFactory.makeCustomButton(
+                IconFactory.getSearchIcon(28, 28),
+                IconFactory.getSearchHoverIcon(30, 30), 30, 30, "Search for data");
+        
+        clearButton = CustomButtonFactory.makeCustomButton(
+                IconFactory.getClearIcon(35, 35),
+                IconFactory.getClearHoverIcon(37, 37), 37, 37, "Clear search fields");
         clearButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -163,28 +152,18 @@ public class QuerySearchTab extends JPanel {
      */
     private void setUpResultsHeaderPanel() {
         resultsHeaderPanel = new JPanel(new BorderLayout());
-        JButton backButton = new JButton(IconFactory.getBackIcon(25, 25));
-        backButton.setRolloverIcon(IconFactory.getBackHoverIcon(27, 27));
-        backButton.setBorderPainted(true);
-        backButton.setContentAreaFilled(false);
-        backButton.setFocusable(true);
-        backButton.setFocusPainted(false);
-        backButton.setPreferredSize(new Dimension(27,27));
-        backButton.setToolTipText("Back to search view");
+        JButton backButton = CustomButtonFactory.makeCustomButton(
+                IconFactory.getBackIcon(25, 25),
+                IconFactory.getBackHoverIcon(27, 27), 25, 25, "Back to search view");
         backButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 showSearchView();
             }
         });
-        addToWorkspaceButton = new JButton(IconFactory.getAddToWorkspaceIcon(50, 34));
-        addToWorkspaceButton.setRolloverIcon(IconFactory.getAddToWorkspaceHoverIcon(52, 36));
-        addToWorkspaceButton.setBorderPainted(true);
-        addToWorkspaceButton.setContentAreaFilled(false);
-        addToWorkspaceButton.setFocusable(true);
-        addToWorkspaceButton.setFocusPainted(false);
-        addToWorkspaceButton.setPreferredSize(new Dimension(52,36));
-        addToWorkspaceButton.setToolTipText("Add selected to workspace");
+        addToWorkspaceButton = CustomButtonFactory.makeCustomButton(
+                IconFactory.getAddToWorkspaceIcon(50, 34),
+                IconFactory.getAddToWorkspaceHoverIcon(52, 36), 52, 36, "Add selected to workspace");
         
         
         downloadButton = new JButton("Download Selected Files");

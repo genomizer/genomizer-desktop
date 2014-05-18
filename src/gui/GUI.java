@@ -363,9 +363,9 @@ public class GUI extends JFrame implements GenomizerView {
         try {
             UIManager
                     .setLookAndFeel("javax.swing.plaf.nimbus.NimbusLookAndFeel");
-            UIManager.put("nimbusBase", Color.WHITE);
-            UIManager.put("nimbusBlueGrey", Color.WHITE);
-            UIManager.put("control", new Color(223, 235, 242));
+//            UIManager.put("nimbusBase", Color.WHITE);
+//            UIManager.put("nimbusBlueGrey", Color.WHITE);
+//            UIManager.put("control", new Color(223, 235, 242));
             UIManager.put("nimbusOrange", new Color(81, 142, 183));
             UIManager.put("info", Color.white);
             //UIManager.put("nimbusLightBackground", new Color(197,210,220));

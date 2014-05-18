@@ -276,6 +276,7 @@ public class UploadTab extends JPanel implements ExperimentPanel {
         //expNameLabel.setForeground(Color.RED);
         expNameLabel.setToolTipText("Bold indicates a forced annotation");
         exp.add(expNameLabel, BorderLayout.NORTH);
+        expID.setText(experimentNameField.getText());
         exp.add(expID, BorderLayout.CENTER);
         newExpPanel.add(exp, gbc);
         x++;

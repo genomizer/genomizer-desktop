@@ -128,13 +128,9 @@ public class QueryBuilderRow extends JPanel {
      * Method for constructing the plus button
      */
     private void setPlusButton() {
-        plusButton = new JButton(IconFactory.getPlusIcon(15, 15));
-        plusButton.setRolloverIcon(IconFactory.getPlusHoverIcon(17, 17));
-        plusButton.setBorderPainted(true);
-        plusButton.setContentAreaFilled(false);
-        plusButton.setPreferredSize(new Dimension(17, 25));
-        plusButton.setFocusable(true);
-        plusButton.setFocusPainted(false);
+        plusButton = CustomButtonFactory.makeCustomButton(
+                IconFactory.getPlusIcon(15, 15),
+                IconFactory.getPlusHoverIcon(17, 17), 17, 25, null);
         plusButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -148,13 +144,9 @@ public class QueryBuilderRow extends JPanel {
      * Method for constructing a minus button
      */
     private void setMinusButton() {
-        minusButton = new JButton(IconFactory.getMinusIcon(15, 15));
-        minusButton.setRolloverIcon(IconFactory.getMinusHoverIcon(17, 17));
-        minusButton.setBorderPainted(true);
-        minusButton.setContentAreaFilled(false);
-        minusButton.setPreferredSize(new Dimension(17, 25));
-        minusButton.setFocusable(true);
-        minusButton.setFocusPainted(false);
+        minusButton = CustomButtonFactory.makeCustomButton(
+                IconFactory.getMinusIcon(15, 15),
+                IconFactory.getMinusHoverIcon(17, 17), 17, 25, null);
         final QueryBuilderRow row = this;
         minusButton.addActionListener(new ActionListener() {
             @Override
