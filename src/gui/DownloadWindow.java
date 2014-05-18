@@ -106,14 +106,9 @@ public class DownloadWindow extends JFrame {
         tablePanel.add(scrollPane, BorderLayout.CENTER);
         tablePanel.add(table.getTableHeader(), BorderLayout.NORTH);
         
-        downloadButton = new JButton(IconFactory.getDownloadIcon(50, 50));
-        downloadButton.setRolloverIcon(IconFactory.getDownloadHoverIcon(52, 52));
-        downloadButton.setBorderPainted(true);
-        downloadButton.setContentAreaFilled(false);
-        downloadButton.setFocusable(true);
-        downloadButton.setFocusPainted(false);
-        downloadButton.setPreferredSize(new Dimension(52,52));
-        downloadButton.setToolTipText("Download files");
+        downloadButton = CustomButtonFactory.makeCustomButton(
+                IconFactory.getDownloadIcon(50, 50),
+                IconFactory.getDownloadHoverIcon(52, 52), 52, 52, "Download files");
         
         JPanel flowSouth = new JPanel();
         flowSouth.add(downloadButton);
@@ -153,7 +148,7 @@ public class DownloadWindow extends JFrame {
                                 progress.setStringPainted(true);
                                 south.add(progress, BorderLayout.CENTER);
                                 JButton stopButton = CustomButtonFactory.makeCustomButton(
-                                        stopIcon, stopIcon, 25, 25, "Download files");
+                                        stopIcon, stopIcon, 25, 25, "Stop download");
                                 stopButton
                                         .addActionListener(new ActionListener() {
                                             @Override
