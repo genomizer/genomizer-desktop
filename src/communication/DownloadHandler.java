@@ -117,8 +117,8 @@ public class DownloadHandler {
 
     public boolean isBinaryFile() {
         return fileName.endsWith(".jpg") || fileName.endsWith(".png") || fileName.endsWith(".jpeg") ||
-                fileName.endsWith(".gif") || fileName.endsWith(".tar.gz" ||
-                fileName.endsWith(".tar.xz"));
+                fileName.endsWith(".gif") || fileName.endsWith(".tar.gz") ||
+                fileName.endsWith(".tar.xz");
     }
 
     public int getCurrentProgress() {
