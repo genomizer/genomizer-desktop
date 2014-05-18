@@ -71,14 +71,9 @@ public class UploadFileRow extends JPanel {
         gbc_comboBox.gridx = 1;
         gbc_comboBox.gridy = 1;
         filePanel.add(typeBox, gbc_comboBox);
-        closeButton = new JButton(IconFactory.getStopIcon(30,30));
-        closeButton.setRolloverIcon(IconFactory.getStopHoverIcon(32,32));
-        closeButton.setBorderPainted(true);
-        closeButton.setContentAreaFilled(false);
-        closeButton.setFocusable(true);
-        closeButton.setFocusPainted(false);
-        closeButton.setPreferredSize(new Dimension(32,32));
-        closeButton.setToolTipText("Remove selected from workspace");
+        closeButton = CustomButtonFactory.makeCustomButton(
+                IconFactory.getStopIcon(30, 30),
+                IconFactory.getStopHoverIcon(32, 32), 32, 32, "Stop upload");
         addCloseButtonListener(new closeButtonListener());
         GridBagConstraints gbc_btnX = new GridBagConstraints();
         gbc_btnX.gridx = 2;

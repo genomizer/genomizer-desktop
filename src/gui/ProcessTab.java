@@ -269,23 +269,13 @@ public class ProcessTab extends JPanel {
         renderer.setClosedIcon(null);
         renderer.setOpenIcon(null);
         scrollProcessList.setViewportView(tree);
-        processFeedbackButton = new JButton(IconFactory.getRefreshIcon(30,30));
-        processFeedbackButton.setRolloverIcon(IconFactory.getRefreshHoverIcon(32,32));
-        processFeedbackButton.setBorderPainted(true);
-        processFeedbackButton.setContentAreaFilled(false);
-        processFeedbackButton.setFocusable(true);
-        processFeedbackButton.setFocusPainted(false);
-        processFeedbackButton.setPreferredSize(new Dimension(32,32));
-        processFeedbackButton.setToolTipText("Get current processes from server");
+        processFeedbackButton = CustomButtonFactory.makeCustomButton(
+                IconFactory.getRefreshIcon(30, 30),
+                IconFactory.getRefreshHoverIcon(32, 32), 32, 32, "Get process information from server");
         
-        addToFileListButton = new JButton(IconFactory.getAddToListIcon(30,30));
-        addToFileListButton.setRolloverIcon(IconFactory.getAddToListHoverIcon(32,32));
-        addToFileListButton.setBorderPainted(true);
-        addToFileListButton.setContentAreaFilled(false);
-        addToFileListButton.setFocusable(true);
-        addToFileListButton.setFocusPainted(false);
-        addToFileListButton.setPreferredSize(new Dimension(32,32));
-        addToFileListButton.setToolTipText("Add selected to file list");
+        addToFileListButton = CustomButtonFactory.makeCustomButton(
+                IconFactory.getAddToListIcon(30, 30),
+                IconFactory.getAddToListHoverIcon(32, 32), 32, 32, "Add selected files to list");
         procInfoSouthPanel.add(addToFileListButton);
         procInfoSouthPanel.add(Box.createHorizontalStrut(35));
         procInfoSouthPanel.add(processFeedbackButton);

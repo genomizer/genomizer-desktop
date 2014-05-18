@@ -48,47 +48,26 @@ public class WorkspaceTab extends JPanel {
     }
 
     private void createButtons() {
-        removeButton = new JButton(IconFactory.getClearIcon(50,50));
-        removeButton.setRolloverIcon(IconFactory.getClearHoverIcon(52,52));
-        removeButton.setBorderPainted(true);
-        removeButton.setContentAreaFilled(false);
-        removeButton.setFocusable(true);
-        removeButton.setFocusPainted(false);
-        removeButton.setPreferredSize(new Dimension(52,52));
-        removeButton.setToolTipText("Remove selected from workspace");
+        removeButton = CustomButtonFactory.makeCustomButton(
+                IconFactory.getClearIcon(50, 50),
+                IconFactory.getClearHoverIcon(52, 52), 52, 52, "Remove selected data from workspace");
         removeButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 table.removeSelectedData();
             }
         });
-        downloadButton = new JButton(IconFactory.getDownloadIcon(45,45));
-        downloadButton.setRolloverIcon(IconFactory.getDownloadHoverIcon(47,47));
-        downloadButton.setBorderPainted(true);
-        downloadButton.setContentAreaFilled(false);
-        downloadButton.setFocusable(true);
-        downloadButton.setFocusPainted(false);
-        downloadButton.setPreferredSize(new Dimension(47,47));
-        downloadButton.setToolTipText("Download selected");
+        downloadButton = CustomButtonFactory.makeCustomButton(
+                IconFactory.getDownloadIcon(45, 45),
+                IconFactory.getDownloadHoverIcon(47, 47),47, 47, "Download selected data");
         
-        analyzeButton = new JButton(IconFactory.getAnalyzeIcon(50,50));
-        analyzeButton.setRolloverIcon(IconFactory.getAnalyzeHoverIcon(52,52));
-        analyzeButton.setBorderPainted(true);
-        analyzeButton.setContentAreaFilled(false);
-        analyzeButton.setFocusable(true);
-        analyzeButton.setFocusPainted(false);
-        analyzeButton.setPreferredSize(new Dimension(52,52));
-        analyzeButton.setEnabled(false);
-        analyzeButton.setToolTipText("Analyze selected");
+        analyzeButton = CustomButtonFactory.makeCustomButton(
+                IconFactory.getAnalyzeIcon(50, 50),
+                IconFactory.getAnalyzeHoverIcon(52, 52), 52, 52, "Analyze selected data");
         
-        processButton = new JButton(IconFactory.getProcessIcon(50,50));
-        processButton.setRolloverIcon(IconFactory.getProcessHoverIcon(52,52));
-        processButton.setBorderPainted(true);
-        processButton.setContentAreaFilled(false);
-        processButton.setFocusable(true);
-        processButton.setFocusPainted(false);
-        processButton.setPreferredSize(new Dimension(52,52));
-        processButton.setToolTipText("Process selected");
+        processButton  = CustomButtonFactory.makeCustomButton(
+                IconFactory.getProcessIcon(50, 50),
+                IconFactory.getProcessHoverIcon(52, 52), 52, 52, "Process selected data");
         //processButton.setEnabled(false);
     }
 

@@ -85,14 +85,9 @@ public class UploadTab extends JPanel implements ExperimentPanel {
         expNamePanel.add(experimentNameField);
         northPanel.add(expNamePanel);
         northPanel.setBorder(BorderFactory.createTitledBorder("Upload"));
-        addToExistingExpButton = new JButton(IconFactory.getSearchIcon(35, 35));
-        addToExistingExpButton.setRolloverIcon(IconFactory.getSearchHoverIcon(37, 37));
-        addToExistingExpButton.setBorderPainted(true);
-        addToExistingExpButton.setContentAreaFilled(false);
-        addToExistingExpButton.setPreferredSize(new Dimension(37, 37));
-        addToExistingExpButton.setFocusable(true);
-        addToExistingExpButton.setFocusPainted(false);
-        addToExistingExpButton.setToolTipText("Search for experiment");
+        addToExistingExpButton = CustomButtonFactory.makeCustomButton(
+                IconFactory.getSearchIcon(35, 35),
+                IconFactory.getSearchHoverIcon(37, 37), 37, 37, "Search for existing experiment");
         northPanel.add(addToExistingExpButton, BorderLayout.EAST);
         uploadPanel = new JPanel(new BorderLayout());
         uploadScroll = new JScrollPane(uploadPanel);
@@ -100,30 +95,15 @@ public class UploadTab extends JPanel implements ExperimentPanel {
         uploadBackground = new JPanel(new BorderLayout());
         buttonsPanel = new JPanel(new FlowLayout());
         uploadFilesPanel = new JPanel(new GridLayout(0, 1));
-        newExpButton = new JButton(IconFactory.getNewExperimentIcon(35, 35));
-        newExpButton.setRolloverIcon(IconFactory.getNewExperimentHoverIcon(37, 37));
-        newExpButton.setBorderPainted(true);
-        newExpButton.setContentAreaFilled(false);
-        newExpButton.setFocusable(true);
-        newExpButton.setFocusPainted(false);
-        newExpButton.setPreferredSize(new Dimension(37,37));
-        newExpButton.setToolTipText("Create new experiment");
-        selectButton = new JButton(IconFactory.getBrowseIcon(40, 40));
-        selectButton.setRolloverIcon(IconFactory.getBrowseHoverIcon(42, 42));
-        selectButton.setBorderPainted(true);
-        selectButton.setContentAreaFilled(false);
-        selectButton.setFocusable(true);
-        selectButton.setFocusPainted(false);
-        selectButton.setPreferredSize(new Dimension(42,42));
-        selectButton.setToolTipText("Browse for files");
-        uploadButton = new JButton(IconFactory.getUploadIcon(40, 40));
-        uploadButton.setRolloverIcon(IconFactory.getUploadHoverIcon(42, 42));
-        uploadButton.setBorderPainted(true);
-        uploadButton.setContentAreaFilled(false);
-        uploadButton.setFocusable(true);
-        uploadButton.setFocusPainted(false);
-        uploadButton.setPreferredSize(new Dimension(40,40));
-        uploadButton.setToolTipText("Upload");
+        newExpButton = CustomButtonFactory.makeCustomButton(
+                IconFactory.getNewExperimentIcon(35, 35),
+                IconFactory.getNewExperimentHoverIcon(37, 37), 37, 37, "Create new experiment");
+        selectButton = CustomButtonFactory.makeCustomButton(
+                IconFactory.getBrowseIcon(40, 40),
+                IconFactory.getBrowseHoverIcon(42, 42), 42, 42, "Browse for files");
+        uploadButton = CustomButtonFactory.makeCustomButton(
+                IconFactory.getUploadIcon(40, 40),
+                IconFactory.getUploadHoverIcon(42,42), 42, 42, "Upload data");;
         newExpPanel = new JPanel();
         expNameLabel = new JLabel();
         expID = new JTextField();
@@ -271,6 +251,7 @@ public class UploadTab extends JPanel implements ExperimentPanel {
         gbc.insets = new Insets(5, 0, 5, 30);
         gbc.gridx = x;
         gbc.gridy = y;
+        
         JPanel exp = new JPanel(new BorderLayout());
         expNameLabel.setText("<html><b>Experiment ID</b></html>");
         //expNameLabel.setForeground(Color.RED);

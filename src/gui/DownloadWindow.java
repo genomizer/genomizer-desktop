@@ -25,7 +25,6 @@ import javax.swing.JTable;
 
 import util.FileData;
 import util.IconFactory;
-
 import communication.DownloadHandler;
 
 public class DownloadWindow extends JFrame {
@@ -153,13 +152,8 @@ public class DownloadWindow extends JFrame {
                                 progress.setValue(handler.getCurrentProgress());
                                 progress.setStringPainted(true);
                                 south.add(progress, BorderLayout.CENTER);
-                                JButton stopButton = new JButton(stopIcon);
-                                stopButton.setBorderPainted(true);
-                                stopButton.setContentAreaFilled(false);
-                                stopButton.setFocusable(true);
-                                stopButton.setFocusPainted(false);
-                                stopButton.setPreferredSize(new Dimension(25,25));
-                                stopButton.setToolTipText("Stop download");
+                                JButton stopButton = CustomButtonFactory.makeCustomButton(
+                                        stopIcon, stopIcon, 25, 25, "Download files");
                                 stopButton
                                         .addActionListener(new ActionListener() {
                                             @Override

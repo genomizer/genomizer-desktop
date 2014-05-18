@@ -22,14 +22,9 @@ public class UserPanel extends JPanel {
     }
 
     private void setLogoutButton() {
-        logoutButton = new JButton(IconFactory.getLogoutIcon(35,35));
-        logoutButton.setRolloverIcon(IconFactory.getLogoutHoverIcon(37,37));
-        logoutButton.setBorderPainted(true);
-        logoutButton.setContentAreaFilled(false);
-        logoutButton.setFocusable(true);
-        logoutButton.setFocusPainted(false);
-        logoutButton.setPreferredSize(new Dimension(37,37));
-        logoutButton.setToolTipText("Logout user");
+        logoutButton = CustomButtonFactory.makeCustomButton(
+                IconFactory.getLogoutIcon(35, 35),
+                IconFactory.getLogoutHoverIcon(37, 37), 37, 37, "Logout user");
         add(logoutButton, BorderLayout.EAST);
     }
 
