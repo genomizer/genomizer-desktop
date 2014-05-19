@@ -33,7 +33,6 @@ import javax.swing.tree.DefaultTreeCellRenderer;
 
 import util.FileData;
 import util.GenomeReleaseData;
-import util.IconFactory;
 import util.ProcessFeedbackData;
 
 /**
@@ -276,16 +275,17 @@ public class ProcessTab extends JPanel {
         renderer.setClosedIcon(null);
         renderer.setOpenIcon(null);
         scrollProcessList.setViewportView(tree);
-        processFeedbackButton = CustomButtonFactory.makeCustomButton(
-                IconFactory.getRefreshIcon(30, 30),
-                IconFactory.getRefreshHoverIcon(32, 32), 32, 32,
-                "Get process information from server");
-        
+        // processFeedbackButton = CustomButtonFactory.makeCustomButton(
+        // IconFactory.getRefreshIcon(30, 30),
+        // IconFactory.getRefreshHoverIcon(32, 32), 32, 32,
+        // "Get process information from server");
+        processFeedbackButton = new JButton("Get process feedback");
         processFeedbackButton.addActionListener(procFeedbackListener);
-        addToFileListButton = CustomButtonFactory.makeCustomButton(
-                IconFactory.getAddToListIcon(30, 30),
-                IconFactory.getAddToListHoverIcon(32, 32), 32, 32,
-                "Add selected files to list");
+        // addToFileListButton = CustomButtonFactory.makeCustomButton(
+        // IconFactory.getAddToListIcon(30, 30),
+        // IconFactory.getAddToListHoverIcon(32, 32), 32, 32,
+        // "Add selected files to list");
+        addToFileListButton = new JButton("Add to file list");
         addToFileListButton.setEnabled(false);
         procInfoSouthPanel.add(addToFileListButton);
         procInfoSouthPanel.add(Box.createHorizontalStrut(35));

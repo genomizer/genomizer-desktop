@@ -2,6 +2,7 @@ package gui;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -15,7 +16,6 @@ import javax.swing.JButton;
 import javax.swing.JPanel;
 
 import util.ExperimentData;
-import util.IconFactory;
 import util.TreeTable;
 
 public class WorkspaceTab extends JPanel {
@@ -49,31 +49,40 @@ public class WorkspaceTab extends JPanel {
     }
     
     private void createButtons() {
-        removeButton = CustomButtonFactory.makeCustomButton(
-                IconFactory.getClearIcon(50, 50),
-                IconFactory.getClearHoverIcon(52, 52), 52, 52,
-                "Remove selected data from workspace");
+        // removeButton = CustomButtonFactory.makeCustomButton(
+        // IconFactory.getClearIcon(50, 50),
+        // IconFactory.getClearHoverIcon(52, 52), 52, 52,
+        // "Remove selected data from workspace");
+        removeButton = new JButton("Remove");
+        removeButton.setPreferredSize(new Dimension(150, 40));
         removeButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 table.removeSelectedData();
             }
         });
-        downloadButton = CustomButtonFactory.makeCustomButton(
-                IconFactory.getDownloadIcon(45, 45),
-                IconFactory.getDownloadHoverIcon(47, 47), 47, 47,
-                "Download selected data");
-        
-        analyzeButton = CustomButtonFactory.makeCustomButton(
-                IconFactory.getAnalyzeIcon(50, 50),
-                IconFactory.getAnalyzeHoverIcon(52, 52), 52, 52,
-                "Analyze selected data");
+        downloadButton = new JButton("Download");
+        downloadButton.setPreferredSize(new Dimension(150, 40));
+        analyzeButton = new JButton("Analyze");
+        analyzeButton.setPreferredSize(new Dimension(150, 40));
         analyzeButton.setEnabled(false);
-        
-        processButton = CustomButtonFactory.makeCustomButton(
-                IconFactory.getProcessIcon(50, 50),
-                IconFactory.getProcessHoverIcon(52, 52), 52, 52,
-                "Process selected data");
+        processButton = new JButton("Process");
+        processButton.setPreferredSize(new Dimension(150, 40));
+        // downloadButton = CustomButtonFactory.makeCustomButton(
+        // IconFactory.getDownloadIcon(45, 45),
+        // IconFactory.getDownloadHoverIcon(47, 47), 47, 47,
+        // "Download selected data");
+        //
+        // analyzeButton = CustomButtonFactory.makeCustomButton(
+        // IconFactory.getAnalyzeIcon(50, 50),
+        // IconFactory.getAnalyzeHoverIcon(52, 52), 52, 52,
+        // "Analyze selected data");
+        // analyzeButton.setEnabled(false);
+        //
+        // processButton = CustomButtonFactory.makeCustomButton(
+        // IconFactory.getProcessIcon(50, 50),
+        // IconFactory.getProcessHoverIcon(52, 52), 52, 52,
+        // "Process selected data");
         // processButton.setEnabled(false);
     }
     
