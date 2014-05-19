@@ -16,8 +16,8 @@ public class Connection {
     private int responseCode;
     private String responseBody;
     
-    public Connection() {
-        ip = "";
+    public Connection(String ip) {
+        this.ip=ip;
     }
     
     public boolean sendRequest(Request request, String userID, String type) {
@@ -94,9 +94,6 @@ public class Connection {
     public void checkType(String output) {
         
     }
-    
-    public void setIp(String ip) {
-        this.ip = ip;
-    }
+   
     
 }

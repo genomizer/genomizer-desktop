@@ -15,6 +15,8 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JProgressBar;
 
+import util.IconFactory;
+
 public class UploadFileRow extends JPanel {
     private ExperimentPanel parent;
     private JPanel filePanel;
@@ -69,8 +71,9 @@ public class UploadFileRow extends JPanel {
         gbc_comboBox.gridx = 1;
         gbc_comboBox.gridy = 1;
         filePanel.add(typeBox, gbc_comboBox);
-        
-        closeButton = new JButton("X");
+        closeButton = CustomButtonFactory.makeCustomButton(
+                IconFactory.getStopIcon(30, 30),
+                IconFactory.getStopHoverIcon(32, 32), 32, 32, "Stop upload");
         addCloseButtonListener(new closeButtonListener());
         GridBagConstraints gbc_btnX = new GridBagConstraints();
         gbc_btnX.gridx = 2;

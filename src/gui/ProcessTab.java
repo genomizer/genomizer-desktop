@@ -1,16 +1,40 @@
 package gui;
 
-import util.FileData;
-import util.ProcessFeedbackData;
-
-import javax.swing.*;
-import javax.swing.border.EtchedBorder;
-
-import java.awt.*;
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Component;
+import java.awt.Dimension;
+import java.awt.FlowLayout;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.GridLayout;
+import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.util.ArrayList;
+
+import javax.swing.BorderFactory;
+import javax.swing.Box;
+import javax.swing.JButton;
+import javax.swing.JCheckBox;
+import javax.swing.JComboBox;
+import javax.swing.JList;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTabbedPane;
+import javax.swing.JTextArea;
+import javax.swing.JTextField;
+import javax.swing.JTree;
+import javax.swing.ListSelectionModel;
+import javax.swing.border.EtchedBorder;
+import javax.swing.tree.DefaultMutableTreeNode;
+import javax.swing.tree.DefaultTreeCellRenderer;
+
+import util.FileData;
+import util.IconFactory;
+import util.ProcessFeedbackData;
 
 /**
  * Visual presentation of the process tab.
@@ -31,8 +55,8 @@ public class ProcessTab extends JPanel {
     private final JPanel genProfileDataPanel = new JPanel(new BorderLayout());
     private final JPanel genRegionDataPanel = new JPanel(new BorderLayout());
     private final JPanel convertFilesPanel = new JPanel(new BorderLayout());
-    private final JPanel procInfoPanel = new JPanel(new BorderLayout());
-    private final JPanel RawToProfileMenuPanel = new JPanel();
+    private JPanel procInfoPanel = new JPanel(new BorderLayout());
+    private final JPanel rawToProfileMenuPanel = new JPanel();
     private final JPanel timePanel = new JPanel();
     private final JPanel middlePanel = new JPanel(new GridLayout(3, 1));
     private final JPanel westPanel = new JPanel(new GridLayout(2, 1));
@@ -53,7 +77,6 @@ public class ProcessTab extends JPanel {
     private final JTextArea genRegArea = new JTextArea();
     private final JTextArea timeArea = new JTextArea();
     private final JTextArea convertArea = new JTextArea();
-    private final JTextArea procInfoArea = new JTextArea();
 
     private final JTextField flags = new JTextField();
     private final JTextField smoothWindowSize = new JTextField();
@@ -80,8 +103,8 @@ public class ProcessTab extends JPanel {
     private final JButton profileButton = new JButton("Create profile data");
     private final JButton regionButton = new JButton("Create region data");
     private final JButton ratioCalcButton = new JButton("Use ratio calculation");
-    private final JButton processFeedbackButton = new JButton(
-            "Get information about processes");
+    private JButton processFeedbackButton;
+    private JButton addToFileListButton;
     // private final JCheckBox scheduleButton = new JCheckBox(
     // "Schedule files");
 
@@ -96,8 +119,10 @@ public class ProcessTab extends JPanel {
     private ArrayList<String> genomeReleaseFiles;
     private ArrayList<FileData> fileData;
     private String[] bowtieParameters = new String[4];
+    private ProcessFeedbackData[] processFeedbackData;
 
     public ProcessTab() {
+        processFeedbackData = new ProcessFeedbackData[0];
         setPreferredSize(new Dimension(1225, 725));
         setMinimumSize(new Dimension(20000, 20000));
         this.setLayout(new BorderLayout());
@@ -154,8 +179,9 @@ public class ProcessTab extends JPanel {
      * Initiates the north panel in the process tabs borderlayout.
      */
     private void addNorthPanel() {
-        RawToProfileMenuPanel.setAlignmentX(Component.RIGHT_ALIGNMENT);
-        this.add(RawToProfileMenuPanel, BorderLayout.NORTH);
+        rawToProfileMenuPanel.setAlignmentX(Component.RIGHT_ALIGNMENT);
+        rawToProfileMenuPanel.setBorder(BorderFactory.createTitledBorder("Process"));
+        this.add(rawToProfileMenuPanel, BorderLayout.NORTH);
         addOptionsToRawToProfileTab();
         enableButtons();
 
@@ -189,6 +215,7 @@ public class ProcessTab extends JPanel {
      * Initiates the east panel in the process tabs borderlayout.
      */
     private void addProcessInfoPanel() {
+        procInfoPanel = new JPanel();
         procInfoPanel.setBorder(BorderFactory
                 .createTitledBorder("Processing Information"));
         procInfoPanel.setLayout(new BorderLayout());
@@ -197,9 +224,60 @@ public class ProcessTab extends JPanel {
         this.add(procInfoPanel, BorderLayout.EAST);
         procInfoPanel.add(procInfoSouthPanel, BorderLayout.SOUTH);
         procInfoPanel.add(procInfoCenterPanel, BorderLayout.CENTER);
+        scrollProcessList.setPreferredSize(new Dimension(200,700));
         procInfoCenterPanel.add(scrollProcessList, BorderLayout.CENTER);
-        scrollProcessList.setViewportView(procInfoArea);
-        procInfoArea.setEditable(false);
+        //create the root node
+        DefaultMutableTreeNode root = new DefaultMutableTreeNode("<html><b>Current processes</b></html>");
+        //create the child nodes
+        for(int i=0; i<processFeedbackData.length; i++) {
+            ProcessFeedbackData data = processFeedbackData[i];
+            DefaultMutableTreeNode procNode =
+                    new DefaultMutableTreeNode("<html><b>Process " + i + "</b></html>");
+            root.add(procNode);
+            DefaultMutableTreeNode expNode =
+                    new DefaultMutableTreeNode("<html><u>ExpID</u>: "+ data.experimentName + "</html>");
+            procNode.add(expNode);
+            DefaultMutableTreeNode authorNode =
+                    new DefaultMutableTreeNode("<html><u>Author</u>: "+ data.author + "</html>");
+            procNode.add(authorNode);
+            DefaultMutableTreeNode statusNode =
+                    new DefaultMutableTreeNode("<html><u>Status</u>: "+ data.status + "</html>");
+            procNode.add(statusNode);
+            DefaultMutableTreeNode addedNode =
+                    new DefaultMutableTreeNode("<html><u>Time Added</u>: " + data.timeAdded + "</html>");
+            procNode.add(addedNode);
+            DefaultMutableTreeNode startedNode =
+                    new DefaultMutableTreeNode("<html><u>Time Started</u>: " + data.timeStarted + "</html>");
+            procNode.add(startedNode);
+            DefaultMutableTreeNode finishedNode =
+                    new DefaultMutableTreeNode("<html><u>Time Finished</u>: " + data.timeFinished + "</html>");
+            procNode.add(finishedNode);
+            DefaultMutableTreeNode outputNode =
+                    new DefaultMutableTreeNode("<html><b>Output files</b></html>");
+            procNode.add(outputNode);
+            for(int j=0; j<data.outputFiles.length; j++) {
+                DefaultMutableTreeNode fileNode =
+                        new DefaultMutableTreeNode("<html><u>File Name</u>: " + data.outputFiles[j] + "</html>");
+                outputNode.add(fileNode);
+            }
+            
+        } 
+        //create the tree by passing in the root node
+        JTree tree = new JTree(root);
+        DefaultTreeCellRenderer renderer = (DefaultTreeCellRenderer) tree.getCellRenderer();
+        renderer.setLeafIcon(null);
+        renderer.setClosedIcon(null);
+        renderer.setOpenIcon(null);
+        scrollProcessList.setViewportView(tree);
+        processFeedbackButton = CustomButtonFactory.makeCustomButton(
+                IconFactory.getRefreshIcon(30, 30),
+                IconFactory.getRefreshHoverIcon(32, 32), 32, 32, "Get process information from server");
+        
+        addToFileListButton = CustomButtonFactory.makeCustomButton(
+                IconFactory.getAddToListIcon(30, 30),
+                IconFactory.getAddToListHoverIcon(32, 32), 32, 32, "Add selected files to list");
+        procInfoSouthPanel.add(addToFileListButton);
+        procInfoSouthPanel.add(Box.createHorizontalStrut(35));
         procInfoSouthPanel.add(processFeedbackButton);
     }
 
@@ -303,8 +381,8 @@ public class ProcessTab extends JPanel {
      * Initiates all panels to the raw to profile tab.
      */
     private void addPanelsToRawToProfileTab() {
-        RawToProfileMenuPanel.setLayout(new BorderLayout());
-        RawToProfileMenuPanel.add(tabbedPane, BorderLayout.CENTER);
+        rawToProfileMenuPanel.setLayout(new BorderLayout());
+        rawToProfileMenuPanel.add(tabbedPane, BorderLayout.CENTER);
 
         tabbedPane.addTab("Create profile data", null, convTabpanel, null);
         convTabpanel.add(convPanel, BorderLayout.NORTH);
@@ -324,8 +402,7 @@ public class ProcessTab extends JPanel {
                 .createTitledBorder("Step position"));
         convPanel.setBorder(null);
         checkBoxPanel.setAlignmentY(1.0f);
-        checkBoxPanel.setBorder(new EtchedBorder(EtchedBorder.LOWERED, null,
-                null));
+        checkBoxPanel.setBorder(BorderFactory.createTitledBorder("Checkboxes"));
         convPanel.add(checkBoxPanel);
 
         GridBagConstraints gbc_printMean = new GridBagConstraints();
@@ -703,13 +780,11 @@ public class ProcessTab extends JPanel {
     }
 
     public void showProcessFeedback(ProcessFeedbackData[] processFeedbackData) {
-        procInfoArea
-                .setText("FAKE DATA FOR TESTING:\n------------------------------------------\n");
-        for (int i = 0; i < 30; i++) {
-            procInfoArea.setText(procInfoArea.getText()
-                    + "Experiment Name: exp" + i + "\n" + "Status: ongoing\n"
-                    + "Author: -\n" + "Time Started: 12:46\n\n");
-        }
+        this.processFeedbackData = ProcessFeedbackData.getExample();
+        remove(procInfoPanel);
+        this.addProcessInfoPanel();
+        repaint();
+        revalidate();
     }
 
     private int getTimeApprox() {

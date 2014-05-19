@@ -1,15 +1,19 @@
 package gui;
 
 import java.awt.BorderLayout;
+import java.awt.Dimension;
 import java.awt.GridLayout;
+import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 import javax.swing.DefaultCellEditor;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
@@ -20,7 +24,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 
 import util.FileData;
-
+import util.IconFactory;
 import communication.DownloadHandler;
 
 public class DownloadWindow extends JFrame {
@@ -34,6 +38,7 @@ public class DownloadWindow extends JFrame {
     private ArrayList<FileData> files;
     private CopyOnWriteArrayList<DownloadHandler> ongoingDownloads;
     private boolean running;
+    private ImageIcon stopIcon;
     
     /**
      * Initiates a new DownloadWindow with the files it receives.
@@ -43,6 +48,7 @@ public class DownloadWindow extends JFrame {
      */
     public DownloadWindow(ArrayList<FileData> files,
             CopyOnWriteArrayList<DownloadHandler> ongoingDownloads) {
+        stopIcon = IconFactory.getStopIcon(25, 25);
         this.ongoingDownloads = ongoingDownloads;
         this.setLayout(new BorderLayout());
         this.files = files;
@@ -100,7 +106,9 @@ public class DownloadWindow extends JFrame {
         tablePanel.add(scrollPane, BorderLayout.CENTER);
         tablePanel.add(table.getTableHeader(), BorderLayout.NORTH);
         
-        downloadButton = new JButton("Download");
+        downloadButton = CustomButtonFactory.makeCustomButton(
+                IconFactory.getDownloadIcon(50, 50),
+                IconFactory.getDownloadHoverIcon(52, 52), 52, 52, "Download files");
         
         JPanel flowSouth = new JPanel();
         flowSouth.add(downloadButton);
@@ -139,7 +147,8 @@ public class DownloadWindow extends JFrame {
                                 progress.setValue(handler.getCurrentProgress());
                                 progress.setStringPainted(true);
                                 south.add(progress, BorderLayout.CENTER);
-                                JButton stopButton = new JButton("X");
+                                JButton stopButton = CustomButtonFactory.makeCustomButton(
+                                        stopIcon, stopIcon, 25, 25, "Stop download");
                                 stopButton
                                         .addActionListener(new ActionListener() {
                                             @Override

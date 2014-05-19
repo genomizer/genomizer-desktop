@@ -43,7 +43,7 @@ public class TreeTable extends JPanel {
     private ArrayList<String> headings;
     private ArrayList<ExperimentData> experiments;
     private ArrayList<Boolean> sortingOrders;
-    private ArrayList<String> deselectedHeadings;
+    private ArrayList<String> hiddenHeadings;
     private ArrayList<String> visibleHeadings;
     private ArrayList<JCheckBox> columnCheckBoxes;
     
@@ -71,8 +71,13 @@ public class TreeTable extends JPanel {
      * Method for initating the JXTreeTable
      */
     private void initiateJXTreeTable() {
-        table = new JXTreeTable();
-        table.setBackground(new Color(234, 235, 238));
+        table = new JXTreeTable() {
+            public boolean getScrollableTracksViewportWidth()
+            {
+                return getPreferredSize().width < getParent().getWidth();
+            }
+        };
+        table.setOpaque(true);
         table.setLeafIcon(null);
         table.setClosedIcon(null);
         table.setOpenIcon(null);
@@ -89,8 +94,8 @@ public class TreeTable extends JPanel {
                         List<? extends AbstractActionExt> actions) {
                     if (!actions.isEmpty()) {
                         /* Hide all columns button */
-                        JButton button = new JButton("Deselect All");
-                        button.addActionListener(new ActionListener() {
+                        JButton deselectButton = new JButton("Deselect All");
+                        deselectButton.addActionListener(new ActionListener() {
                             @Override
                             public void actionPerformed(ActionEvent e) {
                                 for (JCheckBox checkBox : columnCheckBoxes) {
@@ -101,8 +106,21 @@ public class TreeTable extends JPanel {
                                 }
                             }
                         });
+                        JButton selectButton = new JButton("Select All");
+                        selectButton.addActionListener(new ActionListener() {
+                            @Override
+                            public void actionPerformed(ActionEvent e) {
+                                for (JCheckBox checkBox : columnCheckBoxes) {
+                                    if (checkBox.isEnabled()
+                                            && !checkBox.isSelected()) {
+                                        checkBox.setSelected(true);
+                                    }
+                                }
+                            }
+                        });
                         /* Add hide column checkboxes */
-                        getPopupMenu().add(button);
+                        getPopupMenu().add(deselectButton);
+                        getPopupMenu().add(selectButton);
                         for (JCheckBox checkBox : columnCheckBoxes) {
                             getPopupMenu().add(checkBox);
                         }
@@ -186,9 +204,9 @@ public class TreeTable extends JPanel {
                 @Override
                 public void itemStateChanged(ItemEvent e) {
                     if (e.getStateChange() == ItemEvent.DESELECTED) {
-                        deselectedHeadings.add(heading);
+                        hiddenHeadings.add(heading);
                     } else {
-                        deselectedHeadings.remove(heading);
+                        hiddenHeadings.remove(heading);
                     }
                     createTreeStructure();
                 }
@@ -197,7 +215,7 @@ public class TreeTable extends JPanel {
         }
         
         /* Create the tree structure */
-        deselectedHeadings = new ArrayList<String>();
+        hiddenHeadings = new ArrayList<String>();
         createTreeStructure();
     }
     
@@ -390,12 +408,6 @@ public class TreeTable extends JPanel {
                 }
             }
         }
-        for(ExperimentData data : selectedExperiments) {
-            System.out.println("selected: " + data.name);
-            for(FileData fileData : data.files) {
-                System.out.println("files: " + fileData.filename);
-            }
-        }
         return selectedExperiments;
     }
     
@@ -415,11 +427,15 @@ public class TreeTable extends JPanel {
         try {
             for (ExperimentData data : experiments) {
                 for (FileData file : selectedFiles) {
-                    data.removeFile(file);
+                    if(data.files.contains(file)) {
+                        System.out.println("removed file " + file.filename);
+                        data.removeFile(file);
+                    }
                 }
             }
-            for (ExperimentData data : selectedData) {
-                if (data.files.size() == 0) {
+            for (ExperimentData data : (ArrayList<ExperimentData>) experiments.clone()) {
+                if (data.files.size() == 0 && selectedData.contains(data)) {
+                    System.out.println("removed " + data.name);
                     experiments.remove(data);
                 }
             }
@@ -452,11 +468,11 @@ public class TreeTable extends JPanel {
                 }
                 for (String heading : headings) {
                     if (!visibleHeadings.contains(heading)
-                            && !deselectedHeadings.contains(heading)) {
+                            && !hiddenHeadings.contains(heading)) {
                         visibleHeadings.add(heading);
                     }
                 }
-                visibleHeadings.removeAll(deselectedHeadings);
+                visibleHeadings.removeAll(hiddenHeadings);
                 
             } else {
                 visibleHeadings.addAll(headings);

@@ -1,13 +1,16 @@
 package gui;
 
-import communication.HTTPURLUpload;
 import gui.sysadmin.SysadminController;
 import gui.sysadmin.SysadminTab;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Image;
+import java.awt.Toolkit;
 import java.awt.event.ActionListener;
 import java.io.File;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.concurrent.CopyOnWriteArrayList;
@@ -18,9 +21,14 @@ import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
 import javax.swing.UIManager;
 
-import communication.UploadHandler;
+import util.AnnotationDataType;
+import util.AnnotationDataValue;
+import util.ExperimentData;
+import util.FileData;
+import util.IconFactory;
+import util.ProcessFeedbackData;
 
-import util.*;
+import communication.HTTPURLUpload;
 
 public class GUI extends JFrame implements GenomizerView {
 
@@ -48,8 +56,8 @@ public class GUI extends JFrame implements GenomizerView {
 
         setLookAndFeel();
         this.setTitle("Genomizer");
-        setSize(1250, 900);
-        this.setMinimumSize(new Dimension(1250, 900));
+        setSize(1024, 768);
+        this.setMinimumSize(new Dimension(1024, 768));
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         BorderLayout bl = new BorderLayout();
         mainPanel = new JPanel(bl);
@@ -60,17 +68,13 @@ public class GUI extends JFrame implements GenomizerView {
         add(mainPanel);
 
         tabbedPane = new JTabbedPane();
+        tabbedPane.setFocusable(false);
         mainPanel.add(tabbedPane);
-        mainPanel.add(tabbedPane);
-
-        // mainPanel.add(new
-        // UserPanel("kallekarlsson123",true),BorderLayout.NORTH);
+//        URL url = ClassLoader.getSystemResource("icons/genomizer.png");
+//        Toolkit kit = Toolkit.getDefaultToolkit();
+//        Image img = kit.createImage(url);
+//        setIconImage(img);
         mainPanel.add(userPanel, BorderLayout.NORTH);
-
-        setLookAndFeel();
-        // tabbedPane.add("LOGIN", userPanel);
-        setSize(1200, 1200);
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setLocationRelativeTo(null);
     }
 
@@ -347,7 +351,7 @@ public class GUI extends JFrame implements GenomizerView {
      */
     public void setProcessTab(ProcessTab processTab) {
         this.processTab = processTab;
-        tabbedPane.add("PROCESS", processTab);
+        tabbedPane.addTab("",IconFactory.getProcessIcon(30, 30), processTab);
 
     }
 
@@ -359,6 +363,12 @@ public class GUI extends JFrame implements GenomizerView {
         try {
             UIManager
                     .setLookAndFeel("javax.swing.plaf.nimbus.NimbusLookAndFeel");
+//            UIManager.put("nimbusBase", Color.WHITE);
+//            UIManager.put("nimbusBlueGrey", Color.WHITE);
+//            UIManager.put("control", new Color(223, 235, 242));
+            UIManager.put("nimbusOrange", new Color(81, 142, 183));
+            UIManager.put("info", Color.white);
+            //UIManager.put("nimbusLightBackground", new Color(197,210,220));
         } catch (Exception e) {
             // If Nimbus is not available, you can set the GUI to another look
             // and feel.
@@ -382,7 +392,7 @@ public class GUI extends JFrame implements GenomizerView {
      */
     public void setUploadTab(UploadTab uploadTab) {
         this.uploadTab = uploadTab;
-        tabbedPane.add("UPLOAD", uploadTab);
+        tabbedPane.addTab("",IconFactory.getUploadIcon(40, 40), uploadTab);
     }
 
     /**
@@ -393,7 +403,7 @@ public class GUI extends JFrame implements GenomizerView {
      */
     public void setWorkspaceTab(WorkspaceTab workspaceTab) {
         this.workspaceTab = workspaceTab;
-        tabbedPane.add("WORKSPACE", workspaceTab);
+        tabbedPane.addTab("",IconFactory.getWorkspaceIcon(40, 40), workspaceTab);
     }
 
     /**
@@ -404,7 +414,8 @@ public class GUI extends JFrame implements GenomizerView {
      */
     public void setAnalyzeTab(AnalyzeTab analyzeTab) {
         this.analyzeTab = analyzeTab;
-        tabbedPane.add("ANALYZE", analyzeTab);
+        tabbedPane.addTab("",IconFactory.getAnalyzeIcon(40, 40), analyzeTab);
+        //tabbedPane.setEnabledAt(4, false);
     }
 
     /**
@@ -415,7 +426,8 @@ public class GUI extends JFrame implements GenomizerView {
      */
     public void setSysAdminTab(SysadminTab sat) {
         this.sysadminTab = sat;
-        tabbedPane.add("ADMINISTRATION", sysadminTab);
+        tabbedPane.addTab("", IconFactory.getAdministratorIcon(40, 40),sysadminTab);
+
     }
 
     /**
@@ -426,7 +438,7 @@ public class GUI extends JFrame implements GenomizerView {
      */
     public void setQuerySearchTab(QuerySearchTab qst) {
         this.querySearchTab = qst;
-        tabbedPane.add("SEARCH", querySearchTab);
+        tabbedPane.addTab("",IconFactory.getSearchIcon(40, 40), querySearchTab);
     }
 
     /**
@@ -460,6 +472,7 @@ public class GUI extends JFrame implements GenomizerView {
             System.out.println(fileArray.get(i).filename);
 
         }
+        tabbedPane.setSelectedIndex(2);
         processTab.setFileInfo(allFileData);
 
     }

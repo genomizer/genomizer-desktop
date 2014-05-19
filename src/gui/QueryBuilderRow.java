@@ -5,8 +5,13 @@ import java.awt.FlowLayout;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 import java.net.URL;
 
+import javax.imageio.ImageIO;
+import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -16,6 +21,7 @@ import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 
 import util.AnnotationDataType;
+import util.IconFactory;
 
 /**
  * Class the represents a row in the query builder
@@ -50,6 +56,8 @@ public class QueryBuilderRow extends JPanel {
         setTextField();
         setAnnotationAlternatives(new String[0]);
         setAnnotationBox(annotationTypes);
+//        setBorder(BorderFactory
+//                .createTitledBorder(""));
     }
     
     /**
@@ -72,8 +80,10 @@ public class QueryBuilderRow extends JPanel {
         annotationPanel.setPreferredSize(new Dimension(240, 35));
         JPanel inputPanel = new JPanel();
         inputPanel.setPreferredSize(new Dimension(450, 35));
-        JPanel buttonPanel = new JPanel();
-        buttonPanel.setPreferredSize(new Dimension(50, 35));
+        JPanel firstButtonPanel = new JPanel();
+        firstButtonPanel.setPreferredSize(new Dimension(25, 35));
+        JPanel secondButtonPanel = new JPanel();
+        secondButtonPanel.setPreferredSize(new Dimension(25, 35));
         /* All rows except the first should have a logic field */
         if (!firstRow) {
             logicPanel.add(logicBox);
@@ -95,34 +105,32 @@ public class QueryBuilderRow extends JPanel {
          * minus button
          */
         if (!(firstRow && lastRow)) {
-            buttonPanel.add(minusButton);
+            firstButtonPanel.add(minusButton);
         }
         /* The last row shoyld have a plus button */
         if (lastRow) {
-            buttonPanel.add(plusButton);
+            if(firstRow) {
+                firstButtonPanel.add(plusButton);
+            } else {
+                secondButtonPanel.add(plusButton);
+            }
+
         }
         
         add(logicPanel);
         add(annotationPanel);
         add(inputPanel);
-        add(buttonPanel);
+        add(firstButtonPanel);
+        add(secondButtonPanel);
     }
     
     /**
      * Method for constructing the plus button
      */
     private void setPlusButton() {
-        plusButton = new JButton();
-        URL imageUrl = getClass().getResource("/icons/plus2.png");
-        ImageIcon plusIcon = new ImageIcon(imageUrl);
-        plusIcon = new ImageIcon(plusIcon.getImage().getScaledInstance(15, 15,
-                Image.SCALE_SMOOTH));
-        plusButton.setBorderPainted(true);
-        plusButton.setContentAreaFilled(false);
-        plusButton.setPreferredSize(new Dimension(20, 20));
-        plusButton.setFocusable(true);
-        plusButton.setFocusPainted(false);
-        plusButton.setIcon(plusIcon);
+        plusButton = CustomButtonFactory.makeCustomButton(
+                IconFactory.getPlusIcon(15, 15),
+                IconFactory.getPlusHoverIcon(17, 17), 17, 25, null);
         plusButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -136,17 +144,9 @@ public class QueryBuilderRow extends JPanel {
      * Method for constructing a minus button
      */
     private void setMinusButton() {
-        minusButton = new JButton();
-        URL imageUrl = getClass().getResource("/icons/minus2.png");
-        ImageIcon minusIcon = new ImageIcon(imageUrl);
-        minusIcon = new ImageIcon(minusIcon.getImage().getScaledInstance(15,
-                15, Image.SCALE_SMOOTH));
-        minusButton.setBorderPainted(true);
-        minusButton.setContentAreaFilled(false);
-        minusButton.setPreferredSize(new Dimension(20, 20));
-        minusButton.setFocusable(true);
-        minusButton.setFocusPainted(false);
-        minusButton.setIcon(minusIcon);
+        minusButton = CustomButtonFactory.makeCustomButton(
+                IconFactory.getMinusIcon(15, 15),
+                IconFactory.getMinusHoverIcon(17, 17), 17, 25, null);
         final QueryBuilderRow row = this;
         minusButton.addActionListener(new ActionListener() {
             @Override

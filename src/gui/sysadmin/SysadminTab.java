@@ -11,6 +11,7 @@ import gui.sysadmin.usersview.UsersViewCreator;
 import java.awt.BorderLayout;
 import java.awt.event.ActionListener;
 
+import javax.swing.BorderFactory;
 import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
 import javax.swing.JTable;
@@ -30,6 +31,8 @@ public class SysadminTab extends JPanel {
      */
     public SysadminTab() {
         setLayout(new BorderLayout());
+        setBorder(BorderFactory
+                .createTitledBorder("System administrator tools"));
         this.annotationsView = new AnnotationsViewCreator();
         this.usersView = new UsersViewCreator();
         this.processView = new ProcessViewCreator();
