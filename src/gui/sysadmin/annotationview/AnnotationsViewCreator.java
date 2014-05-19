@@ -20,7 +20,7 @@ public class AnnotationsViewCreator {
     private static final long serialVersionUID = 3718367832670081148L;
     private TableRowSorter<TableModel> rowSorter;
     private AddAnnotationPopup pop;
-    private EditAnnotationPopup editPopup;
+    private EditAnnotationPopup2 editPopup;
     private JButton addButton;
     private JButton modifyButton;
     private JButton removeButton;
@@ -179,14 +179,11 @@ public class AnnotationsViewCreator {
     
     public void editPopup(ActionListener editPopupListener) {
         System.out.println("Skapar editAnnotationPopup...");
-        editPopup = new EditAnnotationPopup(table);
+        editPopup = new EditAnnotationPopup2(table);
         if (editPopup.isEnabled()) {
             editPopup.setBackground(Color.WHITE);
             
-            // TODO: Adam, I added this line, this is where you add a listener,
-            // you
-            // can remove this now.
-            editPopup.addEditAnnotationListener(editPopupListener);
+            //editPopup.addEditAnnotationListener(editPopupListener);
             
             JFrame popupFrame = new JFrame("Edit annotation");
             popupFrame.setLayout(new BorderLayout());
@@ -217,7 +214,7 @@ public class AnnotationsViewCreator {
         return pop;
     }
     
-    public EditAnnotationPopup getEditPopup() {
+    public EditAnnotationPopup2 getEditPopup() {
         return editPopup;
     }
     

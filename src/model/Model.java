@@ -37,6 +37,7 @@ import util.GenomeReleaseData;
 import util.ProcessFeedbackData;
 
 import com.google.gson.Gson;
+
 import communication.Connection;
 import communication.ConnectionFactory;
 import communication.DownloadHandler;
@@ -266,43 +267,6 @@ public class Model implements GenomizerModel {
     }
 
     @Override
-    public boolean editAnnotation(String name, String[] categories,
-            boolean forced, AnnotationDataType oldAnnotation) {
-        if (!(oldAnnotation.getName().equals(name))) {
-            System.out
-                    .println("Name has been changed! Calling renameAnnotationField!");
-            renameAnnotationField(oldAnnotation.name, name);
-        } else {
-            System.out.println("No changes were made in name!");
-        }
-
-        if (!(oldAnnotation.isForced() == forced)) {
-            System.out
-                    .println("Forced value changed! Calling changeAnnotationForced (?)");
-            // changeAnnotationForced(name);
-        } else {
-            System.out.println("Forced value not changed");
-        }
-
-        // TODO: If an annotation value has been added, call
-        // addAnnotationValue(name, valueName)
-
-        // TODO: If an annotation value has been removed, call
-        // removeAnnotationValue(name, valueName)
-
-        for (int i = 0; i < categories.length; i++) {
-            if (!(categories[i].equals(oldAnnotation.getValues()[i]))) {
-                System.out
-                        .println("A change was made in annotation value! Calling renameAnnotationValue");
-                renameAnnotationValue(name, oldAnnotation.getValues()[i],
-                        categories[i]);
-            }
-        }
-
-        return false;
-    }
-
-    @Override
     public boolean deleteAnnotation(String deleteAnnoationData) {
 
         RemoveAnnotationFieldRequest request = RequestFactory
@@ -448,7 +412,7 @@ public class Model implements GenomizerModel {
                 .makeAddNewAnnotationValueRequest(annotationName, valueName);
         Connection conn = connFactory.makeConnection();
         conn.sendRequest(request, userID, JSON);
-        if (conn.getResponseCode() == 201) {
+        if (conn.getResponseCode() == 201 || conn.getResponseCode() == 200 ) {
             System.err.println("Sent " + request.requestName + " success!");
             return true;
         } else {
@@ -473,6 +437,7 @@ public class Model implements GenomizerModel {
     @Override
     public boolean removeAnnotationField(String annotationName) {
         // TODO Auto-generated method stub
+        //TODO: Shouldn't this be removed? deleteAnnotation
         return false;
     }
 
@@ -481,6 +446,13 @@ public class Model implements GenomizerModel {
 
         RemoveGenomeReleaseRequest request = RequestFactory
                 .makeRemoveGenomeReleaseRequest(gr, specie);
+        return false;
+    }
+
+    @Override
+    public boolean editAnnotation(String name, String[] categories,
+            boolean forced, AnnotationDataType oldAnnotation) {
+        // TODO Auto-generated method stub
         return false;
     }
 }
