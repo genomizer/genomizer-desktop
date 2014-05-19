@@ -25,6 +25,7 @@ import util.AnnotationDataType;
 import util.AnnotationDataValue;
 import util.ExperimentData;
 import util.FileData;
+import util.GenomeReleaseData;
 import util.IconFactory;
 import util.ProcessFeedbackData;
 
@@ -683,7 +684,7 @@ public class GUI extends JFrame implements GenomizerView {
         return this.ratioCalcPopup;
     }
 
-    public void setGenomeFileList(ArrayList<String> genomeReleases) {
+    public void setGenomeFileList(GenomeReleaseData[] genomeReleases) {
         processTab.setGenomeFileList(genomeReleases);
     }
 }

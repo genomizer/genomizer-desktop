@@ -32,6 +32,7 @@ import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeCellRenderer;
 
 import util.FileData;
+import util.GenomeReleaseData;
 import util.IconFactory;
 import util.ProcessFeedbackData;
 
@@ -119,6 +120,7 @@ public class ProcessTab extends JPanel {
     private ArrayList<FileData> fileData;
     private String[] bowtieParameters = new String[4];
     private ProcessFeedbackData[] processFeedbackData;
+    
     private ActionListener procFeedbackListener;
     
     public ProcessTab() {
@@ -279,12 +281,13 @@ public class ProcessTab extends JPanel {
                 IconFactory.getRefreshIcon(30, 30),
                 IconFactory.getRefreshHoverIcon(32, 32), 32, 32,
                 "Get process information from server");
-        processFeedbackButton.addActionListener(procFeedbackListener);
         
+        processFeedbackButton.addActionListener(procFeedbackListener);
         addToFileListButton = CustomButtonFactory.makeCustomButton(
                 IconFactory.getAddToListIcon(30, 30),
                 IconFactory.getAddToListHoverIcon(32, 32), 32, 32,
                 "Add selected files to list");
+        addToFileListButton.setEnabled(false);
         procInfoSouthPanel.add(addToFileListButton);
         procInfoSouthPanel.add(Box.createHorizontalStrut(35));
         procInfoSouthPanel.add(processFeedbackButton);
@@ -657,11 +660,11 @@ public class ProcessTab extends JPanel {
         return genomeFile.getSelectedItem().toString().trim();
     }
     
-    public void setGenomeFileList(ArrayList<String> genomeReleases) {
+    public void setGenomeFileList(GenomeReleaseData[] genomeReleases) {
         
         genomeFile.removeAllItems();
-        for (String version : genomeReleases) {
-            genomeFile.addItem(version);
+        for (GenomeReleaseData version : genomeReleases) {
+            genomeFile.addItem(version.getFilename());
         }
     }
     
@@ -695,7 +698,7 @@ public class ProcessTab extends JPanel {
         for (int i = 0; i < fileData.size(); i++) {
             itemList[i] = new CheckListItem(fileData.get(i).filename,
             // TODO fixa riktiga species
-                    fileData.get(i).id, "HUND");
+                    fileData.get(i).id, "Human");
         }
         
         fileList.setListData(itemList);
