@@ -74,9 +74,12 @@ public class UploadFileRow extends JPanel {
         gbc_btnX.gridx = 2;
         gbc_btnX.gridy = 1;
         filePanel.add(closeButton, gbc_btnX);
-        
-        if (newExp) {
-            uploadButton = new JButton("Upload file");
+
+        if(newExp) {
+//            uploadButton = CustomButtonFactory.makeCustomButton(
+//                    IconFactory.getUploadIcon(25,25),
+//                    IconFactory.getUploadHoverIcon(28,28), 28, 28, "Upload file to current experiment");
+            uploadButton = new JButton("Upload to current experiment");
             gbc.insets = new Insets(0, 0, 0, 5);
             gbc.anchor = GridBagConstraints.WEST;
             gbc.gridx = 3;
