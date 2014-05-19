@@ -10,20 +10,20 @@ import org.junit.Test;
 
 import util.AnnotationDataType;
 import communication.Connection;
+import communication.ConnectionFactory;
 
 public class AnnotationFieldTest {
     
-    public Connection con;
+    //public Connection con;
     public Model model;
     public SysadminTab sysadminTab;
     
     @Before
     public void setUp() throws Exception {
         // con = new Connection("genomizer.apiary-mock.com:80");
-        con = new Connection();
-        con.setIp("http://scratchy.cs.umu.se:7000");
         // con = new Connection("http://hagrid.cs.umu.se:7000");
-        model = new Model(con);
+        model = new Model();
+        model.setIp("http://scratchy.cs.umu.se:7000");
         model.loginUser("SysadminTests", "qwerty");
         sysadminTab = new SysadminTab();
     }
