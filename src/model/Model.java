@@ -7,25 +7,7 @@ import java.util.concurrent.CopyOnWriteArrayList;
 
 import javax.swing.JOptionPane;
 
-import requests.AddAnnotationRequest;
-import requests.AddExperimentRequest;
-import requests.AddFileToExperiment;
-import requests.AddNewAnnotationValueRequest;
-import requests.DownloadFileRequest;
-import requests.GetAnnotationRequest;
-import requests.GetGenomeReleasesRequest;
-import requests.LoginRequest;
-import requests.LogoutRequest;
-import requests.ProcessFeedbackRequest;
-import requests.RemoveAnnotationFieldRequest;
-import requests.RemoveAnnotationValueRequest;
-import requests.RemoveGenomeReleaseRequest;
-import requests.RenameAnnotationFieldRequest;
-import requests.RenameAnnotationValueRequest;
-import requests.RequestFactory;
-import requests.RetrieveExperimentRequest;
-import requests.SearchRequest;
-import requests.rawToProfileRequest;
+import requests.*;
 import responses.AddFileToExperimentResponse;
 import responses.DownloadFileResponse;
 import responses.LoginResponse;
@@ -37,7 +19,6 @@ import util.GenomeReleaseData;
 import util.ProcessFeedbackData;
 
 import com.google.gson.Gson;
-
 import communication.Connection;
 import communication.ConnectionFactory;
 import communication.DownloadHandler;
@@ -153,17 +134,21 @@ public class Model implements GenomizerModel {
         System.out.println(request.toJson());
         Connection conn = connFactory.makeConnection();
         conn.sendRequest(request, userID, JSON);
-        String url = null;
         if (conn.getResponseCode() == 200) {
-            url = conn.getResponseBody();
             AddFileToExperimentResponse aFTER = ResponseParser
                     .parseUploadResponse(conn.getResponseBody());
             HTTPURLUpload upload = new HTTPURLUpload(aFTER.URLupload,
                     f.getAbsolutePath(), f.getName());
+            /* FOR MOCK SERVER */
+            if (aFTER.URLupload.equalsIgnoreCase("url")) {
+                return true;
+            }
             ongoingUploads.add(upload);
             if (upload.sendFile("pvt", "pvt")) {
                 return true;
             }
+        } else {
+            System.out.println(conn.getResponseCode());
         }
         return false;
 
@@ -244,7 +229,8 @@ public class Model implements GenomizerModel {
             if (a.getName().equalsIgnoreCase(name)) {
                 throw new IllegalArgumentException(
                         "Annotations must have a unique name, " + name
-                                + " already exists");
+                                + " already exists"
+                );
             }
         }
 
@@ -264,6 +250,43 @@ public class Model implements GenomizerModel {
                     .println("addAnnotaion FAILURE, did not recive 201 response");
             return false;
         }
+    }
+
+    @Override
+    public boolean editAnnotation(String name, String[] categories,
+            boolean forced, AnnotationDataType oldAnnotation) {
+        if (!(oldAnnotation.getName().equals(name))) {
+            System.out
+                    .println("Name has been changed! Calling renameAnnotationField!");
+            renameAnnotationField(oldAnnotation.name, name);
+        } else {
+            System.out.println("No changes were made in name!");
+        }
+
+        if (!(oldAnnotation.isForced() == forced)) {
+            System.out
+                    .println("Forced value changed! Calling changeAnnotationForced (?)");
+            // changeAnnotationForced(name);
+        } else {
+            System.out.println("Forced value not changed");
+        }
+
+        // TODO: If an annotation value has been added, call
+        // addAnnotationValue(name, valueName)
+
+        // TODO: If an annotation value has been removed, call
+        // removeAnnotationValue(name, valueName)
+
+        for (int i = 0; i < categories.length; i++) {
+            if (!(categories[i].equals(oldAnnotation.getValues()[i]))) {
+                System.out
+                        .println("A change was made in annotation value! Calling renameAnnotationValue");
+                renameAnnotationValue(name, oldAnnotation.getValues()[i],
+                        categories[i]);
+            }
+        }
+
+        return false;
     }
 
     @Override
@@ -300,7 +323,6 @@ public class Model implements GenomizerModel {
         }
         return new AnnotationDataType[] {};
     }
-
 
     public GenomeReleaseData[] getGenomeReleases() {
         GetGenomeReleasesRequest request = RequestFactory
@@ -412,7 +434,7 @@ public class Model implements GenomizerModel {
                 .makeAddNewAnnotationValueRequest(annotationName, valueName);
         Connection conn = connFactory.makeConnection();
         conn.sendRequest(request, userID, JSON);
-        if (conn.getResponseCode() == 201 || conn.getResponseCode() == 200 ) {
+        if (conn.getResponseCode() == 201) {
             System.err.println("Sent " + request.requestName + " success!");
             return true;
         } else {
@@ -426,7 +448,7 @@ public class Model implements GenomizerModel {
                 .makeProcessFeedbackRequest();
         Connection conn = connFactory.makeConnection();
         conn.sendRequest(request, userID, TEXT_PLAIN);
-        // System.out.println("proc feedback code: " +conn.getResponseCode());
+        System.out.println("proc feedback code: " + conn.getResponseCode());
         if (conn.getResponseCode() == 200) {
             return ResponseParser.parseProcessFeedbackResponse(conn
                     .getResponseBody());
@@ -437,22 +459,58 @@ public class Model implements GenomizerModel {
     @Override
     public boolean removeAnnotationField(String annotationName) {
         // TODO Auto-generated method stub
-        //TODO: Shouldn't this be removed? deleteAnnotation
         return false;
     }
 
     @Override
-    public boolean deleteGenomeRelease(String gr, String specie) {
+    public boolean deleteGenomeRelease(String specie, String version) {
 
         RemoveGenomeReleaseRequest request = RequestFactory
-                .makeRemoveGenomeReleaseRequest(gr, specie);
+                .makeRemoveGenomeReleaseRequest(specie, version);
+        Connection conn = connFactory.makeConnection();
+        conn.sendRequest(request, userID, JSON);
+        if (conn.getResponseCode() == 200) {
+            System.err.println("Genome release version: " + version
+                    + "successfully removed.");
+            return true;
+        } else {
+            System.err.println("Could not remove genome release: " + version
+                    + " species: " + specie);
+
+        }
         return false;
     }
 
-    @Override
-    public boolean editAnnotation(String name, String[] categories,
-            boolean forced, AnnotationDataType oldAnnotation) {
-        // TODO Auto-generated method stub
-        return false;
+    public GenomeReleaseData[] getSpecieGenomeReleases(String specie) {
+
+        GetGenomeSpecieReleasesRequest request = RequestFactory
+                .makeGetGenomeSpecieReleaseRequest(specie);
+
+        // GetGenomeReleasesRequest request = RequestFactory
+        // .makeGetGenomeReleaseRequest();
+        Connection conn = connFactory.makeConnection();
+        conn.sendRequest(request, userID, TEXT_PLAIN);
+        // conn.sendRequest(request, userID, TEXT_PLAIN);
+        if (conn.getResponseCode() == 200) {
+
+            System.err.println("Sent getGenomeSpecieReleaseRequestSuccess!");
+            GenomeReleaseData[] genomeReleases = ResponseParser
+                    .parseGetGenomeReleaseResponse(conn.getResponseBody());
+       //     for(int i = 0;i < genomeReleases.length ; i++){
+       //         System.out.println(genomeReleases[i].getVersion());
+       //     }
+            return genomeReleases;
+        } else {
+
+            System.out.println("GenomeSpecieRelease responsecode: "
+                    + conn.getResponseCode());
+            JOptionPane
+                    .showMessageDialog(null, "Could not get genomespeciereleases!");
+        }
+
+        //
+        return new GenomeReleaseData[1];
+
     }
+
 }
