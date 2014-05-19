@@ -678,6 +678,6 @@ public class GUI extends JFrame implements GenomizerView {
     }
 
     public void setGenomeFileList(ArrayList<String> genomeReleases) {
-
+        processTab.setGenomeFileList(genomeReleases);
     }
 }
