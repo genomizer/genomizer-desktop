@@ -483,4 +483,27 @@ public class Model implements GenomizerModel {
                 .makeRemoveGenomeReleaseRequest(gr, specie);
         return false;
     }
+
+    public GenomeReleaseData[] getSpecieGenomeReleases(String specie) {
+
+    //    GetGenomeReleasesRequest request = RequestFactory
+    //            .makeGetGenomeReleaseRequest();
+        Connection conn = connFactory.makeConnection();
+    //    conn.sendRequest(request, userID, TEXT_PLAIN);
+        if (conn.getResponseCode() == 200) {
+            System.err.println("Sent getGenomerReleaseRequestSuccess!");
+            GenomeReleaseData[] genomeReleases = ResponseParser
+                    .parseGetGenomeReleaseResponse(conn.getResponseBody());
+            return genomeReleases;
+        } else {
+
+            System.out.println("GenomeRelease responsecode: "
+                    + conn.getResponseCode());
+            JOptionPane
+                    .showMessageDialog(null, "Could not get genomereleases!");
+        }
+
+        return new GenomeReleaseData[] {};
+    }
+
 }
