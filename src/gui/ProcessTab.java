@@ -31,6 +31,8 @@ import javax.swing.ListSelectionModel;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeCellRenderer;
 
+import util.AnnotationDataValue;
+import util.ExperimentData;
 import util.FileData;
 import util.GenomeReleaseData;
 import util.ProcessFeedbackData;
@@ -117,10 +119,10 @@ public class ProcessTab extends JPanel {
     private final JTabbedPane tabbedPane = new JTabbedPane(JTabbedPane.BOTTOM);
     public final JOptionPane ratioPopup = new JOptionPane();
     private ArrayList<String> genomeReleaseFiles;
-    private ArrayList<FileData> fileData;
     private String[] bowtieParameters = new String[4];
     private ProcessFeedbackData[] processFeedbackData;
     private TreeTable table;
+    private ArrayList<ExperimentData> experimentData;
 
     private ActionListener procFeedbackListener;
 
@@ -579,7 +581,7 @@ public class ProcessTab extends JPanel {
     public void setBowtieParameters() {
 
         bowtieParameters[0] = getTextFromFlags(); // "-a -m 1 --best -p 10 -v 2";
-        bowtieParameters[1] = getTextGenomeFileName(); // "d_melanogaster_fb5_22";
+        bowtieParameters[1] = getTextGenomeFileName(); // "hg38";
         bowtieParameters[2] = getSmoothingParameters(); // "10 1 5 0 1";
         bowtieParameters[3] = getStepSize(); // "y 10";
 
@@ -685,8 +687,10 @@ public class ProcessTab extends JPanel {
      *
      * @param allFileData
      */
-    public void setFileInfo(ArrayList<FileData> allFileData) {
-        this.fileData = allFileData;
+    public void setFileInfo(ArrayList<FileData> allFileData,
+            ArrayList<ExperimentData> experimentData) {
+     //   this.fileData = allFileData;
+        this.experimentData = experimentData;
         parseFileData();
     }
 
@@ -696,15 +700,29 @@ public class ProcessTab extends JPanel {
      */
     private void parseFileData() {
 
-        CheckListItem[] itemList = new CheckListItem[fileData.size()];
+        ArrayList<CheckListItem> itemList= new ArrayList<CheckListItem>();
+        String specie = "";
 
-        for (int i = 0; i < fileData.size(); i++) {
-            itemList[i] = new CheckListItem(fileData.get(i),fileData.get(i).filename,
-            // TODO fixa riktiga species
-                    fileData.get(i).id, "Human");
+        for (ExperimentData exData : experimentData) {
+
+            for (FileData fileData : exData.files) {
+
+                for (AnnotationDataValue annoDataValue : exData.annotations) {
+
+                    if (annoDataValue.getName().equals("Species")) {
+
+                        specie = annoDataValue.value;
+                        break;
+                    }
+                }
+
+                itemList.add(new CheckListItem(fileData, fileData.filename,
+                        fileData.id, specie));
+            }
+
         }
 
-        fileList.setListData(itemList);
+        fileList.setListData(itemList.toArray(new CheckListItem[itemList.size()]));
         this.revalidate();
         this.repaint();
     }

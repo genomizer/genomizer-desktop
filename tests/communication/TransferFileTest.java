@@ -8,6 +8,7 @@ import static org.fest.assertions.api.Assertions.assertThat;
 
 /**
  * Created by dv12csr on 2014-05-19.
+ *
  */
 public class TransferFileTest {
     String ip = "sterner.cc";
