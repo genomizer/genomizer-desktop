@@ -228,9 +228,8 @@ public class UploadToExistingExpPanel extends JPanel
         gbc.gridy = y;
         JPanel exp = new JPanel(new BorderLayout());
         JLabel expHeader = new JLabel("Experiment ID");
-        JLabel expID = new JLabel(ed.getName());
-        expID.setOpaque(true);
-        expID.setBackground(Color.yellow);
+        JTextField expID = new JTextField(ed.getName());
+        expID.setEnabled(false);
         exp.add(expHeader, BorderLayout.NORTH);
         exp.add(expID, BorderLayout.CENTER);
         northPanel.add(exp, gbc);
@@ -246,9 +245,8 @@ public class UploadToExistingExpPanel extends JPanel
             gbc.gridy = y;
             JPanel p = new JPanel(new BorderLayout());
             JLabel annotationHeader = new JLabel(adv.getName());
-            JLabel annotationValue = new JLabel(adv.getValue());
-            annotationValue.setOpaque(true);
-            annotationValue.setBackground(Color.yellow);
+            JTextField annotationValue = new JTextField(adv.getValue());
+            annotationValue.setEnabled(false);
             p.add(annotationHeader, BorderLayout.NORTH);
             p.add(annotationValue, BorderLayout.CENTER);
             northPanel.add(p, gbc);
