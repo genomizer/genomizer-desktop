@@ -676,4 +676,8 @@ public class GUI extends JFrame implements GenomizerView {
     public RatioCalcPopup getRatioCalcPopup() {
         return this.ratioCalcPopup;
     }
+
+    public void setGenomeFileList(ArrayList<String> genomeReleases) {
+
+    }
 }

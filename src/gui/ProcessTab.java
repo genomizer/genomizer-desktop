@@ -648,7 +648,7 @@ public class ProcessTab extends JPanel {
         return genomeFile.getSelectedItem().toString().trim();
     }
 
-    private void setGenomeFileList(ArrayList<String> genomeReleases) {
+    public void setGenomeFileList(ArrayList<String> genomeReleases) {
 
         genomeFile.removeAllItems();
         for(String version : genomeReleases){

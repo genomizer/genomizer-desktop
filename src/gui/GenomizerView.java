@@ -163,4 +163,6 @@ public interface GenomizerView {
     public void addCancelListener(ActionListener listener);
 
     public RatioCalcPopup getRatioCalcPopup();
+
+    public void setGenomeFileList(ArrayList<String> genomeReleases);
 }
