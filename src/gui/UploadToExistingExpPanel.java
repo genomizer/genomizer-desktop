@@ -239,6 +239,8 @@ public class UploadToExistingExpPanel extends JPanel implements ExperimentPanel 
         JLabel expHeader = new JLabel("Experiment ID");
         JTextField expID = new JTextField(ed.getName());
         expID.setEnabled(false);
+        expID.setOpaque(true);
+        expID.setDisabledTextColor(Color.BLACK);
         exp.add(expHeader, BorderLayout.NORTH);
         exp.add(expID, BorderLayout.CENTER);
         northPanel.add(exp, gbc);
@@ -256,6 +258,8 @@ public class UploadToExistingExpPanel extends JPanel implements ExperimentPanel 
             JLabel annotationHeader = new JLabel(adv.getName());
             JTextField annotationValue = new JTextField(adv.getValue());
             annotationValue.setEnabled(false);
+            annotationValue.setOpaque(true);
+            annotationValue.setDisabledTextColor(Color.BLACK);
             p.add(annotationHeader, BorderLayout.NORTH);
             p.add(annotationValue, BorderLayout.CENTER);
             northPanel.add(p, gbc);
