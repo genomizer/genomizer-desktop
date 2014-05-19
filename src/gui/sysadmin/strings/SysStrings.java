@@ -22,6 +22,10 @@ public class SysStrings {
     public final static String GENOME_BUTTON_CLEAR = "Clear";
     public final static String GENOME_BUTTON_FILE = "Browse files...";
 
+    /* Edit annotation popup*/
+    public static final String ANNOTATIONS_RENAME_FINAL = "Rename annotation";
+    public static final String ANNOTATIONS_RENAME = "Rename";
+
     public SysStrings() {
 
     }

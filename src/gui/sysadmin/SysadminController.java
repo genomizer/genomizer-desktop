@@ -74,7 +74,7 @@ public class SysadminController extends Observable {
                 edPop.getNewAnnotationName(),
                 edPop.getNewAnnotationCategories(),
                 edPop.getNewAnnotationForcedValue());
-        
+
         if (!(oldAnnotation.name.equals(newAnnotation.name))) {
             System.out
                     .println("Name has been changed! Calling renameAnnotationField!");
@@ -193,6 +193,15 @@ public class SysadminController extends Observable {
     public void clearAddGenomeText(){
         GenomeReleaseViewCreator gr = sysTab.getGenomeReleaseView();
         gr.clearTextFields();
+    }
+
+    public void renameAnnotationField() {
+        EditAnnotationPopup2 edPop = sysTab.getAnnotationsView().getEditPopup();
+        String oldName = edPop.getAnnotation().name;
+        String newName = edPop.getNewAnnotationName();
+        model.renameAnnotationField(oldName, newName);
+
+
     }
 
 
