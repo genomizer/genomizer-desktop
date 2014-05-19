@@ -68,9 +68,10 @@ public class UploadFileRow extends JPanel {
         gbc.gridx = 1;
         gbc.gridy = 1;
         filePanel.add(typeBox, gbc);
-        closeButton = CustomButtonFactory.makeCustomButton(
-                IconFactory.getStopIcon(30, 30),
-                IconFactory.getStopHoverIcon(32, 32), 32, 32, "Stop upload");
+        closeButton = new JButton("X");
+        // closeButton = CustomButtonFactory.makeCustomButton(
+        // IconFactory.getStopIcon(30, 30),
+        // IconFactory.getStopHoverIcon(32, 32), 32, 32, "Stop upload");
         addCloseButtonListener(new closeButtonListener());
         GridBagConstraints gbc_btnX = new GridBagConstraints();
         gbc_btnX.gridx = 2;
@@ -78,9 +79,10 @@ public class UploadFileRow extends JPanel {
         filePanel.add(closeButton, gbc_btnX);
 
         if(newExp) {
-            uploadButton = CustomButtonFactory.makeCustomButton(
-                    IconFactory.getUploadIcon(25,25),
-                    IconFactory.getUploadHoverIcon(28,28), 28, 28, "Upload file to current experiment");
+//            uploadButton = CustomButtonFactory.makeCustomButton(
+//                    IconFactory.getUploadIcon(25,25),
+//                    IconFactory.getUploadHoverIcon(28,28), 28, 28, "Upload file to current experiment");
+            uploadButton = new JButton("Upload to current experiment");
             gbc.insets = new Insets(0, 0, 0, 5);
             gbc.anchor = GridBagConstraints.WEST;
             gbc.gridx = 3;
