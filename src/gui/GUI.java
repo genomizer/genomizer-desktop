@@ -177,7 +177,8 @@ public class GUI extends JFrame implements GenomizerView {
     /**
      * Adds the provided ExperimentDatas to the workspaceTab.
      *
-     * @param experiments The ArrayList of ExperimentData to be added.
+     * @param experiments
+     *            The ArrayList of ExperimentData to be added.
      */
     public void addToWorkspace(ArrayList<ExperimentData> experiments) {
         workspaceTab.addExperimentsToTable(experiments);
@@ -233,6 +234,7 @@ public class GUI extends JFrame implements GenomizerView {
     @Override
     public ArrayList<FileData> getAllMarkedFiles() {
         return processTab.getAllMarkedFiles();
+
     }
 
     /**
@@ -288,8 +290,9 @@ public class GUI extends JFrame implements GenomizerView {
     /**
      * Sets the downloadWindow attribute of the GUI.
      *
-     * @param downloadWindow The DownloadWindow to set the GUI's downloadWindow attribute
-     *                       to.
+     * @param downloadWindow
+     *            The DownloadWindow to set the GUI's downloadWindow attribute
+     *            to.
      */
     @Override
     public void setDownloadWindow(DownloadWindow downloadWindow) {
@@ -297,6 +300,7 @@ public class GUI extends JFrame implements GenomizerView {
     }
 
     /**
+     *
      * @param username
      * @param pwd
      * @param name
@@ -312,6 +316,7 @@ public class GUI extends JFrame implements GenomizerView {
     }
 
     /**
+     *
      * @param errorMessage
      */
     @Override
@@ -330,6 +335,7 @@ public class GUI extends JFrame implements GenomizerView {
     }
 
     /**
+     *
      * @param searchResults
      */
     @Override
@@ -340,7 +346,8 @@ public class GUI extends JFrame implements GenomizerView {
     /**
      * Sets the GUI's processTab attribute.
      *
-     * @param processTab The ProcessTab to set the GUI's attribute to.
+     * @param processTab
+     *            The ProcessTab to set the GUI's attribute to.
      */
     public void setProcessTab(ProcessTab processTab) {
         this.processTab = processTab;
@@ -371,7 +378,8 @@ public class GUI extends JFrame implements GenomizerView {
     /**
      * Sets the searchTab of the GUI.
      *
-     * @param searchTab The SearchTab to set the attribute to.
+     * @param searchTab
+     *            The SearchTab to set the attribute to.
      */
     public void setSearchTab(SearchTab searchTab) {
         this.searchTab = searchTab;
@@ -382,7 +390,8 @@ public class GUI extends JFrame implements GenomizerView {
      * Sets the uploadTab of the GUI. Also sets the name of the tab in the
      * tabbedPane.
      *
-     * @param uploadTab The UploadTab to set the attribute to.
+     * @param uploadTab
+     *            The UploadTab to set the attribute to.
      */
     public void setUploadTab(UploadTab uploadTab) {
         this.uploadTab = uploadTab;
@@ -393,7 +402,8 @@ public class GUI extends JFrame implements GenomizerView {
      * Sets the workspaceTab of the GUI. Also sets the name of the tab in the
      * tabbedPane.
      *
-     * @param workspaceTab The WorkspaceTab to set the attribute to.
+     * @param workspaceTab
+     *            The WorkspaceTab to set the attribute to.
      */
     public void setWorkspaceTab(WorkspaceTab workspaceTab) {
         this.workspaceTab = workspaceTab;
@@ -404,7 +414,8 @@ public class GUI extends JFrame implements GenomizerView {
      * Sets the analyzeTab of the GUI. Also sets the name of the tab in the
      * tabbedPane.
      *
-     * @param analyzeTab The AnalyzeTab to set the attribute to.
+     * @param analyzeTab
+     *            The AnalyzeTab to set the attribute to.
      */
     public void setAnalyzeTab(AnalyzeTab analyzeTab) {
         this.analyzeTab = analyzeTab;
@@ -416,7 +427,8 @@ public class GUI extends JFrame implements GenomizerView {
      * Sets the sysadminTab of the GUI. Also sets the name of the tab in the
      * tabbedPane.
      *
-     * @param sat The SysadminTab to set the attribute to.
+     * @param sat
+     *            The SysadminTab to set the attribute to.
      */
     public void setSysAdminTab(SysadminTab sat) {
         this.sysadminTab = sat;
@@ -429,7 +441,8 @@ public class GUI extends JFrame implements GenomizerView {
      * Sets the querySearchTab of the GUI. Also sets the name of the tab in the
      * tabbedPane.
      *
-     * @param qst The QuerySearchTab to set the attribute to.
+     * @param qst
+     *            The QuerySearchTab to set the attribute to.
      */
     public void setQuerySearchTab(QuerySearchTab qst) {
         this.querySearchTab = qst;
@@ -439,8 +452,9 @@ public class GUI extends JFrame implements GenomizerView {
     /**
      * Sets the annotationTypes of the querySearchTab.
      *
-     * @param annotationTypes An array containing AnnotationDataTypes to set the
-     *                        querySearchTab's annotationTypes to.
+     * @param annotationTypes
+     *            An array containing AnnotationDataTypes to set the
+     *            querySearchTab's annotationTypes to.
      */
     public void setSearchAnnotationTypes(AnnotationDataType[] annotationTypes) {
         querySearchTab.setAnnotationTypes(annotationTypes);
@@ -452,6 +466,7 @@ public class GUI extends JFrame implements GenomizerView {
      */
 
     /**
+     *
      * @param allFileData
      */
     @Override
@@ -478,6 +493,7 @@ public class GUI extends JFrame implements GenomizerView {
      */
 
     /**
+     *
      * @param message
      * @param color
      */
@@ -488,7 +504,7 @@ public class GUI extends JFrame implements GenomizerView {
 
     /**
      * @return The selected data in the workspace in the form of an arrayList
-     * containing the ExperimentData.
+     *         containing the ExperimentData.
      */
     @Override
     public ArrayList<ExperimentData> getSelectedDataInWorkspace() {
@@ -539,7 +555,8 @@ public class GUI extends JFrame implements GenomizerView {
     /**
      * Creates a new experiment to upload to using the provided annotations.
      *
-     * @param annotations The annotations of the new experiment.
+     * @param annotations
+     *            The annotations of the new experiment.
      */
     @Override
     public void createNewExp(AnnotationDataType[] annotations) {
@@ -603,8 +620,9 @@ public class GUI extends JFrame implements GenomizerView {
      * the upload button enabled or disabled. If all of the required annotation
      * fields are NOT filled, this method won't set it to true.
      *
-     * @param b Whether it should try to make the button enabled (true) or
-     *          disabled (false).
+     * @param b
+     *            Whether it should try to make the button enabled (true) or
+     *            disabled (false).
      */
     public void enableUploadButton(boolean b) {
         uploadTab.enableUploadButton(b);
@@ -622,7 +640,8 @@ public class GUI extends JFrame implements GenomizerView {
     /**
      * Deletes a file row.
      *
-     * @param f Used to identify which fileRow to be deleted.
+     * @param f
+     *            Used to identify which fileRow to be deleted.
      */
     @Override
     public void deleteUploadFileRow(File f) {
