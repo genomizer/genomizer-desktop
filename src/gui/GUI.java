@@ -236,7 +236,7 @@ public class GUI extends JFrame implements GenomizerView {
      * @return The marked files from the process tab.
      */
     @Override
-    public ArrayList<String> getAllMarkedFiles() {
+    public ArrayList<FileData> getAllMarkedFiles() {
 
         return processTab.getAllMarkedFiles();
 
