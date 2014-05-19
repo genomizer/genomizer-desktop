@@ -145,9 +145,10 @@ public class DownloadWindow extends JFrame {
                                 progress.setValue(handler.getCurrentProgress());
                                 progress.setStringPainted(true);
                                 south.add(progress, BorderLayout.CENTER);
-                                JButton stopButton = CustomButtonFactory
-                                        .makeCustomButton(stopIcon, stopIcon,
-                                                25, 25, "Stop download");
+                                JButton stopButton = new JButton("X");
+                                // JButton stopButton = CustomButtonFactory
+                                // .makeCustomButton(stopIcon, stopIcon,
+                                // 25, 25, "Stop download");
                                 stopButton
                                         .addActionListener(new ActionListener() {
                                             @Override
