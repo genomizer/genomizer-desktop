@@ -7,26 +7,7 @@ import java.util.concurrent.CopyOnWriteArrayList;
 
 import javax.swing.JOptionPane;
 
-import requests.AddAnnotationRequest;
-import requests.AddExperimentRequest;
-import requests.AddFileToExperiment;
-import requests.AddNewAnnotationValueRequest;
-import requests.DownloadFileRequest;
-import requests.GetAnnotationRequest;
-import requests.GetGenomeReleasesRequest;
-import requests.GetGenomeSpecieReleasesRequest;
-import requests.LoginRequest;
-import requests.LogoutRequest;
-import requests.ProcessFeedbackRequest;
-import requests.RemoveAnnotationFieldRequest;
-import requests.RemoveAnnotationValueRequest;
-import requests.RemoveGenomeReleaseRequest;
-import requests.RenameAnnotationFieldRequest;
-import requests.RenameAnnotationValueRequest;
-import requests.RequestFactory;
-import requests.RetrieveExperimentRequest;
-import requests.SearchRequest;
-import requests.rawToProfileRequest;
+import requests.*;
 import responses.AddFileToExperimentResponse;
 import responses.DownloadFileResponse;
 import responses.LoginResponse;
@@ -153,17 +134,21 @@ public class Model implements GenomizerModel {
         System.out.println(request.toJson());
         Connection conn = connFactory.makeConnection();
         conn.sendRequest(request, userID, JSON);
-        String url = null;
         if (conn.getResponseCode() == 200) {
-            url = conn.getResponseBody();
             AddFileToExperimentResponse aFTER = ResponseParser
                     .parseUploadResponse(conn.getResponseBody());
             HTTPURLUpload upload = new HTTPURLUpload(aFTER.URLupload,
                     f.getAbsolutePath(), f.getName());
+            /* FOR MOCK SERVER */
+            if (aFTER.URLupload.equalsIgnoreCase("url")) {
+                return true;
+            }
             ongoingUploads.add(upload);
             if (upload.sendFile("pvt", "pvt")) {
                 return true;
             }
+        } else {
+            System.out.println(conn.getResponseCode());
         }
         return false;
 
@@ -244,7 +229,8 @@ public class Model implements GenomizerModel {
             if (a.getName().equalsIgnoreCase(name)) {
                 throw new IllegalArgumentException(
                         "Annotations must have a unique name, " + name
-                                + " already exists");
+                                + " already exists"
+                );
             }
         }
 
