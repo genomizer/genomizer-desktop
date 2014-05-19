@@ -7,25 +7,7 @@ import java.util.concurrent.CopyOnWriteArrayList;
 
 import javax.swing.JOptionPane;
 
-import requests.AddAnnotationRequest;
-import requests.AddExperimentRequest;
-import requests.AddFileToExperiment;
-import requests.AddNewAnnotationValueRequest;
-import requests.DownloadFileRequest;
-import requests.GetAnnotationRequest;
-import requests.GetGenomeReleasesRequest;
-import requests.LoginRequest;
-import requests.LogoutRequest;
-import requests.ProcessFeedbackRequest;
-import requests.RemoveAnnotationFieldRequest;
-import requests.RemoveAnnotationValueRequest;
-import requests.RemoveGenomeReleaseRequest;
-import requests.RenameAnnotationFieldRequest;
-import requests.RenameAnnotationValueRequest;
-import requests.RequestFactory;
-import requests.RetrieveExperimentRequest;
-import requests.SearchRequest;
-import requests.rawToProfileRequest;
+import requests.*;
 import responses.AddFileToExperimentResponse;
 import responses.DownloadFileResponse;
 import responses.LoginResponse;
