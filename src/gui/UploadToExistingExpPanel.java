@@ -1,12 +1,6 @@
 package gui;
 
-import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.FlowLayout;
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
-import java.awt.GridLayout;
-import java.awt.Insets;
+import java.awt.*;
 import java.awt.event.ActionListener;
 import java.io.File;
 import java.util.ArrayList;
@@ -236,6 +230,9 @@ public class UploadToExistingExpPanel extends JPanel implements ExperimentPanel 
         gbc.gridy = y;
         JPanel exp = new JPanel(new BorderLayout());
         JLabel expHeader = new JLabel("Experiment ID");
+        Font font = expHeader.getFont();
+        Font boldFont = new Font(font.getFontName(), Font.BOLD, font.getSize());
+        expHeader.setFont(boldFont);
         JTextField expID = new JTextField(ed.getName());
         expID.setEnabled(false);
         expID.setOpaque(true);
@@ -255,6 +252,9 @@ public class UploadToExistingExpPanel extends JPanel implements ExperimentPanel 
             gbc.gridy = y;
             JPanel p = new JPanel(new BorderLayout());
             JLabel annotationHeader = new JLabel(adv.getName());
+            font = annotationHeader.getFont();
+            boldFont = new Font(font.getFontName(), Font.BOLD, font.getSize());
+            annotationHeader.setFont(boldFont);
             JTextField annotationValue = new JTextField(adv.getValue());
             annotationValue.setEnabled(false);
             annotationValue.setOpaque(true);
