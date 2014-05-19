@@ -25,3 +25,6 @@ Programvaruteknik, Umea University Spring 2014
 - Some problems occur on files with same name
 - Uploading files to existing experiment is sensitive to experiment name, and must match precisely.
 - Annotations are case sensitive
+
+####About the source
+The code has been formatted by eclipse and IntelliJ's source - format. An Eclipse code style format can be imported from the file /resources/Eclipse[genomizer].xml. The code style uses only whitespaces instead of tabs and curly brackets on the same line.
