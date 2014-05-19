@@ -1,11 +1,8 @@
 package communication;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FilterOutputStream;
-import java.io.IOException;
-import java.io.OutputStream;
+import java.io.*;
 import java.net.URI;
+import java.net.URLEncoder;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
@@ -15,6 +12,7 @@ import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.CredentialsProvider;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.client.protocol.HttpClientContext;
+import org.apache.http.client.utils.URLEncodedUtils;
 import org.apache.http.entity.HttpEntityWrapper;
 import org.apache.http.entity.mime.HttpMultipartMode;
 import org.apache.http.entity.mime.MultipartEntity;
@@ -66,11 +64,16 @@ public class HTTPURLUpload {
         localContext.setCredentialsProvider(credentialsProvider);
 
         // post header
+        File file = new File(filePath);
+        try {
+            String encodedFileName = URLEncoder.encode(file.getName(), "UTF-8");
+            uploadPath = uploadPath.replaceFirst(file.getName(), encodedFileName);
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
         HttpPost httpPost = new HttpPost(uploadPath);
         System.out.println(httpPost.getURI().getRawQuery());
         // HttpPost httpPost = new HttpPost(filePath);
-
-        File file = new File(filePath);
 
         MultipartEntityBuilder reqEntity = MultipartEntityBuilder.create();
         reqEntity.setMode(HttpMultipartMode.BROWSER_COMPATIBLE);
@@ -91,7 +94,7 @@ public class HTTPURLUpload {
 
         };
         httpPost.setEntity(new ProgressHttpEntityWrapper(reqEntity.build(), progressCallback));
-        
+
         try {
             HttpResponse response;
             // execute HTTP post request
@@ -124,6 +127,14 @@ public class HTTPURLUpload {
         HTTPURLUpload uploader = new HTTPURLUpload(
                 "/var/www/data/test0x64.txt", "/home/dv12/dv12csr/test.txt", "test.txt");
         uploader.sendFile("pvt", "pvt");
+    }
+
+    private String getFileNameFromUrl(String url) {
+        String[] urlSplit = url.split("/");
+        String fileName = urlSplit[urlSplit.length - 1];
+        System.out.println(fileName);
+        return fileName;
+
     }
 
     public String getFileName() {
