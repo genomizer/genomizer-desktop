@@ -116,8 +116,9 @@ public class QuerySearchTab extends JPanel {
         searchButton = new JButton("Search");
         // searchButton = CustomButtonFactory.makeCustomButton(
         // IconFactory.getSearchIcon(28, 28),
-        // IconFactory.getSearchHoverIcon(30, 30), 30, 30, "Search for data");
-        //
+        // IconFactory.getSearchHoverIcon(30, 30), 30, 30,
+        // "Search for data");
+        
         // clearButton = CustomButtonFactory.makeCustomButton(
         // IconFactory.getClearIcon(35, 35),
         // IconFactory.getClearHoverIcon(37, 37), 37, 37,
