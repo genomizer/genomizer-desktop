@@ -477,10 +477,23 @@ public class Model implements GenomizerModel {
     }
 
     @Override
-    public boolean deleteGenomeRelease(String gr, String specie) {
+    public boolean deleteGenomeRelease(String specie, String version) {
+
+
 
         RemoveGenomeReleaseRequest request = RequestFactory
-                .makeRemoveGenomeReleaseRequest(gr, specie);
+                .makeRemoveGenomeReleaseRequest(specie, version);
+        Connection conn = connFactory.makeConnection();
+        conn.sendRequest(request, userID, JSON);
+        if(conn.getResponseCode() == 200){
+            System.err.println("Genome release version: " + version
+                    + "successfully removed.");
+            return true;
+        }else{
+            System.err.println("Could not remove genome release: " + version
+                    + " species: " + specie);
+
+        }
         return false;
     }
 }

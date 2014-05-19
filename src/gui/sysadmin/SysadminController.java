@@ -174,9 +174,9 @@ public class SysadminController extends Observable {
     public void deleteGenomeRelease() {
 
         /** EXAMPLE DATA OF DOOM */
-        String gr = "hy17";
-        String specie = "fly";
-        if (model.deleteGenomeRelease(gr, specie)) {
+        String version = "u12b";
+        String specie = "human";
+        if (model.deleteGenomeRelease(specie, version)) {
 
         }
     }

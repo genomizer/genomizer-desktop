@@ -99,9 +99,10 @@ public class RequestFactory {
     }
 
     public static RemoveGenomeReleaseRequest makeRemoveGenomeReleaseRequest(
-            String gr, String specie) {
+            String specie, String version) {
 
-        return new RemoveGenomeReleaseRequest(specie, gr);
+        System.out.println("/genomeRelease/" + specie + "/" + version);
+        return new RemoveGenomeReleaseRequest(specie, version);
     }
 
     public static RenameAnnotationFieldRequest makeRenameAnnotationFieldRequest(
