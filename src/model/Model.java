@@ -14,6 +14,7 @@ import requests.AddNewAnnotationValueRequest;
 import requests.DownloadFileRequest;
 import requests.GetAnnotationRequest;
 import requests.GetGenomeReleasesRequest;
+import requests.GetGenomeSpecieReleasesRequest;
 import requests.LoginRequest;
 import requests.LogoutRequest;
 import requests.ProcessFeedbackRequest;
@@ -497,26 +498,31 @@ public class Model implements GenomizerModel {
         return false;
     }
 
-    public GenomeReleaseData[] getSpecieGenomeReleases(String specie) {
+    public ArrayList<String> getSpecieGenomeReleases(String specie) {
 
-    //    GetGenomeReleasesRequest request = RequestFactory
-    //            .makeGetGenomeReleaseRequest();
+        GetGenomeSpecieReleasesRequest request = RequestFactory
+                .makeGetGenomeSpecieReleaseRequest(specie);
         Connection conn = connFactory.makeConnection();
-    //    conn.sendRequest(request, userID, TEXT_PLAIN);
+        conn.sendRequest(request, userID, TEXT_PLAIN);
         if (conn.getResponseCode() == 200) {
-            System.err.println("Sent getGenomerReleaseRequestSuccess!");
+
+            System.err.println("Sent getGenomeSpecieReleaseRequestSuccess!");
             GenomeReleaseData[] genomeReleases = ResponseParser
                     .parseGetGenomeReleaseResponse(conn.getResponseBody());
-            return genomeReleases;
+            for(int i = 0;i < genomeReleases.length ; i++){
+                System.out.println(genomeReleases[i].getVersion());
+            }
+        //    return genomeReleases;
         } else {
 
-            System.out.println("GenomeRelease responsecode: "
+            System.out.println("GenomeSpecieRelease responsecode: "
                     + conn.getResponseCode());
             JOptionPane
-                    .showMessageDialog(null, "Could not get genomereleases!");
+                    .showMessageDialog(null, "Could not get genomespeciereleases!");
         }
 
-        return new GenomeReleaseData[] {};
+        //
+        return searchHistory;
     }
 
 }

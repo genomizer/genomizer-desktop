@@ -635,7 +635,7 @@ public class Controller {
 
                     ArrayList<String> genomeVersion = new ArrayList<String>();
                   //Kör request
-                 // model.getSpecieGenomeReleases(item.getSpecie());
+                  model.getSpecieGenomeReleases(item.getSpecie());
 
 
                    //view.setProccessFileList(genomeVersion/*Return av requesten*/);

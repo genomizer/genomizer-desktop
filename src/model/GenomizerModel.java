@@ -67,4 +67,6 @@ public interface GenomizerModel {
 
     public boolean deleteGenomeRelease(String gr, String specie);
 
+    public ArrayList<String> getSpecieGenomeReleases(String specie);
+
 }

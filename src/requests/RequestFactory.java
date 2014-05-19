@@ -6,6 +6,7 @@ import java.util.HashMap;
 
 import javax.swing.JOptionPane;
 
+
 import util.AnnotationDataValue;
 
 public class RequestFactory {
@@ -143,5 +144,9 @@ public class RequestFactory {
 
     public static ProcessFeedbackRequest makeProcessFeedbackRequest() {
         return new ProcessFeedbackRequest();
+    }
+
+    public static GetGenomeSpecieReleasesRequest makeGetGenomeSpecieReleaseRequest(String specie) {
+        return new GetGenomeSpecieReleasesRequest(specie);
     }
 }
