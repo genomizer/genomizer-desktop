@@ -5,6 +5,7 @@ import gui.sysadmin.annotationview.AnnotationButtonsListener;
 import gui.sysadmin.annotationview.AnnotationPopupListener;
 import gui.sysadmin.annotationview.AnnotationTableModel;
 import gui.sysadmin.annotationview.EditAnnotationPopup;
+import gui.sysadmin.annotationview.EditAnnotationPopup2;
 import gui.sysadmin.annotationview.EditAnnotationPopupListener;
 import gui.sysadmin.genomereleaseview.GenomeReleaseViewCreator;
 import gui.sysadmin.genomereleaseview.GenomereleaseTableModel;
@@ -67,7 +68,7 @@ public class SysadminController extends Observable {
     }
 
     public void editAnnotation() {
-        EditAnnotationPopup edPop = sysTab.getAnnotationsView().getEditPopup();
+        EditAnnotationPopup2 edPop = sysTab.getAnnotationsView().getEditPopup();
         AnnotationDataType oldAnnotation = edPop.getAnnotation();
         AnnotationDataType newAnnotation = new AnnotationDataType(
                 edPop.getNewAnnotationName(),

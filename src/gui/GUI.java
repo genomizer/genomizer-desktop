@@ -482,7 +482,7 @@ public class GUI extends JFrame implements GenomizerView {
 
         }
         tabbedPane.setSelectedIndex(2);
-        processTab.setFileInfo(allFileData);
+        processTab.setFileInfo(allFileData,getSelectedDataInWorkspace());
         //processTab
 
     }
