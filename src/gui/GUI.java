@@ -232,8 +232,13 @@ public class GUI extends JFrame implements GenomizerView {
      * @return The marked files from the process tab.
      */
     @Override
+<<<<<<< HEAD
     public ArrayList<String> getAllMarkedFiles() {
         
+=======
+    public ArrayList<FileData> getAllMarkedFiles() {
+
+>>>>>>> branch 'dev' of https://github.com/genomizer/genomizer-desktop.git
         return processTab.getAllMarkedFiles();
         
     }

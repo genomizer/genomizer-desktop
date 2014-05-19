@@ -116,7 +116,7 @@ public class Controller {
                     String processtype = "rawtoprofile";
 
                     parameters[0] = view.getParameters()[0];
-                    parameters[1] = "";// view.getParameters()[1];
+                    parameters[1] = view.getParameters()[1];
                     parameters[2] = view.getOtherParameters()[0];// "y";
                     parameters[3] = view.getOtherParameters()[1];// "y";
                     parameters[4] = view.getParameters()[2];

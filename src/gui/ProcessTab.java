@@ -119,9 +119,9 @@ public class ProcessTab extends JPanel {
     private ArrayList<FileData> fileData;
     private String[] bowtieParameters = new String[4];
     private ProcessFeedbackData[] processFeedbackData;
-    
+
     private ActionListener procFeedbackListener;
-    
+
     public ProcessTab() {
         processFeedbackData = new ProcessFeedbackData[0];
         setPreferredSize(new Dimension(1225, 725));
@@ -166,7 +166,6 @@ public class ProcessTab extends JPanel {
         /* TEST */
         ArrayList<String> gFiles = new ArrayList<String>();
         /* TEST */
-        gFiles.add(0, "d_melanogaster_fb5_22");
         /* TEST */
         setGenomeReleaseFiles(gFiles);
         
@@ -664,7 +663,7 @@ public class ProcessTab extends JPanel {
         
         genomeFile.removeAllItems();
         for (GenomeReleaseData version : genomeReleases) {
-            genomeFile.addItem(version.getFilename());
+            genomeFile.addItem(version.getVersion());
         }
     }
     
@@ -696,7 +695,7 @@ public class ProcessTab extends JPanel {
         CheckListItem[] itemList = new CheckListItem[fileData.size()];
         
         for (int i = 0; i < fileData.size(); i++) {
-            itemList[i] = new CheckListItem(fileData.get(i).filename,
+            itemList[i] = new CheckListItem(fileData.get(i),fileData.get(i).filename,
             // TODO fixa riktiga species
                     fileData.get(i).id, "Human");
         }
@@ -721,13 +720,14 @@ public class ProcessTab extends JPanel {
     
     /**
      * Gets the names of all the files that are marked in the fileList.
-     * 
-     * @return ArrayList<String> - List of all the file names.
+     *
+     * @return ArrayList<FileData> - List of all the file names.
      */
-    public ArrayList<String> getAllMarkedFiles() {
-        
-        ArrayList<String> arr = new ArrayList<String>();
-        
+
+    public ArrayList<FileData> getAllMarkedFiles() {
+
+        ArrayList<FileData> arr = new ArrayList<FileData>();
+
         for (int i = 0; i < fileList.getModel().getSize(); i++) {
             CheckListItem checkItem = (CheckListItem) fileList.getModel()
                     .getElementAt(i);
@@ -742,18 +742,10 @@ public class ProcessTab extends JPanel {
      * @return ArrayList<FileData> - List of all the files.
      */
     public ArrayList<FileData> getAllMarkedFileData() {
-        
-        ArrayList<FileData> allMarked = new ArrayList<FileData>();
-        ArrayList<String> arr = getAllMarkedFiles();
-        
-        if (!(fileData == null)) {
-            for (int i = 0; i < fileData.size(); i++) {
-                if (arr.contains(fileData.get(i).filename)) {
-                    allMarked.add(fileData.get(i));
-                }
-            }
-        }
-        return allMarked;
+
+        ArrayList<FileData> arr = getAllMarkedFiles();
+
+        return arr;
     }
     
     /**
@@ -764,10 +756,10 @@ public class ProcessTab extends JPanel {
      * @param checkItem
      *            - the item in the list
      */
-    private void checkItemIsSelected(ArrayList<String> arr,
+    private void checkItemIsSelected(ArrayList<FileData> arr,
             CheckListItem checkItem) {
         if (checkItem.isSelected()) {
-            arr.add(checkItem.toString());
+            arr.add(checkItem.getfile());
         }
     }
     

@@ -91,6 +91,7 @@ public class UploadTab extends JPanel implements ExperimentPanel {
         uploadBackground = new JPanel(new BorderLayout());
         buttonsPanel = new JPanel(new FlowLayout());
         uploadFilesPanel = new JPanel(new GridLayout(0, 1));
+<<<<<<< HEAD
         newExpButton = new JButton("Create new experiment");
         selectButton = new JButton("Browse for files");
         uploadButton = new JButton("Upload data");
@@ -106,6 +107,18 @@ public class UploadTab extends JPanel implements ExperimentPanel {
         // IconFactory.getUploadHoverIcon(42,42), 42, 42, "Upload data");
         boldTextLabel = new JLabel(
                 "<html><b>Bolded text = forced annotation.</b></html>");
+=======
+        newExpButton = CustomButtonFactory.makeCustomButton(
+                IconFactory.getNewExperimentIcon(35, 35),
+                IconFactory.getNewExperimentHoverIcon(37, 37), 37, 37, "Create new experiment");
+        selectButton = CustomButtonFactory.makeCustomButton(
+                IconFactory.getBrowseIcon(40, 40),
+                IconFactory.getBrowseHoverIcon(42, 42), 42, 42, "Browse for files");
+        uploadButton = CustomButtonFactory.makeCustomButton(
+                IconFactory.getUploadIcon(40, 40),
+                IconFactory.getUploadHoverIcon(42,42), 42, 42, "Upload data");
+        boldTextLabel = new JLabel("<html><b>Bold text = forced annotation.</b></html>");
+>>>>>>> branch 'dev' of https://github.com/genomizer/genomizer-desktop.git
         boldTextLabel.setOpaque(true);
         newExpPanel = new JPanel();
         expNameLabel = new JLabel();
@@ -334,7 +347,7 @@ public class UploadTab extends JPanel implements ExperimentPanel {
     public void createUploadFileRow(File[] files) {
         for (File f : files) {
             if (!uploadFileRows.containsKey(f)) {
-                UploadFileRow fileRow = new UploadFileRow(f, this);
+                UploadFileRow fileRow = new UploadFileRow(f, this, true);
                 uploadFileRows.put(f, fileRow);
             } else {
                 JOptionPane.showMessageDialog(this, "File already selected: "
