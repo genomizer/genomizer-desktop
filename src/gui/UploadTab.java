@@ -329,7 +329,7 @@ public class UploadTab extends JPanel implements ExperimentPanel {
     public void createUploadFileRow(File[] files) {
         for (File f : files) {
             if (!uploadFileRows.containsKey(f)) {
-                UploadFileRow fileRow = new UploadFileRow(f, this);
+                UploadFileRow fileRow = new UploadFileRow(f, this, true);
                 uploadFileRows.put(f, fileRow);
             } else {
                 JOptionPane.showMessageDialog(this, "File already selected: "
