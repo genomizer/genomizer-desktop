@@ -7,6 +7,8 @@ import gui.sysadmin.strings.SysStrings;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import util.AnnotationDataType;
+
 public class EditAnnotationPopupListener implements ActionListener {
 
     private SysadminTab sysTab;
@@ -25,7 +27,6 @@ public class EditAnnotationPopupListener implements ActionListener {
                 // TODO: Start working here Adam :)
                 System.out.println("Editing annotation....");
                 sysController.editAnnotation();
-
                 break;
 
         }

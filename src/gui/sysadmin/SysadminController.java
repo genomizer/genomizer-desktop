@@ -5,6 +5,7 @@ import gui.sysadmin.annotationview.AnnotationButtonsListener;
 import gui.sysadmin.annotationview.AnnotationPopupListener;
 import gui.sysadmin.annotationview.AnnotationTableModel;
 import gui.sysadmin.annotationview.EditAnnotationPopup;
+import gui.sysadmin.annotationview.EditAnnotationPopup2;
 import gui.sysadmin.annotationview.EditAnnotationPopupListener;
 import gui.sysadmin.genomereleaseview.GenomeReleaseViewCreator;
 import gui.sysadmin.genomereleaseview.GenomereleaseTableModel;
@@ -67,17 +68,13 @@ public class SysadminController extends Observable {
     }
 
     public void editAnnotation() {
-        EditAnnotationPopup edPop = sysTab.getAnnotationsView().getEditPopup();
+        EditAnnotationPopup2 edPop = sysTab.getAnnotationsView().getEditPopup();
         AnnotationDataType oldAnnotation = edPop.getAnnotation();
         AnnotationDataType newAnnotation = new AnnotationDataType(
                 edPop.getNewAnnotationName(),
                 edPop.getNewAnnotationCategories(),
                 edPop.getNewAnnotationForcedValue());
-/*
-        for(int i=0; i<newAnnotation.getValues().length; i++){
-        System.out.println(newAnnotation.getValues()[i]);
-        }
-*/
+        
         if (!(oldAnnotation.name.equals(newAnnotation.name))) {
             System.out
                     .println("Name has been changed! Calling renameAnnotationField!");
@@ -104,15 +101,7 @@ public class SysadminController extends Observable {
             System.out.println("Value removed from " + oldAnnotation.name);
             //model.removeAnnotationValue(name, valueName);
         }
-/*
-        for (int i = 0; i < newAnnotation.getValues().length; i++) {
 
-                model.renameAnnotationValue(newAnnotation.name,
-                        oldAnnotation.getValues()[i],
-                        newAnnotation.getValues()[i]);
-            }
-        }
-*/
     }
 
     public util.AnnotationDataType[] getAnnotations() {
@@ -131,10 +120,10 @@ public class SysadminController extends Observable {
             try {
                 if (JOptionPane.showConfirmDialog(null,
                         "Are you sure you want to delete the "
-                                + annotation.name + " annotation?") == JOptionPane.YES_OPTION) {
+                                + annotation.name + " annotation?", "Remove annotation" ,JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
                     if (model.deleteAnnotation(annotation.name)) {
                         JOptionPane.showMessageDialog(null, annotation.name
-                                + " has been remove!");
+                                + " has been removed!");
                         SwingUtilities.invokeLater(new Runnable() {
 
                             @Override
@@ -169,6 +158,16 @@ public class SysadminController extends Observable {
 
         return grdarray;
 
+    }
+
+    public void deleteGenomeRelease() {
+
+        /** EXAMPLE DATA OF DOOM */
+        String version = "u12b";
+        String specie = "human";
+        if (model.deleteGenomeRelease(specie, version)) {
+
+        }
     }
 
     public void updateAnnotationTable() {

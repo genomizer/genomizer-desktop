@@ -4,19 +4,11 @@ import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
-import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
-import java.net.URL;
 import java.util.ArrayList;
 
-import javax.imageio.ImageIO;
 import javax.swing.BorderFactory;
-import javax.swing.Box;
-import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -24,7 +16,6 @@ import javax.swing.JTextArea;
 
 import util.AnnotationDataType;
 import util.ExperimentData;
-import util.IconFactory;
 import util.TreeTable;
 
 /**
@@ -122,13 +113,17 @@ public class QuerySearchTab extends JPanel {
     private void setUpSearchHeader() {
         searchPanel = new JPanel(new FlowLayout());
         
-        searchButton = CustomButtonFactory.makeCustomButton(
-                IconFactory.getSearchIcon(28, 28),
-                IconFactory.getSearchHoverIcon(30, 30), 30, 30, "Search for data");
+        searchButton = new JButton("Search");
+        // searchButton = CustomButtonFactory.makeCustomButton(
+        // IconFactory.getSearchIcon(28, 28),
+        // IconFactory.getSearchHoverIcon(30, 30), 30, 30,
+        // "Search for data");
         
-        clearButton = CustomButtonFactory.makeCustomButton(
-                IconFactory.getClearIcon(35, 35),
-                IconFactory.getClearHoverIcon(37, 37), 37, 37, "Clear search fields");
+        // clearButton = CustomButtonFactory.makeCustomButton(
+        // IconFactory.getClearIcon(35, 35),
+        // IconFactory.getClearHoverIcon(37, 37), 37, 37,
+        // "Clear search fields");
+        clearButton = new JButton("Clear");
         clearButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -140,10 +135,10 @@ public class QuerySearchTab extends JPanel {
         searchArea.setLineWrap(true);
         searchArea.setSize(850, 20);
         JScrollPane searchScroll = new JScrollPane(searchArea);
-        searchScroll.setPreferredSize(new Dimension(800,35));
+        searchScroll.setPreferredSize(new Dimension(800, 35));
         searchPanel.add(searchScroll);
         searchPanel.add(searchButton);
-        //searchPanel.add(Box.createHorizontalStrut(5));
+        // searchPanel.add(Box.createHorizontalStrut(5));
         searchPanel.add(clearButton);
     }
     
@@ -152,20 +147,22 @@ public class QuerySearchTab extends JPanel {
      */
     private void setUpResultsHeaderPanel() {
         resultsHeaderPanel = new JPanel(new BorderLayout());
-        JButton backButton = CustomButtonFactory.makeCustomButton(
-                IconFactory.getBackIcon(25, 25),
-                IconFactory.getBackHoverIcon(27, 27), 25, 25, "Back to search view");
+        // JButton backButton = CustomButtonFactory.makeCustomButton(
+        // IconFactory.getBackIcon(25, 25),
+        // IconFactory.getBackHoverIcon(27, 27), 25, 25,
+        // "Back to search view");
+        JButton backButton = new JButton("Back");
         backButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 showSearchView();
             }
         });
-        addToWorkspaceButton = CustomButtonFactory.makeCustomButton(
-                IconFactory.getAddToWorkspaceIcon(50, 34),
-                IconFactory.getAddToWorkspaceHoverIcon(52, 36), 52, 36, "Add selected to workspace");
-        
-        
+        // addToWorkspaceButton = CustomButtonFactory.makeCustomButton(
+        // IconFactory.getAddToWorkspaceIcon(50, 34),
+        // IconFactory.getAddToWorkspaceHoverIcon(52, 36), 52, 36,
+        // "Add selected to workspace");
+        addToWorkspaceButton = new JButton("Add to workspace");
         downloadButton = new JButton("Download Selected Files");
         // resultsHeaderPanel.add(downloadButton, BorderLayout.EAST);
         resultsHeaderPanel.add(addToWorkspaceButton, BorderLayout.EAST);
@@ -181,7 +178,7 @@ public class QuerySearchTab extends JPanel {
     
     /**
      * Update the search results and switch to results view
-     *
+     * 
      * @param searchResults
      */
     public void updateSearchResults(ArrayList<ExperimentData> searchResults) {
@@ -215,7 +212,7 @@ public class QuerySearchTab extends JPanel {
     
     /**
      * Remove a row from the query builder
-     *
+     * 
      * @param row
      */
     public void removeRow(QueryBuilderRow row) {

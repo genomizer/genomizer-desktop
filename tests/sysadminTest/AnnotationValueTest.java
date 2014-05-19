@@ -13,18 +13,16 @@ import util.AnnotationDataType;
 
 public class AnnotationValueTest {
     
-    public Connection con;
     public Model model;
     public SysadminTab sysadminTab;
     
     @Before
     public void setUp() throws Exception {
         // con = new Connection("genomizer.apiary-mock.com:80");
-        con = new Connection();
-        con.setIp("http://scratchy.cs.umu.se:7000");
+        model = new Model();
+        model.setIp("http://scratchy.cs.umu.se:7000");
 //        con.setIp("genomizer.apiary-mock.com:80");
         // con = new Connection("http://hagrid.cs.umu.se:7000");
-        model = new Model(con);
         model.loginUser("SysadminTests", "qwerty");
         sysadminTab = new SysadminTab();
     }
@@ -43,7 +41,7 @@ public class AnnotationValueTest {
     @Test
     public void shouldAddAnnotationValue() {
         String annotationName = "SpeciesTEST";
-        String valueName = "horseTEST";
+        String valueName = "frog2TEST";
         AnnotationDataType toBeEdited = getSpecificAnnotationType(annotationName);
         int numberOfAnnotations = toBeEdited.getValues().length;
         if (toBeEdited != null) {
@@ -61,8 +59,8 @@ public class AnnotationValueTest {
     public void shouldRemoveAnnotationValue() {
         // TODO: use AnnotationDataType.indexOf(String valueToBeremoved) and
         // remove a valueToBeRemoved!!!
-        String nameOfAnnotation = "tissue";
-        String valueToBeRemoved = "leg";
+        String nameOfAnnotation = "SpeciesTEST";
+        String valueToBeRemoved = "horseTEST";
         AnnotationDataType toBeEdited = getSpecificAnnotationType(nameOfAnnotation);
         int numberOfAnnotationValues = toBeEdited.getValues().length;
         if (toBeEdited != null) {

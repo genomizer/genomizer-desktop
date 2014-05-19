@@ -15,70 +15,77 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JProgressBar;
 
-import util.IconFactory;
-
 public class UploadFileRow extends JPanel {
     private ExperimentPanel parent;
     private JPanel filePanel;
     private JLabel fileLabel;
-    private JButton closeButton;
+    private JButton closeButton, uploadButton;
     private JComboBox typeBox;
     private JProgressBar uploadBar;
     private File file;
     
-    public UploadFileRow(File f, ExperimentPanel parent) {
+    public UploadFileRow(File f, ExperimentPanel parent, boolean newExp) {
         this.parent = parent;
         setLayout(new BorderLayout());
         this.file = f;
         filePanel = new JPanel();
         add(filePanel, BorderLayout.SOUTH);
-        setContent();
-        
+        setContent(newExp);
     }
     
-    private void setContent() {
-        GridBagLayout gbl_panel = new GridBagLayout();
-        gbl_panel.columnWidths = new int[] { 0, 0, 0, 0 };
-        gbl_panel.rowHeights = new int[] { 0, 0 };
-        gbl_panel.columnWeights = new double[] { 1.0, 0.0, 0.0,
-                Double.MIN_VALUE };
-        gbl_panel.rowWeights = new double[] { 0.0, Double.MIN_VALUE };
-        filePanel.setLayout(gbl_panel);
+    private void setContent(boolean newExp) {
+        GridBagLayout gbl = new GridBagLayout();
+        gbl.columnWidths = new int[] { 0, 0, 0, 0 };
+        gbl.rowHeights = new int[] { 0, 0 };
+        gbl.columnWeights = new double[] { 1.0, 0.0, 0.0, Double.MIN_VALUE };
+        gbl.rowWeights = new double[] { 0.0, Double.MIN_VALUE };
+        filePanel.setLayout(gbl);
         
         fileLabel = new JLabel(file.getName());
-        GridBagConstraints gbc_lblFilename = new GridBagConstraints();
-        gbc_lblFilename.anchor = GridBagConstraints.WEST;
-        gbc_lblFilename.insets = new Insets(0, 0, 5, 5);
-        gbc_lblFilename.gridx = 0;
-        gbc_lblFilename.gridy = 0;
-        filePanel.add(fileLabel, gbc_lblFilename);
+        GridBagConstraints gbc = new GridBagConstraints();
+        gbc.anchor = GridBagConstraints.WEST;
+        gbc.insets = new Insets(0, 0, 5, 5);
+        gbc.gridx = 0;
+        gbc.gridy = 0;
+        filePanel.add(fileLabel, gbc);
         
         uploadBar = new JProgressBar(0, 100);
         uploadBar.setStringPainted(true);
-        GridBagConstraints gbc_progressBar = new GridBagConstraints();
-        gbc_progressBar.insets = new Insets(0, 0, 0, 5);
-        gbc_progressBar.fill = GridBagConstraints.HORIZONTAL;
-        gbc_progressBar.gridx = 0;
-        gbc_progressBar.gridy = 1;
-        filePanel.add(uploadBar, gbc_progressBar);
+        gbc.insets = new Insets(0, 0, 0, 5);
+        gbc.fill = GridBagConstraints.HORIZONTAL;
+        gbc.gridx = 0;
+        gbc.gridy = 1;
+        filePanel.add(uploadBar, gbc);
         
         String[] fileTypes = { "Profile", "Raw", "Region" };
         typeBox = new JComboBox(fileTypes);
         typeBox.setPreferredSize(new Dimension(120, 31));
-        GridBagConstraints gbc_comboBox = new GridBagConstraints();
-        gbc_comboBox.insets = new Insets(0, 0, 0, 5);
-        gbc_comboBox.anchor = GridBagConstraints.WEST;
-        gbc_comboBox.gridx = 1;
-        gbc_comboBox.gridy = 1;
-        filePanel.add(typeBox, gbc_comboBox);
-        closeButton = CustomButtonFactory.makeCustomButton(
-                IconFactory.getStopIcon(30, 30),
-                IconFactory.getStopHoverIcon(32, 32), 32, 32, "Stop upload");
+        gbc.insets = new Insets(0, 0, 0, 5);
+        gbc.anchor = GridBagConstraints.WEST;
+        gbc.gridx = 1;
+        gbc.gridy = 1;
+        filePanel.add(typeBox, gbc);
+        closeButton = new JButton("X");
+        // closeButton = CustomButtonFactory.makeCustomButton(
+        // IconFactory.getStopIcon(30, 30),
+        // IconFactory.getStopHoverIcon(32, 32), 32, 32, "Stop upload");
         addCloseButtonListener(new closeButtonListener());
         GridBagConstraints gbc_btnX = new GridBagConstraints();
         gbc_btnX.gridx = 2;
         gbc_btnX.gridy = 1;
         filePanel.add(closeButton, gbc_btnX);
+
+        if(newExp) {
+//            uploadButton = CustomButtonFactory.makeCustomButton(
+//                    IconFactory.getUploadIcon(25,25),
+//                    IconFactory.getUploadHoverIcon(28,28), 28, 28, "Upload file to current experiment");
+            uploadButton = new JButton("Upload to current experiment");
+            gbc.insets = new Insets(0, 0, 0, 5);
+            gbc.anchor = GridBagConstraints.WEST;
+            gbc.gridx = 3;
+            gbc.gridy = 1;
+            filePanel.add(uploadButton, gbc);
+        }
     }
     
     public void addCloseButtonListener(ActionListener listener) {
@@ -94,10 +101,10 @@ public class UploadFileRow extends JPanel {
     }
     
     public void updateProgressBar(float progress) {
-        /*Progress is handled as %*/
+        /* Progress is handled as % */
         uploadBar.setMinimum(0);
         uploadBar.setMaximum(100);
-        uploadBar.setValue((int)progress);
+        uploadBar.setValue((int) progress);
     }
     
     class closeButtonListener implements ActionListener, Runnable {

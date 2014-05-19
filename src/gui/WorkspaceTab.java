@@ -1,23 +1,25 @@
 package gui;
 
-import util.ExperimentData;
-import util.IconFactory;
-import util.TreeTable;
-
-import javax.imageio.ImageIO;
-import javax.swing.*;
-
-import java.awt.*;
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 
-public class WorkspaceTab extends JPanel {
+import javax.swing.BorderFactory;
+import javax.swing.Box;
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JPanel;
 
+import util.ExperimentData;
+import util.TreeTable;
+
+public class WorkspaceTab extends JPanel {
+    
     private static final long serialVersionUID = -7278768268151806081L;
     private TreeTable table;
     private JPanel buttonPanel, filePanel;
@@ -27,17 +29,16 @@ public class WorkspaceTab extends JPanel {
     public WorkspaceTab() {
         setLayout(new BorderLayout());
         buttonPanel = new JPanel();
-        buttonPanel.setBorder(BorderFactory
-                .createTitledBorder("Workspace"));
+        buttonPanel.setBorder(BorderFactory.createTitledBorder("Workspace"));
         filePanel = new JPanel(new BorderLayout());
         add(buttonPanel, BorderLayout.NORTH);
         add(filePanel, BorderLayout.CENTER);
-
+        
         buttonPanel.setLayout(new FlowLayout());
-
-        //buttonPanel.setBackground(new Color(210, 210, 210));
+        
+        // buttonPanel.setBackground(new Color(210, 210, 210));
         filePanel.setBackground(Color.white);
-
+        
         createButtons();
         addToButtonPanel();
         buttonPanel.setVisible(true);
@@ -46,49 +47,62 @@ public class WorkspaceTab extends JPanel {
         filePanel.add(table, BorderLayout.CENTER);
         setVisible(true);
     }
-
+    
     private void createButtons() {
-        removeButton = CustomButtonFactory.makeCustomButton(
-                IconFactory.getClearIcon(50, 50),
-                IconFactory.getClearHoverIcon(52, 52), 52, 52, "Remove selected data from workspace");
+        // removeButton = CustomButtonFactory.makeCustomButton(
+        // IconFactory.getClearIcon(50, 50),
+        // IconFactory.getClearHoverIcon(52, 52), 52, 52,
+        // "Remove selected data from workspace");
+        removeButton = new JButton("Remove");
+        removeButton.setPreferredSize(new Dimension(150, 40));
         removeButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 table.removeSelectedData();
             }
         });
-        downloadButton = CustomButtonFactory.makeCustomButton(
-                IconFactory.getDownloadIcon(45, 45),
-                IconFactory.getDownloadHoverIcon(47, 47),47, 47, "Download selected data");
-        
-        analyzeButton = CustomButtonFactory.makeCustomButton(
-                IconFactory.getAnalyzeIcon(50, 50),
-                IconFactory.getAnalyzeHoverIcon(52, 52), 52, 52, "Analyze selected data");
-        
-        processButton  = CustomButtonFactory.makeCustomButton(
-                IconFactory.getProcessIcon(50, 50),
-                IconFactory.getProcessHoverIcon(52, 52), 52, 52, "Process selected data");
-        //processButton.setEnabled(false);
+        downloadButton = new JButton("Download");
+        downloadButton.setPreferredSize(new Dimension(150, 40));
+        analyzeButton = new JButton("Analyze");
+        analyzeButton.setPreferredSize(new Dimension(150, 40));
+        analyzeButton.setEnabled(false);
+        processButton = new JButton("Process");
+        processButton.setPreferredSize(new Dimension(150, 40));
+        // downloadButton = CustomButtonFactory.makeCustomButton(
+        // IconFactory.getDownloadIcon(45, 45),
+        // IconFactory.getDownloadHoverIcon(47, 47), 47, 47,
+        // "Download selected data");
+        //
+        // analyzeButton = CustomButtonFactory.makeCustomButton(
+        // IconFactory.getAnalyzeIcon(50, 50),
+        // IconFactory.getAnalyzeHoverIcon(52, 52), 52, 52,
+        // "Analyze selected data");
+        // analyzeButton.setEnabled(false);
+        //
+        // processButton = CustomButtonFactory.makeCustomButton(
+        // IconFactory.getProcessIcon(50, 50),
+        // IconFactory.getProcessHoverIcon(52, 52), 52, 52,
+        // "Process selected data");
+        // processButton.setEnabled(false);
     }
-
+    
     private void addToButtonPanel() {
         buttonPanel.add(removeButton);
-
+        
         buttonPanel.add(Box.createHorizontalStrut(50));
         
         buttonPanel.add(downloadButton);
         
         buttonPanel.add(Box.createHorizontalStrut(50));
-
+        
         buttonPanel.add(analyzeButton);
         
         buttonPanel.add(Box.createHorizontalStrut(50));
-
+        
         buttonPanel.add(processButton);
         
-        
     }
-
+    
     /**
      * Returns an ImageIcon, or null if the path was invalid.
      */
@@ -101,19 +115,19 @@ public class WorkspaceTab extends JPanel {
             return null;
         }
     }
-
+    
     public void addDownloadFileListener(ActionListener listener) {
         downloadButton.addActionListener(listener);
     }
-
+    
     public void addProcessFileListener(ActionListener listener) {
         processButton.addActionListener(listener);
     }
-
+    
     public void addAnalyzeSelectedListener(ActionListener listener) {
         analyzeButton.addActionListener(listener);
     }
-
+    
     private String[] concatArrays(String[] first, String[] second) {
         ArrayList<String> both = new ArrayList<String>(first.length
                 + second.length);
@@ -121,9 +135,8 @@ public class WorkspaceTab extends JPanel {
         Collections.addAll(both, second);
         return both.toArray(new String[both.size()]);
     }
-
-    public void addExperimentsToTable(
-            ArrayList<ExperimentData> newExperiments) {
+    
+    public void addExperimentsToTable(ArrayList<ExperimentData> newExperiments) {
         ArrayList<ExperimentData> expList = new ArrayList<ExperimentData>();
         if (table.getContent() != null) {
             expList.addAll(table.getContent());
@@ -146,7 +159,7 @@ public class WorkspaceTab extends JPanel {
         table.repaint();
         table.revalidate();
     }
-
+    
     public ArrayList<ExperimentData> getSelectedData() {
         return table.getSelectedData();
     }
