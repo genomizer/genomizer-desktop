@@ -8,7 +8,7 @@ Programvaruteknik, Umea University Spring 2014
 
 =============
 
-###CHANGELOG v2.0 RELEASE DATE 14-05-16
+###CHANGELOG v0.1.1 RELEASE DATE 14-05-16
 
 - Bugs reported by Yuri on 14-05-13 fixed
 - Changed Look & Feel to be more persistent over all platforms.
