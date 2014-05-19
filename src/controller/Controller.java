@@ -633,6 +633,9 @@ public class Controller {
 
                     item.setSelected(!item.isSelected());
 
+                 //   item.getSpecie()
+                 //   view.set
+
                     list.repaint(list.getCellBounds(index, index));
                 }
             }

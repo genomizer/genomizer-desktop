@@ -4,11 +4,13 @@ public class CheckListItem {
 
     private String label;
     private String fileId;
+    private String specie;
     private boolean isSelected = false;
 
-    public CheckListItem(String label,String fileId) {
+    public CheckListItem(String label,String fileId,String specie) {
         this.label = label;
         this.fileId = fileId;
+        this.specie = specie;
     }
 
     public boolean isSelected() {
@@ -26,5 +28,9 @@ public class CheckListItem {
 
     public String fileId(){
         return fileId;
+    }
+
+    public String getSpecie(){
+        return specie;
     }
 }

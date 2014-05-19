@@ -260,8 +260,8 @@ public class ProcessTab extends JPanel {
                         new DefaultMutableTreeNode("<html><u>File Name</u>: " + data.outputFiles[j] + "</html>");
                 outputNode.add(fileNode);
             }
-            
-        } 
+
+        }
         //create the tree by passing in the root node
         JTree tree = new JTree(root);
         DefaultTreeCellRenderer renderer = (DefaultTreeCellRenderer) tree.getCellRenderer();
@@ -272,7 +272,7 @@ public class ProcessTab extends JPanel {
         processFeedbackButton = CustomButtonFactory.makeCustomButton(
                 IconFactory.getRefreshIcon(30, 30),
                 IconFactory.getRefreshHoverIcon(32, 32), 32, 32, "Get process information from server");
-        
+
         addToFileListButton = CustomButtonFactory.makeCustomButton(
                 IconFactory.getAddToListIcon(30, 30),
                 IconFactory.getAddToListHoverIcon(32, 32), 32, 32, "Add selected files to list");
@@ -648,6 +648,14 @@ public class ProcessTab extends JPanel {
         return genomeFile.getSelectedItem().toString().trim();
     }
 
+    private void setGenomeFileList(ArrayList<String> genomeReleases) {
+
+        genomeFile.removeAllItems();
+        for(String version : genomeReleases){
+            genomeFile.addItem(version);
+        }
+    }
+
     /**
      * Gets the text in the flag parameter in raw to profile tab.
      *
@@ -677,7 +685,8 @@ public class ProcessTab extends JPanel {
 
         for (int i = 0; i < fileData.size(); i++) {
             itemList[i] = new CheckListItem(fileData.get(i).filename,
-                    fileData.get(i).id);
+                    //TODO fixa riktiga species
+                    fileData.get(i).id,"HUND");
         }
 
         fileList.setListData(itemList);
