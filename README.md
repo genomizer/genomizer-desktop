@@ -6,7 +6,7 @@ Programvaruteknik, Umea University Spring 2014
 ** Bugs and problems are to be reported to the dev team as soon as possible, either by GitHub Issues or by mail to genomizer@mailinator.com **
 ** See User Manual for instructions on using functionality
 
-------------------------------------
+=============
 
 ###CHANGELOG v2.0 RELEASE DATE 14-05-16
 
