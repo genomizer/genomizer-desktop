@@ -101,7 +101,7 @@ public class UploadTab extends JPanel implements ExperimentPanel {
         uploadButton = CustomButtonFactory.makeCustomButton(
                 IconFactory.getUploadIcon(40, 40),
                 IconFactory.getUploadHoverIcon(42,42), 42, 42, "Upload data");
-        boldTextLabel = new JLabel("<html><b>Bolded text = forced annotation.</b></html>");
+        boldTextLabel = new JLabel("<html><b>Bold text = forced annotation.</b></html>");
         boldTextLabel.setOpaque(true);
         newExpPanel = new JPanel();
         expNameLabel = new JLabel();
