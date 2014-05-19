@@ -1,5 +1,4 @@
 #Genomizer Desktop
-=================
 
 Welcome to the Genomizer swing client!
 Programvaruteknik, Umea University Spring 2014
@@ -8,6 +7,7 @@ Programvaruteknik, Umea University Spring 2014
 ** See User Manual for instructions on using functionality
 
 ------------------------------------
+
 ###CHANGELOG v2.0 RELEASE DATE 14-05-16
 
 - Bugs reported by Yuri on 14-05-13 fixed
