@@ -4,7 +4,6 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.concurrent.CopyOnWriteArrayList;
 
-import communication.HTTPURLUpload;
 import util.AnnotationDataType;
 import util.AnnotationDataValue;
 import util.ExperimentData;
@@ -12,7 +11,7 @@ import util.GenomeReleaseData;
 import util.ProcessFeedbackData;
 
 import communication.DownloadHandler;
-import communication.UploadHandler;
+import communication.HTTPURLUpload;
 
 public interface GenomizerModel {
 
@@ -65,5 +64,7 @@ public interface GenomizerModel {
 
 
     public ProcessFeedbackData[] getProcessFeedback();
+
+    public boolean deleteGenomeRelease(String gr, String specie);
 
 }
