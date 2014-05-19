@@ -1,7 +1,6 @@
 package genomizerdesktop.tests;
 
 import static org.fest.assertions.api.Assertions.assertThat;
-import static org.junit.Assert.assertTrue;
 import model.GenomizerModel;
 import model.Model;
 
@@ -18,30 +17,25 @@ public class ModelTest {
     Model m;
     
     @Before
-    public void setUp() {
+    public void setUp() throws Exception {
         m = new Model();
         m.setIp("http://genomizer.apiary-mock.com");
     }
     
     @Test
-    public void ShouldHandleUploadRequests() {
-        
-    }
-    
-    @Test
-    public void shouldImplementGenomizerView() {
+    public void shouldImplementGenomizerView() throws Exception {
         assertThat(m).isInstanceOf(GenomizerModel.class);
     }
 
     @Test
-    public void shouldLogin() {
+    public void shouldLogin() throws Exception {
         assertThat(m.getUserID()).isEmpty();
         assertThat(m.loginUser("genomizer", "supersecretpass")).isTrue();
         assertThat(m.getUserID()).isNotEmpty();
     }
 
     @Test
-    public void shouldLogout() {
+    public void shouldLogout() throws Exception {
         assertThat(m.loginUser("genomizer", "supersecretpass")).isTrue();
         assertThat(m.getUserID()).isNotEmpty();
         assertThat(m.logoutUser()).isTrue();
@@ -49,19 +43,19 @@ public class ModelTest {
     }
 
     @Test
-    public void shouldAddExperiment() {
+    public void shouldAddExperiment() throws Exception {
         AnnotationDataValue[] values = new AnnotationDataValue[1];
         values[0] = new AnnotationDataValue("test", "name", "val");
         assertThat(m.addNewExperiment("testexp", "genomizer", values)).isTrue();
     }
 
     @Test
-    public void shouldUploadFile() {
+    public void shouldUploadFile() throws Exception {
         assertThat(m.uploadFile("test", new File("test"), "type", "user", false, "rn5")).isTrue();
     }
 
     @Test
-    public void shouldSearch() {
+    public void shouldSearch() throws Exception {
         assertThat(m.search("exp1[ExpID]")).isNotNull();
     }
 

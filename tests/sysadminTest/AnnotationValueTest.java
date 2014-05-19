@@ -41,7 +41,7 @@ public class AnnotationValueTest {
     @Test
     public void shouldAddAnnotationValue() {
         String annotationName = "SpeciesTEST";
-        String valueName = "frogTEST";
+        String valueName = "frog2TEST";
         AnnotationDataType toBeEdited = getSpecificAnnotationType(annotationName);
         int numberOfAnnotations = toBeEdited.getValues().length;
         if (toBeEdited != null) {

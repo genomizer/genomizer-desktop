@@ -107,13 +107,13 @@ public class IconFactory {
     }
     
     public static ImageIcon getStopIcon(int x, int y) {
-        ImageIcon icon = getBufferedImage("/icons/trash_icon.png");
+        ImageIcon icon = getBufferedImage("/icons/delete_icon.png");
         return new ImageIcon(icon.getImage().getScaledInstance(x, y,
                 Image.SCALE_SMOOTH));
     }
     
     public static ImageIcon getStopHoverIcon(int x, int y) {
-        ImageIcon icon = getBufferedImage("/icons/trash_icon.png");
+        ImageIcon icon = getBufferedImage("/icons/delete_icon.png");
         return new ImageIcon(icon.getImage().getScaledInstance(x, y,
                 Image.SCALE_SMOOTH));
     }
