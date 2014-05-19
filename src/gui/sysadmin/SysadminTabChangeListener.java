@@ -44,6 +44,9 @@ public class SysadminTabChangeListener implements ChangeListener {
                 } else {
 
                     sysContoller.updateAnnotationTable();
+
+                    /**TODO PLEASE REMOVE ME, ONLY FOR TEST*/
+                    // sysContoller.deleteGenomeRelease();
                 }
 
                 /**
