@@ -18,7 +18,6 @@ import util.AnnotationDataType;
 import util.AnnotationDataValue;
 import util.ExperimentData;
 import util.FileDrop;
-import util.IconFactory;
 
 public class UploadToExistingExpPanel extends JPanel implements ExperimentPanel {
 
@@ -38,13 +37,15 @@ public class UploadToExistingExpPanel extends JPanel implements ExperimentPanel 
      */
 
     public UploadToExistingExpPanel() {
-        selectFilesToUploadButton = CustomButtonFactory.makeCustomButton(
-                IconFactory.getBrowseIcon(40, 40),
-                IconFactory.getBrowseHoverIcon(42, 42), 42, 42,
-                "Browse for files");
-        uploadFilesToExperimentButton = CustomButtonFactory.makeCustomButton(
-                IconFactory.getUploadIcon(40, 40),
-                IconFactory.getUploadHoverIcon(42, 42), 42, 42, "Upload data");
+        // selectFilesToUploadButton = CustomButtonFactory.makeCustomButton(
+        // IconFactory.getBrowseIcon(40, 40),
+        // IconFactory.getBrowseHoverIcon(42, 42), 42, 42,
+        // "Browse for files");
+        // uploadFilesToExperimentButton = CustomButtonFactory.makeCustomButton(
+        // IconFactory.getUploadIcon(40, 40),
+        // IconFactory.getUploadHoverIcon(42, 42), 42, 42, "Upload data");
+        selectFilesToUploadButton = new JButton("Browse for files");
+        uploadFilesToExperimentButton = new JButton("Upload data");
         uploadFileRows = new HashMap<File, UploadFileRow>();
 
         mainPanel = new JPanel(new BorderLayout());
