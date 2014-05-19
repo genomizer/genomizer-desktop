@@ -633,8 +633,13 @@ public class Controller {
 
                     item.setSelected(!item.isSelected());
 
-                 //   item.getSpecie()
-                  //  view.set
+                    ArrayList<String> genomeVersion = new ArrayList<String>();
+                  //Kör request
+                 // model.getSpecieGenomeReleases(item.getSpecie());
+
+
+                   //view.setProccessFileList(genomeVersion/*Return av requesten*/);
+                    view.setGenomeFileList(genomeVersion);
 
                     list.repaint(list.getCellBounds(index, index));
                 }
