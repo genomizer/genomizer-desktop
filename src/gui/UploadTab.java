@@ -39,12 +39,9 @@ import util.FileDrop;
 import communication.UploadHandler;
 
 /**
- * A class representing a upload view in a application for genome reasearches.
- * This calss allows the user to upload files to the database of the
+ * A class representing a upload view in an application for genome research.
+ * This class allows the user to upload files to the database of the
  * application.
- *
- * @author
- *
  */
 public class UploadTab extends JPanel implements ExperimentPanel {
 
@@ -62,7 +59,7 @@ public class UploadTab extends JPanel implements ExperimentPanel {
     private HashMap<String, JTextField> annotationFields;
     private HashMap<File, UploadFileRow> uploadFileRows;
     private ActivePanel activePanel;
-    private JLabel expNameLabel;
+    private JLabel expNameLabel, boldTextLabel;
     private JTextField expID;
     private JScrollPane uploadScroll;
     private JPanel buttonsPanel;
@@ -103,7 +100,9 @@ public class UploadTab extends JPanel implements ExperimentPanel {
                 IconFactory.getBrowseHoverIcon(42, 42), 42, 42, "Browse for files");
         uploadButton = CustomButtonFactory.makeCustomButton(
                 IconFactory.getUploadIcon(40, 40),
-                IconFactory.getUploadHoverIcon(42,42), 42, 42, "Upload data");;
+                IconFactory.getUploadHoverIcon(42,42), 42, 42, "Upload data");
+        boldTextLabel = new JLabel("<html><b>Bold text = forced annotation.</b></html>");
+        boldTextLabel.setOpaque(true);
         newExpPanel = new JPanel();
         expNameLabel = new JLabel();
         expID = new JTextField();
@@ -195,10 +194,6 @@ public class UploadTab extends JPanel implements ExperimentPanel {
     public void createNewExp(AnnotationDataType[] annotations) {
         killContentsOfUploadPanel();
 
-        JLabel redTextLabel = new JLabel("<html><b>Bolded text = forced annotation.</b></html>");
-        redTextLabel.setOpaque(true);
-        uploadFilesPanel.add(redTextLabel, BorderLayout.NORTH);
-
         /*
          * setBorder(BorderFactory
          * .createTitledBorder("Create new experiment"));
@@ -251,7 +246,7 @@ public class UploadTab extends JPanel implements ExperimentPanel {
         gbc.insets = new Insets(5, 0, 5, 30);
         gbc.gridx = x;
         gbc.gridy = y;
-        
+
         JPanel exp = new JPanel(new BorderLayout());
         expNameLabel.setText("<html><b>Experiment ID</b></html>");
         //expNameLabel.setForeground(Color.RED);
@@ -334,7 +329,7 @@ public class UploadTab extends JPanel implements ExperimentPanel {
     public void createUploadFileRow(File[] files) {
         for (File f : files) {
             if (!uploadFileRows.containsKey(f)) {
-                UploadFileRow fileRow = new UploadFileRow(f, this);
+                UploadFileRow fileRow = new UploadFileRow(f, this, true);
                 uploadFileRows.put(f, fileRow);
             } else {
                 JOptionPane.showMessageDialog(this, "File already selected: "
@@ -351,6 +346,7 @@ public class UploadTab extends JPanel implements ExperimentPanel {
      * updates, it repaints the panel.
      */
     private void repaintSelectedFiles() {
+        uploadFilesPanel.add(boldTextLabel);
         if (!uploadFileRows.isEmpty()) {
             for (File f : uploadFileRows.keySet()) {
                 uploadFilesPanel.add(uploadFileRows.get(f));

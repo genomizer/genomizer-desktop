@@ -1,14 +1,22 @@
 package gui;
 
+import util.FileData;
+
 public class CheckListItem {
 
+    private FileData file;
     private String label;
     private String fileId;
+    private String specie;
     private boolean isSelected = false;
 
-    public CheckListItem(String label,String fileId) {
+    public CheckListItem(FileData file,String label,String fileId,String specie) {
+        this.file = file;
         this.label = label;
         this.fileId = fileId;
+        this.specie = specie;
+
+        this.label = label + " - " + specie;
     }
 
     public boolean isSelected() {
@@ -26,5 +34,13 @@ public class CheckListItem {
 
     public String fileId(){
         return fileId;
+    }
+
+    public String getSpecie(){
+        return specie;
+    }
+
+    public FileData getfile(){
+        return file;
     }
 }

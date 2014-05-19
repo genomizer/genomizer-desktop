@@ -1,6 +1,5 @@
 package controller;
 
-import communication.HTTPURLUpload;
 import gui.CheckListItem;
 import gui.DownloadWindow;
 import gui.GenomizerView;
@@ -8,7 +7,6 @@ import gui.UploadTab;
 import gui.UploadToExistingExpPanel;
 import gui.sysadmin.SysadminController;
 
-import java.awt.FileDialog;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
@@ -28,7 +26,10 @@ import util.AnnotationDataType;
 import util.AnnotationDataValue;
 import util.ExperimentData;
 import util.FileData;
+import util.GenomeReleaseData;
 import util.ProcessFeedbackData;
+
+import communication.HTTPURLUpload;
 
 public class Controller {
 
@@ -115,7 +116,7 @@ public class Controller {
                     String processtype = "rawtoprofile";
 
                     parameters[0] = view.getParameters()[0];
-                    parameters[1] = "";//view.getParameters()[1];
+                    parameters[1] = view.getParameters()[1];
                     parameters[2] = view.getOtherParameters()[0];// "y";
                     parameters[3] = view.getOtherParameters()[1];// "y";
                     parameters[4] = view.getParameters()[2];
@@ -127,11 +128,12 @@ public class Controller {
                     String genomeVersion = data.grVersion;
                     String metadata = data.metaData;
 
-                 //   isConverted = model.rawToProfile(fileName, fileID, expid,
-                 //           processtype, parameters, metadata, genomeRelease,
-                 //           author);
+                    // isConverted = model.rawToProfile(fileName, fileID, expid,
+                    // processtype, parameters, metadata, genomeRelease,
+                    // author);
 
-                    isConverted = model.rawToProfile(expid,parameters, metadata, genomeVersion, author);
+                    isConverted = model.rawToProfile(expid, parameters,
+                            metadata, genomeVersion, author);
 
                     if (isConverted) {
                         message = "The server has converted: " + fileName
@@ -381,7 +383,7 @@ public class Controller {
         public void run() {
             UploadTab uploadTab = view.getUploadTab();
             String expID = uploadTab.getSearchText();
-            if(expID.length() > 0) {
+            if (expID.length() > 0) {
                 try {
                     ExperimentData ed = model.retrieveExperiment(expID);
                     ArrayList<FileData> f = new ArrayList<FileData>();
@@ -420,11 +422,12 @@ public class Controller {
                 return;
             }
 
-            /*FileDialog fileDialog = new java.awt.FileDialog(
-                    (java.awt.Frame) view);
-            fileDialog.setMultipleMode(true);
-            fileDialog.setVisible(true);
-            File[] files = fileDialog.getFiles();*/
+            /*
+             * FileDialog fileDialog = new java.awt.FileDialog( (java.awt.Frame)
+             * view); fileDialog.setMultipleMode(true);
+             * fileDialog.setVisible(true); File[] files =
+             * fileDialog.getFiles();
+             */
             String[] fileNames = new String[files.length];
             for (int i = 0; i < files.length; i++) {
                 fileNames[i] = files[i].getName();
@@ -454,14 +457,14 @@ public class Controller {
             // Should be genome release from uploadTab
             String release = "rn5";
 
-            // TODO: ändra till existerande experiment!
             ExperimentData ed = view.getUploadTab()
                     .getUploadToExistingExpPanel().getExperiment();
 
             for (File f : files) {
                 if (model.uploadFile(ed.getName(), f, types.get(f.getName()),
                         view.getUsername(), false, release)) {
-                    view.getUploadTab().getUploadToExistingExpPanel().deleteFileRow(f);
+                    view.getUploadTab().getUploadToExistingExpPanel()
+                            .deleteFileRow(f);
                     for (HTTPURLUpload upload : model.getOngoingUploads()) {
                         if (f.getName().equals(upload.getFileName())) {
                             model.getOngoingUploads().remove(upload);
@@ -587,7 +590,8 @@ public class Controller {
                                 types.get(f.getName()), view.getUsername(),
                                 false, release)) {
                             view.deleteUploadFileRow(f);
-                            for (HTTPURLUpload upload : model.getOngoingUploads()) {
+                            for (HTTPURLUpload upload : model
+                                    .getOngoingUploads()) {
                                 if (f.getName().equals(upload.getFileName())) {
                                     model.getOngoingUploads().remove(upload);
                                 }
@@ -633,6 +637,9 @@ public class Controller {
 
                     item.setSelected(!item.isSelected());
 
+                    GenomeReleaseData[] genome = model.getSpecieGenomeReleases(item.getSpecie());
+                    view.setGenomeFileList(genome);
+
                     list.repaint(list.getCellBounds(index, index));
                 }
             }
@@ -663,9 +670,9 @@ public class Controller {
         public void run() {
             ProcessFeedbackData[] processFeedbackData = model
                     .getProcessFeedback();
-            // if(processFeedbackData != null) {
-            view.showProcessFeedback(processFeedbackData);
-            // }
+            if (processFeedbackData != null) {
+                view.showProcessFeedback(processFeedbackData);
+            }
         }
     }
 

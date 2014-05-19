@@ -6,6 +6,8 @@ public class RemoveGenomeReleaseRequest extends Request {
         super("deleteGenomeRelease",
                 "/genomeRelease/" + specie + "/" + version, "DELETE");
 
+
+
     }
 
 }

@@ -339,7 +339,7 @@ public class Model implements GenomizerModel {
             System.out.println("responsecode: " + conn.getResponseCode());
             JOptionPane.showMessageDialog(null, "Could not get annotations!");
         }
-        return new AnnotationDataType[] { };
+        return new AnnotationDataType[] {};
     }
 
     public GenomeReleaseData[] getGenomeReleases() {
@@ -360,7 +360,7 @@ public class Model implements GenomizerModel {
                     .showMessageDialog(null, "Could not get genomereleases!");
         }
 
-        return new GenomeReleaseData[] { };
+        return new GenomeReleaseData[] {};
     }
 
     @Override
@@ -466,7 +466,7 @@ public class Model implements GenomizerModel {
                 .makeProcessFeedbackRequest();
         Connection conn = connFactory.makeConnection();
         conn.sendRequest(request, userID, TEXT_PLAIN);
-        // System.out.println("proc feedback code: " +conn.getResponseCode());
+        System.out.println("proc feedback code: " + conn.getResponseCode());
         if (conn.getResponseCode() == 200) {
             return ResponseParser.parseProcessFeedbackResponse(conn
                     .getResponseBody());
@@ -481,33 +481,54 @@ public class Model implements GenomizerModel {
     }
 
     @Override
-    public boolean deleteGenomeRelease(String gr, String specie) {
+    public boolean deleteGenomeRelease(String specie, String version) {
 
         RemoveGenomeReleaseRequest request = RequestFactory
-                .makeRemoveGenomeReleaseRequest(gr, specie);
+                .makeRemoveGenomeReleaseRequest(specie, version);
+        Connection conn = connFactory.makeConnection();
+        conn.sendRequest(request, userID, JSON);
+        if (conn.getResponseCode() == 200) {
+            System.err.println("Genome release version: " + version
+                    + "successfully removed.");
+            return true;
+        } else {
+            System.err.println("Could not remove genome release: " + version
+                    + " species: " + specie);
+
+        }
         return false;
     }
 
     public GenomeReleaseData[] getSpecieGenomeReleases(String specie) {
 
-        //    GetGenomeReleasesRequest request = RequestFactory
-        //            .makeGetGenomeReleaseRequest();
+        GetGenomeSpecieReleasesRequest request = RequestFactory
+                .makeGetGenomeSpecieReleaseRequest(specie);
+
+        // GetGenomeReleasesRequest request = RequestFactory
+        // .makeGetGenomeReleaseRequest();
         Connection conn = connFactory.makeConnection();
-        //    conn.sendRequest(request, userID, TEXT_PLAIN);
+        conn.sendRequest(request, userID, TEXT_PLAIN);
+        // conn.sendRequest(request, userID, TEXT_PLAIN);
         if (conn.getResponseCode() == 200) {
-            System.err.println("Sent getGenomerReleaseRequestSuccess!");
+
+            System.err.println("Sent getGenomeSpecieReleaseRequestSuccess!");
             GenomeReleaseData[] genomeReleases = ResponseParser
                     .parseGetGenomeReleaseResponse(conn.getResponseBody());
+       //     for(int i = 0;i < genomeReleases.length ; i++){
+       //         System.out.println(genomeReleases[i].getVersion());
+       //     }
             return genomeReleases;
         } else {
 
-            System.out.println("GenomeRelease responsecode: "
+            System.out.println("GenomeSpecieRelease responsecode: "
                     + conn.getResponseCode());
             JOptionPane
-                    .showMessageDialog(null, "Could not get genomereleases!");
+                    .showMessageDialog(null, "Could not get genomespeciereleases!");
         }
 
-        return new GenomeReleaseData[] { };
+        //
+        return new GenomeReleaseData[1];
+
     }
 
 }

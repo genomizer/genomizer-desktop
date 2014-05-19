@@ -25,6 +25,7 @@ import util.AnnotationDataType;
 import util.AnnotationDataValue;
 import util.ExperimentData;
 import util.FileData;
+import util.GenomeReleaseData;
 import util.IconFactory;
 import util.ProcessFeedbackData;
 
@@ -235,7 +236,7 @@ public class GUI extends JFrame implements GenomizerView {
      * @return The marked files from the process tab.
      */
     @Override
-    public ArrayList<String> getAllMarkedFiles() {
+    public ArrayList<FileData> getAllMarkedFiles() {
 
         return processTab.getAllMarkedFiles();
 
@@ -351,7 +352,8 @@ public class GUI extends JFrame implements GenomizerView {
      */
     public void setProcessTab(ProcessTab processTab) {
         this.processTab = processTab;
-        tabbedPane.addTab("",IconFactory.getProcessIcon(30, 30), processTab);
+        tabbedPane.addTab("",IconFactory.getProcessIcon(30, 30), processTab,
+                "Process");
 
     }
 
@@ -392,7 +394,8 @@ public class GUI extends JFrame implements GenomizerView {
      */
     public void setUploadTab(UploadTab uploadTab) {
         this.uploadTab = uploadTab;
-        tabbedPane.addTab("",IconFactory.getUploadIcon(40, 40), uploadTab);
+        tabbedPane.addTab("",IconFactory.getUploadIcon(40, 40), uploadTab,
+                "Upload");
     }
 
     /**
@@ -403,7 +406,8 @@ public class GUI extends JFrame implements GenomizerView {
      */
     public void setWorkspaceTab(WorkspaceTab workspaceTab) {
         this.workspaceTab = workspaceTab;
-        tabbedPane.addTab("",IconFactory.getWorkspaceIcon(40, 40), workspaceTab);
+        tabbedPane.addTab("",IconFactory.getWorkspaceIcon(40, 40), workspaceTab,
+                "Workspace");
     }
 
     /**
@@ -414,7 +418,8 @@ public class GUI extends JFrame implements GenomizerView {
      */
     public void setAnalyzeTab(AnalyzeTab analyzeTab) {
         this.analyzeTab = analyzeTab;
-        tabbedPane.addTab("",IconFactory.getAnalyzeIcon(40, 40), analyzeTab);
+        tabbedPane.addTab("",IconFactory.getAnalyzeIcon(40, 40), analyzeTab,
+                "Analyze");
         //tabbedPane.setEnabledAt(4, false);
     }
 
@@ -426,7 +431,8 @@ public class GUI extends JFrame implements GenomizerView {
      */
     public void setSysAdminTab(SysadminTab sat) {
         this.sysadminTab = sat;
-        tabbedPane.addTab("", IconFactory.getAdministratorIcon(40, 40),sysadminTab);
+        tabbedPane.addTab("", IconFactory.getAdministratorIcon(40, 40),
+                sysadminTab, "System Administration");
 
     }
 
@@ -438,7 +444,8 @@ public class GUI extends JFrame implements GenomizerView {
      */
     public void setQuerySearchTab(QuerySearchTab qst) {
         this.querySearchTab = qst;
-        tabbedPane.addTab("",IconFactory.getSearchIcon(40, 40), querySearchTab);
+        tabbedPane.addTab("",IconFactory.getSearchIcon(40, 40), querySearchTab,
+                "Search");
     }
 
     /**
@@ -675,5 +682,9 @@ public class GUI extends JFrame implements GenomizerView {
 
     public RatioCalcPopup getRatioCalcPopup() {
         return this.ratioCalcPopup;
+    }
+
+    public void setGenomeFileList(GenomeReleaseData[] genomeReleases) {
+        processTab.setGenomeFileList(genomeReleases);
     }
 }
