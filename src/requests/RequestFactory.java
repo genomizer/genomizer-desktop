@@ -98,6 +98,12 @@ public class RequestFactory {
         return new GetGenomeReleasesRequest();
     }
 
+    public static RemoveGenomeReleaseRequest makeRemoveGenomeReleaseRequest(
+            String gr, String specie) {
+
+        return new RemoveGenomeReleaseRequest(specie, gr);
+    }
+
     public static RenameAnnotationFieldRequest makeRenameAnnotationFieldRequest(
             String oldname, String newname) {
         return new RenameAnnotationFieldRequest(oldname, newname);

@@ -122,7 +122,7 @@ public class SysadminController extends Observable {
                                 + annotation.name + " annotation?") == JOptionPane.YES_OPTION) {
                     if (model.deleteAnnotation(annotation.name)) {
                         JOptionPane.showMessageDialog(null, annotation.name
-                                + " has been remove!");
+                                + " has been removed!");
                         SwingUtilities.invokeLater(new Runnable() {
 
                             @Override
@@ -157,6 +157,16 @@ public class SysadminController extends Observable {
 
         return grdarray;
 
+    }
+
+    public void deleteGenomeRelease() {
+
+        /** EXAMPLE DATA OF DOOM */
+        String gr = "hy17";
+        String specie = "fly";
+        if (model.deleteGenomeRelease(gr, specie)) {
+
+        }
     }
 
     public void updateAnnotationTable() {
