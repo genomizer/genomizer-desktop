@@ -31,6 +31,7 @@ import javax.swing.ListSelectionModel;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeCellRenderer;
 
+import util.ExperimentData;
 import util.FileData;
 import util.GenomeReleaseData;
 import util.ProcessFeedbackData;
@@ -579,7 +580,7 @@ public class ProcessTab extends JPanel {
     public void setBowtieParameters() {
 
         bowtieParameters[0] = getTextFromFlags(); // "-a -m 1 --best -p 10 -v 2";
-        bowtieParameters[1] = getTextGenomeFileName(); // "d_melanogaster_fb5_22";
+        bowtieParameters[1] = getTextGenomeFileName(); // "hg38";
         bowtieParameters[2] = getSmoothingParameters(); // "10 1 5 0 1";
         bowtieParameters[3] = getStepSize(); // "y 10";
 
@@ -699,9 +700,9 @@ public class ProcessTab extends JPanel {
         CheckListItem[] itemList = new CheckListItem[fileData.size()];
 
         for (int i = 0; i < fileData.size(); i++) {
-            itemList[i] = new CheckListItem(fileData.get(i),fileData.get(i).filename,
+            itemList[i] = new CheckListItem(fileData.get(i),new ExperimentData(),fileData.get(i).filename,
             // TODO fixa riktiga species
-                    fileData.get(i).id, "Human");
+                    fileData.get(i).id);
         }
 
         fileList.setListData(itemList);

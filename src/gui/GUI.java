@@ -108,7 +108,7 @@ public class GUI extends JFrame implements GenomizerView {
     public void addRawToProfileDataListener(ActionListener listener) {
         processTab.addRawToProfileDataListener(listener);
     }
-    
+
     /*
      * @Override public void addAddPopupListener(ActionListener
      * addPopupListener) { sysadminTab.addAddPopupListener(addPopupListener); }
@@ -191,7 +191,7 @@ public class GUI extends JFrame implements GenomizerView {
     public ArrayList<ExperimentData> getSelectedDataInSearch() {
         return querySearchTab.getSelectedData();
     }
-    
+
     /*
      * @Override public String getNewAnnotationName() { return
      * sysadminTab.getNewAnnotationName(); }
@@ -203,11 +203,11 @@ public class GUI extends JFrame implements GenomizerView {
     public UploadTab getUploadTab() {
         return uploadTab;
     }
-    
+
     /*
      * @Override public String[] getNewAnnotionCategories() { return
      * sysadminTab.getNewAnnotationCategories(); }
-     * 
+     *
      * @Override public boolean getNewAnnotationForcedValue() { return
      * sysadminTab.getNewAnnotationForcedValue(); }
      */
@@ -459,7 +459,7 @@ public class GUI extends JFrame implements GenomizerView {
     public void setSearchAnnotationTypes(AnnotationDataType[] annotationTypes) {
         querySearchTab.setAnnotationTypes(annotationTypes);
     }
-    
+
     /*
      * @Override public void setAnnotationTableData(AnnotationDataType[]
      * annotations) { sysadminTab.setAnnotationTableData(annotations); }
@@ -483,12 +483,13 @@ public class GUI extends JFrame implements GenomizerView {
         }
         tabbedPane.setSelectedIndex(2);
         processTab.setFileInfo(allFileData);
+        //processTab
 
     }
-    
+
     /*
      * @Override public void closePopup() { sysadminTab.closePopup(); }
-     * 
+     *
      * @Override public void annotationPopup() { sysadminTab.popup(); }
      */
 
