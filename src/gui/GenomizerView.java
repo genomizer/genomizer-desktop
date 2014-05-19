@@ -72,7 +72,7 @@ public interface GenomizerView {
 
     public void addToWorkspace(ArrayList<ExperimentData> experiments);
 
-    public ArrayList<String> getAllMarkedFiles();
+    public ArrayList<FileData> getAllMarkedFiles();
 
     public String getPassword();
 
@@ -163,4 +163,6 @@ public interface GenomizerView {
     public void addCancelListener(ActionListener listener);
 
     public RatioCalcPopup getRatioCalcPopup();
+
+    public void setGenomeFileList(GenomeReleaseData[] genome);
 }

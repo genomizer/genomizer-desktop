@@ -28,13 +28,14 @@ import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.JTree;
 import javax.swing.ListSelectionModel;
-import javax.swing.border.EtchedBorder;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeCellRenderer;
 
+import util.ExperimentData;
 import util.FileData;
-import util.IconFactory;
+import util.GenomeReleaseData;
 import util.ProcessFeedbackData;
+import util.TreeTable;
 
 /**
  * Visual presentation of the process tab.
@@ -120,6 +121,9 @@ public class ProcessTab extends JPanel {
     private ArrayList<FileData> fileData;
     private String[] bowtieParameters = new String[4];
     private ProcessFeedbackData[] processFeedbackData;
+    private TreeTable table;
+
+    private ActionListener procFeedbackListener;
 
     public ProcessTab() {
         processFeedbackData = new ProcessFeedbackData[0];
@@ -127,6 +131,7 @@ public class ProcessTab extends JPanel {
         setMinimumSize(new Dimension(20000, 20000));
         this.setLayout(new BorderLayout());
         initPanels();
+        table = new TreeTable();
     }
 
     /**
@@ -165,7 +170,7 @@ public class ProcessTab extends JPanel {
         /* TEST */
         ArrayList<String> gFiles = new ArrayList<String>();
         /* TEST */
-        gFiles.add(0, "d_melanogaster_fb5_22");
+        gFiles.add("");
         /* TEST */
         setGenomeReleaseFiles(gFiles);
 
@@ -180,7 +185,8 @@ public class ProcessTab extends JPanel {
      */
     private void addNorthPanel() {
         rawToProfileMenuPanel.setAlignmentX(Component.RIGHT_ALIGNMENT);
-        rawToProfileMenuPanel.setBorder(BorderFactory.createTitledBorder("Process"));
+        rawToProfileMenuPanel.setBorder(BorderFactory
+                .createTitledBorder("Process"));
         this.add(rawToProfileMenuPanel, BorderLayout.NORTH);
         addOptionsToRawToProfileTab();
         enableButtons();
@@ -224,58 +230,68 @@ public class ProcessTab extends JPanel {
         this.add(procInfoPanel, BorderLayout.EAST);
         procInfoPanel.add(procInfoSouthPanel, BorderLayout.SOUTH);
         procInfoPanel.add(procInfoCenterPanel, BorderLayout.CENTER);
-        scrollProcessList.setPreferredSize(new Dimension(200,700));
+        scrollProcessList.setPreferredSize(new Dimension(200, 700));
         procInfoCenterPanel.add(scrollProcessList, BorderLayout.CENTER);
-        //create the root node
-        DefaultMutableTreeNode root = new DefaultMutableTreeNode("<html><b>Current processes</b></html>");
-        //create the child nodes
-        for(int i=0; i<processFeedbackData.length; i++) {
+        // create the root node
+        DefaultMutableTreeNode root = new DefaultMutableTreeNode(
+                "<html><b>Current processes</b></html>");
+        // create the child nodes
+        for (int i = 0; i < processFeedbackData.length; i++) {
             ProcessFeedbackData data = processFeedbackData[i];
-            DefaultMutableTreeNode procNode =
-                    new DefaultMutableTreeNode("<html><b>Process " + i + "</b></html>");
+            DefaultMutableTreeNode procNode = new DefaultMutableTreeNode(
+                    "<html><b>Process " + i + "</b></html>");
             root.add(procNode);
-            DefaultMutableTreeNode expNode =
-                    new DefaultMutableTreeNode("<html><u>ExpID</u>: "+ data.experimentName + "</html>");
+            DefaultMutableTreeNode expNode = new DefaultMutableTreeNode(
+                    "<html><u>ExpID</u>: " + data.experimentName + "</html>");
             procNode.add(expNode);
-            DefaultMutableTreeNode authorNode =
-                    new DefaultMutableTreeNode("<html><u>Author</u>: "+ data.author + "</html>");
+            DefaultMutableTreeNode authorNode = new DefaultMutableTreeNode(
+                    "<html><u>Author</u>: " + data.author + "</html>");
             procNode.add(authorNode);
-            DefaultMutableTreeNode statusNode =
-                    new DefaultMutableTreeNode("<html><u>Status</u>: "+ data.status + "</html>");
+            DefaultMutableTreeNode statusNode = new DefaultMutableTreeNode(
+                    "<html><u>Status</u>: " + data.status + "</html>");
             procNode.add(statusNode);
-            DefaultMutableTreeNode addedNode =
-                    new DefaultMutableTreeNode("<html><u>Time Added</u>: " + data.timeAdded + "</html>");
+            DefaultMutableTreeNode addedNode = new DefaultMutableTreeNode(
+                    "<html><u>Time Added</u>: " + data.timeAdded + "</html>");
             procNode.add(addedNode);
-            DefaultMutableTreeNode startedNode =
-                    new DefaultMutableTreeNode("<html><u>Time Started</u>: " + data.timeStarted + "</html>");
+            DefaultMutableTreeNode startedNode = new DefaultMutableTreeNode(
+                    "<html><u>Time Started</u>: " + data.timeStarted
+                            + "</html>");
             procNode.add(startedNode);
-            DefaultMutableTreeNode finishedNode =
-                    new DefaultMutableTreeNode("<html><u>Time Finished</u>: " + data.timeFinished + "</html>");
+            DefaultMutableTreeNode finishedNode = new DefaultMutableTreeNode(
+                    "<html><u>Time Finished</u>: " + data.timeFinished
+                            + "</html>");
             procNode.add(finishedNode);
-            DefaultMutableTreeNode outputNode =
-                    new DefaultMutableTreeNode("<html><b>Output files</b></html>");
+            DefaultMutableTreeNode outputNode = new DefaultMutableTreeNode(
+                    "<html><b>Output files</b></html>");
             procNode.add(outputNode);
-            for(int j=0; j<data.outputFiles.length; j++) {
-                DefaultMutableTreeNode fileNode =
-                        new DefaultMutableTreeNode("<html><u>File Name</u>: " + data.outputFiles[j] + "</html>");
+            for (int j = 0; j < data.outputFiles.length; j++) {
+                DefaultMutableTreeNode fileNode = new DefaultMutableTreeNode(
+                        "<html><u>File Name</u>: " + data.outputFiles[j]
+                                + "</html>");
                 outputNode.add(fileNode);
             }
-            
-        } 
-        //create the tree by passing in the root node
+
+        }
+        // create the tree by passing in the root node
         JTree tree = new JTree(root);
-        DefaultTreeCellRenderer renderer = (DefaultTreeCellRenderer) tree.getCellRenderer();
+        DefaultTreeCellRenderer renderer = (DefaultTreeCellRenderer) tree
+                .getCellRenderer();
         renderer.setLeafIcon(null);
         renderer.setClosedIcon(null);
         renderer.setOpenIcon(null);
         scrollProcessList.setViewportView(tree);
-        processFeedbackButton = CustomButtonFactory.makeCustomButton(
-                IconFactory.getRefreshIcon(30, 30),
-                IconFactory.getRefreshHoverIcon(32, 32), 32, 32, "Get process information from server");
-        
-        addToFileListButton = CustomButtonFactory.makeCustomButton(
-                IconFactory.getAddToListIcon(30, 30),
-                IconFactory.getAddToListHoverIcon(32, 32), 32, 32, "Add selected files to list");
+        // processFeedbackButton = CustomButtonFactory.makeCustomButton(
+        // IconFactory.getRefreshIcon(30, 30),
+        // IconFactory.getRefreshHoverIcon(32, 32), 32, 32,
+        // "Get process information from server");
+        processFeedbackButton = new JButton("Get process feedback");
+        processFeedbackButton.addActionListener(procFeedbackListener);
+        // addToFileListButton = CustomButtonFactory.makeCustomButton(
+        // IconFactory.getAddToListIcon(30, 30),
+        // IconFactory.getAddToListHoverIcon(32, 32), 32, 32,
+        // "Add selected files to list");
+        addToFileListButton = new JButton("Add to file list");
+        addToFileListButton.setEnabled(false);
         procInfoSouthPanel.add(addToFileListButton);
         procInfoSouthPanel.add(Box.createHorizontalStrut(35));
         procInfoSouthPanel.add(processFeedbackButton);
@@ -564,7 +580,7 @@ public class ProcessTab extends JPanel {
     public void setBowtieParameters() {
 
         bowtieParameters[0] = getTextFromFlags(); // "-a -m 1 --best -p 10 -v 2";
-        bowtieParameters[1] = getTextGenomeFileName(); // "d_melanogaster_fb5_22";
+        bowtieParameters[1] = getTextGenomeFileName(); // "hg38";
         bowtieParameters[2] = getSmoothingParameters(); // "10 1 5 0 1";
         bowtieParameters[3] = getStepSize(); // "y 10";
 
@@ -648,6 +664,14 @@ public class ProcessTab extends JPanel {
         return genomeFile.getSelectedItem().toString().trim();
     }
 
+    public void setGenomeFileList(GenomeReleaseData[] genomeReleases) {
+
+        genomeFile.removeAllItems();
+        for (GenomeReleaseData version : genomeReleases) {
+            genomeFile.addItem(version.getVersion());
+        }
+    }
+
     /**
      * Gets the text in the flag parameter in raw to profile tab.
      *
@@ -676,7 +700,8 @@ public class ProcessTab extends JPanel {
         CheckListItem[] itemList = new CheckListItem[fileData.size()];
 
         for (int i = 0; i < fileData.size(); i++) {
-            itemList[i] = new CheckListItem(fileData.get(i).filename,
+            itemList[i] = new CheckListItem(fileData.get(i),new ExperimentData(),fileData.get(i).filename,
+            // TODO fixa riktiga species
                     fileData.get(i).id);
         }
 
@@ -701,11 +726,12 @@ public class ProcessTab extends JPanel {
     /**
      * Gets the names of all the files that are marked in the fileList.
      *
-     * @return ArrayList<String> - List of all the file names.
+     * @return ArrayList<FileData> - List of all the file names.
      */
-    public ArrayList<String> getAllMarkedFiles() {
 
-        ArrayList<String> arr = new ArrayList<String>();
+    public ArrayList<FileData> getAllMarkedFiles() {
+
+        ArrayList<FileData> arr = new ArrayList<FileData>();
 
         for (int i = 0; i < fileList.getModel().getSize(); i++) {
             CheckListItem checkItem = (CheckListItem) fileList.getModel()
@@ -722,17 +748,9 @@ public class ProcessTab extends JPanel {
      */
     public ArrayList<FileData> getAllMarkedFileData() {
 
-        ArrayList<FileData> allMarked = new ArrayList<FileData>();
-        ArrayList<String> arr = getAllMarkedFiles();
+        ArrayList<FileData> arr = getAllMarkedFiles();
 
-        if (!(fileData == null)) {
-            for (int i = 0; i < fileData.size(); i++) {
-                if (arr.contains(fileData.get(i).filename)) {
-                    allMarked.add(fileData.get(i));
-                }
-            }
-        }
-        return allMarked;
+        return arr;
     }
 
     /**
@@ -743,10 +761,10 @@ public class ProcessTab extends JPanel {
      * @param checkItem
      *            - the item in the list
      */
-    private void checkItemIsSelected(ArrayList<String> arr,
+    private void checkItemIsSelected(ArrayList<FileData> arr,
             CheckListItem checkItem) {
         if (checkItem.isSelected()) {
-            arr.add(checkItem.toString());
+            arr.add(checkItem.getfile());
         }
     }
 
@@ -759,7 +777,8 @@ public class ProcessTab extends JPanel {
     }
 
     public void addProcessFeedbackListener(ActionListener listener) {
-        processFeedbackButton.addActionListener(listener);
+        procFeedbackListener = listener;
+        processFeedbackButton.addActionListener(procFeedbackListener);
     }
 
     public void addRawToProfileDataListener(ActionListener listener) {
@@ -780,7 +799,7 @@ public class ProcessTab extends JPanel {
     }
 
     public void showProcessFeedback(ProcessFeedbackData[] processFeedbackData) {
-        this.processFeedbackData = ProcessFeedbackData.getExample();
+        this.processFeedbackData = processFeedbackData;
         remove(procInfoPanel);
         this.addProcessInfoPanel();
         repaint();

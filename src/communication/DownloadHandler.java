@@ -34,6 +34,10 @@ public class DownloadHandler {
              * URL targetUrl = new URL(
              * "http://scratchy.cs.umu.se:8090/html/download.php?path=" + url);
              */
+            File file = new File(localFilePath);
+            if (file.isFile()) {
+                fileName = file.getName();
+            }
             url = url.replaceFirst("\\u003d", "=");
 
             URL targetUrl = new URL(url);
@@ -53,7 +57,6 @@ public class DownloadHandler {
             }
             System.out.println(responseCode);
             InputStream in = conn.getInputStream();
-            File file = new File(localFilePath);
             String buffer;
             totalDownload = 0;
             int previousDownload = 0;
@@ -101,9 +104,11 @@ public class DownloadHandler {
             conn.disconnect();
 
         } catch (MalformedURLException e) {
-            e.printStackTrace();
+            System.out.println("ERROR: The url was not correct: " + url);
+            return false;
         } catch (IOException e) {
             e.printStackTrace();
+            return false;
         }
         return true;
     }
