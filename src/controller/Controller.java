@@ -454,7 +454,6 @@ public class Controller {
             // Should be genome release from uploadTab
             String release = "rn5";
 
-            // TODO: ändra till existerande experiment!
             ExperimentData ed = view.getUploadTab()
                     .getUploadToExistingExpPanel().getExperiment();
 
