@@ -31,6 +31,7 @@ public class HTTPURLUpload {
     private String uploadPath;
     private String fileName;
     private float currentProgress;
+    private int responseCode;
 
     public HTTPURLUpload(String uploadPath, String filePath,  String fileName) {
         this.fileName = fileName;
@@ -98,6 +99,7 @@ public class HTTPURLUpload {
             HttpEntity resEntity = response.getEntity();
             System.out.println("Response code: "
                     + response.getStatusLine().getStatusCode());
+            responseCode = response.getStatusLine().getStatusCode();
             if (resEntity != null) {
 
                 String responseStr = EntityUtils.toString(resEntity).trim();
@@ -132,4 +134,7 @@ public class HTTPURLUpload {
         return currentProgress;
     }
 
+    public int getResponseCode() {
+        return responseCode;
+    }
 }

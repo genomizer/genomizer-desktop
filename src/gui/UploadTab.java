@@ -39,12 +39,9 @@ import util.FileDrop;
 import communication.UploadHandler;
 
 /**
- * A class representing a upload view in a application for genome reasearches.
- * This calss allows the user to upload files to the database of the
+ * A class representing a upload view in an application for genome research.
+ * This class allows the user to upload files to the database of the
  * application.
- *
- * @author
- *
  */
 public class UploadTab extends JPanel implements ExperimentPanel {
 
@@ -103,7 +100,7 @@ public class UploadTab extends JPanel implements ExperimentPanel {
                 IconFactory.getBrowseHoverIcon(42, 42), 42, 42, "Browse for files");
         uploadButton = CustomButtonFactory.makeCustomButton(
                 IconFactory.getUploadIcon(40, 40),
-                IconFactory.getUploadHoverIcon(42,42), 42, 42, "Upload data");;
+                IconFactory.getUploadHoverIcon(42,42), 42, 42, "Upload data");
         newExpPanel = new JPanel();
         expNameLabel = new JLabel();
         expID = new JTextField();

@@ -16,7 +16,7 @@ public class ModelTest {
     @Before
     public void setUp() {
         Connection conn = null;
-        m = new Model(conn);
+        m = new Model();
     }
     
     @Test
