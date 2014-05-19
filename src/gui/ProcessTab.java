@@ -119,6 +119,7 @@ public class ProcessTab extends JPanel {
     private ArrayList<FileData> fileData;
     private String[] bowtieParameters = new String[4];
     private ProcessFeedbackData[] processFeedbackData;
+    private ActionListener procFeedbackListener;
     
     public ProcessTab() {
         processFeedbackData = new ProcessFeedbackData[0];
@@ -278,6 +279,7 @@ public class ProcessTab extends JPanel {
                 IconFactory.getRefreshIcon(30, 30),
                 IconFactory.getRefreshHoverIcon(32, 32), 32, 32,
                 "Get process information from server");
+        processFeedbackButton.addActionListener(procFeedbackListener);
         
         addToFileListButton = CustomButtonFactory.makeCustomButton(
                 IconFactory.getAddToListIcon(30, 30),
@@ -775,7 +777,8 @@ public class ProcessTab extends JPanel {
     }
     
     public void addProcessFeedbackListener(ActionListener listener) {
-        processFeedbackButton.addActionListener(listener);
+        procFeedbackListener = listener;
+        processFeedbackButton.addActionListener(procFeedbackListener);
     }
     
     public void addRawToProfileDataListener(ActionListener listener) {
