@@ -164,5 +164,5 @@ public interface GenomizerView {
 
     public RatioCalcPopup getRatioCalcPopup();
 
-    public void setGenomeFileList(ArrayList<String> genomeReleases);
+    public void setGenomeFileList(GenomeReleaseData[] genome);
 }
