@@ -554,6 +554,7 @@ public class UploadTab extends JPanel implements ExperimentPanel {
                 while (running) {
                     for (File key : uploadFileRows.keySet()) {
                         UploadFileRow row = uploadFileRows.get(key);
+                        
                         for (HTTPURLUpload upload : ongoingUploads) {
                             if (upload.getFileName().equals(row.getFileName())) {
                                 row.updateProgressBar(upload
