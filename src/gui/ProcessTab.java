@@ -655,6 +655,14 @@ public class ProcessTab extends JPanel {
         return genomeFile.getSelectedItem().toString().trim();
     }
     
+    public void setGenomeFileList(ArrayList<String> genomeReleases) {
+        
+        genomeFile.removeAllItems();
+        for (String version : genomeReleases) {
+            genomeFile.addItem(version);
+        }
+    }
+    
     /**
      * Gets the text in the flag parameter in raw to profile tab.
      * 
@@ -684,7 +692,8 @@ public class ProcessTab extends JPanel {
         
         for (int i = 0; i < fileData.size(); i++) {
             itemList[i] = new CheckListItem(fileData.get(i).filename,
-                    fileData.get(i).id);
+            // TODO fixa riktiga species
+                    fileData.get(i).id, "HUND");
         }
         
         fileList.setListData(itemList);

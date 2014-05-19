@@ -456,7 +456,6 @@ public class Controller {
             // Should be genome release from uploadTab
             String release = "rn5";
             
-            // TODO: ändra till existerande experiment!
             ExperimentData ed = view.getUploadTab()
                     .getUploadToExistingExpPanel().getExperiment();
             
@@ -637,6 +636,14 @@ public class Controller {
                     
                     item.setSelected(!item.isSelected());
                     
+                    ArrayList<String> genomeVersion = new ArrayList<String>();
+                    // Kör request
+                    // model.getSpecieGenomeReleases(item.getSpecie());
+                    
+                    // view.setProccessFileList(genomeVersion/*Return av
+                    // requesten*/);
+                    view.setGenomeFileList(genomeVersion);
+                    
                     list.repaint(list.getCellBounds(index, index));
                 }
             }
@@ -667,12 +674,9 @@ public class Controller {
         public void run() {
             ProcessFeedbackData[] processFeedbackData = model
                     .getProcessFeedback();
-            for (int i = 0; i < processFeedbackData.length; i++) {
-                System.out.println(processFeedbackData[i].experimentName);
-            }
-            if (processFeedbackData != null && processFeedbackData.length > 0) {
-                view.showProcessFeedback(processFeedbackData);
-            }
+            // if(processFeedbackData != null) {
+            view.showProcessFeedback(processFeedbackData);
+            // }
         }
     }
     
