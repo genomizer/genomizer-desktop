@@ -36,7 +36,7 @@ public class Connection {
             if (type.equals("application/json")) {
                 connection.setDoOutput(true);
             }
-
+            connection.setReadTimeout(2000);
             connection.setRequestMethod(request.type);
             connection.setRequestProperty("Content-Type", type);
             if (!userID.isEmpty()) {
