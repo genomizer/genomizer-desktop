@@ -70,9 +70,10 @@ public class EditAnnotationPopupListener implements ActionListener {
                 if (!j3.getText().isEmpty() ){
                     sysController.addAnnotationValue(editPopup.getNewAnnotationName(), j3.getText());
                     sysController.updateAnnotationTable();
+                    editPopup.updateAnnotation(j3.getText());
                     editPopup.addEditAnnotationListener(this);
                 }
-                editPopup.updateAnnotation(j3.getText());
+                
                 break;
 
             case SysStrings.ANNOTATIONS_MODIFY_SET_FORCED:
