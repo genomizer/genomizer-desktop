@@ -151,8 +151,8 @@ public class Controller {
                     }
                 }
             }else{
-                message = "Parameters are invalid!";
-                view.printToConvertText(message, "red");
+                message = "Parameters are invalid!\n";
+                view.printToConvertText(message, "green");
             }
         }
 
