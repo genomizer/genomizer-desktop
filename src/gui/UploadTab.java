@@ -220,6 +220,7 @@ public class UploadTab extends JPanel implements ExperimentPanel {
             repaintSelectedFiles();
             uploadBackground.add(uploadFilesPanel, BorderLayout.NORTH);
             uploadPanel.add(uploadBackground, BorderLayout.CENTER);
+            // Makes dragging & dropping of files into the panel possible
             new FileDrop(this, new FileDrop.Listener() {
                 public void filesDropped(java.io.File[] files) {
                     createUploadFileRow(files);
