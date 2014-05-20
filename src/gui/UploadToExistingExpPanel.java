@@ -6,7 +6,6 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import javax.swing.Box;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
@@ -56,6 +55,7 @@ public class UploadToExistingExpPanel extends JPanel implements ExperimentPanel 
         buttonsPanel = new JPanel(new FlowLayout());
 
         setLayout(new BorderLayout());
+        addFileDrop();
         build();
     }
 
@@ -78,8 +78,6 @@ public class UploadToExistingExpPanel extends JPanel implements ExperimentPanel 
                 Double.MIN_VALUE };
         gbl_panel.rowWeights = new double[] { 0.0, 0.0, 0.0, Double.MIN_VALUE };
         northPanel.setLayout(gbl_panel);
-
-        addFileDrop();
 
         // buttonsPanel.add(selectFilesToUploadButton);
         // buttonsPanel.add(uploadFilesToExperimentButton);

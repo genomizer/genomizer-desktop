@@ -15,14 +15,12 @@ import java.util.HashMap;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 import javax.swing.BorderFactory;
-import javax.swing.Box;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
-import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
@@ -44,10 +42,9 @@ public class UploadTab extends JPanel implements ExperimentPanel {
 
     private static final long serialVersionUID = -2830290705724588252L;
     private JButton addToExistingExpButton, newExpButton, selectButton,
-            uploadButton;
+            uploadButton, uploadSelectedBtn;
     private JPanel northPanel, expNamePanel, uploadPanel, newExpPanel,
             uploadFilesPanel, uploadBackground;
-    private JTextArea experimentNameField;
     private UploadToExistingExpPanel uploadToExistingExpPanel;
     private AnnotationDataType[] annotations;
     private ArrayList<String> annotationHeaders;
@@ -57,7 +54,7 @@ public class UploadTab extends JPanel implements ExperimentPanel {
     private HashMap<File, UploadFileRow> uploadFileRows;
     private ActivePanel activePanel;
     private JLabel expNameLabel, boldTextLabel;
-    private JTextField expID;
+    private JTextField experimentNameField, expID;
     private JScrollPane uploadScroll;
     private JPanel buttonsPanel;
 
@@ -74,7 +71,7 @@ public class UploadTab extends JPanel implements ExperimentPanel {
         expNamePanel = new JPanel();
         add(northPanel, BorderLayout.NORTH);
         northPanel.add(new JLabel("Experiment name: "));
-        experimentNameField = new JTextArea();
+        experimentNameField = new JTextField();
         experimentNameField.setColumns(30);
         expNamePanel.add(experimentNameField);
         northPanel.add(expNamePanel);
@@ -93,7 +90,8 @@ public class UploadTab extends JPanel implements ExperimentPanel {
         uploadFilesPanel = new JPanel(new GridLayout(0, 1));
         newExpButton = new JButton("Create new experiment");
         selectButton = new JButton("Browse for files");
-        uploadButton = new JButton("Upload all files");
+        uploadSelectedBtn = new JButton("Create with selected files");
+        uploadButton = new JButton("Create with all files");
 
         // newExpButton = CustomButtonFactory.makeCustomButton(
         // IconFactory.getNewExperimentIcon(35, 35),
@@ -105,8 +103,8 @@ public class UploadTab extends JPanel implements ExperimentPanel {
         // uploadButton = CustomButtonFactory.makeCustomButton(
         // IconFactory.getUploadIcon(40, 40),
         // IconFactory.getUploadHoverIcon(42, 42), 42, 42, "Upload data");
-        boldTextLabel = new JLabel(
-                "<html><b>Bolded text = forced annotation.</b></html>");
+        boldTextLabel = new JLabel( // Bolded isn't a word..
+                "<html><b>Emboldened text = forced annotation.</b></html>");
         boldTextLabel.setOpaque(true);
         newExpPanel = new JPanel();
         expNameLabel = new JLabel();
@@ -152,7 +150,7 @@ public class UploadTab extends JPanel implements ExperimentPanel {
      * Method adding a listener to the "uploadButton".
      *
      * @param listener
-     *            The listener to start uploading selected files.
+     *            The listener to start uploading all files.
      */
     public void addUploadButtonListener(ActionListener listener) {
         uploadButton.addActionListener(listener);
@@ -218,6 +216,7 @@ public class UploadTab extends JPanel implements ExperimentPanel {
             repaintSelectedFiles();
             uploadBackground.add(uploadFilesPanel, BorderLayout.NORTH);
             uploadPanel.add(uploadBackground, BorderLayout.CENTER);
+            // Makes dragging & dropping of files into the panel possible
             new FileDrop(this, new FileDrop.Listener() {
                 public void filesDropped(java.io.File[] files) {
                     createUploadFileRow(files);
@@ -263,7 +262,7 @@ public class UploadTab extends JPanel implements ExperimentPanel {
 
             if (annotations[i].getValues().length > 0
             /* && annotations[i].isForced() */) {
-                if (x > 7) {
+                if (x > 6) {
                     x = 0;
                     y++;
                 }
@@ -360,8 +359,10 @@ public class UploadTab extends JPanel implements ExperimentPanel {
             enableUploadButton(false);
         }
         buttonsPanel.add(selectButton);
-//        buttonsPanel.add(Box.createHorizontalStrut(20));
-// (orsakar att knapparna flyttar mer och mer åt höger efter varje repaint)
+        // buttonsPanel.add(Box.createHorizontalStrut(20));
+        // (orsakar att knapparna flyttar mer och mer åt höger efter varje
+        // repaint)
+        buttonsPanel.add(uploadSelectedBtn);
         buttonsPanel.add(uploadButton);
         uploadFilesPanel.add(buttonsPanel);
         repaint();
@@ -528,24 +529,38 @@ public class UploadTab extends JPanel implements ExperimentPanel {
     public void enableUploadButton(boolean b) {
         if (b) {
             if (!uploadFileRows.isEmpty() && forcedAnnotationCheck()) {
+                uploadSelectedBtn.setEnabled(b);
                 uploadButton.setEnabled(b);
             }
         } else {
+            uploadSelectedBtn.setEnabled(b);
             uploadButton.setEnabled(b);
         }
     }
 
+    /**
+     * Method returning the text in the experiment name field.
+     *
+     * @return a String with the experiment name.
+     */
     public String getSearchText() {
         return experimentNameField.getText();
     }
 
-    ;
-
+    /**
+     * Method setting the ongoing uploads.
+     *
+     * @param ongoingUploads
+     *            The uploads currently ongoing.
+     */
     public void setOngoingUploads(
             CopyOnWriteArrayList<HTTPURLUpload> ongoingUploads) {
         this.ongoingUploads = ongoingUploads;
     }
 
+    /**
+     * Method updating the progress of ongoing uploads.
+     */
     private void updateProgress() {
         new Thread(new Runnable() {
             private boolean running;
@@ -586,6 +601,39 @@ public class UploadTab extends JPanel implements ExperimentPanel {
     }
 
     /**
+     * Method returning the files that are selected.
+     *
+     * @return an ArrayList with the selected files.
+     */
+    public ArrayList<File> getSelectedFilesToUpload() {
+        ArrayList<File> files = new ArrayList<File>();
+        for (File f : uploadFileRows.keySet()) {
+            if (uploadFileRows.get(f).isSelected()) {
+                files.add(f);
+            }
+        }
+        return files;
+    }
+
+    /**
+     * Method adding a listener to the "uploadSelectedBtn".
+     *
+     * @param listener
+     *            The listener to start uploading selected files.
+     */
+    public void addUploadSelectedFiles(ActionListener listener) {
+        uploadSelectedBtn.addActionListener(listener);
+    }
+
+    public void removeExpName() {
+        expID.setText("");
+    }
+
+    public void disableRow(File f) {
+        uploadFileRows.get(f).disableRow();
+    }
+
+    /**
      * Listener for when the text in a textfield changes.
      */
     private class FreetextListener implements DocumentListener {
@@ -608,6 +656,4 @@ public class UploadTab extends JPanel implements ExperimentPanel {
             enableUploadButton(forcedAnnotationCheck());
         }
     }
-
-    ;
 }

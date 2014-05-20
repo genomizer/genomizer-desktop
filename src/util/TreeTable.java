@@ -409,7 +409,7 @@ public class TreeTable extends JPanel {
         return selectedExperiments;
     }
     
-    public ArrayList<ExperimentData> getSelectedExperiments() {
+    public synchronized ArrayList<ExperimentData> getSelectedExperiments() {
         /* Get the data that are selected in the table */
         int[] rows = table.getSelectedRows();
         ArrayList<ExperimentData> selectedExperiments = new ArrayList<ExperimentData>();
@@ -520,7 +520,6 @@ public class TreeTable extends JPanel {
             DefaultTreeTableModel model = new DefaultTreeTableModel(root,
                     Arrays.asList(visibleHeadings
                             .toArray(new String[visibleHeadings.size()])));
-            
             table.setTreeTableModel(model);
             table.packAll();
             repaint();

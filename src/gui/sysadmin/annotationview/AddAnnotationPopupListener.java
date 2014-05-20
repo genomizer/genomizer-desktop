@@ -7,12 +7,12 @@ import gui.sysadmin.strings.SysStrings;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class AnnotationPopupListener implements ActionListener {
+public class AddAnnotationPopupListener implements ActionListener {
 
     private SysadminTab sysTab;
     private SysadminController sysController;
 
-    public AnnotationPopupListener(SysadminTab sysTab) {
+    public AddAnnotationPopupListener(SysadminTab sysTab) {
         this.sysTab = sysTab;
         this.sysController = sysTab.getSysController();
     }

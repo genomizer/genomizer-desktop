@@ -151,11 +151,20 @@ public class QuerySearchTab extends JPanel {
         // IconFactory.getBackIcon(25, 25),
         // IconFactory.getBackHoverIcon(27, 27), 25, 25,
         // "Back to search view");
-        JButton backButton = new JButton("Back");
+        final JButton backButton = new JButton("Back");
         backButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 showSearchView();
+            }
+        });
+        
+        JButton refreshButton = new JButton("Refresh");
+        refreshButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                // backButton.doClick();
+                searchButton.doClick();
             }
         });
         // addToWorkspaceButton = CustomButtonFactory.makeCustomButton(
@@ -167,6 +176,9 @@ public class QuerySearchTab extends JPanel {
         // resultsHeaderPanel.add(downloadButton, BorderLayout.EAST);
         resultsHeaderPanel.add(addToWorkspaceButton, BorderLayout.EAST);
         resultsHeaderPanel.add(backButton, BorderLayout.WEST);
+        JPanel refreshPanel = new JPanel();
+        resultsHeaderPanel.add(refreshPanel);
+        refreshPanel.add(refreshButton);
     }
     
     /**
@@ -185,6 +197,7 @@ public class QuerySearchTab extends JPanel {
         // updateAnnotationsButton.doClick();
         // updateRows();
         paintRows();
+        resultsTable = new TreeTable();
         resultsTable.setContent(searchResults);
         showResultsView();
     }

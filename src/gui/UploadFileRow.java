@@ -2,6 +2,7 @@ package gui;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
+import java.awt.FlowLayout;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
@@ -10,20 +11,38 @@ import java.awt.event.ActionListener;
 import java.io.File;
 
 import javax.swing.JButton;
+import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JProgressBar;
 
+/**
+ * A class representing a row for each browsed files
+ * to be uploaded. Each row contains the filename, a progressbar,
+ * a dropdown menu for choosing type of file, a close button
+ * and a checkbox for selecting the filerow.
+ *
+ * @author oi11ejn
+ *
+ */
 public class UploadFileRow extends JPanel {
     private ExperimentPanel parent;
     private JPanel filePanel;
     private JLabel fileLabel;
-    private JButton closeButton, uploadButton;
+    private JButton closeButton;
+    private JCheckBox uploadBox;
     private JComboBox typeBox;
     private JProgressBar uploadBar;
     private File file;
 
+    /**
+     * A constructor creating the upload file row.
+     * 
+     * @param f
+     * @param parent
+     * @param newExp
+     */
     public UploadFileRow(File f, ExperimentPanel parent, boolean newExp) {
         this.parent = parent;
         setLayout(new BorderLayout());
@@ -79,12 +98,19 @@ public class UploadFileRow extends JPanel {
 //            uploadButton = CustomButtonFactory.makeCustomButton(
 //                    IconFactory.getUploadIcon(25,25),
 //                    IconFactory.getUploadHoverIcon(28,28), 28, 28, "Upload file to current experiment");
-            uploadButton = new JButton("Upload");
+            JPanel p = new JPanel(new FlowLayout());
+            JLabel selectLabel = new JLabel(" Select:");
             gbc.insets = new Insets(0, 0, 0, 5);
-            gbc.anchor = GridBagConstraints.WEST;
+            gbc.anchor = GridBagConstraints.EAST;
             gbc.gridx = 3;
             gbc.gridy = 1;
-            filePanel.add(uploadButton, gbc);
+            filePanel.add(selectLabel, gbc);
+            uploadBox = new JCheckBox();
+            gbc.insets = new Insets(0, 0, 0, 5);
+            gbc.anchor = GridBagConstraints.EAST;
+            gbc.gridx = 4;
+            gbc.gridy = 1;
+            filePanel.add(uploadBox, gbc);
         }
     }
 
@@ -107,6 +133,10 @@ public class UploadFileRow extends JPanel {
         uploadBar.setValue((int) progress);
     }
 
+    public boolean isSelected() {
+        return uploadBox.isSelected();
+    }
+
     class closeButtonListener implements ActionListener, Runnable {
         @Override
         public void actionPerformed(ActionEvent e) {
@@ -117,5 +147,11 @@ public class UploadFileRow extends JPanel {
         public void run() {
             parent.deleteFileRow(file);
         }
+    }
+
+    public void disableRow() {
+       typeBox.setEnabled(false);
+       closeButton.setEnabled(false);
+       uploadBox.setEnabled(false);
     }
 }

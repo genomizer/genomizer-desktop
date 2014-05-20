@@ -67,4 +67,16 @@ public class ModelTest {
                 isEqualToIgnoringCase("http://scratchy.cs.umu.se:8000/download.php?" +
                         "path=/var/www/data/Exp1/raw/file1.fastq");
     }
+
+    @Test
+    public void shouldUploadExperimentAndRemove() {
+        AnnotationDataValue[] values = new AnnotationDataValue[1];
+        values[0] = new AnnotationDataValue("test", "name", "val");
+        assertThat(m.search("thisisatestexp[ExpID]")).isNull();
+        assertThat(m.addNewExperiment("thisisatestexp", "genomizer", values)).isTrue();
+        assertThat(m.search("thisisatestexp[ExpID]")).isNotNull();
+        ExperimentData data = new ExperimentData();
+        //assertThat(m.deleteExperimentFromDatabase();
+
+    }
 }

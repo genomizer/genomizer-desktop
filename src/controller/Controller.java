@@ -68,6 +68,7 @@ public class Controller {
         view.addOkListener(new OkListener());
         view.addDeleteFromDatabaseListener(new DeleteFromDatabaseListener());
         view.setOngoingUploads(model.getOngoingUploads());
+        view.addUploadSelectedFilesListener(new UploadSelectedFilesListener());
     }
     
     class ConvertFileListener implements ActionListener, Runnable {
@@ -466,6 +467,11 @@ public class Controller {
                         view.getUsername(), false, release)) {
                     view.getUploadTab().getUploadToExistingExpPanel()
                             .deleteFileRow(f);
+                    if(view.getUploadTab().getUploadToExistingExpPanel().getFileRows().size() == 0) {
+                        JOptionPane.showMessageDialog(null,
+                                "Upload to experiment \"" + ed.getName() +
+                                        "\" complete.");
+                    }
                     for (HTTPURLUpload upload : model.getOngoingUploads()) {
                         if (f.getName().equals(upload.getFileName())) {
                             model.getOngoingUploads().remove(upload);
@@ -586,6 +592,7 @@ public class Controller {
                 System.out.println(created);
                 if (created) {
                     for (File f : files) {
+                        view.disableSelectedRow(f);
                         System.out.println(f.getName());
                         if (model.uploadFile(expName, f,
                                 types.get(f.getName()), view.getUsername(),
@@ -627,6 +634,9 @@ public class Controller {
     
     private void fileListAddMouseListener(JList fileList) {
         fileList.addMouseListener(new MouseAdapter() {
+            String species = "";
+            int count = 0;
+            
             @Override
             public void mouseClicked(MouseEvent event) {
                 JList list = (JList) event.getSource();
@@ -637,8 +647,13 @@ public class Controller {
                     
                     CheckListItem item = (CheckListItem) list.getModel()
                             .getElementAt(index);
-                    
-                    if (item.getSpecie().equals(specie) || specie == "") {
+                    if (count == 0) {
+                        species = "";
+                    }
+                    if (species.equals("") && count == 0) {
+                        species = item.getSpecie();
+                    }
+                    if (item.getSpecie().equals(species)) {
                         
                         item.setSelected(!item.isSelected());
                         
@@ -646,8 +661,12 @@ public class Controller {
                                 .getSpecieGenomeReleases(item.getSpecie());
                         view.setGenomeFileList(genome);
                         
+                        if (item.isSelected()) {
+                            count++;
+                        } else {
+                            count--;
+                        }
                     }
-                    
                     list.repaint(list.getCellBounds(index, index));
                 }
             }
@@ -678,7 +697,8 @@ public class Controller {
         public void run() {
             ProcessFeedbackData[] processFeedbackData = model
                     .getProcessFeedback();
-            if (processFeedbackData != null) {
+            if (processFeedbackData != null && processFeedbackData.length > 0) {
+                System.out.println("Feedbackdata received");
                 view.showProcessFeedback(processFeedbackData);
             }
         }
@@ -692,30 +712,32 @@ public class Controller {
         
         @Override
         public void run() {
-            int i = 0;
+            int i = -1;
             if (JOptionPane
                     .showConfirmDialog(
                             null,
                             "Are you sure you want to delete the selected data from the database?",
                             "Delete from database", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
+                i = 0;
                 ArrayList<ExperimentData> expData = view
                         .getSelectedDataInWorkspace();
                 for (ExperimentData data : expData) {
                     for (FileData fileData : data.files) {
-                        model.deleteFileFromExperiment(fileData);
+                        model.deleteFileFromExperiment(fileData.id);
                         i++;
                     }
                 }
                 expData = view.getSelectedExperimentsInWorkspace();
                 for (ExperimentData data : expData) {
-                    model.deleteExperimentFromDatabase(data);
+                    model.deleteExperimentFromDatabase(data.name);
                     i++;
                 }
             }
+            
             if (i == 0) {
                 JOptionPane.showMessageDialog(null, "No data was selected",
                         "Delete error", JOptionPane.ERROR_MESSAGE);
-            } else {
+            } else if (i > 0) {
                 JOptionPane.showMessageDialog(null,
                         "Selected data was removed from database",
                         "Delete success", JOptionPane.INFORMATION_MESSAGE);
@@ -751,4 +773,56 @@ public class Controller {
         }
     }
     
+    class UploadSelectedFilesListener implements ActionListener, Runnable {
+        
+        @Override
+        public void actionPerformed(ActionEvent arg0) {
+            new Thread(this).start();
+        }
+        
+        @Override
+        public void run() {
+            String expName = view.getNewExpName();
+            AnnotationDataValue[] annotations = view.getUploadAnnotations();
+            ArrayList<File> files = view.getSelectedFilesToUpload();
+            if (files != null && files.size() > 0 && annotations != null
+                    && expName != null) {
+                HashMap<String, String> types = view.getFilesToUploadTypes();
+                // Should be genome release from uploadTab
+                String release = "rn5";
+                // Test purpose
+                for (AnnotationDataValue a : annotations) {
+                    System.out.println(a.getName() + " " + a.getValue());
+                }
+                boolean created = model.addNewExperiment(expName,
+                        view.getUsername(), annotations);
+                System.out.println(created);
+                if (created) {
+                    for (File f : files) {
+                        System.out.println(f.getName());
+                        view.disableSelectedRow(f);
+                        if (model.uploadFile(expName, f,
+                                types.get(f.getName()), view.getUsername(),
+                                false, release)) {
+                            view.deleteUploadFileRow(f);
+                            for (HTTPURLUpload upload : model
+                                    .getOngoingUploads()) {
+                                if (f.getName().equals(upload.getFileName())) {
+                                    model.getOngoingUploads().remove(upload);
+                                }
+                            }
+                        } else {
+                            JOptionPane.showMessageDialog(null,
+                                    "Couldn't upload " + f.getName() + ".",
+                                    "Error", JOptionPane.ERROR_MESSAGE);
+                        }
+                    }
+                } else {
+                    JOptionPane.showMessageDialog(null,
+                            "Couldn't create new experiment " + expName + ".",
+                            "Error", JOptionPane.ERROR_MESSAGE);
+                }
+            }
+        }
+    }
 }

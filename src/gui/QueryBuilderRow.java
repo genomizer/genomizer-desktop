@@ -209,11 +209,12 @@ public class QueryBuilderRow extends JPanel {
     public void setAnnotationBox(AnnotationDataType[] annotations) {
         this.annotationTypes = annotations;
         /* Get the annotation names */
-        String[] annotationNames = new String[annotationTypes.length];
-        // annotationNames[0] = "ExpID";
-        // annotationNames[1] = "fileID";
-        for (int i = 0; i < annotationTypes.length; i++) {
-            annotationNames[i] = annotationTypes[i].getName();
+        String[] annotationNames = new String[annotationTypes.length + 3];
+        annotationNames[0] = "ExpID";
+        annotationNames[1] = "Exp upload date";
+        annotationNames[2] = "Exp author";
+        for (int i = 3; i < annotationTypes.length + 3; i++) {
+            annotationNames[i] = annotationTypes[i - 3].getName();
         }
         if (annotationNames.length > 0) {
             annotationBox = new JComboBox(annotationNames);
@@ -230,6 +231,7 @@ public class QueryBuilderRow extends JPanel {
                  * alternatives box should be displayed
                  */
                 String annotation = (String) annotationBox.getSelectedItem();
+                dropdown = false;
                 for (int i = 0; i < annotationTypes.length; i++) {
                     if (annotation.equals(annotationTypes[i].getName())) {
                         String[] values = annotationTypes[i].getValues();
@@ -243,12 +245,12 @@ public class QueryBuilderRow extends JPanel {
                                 dropdown = false;
                             }
                             /* Update row and parent search area */
-                            setAs(firstRow, lastRow);
-                            parent.updateSearchArea();
-                            repaint();
-                            revalidate();
                         }
                     }
+                    setAs(firstRow, lastRow);
+                    parent.updateSearchArea();
+                    repaint();
+                    revalidate();
                 }
             }
         });
