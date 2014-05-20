@@ -583,6 +583,7 @@ public class ProcessTab extends JPanel {
         convWigTabPanel.add(convertButton);
         convertButton.setEnabled(false);
         convTabpanel.add(buttonPanel, BorderLayout.SOUTH);
+        buttonPanel.add(useRatio);
         buttonPanel.add(ratioCalcButton);
         buttonPanel.add(profileButton);
         // scheduleProcPanel.add(scheduleButton);
