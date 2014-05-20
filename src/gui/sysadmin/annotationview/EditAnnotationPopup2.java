@@ -36,7 +36,7 @@ public class EditAnnotationPopup2 extends JPanel {
                     "Please select an annotation to edit");
             this.setEnabled(false);
         }
-        this.setLayout(new GridLayout(0, 1));
+        this.setLayout(new BorderLayout());
         createAnnotationNamePanel();
         // createForcedPanel();
         createValuesPanel();
@@ -49,25 +49,21 @@ public class EditAnnotationPopup2 extends JPanel {
 
     private void createAnnotationNamePanel() {
         JPanel annotationNamePanel = new JPanel();
-        //GroupLayout layout = new GroupLayout(annotationNamePanel);
-        //annotationNamePanel.setLayout(layout);
 
         JLabel name = new JLabel("Name: ");
         annotationNamePanel.add(name);
 
-        JLabel nameLabel = new JLabel(annotation.name);
-        Font newLabelFont = new Font(nameLabel.getFont().getName(), Font.BOLD,
-                nameLabel.getFont().getSize());
-        nameLabel.setFont(newLabelFont);
-        annotationNamePanel.add(nameLabel);
+        JTextField nameField = new JTextField(annotation.name);
+        nameField.setEditable(false);
 
+        annotationNamePanel.add(nameField);
         renameButton = new JButton(SysStrings.ANNOTATIONS_RENAME);
         renameButton.setMinimumSize(new Dimension(80, 10));
         annotationNamePanel.add(renameButton);
 
-        JButton forced = new JButton("set Required");
-        forced.setMinimumSize(new Dimension(80, 10));
-        annotationNamePanel.add(forced);
+        //JButton forced = new JButton("set Required");
+        //forced.setMinimumSize(new Dimension(80, 10));
+        //annotationNamePanel.add(forced);
 /*
         layout.setHorizontalGroup(layout.createSequentialGroup()
 
@@ -77,7 +73,7 @@ public class EditAnnotationPopup2 extends JPanel {
                 layout.createParallelGroup(GroupLayout.Alignment.LEADING)
                         .addComponent(renameButton).addComponent(forced)));
 */
-        this.add(annotationNamePanel);
+        this.add(annotationNamePanel, BorderLayout.NORTH);
     }
 
     /**
@@ -130,7 +126,6 @@ public class EditAnnotationPopup2 extends JPanel {
     public void addEditAnnotationListener(ActionListener listener){
         renameButton.addActionListener(listener);
         activateNameChangeButton.addActionListener(listener);
-
     }
 
 

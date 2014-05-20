@@ -409,7 +409,7 @@ public class TreeTable extends JPanel {
         return selectedExperiments;
     }
     
-    public ArrayList<ExperimentData> getSelectedExperiments() {
+    public synchronized ArrayList<ExperimentData> getSelectedExperiments() {
         /* Get the data that are selected in the table */
         int[] rows = table.getSelectedRows();
         ArrayList<ExperimentData> selectedExperiments = new ArrayList<ExperimentData>();
