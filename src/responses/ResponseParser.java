@@ -1,5 +1,6 @@
 package responses;
 
+import responses.sysadmin.AddGenomeReleaseResponse;
 import util.AnnotationDataType;
 import util.ExperimentData;
 import util.GenomeReleaseData;
@@ -62,7 +63,7 @@ public class ResponseParser {
                     GenomeReleaseData[].class);
 
         } catch (JsonParseException e) {
-            
+
             System.out.println("Could not parse json GR.");
             return null;
         }
@@ -80,6 +81,20 @@ public class ResponseParser {
         return url;
     }
 
+    public static AddGenomeReleaseResponse parseGenomeUploadResponse(String json) {
+
+        AddGenomeReleaseResponse url = null;
+        try {
+            url = gson.fromJson(json, AddGenomeReleaseResponse.class);
+
+        } catch (JsonParseException e) {
+
+            System.err
+                    .println("Could not parse url response for adding genome release.");
+        }
+
+        return url;
+    }
     public static ProcessFeedbackData[] parseProcessFeedbackResponse(String json) {
         ProcessFeedbackData[] processFeedbackData = null;
         try {

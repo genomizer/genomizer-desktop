@@ -670,6 +670,11 @@ public class GUI extends JFrame implements GenomizerView {
         ratioCalcPopup.addOkListener(listener);
     }
 
+    public void addUploadSelectedFilesListener(
+            ActionListener listener) {
+        uploadTab.addUploadSelectedFiles(listener);
+    }
+
     @Override
     public void setDefaultRatioPar() {
         ratioCalcPopup.setDefaultRatioPar();
@@ -701,8 +706,20 @@ public class GUI extends JFrame implements GenomizerView {
     public void setGenomeFileList(GenomeReleaseData[] genomeReleases) {
         processTab.setGenomeFileList(genomeReleases);
     }
-    
+
+    public ArrayList<File> getSelectedFilesToUpload() {
+        return uploadTab.getSelectedFilesToUpload();
+    }
+
+    public void removeUploadExpName() {
+        uploadTab.removeExpName();
+    }
+
     public void removeSelectedFromWorkspace() {
         workspaceTab.removeSelectedData();
+    }
+
+    public void disableSelectedRow(File f) {
+        uploadTab.disableRow(f);
     }
 }
