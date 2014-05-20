@@ -10,7 +10,6 @@ import util.ExperimentData;
 import util.FileData;
 import util.GenomeReleaseData;
 import util.ProcessFeedbackData;
-
 import communication.DownloadHandler;
 import communication.HTTPURLUpload;
 
@@ -75,4 +74,6 @@ public interface GenomizerModel {
 
     public boolean uploadGenomeReleaseFile(String filePath, String specie,
             String version);
+
+    public boolean addNewAnnotationValue(String annotationName, String valueName);
 }

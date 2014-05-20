@@ -199,5 +199,9 @@ public class SysadminController {
         model.removeAnnotationValue(annotationName, annotationValue);
         
     }
+
+    public void addAnnotationValue(String annotationName, String valueName) {
+        model.addNewAnnotationValue(annotationName, valueName);
+    }
     
 }
