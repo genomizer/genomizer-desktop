@@ -223,6 +223,7 @@ public class TreeTable extends JPanel {
         
         /* Create the tree structure */
         hiddenHeadings = new CopyOnWriteArrayList<String>();
+        visibleHeadings = new CopyOnWriteArrayList<String>();
         createTreeStructure();
     }
     
@@ -491,9 +492,9 @@ public class TreeTable extends JPanel {
      */
     private synchronized void updateVisibleHeadings() {
         try {
-            Thread.sleep(20);
+            // Thread.sleep(20);
+            int columnCount = visibleHeadings.size();
             visibleHeadings = new CopyOnWriteArrayList<String>();
-            int columnCount = table.getColumnCount();
             if (columnCount > 0) {
                 visibleHeadings = new CopyOnWriteArrayList<String>();
                 for (int i = 0; i < columnCount; i++) {
@@ -516,8 +517,6 @@ public class TreeTable extends JPanel {
             System.out.println("nullpointer");
         } catch (IllegalArgumentException e) {
             System.out.println("iILLEGAL");
-        } catch (InterruptedException e) {
-            System.out.println("interrupted");
         }
     }
     
@@ -538,17 +537,8 @@ public class TreeTable extends JPanel {
             }
             /* Create the model and add it to the table */
             model.setRoot(root);
-            
             model.setColumnIdentifiers(Arrays.asList(visibleHeadings
                     .toArray(new String[visibleHeadings.size()])));
-            // DefaultTreeTableModel model = new DefaultTreeTableModel(root,
-            // Arrays.asList(visibleHeadings
-            // .toArray(new String[visibleHeadings.size()])));
-            // table.setTreeTableModel(model);
-            // table.packAll();
-            // repaint();
-            // revalidate();
-            
         } catch (NullPointerException e) {
             
         }
