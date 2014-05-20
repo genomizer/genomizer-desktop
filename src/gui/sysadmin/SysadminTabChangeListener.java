@@ -32,6 +32,7 @@ public class SysadminTabChangeListener implements ChangeListener {
                 System.out.println("Clicked the genome tab.");
                 javax.swing.SwingUtilities.invokeLater(new Runnable() {
                     public void run() {
+                        sysContoller.getGenomeReleases();
                         sysContoller.getSysTab().getGenomeReleaseView()
                         .setSpeciesDDList(sysContoller.getSpecies());
                     }
