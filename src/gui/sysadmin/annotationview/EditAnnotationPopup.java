@@ -176,25 +176,6 @@ public class EditAnnotationPopup extends JPanel {
         removeButton.setContentAreaFilled(false);
         
         removeButton.setIcon(removeIcon);
-        
-        removeButton.addActionListener(new ActionListener() {
-            
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                categoryPanel.getParent().remove(categoryPanel);
-                for (Component c : categoryPanel.getComponents()) {
-                    if (c.getName() != null && c.getName().equals("textField")) {
-                        JTextField field = (JTextField) c;
-                        System.out.println("THIS IS IN REMOVEBUTTON LISTENER: " + field.getText() );
-                        field.setText("#REMOVEANNOTATIONVALUE");
-                        //valueTexts.remove(c);
-                    }
-                }
-                repaint();
-                
-            }
-            
-        });
         categoryPanel.add(removeButton);
     }
     

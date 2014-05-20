@@ -55,7 +55,15 @@ public class EditAnnotationPopup2 extends JPanel {
             JPanel panel = createAnnotationValue(annotationValue);
             centerpanel.add(panel);
         }
+        JPanel addValuePanel = new JPanel();
+        addValuePanel.add(addValuePanel());
         this.add(centerpanel, BorderLayout.CENTER);
+    }
+
+    private JPanel addValuePanel() {
+        JPanel panel = new JPanel();
+        
+        return null;
     }
 
     private JPanel createAnnotationValue(String name) {
