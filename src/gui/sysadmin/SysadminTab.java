@@ -1,6 +1,10 @@
 package gui.sysadmin;
 
+import gui.sysadmin.annotationview.AddAnnotationPopup;
+import gui.sysadmin.annotationview.AnnotationPopupListener;
 import gui.sysadmin.annotationview.AnnotationsViewCreator;
+import gui.sysadmin.annotationview.EditAnnotationPopup2;
+import gui.sysadmin.annotationview.EditAnnotationPopupListener;
 import gui.sysadmin.genomereleaseview.GenomeButtonListener;
 import gui.sysadmin.genomereleaseview.GenomeReleaseViewCreator;
 import gui.sysadmin.genomereleaseview.GenomeTextFieldListener;
@@ -9,9 +13,12 @@ import gui.sysadmin.strings.SysadminTabButtons;
 import gui.sysadmin.usersview.UsersViewCreator;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.event.ActionListener;
 
 import javax.swing.BorderFactory;
+import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
 import javax.swing.JTable;
@@ -25,6 +32,8 @@ public class SysadminTab extends JPanel {
     private UsersViewCreator         usersView;
     private ProcessViewCreator       processView;
     private GenomeReleaseViewCreator genomeReleaseView;
+    private AddAnnotationPopup pop;
+    private EditAnnotationPopup2 editPopup;
 
     /**
      * Create the panel.
@@ -94,29 +103,9 @@ public class SysadminTab extends JPanel {
 
     }
 
-    public void addAnnotationsPopup() {
-        /* TODO FIX THIS SHIT! */
-        annotationsView.popup(createAnnotationPopupListener());
-
-        // annotationsView.addPopup(createAnnotationPopupListener());
-    }
-
-    public void editAnnotationPopup() {
-
-        annotationsView.editPopup(editAnnotationPopupListener());
-    }
-
     public void createAnnotationListeners() {
         annotationsView.addAnnotationListener(sysController
                 .createAnnotationButtonListener());
-    }
-
-    public ActionListener createAnnotationPopupListener() {
-        return sysController.createAnnotationPopupListener();
-    }
-
-    public ActionListener editAnnotationPopupListener() {
-        return sysController.createEditAnnotationPopupListener();
     }
 
     public AnnotationsViewCreator getAnnotationsView() {
@@ -147,5 +136,47 @@ public class SysadminTab extends JPanel {
 
     public GenomeReleaseViewCreator getGenomeReleaseView() {
         return genomeReleaseView;
+    }
+
+    public void addAnnotationsPopup() {
+        pop = new AddAnnotationPopup();
+        pop.setBackground(Color.WHITE);
+        ActionListener popupListener = new AnnotationPopupListener(this);
+        pop.addAddAnnotationListener(popupListener);
+
+        JFrame popupFrame = new JFrame("Add new Annotation");
+        popupFrame.setLayout(new BorderLayout());
+        popupFrame.add(pop, BorderLayout.CENTER);
+        popupFrame.pack();
+        popupFrame.setLocationRelativeTo(null);
+        popupFrame.setSize(new Dimension(600, 600));
+        popupFrame.setVisible(true);
+    }
+
+    public void editAnnotationPopup() {
+
+        System.out.println("Skapar editAnnotationPopup...");
+        editPopup = new EditAnnotationPopup2(annotationsView.getTable());
+        if (editPopup.isEnabled()) {
+            editPopup.setBackground(Color.WHITE);
+            ActionListener editPopupListener = new EditAnnotationPopupListener(this);
+            editPopup.addEditAnnotationListener(editPopupListener);
+
+            JFrame popupFrame = new JFrame("Edit annotation");
+            popupFrame.setLayout(new BorderLayout());
+            popupFrame.add(editPopup, BorderLayout.CENTER);
+            popupFrame.pack();
+            popupFrame.setLocationRelativeTo(null);
+            popupFrame.setSize(new Dimension(600, 600));
+            popupFrame.setVisible(true);
+        }
+    }
+
+    public EditAnnotationPopup2 getEditPopup() {
+        return editPopup;
+    }
+
+    public AddAnnotationPopup getPop() {
+        return pop;
     }
 }

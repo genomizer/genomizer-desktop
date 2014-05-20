@@ -19,8 +19,6 @@ public class AnnotationsViewCreator {
 
     private static final long serialVersionUID = 3718367832670081148L;
     private TableRowSorter<TableModel> rowSorter;
-    private AddAnnotationPopup pop;
-    private EditAnnotationPopup2 editPopup;
     private JButton addButton;
     private JButton modifyButton;
     private JButton removeButton;
@@ -162,40 +160,6 @@ public class AnnotationsViewCreator {
         rowSorter.setRowFilter(rf);
     }
 
-    public void popup(ActionListener popupListener) {
-        pop = new AddAnnotationPopup();
-        pop.setBackground(Color.WHITE);
-
-        pop.addAddAnnotationListener(popupListener);
-
-        JFrame popupFrame = new JFrame("Add new Annotation");
-        popupFrame.setLayout(new BorderLayout());
-        popupFrame.add(pop, BorderLayout.CENTER);
-        popupFrame.pack();
-        popupFrame.setLocationRelativeTo(null);
-        popupFrame.setSize(new Dimension(600, 600));
-        popupFrame.setVisible(true);
-    }
-
-    public void editPopup(ActionListener editPopupListener) {
-        System.out.println("Skapar editAnnotationPopup...");
-        editPopup = new EditAnnotationPopup2(table);
-        if (editPopup.isEnabled()) {
-            editPopup.setBackground(Color.WHITE);
-
-
-            JFrame popupFrame = new JFrame("Edit annotation");
-            popupFrame.setLayout(new BorderLayout());
-            popupFrame.add(editPopup, BorderLayout.CENTER);
-            popupFrame.pack();
-            popupFrame.setLocationRelativeTo(null);
-            popupFrame.setSize(new Dimension(600, 600));
-            popupFrame.setVisible(true);
-            editPopup.addEditAnnotationListener(editPopupListener);
-        }
-
-    }
-
     public JTable getTable() {
         return table;
     }
@@ -204,18 +168,6 @@ public class AnnotationsViewCreator {
         addButton.addActionListener(addAnnotationListener);
         modifyButton.addActionListener(addAnnotationListener);
         removeButton.addActionListener(addAnnotationListener);
-    }
-
-    public void closePopup() {
-
-    }
-
-    public AddAnnotationPopup getPop() {
-        return pop;
-    }
-
-    public EditAnnotationPopup2 getEditPopup() {
-        return editPopup;
     }
 
     public TableModel getTableModel() {

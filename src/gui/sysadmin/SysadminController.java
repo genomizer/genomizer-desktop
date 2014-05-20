@@ -36,14 +36,6 @@ public class SysadminController{
         return new AnnotationButtonsListener(sysTab);
     }
 
-    public ActionListener createAnnotationPopupListener() {
-        return new AnnotationPopupListener(sysTab);
-    }
-
-    public ActionListener createEditAnnotationPopupListener() {
-        return new EditAnnotationPopupListener(sysTab);
-    }
-
     /* You need me */
     public void setSysadminPanel(SysadminTab sysTab) {
 
@@ -52,7 +44,7 @@ public class SysadminController{
     }
 
     public void sendNewAnnotation() {
-        AddAnnotationPopup popup = sysTab.getAnnotationsView().getPop();
+        AddAnnotationPopup popup = sysTab.getPop();
         try {
             model.addNewAnnotation(popup.getNewAnnotationName(),
                     popup.getNewAnnotationCategories(),
@@ -64,7 +56,7 @@ public class SysadminController{
     }
 
     public void editAnnotation() {
-        EditAnnotationPopup2 edPop = sysTab.getAnnotationsView().getEditPopup();
+        EditAnnotationPopup2 edPop = sysTab.getEditPopup(); //TODO: START HERE!!!!!
         AnnotationDataType oldAnnotation = edPop.getAnnotation();
         AnnotationDataType newAnnotation = new AnnotationDataType(
                 edPop.getNewAnnotationName(),
@@ -190,7 +182,7 @@ public class SysadminController{
     }
 
     public void renameAnnotationField() {
-        EditAnnotationPopup2 edPop = sysTab.getAnnotationsView().getEditPopup();
+        EditAnnotationPopup2 edPop = sysTab.getEditPopup();
         String oldName = edPop.getAnnotation().name;
         String newName = edPop.getNewAnnotationName();
         model.renameAnnotationField(oldName, newName);

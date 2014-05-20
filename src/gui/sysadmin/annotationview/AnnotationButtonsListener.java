@@ -25,6 +25,7 @@ public class AnnotationButtonsListener implements ActionListener {
             case SysStrings.ANNOTATIONS_MODIFY:
                 System.out.println("modify");
                 sysTab.editAnnotationPopup();
+
                 break;
             case SysStrings.ANNOTATIONS_DELETE:
                 System.out.println("delete");
