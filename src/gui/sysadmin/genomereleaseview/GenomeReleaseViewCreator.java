@@ -53,11 +53,22 @@ public class GenomeReleaseViewCreator {
 
         JPanel headerPanel = buildGenomeHeaderPanel();
         JPanel listPanel = buildGenomeFileList();
-        JPanel addGenomePanel = buildAddGenomeFilePanel();
+        JPanel rightSidePanel = buildSidePanel();
+
 
         mainPanel.add(headerPanel, BorderLayout.NORTH);
         mainPanel.add(listPanel, BorderLayout.CENTER);
-        mainPanel.add(addGenomePanel, BorderLayout.EAST);
+        mainPanel.add(rightSidePanel, BorderLayout.EAST);
+        return mainPanel;
+    }
+
+    private JPanel buildSidePanel() {
+        JPanel mainPanel = new JPanel(new BorderLayout());
+
+        mainPanel.add(buildAddNewSpeciePanel(), BorderLayout.NORTH);
+        mainPanel.add(buildAddGenomeFilePanel(), BorderLayout.CENTER);
+
+
         return mainPanel;
     }
 
@@ -73,9 +84,23 @@ public class GenomeReleaseViewCreator {
         mainPanel.add(label, BorderLayout.WEST);
         return mainPanel;
     }
+
+    private JPanel buildFileInfoPanel(){
+        return new JPanel();
+    }
+
+    private JPanel buildAddNewSpeciePanel(){
+        JPanel mainPanel = new JPanel();
+        mainPanel.setBorder(BorderFactory
+                .createTitledBorder("Add new specie"));
+        return mainPanel;
+    }
     
     private JPanel buildAddGenomeFilePanel() {
+
         JPanel mainPanel = new JPanel(new BorderLayout());
+        mainPanel.setBorder(BorderFactory
+                .createTitledBorder("Add new genome release"));
         JPanel containerPanel = new JPanel();
 
         GroupLayout layout = new GroupLayout(containerPanel);
@@ -330,6 +355,7 @@ public class GenomeReleaseViewCreator {
     }
 
     public void setSpeciesDDList(String[] listItems){
+        speciesText.removeAllItems();
         for(String item : listItems){
             speciesText.addItem(item);
         }
