@@ -36,8 +36,11 @@ public class EditAnnotationPopupListener implements ActionListener {
 
             case SysStrings.ANNOTATIONS_RENAME:
                 String oldName = editPopup.getAnnotation().name;
+                
                 String newName = editPopup.getNewAnnotationName();
-                sysController.renameAnnotationField(oldName, newName);
+                if (sysController.renameAnnotationField(oldName, newName)){
+                    editPopup.getAnnotation().name = newName;
+                }
                 sysController.updateAnnotationTable();
                 break;
                 
