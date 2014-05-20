@@ -7,7 +7,6 @@ public class AnnotationData {
         this.name = name;
     }
 
-    // Test purpose
     public String getName() {
         return name;
     }

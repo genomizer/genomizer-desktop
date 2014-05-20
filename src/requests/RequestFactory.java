@@ -162,4 +162,10 @@ public class RequestFactory {
         return new RemoveFileFromExperimentRequest(fileID);
 
     }
+    
+    public static AddFileFromGeoRequest makeAddFileFromGeoRequest (String experimentID, String filename, String type,
+            String author, String uploader, boolean isPrivate, String grVersion, String url) {
+        return new AddFileFromGeoRequest(experimentID, filename, type, author, uploader, isPrivate, grVersion, url);
+        
+    }
 }

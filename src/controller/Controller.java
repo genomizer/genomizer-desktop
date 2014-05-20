@@ -264,6 +264,7 @@ public class Controller {
                 JOptionPane.showMessageDialog(null, "No search results!",
                         "Search Warning", JOptionPane.WARNING_MESSAGE);
             }
+            view.setQuerySearchActivePanelToTABLE();
         }
     }
 
@@ -474,6 +475,7 @@ public class Controller {
                         JOptionPane.showMessageDialog(null,
                                 "Upload to experiment \"" + ed.getName() +
                                         "\" complete.");
+                        view.refreshSearch();
                     }
                     for (HTTPURLUpload upload : model.getOngoingUploads()) {
                         if (f.getName().equals(upload.getFileName())) {
@@ -607,6 +609,7 @@ public class Controller {
                                     model.getOngoingUploads().remove(upload);
                                 }
                             }
+                            view.refreshSearch();
                         } else {
                             JOptionPane.showMessageDialog(null,
                                     "Couldn't upload " + f.getName() + ".",
@@ -745,6 +748,7 @@ public class Controller {
                         "Selected data was removed from database",
                         "Delete success", JOptionPane.INFORMATION_MESSAGE);
                 view.removeSelectedFromWorkspace();
+                view.refreshSearch();
             }
         }
     }
