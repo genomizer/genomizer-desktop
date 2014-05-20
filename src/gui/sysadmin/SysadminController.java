@@ -160,11 +160,8 @@ public class SysadminController extends Observable {
 
     }
 
-    public void deleteGenomeRelease() {
+    public void deleteGenomeRelease(String version, String specie) {
 
-        /** EXAMPLE DATA OF DOOM */
-        String version = "u12b";
-        String specie = "human";
         if (model.deleteGenomeRelease(specie, version)) {
 
         }

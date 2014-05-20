@@ -37,7 +37,8 @@ public class GenomeDeletePopup extends JFrame {
                     javax.swing.UIManager.getIcon("OptionPane.warningIcon"))
                     == JOptionPane.YES_OPTION){
 
-                /** TODO: remove the shit here!!!!*/
+
+
             }
 
         }
