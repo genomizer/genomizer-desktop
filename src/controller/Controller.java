@@ -811,7 +811,7 @@ public class Controller {
                     }
                 } else {
                     JOptionPane.showMessageDialog(null,
-                            "Couldn't create experiment " + expName + ".",
+                            "Couldn't create new experiment " + expName + ".",
                             "Error", JOptionPane.ERROR_MESSAGE);
                 }
             }
