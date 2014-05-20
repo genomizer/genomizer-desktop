@@ -686,6 +686,9 @@ public class Controller {
         
         @Override
         public void run() {
+            ArrayList<ExperimentData> expData = view
+                    .getSelectedDataInWorkspace();
+            
         }
     }
     
