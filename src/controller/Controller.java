@@ -220,7 +220,7 @@ public class Controller {
                     }
                 }
             }
-            view.setProccessFileList(selectedFiles);
+            view.setProcessFileList(selectedFiles);
         }
     }
 
