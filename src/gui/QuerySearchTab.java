@@ -40,6 +40,8 @@ public class QuerySearchTab extends JPanel {
     private ArrayList<QueryBuilderRow> rowList;
     private TreeTable resultsTable;
     private AnnotationDataType[] annotationTypes;
+    private enum ActivePanel {SEARCH, TABLE}
+    private ActivePanel activePanel;
     
     /**
      * Create a query search tab
@@ -52,6 +54,7 @@ public class QuerySearchTab extends JPanel {
         setUpResultsHeaderPanel();
         showSearchView();
         clearSearchFields();
+        activePanel = ActivePanel.SEARCH;
     }
     
     /**
@@ -180,9 +183,11 @@ public class QuerySearchTab extends JPanel {
         refreshPanel.add(refreshButton);
     }
 
-    private void refresh() {
-        // backButton.doClick();
-        searchButton.doClick();
+    public void refresh() {
+        if(activePanel == ActivePanel.TABLE) {
+            // backButton.doClick();
+            searchButton.doClick();
+        }
     }
 
     /**

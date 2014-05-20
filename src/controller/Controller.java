@@ -742,6 +742,7 @@ public class Controller {
                         "Selected data was removed from database",
                         "Delete success", JOptionPane.INFORMATION_MESSAGE);
                 view.removeSelectedFromWorkspace();
+                view.refreshSearch();
             }
         }
     }
