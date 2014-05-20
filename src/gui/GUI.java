@@ -701,4 +701,8 @@ public class GUI extends JFrame implements GenomizerView {
     public void setGenomeFileList(GenomeReleaseData[] genomeReleases) {
         processTab.setGenomeFileList(genomeReleases);
     }
+    
+    public void removeSelectedFromWorkspace() {
+        workspaceTab.removeSelectedData();
+    }
 }
