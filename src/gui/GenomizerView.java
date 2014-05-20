@@ -182,6 +182,8 @@ public interface GenomizerView {
             ActionListener listener);
 
     public void removeUploadExpName();
-    
+
     public void removeSelectedFromWorkspace();
+
+    public void disableSelectedRow(File f);
 }

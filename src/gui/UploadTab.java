@@ -609,6 +609,10 @@ public class UploadTab extends JPanel implements ExperimentPanel {
         expID.setText("");
     }
 
+    public void disableRow(File f) {
+        uploadFileRows.get(f).disableRow();
+    }
+
     /**
      * Listener for when the text in a textfield changes.
      */
