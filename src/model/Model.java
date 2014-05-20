@@ -34,6 +34,7 @@ import responses.AddFileToExperimentResponse;
 import responses.DownloadFileResponse;
 import responses.LoginResponse;
 import responses.ResponseParser;
+import responses.sysadmin.AddGenomeReleaseResponse;
 import util.AnnotationDataType;
 import util.AnnotationDataValue;
 import util.ExperimentData;
@@ -51,6 +52,8 @@ import communication.HTTPURLUpload;
 
 public class Model implements GenomizerModel {
 
+    private String default_username = "pvt";
+    private String default_password = "pvt";
     private static final String TEXT_PLAIN = "text/plain";
     private static final String JSON = "application/json";
     private String userID = "";
@@ -167,7 +170,7 @@ public class Model implements GenomizerModel {
                 return true;
             }
             ongoingUploads.add(upload);
-            if (upload.sendFile("pvt", "pvt")) {
+            if (upload.sendFile(default_username, default_password)) {
                 return true;
             }
         } else {
@@ -368,13 +371,38 @@ public class Model implements GenomizerModel {
     }
 
     @Override
-    public boolean uploadGenomeReleaseFile(String fileName, String specie,
+    public boolean uploadGenomeReleaseFile(String filePath, String specie,
             String version) {
+        File f = new File(filePath);
 
         AddGenomeReleaseRequest request = RequestFactory.makeAddGenomeRelease(
-                fileName, specie, version);
+                f.getName(), specie, version);
         System.out.println(request.toJson());
         Connection conn = connFactory.makeConnection();
+        conn.sendRequest(request, userID, JSON);
+        if (conn.getResponseCode() == 201) {
+
+            AddGenomeReleaseResponse aGRR = ResponseParser
+                    .parseGenomeUploadResponse(conn.getResponseBody());
+            HTTPURLUpload upload = new HTTPURLUpload(aGRR.URLupload,
+                    f.getAbsolutePath(), f.getName());
+
+            ongoingUploads.add(upload);
+
+            /** TODO */
+            if (upload.sendFile(default_username, default_password)) {
+
+                System.out.println("Succefully added genome release.");
+                return true;
+
+            }
+
+        } else {
+
+            System.out
+                    .println("Something went wrong, could not add genome release: "
+                            + conn.getResponseCode());
+        }
 
         return false;
     }
