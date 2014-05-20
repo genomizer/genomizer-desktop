@@ -179,6 +179,6 @@ public class WorkspaceTab extends JPanel {
     }
     
     public void removeSelectedData() {
-        removeButton.doClick();
+        table.removeSelectedData();
     }
 }

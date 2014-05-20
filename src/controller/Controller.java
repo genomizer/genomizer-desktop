@@ -696,7 +696,7 @@ public class Controller {
             if (JOptionPane
                     .showConfirmDialog(
                             null,
-                            "Are you sure you want to delete the selected data from the database",
+                            "Are you sure you want to delete the selected data from the database?",
                             "Delete from database", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
                 ArrayList<ExperimentData> expData = view
                         .getSelectedDataInWorkspace();
