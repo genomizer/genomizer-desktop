@@ -4,15 +4,12 @@ import gui.sysadmin.annotationview.AddAnnotationPopup;
 import gui.sysadmin.annotationview.AnnotationButtonsListener;
 import gui.sysadmin.annotationview.AnnotationPopupListener;
 import gui.sysadmin.annotationview.AnnotationTableModel;
-import gui.sysadmin.annotationview.EditAnnotationPopup;
 import gui.sysadmin.annotationview.EditAnnotationPopup2;
 import gui.sysadmin.annotationview.EditAnnotationPopupListener;
 import gui.sysadmin.genomereleaseview.GenomeReleaseViewCreator;
 import gui.sysadmin.genomereleaseview.GenomereleaseTableModel;
 
 import java.awt.event.ActionListener;
-import java.util.Observable;
-import java.util.Observer;
 
 import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
@@ -21,14 +18,13 @@ import model.GenomizerModel;
 import util.AnnotationDataType;
 import util.GenomeReleaseData;
 
-public class SysadminController extends Observable {
+public class SysadminController {
 
     private SysadminTab sysTab;
     private GenomizerModel model;
 
-    public SysadminController(Observer observer) {
+    public SysadminController() {
 
-        this.addObserver(observer);
 
     }
 
@@ -74,7 +70,7 @@ public class SysadminController extends Observable {
                 edPop.getNewAnnotationName(),
                 edPop.getNewAnnotationCategories(),
                 edPop.getNewAnnotationForcedValue());
-        
+
         if (!(oldAnnotation.name.equals(newAnnotation.name))) {
             System.out
                     .println("Name has been changed! Calling renameAnnotationField!");
@@ -190,6 +186,15 @@ public class SysadminController extends Observable {
     public void clearAddGenomeText(){
         GenomeReleaseViewCreator gr = sysTab.getGenomeReleaseView();
         gr.clearTextFields();
+    }
+
+    public void renameAnnotationField() {
+        EditAnnotationPopup2 edPop = sysTab.getAnnotationsView().getEditPopup();
+        String oldName = edPop.getAnnotation().name;
+        String newName = edPop.getNewAnnotationName();
+        model.renameAnnotationField(oldName, newName);
+
+
     }
 
 

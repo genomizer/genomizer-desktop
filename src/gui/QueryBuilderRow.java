@@ -2,17 +2,9 @@ package gui;
 
 import java.awt.Dimension;
 import java.awt.FlowLayout;
-import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
-import java.net.URL;
 
-import javax.imageio.ImageIO;
-import javax.swing.BorderFactory;
-import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JPanel;
@@ -56,8 +48,8 @@ public class QueryBuilderRow extends JPanel {
         setTextField();
         setAnnotationAlternatives(new String[0]);
         setAnnotationBox(annotationTypes);
-//        setBorder(BorderFactory
-//                .createTitledBorder(""));
+        // setBorder(BorderFactory
+        // .createTitledBorder(""));
     }
     
     /**
@@ -109,12 +101,12 @@ public class QueryBuilderRow extends JPanel {
         }
         /* The last row shoyld have a plus button */
         if (lastRow) {
-            if(firstRow) {
+            if (firstRow) {
                 firstButtonPanel.add(plusButton);
             } else {
                 secondButtonPanel.add(plusButton);
             }
-
+            
         }
         
         add(logicPanel);
@@ -216,6 +208,8 @@ public class QueryBuilderRow extends JPanel {
         this.annotationTypes = annotations;
         /* Get the annotation names */
         String[] annotationNames = new String[annotationTypes.length];
+        // annotationNames[0] = "ExpID";
+        // annotationNames[1] = "fileID";
         for (int i = 0; i < annotationTypes.length; i++) {
             annotationNames[i] = annotationTypes[i].getName();
         }

@@ -29,6 +29,14 @@ public class EditAnnotationPopupListener implements ActionListener {
                 sysController.editAnnotation();
                 break;
 
+            case SysStrings.ANNOTATIONS_RENAME:
+                sysTab.getAnnotationsView().getEditPopup().buildRenameAnnotationPanel();
+                break;
+
+            case SysStrings.ANNOTATIONS_RENAME_FINAL:
+                sysController.renameAnnotationField();
+                break;
+
         }
     }
 }
