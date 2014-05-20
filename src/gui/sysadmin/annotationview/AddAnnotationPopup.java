@@ -134,7 +134,7 @@ public class AddAnnotationPopup extends JPanel {
     private void createAddCategoryButton(final JPanel categoryHolderPanel,
             JPanel baseCatPanel, final JTextField annotationTextField) {
         
-        URL imageUrl = getClass().getResource("/icons/plus.png");
+        URL imageUrl = getClass().getResource("/icons/plus2.png");
         ImageIcon addIcon = new ImageIcon(imageUrl);
         addIcon = new ImageIcon(addIcon.getImage().getScaledInstance(20, 20,
                 BufferedImage.SCALE_SMOOTH));
@@ -160,7 +160,7 @@ public class AddAnnotationPopup extends JPanel {
     }
     
     private void createRemoveCategoryButton(final JPanel categoryPanel) {
-        URL imageUrl = getClass().getResource("/icons/minus.png");
+        URL imageUrl = getClass().getResource("/icons/minus2.png");
         ImageIcon removeIcon = new ImageIcon(imageUrl);
         removeIcon = new ImageIcon(removeIcon.getImage().getScaledInstance(15,
                 15, BufferedImage.SCALE_SMOOTH));
