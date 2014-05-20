@@ -20,6 +20,8 @@ import requests.LogoutRequest;
 import requests.ProcessFeedbackRequest;
 import requests.RemoveAnnotationFieldRequest;
 import requests.RemoveAnnotationValueRequest;
+import requests.RemoveExperimentRequest;
+import requests.RemoveFileFromExperimentRequest;
 import requests.RemoveGenomeReleaseRequest;
 import requests.RenameAnnotationFieldRequest;
 import requests.RenameAnnotationValueRequest;
@@ -534,13 +536,25 @@ public class Model implements GenomizerModel {
     
     @Override
     public boolean deleteFileFromExperiment(FileData fileData) {
-        // TODO Auto-generated method stub
+        RemoveFileFromExperimentRequest request = RequestFactory
+                .makeRemoveFileFromExperimentRequest(fileData.id);
+        Connection conn = connFactory.makeConnection();
+        conn.sendRequest(request, userID, TEXT_PLAIN);
+        if (conn.getResponseCode() == 200) {
+            return true;
+        }
         return false;
     }
     
     @Override
     public boolean deleteExperimentFromDatabase(ExperimentData expData) {
-        // TODO Auto-generated method stub
+        RemoveExperimentRequest request = RequestFactory
+                .makeRemoveExperimentRequest(expData.name);
+        Connection conn = connFactory.makeConnection();
+        conn.sendRequest(request, userID, TEXT_PLAIN);
+        if (conn.getResponseCode() == 200) {
+            return true;
+        }
         return false;
     }
     
