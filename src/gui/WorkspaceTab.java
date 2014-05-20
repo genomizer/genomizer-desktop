@@ -60,7 +60,7 @@ public class WorkspaceTab extends JPanel {
         removeButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                table.removeSelectedData();
+                removeSelectedData();
             }
         });
         downloadButton = new JButton("Download");
@@ -178,7 +178,7 @@ public class WorkspaceTab extends JPanel {
         return table.getSelectedExperiments();
     }
     
-    public void removeSelectedData() {
+    public synchronized void removeSelectedData() {
         table.removeSelectedData();
     }
 }
