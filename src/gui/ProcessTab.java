@@ -451,13 +451,13 @@ public class ProcessTab extends JPanel {
         upperCheckBoxPanel.add(printMean, gbc2);
 
         gbc2.fill = GridBagConstraints.BOTH;
-        gbc2.insets = new Insets(0, 0, 0, 0);
+        gbc2.insets = new Insets(0, 10, 0, 0);
         gbc2.gridx = 1;
         gbc2.gridy = 0;
         upperCheckBoxPanel.add(printZeros, gbc2);
 
         gbc2.fill = GridBagConstraints.BOTH;
-        gbc2.insets = new Insets(0, 0, 0, 0);
+        gbc2.insets = new Insets(0, 10, 0, 0);
         gbc2.gridx = 2;
         gbc2.gridy = 0;
         upperCheckBoxPanel.add(stepSizeBox, gbc2);
@@ -474,7 +474,7 @@ public class ProcessTab extends JPanel {
         gbc2.gridy = 1;
         lowerCheckBoxPanel.add(ouputSGR, gbc2);
 
-        checkBoxPanel.setPreferredSize(new Dimension(295, 96));
+        checkBoxPanel.setPreferredSize(new Dimension(315, 96));
 
         convPanel.add(stepSizePanel);
         stepSizePanel.setBorder(BorderFactory.createTitledBorder("Step size"));
