@@ -2,10 +2,8 @@ package gui.sysadmin;
 
 import gui.sysadmin.annotationview.AddAnnotationPopup;
 import gui.sysadmin.annotationview.AnnotationButtonsListener;
-import gui.sysadmin.annotationview.AddAnnotationPopupListener;
 import gui.sysadmin.annotationview.AnnotationTableModel;
 import gui.sysadmin.annotationview.EditAnnotationPopup2;
-import gui.sysadmin.annotationview.EditAnnotationPopupListener;
 import gui.sysadmin.genomereleaseview.GenomeReleaseViewCreator;
 import gui.sysadmin.genomereleaseview.GenomereleaseTableModel;
 
@@ -94,6 +92,17 @@ public class SysadminController{
 
     public util.AnnotationDataType[] getAnnotations() {
         return model.getAnnotations();
+    }
+
+    public String[] getSpecies() {
+
+        AnnotationDataType[] annotations = model.getAnnotations();
+
+        for (AnnotationDataType a : annotations) {
+
+        }
+
+        return null;
     }
 
     public void deleteAnnotation() {
