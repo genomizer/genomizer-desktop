@@ -107,52 +107,53 @@ public class Controller {
             Boolean isConverted = false;
 
             if(view.isCorrectToProcess()){
-                if (!allMarked.isEmpty()) {
-                    for (FileData data : allMarked) {
+            if (!allMarked.isEmpty()) {
 
-                        String fileName = data.filename;
-                        String fileID = data.id;
-                        String author = view.getUsername();
-                        String parameters[] = new String[8];
-                        String processtype = "rawtoprofile";
+                for (FileData data : allMarked) {
 
-                        parameters[0] = view.getParameters()[0];
-                        parameters[1] = view.getParameters()[1];
-                        parameters[2] = view.getOtherParameters()[0];// "y";
-                        parameters[3] = view.getOtherParameters()[1];// "y";
-                        parameters[4] = view.getParameters()[2];
-                        parameters[5] = view.getParameters()[3];
-                        parameters[6] = view.getRatioCalcParameters()[0]; // "single 4 0";
-                        parameters[7] = view.getRatioCalcParameters()[1]; // "150 1 7 0 0";
+                    String fileName = data.filename;
+                    String fileID = data.id;
+                    String author = view.getUsername();
+                    String parameters[] = new String[8];
+                    String processtype = "rawtoprofile";
 
-                        String expid = data.expId;
-                        String genomeVersion = data.grVersion;
-                        String metadata = data.metaData;
+                    parameters[0] = view.getParameters()[0];
+                    parameters[1] = view.getParameters()[1];
+                    parameters[2] = view.getOtherParameters()[0];// "y";
+                    parameters[3] = view.getOtherParameters()[1];// "y";
+                    parameters[4] = view.getParameters()[2];
+                    parameters[5] = view.getParameters()[3];
+                    parameters[6] = view.getRatioCalcParameters()[0]; // "single 4 0";
+                    parameters[7] = view.getRatioCalcParameters()[1]; // "150 1 7 0 0";
 
-                        // isConverted = model.rawToProfile(fileName, fileID, expid,
-                        // processtype, parameters, metadata, genomeRelease,
-                        // author);
+                    String expid = data.expId;
+                    String genomeVersion = data.grVersion;
+                    String metadata = data.metaData;
 
-                        isConverted = model.rawToProfile(expid, parameters,
-                                metadata, genomeVersion, author);
+                    // isConverted = model.rawToProfile(fileName, fileID, expid,
+                    // processtype, parameters, metadata, genomeRelease,
+                    // author);
 
-                        if (isConverted) {
-                            message = "The server has converted: " + fileName
-                                    + " with file id: " + fileID + " from " + expid
-                                    + "\n";
-                            view.printToConvertText(message, "green");
+                    isConverted = model.rawToProfile(expid, parameters,
+                            metadata, genomeVersion, author);
 
-                        } else {
-                            message = "WARNING - The server couldn't convert: "
-                                    + fileName + " with file id: " + fileID
-                                    + " from " + expid + "\n";
-                            view.printToConvertText(message, "red");
+                    if (isConverted) {
+                        message = "The server has converted: " + fileName
+                                + " with file id: " + fileID + " from " + expid
+                                + "\n";
+                        view.printToConvertText(message, "green");
+
+                    } else {
+                        message = "WARNING - The server couldn't convert: "
+                                + fileName + " with file id: " + fileID
+                                + " from " + expid + "\n";
+                        view.printToConvertText(message, "red");
                         }
                     }
                 }
             }else{
-                message = "Parameters are invalid!";
-                view.printToConvertText(message, "red");
+                message = "Parameters are invalid!\n";
+                view.printToConvertText(message, "green");
             }
         }
 
@@ -219,7 +220,7 @@ public class Controller {
                     }
                 }
             }
-            view.setProccessFileList(selectedFiles);
+            view.setProcessFileList(selectedFiles);
         }
     }
 
@@ -829,11 +830,17 @@ public class Controller {
                                     "Error", JOptionPane.ERROR_MESSAGE);
                         }
                     }
+                    //Shown when all files have been uploaded to experiment.
+                    JOptionPane.showMessageDialog(null, "Upload to the new" +
+                            "experiment \"" + expName +"\" complete");
                 } else {
                     JOptionPane.showMessageDialog(null,
                             "Couldn't create new experiment " + expName + ".",
                             "Error", JOptionPane.ERROR_MESSAGE);
                 }
+            } else {
+                JOptionPane.showMessageDialog(null,
+                        "No files selected.");
             }
         }
     }

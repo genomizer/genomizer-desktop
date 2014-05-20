@@ -928,15 +928,28 @@ public class ProcessTab extends JPanel {
     }
 
     public boolean isCorrectToProcess() {
-        return true;
+
+        if(aboveZero(smoothWindowSize.getText().trim())){
+           return true;
+        }
+        else {
+            return false;
+        }
     }
 
-    public boolean aboveZero(String string){
+    public boolean aboveZero(String string) {
+        int value = Integer.parseInt(string);
 
-        if( Integer.getInteger(string) > 0){
-           return true;
-        }else {
-            return false;
+        try{
+            if(value >= 0){
+                System.out.println(value);
+               return true;
+            }else {
+                System.out.println(value);
+                return false;
+            }
+        }catch(Exception e){
+           return false;
         }
     }
 }

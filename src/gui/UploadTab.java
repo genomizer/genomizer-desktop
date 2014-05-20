@@ -240,6 +240,7 @@ public class UploadTab extends JPanel implements ExperimentPanel {
     private void addAnnotationsForExp() throws NullPointerException {
         annotationBoxes = new HashMap<String, JComboBox>();
         annotationFields = new HashMap<String, JTextField>();
+        annotationHeaders.clear();
         int x = 0;
         int y = 0;
         String[] annotationNames = new String[annotations.length];
@@ -260,8 +261,7 @@ public class UploadTab extends JPanel implements ExperimentPanel {
         x++;
         for (int i = 0; i < annotations.length; i++) {
 
-            if (annotations[i].getValues().length > 0
-            /* && annotations[i].isForced() */) {
+            if (annotations[i].getValues().length > 0) {
                 if (x > 6) {
                     x = 0;
                     y++;

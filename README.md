@@ -3,12 +3,12 @@ Genomizer Desktop
 Welcome to the Genomizer swing client!
 Programvaruteknik, Umea University Spring 2014
 
-** Bugs and problems are to be reported to the dev team as soon as possible, 
-either by GitHub Issues or by mail to genomizer@mailinator.com **
+** Bugs and problems are to be reported to the dev team as soon as possible, either by GitHub Issues or by mail to genomizer@mailinator.com **
 ** See User Manual for instructions on using functionality
 
--------------------------------------------
+=============
 CHANGELOG V-.-.- RELEASE DATE 14-05-
+
 
 - Process?
 - Batch upload experiments?
@@ -17,8 +17,8 @@ CHANGELOG V-.-.- RELEASE DATE 14-05-
 NOTES
 - 
 - 
--------------------------------------------
-CHANGELOG v0.1.1 RELEASE DATE 14-05-16
+=============
+###CHANGELOG v0.1.1 RELEASE DATE 14-05-16
 
 - Bugs reported by Yuri on 14-05-13 fixed.
 - Changed Look & Feel to be more persistent over all platforms.
@@ -30,7 +30,8 @@ CHANGELOG v0.1.1 RELEASE DATE 14-05-16
 - Sending request for converting RawToProfile on Process, but all user choices are not implemented yet, and genome file chooser is not functional. 
 - Add and see active annotations under the Administration Tab.
 
-NOTES
+####NOTES
+
 - Process is unfortunately still not working all the way, no file will be generated
 - Some problems occur on files with same name
 - Uploading files to existing experiment is sensitive to experiment name, and must match precisely.
@@ -38,6 +39,9 @@ NOTES
 - Can not upload files that are compressed.
 - If errors occur during upload, the file is added to the database but is 'incomplete', this error is not catched as of now.
 - Annotations are case sensitive
+
+####About the source
+The code has been formatted by eclipse and IntelliJ's source - format. An Eclipse code style format can be imported from the file /resources/Eclipse[genomizer].xml. The code style uses only whitespaces instead of tabs and curly brackets on the same line.
 
 USER INSTRUCTIONS
 1. Download the executable .jar file
