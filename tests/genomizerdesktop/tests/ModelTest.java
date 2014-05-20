@@ -6,6 +6,7 @@ import model.Model;
 
 import org.junit.Before;
 import org.junit.Test;
+import util.AnnotationDataType;
 import util.AnnotationDataValue;
 import util.ExperimentData;
 
@@ -68,15 +69,29 @@ public class ModelTest {
                         "path=/var/www/data/Exp1/raw/file1.fastq");
     }
 
-    @Test
+    /*@Test
     public void shouldUploadExperimentAndRemove() {
-        AnnotationDataValue[] values = new AnnotationDataValue[1];
-        values[0] = new AnnotationDataValue("test", "name", "val");
-        assertThat(m.search("thisisatestexp[ExpID]")).isNull();
-        assertThat(m.addNewExperiment("thisisatestexp", "genomizer", values)).isTrue();
-        assertThat(m.search("thisisatestexp[ExpID]")).isNotNull();
-        ExperimentData data = new ExperimentData();
-        //assertThat(m.deleteExperimentFromDatabase();
+        Model m2 = new Model();
+        m2.setIp("http://scratchy.cs.umu.se:7000");
+        m2.loginUser("genomizer", "supersecretpass");
+        AnnotationDataType[] types = m2.getAnnotations();
+        AnnotationDataValue[] values = new AnnotationDataValue[types.length];
+        for(int i = 0; i < types.length; i++) {
+            if(types[i].getName().equalsIgnoreCase("ExpID")) {
+                continue;
+            }
+            if(!types[i].getValues()[0].equalsIgnoreCase("freetext")) {
+                values[i] = new AnnotationDataValue(Integer.toString(i), types[i].getName(), types[i].getValues()[1]);
+            } else {
+                values[i] = new AnnotationDataValue(Integer.toString(i), types[i].getName(), "test");
+            }
+        }
 
-    }
+        assertThat(m2.search("thisisatestexp321[ExpID]")).isNull();
+        assertThat(m2.addNewExperiment("thisisatestexp321", "genomizer", values)).isTrue();
+        assertThat(m2.search("")).isNotNull();
+        assertThat(m2.deleteExperimentFromDatabase("thisisatestexp321"));
+        assertThat(m2.search("thisisatestexp321[ExpID]")).isNull();
+
+    }*/
 }
