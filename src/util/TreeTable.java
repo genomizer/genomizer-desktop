@@ -13,6 +13,7 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
+import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -42,9 +43,10 @@ public class TreeTable extends JPanel {
     private ArrayList<String> headings;
     private ArrayList<ExperimentData> experiments;
     private ArrayList<Boolean> sortingOrders;
-    private ArrayList<String> hiddenHeadings;
-    private ArrayList<String> visibleHeadings;
+    private CopyOnWriteArrayList<String> hiddenHeadings;
+    private CopyOnWriteArrayList<String> visibleHeadings;
     private ArrayList<JCheckBox> columnCheckBoxes;
+    private DefaultTreeTableModel model;
     
     /**
      * Tree Table empty constructor
@@ -70,11 +72,13 @@ public class TreeTable extends JPanel {
      * Method for initating the JXTreeTable
      */
     private void initiateJXTreeTable() {
+        model = new DefaultTreeTableModel();
         table = new JXTreeTable() {
             public boolean getScrollableTracksViewportWidth() {
                 return getPreferredSize().width < getParent().getWidth();
             }
         };
+        table.setTreeTableModel(model);
         table.setOpaque(true);
         table.setLeafIcon(null);
         table.setClosedIcon(null);
@@ -88,14 +92,15 @@ public class TreeTable extends JPanel {
             
             class NFColumnControlPopup extends DefaultColumnControlPopup {
                 @Override
-                public void addVisibilityActionItems(
+                public synchronized void addVisibilityActionItems(
                         List<? extends AbstractActionExt> actions) {
                     if (!actions.isEmpty()) {
                         /* Hide all columns button */
                         JButton deselectButton = new JButton("Deselect All");
                         deselectButton.addActionListener(new ActionListener() {
                             @Override
-                            public void actionPerformed(ActionEvent e) {
+                            public synchronized void actionPerformed(
+                                    ActionEvent e) {
                                 for (JCheckBox checkBox : columnCheckBoxes) {
                                     if (checkBox.isEnabled()
                                             && checkBox.isSelected()) {
@@ -122,10 +127,12 @@ public class TreeTable extends JPanel {
                         for (JCheckBox checkBox : columnCheckBoxes) {
                             getPopupMenu().add(checkBox);
                         }
+                        getPopupMenu().repaint();
+                        getPopupMenu().revalidate();
                     }
                 }
                 
-                public void addAdditionalActionItems(
+                public synchronized void addAdditionalActionItems(
                         List<? extends Action> actions) {
                     /*
                      * Dummy method to prevent treetable from adding unwanted
@@ -147,6 +154,7 @@ public class TreeTable extends JPanel {
                     TableColumnModel cModel = table.getColumnModel();
                     int column = cModel.getColumnIndexAtX(e.getX());
                     sortData(column);
+                    // updateVisibleHeadings();
                     createTreeStructure();
                 }
             }
@@ -200,7 +208,7 @@ public class TreeTable extends JPanel {
             }
             checkBox.addItemListener(new ItemListener() {
                 @Override
-                public void itemStateChanged(ItemEvent e) {
+                public synchronized void itemStateChanged(ItemEvent e) {
                     if (e.getStateChange() == ItemEvent.DESELECTED) {
                         hiddenHeadings.add(heading);
                     } else {
@@ -213,7 +221,7 @@ public class TreeTable extends JPanel {
         }
         
         /* Create the tree structure */
-        hiddenHeadings = new ArrayList<String>();
+        hiddenHeadings = new CopyOnWriteArrayList<String>();
         createTreeStructure();
     }
     
@@ -224,7 +232,7 @@ public class TreeTable extends JPanel {
      *            - column index
      */
     private void sortData(final int sortByColumn) {
-        
+        updateVisibleHeadings();
         /* update the sorting orders for the columns */
         for (int i = 0; i < sortingOrders.size(); i++) {
             if (i == sortByColumn) {
@@ -478,34 +486,43 @@ public class TreeTable extends JPanel {
     /**
      * Update the visible headings in the table (with column order intact)
      */
-    private void updateVisibleHeadings() {
+    private synchronized void updateVisibleHeadings() {
         try {
-            visibleHeadings = new ArrayList<String>();
+            Thread.sleep(20);
+            visibleHeadings = new CopyOnWriteArrayList<String>();
             int columnCount = table.getColumnCount();
             if (columnCount > 0) {
-                visibleHeadings = new ArrayList<String>();
+                visibleHeadings = new CopyOnWriteArrayList<String>();
                 for (int i = 0; i < columnCount; i++) {
-                    visibleHeadings.add(table.getColumnName(i));
+                    visibleHeadings.add((String) table.getColumnModel()
+                            .getColumn(i).getHeaderValue());
                 }
+                visibleHeadings.removeAll(hiddenHeadings);
                 for (String heading : headings) {
+                    
                     if (!visibleHeadings.contains(heading)
                             && !hiddenHeadings.contains(heading)) {
                         visibleHeadings.add(heading);
                     }
                 }
-                visibleHeadings.removeAll(hiddenHeadings);
                 
             } else {
                 visibleHeadings.addAll(headings);
             }
         } catch (NullPointerException e) {
+            System.out.println("nullpointer");
+        } catch (IllegalArgumentException e) {
+            System.out.println("iILLEGAL");
+        } catch (InterruptedException e) {
+            System.out.println("interrupted");
         }
     }
     
     /**
      * Create the tree structure of the tree table
      */
-    private void createTreeStructure() {
+    private synchronized void createTreeStructure() {
+        
         /* Create the tree root */
         updateVisibleHeadings();
         SupportNode root = new SupportNode(new Object[] { "Root" });
@@ -517,13 +534,17 @@ public class TreeTable extends JPanel {
                 root.add(experimentNode);
             }
             /* Create the model and add it to the table */
-            DefaultTreeTableModel model = new DefaultTreeTableModel(root,
-                    Arrays.asList(visibleHeadings
-                            .toArray(new String[visibleHeadings.size()])));
-            table.setTreeTableModel(model);
-            table.packAll();
-            repaint();
-            revalidate();
+            model.setRoot(root);
+            
+            model.setColumnIdentifiers(Arrays.asList(visibleHeadings
+                    .toArray(new String[visibleHeadings.size()])));
+            // DefaultTreeTableModel model = new DefaultTreeTableModel(root,
+            // Arrays.asList(visibleHeadings
+            // .toArray(new String[visibleHeadings.size()])));
+            // table.setTreeTableModel(model);
+            // table.packAll();
+            // repaint();
+            // revalidate();
             
         } catch (NullPointerException e) {
             
