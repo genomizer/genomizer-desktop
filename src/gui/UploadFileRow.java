@@ -36,6 +36,13 @@ public class UploadFileRow extends JPanel {
     private JProgressBar uploadBar;
     private File file;
 
+    /**
+     * A constructor creating the upload file row.
+     * 
+     * @param f
+     * @param parent
+     * @param newExp
+     */
     public UploadFileRow(File f, ExperimentPanel parent, boolean newExp) {
         this.parent = parent;
         setLayout(new BorderLayout());
