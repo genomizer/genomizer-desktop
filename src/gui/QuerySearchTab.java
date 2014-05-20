@@ -158,12 +158,12 @@ public class QuerySearchTab extends JPanel {
                 showSearchView();
             }
         });
-
+        
         JButton refreshButton = new JButton("Refresh");
         refreshButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                backButton.doClick();
+                // backButton.doClick();
                 searchButton.doClick();
             }
         });
@@ -197,6 +197,7 @@ public class QuerySearchTab extends JPanel {
         // updateAnnotationsButton.doClick();
         // updateRows();
         paintRows();
+        resultsTable = new TreeTable();
         resultsTable.setContent(searchResults);
         showResultsView();
     }
