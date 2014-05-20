@@ -826,6 +826,9 @@ public class Controller {
                             "Couldn't create new experiment " + expName + ".",
                             "Error", JOptionPane.ERROR_MESSAGE);
                 }
+            } else {
+                JOptionPane.showMessageDialog(null,
+                        "No files selected.");
             }
         }
     }
