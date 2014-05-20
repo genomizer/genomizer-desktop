@@ -201,8 +201,12 @@ public class SysadminController {
         gr.clearTextFields();
     }
 
-    public void renameAnnotationField(String oldName, String newName) {
-        model.renameAnnotationField(oldName, newName);
+    public boolean  renameAnnotationField(String oldName, String newName) {
+        if (model.renameAnnotationField(oldName, newName)){
+            return true;
+        } else {
+            return false;
+        }
 
     }
 

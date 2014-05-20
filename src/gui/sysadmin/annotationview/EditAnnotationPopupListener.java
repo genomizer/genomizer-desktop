@@ -36,11 +36,14 @@ public class EditAnnotationPopupListener implements ActionListener {
 
             case SysStrings.ANNOTATIONS_RENAME:
                 String oldName = editPopup.getAnnotation().name;
+                
                 String newName = editPopup.getNewAnnotationName();
-                sysController.renameAnnotationField(oldName, newName);
+                if (sysController.renameAnnotationField(oldName, newName)){
+                    editPopup.getAnnotation().name = newName;
+                }
                 sysController.updateAnnotationTable();
                 break;
-                
+
             case SysStrings.ANNOTATIONS_MODIFY_RENAME:
                 //John was here:
                 JButton b1 = (JButton)e.getSource();
@@ -48,7 +51,7 @@ public class EditAnnotationPopupListener implements ActionListener {
                 sysController.renameAnnotationValue(editPopup.getNewAnnotationName(), j1.getName(), j1.getText());
                 sysController.updateAnnotationTable();
                 break;
-                
+
             case SysStrings.ANNOTATIONS_MODIFY_REMOVE:
                 System.out.println("remove!");
                 JButton b2 = (JButton)e.getSource();
@@ -58,21 +61,29 @@ public class EditAnnotationPopupListener implements ActionListener {
                 panel.setVisible(false);
                 sysController.updateAnnotationTable();
                 break;
-                
+
             case SysStrings.ANNOTATIONS_MODIFY_ADD_VALUE:
                 System.out.println("add annotation value");
                 JButton b3 = (JButton) e.getSource();
                 JPanel panel2 = (JPanel) b3.getParent();
                 JTextField j3 = (JTextField) b3.getParent().getComponent(0);
-                sysController.addAnnotationValue(editPopup.getNewAnnotationName(), j3.getText());
-                sysController.updateAnnotationTable();
-                editPopup.updateAnnotation(j3.getText());
-                editPopup.addEditAnnotationListener(this);
-                break;
+                if (!j3.getText().isEmpty() ){
+                    sysController.addAnnotationValue(editPopup.getNewAnnotationName(), j3.getText());
+                    sysController.updateAnnotationTable();
+                    editPopup.updateAnnotation(j3.getText());
+                    editPopup.addEditAnnotationListener(this);
+                }
                 
+                break;
+
             case SysStrings.ANNOTATIONS_MODIFY_SET_FORCED:
                 System.out.println("HEJSAN!");
                 break;
+
+            case SysStrings.ANNOTATIONS_VALUE_NAME_CHANGED:
+                System.out.println("Value name has changed!");
+                break;
+
         }
     }
 }
