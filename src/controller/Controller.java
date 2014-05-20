@@ -830,6 +830,8 @@ public class Controller {
                                     "Error", JOptionPane.ERROR_MESSAGE);
                         }
                     }
+                    JOptionPane.showMessageDialog(null, "Upload to " +
+                            "experiment \"" + expName +"\" complete");
                 } else {
                     JOptionPane.showMessageDialog(null,
                             "Couldn't create new experiment " + expName + ".",
