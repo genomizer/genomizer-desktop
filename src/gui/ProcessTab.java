@@ -115,7 +115,7 @@ public class ProcessTab extends JPanel {
     private final JCheckBox printMean = new JCheckBox("Print mean");
     private final JCheckBox printZeros = new JCheckBox("Print zeros");
     private final JCheckBox stepSizeBox = new JCheckBox("Step size");
-    private final JCheckBox ouputSGR = new JCheckBox("SGR Format");
+    private final JCheckBox outputSGR = new JCheckBox("SGR Format");
     private final JCheckBox outputGFF = new JCheckBox("GFF Format");
     private final JComboBox<String> genomeFile = new JComboBox<String>();
     private final JComboBox<String> single = new JComboBox<String>();
@@ -472,7 +472,7 @@ public class ProcessTab extends JPanel {
         gbc2.insets = new Insets(0, 5, 0, 0);
         gbc2.gridx = 1;
         gbc2.gridy = 1;
-        lowerCheckBoxPanel.add(ouputSGR, gbc2);
+        lowerCheckBoxPanel.add(outputSGR, gbc2);
 
         checkBoxPanel.setPreferredSize(new Dimension(315, 96));
 
@@ -881,8 +881,18 @@ public class ProcessTab extends JPanel {
 
     public String[] getOtherParameters() {
         String[] s = new String[2];
-        s[0] = "y";
-        s[1] = "y";
+
+        if(outputGFF.isSelected()){
+            s[0] = "y";
+        }else {
+            s[0] = "";
+        }
+        if(outputSGR.isSelected()){
+            s[1] = "y";
+        }else {
+            s[1] = "";
+        }
+
         return s;
     }
 
