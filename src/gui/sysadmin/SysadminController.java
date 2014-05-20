@@ -18,7 +18,7 @@ import model.GenomizerModel;
 import util.AnnotationDataType;
 import util.GenomeReleaseData;
 
-public class SysadminController {
+public class SysadminController{
 
     private SysadminTab sysTab;
     private GenomizerModel model;
@@ -180,12 +180,7 @@ public class SysadminController {
     public void sendNewGenomeRelease(){
         GenomeReleaseViewCreator gr = sysTab.getGenomeReleaseView();
         System.out.println("Version: " + gr.getVersionText() + " Species: "
-                + gr.getSpeciesText() + " File: "+ gr.getFileText());
-    }
-
-    public void clearAddGenomeText(){
-        GenomeReleaseViewCreator gr = sysTab.getGenomeReleaseView();
-        gr.clearTextFields();
+                + gr.getSpeciesText() + " File: " + gr.getFileText());
     }
 
     public void renameAnnotationField() {

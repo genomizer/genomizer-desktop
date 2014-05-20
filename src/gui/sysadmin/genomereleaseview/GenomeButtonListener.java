@@ -25,20 +25,17 @@ public class GenomeButtonListener implements ActionListener{
     @Override public void actionPerformed(ActionEvent actionEvent) {
         switch(actionEvent.getActionCommand()){
             case SysStrings.GENOME_BUTTON_ADD:
-                System.out.println("Add");
                 sysController.sendNewGenomeRelease();
                 sysTab.getGenomeReleaseView().clearTextFields();
                 break;
             case SysStrings.GENOME_BUTTON_CLEAR:
-                sysController.clearAddGenomeText();
+                sysTab.getGenomeReleaseView().clearTextFields();
                 break;
             case SysStrings.GENOME_BUTTON_DELETE:
-                new GenomeDeletePopup(sysTab.getGenomeReleaseView());
-                System.out.println("Delete");
+                new GenomeDeletePopup(sysTab);
                 break;
             case SysStrings.GENOME_BUTTON_FILE:
                 sysTab.getGenomeReleaseView().selectFile();
-                System.out.println("File");
                 break;
         }
     }
