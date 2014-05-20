@@ -56,11 +56,18 @@ public class EditAnnotationPopupListener implements ActionListener {
                 JTextField j2 = (JTextField) b2.getParent().getComponent(0);
                 sysController.removeAnnotationValue(editPopup.getNewAnnotationName(), j2.getName());
                 panel.setVisible(false);
-                panel.getParent().remove(panel);
                 sysController.updateAnnotationTable();
                 break;
                 
             case SysStrings.ANNOTATIONS_MODIFY_ADD_VALUE:
+                System.out.println("add annotation value");
+                JButton b3 = (JButton) e.getSource();
+                JPanel panel2 = (JPanel) b3.getParent();
+                JTextField j3 = (JTextField) b3.getParent().getComponent(0);
+                sysController.addAnnotationValue(editPopup.getNewAnnotationName(), j3.getText());
+                sysController.updateAnnotationTable();
+                editPopup.updateAnnotation(j3.getText());
+                editPopup.addEditAnnotationListener(this);
                 break;
         }
     }

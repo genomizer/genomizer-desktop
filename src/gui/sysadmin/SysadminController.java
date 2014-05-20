@@ -105,6 +105,11 @@ public class SysadminController {
 
         for (AnnotationDataType a : annotations) {
 
+            if (a.getName().equals("Species")) {
+
+                System.out.println("FOUND SPECIES!");
+                return a.getValues();
+            }
         }
 
         return null;
@@ -188,6 +193,7 @@ public class SysadminController {
         GenomeReleaseViewCreator gr = sysTab.getGenomeReleaseView();
         model.uploadGenomeReleaseFile(gr.getFileText(), gr.getSpeciesText(),
                 gr.getVersionText());
+        setGenomeReleaseTable();
     }
 
     public void clearAddGenomeText() {
@@ -211,4 +217,11 @@ public class SysadminController {
 
     }
 
+    public void addAnnotationValue(String annotationName, String valueName) {
+        model.addNewAnnotationValue(annotationName, valueName);
+    }
+    
+    public SysadminTab getSysTab() {
+        return sysTab;
+    }
 }
