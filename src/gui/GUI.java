@@ -468,6 +468,10 @@ public class GUI extends JFrame implements GenomizerView {
         querySearchTab.setAnnotationTypes(annotationTypes);
     }
 
+    public void setQuerySearchActivePanelToTABLE() {
+        querySearchTab.setActivePanelToTABLE();
+    }
+
     /*
      * @Override public void setAnnotationTableData(AnnotationDataType[]
      * annotations) { sysadminTab.setAnnotationTableData(annotations); }
