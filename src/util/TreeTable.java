@@ -12,6 +12,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.HashMap;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.regex.Matcher;
@@ -42,7 +43,7 @@ public class TreeTable extends JPanel {
     private JXTreeTable table;
     private ArrayList<String> headings;
     private ArrayList<ExperimentData> experiments;
-    private ArrayList<Boolean> sortingOrders;
+    private HashMap<String, Boolean> sortingOrders;
     private CopyOnWriteArrayList<String> hiddenHeadings;
     private CopyOnWriteArrayList<String> visibleHeadings;
     private ArrayList<JCheckBox> columnCheckBoxes;
@@ -176,7 +177,7 @@ public class TreeTable extends JPanel {
     public void setContent(ArrayList<ExperimentData> experimentData) {
         
         /* Initiate the column sorting orders */
-        sortingOrders = new ArrayList<Boolean>();
+        sortingOrders = new HashMap<String, Boolean>();
         /* If the input experiment data is not null or empty */
         if (experimentData != null && experimentData.size() > 0) {
             experiments = experimentData;
@@ -195,7 +196,7 @@ public class TreeTable extends JPanel {
             }
             /* Initate the sorting orders as descending */
             for (int i = 0; i < nrOfColumns; i++) {
-                sortingOrders.add(i, true);
+                sortingOrders.put(headings.get(i), true);
             }
             
         }
@@ -234,11 +235,13 @@ public class TreeTable extends JPanel {
     private void sortData(final int sortByColumn) {
         updateVisibleHeadings();
         /* update the sorting orders for the columns */
-        for (int i = 0; i < sortingOrders.size(); i++) {
-            if (i == sortByColumn) {
-                sortingOrders.set(i, !sortingOrders.get(i));
+        final String heading = (String) table.getColumnModel()
+                .getColumn(sortByColumn).getHeaderValue();
+        for (String headingKey : sortingOrders.keySet()) {
+            if (heading.equals(headingKey)) {
+                sortingOrders.put(headingKey, !sortingOrders.get(headingKey));
             } else {
-                sortingOrders.set(i, true);
+                sortingOrders.put(headingKey, true);
             }
         }
         
@@ -282,7 +285,7 @@ public class TreeTable extends JPanel {
                      * first parentheses in PATTERN.
                      */
                     int nonDigitCompare;
-                    if (sortingOrders.get(sortByColumn)) {
+                    if (sortingOrders.get(heading)) {
                         nonDigitCompare = m2.group(1).compareTo(m1.group(1));
                     } else {
                         nonDigitCompare = m1.group(1).compareTo(m2.group(1));
@@ -304,7 +307,7 @@ public class TreeTable extends JPanel {
                     BigInteger n1 = new BigInteger(m1.group(2));
                     BigInteger n2 = new BigInteger(m2.group(2));
                     int numberCompare;
-                    if (sortingOrders.get(sortByColumn)) {
+                    if (sortingOrders.get(heading)) {
                         numberCompare = n2.compareTo(n1);
                     } else {
                         numberCompare = n1.compareTo(n2);
