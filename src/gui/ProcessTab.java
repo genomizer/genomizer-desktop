@@ -75,7 +75,7 @@ public class ProcessTab extends JPanel {
     private final JPanel convTabpanel = new JPanel(new BorderLayout());
     private final JPanel lowerCheckBoxPanel = new JPanel();
     private final JPanel upperCheckBoxPanel = new JPanel();
-    
+
     private final JTextArea textArea = new JTextArea();
     private final JTextArea genProfArea = new JTextArea();
     private final JTextArea genRegArea = new JTextArea();
@@ -429,27 +429,27 @@ public class ProcessTab extends JPanel {
         checkBoxPanel.setLayout(new GridLayout(2,0));
         lowerCheckBoxPanel.setLayout(new GridBagLayout());
         upperCheckBoxPanel.setLayout(new GridBagLayout());
-        
+
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.fill = GridBagConstraints.BOTH;
         gbc.insets = new Insets(0, 0, 0, 0);
         gbc.gridx = 0;
         gbc.gridy = 0;
         checkBoxPanel.add(upperCheckBoxPanel);
-        
+
         gbc.fill = GridBagConstraints.BOTH;
         gbc.insets = new Insets(0, 0, 0, 0);
         gbc.gridx = 0;
         gbc.gridy = 1;
         checkBoxPanel.add(lowerCheckBoxPanel);
-        
+
         GridBagConstraints gbc2 = new GridBagConstraints();
         gbc2.fill = GridBagConstraints.BOTH;
         gbc2.insets = new Insets(0, 0, 0, 0);
         gbc2.gridx = 0;
         gbc2.gridy = 0;
         upperCheckBoxPanel.add(printMean, gbc2);
-        
+
         gbc2.fill = GridBagConstraints.BOTH;
         gbc2.insets = new Insets(0, 0, 0, 0);
         gbc2.gridx = 1;
@@ -461,13 +461,13 @@ public class ProcessTab extends JPanel {
         gbc2.gridx = 2;
         gbc2.gridy = 0;
         upperCheckBoxPanel.add(stepSizeBox, gbc2);
-        
+
         gbc2.fill = GridBagConstraints.BOTH;
         gbc2.insets = new Insets(0, 0, 0, 5);
         gbc2.gridx = 0;
         gbc2.gridy = 1;
         lowerCheckBoxPanel.add(outputGFF, gbc2);
-        
+
         gbc2.fill = GridBagConstraints.BOTH;
         gbc2.insets = new Insets(0, 5, 0, 0);
         gbc2.gridx = 1;
@@ -880,11 +880,8 @@ public class ProcessTab extends JPanel {
      */
     private void writeToTimePanel() {
 
-        timeArea.setText("");
+        timeArea.setText("Time panel");
         timeArea.setEditable(false);
-        timeArea.append("Number of jobs currently in queue: "
-                + getNumberOfJobsInQueue() + " (est. time until empty : "
-                + getTimeApprox() + " min )");
         timePanel.add(timeArea);
 
     }
