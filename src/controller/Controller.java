@@ -152,8 +152,8 @@ public class Controller {
                     }
                 }
             }else{
-                message = "Parameters are invalid!";
-                view.printToConvertText(message, "red");
+                message = "Parameters are invalid!\n";
+                view.printToConvertText(message, "green");
             }
         }
 
@@ -220,7 +220,7 @@ public class Controller {
                     }
                 }
             }
-            view.setProccessFileList(selectedFiles);
+            view.setProcessFileList(selectedFiles);
         }
     }
 
@@ -835,6 +835,9 @@ public class Controller {
                             "Couldn't create new experiment " + expName + ".",
                             "Error", JOptionPane.ERROR_MESSAGE);
                 }
+            } else {
+                JOptionPane.showMessageDialog(null,
+                        "No files selected.");
             }
         }
     }

@@ -134,15 +134,7 @@ public class GenomeReleaseViewCreator {
         
         versionText = new JTextField(20);
         versionText.addKeyListener(textListner);
-
         speciesText = new JComboBox();
-
-        speciesText.addItem("Test");
-
-        /*
-        speciesText = new JTextField(20);
-        speciesText.addKeyListener(textListner);
-        */
         fileText = new JTextField(20);
         fileText.addKeyListener(textListner);
         fileText.setEditable(false);

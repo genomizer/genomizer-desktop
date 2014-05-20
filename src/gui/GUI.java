@@ -478,7 +478,7 @@ public class GUI extends JFrame implements GenomizerView {
      * @param allFileData
      */
     @Override
-    public void setProccessFileList(ArrayList<FileData> allFileData) {
+    public void setProcessFileList(ArrayList<FileData> allFileData) {
         
         ArrayList<FileData> fileArray = allFileData;
         

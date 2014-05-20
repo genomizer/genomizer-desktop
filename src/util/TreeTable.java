@@ -170,7 +170,7 @@ public class TreeTable extends JPanel {
      * @param experimentData
      *            - new content
      */
-    public void setContent(ArrayList<ExperimentData> experimentData) {
+    public synchronized void setContent(ArrayList<ExperimentData> experimentData) {
         
         /* Initiate the column sorting orders */
         sortingOrders = new HashMap<String, Boolean>();
@@ -228,7 +228,7 @@ public class TreeTable extends JPanel {
      * @param sortByColumn
      *            - column index
      */
-    private void sortData(final int sortByColumn) {
+    private synchronized void sortData(final int sortByColumn) {
         this.updateVisibleHeadings();
         /* update the sorting orders for the columns */
         final String heading = table.getColumnName(sortByColumn);
@@ -241,7 +241,7 @@ public class TreeTable extends JPanel {
         }
         
         Collections.sort(experiments, new Comparator<ExperimentData>() {
-            public int compare(ExperimentData a, ExperimentData b) {
+            public synchronized int compare(ExperimentData a, ExperimentData b) {
                 final Pattern PATTERN = Pattern.compile("(\\D*)(\\d*)");
                 ArrayList<String> entry1 = a
                         .getAnnotationValueList(visibleHeadings);
@@ -328,7 +328,7 @@ public class TreeTable extends JPanel {
      * 
      * @return
      */
-    public ArrayList<ExperimentData> getSelectedData() {
+    public synchronized ArrayList<ExperimentData> getSelectedData() {
         /* Get the data that are selected in the table */
         int[] rows = table.getSelectedRows();
         ArrayList<ExperimentData> selectedExperiments = new ArrayList<ExperimentData>();
@@ -444,7 +444,7 @@ public class TreeTable extends JPanel {
     /**
      * remove the currently selected files
      */
-    public void removeSelectedData() {
+    public synchronized void removeSelectedData() {
         ArrayList<ExperimentData> selectedData = getSelectedData();
         ArrayList<FileData> selectedFiles = new ArrayList<FileData>();
         for (ExperimentData experiment : selectedData) {
@@ -484,7 +484,7 @@ public class TreeTable extends JPanel {
     /**
      * Update the visible headings in the table (with column order intact)
      */
-    private void updateVisibleHeadings() {
+    private synchronized void updateVisibleHeadings() {
         try {
             visibleHeadings = new ArrayList<String>();
             int columnCount = table.getColumnCount();
@@ -531,8 +531,6 @@ public class TreeTable extends JPanel {
                             .toArray(new String[visibleHeadings.size()])));
             table.setTreeTableModel(model);
             table.packAll();
-            repaint();
-            revalidate();
             
         } catch (NullPointerException e) {
             
