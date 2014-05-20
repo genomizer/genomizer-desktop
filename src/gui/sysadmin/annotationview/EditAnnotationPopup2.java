@@ -36,7 +36,7 @@ public class EditAnnotationPopup2 extends JPanel {
                     "Please select an annotation to edit");
             this.setEnabled(false);
         }
-        this.setLayout(new BorderLayout());
+        this.setLayout(new GridLayout(0, 1));
         createAnnotationNamePanel();
         // createForcedPanel();
         createValuesPanel();
@@ -49,8 +49,8 @@ public class EditAnnotationPopup2 extends JPanel {
 
     private void createAnnotationNamePanel() {
         JPanel annotationNamePanel = new JPanel();
-        GroupLayout layout = new GroupLayout(annotationNamePanel);
-        annotationNamePanel.setLayout(layout);
+        //GroupLayout layout = new GroupLayout(annotationNamePanel);
+        //annotationNamePanel.setLayout(layout);
 
         JLabel name = new JLabel("Name: ");
         annotationNamePanel.add(name);
@@ -68,7 +68,7 @@ public class EditAnnotationPopup2 extends JPanel {
         JButton forced = new JButton("set Required");
         forced.setMinimumSize(new Dimension(80, 10));
         annotationNamePanel.add(forced);
-
+/*
         layout.setHorizontalGroup(layout.createSequentialGroup()
 
         .addComponent(renameButton).addComponent(forced));
@@ -76,7 +76,7 @@ public class EditAnnotationPopup2 extends JPanel {
         layout.setVerticalGroup(layout.createSequentialGroup().addGroup(
                 layout.createParallelGroup(GroupLayout.Alignment.LEADING)
                         .addComponent(renameButton).addComponent(forced)));
-
+*/
         this.add(annotationNamePanel);
     }
 
@@ -122,7 +122,7 @@ public class EditAnnotationPopup2 extends JPanel {
         renameAnnotationPanel.add(nameField);
         renameAnnotationPanel.add(activateNameChangeButton);
 
-        add(renameAnnotationPanel);
+        this.add(renameAnnotationPanel);
         revalidate();
         validate();
     }
