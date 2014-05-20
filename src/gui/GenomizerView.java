@@ -193,4 +193,6 @@ public interface GenomizerView {
     public boolean isRatioCorrectToProcess();
 
     public void setProfileButton(boolean bool);
+
+    public boolean useRatio();
 }
