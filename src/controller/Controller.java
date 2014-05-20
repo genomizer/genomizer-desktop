@@ -686,14 +686,34 @@ public class Controller {
         
         @Override
         public void run() {
-            ArrayList<ExperimentData> expData = view
-                    .getSelectedDataInWorkspace();
-            for (ExperimentData data : expData) {
-                for (FileData fileData : data.files) {
-                    model.deleteFileFromExperiment(fileData);
+            int i = 0;
+            if (JOptionPane
+                    .showConfirmDialog(
+                            null,
+                            "Are you sure you want to delete the selected data from the database",
+                            "Delete from database", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
+                ArrayList<ExperimentData> expData = view
+                        .getSelectedDataInWorkspace();
+                for (ExperimentData data : expData) {
+                    for (FileData fileData : data.files) {
+                        model.deleteFileFromExperiment(fileData);
+                        i++;
+                    }
+                }
+                expData = view.getSelectedExperimentsInWorkspace();
+                for (ExperimentData data : expData) {
+                    model.deleteExperimentFromDatabase(data);
+                    i++;
                 }
             }
-            
+            if (i == 0) {
+                JOptionPane.showMessageDialog(null, "No data was selected",
+                        "Delete error", JOptionPane.ERROR_MESSAGE);
+            } else {
+                JOptionPane.showMessageDialog(null,
+                        "Selected data was removed from database",
+                        "Delete success", JOptionPane.INFORMATION_MESSAGE);
+            }
         }
     }
     
