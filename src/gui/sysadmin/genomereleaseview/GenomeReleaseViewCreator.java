@@ -22,7 +22,7 @@ public class GenomeReleaseViewCreator {
     private JTable grTable;
 
     private JTextField versionText;
-    private JTextField speciesText;
+    private JComboBox speciesText;
     private JTextField fileText;
 
     private JButton addButton;
@@ -30,6 +30,8 @@ public class GenomeReleaseViewCreator {
     private JButton deleteButton;
     private JButton fileButton;
     private GenomeTextFieldListener textListner;
+
+
 
 
     public GenomeReleaseViewCreator() {
@@ -132,11 +134,11 @@ public class GenomeReleaseViewCreator {
         
         versionText = new JTextField(20);
         versionText.addKeyListener(textListner);
-        speciesText = new JTextField(20);
-        speciesText.addKeyListener(textListner);
+        speciesText = new JComboBox();
         fileText = new JTextField(20);
         fileText.addKeyListener(textListner);
         fileText.setEditable(false);
+        fileText.setEnabled(false);
 
 
         layout.setHorizontalGroup(layout.createSequentialGroup().addGroup(
@@ -244,7 +246,7 @@ public class GenomeReleaseViewCreator {
     }
 
     public String getSpeciesText() {
-        return speciesText.getText();
+        return speciesText.getName();
     }
 
     public String getFileText() {
@@ -253,7 +255,6 @@ public class GenomeReleaseViewCreator {
 
     public void clearTextFields(){
         versionText.setText("");
-        speciesText.setText("");
         fileText.setText("");
         enableClearButton(false);
         enableAddButton(false);
@@ -262,8 +263,7 @@ public class GenomeReleaseViewCreator {
     public boolean isTextFieldsEmpty(){
         boolean returnValue = true;
 
-        if(!versionText.getText().equals("") || !speciesText.getText().equals("")
-                || !fileText.getText().equals("")){
+        if(!versionText.getText().equals("") || !fileText.getText().equals("")){
             returnValue = false;
         }
 
@@ -272,8 +272,7 @@ public class GenomeReleaseViewCreator {
 
     public boolean allTextFieldsContainInfo(){
         boolean returnValue = false;
-        if(!versionText.getText().equals("") && !speciesText.getText().equals("")
-                && !fileText.getText().equals("")){
+        if(!versionText.getText().equals("") && !fileText.getText().equals("")){
             returnValue = true;
         }
 
@@ -328,5 +327,12 @@ public class GenomeReleaseViewCreator {
         } else {
             return true;
         }
+    }
+
+    public void setSpeciesDDList(String[] listItems){
+        for(String item : listItems){
+            speciesText.addItem(item);
+        }
+        speciesText.repaint();
     }
 }

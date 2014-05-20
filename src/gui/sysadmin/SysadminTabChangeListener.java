@@ -30,9 +30,16 @@ public class SysadminTabChangeListener implements ChangeListener {
             case SysStrings.GENOME:
 
                 System.out.println("Clicked the genome tab.");
-                sysContoller.getSysTab().getGenomeReleaseView();
-                sysContoller.getSpecies();
+                javax.swing.SwingUtilities.invokeLater(new Runnable() {
+                    public void run() {
+                        sysContoller.getGenomeReleases();
+                        sysContoller.getSysTab().getGenomeReleaseView()
+                        .setSpeciesDDList(sysContoller.getSpecies());
+                    }
+                });
+
                 lastTab = SysStrings.GENOME;
+
 
 
 
