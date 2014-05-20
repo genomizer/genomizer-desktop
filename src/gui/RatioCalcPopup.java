@@ -54,7 +54,7 @@ public class RatioCalcPopup extends JFrame {
         setSize(new Dimension(480, 325));
         this.setLocationRelativeTo(parent.getFrame());
         placeComponents();
-        setUnusedRatioPar();
+        setDefaultRatioPar();
     }
 
     /**
