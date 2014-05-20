@@ -18,7 +18,7 @@ import model.GenomizerModel;
 import util.AnnotationDataType;
 import util.GenomeReleaseData;
 
-public class SysadminController {
+public class SysadminController{
 
     private SysadminTab sysTab;
     private GenomizerModel model;
