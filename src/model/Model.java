@@ -374,6 +374,7 @@ public class Model implements GenomizerModel {
         AddGenomeReleaseRequest request = RequestFactory.makeAddGenomeRelease(
                 fileName, specie, version);
         System.out.println(request.toJson());
+        Connection conn = connFactory.makeConnection();
 
         return false;
     }
