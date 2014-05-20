@@ -94,8 +94,8 @@ public class UploadTab extends JPanel implements ExperimentPanel {
         uploadFilesPanel = new JPanel(new GridLayout(0, 1));
         newExpButton = new JButton("Create new experiment");
         selectButton = new JButton("Browse for files");
-        uploadSelectedBtn = new JButton("Upload selected files");
-        uploadButton = new JButton("Upload all files");
+        uploadSelectedBtn = new JButton("Create with selected files");
+        uploadButton = new JButton("Create with all files");
 
         // newExpButton = CustomButtonFactory.makeCustomButton(
         // IconFactory.getNewExperimentIcon(35, 35),
