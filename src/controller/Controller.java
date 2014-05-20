@@ -592,6 +592,7 @@ public class Controller {
                 System.out.println(created);
                 if (created) {
                     for (File f : files) {
+                        view.disableSelectedRow(f);
                         System.out.println(f.getName());
                         if (model.uploadFile(expName, f,
                                 types.get(f.getName()), view.getUsername(),
