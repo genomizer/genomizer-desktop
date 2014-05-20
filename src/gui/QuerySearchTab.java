@@ -163,8 +163,7 @@ public class QuerySearchTab extends JPanel {
         refreshButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                // backButton.doClick();
-                searchButton.doClick();
+                refresh();
             }
         });
         // addToWorkspaceButton = CustomButtonFactory.makeCustomButton(
@@ -180,7 +179,12 @@ public class QuerySearchTab extends JPanel {
         resultsHeaderPanel.add(refreshPanel);
         refreshPanel.add(refreshButton);
     }
-    
+
+    private void refresh() {
+        // backButton.doClick();
+        searchButton.doClick();
+    }
+
     /**
      * Set up the rows panel (containing query builder rows
      */

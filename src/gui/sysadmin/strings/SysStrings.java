@@ -1,5 +1,7 @@
 package gui.sysadmin.strings;
 
+import javax.swing.Icon;
+
 public class SysStrings {
 
     /*Sysadmin tabs*/
@@ -34,6 +36,9 @@ public class SysStrings {
     /* Edit annotation popup*/
     public static final String ANNOTATIONS_RENAME_FINAL = "Rename annotation";
     public static final String ANNOTATIONS_RENAME = "Rename";
+    public static final String ANNOTATIONS_MODIFY_RENAME = "Rename value";
+    public static final String ANNOTATIONS_MODIFY_REMOVE = "Remove value";
+    public static final String ANNOTATIONS_MODIFY_ADD_VALUE = "Add value";
 
     public SysStrings() {
 
