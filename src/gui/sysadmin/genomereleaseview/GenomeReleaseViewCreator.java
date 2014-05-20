@@ -31,8 +31,8 @@ public class GenomeReleaseViewCreator {
     private JButton fileButton;
     private GenomeTextFieldListener textListner;
 
-    public GenomeReleaseViewCreator() {
 
+    public GenomeReleaseViewCreator() {
     }
 
     public JPanel buildGenomeReleaseView(ActionListener buttonListener,
@@ -286,16 +286,6 @@ public class GenomeReleaseViewCreator {
 
     public void enableAddButton(boolean status){
         this.addButton.setEnabled(status);
-    }
-
-    /** TODO: change to return datatype*/
-    public void getNewGenomeReleaseData(){
-
-    }
-
-    /** TODO: change to return datatype*/
-    public void getDeleteGenomeReleaseData(){
-
     }
 
     public String getSelectedVersion(){

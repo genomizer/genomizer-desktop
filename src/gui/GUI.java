@@ -714,4 +714,8 @@ public class GUI extends JFrame implements GenomizerView {
     public void removeUploadExpName() {
         uploadTab.removeExpName();
     }
+    
+    public void removeSelectedFromWorkspace() {
+        workspaceTab.removeSelectedData();
+    }
 }

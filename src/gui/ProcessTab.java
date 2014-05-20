@@ -426,7 +426,7 @@ public class ProcessTab extends JPanel {
         checkBoxPanel.setBorder(BorderFactory.createTitledBorder("Checkboxes"));
         convPanel.add(checkBoxPanel);
 
-        checkBoxPanel.setLayout(new GridLayout(2,0));
+        checkBoxPanel.setLayout(new GridLayout(2, 0));
         lowerCheckBoxPanel.setLayout(new GridBagLayout());
         upperCheckBoxPanel.setLayout(new GridBagLayout());
 
@@ -451,13 +451,13 @@ public class ProcessTab extends JPanel {
         upperCheckBoxPanel.add(printMean, gbc2);
 
         gbc2.fill = GridBagConstraints.BOTH;
-        gbc2.insets = new Insets(0, 0, 0, 0);
+        gbc2.insets = new Insets(0, 10, 0, 0);
         gbc2.gridx = 1;
         gbc2.gridy = 0;
         upperCheckBoxPanel.add(printZeros, gbc2);
 
         gbc2.fill = GridBagConstraints.BOTH;
-        gbc2.insets = new Insets(0, 0, 0, 0);
+        gbc2.insets = new Insets(0, 10, 0, 0);
         gbc2.gridx = 2;
         gbc2.gridy = 0;
         upperCheckBoxPanel.add(stepSizeBox, gbc2);
@@ -474,7 +474,7 @@ public class ProcessTab extends JPanel {
         gbc2.gridy = 1;
         lowerCheckBoxPanel.add(ouputSGR, gbc2);
 
-        checkBoxPanel.setPreferredSize(new Dimension(295, 96));
+        checkBoxPanel.setPreferredSize(new Dimension(315, 96));
 
         convPanel.add(stepSizePanel);
         stepSizePanel.setBorder(BorderFactory.createTitledBorder("Step size"));
@@ -693,9 +693,9 @@ public class ProcessTab extends JPanel {
     public void setGenomeFileList(GenomeReleaseData[] genomeReleases) {
 
         genomeFile.removeAllItems();
-        if(genomeReleases != null && genomeReleases.length > 0){
+        if (genomeReleases != null && genomeReleases.length > 0) {
             for (GenomeReleaseData version : genomeReleases) {
-                if(version != null){
+                if (version != null) {
                     genomeFile.addItem(version.getVersion());
                 }
             }
@@ -718,7 +718,7 @@ public class ProcessTab extends JPanel {
      */
     public void setFileInfo(ArrayList<FileData> allFileData,
             ArrayList<ExperimentData> experimentData) {
-     //   this.fileData = allFileData;
+        // this.fileData = allFileData;
         this.experimentData = experimentData;
         parseFileData();
     }
@@ -729,28 +729,21 @@ public class ProcessTab extends JPanel {
      */
     private void parseFileData() {
 
-        ArrayList<CheckListItem> itemList= new ArrayList<CheckListItem>();
+        ArrayList<CheckListItem> itemList = new ArrayList<CheckListItem>();
         String specie = "";
 
         for (ExperimentData exData : experimentData) {
-
             for (FileData fileData : exData.files) {
-
                 for (AnnotationDataValue annoDataValue : exData.annotations) {
-
                     if (annoDataValue.getName().equals("Species")) {
-
                         specie = annoDataValue.value;
                         break;
                     }
                 }
-
                 itemList.add(new CheckListItem(fileData, fileData.filename,
                         fileData.id, specie));
             }
-
         }
-
         fileList.setListData(itemList.toArray(new CheckListItem[itemList.size()]));
         this.revalidate();
         this.repaint();

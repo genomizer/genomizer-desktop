@@ -10,6 +10,7 @@ import javax.swing.JOptionPane;
 import requests.AddAnnotationRequest;
 import requests.AddExperimentRequest;
 import requests.AddFileToExperiment;
+import requests.AddGenomeReleaseRequest;
 import requests.AddNewAnnotationValueRequest;
 import requests.DownloadFileRequest;
 import requests.GetAnnotationRequest;
@@ -153,7 +154,6 @@ public class Model implements GenomizerModel {
         AddFileToExperiment request = RequestFactory.makeAddFile(expName,
                 f.getName(), type, "metameta", username, username, isPrivate,
                 release);
-        System.out.println("SWAG==============================");
         System.out.println(request.toJson());
         Connection conn = connFactory.makeConnection();
         conn.sendRequest(request, userID, JSON);
@@ -166,7 +166,6 @@ public class Model implements GenomizerModel {
             if (aFTER.URLupload.equalsIgnoreCase("url")) {
                 return true;
             }
-            System.out.println("================================== Added file: " + upload.getFileName());
             ongoingUploads.add(upload);
             if (upload.sendFile("pvt", "pvt")) {
                 return true;
@@ -366,6 +365,19 @@ public class Model implements GenomizerModel {
         }
 
         return new GenomeReleaseData[] {};
+    }
+
+
+    @Override
+    public boolean uploadGenomeReleaseFile(String fileName, String specie,
+            String version) {
+        
+        AddGenomeReleaseRequest request = RequestFactory.makeAddGenomeRelease(
+                fileName, specie, version);
+        System.out.println(request.toJson());
+        Connection conn = connFactory.makeConnection();
+        
+        return false;
     }
 
     @Override

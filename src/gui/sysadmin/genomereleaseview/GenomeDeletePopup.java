@@ -1,5 +1,6 @@
 package gui.sysadmin.genomereleaseview;
 
+import gui.sysadmin.SysadminTab;
 import gui.sysadmin.strings.SysStrings;
 
 import javax.swing.*;
@@ -10,13 +11,14 @@ import java.awt.*;
  */
 public class GenomeDeletePopup extends JFrame {
 
-    private GenomeReleaseViewCreator genView;
+    private SysadminTab sysTab;
     private String specie;
     private String version;
+    private GenomeReleaseViewCreator genView;
 
-    public GenomeDeletePopup(GenomeReleaseViewCreator genView){
-        this.genView = genView;
-
+    public GenomeDeletePopup(SysadminTab sysTab){
+        this.sysTab = sysTab;
+        this.genView = sysTab.getGenomeReleaseView();
 
         if (!genView.isGeneSelected()) {
             JOptionPane.showMessageDialog(null,
@@ -37,10 +39,8 @@ public class GenomeDeletePopup extends JFrame {
                     javax.swing.UIManager.getIcon("OptionPane.warningIcon"))
                     == JOptionPane.YES_OPTION){
 
-
-
+                    sysTab.getSysController().deleteGenomeRelease(version, specie);
             }
-
         }
     }
 
