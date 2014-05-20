@@ -447,7 +447,6 @@ public class UploadTab extends JPanel implements ExperimentPanel {
                                 annotationHeaders.get(i)).getText());
             }
         }
-        System.out.println("TABLÄNGD:::: " + annotations.length);
         return annotations;
     }
 
