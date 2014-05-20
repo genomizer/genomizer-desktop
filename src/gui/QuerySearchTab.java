@@ -159,6 +159,7 @@ public class QuerySearchTab extends JPanel {
             @Override
             public void actionPerformed(ActionEvent e) {
                 showSearchView();
+                activePanel = ActivePanel.SEARCH;
             }
         });
         
@@ -338,6 +339,10 @@ public class QuerySearchTab extends JPanel {
     
     public String getSearchString() {
         return searchArea.getText();
+    }
+
+    public void setActivePanelToTABLE() {
+        activePanel = ActivePanel.TABLE;
     }
     
 }
