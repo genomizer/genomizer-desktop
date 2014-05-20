@@ -19,6 +19,8 @@ public class GenomeReleaseViewCreator {
     private GenomereleaseTableModel grTablemodel;
     private ActionListener          buttonListener;
 
+    private JTable grTable;
+
     private JTextField versionText;
     private JTextField speciesText;
     private JTextField fileText;
@@ -164,7 +166,7 @@ public class GenomeReleaseViewCreator {
 
         grTablemodel = new GenomereleaseTableModel();
 
-        JTable grTable = new JTable(grTablemodel);
+        grTable = new JTable(grTablemodel);
 
         grTable.setShowGrid(false);
 
@@ -296,6 +298,18 @@ public class GenomeReleaseViewCreator {
 
     }
 
+    public String getSelectedVersion(){
+        return (String)grTable.getValueAt(grTable.getSelectedRow(),
+                grTable.getTableHeader().getColumnModel()
+                        .getColumnIndex(SysStrings.GENOME_TABLE_VERSION));
+    }
+
+    public String getSelectedSpecie(){
+        return (String)grTable.getValueAt(grTable.getSelectedRow(),
+                grTable.getTableHeader().getColumnModel()
+                        .getColumnIndex(SysStrings.GENOME_TABLE_SPECIES));
+    }
+
     public void selectFile(){
         JFileChooser fileChooser = new JFileChooser();
         fileChooser.setMultiSelectionEnabled(false);
@@ -315,6 +329,14 @@ public class GenomeReleaseViewCreator {
                 enableAddButton(true);
         } else {
             return;
+        }
+    }
+
+    public boolean isGeneSelected() {
+        if(this.grTable.getSelectedRow() < 0){
+            return false;
+        } else {
+            return true;
         }
     }
 }

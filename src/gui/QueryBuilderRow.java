@@ -1,18 +1,12 @@
 package gui;
 
+import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
-import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
-import java.net.URL;
 
-import javax.imageio.ImageIO;
-import javax.swing.BorderFactory;
-import javax.swing.ImageIcon;
+import javax.swing.Box;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JPanel;
@@ -56,8 +50,6 @@ public class QueryBuilderRow extends JPanel {
         setTextField();
         setAnnotationAlternatives(new String[0]);
         setAnnotationBox(annotationTypes);
-//        setBorder(BorderFactory
-//                .createTitledBorder(""));
     }
     
     /**
@@ -74,31 +66,31 @@ public class QueryBuilderRow extends JPanel {
         /* Remove all current components */
         removeAll();
         /* Create the panels */
-        JPanel logicPanel = new JPanel();
-        logicPanel.setPreferredSize(new Dimension(70, 35));
-        JPanel annotationPanel = new JPanel();
-        annotationPanel.setPreferredSize(new Dimension(240, 35));
-        JPanel inputPanel = new JPanel();
-        inputPanel.setPreferredSize(new Dimension(450, 35));
+        JPanel logicPanel = new JPanel(new BorderLayout());
+        logicPanel.setPreferredSize(new Dimension(70, 30));
+        JPanel annotationPanel = new JPanel(new BorderLayout());
+        annotationPanel.setPreferredSize(new Dimension(240, 30));
+        JPanel inputPanel = new JPanel(new BorderLayout());
+        inputPanel.setPreferredSize(new Dimension(450, 30));
         JPanel firstButtonPanel = new JPanel();
-        firstButtonPanel.setPreferredSize(new Dimension(25, 35));
+        firstButtonPanel.setPreferredSize(new Dimension(25, 30));
         JPanel secondButtonPanel = new JPanel();
-        secondButtonPanel.setPreferredSize(new Dimension(25, 35));
+        secondButtonPanel.setPreferredSize(new Dimension(25, 30));
         /* All rows except the first should have a logic field */
         if (!firstRow) {
-            logicPanel.add(logicBox);
+            logicPanel.add(logicBox, BorderLayout.CENTER);
         }
         /* All rows should have a annotation field */
-        annotationPanel.add(annotationBox);
+        annotationPanel.add(annotationBox, BorderLayout.CENTER);
         /*
          * If the selected annotation has predefinied values the row should have
          * a dropdown menu with annotation alternatives, else it should have a
          * text field for free text input
          */
         if (dropdown) {
-            inputPanel.add(annotationAlternatives);
+            inputPanel.add(annotationAlternatives, BorderLayout.CENTER);
         } else {
-            inputPanel.add(textField);
+            inputPanel.add(textField, BorderLayout.CENTER);
         }
         /*
          * All rows except if there is only one row in the builder should have a
@@ -109,16 +101,18 @@ public class QueryBuilderRow extends JPanel {
         }
         /* The last row shoyld have a plus button */
         if (lastRow) {
-            if(firstRow) {
+            if (firstRow) {
                 firstButtonPanel.add(plusButton);
             } else {
                 secondButtonPanel.add(plusButton);
             }
-
+            
         }
         
         add(logicPanel);
+        add(Box.createHorizontalStrut(5));
         add(annotationPanel);
+        add(Box.createHorizontalStrut(5));
         add(inputPanel);
         add(firstButtonPanel);
         add(secondButtonPanel);
@@ -162,7 +156,7 @@ public class QueryBuilderRow extends JPanel {
      * Method for constructing the text field for free text input
      */
     private void setTextField() {
-        textField = new JTextField(40);
+        textField = new JTextField();
         /*
          * The search field in the parent is updated when the text field content
          * is changed
@@ -194,9 +188,9 @@ public class QueryBuilderRow extends JPanel {
     private void setAnnotationAlternatives(String[] alternatives) {
         annotationAlternatives = new JComboBox(alternatives);
         /* Setting the width of the combobox */
-        annotationAlternatives
-                .setPrototypeDisplayValue("AAAAAAAAAAAAAAAAAAAAAAA"
-                        + "AAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
+        // annotationAlternatives
+        // .setPrototypeDisplayValue("AAAAAAAAAAAAAAAAAAAAAAA"
+        // + "AAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
         annotationAlternatives.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -216,6 +210,8 @@ public class QueryBuilderRow extends JPanel {
         this.annotationTypes = annotations;
         /* Get the annotation names */
         String[] annotationNames = new String[annotationTypes.length];
+        // annotationNames[0] = "ExpID";
+        // annotationNames[1] = "fileID";
         for (int i = 0; i < annotationTypes.length; i++) {
             annotationNames[i] = annotationTypes[i].getName();
         }
