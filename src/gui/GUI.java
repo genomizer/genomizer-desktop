@@ -53,8 +53,8 @@ public class GUI extends JFrame implements GenomizerView {
 
         setLookAndFeel();
         this.setTitle("Genomizer");
-        setSize(1024, 768);
-        this.setMinimumSize(new Dimension(1024, 768));
+        setSize(1255, 768);
+        this.setMinimumSize(new Dimension(1255, 768));
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         BorderLayout bl = new BorderLayout();
         mainPanel = new JPanel(bl);
@@ -453,6 +453,10 @@ public class GUI extends JFrame implements GenomizerView {
         tabbedPane.addTab("SEARCH", null, querySearchTab, "Search");
     }
 
+    public void refreshSearch() {
+        querySearchTab.refresh();
+    }
+
     /**
      * Sets the annotationTypes of the querySearchTab.
      *
@@ -462,6 +466,10 @@ public class GUI extends JFrame implements GenomizerView {
      */
     public void setSearchAnnotationTypes(AnnotationDataType[] annotationTypes) {
         querySearchTab.setAnnotationTypes(annotationTypes);
+    }
+
+    public void setQuerySearchActivePanelToTABLE() {
+        querySearchTab.setActivePanelToTABLE();
     }
 
     /*
