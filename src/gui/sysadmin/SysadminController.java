@@ -151,7 +151,7 @@ public class SysadminController{
     public void deleteGenomeRelease(String version, String specie) {
 
         if (model.deleteGenomeRelease(specie, version)) {
-
+            setGenomeReleaseTable();
         }
     }
 
@@ -171,8 +171,8 @@ public class SysadminController{
 
     public void sendNewGenomeRelease(){
         GenomeReleaseViewCreator gr = sysTab.getGenomeReleaseView();
-        System.out.println("Version: " + gr.getVersionText() + " Species: "
-                + gr.getSpeciesText() + " File: "+ gr.getFileText());
+        model.uploadGenomeReleaseFile(gr.getFileText(), gr.getSpeciesText(),
+                gr.getVersionText());
     }
 
 

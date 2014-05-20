@@ -72,5 +72,7 @@ public interface GenomizerModel {
     public boolean deleteFileFromExperiment(FileData fileData);
     
     public boolean deleteExperimentFromDatabase(ExperimentData expData);
-    
+
+    public boolean uploadGenomeReleaseFile(String fileName, String specie,
+            String version);
 }
