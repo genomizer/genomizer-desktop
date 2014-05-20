@@ -17,6 +17,15 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JProgressBar;
 
+/**
+ * A class representing a row for each browsed files
+ * to be uploaded. Each row contains the filename, a progressbar,
+ * a dropdown menu for choosing type of file, a close button
+ * and a checkbox for selecting the filerow.
+ *
+ * @author oi11ejn
+ *
+ */
 public class UploadFileRow extends JPanel {
     private ExperimentPanel parent;
     private JPanel filePanel;
