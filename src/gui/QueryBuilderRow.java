@@ -231,6 +231,7 @@ public class QueryBuilderRow extends JPanel {
                  * alternatives box should be displayed
                  */
                 String annotation = (String) annotationBox.getSelectedItem();
+                dropdown = false;
                 for (int i = 0; i < annotationTypes.length; i++) {
                     if (annotation.equals(annotationTypes[i].getName())) {
                         String[] values = annotationTypes[i].getValues();
@@ -246,7 +247,6 @@ public class QueryBuilderRow extends JPanel {
                             /* Update row and parent search area */
                         }
                     }
-                    dropdown = false;
                     setAs(firstRow, lastRow);
                     parent.updateSearchArea();
                     repaint();
