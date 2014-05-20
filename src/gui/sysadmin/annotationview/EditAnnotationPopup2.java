@@ -3,11 +3,15 @@ package gui.sysadmin.annotationview;
 import gui.sysadmin.strings.SysStrings;
 
 import java.awt.BorderLayout;
+import java.awt.Component;
+import java.awt.Container;
 import java.awt.Dimension;
+import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 
 import javax.swing.AbstractButton;
 import javax.swing.GroupLayout;
@@ -28,6 +32,7 @@ public class EditAnnotationPopup2 extends JPanel {
     private JButton activateNameChangeButton = new JButton(SysStrings.ANNOTATIONS_RENAME_FINAL);;
     private JButton renameButton;
     private JTextField nameField;
+    private ArrayList<JButton> valueButtons = new ArrayList<JButton>();
 
     public EditAnnotationPopup2(JTable table) {
         this.table = table;
@@ -44,7 +49,31 @@ public class EditAnnotationPopup2 extends JPanel {
     }
 
     private void createValuesPanel() {
+        JPanel centerpanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
+        
+        for (String annotationValue : annotation.getValues()) {
+            JPanel panel = createAnnotationValue(annotationValue);
+            centerpanel.add(panel);
+        }
+        this.add(centerpanel, BorderLayout.CENTER);
+    }
 
+    private JPanel createAnnotationValue(String name) {
+        JPanel panel = new JPanel();
+        JTextField valueTextField = new JTextField(name);
+        valueTextField.setName(name);
+        valueTextField.setPreferredSize(new Dimension(180, 30));
+        panel.add(valueTextField,0);
+        JButton modifyNameButton = new JButton(SysStrings.ANNOTATIONS_MODIFY_RENAME);
+        JButton removeButton = new JButton(SysStrings.ANNOTATIONS_MODIFY_REMOVE);
+        
+        
+        valueButtons.add(removeButton);
+        valueButtons.add(modifyNameButton);
+        
+        panel.add(modifyNameButton);
+        panel.add(removeButton);
+        return panel;
     }
 
     private void createAnnotationNamePanel() {
@@ -53,9 +82,8 @@ public class EditAnnotationPopup2 extends JPanel {
         JLabel name = new JLabel("Name: ");
         annotationNamePanel.add(name);
 
-        JTextField nameField = new JTextField(annotation.name);
-        nameField.setEditable(false);
-
+        nameField = new JTextField(annotation.name);
+        nameField.setPreferredSize(new Dimension(200, 30));
         annotationNamePanel.add(nameField);
         renameButton = new JButton(SysStrings.ANNOTATIONS_RENAME);
         renameButton.setMinimumSize(new Dimension(80, 10));
@@ -64,15 +92,6 @@ public class EditAnnotationPopup2 extends JPanel {
         //JButton forced = new JButton("set Required");
         //forced.setMinimumSize(new Dimension(80, 10));
         //annotationNamePanel.add(forced);
-/*
-        layout.setHorizontalGroup(layout.createSequentialGroup()
-
-        .addComponent(renameButton).addComponent(forced));
-
-        layout.setVerticalGroup(layout.createSequentialGroup().addGroup(
-                layout.createParallelGroup(GroupLayout.Alignment.LEADING)
-                        .addComponent(renameButton).addComponent(forced)));
-*/
         this.add(annotationNamePanel, BorderLayout.NORTH);
     }
 
@@ -126,6 +145,10 @@ public class EditAnnotationPopup2 extends JPanel {
     public void addEditAnnotationListener(ActionListener listener){
         renameButton.addActionListener(listener);
         activateNameChangeButton.addActionListener(listener);
+        
+        for (JButton button : valueButtons) {
+            button.addActionListener(listener);
+        }
     }
 
 
