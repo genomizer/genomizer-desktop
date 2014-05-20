@@ -628,28 +628,38 @@ public class Controller {
 
     private void fileListAddMouseListener(JList fileList) {
         fileList.addMouseListener(new MouseAdapter() {
+            String species = "";
+            int count = 0;
             @Override
             public void mouseClicked(MouseEvent event) {
                 JList list = (JList) event.getSource();
-
                 String specie = "";
 
                 if (list.getModel().getSize() > 0) {
                     int index = list.locationToIndex(event.getPoint());
-                    
+
                     CheckListItem item = (CheckListItem) list.getModel()
                             .getElementAt(index);
-                    
-                    if (item.getSpecie().equals(specie) || specie == "") {
-                        
+                    if(count == 0) {
+                        species = "";
+                    }
+                    if (species.equals("") && count == 0) {
+                        species = item.getSpecie();
+                    }
+                    if (item.getSpecie().equals(species)) {
+
                         item.setSelected(!item.isSelected());
-                        
+
                         GenomeReleaseData[] genome = model
                                 .getSpecieGenomeReleases(item.getSpecie());
                         view.setGenomeFileList(genome);
-                        
+
+                        if (item.isSelected()) {
+                            count++;
+                        } else {
+                            count--;
+                        }
                     }
-                    
                     list.repaint(list.getCellBounds(index, index));
                 }
             }
@@ -715,7 +725,7 @@ public class Controller {
                     i++;
                 }
             }
-
+            
             if (i == 0) {
                 JOptionPane.showMessageDialog(null, "No data was selected",
                         "Delete error", JOptionPane.ERROR_MESSAGE);
