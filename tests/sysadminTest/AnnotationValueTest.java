@@ -21,7 +21,7 @@ public class AnnotationValueTest {
         // con = new Connection("genomizer.apiary-mock.com:80");
         model = new Model();
         model.setIp("http://scratchy.cs.umu.se:7000");
-//        con.setIp("genomizer.apiary-mock.com:80");
+        // con.setIp("genomizer.apiary-mock.com:80");
         // con = new Connection("http://hagrid.cs.umu.se:7000");
         model.loginUser("SysadminTests", "qwerty");
         sysadminTab = new SysadminTab();
@@ -41,7 +41,7 @@ public class AnnotationValueTest {
     @Test
     public void shouldAddAnnotationValue() {
         String annotationName = "SpeciesTEST";
-        String valueName = "frog2TEST";
+        String valueName = "horseTEST";
         AnnotationDataType toBeEdited = getSpecificAnnotationType(annotationName);
         int numberOfAnnotations = toBeEdited.getValues().length;
         if (toBeEdited != null) {
@@ -65,6 +65,7 @@ public class AnnotationValueTest {
         int numberOfAnnotationValues = toBeEdited.getValues().length;
         if (toBeEdited != null) {
             if (model.removeAnnotationValue(toBeEdited.name, valueToBeRemoved)) {
+                toBeEdited = getSpecificAnnotationType(nameOfAnnotation);
                 assertThat(toBeEdited.getValues().length).isEqualTo(
                         numberOfAnnotationValues - 1);
             } else {
