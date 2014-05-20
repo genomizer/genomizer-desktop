@@ -678,7 +678,8 @@ public class Controller {
         public void run() {
             ProcessFeedbackData[] processFeedbackData = model
                     .getProcessFeedback();
-            if (processFeedbackData != null) {
+            if (processFeedbackData != null && processFeedbackData.length > 0) {
+                System.out.println("Feedbackdata received");
                 view.showProcessFeedback(processFeedbackData);
             }
         }
