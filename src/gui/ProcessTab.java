@@ -73,7 +73,9 @@ public class ProcessTab extends JPanel {
     private final JPanel createRegTabPanel = new JPanel();
     private final JPanel convWigTabPanel = new JPanel();
     private final JPanel convTabpanel = new JPanel(new BorderLayout());
-
+    private final JPanel lowerCheckBoxPanel = new JPanel();
+    private final JPanel upperCheckBoxPanel = new JPanel();
+    
     private final JTextArea textArea = new JTextArea();
     private final JTextArea genProfArea = new JTextArea();
     private final JTextArea genRegArea = new JTextArea();
@@ -113,6 +115,8 @@ public class ProcessTab extends JPanel {
     private final JCheckBox printMean = new JCheckBox("Print mean");
     private final JCheckBox printZeros = new JCheckBox("Print zeros");
     private final JCheckBox stepSizeBox = new JCheckBox("Step size");
+    private final JCheckBox ouputSGR = new JCheckBox("SGR Format");
+    private final JCheckBox outputGFF = new JCheckBox("GFF Format");
     private final JComboBox<String> genomeFile = new JComboBox<String>();
     private final JComboBox<String> single = new JComboBox<String>();
     private final JComboBox<String> ratioSmoothType = new JComboBox<String>();
@@ -422,35 +426,56 @@ public class ProcessTab extends JPanel {
         checkBoxPanel.setBorder(BorderFactory.createTitledBorder("Checkboxes"));
         convPanel.add(checkBoxPanel);
 
-        GridBagConstraints gbc_printMean = new GridBagConstraints();
-        gbc_printMean.fill = GridBagConstraints.BOTH;
-        gbc_printMean.insets = new Insets(0, 0, 0, 5);
-        gbc_printMean.gridx = 0;
-        gbc_printMean.gridy = 0;
-        checkBoxPanel.add(printMean, gbc_printMean);
+        checkBoxPanel.setLayout(new GridLayout(2,0));
+        lowerCheckBoxPanel.setLayout(new GridBagLayout());
+        upperCheckBoxPanel.setLayout(new GridBagLayout());
+        
+        GridBagConstraints gbc = new GridBagConstraints();
+        gbc.fill = GridBagConstraints.BOTH;
+        gbc.insets = new Insets(0, 0, 0, 0);
+        gbc.gridx = 0;
+        gbc.gridy = 0;
+        checkBoxPanel.add(upperCheckBoxPanel);
+        
+        gbc.fill = GridBagConstraints.BOTH;
+        gbc.insets = new Insets(0, 0, 0, 0);
+        gbc.gridx = 0;
+        gbc.gridy = 1;
+        checkBoxPanel.add(lowerCheckBoxPanel);
+        
+        GridBagConstraints gbc2 = new GridBagConstraints();
+        gbc2.fill = GridBagConstraints.BOTH;
+        gbc2.insets = new Insets(0, 0, 0, 0);
+        gbc2.gridx = 0;
+        gbc2.gridy = 0;
+        upperCheckBoxPanel.add(printMean, gbc2);
+        
+        gbc2.fill = GridBagConstraints.BOTH;
+        gbc2.insets = new Insets(0, 0, 0, 0);
+        gbc2.gridx = 1;
+        gbc2.gridy = 0;
+        upperCheckBoxPanel.add(printZeros, gbc2);
 
-        GridBagConstraints gbc_printZeros = new GridBagConstraints();
-        gbc_printZeros.fill = GridBagConstraints.BOTH;
-        gbc_printZeros.insets = new Insets(0, 0, 0, 5);
-        gbc_printZeros.gridx = 1;
-        gbc_printZeros.gridy = 0;
-        checkBoxPanel.add(printZeros, gbc_printZeros);
+        gbc2.fill = GridBagConstraints.BOTH;
+        gbc2.insets = new Insets(0, 0, 0, 0);
+        gbc2.gridx = 2;
+        gbc2.gridy = 0;
+        upperCheckBoxPanel.add(stepSizeBox, gbc2);
+        
+        gbc2.fill = GridBagConstraints.BOTH;
+        gbc2.insets = new Insets(0, 0, 0, 5);
+        gbc2.gridx = 0;
+        gbc2.gridy = 1;
+        lowerCheckBoxPanel.add(outputGFF, gbc2);
+        
+        gbc2.fill = GridBagConstraints.BOTH;
+        gbc2.insets = new Insets(0, 5, 0, 0);
+        gbc2.gridx = 1;
+        gbc2.gridy = 1;
+        lowerCheckBoxPanel.add(ouputSGR, gbc2);
 
-        GridBagConstraints gbc_stepSizeBox = new GridBagConstraints();
-        gbc_stepSizeBox.fill = GridBagConstraints.BOTH;
-        gbc_stepSizeBox.insets = new Insets(0, 0, 0, 5);
-        gbc_stepSizeBox.gridx = 2;
-        gbc_stepSizeBox.gridy = 0;
-        checkBoxPanel.add(stepSizeBox, gbc_stepSizeBox);
+        checkBoxPanel.setPreferredSize(new Dimension(295, 96));
 
-        GridBagLayout gbl_checkBoxPanel = new GridBagLayout();
-        gbl_checkBoxPanel.columnWidths = new int[] { 110, 110, 110, 0 };
-        gbl_checkBoxPanel.rowHeights = new int[] { 50, 0 };
-        gbl_checkBoxPanel.columnWeights = new double[] { 0.0, 0.0, 0.0,
-                Double.MIN_VALUE };
-        gbl_checkBoxPanel.rowWeights = new double[] { 0.0, Double.MIN_VALUE };
-
-        checkBoxPanel.setLayout(gbl_checkBoxPanel);
         convPanel.add(stepSizePanel);
         stepSizePanel.setBorder(BorderFactory.createTitledBorder("Step size"));
 
