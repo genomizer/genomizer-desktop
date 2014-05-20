@@ -177,4 +177,8 @@ public class WorkspaceTab extends JPanel {
     public ArrayList<ExperimentData> getSelectedExperiments() {
         return table.getSelectedExperiments();
     }
+    
+    public void removeSelectedData() {
+        removeButton.doClick();
+    }
 }

@@ -719,6 +719,7 @@ public class Controller {
                 JOptionPane.showMessageDialog(null,
                         "Selected data was removed from database",
                         "Delete success", JOptionPane.INFORMATION_MESSAGE);
+                view.removeSelectedFromWorkspace();
             }
         }
     }
