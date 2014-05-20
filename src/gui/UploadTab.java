@@ -360,7 +360,8 @@ public class UploadTab extends JPanel implements ExperimentPanel {
             enableUploadButton(false);
         }
         buttonsPanel.add(selectButton);
-        buttonsPanel.add(Box.createHorizontalStrut(20));
+//        buttonsPanel.add(Box.createHorizontalStrut(20));
+// (orsakar att knapparna flyttar mer och mer åt höger efter varje repaint)
         buttonsPanel.add(uploadButton);
         uploadFilesPanel.add(buttonsPanel);
         repaint();

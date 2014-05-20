@@ -180,7 +180,8 @@ public class UploadToExistingExpPanel extends JPanel implements ExperimentPanel 
             enableUploadButton(false);
         }
         buttonsPanel.add(selectFilesToUploadButton);
-        buttonsPanel.add(Box.createHorizontalStrut(20));
+//        buttonsPanel.add(Box.createHorizontalStrut(20))
+// (orsakar att knapparna flyttar mer och mer åt höger efter varje repaint)
         buttonsPanel.add(uploadFilesToExperimentButton);
         uploadFilesPanel.add(buttonsPanel);
         repaint();
