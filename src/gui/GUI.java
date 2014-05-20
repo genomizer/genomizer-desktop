@@ -737,4 +737,9 @@ public class GUI extends JFrame implements GenomizerView {
     public void setProfileButton(boolean bool){
         processTab.setProfileButton(bool);
     }
+
+    @Override
+    public boolean useRatio() {
+        return processTab.useRatio();
+    }
 }

@@ -123,8 +123,14 @@ public class Controller {
                     parameters[3] = view.getOtherParameters()[1];// "y";
                     parameters[4] = view.getParameters()[2];
                     parameters[5] = view.getParameters()[3];
-                    parameters[6] = view.getRatioCalcParameters()[0]; // "single 4 0";
-                    parameters[7] = view.getRatioCalcParameters()[1]; // "150 1 7 0 0";
+
+                    if(view.useRatio()){
+                        parameters[6] = view.getRatioCalcParameters()[0]; // "single 4 0";
+                        parameters[7] = view.getRatioCalcParameters()[1]; // "150 1 7 0 0";
+                    }else{
+                        parameters[6] = "";
+                        parameters[7] = "";
+                    }
 
                     String expid = data.expId;
                     String genomeVersion = data.grVersion;

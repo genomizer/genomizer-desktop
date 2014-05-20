@@ -181,7 +181,7 @@ public class ProcessTab extends JPanel {
 
         initBowtieParameters();
         writeToTimePanel();
-        setUnusedRatioPar();
+        setDefaultRatioPar();
 
     }
 
@@ -958,5 +958,9 @@ public class ProcessTab extends JPanel {
 
     public void setProfileButton(boolean bool){
         profileButton.setEnabled(bool);
+    }
+
+    public boolean useRatio(){
+        return useRatio.isSelected();
     }
 }
