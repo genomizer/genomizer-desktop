@@ -29,12 +29,22 @@ public class SysadminTabChangeListener implements ChangeListener {
 
             case SysStrings.GENOME:
 
+                sysContoller.getGenomeReleases();
+
+                javax.swing.SwingUtilities.invokeLater(new Runnable() {
+                    public void run() {
+
+                        sysContoller.setGenomeReleaseTable();
+
+                    }
+                });
+
                 System.out.println("Clicked the genome tab.");
                 javax.swing.SwingUtilities.invokeLater(new Runnable() {
                     public void run() {
-                        sysContoller.getGenomeReleases();
+
                         sysContoller.getSysTab().getGenomeReleaseView()
-                        .setSpeciesDDList(sysContoller.getSpecies());
+                                .setSpeciesDDList(sysContoller.getSpecies());
                     }
                 });
 
