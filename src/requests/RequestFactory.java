@@ -6,7 +6,6 @@ import java.util.HashMap;
 
 import javax.swing.JOptionPane;
 
-
 import util.AnnotationDataValue;
 
 public class RequestFactory {
@@ -148,5 +147,11 @@ public class RequestFactory {
 
     public static GetGenomeSpecieReleasesRequest makeGetGenomeSpecieReleaseRequest(String specie) {
         return new GetGenomeSpecieReleasesRequest(specie);
+    }
+
+    public static AddGenomeReleaseRequest makeAddGenomeRelease(String fileName,
+            String specie, String version) {
+        
+        return new AddGenomeReleaseRequest(fileName, specie, version);
     }
 }

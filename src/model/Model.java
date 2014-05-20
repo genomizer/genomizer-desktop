@@ -7,7 +7,27 @@ import java.util.concurrent.CopyOnWriteArrayList;
 
 import javax.swing.JOptionPane;
 
-import requests.*;
+import requests.AddAnnotationRequest;
+import requests.AddExperimentRequest;
+import requests.AddFileToExperiment;
+import requests.AddGenomeReleaseRequest;
+import requests.AddNewAnnotationValueRequest;
+import requests.DownloadFileRequest;
+import requests.GetAnnotationRequest;
+import requests.GetGenomeReleasesRequest;
+import requests.GetGenomeSpecieReleasesRequest;
+import requests.LoginRequest;
+import requests.LogoutRequest;
+import requests.ProcessFeedbackRequest;
+import requests.RemoveAnnotationFieldRequest;
+import requests.RemoveAnnotationValueRequest;
+import requests.RemoveGenomeReleaseRequest;
+import requests.RenameAnnotationFieldRequest;
+import requests.RenameAnnotationValueRequest;
+import requests.RequestFactory;
+import requests.RetrieveExperimentRequest;
+import requests.SearchRequest;
+import requests.rawToProfileRequest;
 import responses.AddFileToExperimentResponse;
 import responses.DownloadFileResponse;
 import responses.LoginResponse;
@@ -343,6 +363,16 @@ public class Model implements GenomizerModel {
         }
 
         return new GenomeReleaseData[] {};
+    }
+
+    public boolean uploadGenomeReleaseFile(String fileName, String specie,
+            String version) {
+
+        AddGenomeReleaseRequest request = RequestFactory.makeAddGenomeRelease(
+                fileName, specie, version);
+        System.out.println(request.toJson());
+
+        return false;
     }
 
     @Override

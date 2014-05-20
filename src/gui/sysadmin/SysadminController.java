@@ -186,6 +186,7 @@ public class SysadminController {
                 + gr.getSpeciesText() + " File: "+ gr.getFileText());
     }
 
+
     public void clearAddGenomeText(){
         GenomeReleaseViewCreator gr = sysTab.getGenomeReleaseView();
         gr.clearTextFields();
@@ -196,6 +197,7 @@ public class SysadminController {
         String oldName = edPop.getAnnotation().name;
         String newName = edPop.getNewAnnotationName();
         model.renameAnnotationField(oldName, newName);
+
 
 
     }
