@@ -471,6 +471,7 @@ public class Controller {
                         JOptionPane.showMessageDialog(null,
                                 "Upload to experiment \"" + ed.getName() +
                                         "\" complete.");
+                        view.refreshSearch();
                     }
                     for (HTTPURLUpload upload : model.getOngoingUploads()) {
                         if (f.getName().equals(upload.getFileName())) {
@@ -604,6 +605,7 @@ public class Controller {
                                     model.getOngoingUploads().remove(upload);
                                 }
                             }
+                            view.refreshSearch();
                         } else {
                             JOptionPane.showMessageDialog(null,
                                     "Couldn't upload " + f.getName() + ".",
