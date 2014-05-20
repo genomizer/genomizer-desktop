@@ -725,4 +725,8 @@ public class GUI extends JFrame implements GenomizerView {
     public void disableSelectedRow(File f) {
         uploadTab.disableRow(f);
     }
+
+    public boolean isCorrectToProcess() {
+        return processTab.isCorrectToProcess();
+    }
 }

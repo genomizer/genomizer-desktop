@@ -187,4 +187,6 @@ public interface GenomizerView {
     public void removeSelectedFromWorkspace();
     
     public void disableSelectedRow(File f);
+
+    public boolean isCorrectToProcess();
 }

@@ -183,7 +183,12 @@ public class RatioCalcPopup extends JFrame {
     }
 
     private String getSmoothType() {
-        return ratioSmoothType.getSelectedItem().toString().trim();
+
+        if(ratioSmoothType.getSelectedItem().toString().equals("Median")){
+            return "1";
+        }else {
+            return "0";
+        }
     }
 
     private String getWindowSize() {
@@ -219,8 +224,8 @@ public class RatioCalcPopup extends JFrame {
 
         single.removeAllItems();
         ratioSmoothType.removeAllItems();
-        ratioSmooth.add("1");
-        ratioSmooth.add("0");
+        ratioSmooth.add("Median");
+        ratioSmooth.add("Trimmed mean");
         comboSingle.add("single");
         comboSingle.add("double");
         ratioSmoothType.addItem(ratioSmooth.get(0));
