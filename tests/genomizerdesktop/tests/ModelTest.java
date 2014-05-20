@@ -10,7 +10,10 @@ import util.AnnotationDataType;
 import util.AnnotationDataValue;
 import util.ExperimentData;
 
+import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
 
 public class ModelTest {
@@ -71,6 +74,18 @@ public class ModelTest {
 
     /*@Test
     public void shouldUploadExperimentAndRemove() {
+        String expid = "thisisatestexp95996";
+        String homeDir = System.getProperty("user.home");
+        File file = new File(homeDir + "/.testupload.txt");
+        BufferedWriter fout;
+        try {
+            fout = new BufferedWriter(new FileWriter(file));
+            fout.write("test");
+            fout.newLine();
+            fout.flush();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         Model m2 = new Model();
         m2.setIp("http://scratchy.cs.umu.se:7000");
         m2.loginUser("genomizer", "supersecretpass");
@@ -81,17 +96,17 @@ public class ModelTest {
                 continue;
             }
             if(!types[i].getValues()[0].equalsIgnoreCase("freetext")) {
-                values[i] = new AnnotationDataValue(Integer.toString(i), types[i].getName(), types[i].getValues()[1]);
+                values[i] = new AnnotationDataValue(Integer.toString(i), types[i].getName(), types[i].getValues()[0]);
             } else {
                 values[i] = new AnnotationDataValue(Integer.toString(i), types[i].getName(), "test");
             }
         }
-
-        assertThat(m2.search("thisisatestexp321[ExpID]")).isNull();
-        assertThat(m2.addNewExperiment("thisisatestexp321", "genomizer", values)).isTrue();
-        assertThat(m2.search("")).isNotNull();
-        assertThat(m2.deleteExperimentFromDatabase("thisisatestexp321"));
-        assertThat(m2.search("thisisatestexp321[ExpID]")).isNull();
-
+        assertThat(m2.search(expid + "[ExpID]")).isNull();
+        assertThat(m2.addNewExperiment(expid, "genomizer", values)).isTrue();
+        assertThat(m2.uploadFile(expid, file, "Profile", "genomizer", false, "rn5")).isTrue();
+        // SEARCH IS WRONG SOMEHOW
+        assertThat(m2.search(expid + "[ExpID]")).isNotNull();
+        assertThat(m2.deleteExperimentFromDatabase(expid)).isTrue();
+        assertThat(m2.search(expid + "[ExpID]")).isNull();
     }*/
 }
