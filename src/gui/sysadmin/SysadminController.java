@@ -179,9 +179,8 @@ public class SysadminController{
 
     public void sendNewGenomeRelease(){
         GenomeReleaseViewCreator gr = sysTab.getGenomeReleaseView();
-        System.out.println("Version: " + gr.getVersionText() + " Species: "
-                + gr.getSpeciesText() + " File: "+ gr.getFileText());
-        model.uploadGenomeReleaseFile()
+        model.uploadGenomeReleaseFile(gr.getFileText(), gr.getSpeciesText(),
+                gr.getVersionText());
     }
 
 
