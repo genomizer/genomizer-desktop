@@ -107,7 +107,7 @@ public class UploadTab extends JPanel implements ExperimentPanel {
         // uploadButton = CustomButtonFactory.makeCustomButton(
         // IconFactory.getUploadIcon(40, 40),
         // IconFactory.getUploadHoverIcon(42, 42), 42, 42, "Upload data");
-        boldTextLabel = new JLabel( //Bolded isn't a word..
+        boldTextLabel = new JLabel( // Bolded isn't a word..
                 "<html><b>Emboldened text = forced annotation.</b></html>");
         boldTextLabel.setOpaque(true);
         newExpPanel = new JPanel();
@@ -154,7 +154,7 @@ public class UploadTab extends JPanel implements ExperimentPanel {
      * Method adding a listener to the "uploadButton".
      *
      * @param listener
-     *            The listener to start uploading selected files.
+     *            The listener to start uploading all files.
      */
     public void addUploadButtonListener(ActionListener listener) {
         uploadButton.addActionListener(listener);
@@ -362,8 +362,9 @@ public class UploadTab extends JPanel implements ExperimentPanel {
             enableUploadButton(false);
         }
         buttonsPanel.add(selectButton);
-//        buttonsPanel.add(Box.createHorizontalStrut(20));
-// (orsakar att knapparna flyttar mer och mer åt höger efter varje repaint)
+        // buttonsPanel.add(Box.createHorizontalStrut(20));
+        // (orsakar att knapparna flyttar mer och mer åt höger efter varje
+        // repaint)
         buttonsPanel.add(uploadSelectedBtn);
         buttonsPanel.add(uploadButton);
         uploadFilesPanel.add(buttonsPanel);
@@ -540,17 +541,29 @@ public class UploadTab extends JPanel implements ExperimentPanel {
         }
     }
 
+    /**
+     * Method returning the text in the experiment name field.
+     *
+     * @return a String with the experiment name.
+     */
     public String getSearchText() {
         return experimentNameField.getText();
     }
 
-    ;
-
+    /**
+     * Method setting the ongoing uploads.
+     *
+     * @param ongoingUploads
+     *            The uploads currently ongoing.
+     */
     public void setOngoingUploads(
             CopyOnWriteArrayList<HTTPURLUpload> ongoingUploads) {
         this.ongoingUploads = ongoingUploads;
     }
 
+    /**
+     * Method updating the progress of ongoing uploads.
+     */
     private void updateProgress() {
         new Thread(new Runnable() {
             private boolean running;
@@ -590,17 +603,27 @@ public class UploadTab extends JPanel implements ExperimentPanel {
         }).start();
     }
 
+    /**
+     * Method returning the files that are selected.
+     *
+     * @return an ArrayList with the selected files.
+     */
     public ArrayList<File> getSelectedFilesToUpload() {
         ArrayList<File> files = new ArrayList<File>();
         for (File f : uploadFileRows.keySet()) {
-            if(uploadFileRows.get(f).isSelected()) {
+            if (uploadFileRows.get(f).isSelected()) {
                 files.add(f);
             }
         }
         return files;
     }
 
-
+    /**
+     * Method adding a listener to the "uploadSelectedBtn".
+     *
+     * @param listener
+     *            The listener to start uploading selected files.
+     */
     public void addUploadSelectedFiles(ActionListener listener) {
         uploadSelectedBtn.addActionListener(listener);
     }
