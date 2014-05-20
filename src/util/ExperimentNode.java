@@ -1,7 +1,6 @@
 package util;
 
 import java.util.ArrayList;
-import java.util.concurrent.CopyOnWriteArrayList;
 
 import org.jdesktop.swingx.treetable.AbstractMutableTreeTableNode;
 
@@ -16,8 +15,7 @@ public class ExperimentNode extends AbstractMutableTreeTableNode implements
             "<html><b>File Name</html></b>", "<html><b>Date Added</html></b>",
             "<html><b>Uploaded By</html></b>" };
     
-    public ExperimentNode(ExperimentData experiment,
-            CopyOnWriteArrayList<String> headings) {
+    public ExperimentNode(ExperimentData experiment, ArrayList<String> headings) {
         
         super(experiment.getAnnotationValueList(headings).toArray());
         this.experiment = experiment;

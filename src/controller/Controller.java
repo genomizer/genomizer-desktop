@@ -261,7 +261,6 @@ public class Controller {
                 JOptionPane.showMessageDialog(null, "No search results!",
                         "Search Warning", JOptionPane.WARNING_MESSAGE);
             }
-            view.setQuerySearchActivePanelToTABLE();
         }
     }
     
