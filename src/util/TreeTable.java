@@ -409,7 +409,7 @@ public class TreeTable extends JPanel {
         return selectedExperiments;
     }
     
-    public ArrayList<ExperimentData> getSelectedExperiments() {
+    public synchronized ArrayList<ExperimentData> getSelectedExperiments() {
         /* Get the data that are selected in the table */
         int[] rows = table.getSelectedRows();
         ArrayList<ExperimentData> selectedExperiments = new ArrayList<ExperimentData>();
@@ -452,17 +452,13 @@ public class TreeTable extends JPanel {
             for (ExperimentData data : experiments) {
                 for (FileData file : selectedFiles) {
                     if (data.files.contains(file)) {
-                        System.out.println("removed file " + file.filename);
                         data.removeFile(file);
                     }
                 }
             }
-            for (ExperimentData data : (ArrayList<ExperimentData>) experiments
-                    .clone()) {
-                if (data.files.size() == 0 && selectedData.contains(data)) {
-                    System.out.println("removed " + data.name);
-                    experiments.remove(data);
-                }
+            selectedData = getSelectedExperiments();
+            for (ExperimentData data : selectedData) {
+                experiments.remove(data);
             }
         } catch (NullPointerException e) {
             JOptionPane.showMessageDialog(null, "No files to remove.");

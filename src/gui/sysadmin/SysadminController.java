@@ -18,7 +18,7 @@ import model.GenomizerModel;
 import util.AnnotationDataType;
 import util.GenomeReleaseData;
 
-public class SysadminController {
+public class SysadminController{
 
     private SysadminTab sysTab;
     private GenomizerModel model;
@@ -159,7 +159,7 @@ public class SysadminController {
     public void deleteGenomeRelease(String version, String specie) {
 
         if (model.deleteGenomeRelease(specie, version)) {
-
+            setGenomeReleaseTable();
         }
     }
 
@@ -179,9 +179,10 @@ public class SysadminController {
 
     public void sendNewGenomeRelease(){
         GenomeReleaseViewCreator gr = sysTab.getGenomeReleaseView();
-        System.out.println("Version: " + gr.getVersionText() + " Species: "
-                + gr.getSpeciesText() + " File: "+ gr.getFileText());
+        model.uploadGenomeReleaseFile(gr.getFileText(), gr.getSpeciesText(),
+                gr.getVersionText());
     }
+
 
     public void clearAddGenomeText(){
         GenomeReleaseViewCreator gr = sysTab.getGenomeReleaseView();
@@ -193,6 +194,7 @@ public class SysadminController {
         String oldName = edPop.getAnnotation().name;
         String newName = edPop.getNewAnnotationName();
         model.renameAnnotationField(oldName, newName);
+
 
 
     }
