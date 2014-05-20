@@ -517,6 +517,10 @@ public class GUI extends JFrame implements GenomizerView {
         return workspaceTab.getSelectedData();
     }
     
+    public ArrayList<ExperimentData> getSelectedExperimentsInWorkspace() {
+        return workspaceTab.getSelectedExperiments();
+    }
+    
     /**
      * Repaint and revalidate the view.
      */

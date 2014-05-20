@@ -1,7 +1,6 @@
 package util;
 
 import java.awt.BorderLayout;
-import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
@@ -72,8 +71,7 @@ public class TreeTable extends JPanel {
      */
     private void initiateJXTreeTable() {
         table = new JXTreeTable() {
-            public boolean getScrollableTracksViewportWidth()
-            {
+            public boolean getScrollableTracksViewportWidth() {
                 return getPreferredSize().width < getParent().getWidth();
             }
         };
@@ -411,6 +409,32 @@ public class TreeTable extends JPanel {
         return selectedExperiments;
     }
     
+    public ArrayList<ExperimentData> getSelectedExperiments() {
+        /* Get the data that are selected in the table */
+        int[] rows = table.getSelectedRows();
+        ArrayList<ExperimentData> selectedExperiments = new ArrayList<ExperimentData>();
+        /* For each selected row */
+        for (int i = 0; i < rows.length; i++) {
+            /* Get the node of the selected row */
+            TreePath path = table.getPathForRow(rows[i]);
+            Object nodeObject = path.getLastPathComponent();
+            /* Check type of node */
+            if (nodeObject instanceof ExperimentNode) {
+                /* If experiment node */
+                ExperimentNode expNode = (ExperimentNode) nodeObject;
+                ExperimentData exp = expNode.getExperiment();
+                ExperimentData newExp = new ExperimentData(exp.name,
+                        exp.createdBy, (ArrayList<FileData>) exp.files.clone(),
+                        (ArrayList<AnnotationDataValue>) exp.annotations
+                                .clone());
+                if (!selectedExperiments.contains(exp)) {
+                    selectedExperiments.add(newExp);
+                }
+            }
+        }
+        return selectedExperiments;
+    }
+    
     /**
      * remove the currently selected files
      */
@@ -427,13 +451,14 @@ public class TreeTable extends JPanel {
         try {
             for (ExperimentData data : experiments) {
                 for (FileData file : selectedFiles) {
-                    if(data.files.contains(file)) {
+                    if (data.files.contains(file)) {
                         System.out.println("removed file " + file.filename);
                         data.removeFile(file);
                     }
                 }
             }
-            for (ExperimentData data : (ArrayList<ExperimentData>) experiments.clone()) {
+            for (ExperimentData data : (ArrayList<ExperimentData>) experiments
+                    .clone()) {
                 if (data.files.size() == 0 && selectedData.contains(data)) {
                     System.out.println("removed " + data.name);
                     experiments.remove(data);

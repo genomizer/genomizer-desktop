@@ -173,4 +173,8 @@ public class WorkspaceTab extends JPanel {
     public ArrayList<ExperimentData> getSelectedData() {
         return table.getSelectedData();
     }
+    
+    public ArrayList<ExperimentData> getSelectedExperiments() {
+        return table.getSelectedExperiments();
+    }
 }

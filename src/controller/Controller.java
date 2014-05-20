@@ -694,6 +694,11 @@ public class Controller {
         public void run() {
             ArrayList<ExperimentData> expData = view
                     .getSelectedDataInWorkspace();
+            for (ExperimentData data : expData) {
+                for (FileData fileData : data.files) {
+                    model.deleteFileFromExperiment(fileData);
+                }
+            }
 
         }
     }

@@ -123,6 +123,8 @@ public interface GenomizerView {
     
     public ArrayList<ExperimentData> getSelectedDataInWorkspace();
     
+    public ArrayList<ExperimentData> getSelectedExperimentsInWorkspace();
+    
     public void createNewExp(AnnotationDataType[] annotations);
     
     public String[] getParameters();
