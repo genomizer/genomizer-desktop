@@ -410,7 +410,29 @@ public class TreeTable extends JPanel {
     }
     
     public ArrayList<ExperimentData> getSelectedExperiments() {
-        return null;
+        /* Get the data that are selected in the table */
+        int[] rows = table.getSelectedRows();
+        ArrayList<ExperimentData> selectedExperiments = new ArrayList<ExperimentData>();
+        /* For each selected row */
+        for (int i = 0; i < rows.length; i++) {
+            /* Get the node of the selected row */
+            TreePath path = table.getPathForRow(rows[i]);
+            Object nodeObject = path.getLastPathComponent();
+            /* Check type of node */
+            if (nodeObject instanceof ExperimentNode) {
+                /* If experiment node */
+                ExperimentNode expNode = (ExperimentNode) nodeObject;
+                ExperimentData exp = expNode.getExperiment();
+                ExperimentData newExp = new ExperimentData(exp.name,
+                        exp.createdBy, (ArrayList<FileData>) exp.files.clone(),
+                        (ArrayList<AnnotationDataValue>) exp.annotations
+                                .clone());
+                if (!selectedExperiments.contains(exp)) {
+                    selectedExperiments.add(newExp);
+                }
+            }
+        }
+        return selectedExperiments;
     }
     
     /**
