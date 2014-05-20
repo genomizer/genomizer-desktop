@@ -48,7 +48,6 @@ public class UploadTab extends JPanel implements ExperimentPanel {
             uploadButton, uploadSelectedBtn;
     private JPanel northPanel, expNamePanel, uploadPanel, newExpPanel,
             uploadFilesPanel, uploadBackground;
-    private JTextArea experimentNameField;
     private UploadToExistingExpPanel uploadToExistingExpPanel;
     private AnnotationDataType[] annotations;
     private ArrayList<String> annotationHeaders;
@@ -58,7 +57,7 @@ public class UploadTab extends JPanel implements ExperimentPanel {
     private HashMap<File, UploadFileRow> uploadFileRows;
     private ActivePanel activePanel;
     private JLabel expNameLabel, boldTextLabel;
-    private JTextField expID;
+    private JTextField experimentNameField, expID;
     private JScrollPane uploadScroll;
     private JPanel buttonsPanel;
 
@@ -75,7 +74,7 @@ public class UploadTab extends JPanel implements ExperimentPanel {
         expNamePanel = new JPanel();
         add(northPanel, BorderLayout.NORTH);
         northPanel.add(new JLabel("Experiment name: "));
-        experimentNameField = new JTextArea();
+        experimentNameField = new JTextField();
         experimentNameField.setColumns(30);
         expNamePanel.add(experimentNameField);
         northPanel.add(expNamePanel);
