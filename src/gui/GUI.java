@@ -453,6 +453,10 @@ public class GUI extends JFrame implements GenomizerView {
         tabbedPane.addTab("SEARCH", null, querySearchTab, "Search");
     }
 
+    public void refreshSearch() {
+        querySearchTab.refresh();
+    }
+
     /**
      * Sets the annotationTypes of the querySearchTab.
      *
@@ -462,6 +466,10 @@ public class GUI extends JFrame implements GenomizerView {
      */
     public void setSearchAnnotationTypes(AnnotationDataType[] annotationTypes) {
         querySearchTab.setAnnotationTypes(annotationTypes);
+    }
+
+    public void setQuerySearchActivePanelToTABLE() {
+        querySearchTab.setActivePanelToTABLE();
     }
 
     /*

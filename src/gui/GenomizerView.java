@@ -36,6 +36,10 @@ public interface GenomizerView {
      */
     public void addAnalyzeSelectedListener(ActionListener listener);
 
+    public void refreshSearch();
+
+    public void setQuerySearchActivePanelToTABLE();
+
     public void addLoginListener(ActionListener listener);
 
     public void addScheduleFileListener(ActionListener listener);

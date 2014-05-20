@@ -418,6 +418,8 @@ public class Model implements GenomizerModel {
         conn.sendRequest(aER, getUserID(), JSON);
         if (conn.getResponseCode() == 201) {
             return true;
+        } else {
+            System.out.println("AddEXPERIMENT" + conn.getResponseCode());
         }
         return false;
     }
