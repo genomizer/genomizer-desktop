@@ -53,8 +53,10 @@ public class WorkspaceTab extends JPanel {
         // IconFactory.getClearIcon(50, 50),
         // IconFactory.getClearHoverIcon(52, 52), 52, 52,
         // "Remove selected data from workspace");
-        removeButton = new JButton("Remove");
-        removeButton.setPreferredSize(new Dimension(150, 40));
+        deleteButton = new JButton("Delete from database");
+        deleteButton.setPreferredSize(new Dimension(190, 40));
+        removeButton = new JButton("Remove from workspace");
+        removeButton.setPreferredSize(new Dimension(190, 40));
         removeButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -87,6 +89,10 @@ public class WorkspaceTab extends JPanel {
     }
     
     private void addToButtonPanel() {
+        buttonPanel.add(deleteButton);
+        
+        buttonPanel.add(Box.createHorizontalStrut(50));
+        
         buttonPanel.add(removeButton);
         
         buttonPanel.add(Box.createHorizontalStrut(50));
@@ -128,6 +134,10 @@ public class WorkspaceTab extends JPanel {
         analyzeButton.addActionListener(listener);
     }
     
+    public void addDeleteSelectedListener(ActionListener listener) {
+        deleteButton.addActionListener(listener);
+    }
+    
     private String[] concatArrays(String[] first, String[] second) {
         ArrayList<String> both = new ArrayList<String>(first.length
                 + second.length);
@@ -162,5 +172,9 @@ public class WorkspaceTab extends JPanel {
     
     public ArrayList<ExperimentData> getSelectedData() {
         return table.getSelectedData();
+    }
+    
+    public ArrayList<ExperimentData> getSelectedExperiments() {
+        return table.getSelectedExperiments();
     }
 }

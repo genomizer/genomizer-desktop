@@ -22,6 +22,15 @@ public class SysStrings {
     public final static String GENOME_BUTTON_CLEAR = "Clear";
     public final static String GENOME_BUTTON_FILE = "Browse files...";
 
+    public final static String GENOME_POPUP_BUTTON_DELETE = "Delete genome";
+    public final static String GENOME_POPUP_NAME = "Delete genome release";
+
+
+    /* GenomeTableHeader */
+    public final static String GENOME_TABLE_VERSION = "Version";
+    public final static String GENOME_TABLE_SPECIES = "Species";
+    public final static String GENOME_TABLE_FILENAME = "Filename";
+
     /* Edit annotation popup*/
     public static final String ANNOTATIONS_RENAME_FINAL = "Rename annotation";
     public static final String ANNOTATIONS_RENAME = "Rename";

@@ -24,6 +24,7 @@ public class AnnotationFieldTest {
         // con = new Connection("http://hagrid.cs.umu.se:7000");
         model = new Model();
         model.setIp("http://scratchy.cs.umu.se:7000");
+        //model.setIp("http://scratchy.cs.umu.se:7000");
         model.loginUser("SysadminTests", "qwerty");
         sysadminTab = new SysadminTab();
     }

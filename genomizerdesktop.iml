@@ -129,6 +129,9 @@
     <orderEntry type="library" name="commons-codec-1.6" level="project" />
     <orderEntry type="library" name="fest-test-2.1.0" level="project" />
     <orderEntry type="library" name="hamcrest-all-1.3" level="project" />
+    <orderEntry type="library" name="fest-assert-core-2.0M8" level="project" />
+    <orderEntry type="library" name="swingx-all-1.6.4" level="project" />
+    <orderEntry type="library" name="hamcrest-core-1.3" level="project" />
   </component>
 </module>
 
