@@ -181,6 +181,7 @@ public class SysadminController{
         GenomeReleaseViewCreator gr = sysTab.getGenomeReleaseView();
         model.uploadGenomeReleaseFile(gr.getFileText(), gr.getSpeciesText(),
                 gr.getVersionText());
+        setGenomeReleaseTable();
     }
 
 
