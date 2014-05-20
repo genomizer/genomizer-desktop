@@ -4,15 +4,12 @@ import gui.sysadmin.annotationview.AddAnnotationPopup;
 import gui.sysadmin.annotationview.AnnotationButtonsListener;
 import gui.sysadmin.annotationview.AnnotationPopupListener;
 import gui.sysadmin.annotationview.AnnotationTableModel;
-import gui.sysadmin.annotationview.EditAnnotationPopup;
 import gui.sysadmin.annotationview.EditAnnotationPopup2;
 import gui.sysadmin.annotationview.EditAnnotationPopupListener;
 import gui.sysadmin.genomereleaseview.GenomeReleaseViewCreator;
 import gui.sysadmin.genomereleaseview.GenomereleaseTableModel;
 
 import java.awt.event.ActionListener;
-import java.util.Observable;
-import java.util.Observer;
 
 import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
@@ -21,14 +18,13 @@ import model.GenomizerModel;
 import util.AnnotationDataType;
 import util.GenomeReleaseData;
 
-public class SysadminController extends Observable {
+public class SysadminController {
 
     private SysadminTab sysTab;
     private GenomizerModel model;
 
-    public SysadminController(Observer observer) {
+    public SysadminController() {
 
-        this.addObserver(observer);
 
     }
 
@@ -160,11 +156,8 @@ public class SysadminController extends Observable {
 
     }
 
-    public void deleteGenomeRelease() {
+    public void deleteGenomeRelease(String version, String specie) {
 
-        /** EXAMPLE DATA OF DOOM */
-        String version = "u12b";
-        String specie = "human";
         if (model.deleteGenomeRelease(specie, version)) {
 
         }

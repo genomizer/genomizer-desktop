@@ -2,6 +2,7 @@ package gui.sysadmin.genomereleaseview;
 
 import javax.swing.table.AbstractTableModel;
 
+import gui.sysadmin.strings.SysStrings;
 import util.GenomeReleaseData;
 
 public class GenomereleaseTableModel extends AbstractTableModel {
@@ -50,11 +51,11 @@ public class GenomereleaseTableModel extends AbstractTableModel {
     public String getColumnName(int column) {
         switch (column) {
             case 0:
-                return "Version";
+                return SysStrings.GENOME_TABLE_VERSION;
             case 1:
-                return "Species";
+                return SysStrings.GENOME_TABLE_SPECIES;
             case 2:
-                return "Filename";
+                return SysStrings.GENOME_TABLE_FILENAME;
             default:
                 break;
         }
