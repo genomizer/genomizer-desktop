@@ -93,8 +93,6 @@ public class ProcessTab extends JPanel {
     private final JTextField chromosome = new JTextField();
     private final JTextField ratioWindowSize = new JTextField();
     private final JTextField ratioStepPosition = new JTextField();
-    private final JCheckBox ratioPrintMean = new JCheckBox("Print mean");
-    private final JCheckBox ratioPrintZeros = new JCheckBox("Print zeros");
 
     private final JScrollPane scrollSchedule = new JScrollPane();
     private final JScrollPane scrollConvert = new JScrollPane();
@@ -155,8 +153,8 @@ public class ProcessTab extends JPanel {
 
         ArrayList<String> ratioSmooth = new ArrayList<String>();
         /* TEST */
-        ratioSmooth.add("1");
-        ratioSmooth.add("0");
+        ratioSmooth.add("Median");
+        ratioSmooth.add("Trimmed Mean");
 
         ratioSmoothType.addItem(ratioSmooth.get(0));
         ratioSmoothType.addItem(ratioSmooth.get(1));
@@ -520,7 +518,6 @@ public class ProcessTab extends JPanel {
         smoothTypePanel.add(smoothType);
         smoothType.setPreferredSize(new Dimension(70, 45));
         smoothType.setBorder(null);
-        // smoothType.setHorizontalAlignment(JTextField.CENTER);
     }
 
     /**
@@ -666,9 +663,15 @@ public class ProcessTab extends JPanel {
         String printmean = "0";
         String printzeros = "0";
 
-        smoothPar = smoothWindowSize.getText().trim() + " "
-                + smoothType.getSelectedItem() + " "
-                + stepPosition.getText().trim();
+        smoothPar = smoothWindowSize.getText().trim() + " ";
+
+        if(smoothType.getSelectedItem().equals("Median")){
+            smoothPar = smoothPar + "1" + " ";
+        }else{
+            smoothPar = smoothPar + "0" + " ";
+        }
+
+        smoothPar = smoothPar + stepPosition.getText().trim();
 
         if (printMean.isSelected()) {
             printmean = "1";
@@ -718,7 +721,6 @@ public class ProcessTab extends JPanel {
      */
     public void setFileInfo(ArrayList<FileData> allFileData,
             ArrayList<ExperimentData> experimentData) {
-        // this.fileData = allFileData;
         this.experimentData = experimentData;
         parseFileData();
     }
@@ -830,7 +832,6 @@ public class ProcessTab extends JPanel {
 
     public void addScheduleFileListener(ActionListener listener) {
         // scheduleButton.addActionListener(listener);
-        // scheduleButton.addActionListener(listener);
     }
 
     private int getNumberOfJobsInQueue() {
@@ -881,19 +882,26 @@ public class ProcessTab extends JPanel {
 
     public String[] getOtherParameters() {
         String[] s = new String[2];
+        getGFF(s);
+        getSGR(s);
 
+        return s;
+    }
+
+    private void getGFF(String[] s) {
         if(outputGFF.isSelected()){
             s[0] = "y";
         }else {
             s[0] = "";
         }
+    }
+
+    private void getSGR(String[] s) {
         if(outputSGR.isSelected()){
             s[1] = "y";
         }else {
             s[1] = "";
         }
-
-        return s;
     }
 
     public void addRatioCalcListener(ActionListener listener) {
@@ -901,14 +909,6 @@ public class ProcessTab extends JPanel {
     }
 
     public void setDefaultRatioPar() {
-        /*
-         * private final JTextField inputReads = new JTextField(); private final
-         * JTextField chromosome = new JTextField(); private final JTextField
-         * ratioWindowSize = new JTextField(); private final JTextField
-         * ratioSmoothType = new JTextField(); private final JTextField
-         * ratioStepPosition private final JCheckBox ratioPrintMean private
-         * final JCheckBox ratioPrintZeros
-         */
 
         inputReads.setText("4");
         chromosome.setText("0");
@@ -927,4 +927,16 @@ public class ProcessTab extends JPanel {
         ratioStepPosition.setText("");
     }
 
+    public boolean isCorrectToProcess() {
+        return true;
+    }
+
+    public boolean aboveZero(String string){
+
+        if( Integer.getInteger(string) > 0){
+           return true;
+        }else {
+            return false;
+        }
+    }
 }
