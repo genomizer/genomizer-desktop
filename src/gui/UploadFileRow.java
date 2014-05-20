@@ -132,4 +132,10 @@ public class UploadFileRow extends JPanel {
             parent.deleteFileRow(file);
         }
     }
+
+    public void disableRow() {
+       typeBox.setEnabled(false);
+       closeButton.setEnabled(false);
+       uploadBox.setEnabled(false);
+    }
 }

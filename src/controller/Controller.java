@@ -725,7 +725,7 @@ public class Controller {
                     i++;
                 }
             }
-            
+
             if (i == 0) {
                 JOptionPane.showMessageDialog(null, "No data was selected",
                         "Delete error", JOptionPane.ERROR_MESSAGE);
@@ -775,7 +775,6 @@ public class Controller {
         @Override
         public void run() {
             String expName = view.getNewExpName();
-            view.removeUploadExpName();
             AnnotationDataValue[] annotations = view.getUploadAnnotations();
             ArrayList<File> files = view.getSelectedFilesToUpload();
             if (files != null && files.size() > 0 && annotations != null
@@ -793,6 +792,7 @@ public class Controller {
                 if (created) {
                     for (File f : files) {
                         System.out.println(f.getName());
+                        view.disableSelectedRow(f);
                         if (model.uploadFile(expName, f,
                                 types.get(f.getName()), view.getUsername(),
                                 false, release)) {
