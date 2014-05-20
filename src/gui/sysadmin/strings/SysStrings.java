@@ -39,6 +39,7 @@ public class SysStrings {
     public static final String ANNOTATIONS_MODIFY_RENAME = "Rename value";
     public static final String ANNOTATIONS_MODIFY_REMOVE = "Remove value";
     public static final String ANNOTATIONS_MODIFY_ADD_VALUE = "Add value";
+    public static final String ANNOTATIONS_MODIFY_SET_FORCED = "CHANGE FORCED";
 
     public SysStrings() {
 
