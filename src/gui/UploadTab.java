@@ -93,7 +93,7 @@ public class UploadTab extends JPanel implements ExperimentPanel {
         uploadFilesPanel = new JPanel(new GridLayout(0, 1));
         newExpButton = new JButton("Create new experiment");
         selectButton = new JButton("Browse for files");
-        uploadButton = new JButton("Upload data");
+        uploadButton = new JButton("Upload all files");
 
         // newExpButton = CustomButtonFactory.makeCustomButton(
         // IconFactory.getNewExperimentIcon(35, 35),
@@ -262,8 +262,8 @@ public class UploadTab extends JPanel implements ExperimentPanel {
         for (int i = 0; i < annotations.length; i++) {
 
             if (annotations[i].getValues().length > 0
-                    /*&& annotations[i].isForced()*/) {
-                if (x > 6) {
+            /* && annotations[i].isForced() */) {
+                if (x > 7) {
                     x = 0;
                     y++;
                 }
@@ -272,13 +272,14 @@ public class UploadTab extends JPanel implements ExperimentPanel {
                 gbc.gridx = x;
                 gbc.gridy = y;
                 JPanel p = new JPanel(new BorderLayout());
-                String label = null;
-                JLabel annotationLabel = new JLabel("<html><b>"
-                        + annotations[i].getName() + "</b></html>");
+                JLabel annotationLabel = null;
                 if (annotations[i].isForced()) {
-                    // annotationLabel.setForeground(Color.RED);
+                    annotationLabel = new JLabel("<html><b>"
+                            + annotations[i].getName() + "</b></html>");
                     annotationLabel
                             .setToolTipText("Bold indicates a forced annotation");
+                } else {
+                    annotationLabel = new JLabel(annotations[i].getName());
                 }
                 annotationHeaders.add(annotations[i].getName());
                 p.add(annotationLabel, BorderLayout.NORTH);
@@ -603,7 +604,7 @@ public class UploadTab extends JPanel implements ExperimentPanel {
         }
 
         public void react() {
-            enableUploadButton(true);
+            enableUploadButton(forcedAnnotationCheck());
         }
     }
 
