@@ -836,6 +836,9 @@ public class Controller {
                                     "Error", JOptionPane.ERROR_MESSAGE);
                         }
                     }
+                    //Shown when all files have been uploaded to experiment.
+                    JOptionPane.showMessageDialog(null, "Upload to the new" +
+                            "experiment \"" + expName +"\" complete");
                 } else {
                     JOptionPane.showMessageDialog(null,
                             "Couldn't create new experiment " + expName + ".",

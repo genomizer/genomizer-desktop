@@ -14,6 +14,7 @@ import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
 import javax.swing.AbstractButton;
+import javax.swing.BoxLayout;
 import javax.swing.GroupLayout;
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -47,6 +48,7 @@ public class EditAnnotationPopup2 extends JPanel {
             createAnnotationNamePanel();
             createValuesPanel();
             createForcedPanel();
+            
         }
     }
     
@@ -55,10 +57,14 @@ public class EditAnnotationPopup2 extends JPanel {
     }
     
     private void createValuesPanel() {
-        centerpanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
         
+        BoxLayout layout;
+        centerpanel = new JPanel();
+        centerpanel.setLayout(new BoxLayout(centerpanel, BoxLayout.Y_AXIS));
+        layout = (BoxLayout) centerpanel.getLayout();
         for (String annotationValue : annotation.getValues()) {
             JPanel panel = createAnnotationValue(annotationValue);
+            //layout.
             centerpanel.add(panel);
         }
         JPanel addValuePanel = createAddValuePanel();

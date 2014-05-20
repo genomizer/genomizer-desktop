@@ -12,12 +12,13 @@ import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 import javax.swing.UIManager;
+
 /**
- * Class for loginwindow. Presents a window that prompts 
- * for a username, password and server with port.
- *  User authorization
- *  @author
- *
+ * Class for loginwindow. Presents a window that prompts for a username,
+ * password and server with port. User authorization
+ * 
+ * @author
+ * 
  */
 public class LoginWindow extends JFrame {
     
@@ -29,8 +30,7 @@ public class LoginWindow extends JFrame {
     private JLabel errorLabel;
     
     /**
-     * Constructor creating the login window and
-     * adding listeners.
+     * Constructor creating the login window and adding listeners.
      */
     public LoginWindow(final GenomizerView parent) {
         addWindowListener(new WindowAdapter() {
@@ -44,12 +44,12 @@ public class LoginWindow extends JFrame {
         setSize(270, 180);
         setResizable(false);
         this.setLocationRelativeTo(parent.getFrame());
-
+        
         placeComponents();
     }
     
     /**
-     * Sets the layout and looks to the login window 
+     * Sets the layout and looks to the login window
      */
     private void placeComponents() {
         mainPanel = new JPanel();
@@ -89,36 +89,44 @@ public class LoginWindow extends JFrame {
         mainPanel.add(loginButton);
         
     }
+    
     /**
      * Adds listener to the loginbutton
+     * 
      * @param listener
-     *            The listener to login to the server   
+     *            The listener to login to the server
      */
     public void addLoginListener(ActionListener listener) {
         loginButton.addActionListener(listener);
     }
+    
     /**
      * Method for getting the username
+     * 
      * @return the username entered by the user
      */
     public String getUsernameInput() {
         return usernameField.getText();
     }
+    
     /**
      * Method for getting the password
+     * 
      * @return the password entered buy the user
      */
     public String getPasswordInput() {
         return passwordField.getText();
     }
+    
     /**
      * Method for getting IP-address and port
+     * 
      * @return the IP-adress and port from the user
      */
     public String getIPInput() {
         return ipField.getText();
     }
-
+    
     public void updateLoginFailed(String errorMessage) {
         paintErrorMessage(errorMessage);
     }
@@ -129,6 +137,7 @@ public class LoginWindow extends JFrame {
         errorLabel.setBounds(120, 100, 150, 45);
         mainPanel.add(errorLabel);
         repaint();
+        revalidate();
     }
     
     public void removeErrorMessage() {
@@ -136,6 +145,7 @@ public class LoginWindow extends JFrame {
             mainPanel.remove(errorLabel);
             errorLabel = null;
             repaint();
+            revalidate();
         }
     }
     
