@@ -630,17 +630,23 @@ public class Controller {
             @Override
             public void mouseClicked(MouseEvent event) {
                 JList list = (JList) event.getSource();
+                String specie = "";
                 
                 if (list.getModel().getSize() > 0) {
                     int index = list.locationToIndex(event.getPoint());
+                    
                     CheckListItem item = (CheckListItem) list.getModel()
                             .getElementAt(index);
                     
-                    item.setSelected(!item.isSelected());
-                    
-                    GenomeReleaseData[] genome = model
-                            .getSpecieGenomeReleases(item.getSpecie());
-                    view.setGenomeFileList(genome);
+                    if (item.getSpecie().equals(specie) || specie == "") {
+                        
+                        item.setSelected(!item.isSelected());
+                        
+                        GenomeReleaseData[] genome = model
+                                .getSpecieGenomeReleases(item.getSpecie());
+                        view.setGenomeFileList(genome);
+                        
+                    }
                     
                     list.repaint(list.getCellBounds(index, index));
                 }
