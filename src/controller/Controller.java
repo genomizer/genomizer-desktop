@@ -68,6 +68,7 @@ public class Controller {
         view.addOkListener(new OkListener());
         view.addDeleteFromDatabaseListener(new DeleteFromDatabaseListener());
         view.setOngoingUploads(model.getOngoingUploads());
+        view.addUploadSelectedFilesListener(new UploadSelectedFilesListener());
     }
 
     class ConvertFileListener implements ActionListener, Runnable {
@@ -632,6 +633,7 @@ public class Controller {
             @Override
             public void mouseClicked(MouseEvent event) {
                 JList list = (JList) event.getSource();
+                String specie = "";
 
                 if (list.getModel().getSize() > 0) {
                     int index = list.locationToIndex(event.getPoint());
@@ -763,4 +765,56 @@ public class Controller {
         }
     }
 
+    class UploadSelectedFilesListener implements ActionListener, Runnable {
+
+        @Override
+        public void actionPerformed(ActionEvent arg0) {
+            new Thread(this).start();
+        }
+
+        @Override
+        public void run() {
+            String expName = view.getNewExpName();
+            view.removeUploadExpName();
+            AnnotationDataValue[] annotations = view.getUploadAnnotations();
+            ArrayList<File> files = view.getSelectedFilesToUpload();
+            if (files != null && files.size() > 0 && annotations != null
+                    && expName != null) {
+                HashMap<String, String> types = view.getFilesToUploadTypes();
+                // Should be genome release from uploadTab
+                String release = "rn5";
+                // Test purpose
+                for (AnnotationDataValue a : annotations) {
+                    System.out.println(a.getName() + " " + a.getValue());
+                }
+                boolean created = model.addNewExperiment(expName,
+                        view.getUsername(), annotations);
+                System.out.println(created);
+                if (created) {
+                    for (File f : files) {
+                        System.out.println(f.getName());
+                        if (model.uploadFile(expName, f,
+                                types.get(f.getName()), view.getUsername(),
+                                false, release)) {
+                            view.deleteUploadFileRow(f);
+                            for (HTTPURLUpload upload : model
+                                    .getOngoingUploads()) {
+                                if (f.getName().equals(upload.getFileName())) {
+                                    model.getOngoingUploads().remove(upload);
+                                }
+                            }
+                        } else {
+                            JOptionPane.showMessageDialog(null,
+                                    "Couldn't upload " + f.getName() + ".",
+                                    "Error", JOptionPane.ERROR_MESSAGE);
+                        }
+                    }
+                } else {
+                    JOptionPane.showMessageDialog(null,
+                            "Couldn't create experiment " + expName + ".",
+                            "Error", JOptionPane.ERROR_MESSAGE);
+                }
+            }
+        }
+    }
 }

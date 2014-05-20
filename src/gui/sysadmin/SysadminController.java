@@ -2,7 +2,7 @@ package gui.sysadmin;
 
 import gui.sysadmin.annotationview.AddAnnotationPopup;
 import gui.sysadmin.annotationview.AnnotationButtonsListener;
-import gui.sysadmin.annotationview.AnnotationPopupListener;
+import gui.sysadmin.annotationview.AddAnnotationPopupListener;
 import gui.sysadmin.annotationview.AnnotationTableModel;
 import gui.sysadmin.annotationview.EditAnnotationPopup2;
 import gui.sysadmin.annotationview.EditAnnotationPopupListener;

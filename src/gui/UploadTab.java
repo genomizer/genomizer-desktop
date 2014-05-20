@@ -1,6 +1,7 @@
 package gui;
 
 import java.awt.BorderLayout;
+import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.GridBagConstraints;
@@ -44,7 +45,7 @@ public class UploadTab extends JPanel implements ExperimentPanel {
 
     private static final long serialVersionUID = -2830290705724588252L;
     private JButton addToExistingExpButton, newExpButton, selectButton,
-            uploadButton;
+            uploadButton, uploadSelectedBtn;
     private JPanel northPanel, expNamePanel, uploadPanel, newExpPanel,
             uploadFilesPanel, uploadBackground;
     private JTextArea experimentNameField;
@@ -93,6 +94,7 @@ public class UploadTab extends JPanel implements ExperimentPanel {
         uploadFilesPanel = new JPanel(new GridLayout(0, 1));
         newExpButton = new JButton("Create new experiment");
         selectButton = new JButton("Browse for files");
+        uploadSelectedBtn = new JButton("Upload selected files");
         uploadButton = new JButton("Upload all files");
 
         // newExpButton = CustomButtonFactory.makeCustomButton(
@@ -263,7 +265,7 @@ public class UploadTab extends JPanel implements ExperimentPanel {
 
             if (annotations[i].getValues().length > 0
             /* && annotations[i].isForced() */) {
-                if (x > 7) {
+                if (x > 6) {
                     x = 0;
                     y++;
                 }
@@ -362,6 +364,7 @@ public class UploadTab extends JPanel implements ExperimentPanel {
         buttonsPanel.add(selectButton);
 //        buttonsPanel.add(Box.createHorizontalStrut(20));
 // (orsakar att knapparna flyttar mer och mer åt höger efter varje repaint)
+        buttonsPanel.add(uploadSelectedBtn);
         buttonsPanel.add(uploadButton);
         uploadFilesPanel.add(buttonsPanel);
         repaint();
@@ -528,9 +531,11 @@ public class UploadTab extends JPanel implements ExperimentPanel {
     public void enableUploadButton(boolean b) {
         if (b) {
             if (!uploadFileRows.isEmpty() && forcedAnnotationCheck()) {
+                uploadSelectedBtn.setEnabled(b);
                 uploadButton.setEnabled(b);
             }
         } else {
+            uploadSelectedBtn.setEnabled(b);
             uploadButton.setEnabled(b);
         }
     }
@@ -585,6 +590,25 @@ public class UploadTab extends JPanel implements ExperimentPanel {
         }).start();
     }
 
+    public ArrayList<File> getSelectedFilesToUpload() {
+        ArrayList<File> files = new ArrayList<File>();
+        for (File f : uploadFileRows.keySet()) {
+            if(uploadFileRows.get(f).isSelected()) {
+                files.add(f);
+            }
+        }
+        return files;
+    }
+
+
+    public void addUploadSelectedFiles(ActionListener listener) {
+        uploadSelectedBtn.addActionListener(listener);
+    }
+
+    public void removeExpName() {
+        expID.setText("");
+    }
+
     /**
      * Listener for when the text in a textfield changes.
      */
@@ -608,6 +632,4 @@ public class UploadTab extends JPanel implements ExperimentPanel {
             enableUploadButton(forcedAnnotationCheck());
         }
     }
-
-    ;
 }
