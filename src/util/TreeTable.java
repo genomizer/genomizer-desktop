@@ -12,7 +12,9 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.HashMap;
 import java.util.List;
+import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -41,10 +43,11 @@ public class TreeTable extends JPanel {
     private JXTreeTable table;
     private ArrayList<String> headings;
     private ArrayList<ExperimentData> experiments;
-    private ArrayList<Boolean> sortingOrders;
-    private ArrayList<String> hiddenHeadings;
+    private HashMap<String, Boolean> sortingOrders;
+    private CopyOnWriteArrayList<String> hiddenHeadings;
     private ArrayList<String> visibleHeadings;
     private ArrayList<JCheckBox> columnCheckBoxes;
+    private DefaultTreeTableModel model;
     
     /**
      * Tree Table empty constructor
@@ -88,7 +91,7 @@ public class TreeTable extends JPanel {
             
             class NFColumnControlPopup extends DefaultColumnControlPopup {
                 @Override
-                public void addVisibilityActionItems(
+                public synchronized void addVisibilityActionItems(
                         List<? extends AbstractActionExt> actions) {
                     if (!actions.isEmpty()) {
                         /* Hide all columns button */
@@ -122,10 +125,12 @@ public class TreeTable extends JPanel {
                         for (JCheckBox checkBox : columnCheckBoxes) {
                             getPopupMenu().add(checkBox);
                         }
+                        getPopupMenu().repaint();
+                        getPopupMenu().revalidate();
                     }
                 }
                 
-                public void addAdditionalActionItems(
+                public synchronized void addAdditionalActionItems(
                         List<? extends Action> actions) {
                     /*
                      * Dummy method to prevent treetable from adding unwanted
@@ -168,7 +173,7 @@ public class TreeTable extends JPanel {
     public void setContent(ArrayList<ExperimentData> experimentData) {
         
         /* Initiate the column sorting orders */
-        sortingOrders = new ArrayList<Boolean>();
+        sortingOrders = new HashMap<String, Boolean>();
         /* If the input experiment data is not null or empty */
         if (experimentData != null && experimentData.size() > 0) {
             experiments = experimentData;
@@ -187,7 +192,7 @@ public class TreeTable extends JPanel {
             }
             /* Initate the sorting orders as descending */
             for (int i = 0; i < nrOfColumns; i++) {
-                sortingOrders.add(i, true);
+                sortingOrders.put(headings.get(i), true);
             }
             
         }
@@ -200,7 +205,7 @@ public class TreeTable extends JPanel {
             }
             checkBox.addItemListener(new ItemListener() {
                 @Override
-                public void itemStateChanged(ItemEvent e) {
+                public synchronized void itemStateChanged(ItemEvent e) {
                     if (e.getStateChange() == ItemEvent.DESELECTED) {
                         hiddenHeadings.add(heading);
                     } else {
@@ -213,7 +218,7 @@ public class TreeTable extends JPanel {
         }
         
         /* Create the tree structure */
-        hiddenHeadings = new ArrayList<String>();
+        hiddenHeadings = new CopyOnWriteArrayList<String>();
         createTreeStructure();
     }
     
@@ -224,13 +229,14 @@ public class TreeTable extends JPanel {
      *            - column index
      */
     private void sortData(final int sortByColumn) {
-        
+        this.updateVisibleHeadings();
         /* update the sorting orders for the columns */
-        for (int i = 0; i < sortingOrders.size(); i++) {
-            if (i == sortByColumn) {
-                sortingOrders.set(i, !sortingOrders.get(i));
+        final String heading = table.getColumnName(sortByColumn);
+        for (String key : sortingOrders.keySet()) {
+            if (key.equals(heading)) {
+                sortingOrders.put(key, !sortingOrders.get(key));
             } else {
-                sortingOrders.set(i, true);
+                sortingOrders.put(key, true);
             }
         }
         
@@ -274,7 +280,7 @@ public class TreeTable extends JPanel {
                      * first parentheses in PATTERN.
                      */
                     int nonDigitCompare;
-                    if (sortingOrders.get(sortByColumn)) {
+                    if (sortingOrders.get(heading)) {
                         nonDigitCompare = m2.group(1).compareTo(m1.group(1));
                     } else {
                         nonDigitCompare = m1.group(1).compareTo(m2.group(1));
@@ -296,7 +302,7 @@ public class TreeTable extends JPanel {
                     BigInteger n1 = new BigInteger(m1.group(2));
                     BigInteger n2 = new BigInteger(m2.group(2));
                     int numberCompare;
-                    if (sortingOrders.get(sortByColumn)) {
+                    if (sortingOrders.get(heading)) {
                         numberCompare = n2.compareTo(n1);
                     } else {
                         numberCompare = n1.compareTo(n2);
@@ -488,6 +494,7 @@ public class TreeTable extends JPanel {
                     visibleHeadings.add(table.getColumnName(i));
                 }
                 for (String heading : headings) {
+                    System.out.println("heading:  " + heading);
                     if (!visibleHeadings.contains(heading)
                             && !hiddenHeadings.contains(heading)) {
                         visibleHeadings.add(heading);
@@ -499,13 +506,14 @@ public class TreeTable extends JPanel {
                 visibleHeadings.addAll(headings);
             }
         } catch (NullPointerException e) {
+            System.out.println("nullpointer");
         }
     }
     
     /**
      * Create the tree structure of the tree table
      */
-    private void createTreeStructure() {
+    private synchronized void createTreeStructure() {
         /* Create the tree root */
         updateVisibleHeadings();
         SupportNode root = new SupportNode(new Object[] { "Root" });
@@ -517,6 +525,7 @@ public class TreeTable extends JPanel {
                 root.add(experimentNode);
             }
             /* Create the model and add it to the table */
+            
             DefaultTreeTableModel model = new DefaultTreeTableModel(root,
                     Arrays.asList(visibleHeadings
                             .toArray(new String[visibleHeadings.size()])));
