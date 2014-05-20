@@ -766,8 +766,14 @@ public class Controller {
 
         @Override
         public void run() {
-            System.out.println("OK");
-            view.getRatioCalcPopup().hideRatioWindow();
+
+            if(view.isRatioCorrectToProcess()){
+                view.setProfileButton(true);
+                System.out.println("OK");
+                view.getRatioCalcPopup().hideRatioWindow();
+            }else{
+                view.setProfileButton(false);
+            }
         }
 
     }

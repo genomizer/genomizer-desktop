@@ -126,26 +126,6 @@ public class RatioCalcPopup extends JFrame {
         cancelButton.addActionListener(listener);
     }
 
-    public void updateLoginFailed(String errorMessage) {
-        paintErrorMessage(errorMessage);
-    }
-
-    public void paintErrorMessage(String message) {
-        errorLabel = new JLabel("<html><b>" + message + "</b></html>");
-        errorLabel.setIcon(UIManager.getIcon("OptionPane.warningIcon"));
-        errorLabel.setBounds(120, 100, 150, 45);
-        ratioPanel.add(errorLabel);
-        repaint();
-    }
-
-    public void removeErrorMessage() {
-        if (errorLabel != null) {
-            ratioPanel.remove(errorLabel);
-            errorLabel = null;
-            repaint();
-        }
-    }
-
     public String[] getRatioCalcParameters() {
         String[] s = new String[2];
 
@@ -161,7 +141,7 @@ public class RatioCalcPopup extends JFrame {
     private String getPrintZeros() {
         if (ratioPrintZeros.isSelected()) {
             return "1";
-        } else if(single.getItemAt(0).equals("")){
+        } else if (single.getItemAt(0).equals("")) {
             return "";
         } else {
             return "0";
@@ -171,7 +151,7 @@ public class RatioCalcPopup extends JFrame {
     private String getPrintMean() {
         if (ratioPrintMean.isSelected()) {
             return "1";
-        } else if(single.getItemAt(0).equals("")){
+        } else if (single.getItemAt(0).equals("")) {
             return "";
         } else {
             return "0";
@@ -184,9 +164,9 @@ public class RatioCalcPopup extends JFrame {
 
     private String getSmoothType() {
 
-        if(ratioSmoothType.getSelectedItem().toString().equals("Median")){
+        if (ratioSmoothType.getSelectedItem().toString().equals("Median")) {
             return "1";
-        }else {
+        } else {
             return "0";
         }
     }
@@ -242,5 +222,33 @@ public class RatioCalcPopup extends JFrame {
 
     public void hideRatioWindow() {
         this.setVisible(false);
+    }
+
+    public boolean isRatioCorrectToProcess() {
+
+        if (aboveZero(ratioWindowSize.getText().trim())
+                && aboveZero(inputReads.getText().trim())
+                && aboveZero(chromosome.getText().trim())
+                && aboveZero(ratioStepPosition.getText().trim())) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public boolean aboveZero(String string) {
+
+        try {
+            int value = Integer.parseInt(string);
+            if (value >= 0) {
+                System.out.println(value);
+                return true;
+            } else {
+                System.out.println(value);
+                return false;
+            }
+        } catch (Exception e) {
+            return false;
+        }
     }
 }
