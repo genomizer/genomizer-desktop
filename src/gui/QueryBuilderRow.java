@@ -211,8 +211,8 @@ public class QueryBuilderRow extends JPanel {
         /* Get the annotation names */
         String[] annotationNames = new String[annotationTypes.length + 3];
         annotationNames[0] = "ExpID";
-        annotationNames[1] = "Date";
-        annotationNames[2] = "Created By";
+        annotationNames[1] = "Exp upload date";
+        annotationNames[2] = "Exp author";
         for (int i = 3; i < annotationTypes.length + 3; i++) {
             annotationNames[i] = annotationTypes[i - 3].getName();
         }
@@ -245,11 +245,8 @@ public class QueryBuilderRow extends JPanel {
                             }
                             /* Update row and parent search area */
                         }
-                    } else if (annotation.equals("ExpID")
-                            || annotation.equals("Date")
-                            || annotation.equals("Created By")) {
-                        dropdown = false;
                     }
+                    dropdown = false;
                     setAs(firstRow, lastRow);
                     parent.updateSearchArea();
                     repaint();
