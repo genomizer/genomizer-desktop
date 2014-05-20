@@ -668,8 +668,12 @@ public class ProcessTab extends JPanel {
     public void setGenomeFileList(GenomeReleaseData[] genomeReleases) {
 
         genomeFile.removeAllItems();
-        for (GenomeReleaseData version : genomeReleases) {
-            genomeFile.addItem(version.getVersion());
+        if(genomeReleases != null && genomeReleases.length > 0){
+            for (GenomeReleaseData version : genomeReleases) {
+                if(version != null){
+                    genomeFile.addItem(version.getVersion());
+                }
+            }
         }
     }
 
