@@ -426,7 +426,7 @@ public class ProcessTab extends JPanel {
         checkBoxPanel.setBorder(BorderFactory.createTitledBorder("Checkboxes"));
         convPanel.add(checkBoxPanel);
 
-        checkBoxPanel.setLayout(new GridLayout(2,0));
+        checkBoxPanel.setLayout(new GridLayout(2, 0));
         lowerCheckBoxPanel.setLayout(new GridBagLayout());
         upperCheckBoxPanel.setLayout(new GridBagLayout());
 
@@ -693,9 +693,9 @@ public class ProcessTab extends JPanel {
     public void setGenomeFileList(GenomeReleaseData[] genomeReleases) {
 
         genomeFile.removeAllItems();
-        if(genomeReleases != null && genomeReleases.length > 0){
+        if (genomeReleases != null && genomeReleases.length > 0) {
             for (GenomeReleaseData version : genomeReleases) {
-                if(version != null){
+                if (version != null) {
                     genomeFile.addItem(version.getVersion());
                 }
             }
@@ -718,7 +718,7 @@ public class ProcessTab extends JPanel {
      */
     public void setFileInfo(ArrayList<FileData> allFileData,
             ArrayList<ExperimentData> experimentData) {
-     //   this.fileData = allFileData;
+        // this.fileData = allFileData;
         this.experimentData = experimentData;
         parseFileData();
     }
@@ -729,28 +729,21 @@ public class ProcessTab extends JPanel {
      */
     private void parseFileData() {
 
-        ArrayList<CheckListItem> itemList= new ArrayList<CheckListItem>();
+        ArrayList<CheckListItem> itemList = new ArrayList<CheckListItem>();
         String specie = "";
 
         for (ExperimentData exData : experimentData) {
-
             for (FileData fileData : exData.files) {
-
                 for (AnnotationDataValue annoDataValue : exData.annotations) {
-
                     if (annoDataValue.getName().equals("Species")) {
-
                         specie = annoDataValue.value;
                         break;
                     }
                 }
-
                 itemList.add(new CheckListItem(fileData, fileData.filename,
                         fileData.id, specie));
             }
-
         }
-
         fileList.setListData(itemList.toArray(new CheckListItem[itemList.size()]));
         this.revalidate();
         this.repaint();
