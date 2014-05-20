@@ -830,7 +830,8 @@ public class Controller {
                                     "Error", JOptionPane.ERROR_MESSAGE);
                         }
                     }
-                    JOptionPane.showMessageDialog(null, "Upload to " +
+                    //Shown when all files have been uploaded to experiment.
+                    JOptionPane.showMessageDialog(null, "Upload to the new" +
                             "experiment \"" + expName +"\" complete");
                 } else {
                     JOptionPane.showMessageDialog(null,
