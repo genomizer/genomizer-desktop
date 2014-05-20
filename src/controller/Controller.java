@@ -467,6 +467,11 @@ public class Controller {
                         view.getUsername(), false, release)) {
                     view.getUploadTab().getUploadToExistingExpPanel()
                             .deleteFileRow(f);
+                    if(view.getUploadTab().getUploadToExistingExpPanel().getFileRows().size() == 0) {
+                        JOptionPane.showMessageDialog(null,
+                                "Upload to experiment \"" + ed.getName() +
+                                        "\" complete.");
+                    }
                     for (HTTPURLUpload upload : model.getOngoingUploads()) {
                         if (f.getName().equals(upload.getFileName())) {
                             model.getOngoingUploads().remove(upload);
@@ -813,7 +818,7 @@ public class Controller {
                     }
                 } else {
                     JOptionPane.showMessageDialog(null,
-                            "Couldn't create experiment " + expName + ".",
+                            "Couldn't create new experiment " + expName + ".",
                             "Error", JOptionPane.ERROR_MESSAGE);
                 }
             }
