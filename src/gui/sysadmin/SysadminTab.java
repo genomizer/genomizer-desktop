@@ -158,15 +158,14 @@ public class SysadminTab extends JPanel {
         System.out.println("Skapar editAnnotationPopup...");
         editPopup = new EditAnnotationPopup2(annotationsView.getTable());
         if (editPopup.isEnabled()) {
-            editPopup.setBackground(Color.WHITE);
             ActionListener editPopupListener = new EditAnnotationPopupListener(this);
             editPopup.addEditAnnotationListener(editPopupListener);
 
             JFrame popupFrame = new JFrame("Edit annotation");
-            popupFrame.setLayout(new BorderLayout());
             popupFrame.add(editPopup, BorderLayout.CENTER);
             popupFrame.pack();
             popupFrame.setLocationRelativeTo(null);
+            popupFrame.setResizable(false);
             popupFrame.setSize(new Dimension(600, 600));
             popupFrame.setVisible(true);
         }

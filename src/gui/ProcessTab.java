@@ -104,7 +104,7 @@ public class ProcessTab extends JPanel {
     private final JButton convertButton = new JButton("Convert to WIG");
     private final JButton profileButton = new JButton("Create profile data");
     private final JButton regionButton = new JButton("Create region data");
-    private final JButton ratioCalcButton = new JButton("Use ratio calculation");
+    private final JButton ratioCalcButton = new JButton("Ratio calculation option");
     private JButton processFeedbackButton;
     private JButton addToFileListButton;
     // private final JCheckBox scheduleButton = new JCheckBox(
@@ -115,6 +115,8 @@ public class ProcessTab extends JPanel {
     private final JCheckBox stepSizeBox = new JCheckBox("Step size");
     private final JCheckBox outputSGR = new JCheckBox("SGR Format");
     private final JCheckBox outputGFF = new JCheckBox("GFF Format");
+    private final JCheckBox useRatio = new JCheckBox("Ratio calculation");
+
     private final JComboBox<String> genomeFile = new JComboBox<String>();
     private final JComboBox<String> single = new JComboBox<String>();
     private final JComboBox<String> ratioSmoothType = new JComboBox<String>();
@@ -179,7 +181,7 @@ public class ProcessTab extends JPanel {
 
         initBowtieParameters();
         writeToTimePanel();
-        setUnusedRatioPar();
+        setDefaultRatioPar();
 
     }
 
@@ -581,6 +583,7 @@ public class ProcessTab extends JPanel {
         convWigTabPanel.add(convertButton);
         convertButton.setEnabled(false);
         convTabpanel.add(buttonPanel, BorderLayout.SOUTH);
+        buttonPanel.add(useRatio);
         buttonPanel.add(ratioCalcButton);
         buttonPanel.add(profileButton);
         // scheduleProcPanel.add(scheduleButton);
@@ -665,9 +668,9 @@ public class ProcessTab extends JPanel {
 
         smoothPar = smoothWindowSize.getText().trim() + " ";
 
-        if(smoothType.getSelectedItem().equals("Median")){
+        if (smoothType.getSelectedItem().equals("Median")) {
             smoothPar = smoothPar + "1" + " ";
-        }else{
+        } else {
             smoothPar = smoothPar + "0" + " ";
         }
 
@@ -889,17 +892,17 @@ public class ProcessTab extends JPanel {
     }
 
     private void getGFF(String[] s) {
-        if(outputGFF.isSelected()){
+        if (outputGFF.isSelected()) {
             s[0] = "y";
-        }else {
+        } else {
             s[0] = "";
         }
     }
 
     private void getSGR(String[] s) {
-        if(outputSGR.isSelected()){
+        if (outputSGR.isSelected()) {
             s[1] = "y";
-        }else {
+        } else {
             s[1] = "";
         }
     }
@@ -929,7 +932,7 @@ public class ProcessTab extends JPanel {
 
     public boolean isCorrectToProcess() {
 
-        if(aboveZero(smoothWindowSize.getText().trim())){
+        if(aboveZero(smoothWindowSize.getText().trim()) && aboveZero(stepPosition.getText().trim()) && aboveZero(stepSize.getText().trim())){
            return true;
         }
         else {
@@ -938,18 +941,26 @@ public class ProcessTab extends JPanel {
     }
 
     public boolean aboveZero(String string) {
-        int value = Integer.parseInt(string);
 
-        try{
-            if(value >= 0){
+        try {
+            int value = Integer.parseInt(string);
+            if (value >= 0) {
                 System.out.println(value);
-               return true;
-            }else {
+                return true;
+            } else {
                 System.out.println(value);
                 return false;
             }
-        }catch(Exception e){
-           return false;
+        } catch (Exception e) {
+            return false;
         }
+    }
+
+    public void setProfileButton(boolean bool){
+        profileButton.setEnabled(bool);
+    }
+
+    public boolean useRatio(){
+        return useRatio.isSelected();
     }
 }

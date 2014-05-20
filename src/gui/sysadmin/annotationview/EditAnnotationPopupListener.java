@@ -69,6 +69,10 @@ public class EditAnnotationPopupListener implements ActionListener {
                 editPopup.updateAnnotation(j3.getText());
                 editPopup.addEditAnnotationListener(this);
                 break;
+                
+            case SysStrings.ANNOTATIONS_MODIFY_SET_FORCED:
+                System.out.println("HEJSAN!");
+                break;
         }
     }
 }
