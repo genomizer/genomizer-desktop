@@ -105,6 +105,11 @@ public class SysadminController {
 
         for (AnnotationDataType a : annotations) {
 
+            if (a.getName().equals("Species")) {
+
+                System.out.println("FOUND SPECIES!");
+                return a.getValues();
+            }
         }
 
         return null;
@@ -211,4 +216,11 @@ public class SysadminController {
 
     }
 
+    public void addAnnotationValue(String annotationName, String valueName) {
+        model.addNewAnnotationValue(annotationName, valueName);
+    }
+    
+    public SysadminTab getSysTab() {
+        return sysTab;
+    }
 }

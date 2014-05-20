@@ -12,6 +12,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.HashMap;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.regex.Matcher;
@@ -42,9 +43,9 @@ public class TreeTable extends JPanel {
     private JXTreeTable table;
     private ArrayList<String> headings;
     private ArrayList<ExperimentData> experiments;
-    private ArrayList<Boolean> sortingOrders;
+    private HashMap<String, Boolean> sortingOrders;
     private CopyOnWriteArrayList<String> hiddenHeadings;
-    private CopyOnWriteArrayList<String> visibleHeadings;
+    private ArrayList<String> visibleHeadings;
     private ArrayList<JCheckBox> columnCheckBoxes;
     private DefaultTreeTableModel model;
     
@@ -72,13 +73,11 @@ public class TreeTable extends JPanel {
      * Method for initating the JXTreeTable
      */
     private void initiateJXTreeTable() {
-        model = new DefaultTreeTableModel();
         table = new JXTreeTable() {
             public boolean getScrollableTracksViewportWidth() {
                 return getPreferredSize().width < getParent().getWidth();
             }
         };
-        table.setTreeTableModel(model);
         table.setOpaque(true);
         table.setLeafIcon(null);
         table.setClosedIcon(null);
@@ -99,8 +98,7 @@ public class TreeTable extends JPanel {
                         JButton deselectButton = new JButton("Deselect All");
                         deselectButton.addActionListener(new ActionListener() {
                             @Override
-                            public synchronized void actionPerformed(
-                                    ActionEvent e) {
+                            public void actionPerformed(ActionEvent e) {
                                 for (JCheckBox checkBox : columnCheckBoxes) {
                                     if (checkBox.isEnabled()
                                             && checkBox.isSelected()) {
@@ -154,7 +152,6 @@ public class TreeTable extends JPanel {
                     TableColumnModel cModel = table.getColumnModel();
                     int column = cModel.getColumnIndexAtX(e.getX());
                     sortData(column);
-                    // updateVisibleHeadings();
                     createTreeStructure();
                 }
             }
@@ -176,7 +173,7 @@ public class TreeTable extends JPanel {
     public void setContent(ArrayList<ExperimentData> experimentData) {
         
         /* Initiate the column sorting orders */
-        sortingOrders = new ArrayList<Boolean>();
+        sortingOrders = new HashMap<String, Boolean>();
         /* If the input experiment data is not null or empty */
         if (experimentData != null && experimentData.size() > 0) {
             experiments = experimentData;
@@ -195,7 +192,7 @@ public class TreeTable extends JPanel {
             }
             /* Initate the sorting orders as descending */
             for (int i = 0; i < nrOfColumns; i++) {
-                sortingOrders.add(i, true);
+                sortingOrders.put(headings.get(i), true);
             }
             
         }
@@ -232,13 +229,14 @@ public class TreeTable extends JPanel {
      *            - column index
      */
     private void sortData(final int sortByColumn) {
-        updateVisibleHeadings();
+        this.updateVisibleHeadings();
         /* update the sorting orders for the columns */
-        for (int i = 0; i < sortingOrders.size(); i++) {
-            if (i == sortByColumn) {
-                sortingOrders.set(i, !sortingOrders.get(i));
+        final String heading = table.getColumnName(sortByColumn);
+        for (String key : sortingOrders.keySet()) {
+            if (key.equals(heading)) {
+                sortingOrders.put(key, !sortingOrders.get(key));
             } else {
-                sortingOrders.set(i, true);
+                sortingOrders.put(key, true);
             }
         }
         
@@ -282,7 +280,7 @@ public class TreeTable extends JPanel {
                      * first parentheses in PATTERN.
                      */
                     int nonDigitCompare;
-                    if (sortingOrders.get(sortByColumn)) {
+                    if (sortingOrders.get(heading)) {
                         nonDigitCompare = m2.group(1).compareTo(m1.group(1));
                     } else {
                         nonDigitCompare = m1.group(1).compareTo(m2.group(1));
@@ -304,7 +302,7 @@ public class TreeTable extends JPanel {
                     BigInteger n1 = new BigInteger(m1.group(2));
                     BigInteger n2 = new BigInteger(m2.group(2));
                     int numberCompare;
-                    if (sortingOrders.get(sortByColumn)) {
+                    if (sortingOrders.get(heading)) {
                         numberCompare = n2.compareTo(n1);
                     } else {
                         numberCompare = n1.compareTo(n2);
@@ -486,35 +484,29 @@ public class TreeTable extends JPanel {
     /**
      * Update the visible headings in the table (with column order intact)
      */
-    private synchronized void updateVisibleHeadings() {
+    private void updateVisibleHeadings() {
         try {
-            Thread.sleep(20);
-            visibleHeadings = new CopyOnWriteArrayList<String>();
+            visibleHeadings = new ArrayList<String>();
             int columnCount = table.getColumnCount();
             if (columnCount > 0) {
-                visibleHeadings = new CopyOnWriteArrayList<String>();
+                visibleHeadings = new ArrayList<String>();
                 for (int i = 0; i < columnCount; i++) {
-                    visibleHeadings.add((String) table.getColumnModel()
-                            .getColumn(i).getHeaderValue());
+                    visibleHeadings.add(table.getColumnName(i));
                 }
-                visibleHeadings.removeAll(hiddenHeadings);
                 for (String heading : headings) {
-                    
+                    System.out.println("heading:  " + heading);
                     if (!visibleHeadings.contains(heading)
                             && !hiddenHeadings.contains(heading)) {
                         visibleHeadings.add(heading);
                     }
                 }
+                visibleHeadings.removeAll(hiddenHeadings);
                 
             } else {
                 visibleHeadings.addAll(headings);
             }
         } catch (NullPointerException e) {
             System.out.println("nullpointer");
-        } catch (IllegalArgumentException e) {
-            System.out.println("iILLEGAL");
-        } catch (InterruptedException e) {
-            System.out.println("interrupted");
         }
     }
     
@@ -522,7 +514,6 @@ public class TreeTable extends JPanel {
      * Create the tree structure of the tree table
      */
     private synchronized void createTreeStructure() {
-        
         /* Create the tree root */
         updateVisibleHeadings();
         SupportNode root = new SupportNode(new Object[] { "Root" });
@@ -534,17 +525,14 @@ public class TreeTable extends JPanel {
                 root.add(experimentNode);
             }
             /* Create the model and add it to the table */
-            model.setRoot(root);
             
-            model.setColumnIdentifiers(Arrays.asList(visibleHeadings
-                    .toArray(new String[visibleHeadings.size()])));
-            // DefaultTreeTableModel model = new DefaultTreeTableModel(root,
-            // Arrays.asList(visibleHeadings
-            // .toArray(new String[visibleHeadings.size()])));
-            // table.setTreeTableModel(model);
-            // table.packAll();
-            // repaint();
-            // revalidate();
+            DefaultTreeTableModel model = new DefaultTreeTableModel(root,
+                    Arrays.asList(visibleHeadings
+                            .toArray(new String[visibleHeadings.size()])));
+            table.setTreeTableModel(model);
+            table.packAll();
+            repaint();
+            revalidate();
             
         } catch (NullPointerException e) {
             

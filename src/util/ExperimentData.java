@@ -2,7 +2,6 @@ package util;
 
 import java.util.ArrayList;
 import java.util.Random;
-import java.util.concurrent.CopyOnWriteArrayList;
 
 import com.google.gson.Gson;
 
@@ -39,8 +38,7 @@ public class ExperimentData {
      * 
      * @return
      */
-    public ArrayList<String> getAnnotationValueList(
-            CopyOnWriteArrayList<String> headings) {
+    public ArrayList<String> getAnnotationValueList(ArrayList<String> headings) {
         ArrayList<String> annotationList = new ArrayList<String>();
         // annotationList.add(name);
         // annotationList.add(createdBy);

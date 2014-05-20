@@ -103,10 +103,10 @@ public class Controller {
 
             view.setBowtieParameters();
             ArrayList<FileData> allMarked = view.getAllMarkedFileData();
-            int markedSize = allMarked.size();
             String message = null;
             Boolean isConverted = false;
 
+            if(view.isCorrectToProcess()){
             if (!allMarked.isEmpty()) {
 
                 for (FileData data : allMarked) {
@@ -148,8 +148,12 @@ public class Controller {
                                 + fileName + " with file id: " + fileID
                                 + " from " + expid + "\n";
                         view.printToConvertText(message, "red");
+                        }
                     }
                 }
+            }else{
+                message = "Parameters are invalid!";
+                view.printToConvertText(message, "red");
             }
         }
 
@@ -467,10 +471,11 @@ public class Controller {
                         view.getUsername(), false, release)) {
                     view.getUploadTab().getUploadToExistingExpPanel()
                             .deleteFileRow(f);
-                    if(view.getUploadTab().getUploadToExistingExpPanel().getFileRows().size() == 0) {
+                    if (view.getUploadTab().getUploadToExistingExpPanel()
+                            .getFileRows().size() == 0) {
                         JOptionPane.showMessageDialog(null,
-                                "Upload to experiment \"" + ed.getName() +
-                                        "\" complete.");
+                                "Upload to experiment \"" + ed.getName()
+                                        + "\" complete.");
                         view.refreshSearch();
                     }
                     for (HTTPURLUpload upload : model.getOngoingUploads()) {
@@ -514,7 +519,11 @@ public class Controller {
 
         @Override
         public void run() {
-            view.addToWorkspace(view.getSelectedDataInSearch());
+            ArrayList<ExperimentData> selectedData = view
+                    .getSelectedDataInSearch();
+            if (selectedData != null && selectedData.size() > 0) {
+                view.addToWorkspace(view.getSelectedDataInSearch());
+            }
         }
 
     }
@@ -760,6 +769,7 @@ public class Controller {
             System.out.println("OK");
             view.getRatioCalcPopup().hideRatioWindow();
         }
+
     }
 
     class CancelListener implements ActionListener, Runnable {
