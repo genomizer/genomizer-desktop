@@ -18,10 +18,9 @@ import javax.swing.JPanel;
 import javax.swing.JProgressBar;
 
 /**
- * A class representing a row for each browsed files
- * to be uploaded. Each row contains the filename, a progressbar,
- * a dropdown menu for choosing type of file, a close button
- * and a checkbox for selecting the filerow.
+ * A class representing a row for each browsed files to be uploaded. Each row
+ * contains the filename, a progressbar, a dropdown menu for choosing type of
+ * file, a close button and a checkbox for selecting the filerow.
  *
  * @author oi11ejn
  *
@@ -38,10 +37,14 @@ public class UploadFileRow extends JPanel {
 
     /**
      * A constructor creating the upload file row.
-     * 
+     *
      * @param f
+     *            The file to be uploaded.
      * @param parent
+     *            The parent of this file row.
      * @param newExp
+     *            Boolean indicating if this file row is for a new experiment or
+     *            not.
      */
     public UploadFileRow(File f, ExperimentPanel parent, boolean newExp) {
         this.parent = parent;
@@ -52,6 +55,13 @@ public class UploadFileRow extends JPanel {
         setContent(newExp);
     }
 
+    /**
+     * Method setting the content of this file row.
+     *
+     * @param newExp
+     *            Boolean indicating if this file row is for a new experiment or
+     *            not.
+     */
     private void setContent(boolean newExp) {
         GridBagLayout gbl = new GridBagLayout();
         gbl.columnWidths = new int[] { 0, 0, 0, 0 };
@@ -94,10 +104,11 @@ public class UploadFileRow extends JPanel {
         gbc_btnX.gridy = 1;
         filePanel.add(closeButton, gbc_btnX);
 
-        if(newExp) {
-//            uploadButton = CustomButtonFactory.makeCustomButton(
-//                    IconFactory.getUploadIcon(25,25),
-//                    IconFactory.getUploadHoverIcon(28,28), 28, 28, "Upload file to current experiment");
+        if (newExp) {
+            // uploadButton = CustomButtonFactory.makeCustomButton(
+            // IconFactory.getUploadIcon(25,25),
+            // IconFactory.getUploadHoverIcon(28,28), 28, 28,
+            // "Upload file to current experiment");
             JPanel p = new JPanel(new FlowLayout());
             JLabel selectLabel = new JLabel(" Select:");
             gbc.insets = new Insets(0, 0, 0, 5);
@@ -114,18 +125,40 @@ public class UploadFileRow extends JPanel {
         }
     }
 
+    /**
+     * Method adding a listener to the close button.
+     *
+     * @param listener
+     *            The listener to be added.
+     */
     public void addCloseButtonListener(ActionListener listener) {
         closeButton.addActionListener(listener);
     }
 
+    /**
+     * Method returning the file name of the file associated to this row.
+     *
+     * @return a String with the file name.
+     */
     public String getFileName() {
         return file.getName();
     }
 
+    /**
+     * Method returning the choosen file type associated with this file row.
+     *
+     * @return a String representing the choosen file type.
+     */
     public String getType() {
         return typeBox.getSelectedItem().toString();
     }
 
+    /**
+     * Method updating the progress bar of this file row.
+     *
+     * @param progress
+     *            The current progress.
+     */
     public void updateProgressBar(float progress) {
         /* Progress is handled as % */
         uploadBar.setMinimum(0);
@@ -133,10 +166,27 @@ public class UploadFileRow extends JPanel {
         uploadBar.setValue((int) progress);
     }
 
+    /**
+     * Boolean indicating if this file row is selected.
+     *
+     * @return a Boolean indicating if the row is choosen or not.
+     */
     public boolean isSelected() {
         return uploadBox.isSelected();
     }
 
+    /**
+     * Method disabling the components of this file row.
+     */
+    public void disableRow() {
+        typeBox.setEnabled(false);
+        closeButton.setEnabled(false);
+        uploadBox.setEnabled(false);
+    }
+
+    /**
+     * Listener closing this file row when a user presses the close button.
+     */
     class closeButtonListener implements ActionListener, Runnable {
         @Override
         public void actionPerformed(ActionEvent e) {
@@ -147,11 +197,5 @@ public class UploadFileRow extends JPanel {
         public void run() {
             parent.deleteFileRow(file);
         }
-    }
-
-    public void disableRow() {
-       typeBox.setEnabled(false);
-       closeButton.setEnabled(false);
-       uploadBox.setEnabled(false);
     }
 }
