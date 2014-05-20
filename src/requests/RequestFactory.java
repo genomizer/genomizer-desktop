@@ -6,7 +6,6 @@ import java.util.HashMap;
 
 import javax.swing.JOptionPane;
 
-
 import util.AnnotationDataValue;
 
 public class RequestFactory {
@@ -76,8 +75,8 @@ public class RequestFactory {
     public static rawToProfileRequest makeRawToProfileRequest(String expid,
             String[] parameters, String metadata, String genomeRelease,
             String author) {
-        return new rawToProfileRequest(expid,
-                parameters, metadata, genomeRelease, author);
+        return new rawToProfileRequest(expid, parameters, metadata,
+                genomeRelease, author);
     }
 
     public static AddAnnotationRequest makeAddAnnotationRequest(String name,
@@ -146,7 +145,21 @@ public class RequestFactory {
         return new ProcessFeedbackRequest();
     }
 
-    public static GetGenomeSpecieReleasesRequest makeGetGenomeSpecieReleaseRequest(String specie) {
+    public static GetGenomeSpecieReleasesRequest makeGetGenomeSpecieReleaseRequest(
+            String specie) {
         return new GetGenomeSpecieReleasesRequest(specie);
+    }
+
+
+    public static AddGenomeReleaseRequest makeAddGenomeRelease(String fileName,
+            String specie, String version) {
+
+        return new AddGenomeReleaseRequest(fileName, specie, version);
+    }
+
+    public static RemoveFileFromExperimentRequest makeRemoveFileFromExperimentRequest(
+            String fileID) {
+        return new RemoveFileFromExperimentRequest(fileID);
+
     }
 }

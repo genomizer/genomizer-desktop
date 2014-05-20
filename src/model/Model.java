@@ -7,7 +7,29 @@ import java.util.concurrent.CopyOnWriteArrayList;
 
 import javax.swing.JOptionPane;
 
-import requests.*;
+import requests.AddAnnotationRequest;
+import requests.AddExperimentRequest;
+import requests.AddFileToExperiment;
+import requests.AddGenomeReleaseRequest;
+import requests.AddNewAnnotationValueRequest;
+import requests.DownloadFileRequest;
+import requests.GetAnnotationRequest;
+import requests.GetGenomeReleasesRequest;
+import requests.GetGenomeSpecieReleasesRequest;
+import requests.LoginRequest;
+import requests.LogoutRequest;
+import requests.ProcessFeedbackRequest;
+import requests.RemoveAnnotationFieldRequest;
+import requests.RemoveAnnotationValueRequest;
+import requests.RemoveExperimentRequest;
+import requests.RemoveFileFromExperimentRequest;
+import requests.RemoveGenomeReleaseRequest;
+import requests.RenameAnnotationFieldRequest;
+import requests.RenameAnnotationValueRequest;
+import requests.RequestFactory;
+import requests.RetrieveExperimentRequest;
+import requests.SearchRequest;
+import requests.rawToProfileRequest;
 import responses.AddFileToExperimentResponse;
 import responses.DownloadFileResponse;
 import responses.LoginResponse;
@@ -15,6 +37,7 @@ import responses.ResponseParser;
 import util.AnnotationDataType;
 import util.AnnotationDataValue;
 import util.ExperimentData;
+import util.FileData;
 import util.GenomeReleaseData;
 import util.ProcessFeedbackData;
 
@@ -229,8 +252,7 @@ public class Model implements GenomizerModel {
             if (a.getName().equalsIgnoreCase(name)) {
                 throw new IllegalArgumentException(
                         "Annotations must have a unique name, " + name
-                                + " already exists"
-                );
+                                + " already exists");
             }
         }
 
@@ -344,6 +366,18 @@ public class Model implements GenomizerModel {
 
         return new GenomeReleaseData[] {};
     }
+
+
+    public boolean uploadGenomeReleaseFile(String fileName, String specie,
+            String version) {
+
+        AddGenomeReleaseRequest request = RequestFactory.makeAddGenomeRelease(
+                fileName, specie, version);
+        System.out.println(request.toJson());
+
+        return false;
+    }
+
 
     @Override
     public boolean addNewExperiment(String expName, String username,
@@ -496,21 +530,45 @@ public class Model implements GenomizerModel {
             System.err.println("Sent getGenomeSpecieReleaseRequestSuccess!");
             GenomeReleaseData[] genomeReleases = ResponseParser
                     .parseGetGenomeReleaseResponse(conn.getResponseBody());
-       //     for(int i = 0;i < genomeReleases.length ; i++){
-       //         System.out.println(genomeReleases[i].getVersion());
-       //     }
+            // for(int i = 0;i < genomeReleases.length ; i++){
+            // System.out.println(genomeReleases[i].getVersion());
+            // }
             return genomeReleases;
         } else {
 
             System.out.println("GenomeSpecieRelease responsecode: "
                     + conn.getResponseCode());
-            JOptionPane
-                    .showMessageDialog(null, "Could not get genomespeciereleases!");
+            JOptionPane.showMessageDialog(null,
+                    "Could not get genomespeciereleases!");
         }
 
         //
         return new GenomeReleaseData[1];
 
+    }
+
+    @Override
+    public boolean deleteFileFromExperiment(FileData fileData) {
+        RemoveFileFromExperimentRequest request = RequestFactory
+                .makeRemoveFileFromExperimentRequest(fileData.id);
+        Connection conn = connFactory.makeConnection();
+        conn.sendRequest(request, userID, TEXT_PLAIN);
+        if (conn.getResponseCode() == 200) {
+            return true;
+        }
+        return false;
+    }
+
+    @Override
+    public boolean deleteExperimentFromDatabase(ExperimentData expData) {
+        RemoveExperimentRequest request = RequestFactory
+                .makeRemoveExperimentRequest(expData.name);
+        Connection conn = connFactory.makeConnection();
+        conn.sendRequest(request, userID, TEXT_PLAIN);
+        if (conn.getResponseCode() == 200) {
+            return true;
+        }
+        return false;
     }
 
 }
