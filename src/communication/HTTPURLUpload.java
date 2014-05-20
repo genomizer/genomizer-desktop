@@ -38,11 +38,7 @@ public class HTTPURLUpload {
     }
 
     public boolean sendFile(String username, String password) {
-        // the URL where the file will be posted
-
-        URI postReceiverUrl = null;
         uploadPath = uploadPath.replaceFirst("\\u003d", "=");
-        // uploadPath = uploadPath.replaceFirst("8000", "8050");
         String path;
         if (uploadPath.contains("=")) {
             path = uploadPath.split("=")[1];
@@ -118,15 +114,6 @@ public class HTTPURLUpload {
             e.printStackTrace();
         }
         return true;
-    }
-
-    /**
-     * @param args
-     */
-    public static void main(String[] args) {
-        HTTPURLUpload uploader = new HTTPURLUpload(
-                "/var/www/data/test0x64.txt", "/home/dv12/dv12csr/test.txt", "test.txt");
-        uploader.sendFile("pvt", "pvt");
     }
 
     private String getFileNameFromUrl(String url) {

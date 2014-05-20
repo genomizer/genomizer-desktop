@@ -549,9 +549,9 @@ public class Model implements GenomizerModel {
     }
 
     @Override
-    public boolean deleteFileFromExperiment(FileData fileData) {
+    public boolean deleteFileFromExperiment(String id) {
         RemoveFileFromExperimentRequest request = RequestFactory
-                .makeRemoveFileFromExperimentRequest(fileData.id);
+                .makeRemoveFileFromExperimentRequest(id);
         Connection conn = connFactory.makeConnection();
         conn.sendRequest(request, userID, TEXT_PLAIN);
         if (conn.getResponseCode() == 200) {
@@ -561,9 +561,9 @@ public class Model implements GenomizerModel {
     }
 
     @Override
-    public boolean deleteExperimentFromDatabase(ExperimentData expData) {
+    public boolean deleteExperimentFromDatabase(String name) {
         RemoveExperimentRequest request = RequestFactory
-                .makeRemoveExperimentRequest(expData.name);
+                .makeRemoveExperimentRequest(name);
         Connection conn = connFactory.makeConnection();
         conn.sendRequest(request, userID, TEXT_PLAIN);
         if (conn.getResponseCode() == 200) {

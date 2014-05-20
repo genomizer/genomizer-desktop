@@ -713,13 +713,13 @@ public class Controller {
                         .getSelectedDataInWorkspace();
                 for (ExperimentData data : expData) {
                     for (FileData fileData : data.files) {
-                        model.deleteFileFromExperiment(fileData);
+                        model.deleteFileFromExperiment(fileData.id);
                         i++;
                     }
                 }
                 expData = view.getSelectedExperimentsInWorkspace();
                 for (ExperimentData data : expData) {
-                    model.deleteExperimentFromDatabase(data);
+                    model.deleteExperimentFromDatabase(data.name);
                     i++;
                 }
             }
