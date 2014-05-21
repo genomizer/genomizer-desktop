@@ -23,7 +23,6 @@ import util.AnnotationDataValue;
 import util.ExperimentData;
 import util.FileData;
 import util.GenomeReleaseData;
-import util.IconFactory;
 import util.ProcessFeedbackData;
 
 import communication.HTTPURLUpload;
@@ -356,8 +355,7 @@ public class GUI extends JFrame implements GenomizerView {
      */
     public void setProcessTab(ProcessTab processTab) {
         this.processTab = processTab;
-        tabbedPane.addTab("", IconFactory.getProcessIcon(40, 40), processTab,
-                "Process");
+        tabbedPane.addTab("PROCESS", null, processTab, "Process");
         
     }
     
@@ -401,8 +399,7 @@ public class GUI extends JFrame implements GenomizerView {
      */
     public void setUploadTab(UploadTab uploadTab) {
         this.uploadTab = uploadTab;
-        tabbedPane.addTab("", IconFactory.getUploadIcon(40, 40), uploadTab,
-                "Upload");
+        tabbedPane.addTab("UPLOAD", null, uploadTab, "Upload");
     }
     
     /**
@@ -414,8 +411,7 @@ public class GUI extends JFrame implements GenomizerView {
      */
     public void setWorkspaceTab(WorkspaceTab workspaceTab) {
         this.workspaceTab = workspaceTab;
-        tabbedPane.addTab("", IconFactory.getWorkspaceIcon(40, 40),
-                workspaceTab, "Workspace");
+        tabbedPane.addTab("WORKSPACE", null, workspaceTab, "Workspace");
     }
     
     /**
@@ -427,8 +423,7 @@ public class GUI extends JFrame implements GenomizerView {
      */
     public void setAnalyzeTab(AnalyzeTab analyzeTab) {
         this.analyzeTab = analyzeTab;
-        tabbedPane.addTab("", IconFactory.getAnalyzeIcon(40, 40), analyzeTab,
-                "Analyze");
+        tabbedPane.addTab("ANALYZE", null, analyzeTab, "Analyze");
         // tabbedPane.setEnabledAt(4, false);
     }
     
@@ -441,8 +436,8 @@ public class GUI extends JFrame implements GenomizerView {
      */
     public void setSysAdminTab(SysadminTab sat) {
         this.sysadminTab = sat;
-        tabbedPane.addTab("", IconFactory.getAdministratorIcon(40, 40),
-                sysadminTab, "System Administration");
+        tabbedPane.addTab("SYSTEM ADMINISTRATION", null, sysadminTab,
+                "System Administration");
         
     }
     
@@ -455,8 +450,7 @@ public class GUI extends JFrame implements GenomizerView {
      */
     public void setQuerySearchTab(QuerySearchTab qst) {
         this.querySearchTab = qst;
-        tabbedPane.addTab("", IconFactory.getSearchIcon(40, 40),
-                querySearchTab, "Search");
+        tabbedPane.addTab("SEARCH", null, querySearchTab, "Search");
     }
     
     public void refreshSearch() {
