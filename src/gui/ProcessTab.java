@@ -56,7 +56,7 @@ public class ProcessTab extends JPanel {
     private final JPanel scheduleProcPanel = new JPanel(new BorderLayout());
     private final JPanel genProfileDataPanel = new JPanel(new BorderLayout());
     private final JPanel genRegionDataPanel = new JPanel(new BorderLayout());
-    private final JPanel convertFilesPanel = new JPanel(new BorderLayout());
+    private final JPanel consolePanel = new JPanel(new BorderLayout());
     private JPanel procInfoPanel = new JPanel(new BorderLayout());
     private final JPanel rawToProfileMenuPanel = new JPanel();
     private final JPanel timePanel = new JPanel();
@@ -80,7 +80,7 @@ public class ProcessTab extends JPanel {
     private final JTextArea genProfArea = new JTextArea();
     private final JTextArea genRegArea = new JTextArea();
     private final JTextArea timeArea = new JTextArea();
-    private final JTextArea convertArea = new JTextArea();
+    private final JTextArea consoleArea = new JTextArea();
     
     private final JTextField flags = new JTextField();
     public final JTextField smoothWindowSize = new JTextField();
@@ -309,9 +309,9 @@ public class ProcessTab extends JPanel {
      * Initiates the convertFilesPanel in the center panel.
      */
     private void addConvertFilesPanel() {
-        middlePanel.add(convertFilesPanel, BorderLayout.CENTER);
-        convertFilesPanel.setBorder(BorderFactory
-                .createTitledBorder("Convert Files"));
+        middlePanel.add(consolePanel, BorderLayout.CENTER);
+        consolePanel.setBorder(BorderFactory
+                .createTitledBorder("Console"));
     }
     
     /**
@@ -370,9 +370,9 @@ public class ProcessTab extends JPanel {
      */
     private void addConvertTextArea() {
         
-        convertFilesPanel.add(scrollConvert);
-        scrollConvert.setViewportView(convertArea);
-        convertArea.setEditable(false);
+        consolePanel.add(scrollConvert);
+        scrollConvert.setViewportView(consoleArea);
+        consoleArea.setEditable(false);
     }
     
     /**
@@ -857,8 +857,8 @@ public class ProcessTab extends JPanel {
      * @param color
      *            - What color the message should have
      */
-    public void printToProfileText(String message) {        
-        genProfArea.append(message);
+    public void printToConsole(String message) {        
+        consoleArea.append(message);
     }
     
     /**

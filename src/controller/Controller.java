@@ -141,20 +141,20 @@ public class Controller {
                         message = "The server has started process on file: " + fileName
                                 + " from experiment: " + expid
                                 + "\n";
-                        view.printToProfileText(message);
+                        view.printToConsole(message);
 
                     } else {
                         message = "WARNING - The server couldn't start processing on file: "
                                 + fileName 
                                 + " from experiment: " + expid + "\n";
-                        view.printToProfileText(message);
+                        view.printToConsole(message);
                         }
                     }
                 }
             }else{
                 //TODO Popup window 
                 message = "Parameters are invalid!\n";
-                view.printToProfileText(message);
+                view.printToConsole(message);
             }
         }
 
