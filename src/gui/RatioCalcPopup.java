@@ -23,7 +23,8 @@ import javax.swing.UIManager;
 
 public class RatioCalcPopup extends JFrame {
 
-    private JLabel errorLabel;
+    private static final long serialVersionUID = 5949688340459992769L;
+   
     private JPanel ratioPanel;
     private JPanel buttonPanel;
     private JPanel topPanel;
@@ -31,16 +32,16 @@ public class RatioCalcPopup extends JFrame {
     private JPanel bottomPanel;
     public JButton cancelButton = new JButton("Cancel");
     public JButton okButton = new JButton("Ok");
-    private final JTextField inputReads = new JTextField();
-    private final JTextField chromosome = new JTextField();
-    private final JTextField ratioWindowSize = new JTextField();
-    private final JTextField ratioStepPosition = new JTextField();
-    private final JCheckBox ratioPrintMean = new JCheckBox("Print mean");
-    private final JCheckBox ratioPrintZeros = new JCheckBox("Print zeros");
-    private final JComboBox<String> single = new JComboBox<String>();
-    private final JComboBox<String> ratioSmoothType = new JComboBox<String>();
-    ArrayList<String> ratioSmooth = new ArrayList<String>();
-    ArrayList<String> comboSingle = new ArrayList<String>();
+    public final JTextField inputReads = new JTextField();
+    public final JTextField chromosome = new JTextField();
+    public final JTextField ratioWindowSize = new JTextField();
+    public final JTextField ratioStepPosition = new JTextField();
+    public final JCheckBox ratioPrintMean = new JCheckBox("Print mean");
+    public final JCheckBox ratioPrintZeros = new JCheckBox("Print zeros");
+    public final JComboBox<String> single = new JComboBox<String>();
+    public final JComboBox<String> ratioSmoothType = new JComboBox<String>();
+    public ArrayList<String> ratioSmooth = new ArrayList<String>();
+    public ArrayList<String> comboSingle = new ArrayList<String>();
 
     public RatioCalcPopup(final GenomizerView parent) {
         addWindowListener(new WindowAdapter() {
@@ -112,81 +113,6 @@ public class RatioCalcPopup extends JFrame {
 
     }
 
-    /**
-     * Adds listener to the loginbutton
-     *
-     * @param listener
-     *            The listener to login to the server
-     */
-    public void addOkListener(ActionListener listener) {
-        okButton.addActionListener(listener);
-    }
-
-    public void addCancelListener(ActionListener listener) {
-        cancelButton.addActionListener(listener);
-    }
-
-    public String[] getRatioCalcParameters() {
-        String[] s = new String[2];
-
-        s[0] = getSingle() + " " + getInputReads() + " " + getChromosomes();
-
-        s[1] = getWindowSize() + " " + getSmoothType() + " "
-                + getStepPosition() + " " + getPrintMean() + " "
-                + getPrintZeros();
-
-        return s;
-    }
-
-    private String getPrintZeros() {
-        if (ratioPrintZeros.isSelected()) {
-            return "1";
-        } else if (single.getItemAt(0).equals("")) {
-            return "";
-        } else {
-            return "0";
-        }
-    }
-
-    private String getPrintMean() {
-        if (ratioPrintMean.isSelected()) {
-            return "1";
-        } else if (single.getItemAt(0).equals("")) {
-            return "";
-        } else {
-            return "0";
-        }
-    }
-
-    private String getStepPosition() {
-        return ratioStepPosition.getText().trim();
-    }
-
-    private String getSmoothType() {
-
-        if (ratioSmoothType.getSelectedItem().toString().equals("Median")) {
-            return "1";
-        } else {
-            return "0";
-        }
-    }
-
-    private String getWindowSize() {
-        return ratioWindowSize.getText().trim();
-    }
-
-    private String getChromosomes() {
-        return chromosome.getText().trim();
-    }
-
-    private String getInputReads() {
-        return inputReads.getText().trim();
-    }
-
-    private String getSingle() {
-        return single.getSelectedItem().toString().trim();
-    }
-
     public void setUnusedRatioPar() {
 
         single.removeAllItems();
@@ -219,36 +145,69 @@ public class RatioCalcPopup extends JFrame {
         ratioStepPosition.setText("7");
 
     }
+    
+    public void addOkListener(ActionListener listener) {
+        okButton.addActionListener(listener);
+    }
 
+    public void addCancelListener(ActionListener listener) {
+        cancelButton.addActionListener(listener);
+    }
+    
     public void hideRatioWindow() {
         this.setVisible(false);
     }
+    
 
-    public boolean isRatioCorrectToProcess() {
+    
+    public String[] getRatioCalcParameters() {
+        String[] s = new String[2];
 
-        if (aboveZero(ratioWindowSize.getText().trim())
-                && aboveZero(inputReads.getText().trim())
-                && aboveZero(chromosome.getText().trim())
-                && aboveZero(ratioStepPosition.getText().trim())) {
-            return true;
+        s[0] = getSingle() + " " + getInputReads() + " " + getChromosomes();
+
+        s[1] = getWindowSize() + " " + getSmoothType() + " "
+                + getStepPosition() + " " + getPrintType(ratioPrintMean) + " "
+                + getPrintType(ratioPrintZeros);
+
+        return s;
+    }
+
+    
+    private String getPrintType(JCheckBox print) {
+        if (print.isSelected()) {
+            return "1";
+        } else if (single.getItemAt(0).equals("")) {
+            return "";
         } else {
-            return false;
+            return "0";
         }
     }
 
-    public boolean aboveZero(String string) {
+    private String getSmoothType() {
+        String smooth = "0";        
+        if (ratioSmoothType.getSelectedItem().toString().equals("Median")) {
+            return "1";
+        } 
+        return smooth; 
+    }
+    
+    private String getWindowSize() {
+        return ratioWindowSize.getText().trim();
+    }
 
-        try {
-            int value = Integer.parseInt(string);
-            if (value >= 0) {
-                System.out.println(value);
-                return true;
-            } else {
-                System.out.println(value);
-                return false;
-            }
-        } catch (Exception e) {
-            return false;
-        }
+    private String getChromosomes() {
+        return chromosome.getText().trim();
+    }
+
+    private String getInputReads() {
+        return inputReads.getText().trim();
+    }
+
+    private String getSingle() {
+        return single.getSelectedItem().toString().trim();
+    }
+    
+    private String getStepPosition() {
+        return ratioStepPosition.getText().trim();
     }
 }

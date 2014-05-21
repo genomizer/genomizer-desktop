@@ -641,7 +641,8 @@ public class GUI extends JFrame implements GenomizerView {
     
     @Override
     public String[] getOtherParameters() {
-        return processTab.getOtherParameters();
+        //return processTab.getOtherParameters();
+        return process.getOtherParameters(processTab.outputGFF, processTab.outputSGR);
     }
     
     /**
@@ -721,12 +722,16 @@ public class GUI extends JFrame implements GenomizerView {
     }
     
     public boolean isCorrectToProcess() {
-       // return processTab.isCorrectToProcess();        
-        return process.isCorrectToProcess(processTab.smoothWindowSize, processTab.stepPosition, processTab.stepSize);
+        // return processTab.isCorrectToProcess();
+        return process.isCorrectToProcess(processTab.smoothWindowSize,
+                processTab.stepPosition, processTab.stepSize);
     }
     
     public boolean isRatioCorrectToProcess() {
-        return ratioCalcPopup.isRatioCorrectToProcess();
+        // return ratioCalcPopup.isRatioCorrectToProcess();
+        return process.isRatioCorrectToProcess(ratioCalcPopup.ratioWindowSize,
+                ratioCalcPopup.inputReads, ratioCalcPopup.chromosome,
+                ratioCalcPopup.ratioStepPosition);
     }
     
     public void setProfileButton(boolean bool) {
