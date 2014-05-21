@@ -143,7 +143,7 @@ public class IconFactory {
     }
     
     public static ImageIcon getWorkspaceIcon(int x, int y) {
-        ImageIcon icon = getBufferedImage("/icons/spreadsheet.png");
+        ImageIcon icon = getBufferedImage("/icons/workspace.png");
         return new ImageIcon(icon.getImage().getScaledInstance(x, y,
                 Image.SCALE_SMOOTH));
     }
