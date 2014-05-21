@@ -44,6 +44,7 @@ public class EditAnnotationPopup2 extends JPanel {
     private ArrayList<JTextField> valueFields = new ArrayList<JTextField>();
     private JPanel centerpanel;
     private ArrayList<AnnotationValuePanel> valuePanels = new ArrayList<AnnotationValuePanel>();
+    private ArrayList<EditAnnotationDocumentListener> docListeners = new ArrayList<EditAnnotationDocumentListener>();
 
     public EditAnnotationPopup2(JTable table) {
         this.table = table;
@@ -188,10 +189,11 @@ public class EditAnnotationPopup2 extends JPanel {
         }
 
         for (AnnotationValuePanel panel : valuePanels) {
+            EditAnnotationDocumentListener listen = new EditAnnotationDocumentListener(panel, this);
             panel.getNameField()
                     .getDocument()
-                    .addDocumentListener(
-                            new EditAnnotationDocumentListener(panel, this));
+                    .addDocumentListener(listen);
+            docListeners.add(listen);
         }
 
     }
@@ -222,6 +224,12 @@ public class EditAnnotationPopup2 extends JPanel {
         } else
             return false;
 
+    }
+
+    public void updateDocListeners(){
+        for(EditAnnotationDocumentListener listener : docListeners) {
+            listener.updateOldString();
+        }
     }
 
 }

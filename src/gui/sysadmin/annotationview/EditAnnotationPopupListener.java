@@ -51,6 +51,8 @@ public class EditAnnotationPopupListener implements ActionListener {
                 if (sysController.renameAnnotationValue(editPopup.getNewAnnotationName(), j1.getName(), j1.getText())) {
                     j1.setName(j1.getText());
                     editPopup.deactivateUpdateButton((JButton)e.getSource());
+                    editPopup.updateDocListeners();
+
                     System.out.println("set name");
                 } else {
                     JOptionPane.showMessageDialog(editPopup, "Could not rename annotation value!");

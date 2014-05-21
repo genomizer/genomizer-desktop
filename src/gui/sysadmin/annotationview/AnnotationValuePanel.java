@@ -6,16 +6,17 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 
 import java.awt.Dimension;
-import java.util.ArrayList;
 
 public class AnnotationValuePanel extends JPanel{
-    private EditAnnotationPopup2 popup;
+    /**
+     *
+     */
+    private static final long serialVersionUID = 1L;
     private JButton modifyNameButton, removeButton;
     private JTextField valueTextField;
 
 
     public AnnotationValuePanel(EditAnnotationPopup2 popup, String valueName) {
-        this.popup = popup;
 
         valueTextField = new JTextField(valueName);
         valueTextField.setName(valueName);

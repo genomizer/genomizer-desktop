@@ -54,8 +54,8 @@ public class EditAnnotationDocumentListener implements DocumentListener {
         }
     }
 
-    public void setOldString(String s) {
-        oldString = s;
+    public void updateOldString() {
+        oldString = panel.getNameField().getText();
     }
 
 }
