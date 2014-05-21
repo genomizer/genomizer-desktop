@@ -38,7 +38,6 @@ import responses.sysadmin.AddGenomeReleaseResponse;
 import util.AnnotationDataType;
 import util.AnnotationDataValue;
 import util.ExperimentData;
-import util.FileData;
 import util.GenomeReleaseData;
 import util.ProcessFeedbackData;
 
@@ -374,6 +373,18 @@ public class Model implements GenomizerModel {
     @Override
     public boolean uploadGenomeReleaseFile(String filePath, String specie,
             String version) {
+
+        // String[] filepaths = new String[2];
+
+        /*********************************************************/
+
+        // for (String theFilePath : filepaths) {
+
+        /** Put everything in here! */
+        // }
+
+        /**********************************************************/
+
         File f = new File(filePath);
 
         AddGenomeReleaseRequest request = RequestFactory.makeAddGenomeRelease(
