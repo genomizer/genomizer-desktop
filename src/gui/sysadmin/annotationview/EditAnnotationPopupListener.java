@@ -48,7 +48,11 @@ public class EditAnnotationPopupListener implements ActionListener {
                 //John was here:
                 JButton b1 = (JButton)e.getSource();
                 JTextField j1 = (JTextField) b1.getParent().getComponent(0);
-                sysController.renameAnnotationValue(editPopup.getNewAnnotationName(), j1.getName(), j1.getText());
+                if (sysController.renameAnnotationValue(editPopup.getNewAnnotationName(), j1.getName(), j1.getText())) {
+                    j1.setName(j1.getText());
+                    System.out.println("set name");
+                }
+                
                 sysController.updateAnnotationTable();
                 break;
 

@@ -469,7 +469,7 @@ public class Model implements GenomizerModel {
                 .makeRenameAnnotationValueRequest(name, oldValue, newValue);
         Connection conn = connFactory.makeConnection();
         conn.sendRequest(request, userID, JSON);
-        if (conn.getResponseCode() == 201) {
+        if (conn.getResponseCode() == 201 || conn.getResponseCode() == 200 ) {
             System.err.println("Sent " + request.requestName + " success!");
             return true;
         } else {
