@@ -11,37 +11,37 @@ public class IconFactory {
     }
     
     public static ImageIcon getSearchIcon(int x, int y) {
-        ImageIcon icon = getBufferedImage("/icons/zoom_icon.png");
+        ImageIcon icon = getBufferedImage("/icons/zoom.png");
         return new ImageIcon(icon.getImage().getScaledInstance(x, y,
                 Image.SCALE_SMOOTH));
     }
     
     public static ImageIcon getSearchHoverIcon(int x, int y) {
-        ImageIcon icon = getBufferedImage("/icons/zoom_icon.png");
+        ImageIcon icon = getBufferedImage("/icons/zoom.png");
         return new ImageIcon(icon.getImage().getScaledInstance(x, y,
                 Image.SCALE_SMOOTH));
     }
     
     public static ImageIcon getClearIcon(int x, int y) {
-        ImageIcon icon = getBufferedImage("/icons/trash_icon.png");
+        ImageIcon icon = getBufferedImage("/icons/trash_can.png");
         return new ImageIcon(icon.getImage().getScaledInstance(x, y,
                 Image.SCALE_SMOOTH));
     }
     
     public static ImageIcon getClearHoverIcon(int x, int y) {
-        ImageIcon icon = getBufferedImage("/icons/trash_icon.png");
+        ImageIcon icon = getBufferedImage("/icons/trash_can.png");
         return new ImageIcon(icon.getImage().getScaledInstance(x, y,
                 Image.SCALE_SMOOTH));
     }
     
     public static ImageIcon getBackIcon(int x, int y) {
-        ImageIcon icon = getBufferedImage("/icons/trash_icon.png");
+        ImageIcon icon = getBufferedImage("/icons/zoom.png");
         return new ImageIcon(icon.getImage().getScaledInstance(x, y,
                 Image.SCALE_SMOOTH));
     }
     
     public static ImageIcon getBackHoverIcon(int x, int y) {
-        ImageIcon icon = getBufferedImage("/icons/trash_icon.png");
+        ImageIcon icon = getBufferedImage("/icons/zoom.png");
         return new ImageIcon(icon.getImage().getScaledInstance(x, y,
                 Image.SCALE_SMOOTH));
     }
@@ -71,37 +71,37 @@ public class IconFactory {
     }
     
     public static ImageIcon getDownloadIcon(int x, int y) {
-        ImageIcon icon = getBufferedImage("/icons/trash_icon.png");
+        ImageIcon icon = getBufferedImage("/icons/zoom.png");
         return new ImageIcon(icon.getImage().getScaledInstance(x, y,
                 Image.SCALE_SMOOTH));
     }
     
     public static ImageIcon getDownloadHoverIcon(int x, int y) {
-        ImageIcon icon = getBufferedImage("/icons/trash_icon.png");
+        ImageIcon icon = getBufferedImage("/icons/zoom.png");
         return new ImageIcon(icon.getImage().getScaledInstance(x, y,
                 Image.SCALE_SMOOTH));
     }
     
     public static ImageIcon getAnalyzeIcon(int x, int y) {
-        ImageIcon icon = getBufferedImage("/icons/trash_icon.png");
+        ImageIcon icon = getBufferedImage("/icons/stats_lines.png");
         return new ImageIcon(icon.getImage().getScaledInstance(x, y,
                 Image.SCALE_SMOOTH));
     }
     
     public static ImageIcon getAnalyzeHoverIcon(int x, int y) {
-        ImageIcon icon = getBufferedImage("/icons/trash_icon.png");
+        ImageIcon icon = getBufferedImage("/icons/stats_lines.png");
         return new ImageIcon(icon.getImage().getScaledInstance(x, y,
                 Image.SCALE_SMOOTH));
     }
     
     public static ImageIcon getProcessIcon(int x, int y) {
-        ImageIcon icon = getBufferedImage("/icons/cog_icon.png");
+        ImageIcon icon = getBufferedImage("/icons/gear.png");
         return new ImageIcon(icon.getImage().getScaledInstance(x, y,
                 Image.SCALE_SMOOTH));
     }
     
     public static ImageIcon getProcessHoverIcon(int x, int y) {
-        ImageIcon icon = getBufferedImage("/icons/cog_icon.png");
+        ImageIcon icon = getBufferedImage("/icons/gear.png");
         return new ImageIcon(icon.getImage().getScaledInstance(x, y,
                 Image.SCALE_SMOOTH));
     }
@@ -131,109 +131,109 @@ public class IconFactory {
     }
     
     public static ImageIcon getUploadIcon(int x, int y) {
-        ImageIcon icon = getBufferedImage("/icons/trash_icon.png");
+        ImageIcon icon = getBufferedImage("/icons/upload.png");
         return new ImageIcon(icon.getImage().getScaledInstance(x, y,
                 Image.SCALE_SMOOTH));
     }
     
     public static ImageIcon getUploadHoverIcon(int x, int y) {
-        ImageIcon icon = getBufferedImage("/icons/trash_icon.png");
+        ImageIcon icon = getBufferedImage("/icons/zoom.png");
         return new ImageIcon(icon.getImage().getScaledInstance(x, y,
                 Image.SCALE_SMOOTH));
     }
     
     public static ImageIcon getWorkspaceIcon(int x, int y) {
-        ImageIcon icon = getBufferedImage("/icons/trash_icon.png");
+        ImageIcon icon = getBufferedImage("/icons/spreadsheet.png");
         return new ImageIcon(icon.getImage().getScaledInstance(x, y,
                 Image.SCALE_SMOOTH));
     }
     
     public static ImageIcon getAdministratorIcon(int x, int y) {
-        ImageIcon icon = getBufferedImage("/icons/trash_icon.png");
+        ImageIcon icon = getBufferedImage("/icons/administrator.png");
         return new ImageIcon(icon.getImage().getScaledInstance(x, y,
                 Image.SCALE_SMOOTH));
     }
     
     public static ImageIcon getLogoutIcon(int x, int y) {
-        ImageIcon icon = getBufferedImage("/icons/trash_icon.png");
+        ImageIcon icon = getBufferedImage("/icons/zoom.png");
         return new ImageIcon(icon.getImage().getScaledInstance(x, y,
                 Image.SCALE_SMOOTH));
     }
     
     public static ImageIcon getLogoutHoverIcon(int x, int y) {
-        ImageIcon icon = getBufferedImage("/icons/trash_icon.png");
+        ImageIcon icon = getBufferedImage("/icons/zoom.png");
         return new ImageIcon(icon.getImage().getScaledInstance(x, y,
                 Image.SCALE_SMOOTH));
     }
     
     public static ImageIcon getLoginIcon(int x, int y) {
-        ImageIcon icon = getBufferedImage("/icons/trash_icon.png");
+        ImageIcon icon = getBufferedImage("/icons/zoom.png");
         return new ImageIcon(icon.getImage().getScaledInstance(x, y,
                 Image.SCALE_SMOOTH));
     }
     
     public static ImageIcon getLoginHoverIcon(int x, int y) {
-        ImageIcon icon = getBufferedImage("/icons/trash_icon.png");
+        ImageIcon icon = getBufferedImage("/icons/zoom.png");
         return new ImageIcon(icon.getImage().getScaledInstance(x, y,
                 Image.SCALE_SMOOTH));
     }
     
     public static ImageIcon getNewExperimentIcon(int x, int y) {
-        ImageIcon icon = getBufferedImage("/icons/trash_icon.png");
+        ImageIcon icon = getBufferedImage("/icons/zoom.png");
         return new ImageIcon(icon.getImage().getScaledInstance(x, y,
                 Image.SCALE_SMOOTH));
     }
     
     public static ImageIcon getNewExperimentHoverIcon(int x, int y) {
-        ImageIcon icon = getBufferedImage("/icons/trash_icon.png");
+        ImageIcon icon = getBufferedImage("/icons/zoom.png");
         return new ImageIcon(icon.getImage().getScaledInstance(x, y,
                 Image.SCALE_SMOOTH));
     }
     
     public static ImageIcon getExistingExperimentIcon(int x, int y) {
-        ImageIcon icon = getBufferedImage("/icons/trash_icon.png");
+        ImageIcon icon = getBufferedImage("/icons/zoom.png");
         return new ImageIcon(icon.getImage().getScaledInstance(x, y,
                 Image.SCALE_SMOOTH));
     }
     
     public static ImageIcon getExistingExperimentHoverIcon(int x, int y) {
-        ImageIcon icon = getBufferedImage("/icons/trash_icon.png");
+        ImageIcon icon = getBufferedImage("/icons/zoom.png");
         return new ImageIcon(icon.getImage().getScaledInstance(x, y,
                 Image.SCALE_SMOOTH));
     }
     
     public static ImageIcon getBrowseIcon(int x, int y) {
-        ImageIcon icon = getBufferedImage("/icons/trash_icon.png");
+        ImageIcon icon = getBufferedImage("/icons/zoom.png");
         return new ImageIcon(icon.getImage().getScaledInstance(x, y,
                 Image.SCALE_SMOOTH));
     }
     
     public static ImageIcon getBrowseHoverIcon(int x, int y) {
-        ImageIcon icon = getBufferedImage("/icons/trash_icon.png");
+        ImageIcon icon = getBufferedImage("/icons/zoom.png");
         return new ImageIcon(icon.getImage().getScaledInstance(x, y,
                 Image.SCALE_SMOOTH));
     }
     
     public static ImageIcon getAddToWorkspaceIcon(int x, int y) {
-        ImageIcon icon = getBufferedImage("/icons/trash_icon.png");
+        ImageIcon icon = getBufferedImage("/icons/zoom.png");
         return new ImageIcon(icon.getImage().getScaledInstance(x, y,
                 Image.SCALE_SMOOTH));
     }
     
     public static ImageIcon getAddToWorkspaceHoverIcon(int x, int y) {
-        ImageIcon icon = getBufferedImage("/icons/trash_icon.png");
+        ImageIcon icon = getBufferedImage("/icons/zoom.png");
         return new ImageIcon(icon.getImage().getScaledInstance(x, y,
                 Image.SCALE_SMOOTH));
     }
     
     public static ImageIcon getAddToListIcon(int x, int y) {
-        ImageIcon icon = getBufferedImage("/icons/trash_icon.png");
+        ImageIcon icon = getBufferedImage("/icons/zoom.png");
         return new ImageIcon(icon.getImage().getScaledInstance(x, y,
                 Image.SCALE_SMOOTH));
     }
     
     public static ImageIcon getAddToListHoverIcon(int x, int y) {
-        ImageIcon icon = getBufferedImage("/icons/trash_icon.png");
+        ImageIcon icon = getBufferedImage("/icons/zoom.png");
         return new ImageIcon(icon.getImage().getScaledInstance(x, y,
                 Image.SCALE_SMOOTH));
     }
