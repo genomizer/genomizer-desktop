@@ -83,10 +83,9 @@ public class ProcessTab extends JPanel {
     private final JTextArea convertArea = new JTextArea();
 
     private final JTextField flags = new JTextField();
-    private final JTextField smoothWindowSize = new JTextField();
-    private final JComboBox<String> smoothType = new JComboBox<String>();
-    private final JTextField stepPosition = new JTextField();
-    private final JTextField stepSize = new JTextField();
+    public final JTextField smoothWindowSize = new JTextField();
+    public final JTextField stepPosition = new JTextField();
+    public final JTextField stepSize = new JTextField();
 
     // RATIO CALC
     private final JTextField inputReads = new JTextField();
@@ -118,6 +117,7 @@ public class ProcessTab extends JPanel {
     private final JCheckBox useRatio = new JCheckBox("Ratio calculation");
 
     private final JComboBox<String> genomeFile = new JComboBox<String>();
+    private final JComboBox<String> smoothType = new JComboBox<String>();
     private final JComboBox<String> single = new JComboBox<String>();
     private final JComboBox<String> ratioSmoothType = new JComboBox<String>();
     private final JTabbedPane tabbedPane = new JTabbedPane(JTabbedPane.BOTTOM);
@@ -790,18 +790,6 @@ public class ProcessTab extends JPanel {
     }
 
     /**
-     * Gets the fileData of all the files that are marked in the fileList.
-     *
-     * @return ArrayList<FileData> - List of all the files.
-     */
-    public ArrayList<FileData> getAllMarkedFileData() {
-
-        ArrayList<FileData> arr = getAllMarkedFiles();
-
-        return arr;
-    }
-
-    /**
      * Checks if an item in a list is selected.
      *
      * @param arr
@@ -839,6 +827,10 @@ public class ProcessTab extends JPanel {
 
     public void addScheduleFileListener(ActionListener listener) {
         // scheduleButton.addActionListener(listener);
+    }
+    
+    public void addRatioCalcListener(ActionListener listener) {
+        ratioCalcButton.addActionListener(listener);
     }
 
     private int getNumberOfJobsInQueue() {
@@ -911,10 +903,6 @@ public class ProcessTab extends JPanel {
         }
     }
 
-    public void addRatioCalcListener(ActionListener listener) {
-        ratioCalcButton.addActionListener(listener);
-    }
-
     public void setDefaultRatioPar() {
 
         inputReads.setText("4");
@@ -934,6 +922,8 @@ public class ProcessTab extends JPanel {
         ratioStepPosition.setText("");
     }
 
+    /*Finns i process-klassen*/
+   /*
     public boolean isCorrectToProcess() {
 
         if(aboveZero(smoothWindowSize.getText().trim()) && aboveZero(stepPosition.getText().trim()) && aboveZero(stepSize.getText().trim())){
@@ -944,6 +934,7 @@ public class ProcessTab extends JPanel {
         }
     }
 
+    //Finns i process-klassen
     public boolean aboveZero(String string) {
 
         try {
@@ -958,7 +949,7 @@ public class ProcessTab extends JPanel {
         } catch (Exception e) {
             return false;
         }
-    }
+    }*/
 
     public void setProfileButton(boolean bool){
         profileButton.setEnabled(bool);

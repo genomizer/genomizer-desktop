@@ -105,8 +105,6 @@ public interface GenomizerView {
 
     public int getSelectedRowAtAnnotationTable();
 
-    public ArrayList<FileData> getAllMarkedFileData();
-
     public void updateLoginAccepted(String username, String pwd, String name);
 
     public void updateLoginNeglected(String errorMessage);

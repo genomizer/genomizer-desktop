@@ -45,6 +45,7 @@ public class GUI extends JFrame implements GenomizerView {
     private QuerySearchTab querySearchTab;
     private DownloadWindow downloadWindow;
     private RatioCalcPopup ratioCalcPopup;
+    private Process process;
     
     /**
      * Initiates the main view of the program.
@@ -61,6 +62,7 @@ public class GUI extends JFrame implements GenomizerView {
         userPanel = new UserPanel();
         loginWindow = new LoginWindow(this);
         ratioCalcPopup = new RatioCalcPopup(this);
+        process = new Process();
         
         add(mainPanel);
         
@@ -222,14 +224,6 @@ public class GUI extends JFrame implements GenomizerView {
     @Override
     public String getQuerySearchString() {
         return querySearchTab.getSearchString();
-    }
-    
-    /**
-     * @return The marked file data from the process tab.
-     */
-    @Override
-    public ArrayList<FileData> getAllMarkedFileData() {
-        return processTab.getAllMarkedFileData();
     }
     
     /**
@@ -727,7 +721,8 @@ public class GUI extends JFrame implements GenomizerView {
     }
     
     public boolean isCorrectToProcess() {
-        return processTab.isCorrectToProcess();
+       // return processTab.isCorrectToProcess();        
+        return process.isCorrectToProcess(processTab.smoothWindowSize, processTab.stepPosition, processTab.stepSize);
     }
     
     public boolean isRatioCorrectToProcess() {

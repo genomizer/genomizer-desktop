@@ -102,7 +102,7 @@ public class Controller {
         public void run() {
 
             view.setBowtieParameters();
-            ArrayList<FileData> allMarked = view.getAllMarkedFileData();
+            ArrayList<FileData> allMarked = view.getAllMarkedFiles();
             String message = null;
             Boolean isConverted = false;
 
