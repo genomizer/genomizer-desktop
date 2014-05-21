@@ -43,6 +43,7 @@ public class EditAnnotationPopup2 extends JPanel {
     private ArrayList<JButton> valueButtons = new ArrayList<JButton>();
     private ArrayList<JTextField> valueFields = new ArrayList<JTextField>();
     private JPanel centerpanel;
+    private ArrayList<AnnotationValuePanel> valuePanels = new ArrayList<AnnotationValuePanel>();
 
     public EditAnnotationPopup2(JTable table) {
         this.table = table;
@@ -69,9 +70,8 @@ public class EditAnnotationPopup2 extends JPanel {
         centerpanel.setLayout(new BoxLayout(centerpanel, BoxLayout.Y_AXIS));
         layout = (BoxLayout) centerpanel.getLayout();
         for (String annotationValue : annotation.getValues()) {
-            JPanel panel = createAnnotationValue(annotationValue);
-            // layout.
-
+            AnnotationValuePanel panel = createAnnotationValue(annotationValue);
+            valuePanels.add(panel);
             centerpanel.add(panel);
         }
         JPanel addValuePanel = createAddValuePanel();
@@ -79,8 +79,8 @@ public class EditAnnotationPopup2 extends JPanel {
         JPanel scrollPanel = new JPanel();
         scrollPanel.add(centerpanel);
         JScrollPane scrollpane = new JScrollPane(scrollPanel);
-        //scrollpane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
-        //scrollpane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED);
+        // scrollpane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+        // scrollpane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED);
         this.add(centerpanel, BorderLayout.CENTER);
     }
 
@@ -98,23 +98,17 @@ public class EditAnnotationPopup2 extends JPanel {
         return panel;
     }
 
-    private JPanel createAnnotationValue(String name) {
-        JPanel panel = new JPanel();
-        JTextField valueTextField = new JTextField(name);
-        valueTextField.setName(name);
-        valueTextField.setPreferredSize(new Dimension(180, 30));
-        panel.add(valueTextField, 0);
-        JButton modifyNameButton = new JButton(
-                SysStrings.ANNOTATIONS_MODIFY_RENAME);
-        modifyNameButton.setEnabled(false);
-        JButton removeButton = new JButton(SysStrings.ANNOTATIONS_MODIFY_REMOVE);
+    public void addButtonToButtonList(JButton button) {
+        valueButtons.add(button);
 
-        valueButtons.add(removeButton);
-        valueButtons.add(modifyNameButton);
-        valueFields.add(valueTextField);
+    }
 
-        panel.add(modifyNameButton);
-        panel.add(removeButton);
+    public void addTextFieldToFieldList(JTextField field) {
+        valueFields.add(field);
+    }
+
+    private AnnotationValuePanel createAnnotationValue(String name) {
+        AnnotationValuePanel panel = new AnnotationValuePanel(this, name);
         return panel;
     }
 
@@ -193,60 +187,21 @@ public class EditAnnotationPopup2 extends JPanel {
             button.addActionListener(listener);
         }
 
-        for (final JTextField field : valueFields) {
-            field.getDocument().addDocumentListener(new DocumentListener() {
-
-                String oldString = field.getText();
-                JButton button = (JButton) field.getParent().getComponent(1);
-                @Override
-                public void changedUpdate(DocumentEvent ev) {
-
-                }
-
-                @Override
-                public void insertUpdate(DocumentEvent ev) {
-                    try {
-                        String newString = ev.getDocument().getText(0,
-                                ev.getDocument().getLength());
-
-                        if (valueRenameIsValid(oldString, newString)) {
-                            activateUpdateButton(button);
-
-                        } else {
-                            deactivateUpdateButton(button);
-                        }
-                    } catch (BadLocationException e) {
-                        e.printStackTrace();
-                    }
-                }
-
-                @Override
-                public void removeUpdate(DocumentEvent ev) {
-                    try {
-                        String newString = ev.getDocument().getText(0,
-                                ev.getDocument().getLength());
-
-                        if (valueRenameIsValid(oldString, newString)) {
-                            activateUpdateButton(button);
-                        } else {
-                            deactivateUpdateButton(button);
-                        }
-                    } catch (BadLocationException e) {
-                        e.printStackTrace();
-                    }
-                }
-
-            });
+        for (AnnotationValuePanel panel : valuePanels) {
+            panel.getNameField()
+                    .getDocument()
+                    .addDocumentListener(
+                            new EditAnnotationDocumentListener(panel, this));
         }
+
     }
-
-
 
     protected void deactivateUpdateButton(JButton button) {
         button.setEnabled(false);
     }
 
-    protected void activateUpdateButton(JButton button) {
+    public void activateUpdateButton(JButton button) {
+
         button.setEnabled(true);
 
     }
@@ -261,7 +216,7 @@ public class EditAnnotationPopup2 extends JPanel {
 
     }
 
-    private boolean valueRenameIsValid(String oldString, String newName) {
+    public boolean valueRenameIsValid(String oldString, String newName) {
         if (!(oldString.equals(newName))) {
             return true;
         } else
