@@ -154,7 +154,6 @@ public class ProcessTab extends JPanel {
         initComboBoxes();
         /* TEST */
         initBowtieParameters();
-        writeToTimePanel();
         setDefaultRatioPar();
         
     }
@@ -859,17 +858,6 @@ public class ProcessTab extends JPanel {
      */
     public void printToConsole(String message) {        
         consoleArea.append(message);
-    }
-    
-    /**
-     * Writes the time to timeArea in timePanel.
-     */
-    private void writeToTimePanel() {
-        
-      //  timeArea.setText("Time panel");
-        timeArea.setEditable(false);
-        timePanel.add(timeArea);
-        
     }
     
     public boolean useRatio() {
