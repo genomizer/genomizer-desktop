@@ -117,7 +117,7 @@ public interface GenomizerView {
 
     public void setProcessFileList(ArrayList<FileData> arrayList);
 
-    public void printToConvertText(String message, String color);
+    public void printToProfileText(String message);
 
     public void setSysadminController(SysadminController sysadminController);
 

@@ -857,14 +857,8 @@ public class ProcessTab extends JPanel {
      * @param color
      *            - What color the message should have
      */
-    public void printToProfileText(String message, String color) {
-        
+    public void printToProfileText(String message) {        
         genProfArea.append(message);
-        genProfArea.setForeground(Color.black);
-        
-        if (color.equals("red")) {
-            genProfArea.setForeground(Color.RED);
-        }
     }
     
     /**
@@ -872,7 +866,7 @@ public class ProcessTab extends JPanel {
      */
     private void writeToTimePanel() {
         
-        timeArea.setText("Time panel");
+      //  timeArea.setText("Time panel");
         timeArea.setEditable(false);
         timePanel.add(timeArea);
         

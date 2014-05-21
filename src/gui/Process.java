@@ -1,7 +1,6 @@
 package gui;
 
 import javax.swing.JCheckBox;
-import javax.swing.JComboBox;
 import javax.swing.JTextField;
 
 public class Process {

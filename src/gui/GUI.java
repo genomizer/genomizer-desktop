@@ -501,8 +501,8 @@ public class GUI extends JFrame implements GenomizerView {
      * @param color
      */
     @Override
-    public void printToConvertText(String message, String color) {
-        processTab.printToProfileText(message, color);
+    public void printToProfileText(String message) {
+        processTab.printToProfileText(message);
     }
     
     /**

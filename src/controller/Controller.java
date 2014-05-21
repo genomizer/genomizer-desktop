@@ -112,10 +112,8 @@ public class Controller {
                 for (FileData data : allMarked) {
 
                     String fileName = data.filename;
-                    String fileID = data.id;
                     String author = view.getUsername();
                     String parameters[] = new String[8];
-                    String processtype = "rawtoprofile";
 
                     parameters[0] = view.getParameters()[0];
                     parameters[1] = view.getParameters()[1];
@@ -136,30 +134,27 @@ public class Controller {
                     String genomeVersion = data.grVersion;
                     String metadata = data.metaData;
 
-                    // isConverted = model.rawToProfile(fileName, fileID, expid,
-                    // processtype, parameters, metadata, genomeRelease,
-                    // author);
-
                     isConverted = model.rawToProfile(expid, parameters,
                             metadata, genomeVersion, author);
 
                     if (isConverted) {
-                        message = "The server has converted: " + fileName
-                                + " with file id: " + fileID + " from " + expid
+                        message = "The server has started process on file: " + fileName
+                                + " from experiment: " + expid
                                 + "\n";
-                        view.printToConvertText(message, "green");
+                        view.printToProfileText(message);
 
                     } else {
-                        message = "WARNING - The server couldn't convert: "
-                                + fileName + " with file id: " + fileID
-                                + " from " + expid + "\n";
-                        view.printToConvertText(message, "red");
+                        message = "WARNING - The server couldn't start processing on file: "
+                                + fileName 
+                                + " from experiment: " + expid + "\n";
+                        view.printToProfileText(message);
                         }
                     }
                 }
             }else{
+                //TODO Popup window 
                 message = "Parameters are invalid!\n";
-                view.printToConvertText(message, "green");
+                view.printToProfileText(message);
             }
         }
 
