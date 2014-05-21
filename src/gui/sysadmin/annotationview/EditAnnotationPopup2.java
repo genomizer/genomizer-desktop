@@ -9,6 +9,7 @@ import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.GridLayout;
+import java.awt.Scrollbar;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
@@ -21,8 +22,10 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
+import javax.swing.ScrollPaneConstants;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import javax.swing.text.BadLocationException;
@@ -52,7 +55,6 @@ public class EditAnnotationPopup2 extends JPanel {
             createAnnotationNamePanel();
             createValuesPanel();
             createForcedPanel();
-            
         }
     }
     
@@ -74,6 +76,11 @@ public class EditAnnotationPopup2 extends JPanel {
         }
         JPanel addValuePanel = createAddValuePanel();
         centerpanel.add(addValuePanel);
+        JPanel scrollPanel = new JPanel();
+        scrollPanel.add(centerpanel);
+        JScrollPane scrollpane = new JScrollPane(scrollPanel);
+        //scrollpane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+        //scrollpane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED);
         this.add(centerpanel, BorderLayout.CENTER);
     }
     
@@ -223,6 +230,7 @@ public class EditAnnotationPopup2 extends JPanel {
         centerpanel.add(createAnnotationValue(name));
         centerpanel.add(createAddValuePanel());
         centerpanel.updateUI();
+        updateUI();
         this.repaint();
         
     }

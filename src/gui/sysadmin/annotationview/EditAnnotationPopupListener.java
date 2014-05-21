@@ -8,6 +8,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
@@ -46,36 +47,40 @@ public class EditAnnotationPopupListener implements ActionListener {
 
             case SysStrings.ANNOTATIONS_MODIFY_RENAME:
                 //John was here:
-                JButton b1 = (JButton)e.getSource();
-                JTextField j1 = (JTextField) b1.getParent().getComponent(0);
+                JTextField j1 = getJTextFieldFromEvent(e);
                 if (sysController.renameAnnotationValue(editPopup.getNewAnnotationName(), j1.getName(), j1.getText())) {
                     j1.setName(j1.getText());
                     System.out.println("set name");
+                } else {
+                    JOptionPane.showMessageDialog(editPopup, "Could not rename annotation value!");
                 }
-                
+                 
                 sysController.updateAnnotationTable();
                 break;
 
             case SysStrings.ANNOTATIONS_MODIFY_REMOVE:
                 System.out.println("remove!");
-                JButton b2 = (JButton)e.getSource();
-                JPanel panel = (JPanel) b2.getParent();
-                JTextField j2 = (JTextField) b2.getParent().getComponent(0);
-                sysController.removeAnnotationValue(editPopup.getNewAnnotationName(), j2.getName());
-                panel.setVisible(false);
+                JTextField j2 = getJTextFieldFromEvent(e);
+                JPanel panel = (JPanel) j2.getParent();
+                if (sysController.removeAnnotationValue(editPopup.getNewAnnotationName(), j2.getName())) {
+                    panel.setVisible(false);
+                } else {
+                    JOptionPane.showMessageDialog(editPopup, "Could not remove annotation value!");
+                }
                 sysController.updateAnnotationTable();
                 break;
 
             case SysStrings.ANNOTATIONS_MODIFY_ADD_VALUE:
                 System.out.println("add annotation value");
-                JButton b3 = (JButton) e.getSource();
-                JPanel panel2 = (JPanel) b3.getParent();
-                JTextField j3 = (JTextField) b3.getParent().getComponent(0);
+                JTextField j3 = getJTextFieldFromEvent(e);
                 if (!j3.getText().isEmpty() ){
-                    sysController.addAnnotationValue(editPopup.getNewAnnotationName(), j3.getText());
-                    sysController.updateAnnotationTable();
-                    editPopup.updateAnnotation(j3.getText());
-                    editPopup.addEditAnnotationListener(this);
+                    if (sysController.addAnnotationValue(editPopup.getNewAnnotationName(), j3.getText())) {
+                        sysController.updateAnnotationTable();
+                        editPopup.updateAnnotation(j3.getText());
+                        editPopup.addEditAnnotationListener(this);
+                    } else {
+                        JOptionPane.showMessageDialog(editPopup, "Could not add annotation value!");
+                    }
                 }
                 
                 break;
@@ -87,7 +92,13 @@ public class EditAnnotationPopupListener implements ActionListener {
             case SysStrings.ANNOTATIONS_VALUE_NAME_CHANGED:
                 System.out.println("Value name has changed!");
                 break;
-
         }
     }
+    
+    private JTextField getJTextFieldFromEvent(ActionEvent e){
+        JButton b = (JButton)e.getSource();
+        JTextField jt = (JTextField) b.getParent().getComponent(0);
+        return jt;
+    }
+    
 }

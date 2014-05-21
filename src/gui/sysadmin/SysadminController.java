@@ -200,29 +200,23 @@ public class SysadminController {
     }
     
     public boolean renameAnnotationField(String oldName, String newName) {
-        if (model.renameAnnotationField(oldName, newName)) {
-            return true;
-        } else {
-            return false;
-        }
-        
+        return (model.renameAnnotationField(oldName, newName)); 
     }
     
     public boolean renameAnnotationValue(String name, String oldValue,
             String newValue) {
-        return model.renameAnnotationValue(name, oldValue, newValue) ? true
-                : false;
+        return model.renameAnnotationValue(name, oldValue, newValue);
         
     }
     
-    public void removeAnnotationValue(String annotationName,
+    public boolean  removeAnnotationValue(String annotationName,
             String annotationValue) {
-        model.removeAnnotationValue(annotationName, annotationValue);
+        return model.removeAnnotationValue(annotationName, annotationValue);
         
     }
     
-    public void addAnnotationValue(String annotationName, String valueName) {
-        model.addNewAnnotationValue(annotationName, valueName);
+    public boolean addAnnotationValue(String annotationName, String valueName) {
+        return model.addNewAnnotationValue(annotationName, valueName);
     }
     
     public SysadminTab getSysTab() {
