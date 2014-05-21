@@ -148,11 +148,20 @@ public class ProcessTab extends JPanel {
         addWestPanels();
         addMiddlePanel();
         addProcessInfoPanel();
-
         addTimePanel();
         addConvertTextArea();
         initFileList();
+        /*TEST*/
+        initComboBoxes();
+        /*TEST*/
+        initBowtieParameters();
+        writeToTimePanel();
+        setDefaultRatioPar();
 
+    }
+    
+    private void initComboBoxes(){
+        
         ArrayList<String> ratioSmooth = new ArrayList<String>();
         /* TEST */
         ratioSmooth.add("Median");
@@ -178,11 +187,6 @@ public class ProcessTab extends JPanel {
         gFiles.add("");
         /* TEST */
         setGenomeReleaseFiles(gFiles);
-
-        initBowtieParameters();
-        writeToTimePanel();
-        setDefaultRatioPar();
-
     }
 
     /**
