@@ -37,7 +37,7 @@ public class EditAnnotationPopupListener implements ActionListener {
 
             case SysStrings.ANNOTATIONS_RENAME:
                 String oldName = editPopup.getAnnotation().name;
-                
+
                 String newName = editPopup.getNewAnnotationName();
                 if (sysController.renameAnnotationField(oldName, newName)){
                     editPopup.getAnnotation().name = newName;
@@ -50,11 +50,12 @@ public class EditAnnotationPopupListener implements ActionListener {
                 JTextField j1 = getJTextFieldFromEvent(e);
                 if (sysController.renameAnnotationValue(editPopup.getNewAnnotationName(), j1.getName(), j1.getText())) {
                     j1.setName(j1.getText());
+                    editPopup.deactivateUpdateButton((JButton)e.getSource());
                     System.out.println("set name");
                 } else {
                     JOptionPane.showMessageDialog(editPopup, "Could not rename annotation value!");
                 }
-                 
+
                 sysController.updateAnnotationTable();
                 break;
 
@@ -82,7 +83,7 @@ public class EditAnnotationPopupListener implements ActionListener {
                         JOptionPane.showMessageDialog(editPopup, "Could not add annotation value!");
                     }
                 }
-                
+
                 break;
 
             case SysStrings.ANNOTATIONS_MODIFY_SET_FORCED:
@@ -94,11 +95,11 @@ public class EditAnnotationPopupListener implements ActionListener {
                 break;
         }
     }
-    
+
     private JTextField getJTextFieldFromEvent(ActionEvent e){
         JButton b = (JButton)e.getSource();
         JTextField jt = (JTextField) b.getParent().getComponent(0);
         return jt;
     }
-    
+
 }

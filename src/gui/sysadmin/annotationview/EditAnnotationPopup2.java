@@ -211,6 +211,7 @@ public class EditAnnotationPopup2 extends JPanel {
 
                         if (valueRenameIsValid(oldString, newString)) {
                             activateUpdateButton(button);
+
                         } else {
                             deactivateUpdateButton(button);
                         }
@@ -242,12 +243,10 @@ public class EditAnnotationPopup2 extends JPanel {
 
 
     protected void deactivateUpdateButton(JButton button) {
-        System.out.println("Deactivate update button!");
         button.setEnabled(false);
     }
 
     protected void activateUpdateButton(JButton button) {
-        System.out.println("Activate update button!");
         button.setEnabled(true);
 
     }
@@ -264,7 +263,6 @@ public class EditAnnotationPopup2 extends JPanel {
 
     private boolean valueRenameIsValid(String oldString, String newName) {
         if (!(oldString.equals(newName))) {
-            System.out.println(oldString + " != " + newName);
             return true;
         } else
             return false;
