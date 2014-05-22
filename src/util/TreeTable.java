@@ -178,10 +178,9 @@ public class TreeTable extends JPanel {
         if (experimentData != null && experimentData.size() > 0) {
             experiments = experimentData;
             /* Retreive the headings from the experiment data */
-            int nrOfColumns = 2;
+            int nrOfColumns = 1;
             headings = new ArrayList<String>();
             headings.add("ExpID");
-            headings.add("Experiment Created By");
             for (int i = 0; i < experiments.size(); i++) {
                 for (AnnotationDataValue annotation : experiments.get(i).annotations) {
                     if (!headings.contains(annotation.name)) {
@@ -458,6 +457,7 @@ public class TreeTable extends JPanel {
             for (ExperimentData data : experiments) {
                 for (FileData file : selectedFiles) {
                     if (data.files.contains(file)) {
+                        Thread.sleep(10);
                         data.removeFile(file);
                     }
                 }
@@ -465,9 +465,12 @@ public class TreeTable extends JPanel {
             selectedData = getSelectedExperiments();
             for (ExperimentData data : selectedData) {
                 experiments.remove(data);
+                Thread.sleep(10);
             }
         } catch (NullPointerException e) {
             JOptionPane.showMessageDialog(null, "No files to remove.");
+        } catch (InterruptedException e) {
+            e.printStackTrace();
         }
         createTreeStructure();
     }
@@ -488,13 +491,15 @@ public class TreeTable extends JPanel {
         try {
             visibleHeadings = new ArrayList<String>();
             int columnCount = table.getColumnCount();
+            System.out.println("colcount :" + columnCount);
             if (columnCount > 0) {
                 visibleHeadings = new ArrayList<String>();
                 for (int i = 0; i < columnCount; i++) {
+                    Thread.sleep(10);
                     visibleHeadings.add(table.getColumnName(i));
                 }
                 for (String heading : headings) {
-                    System.out.println("heading:  " + heading);
+                    Thread.sleep(10);
                     if (!visibleHeadings.contains(heading)
                             && !hiddenHeadings.contains(heading)) {
                         visibleHeadings.add(heading);
@@ -507,6 +512,8 @@ public class TreeTable extends JPanel {
             }
         } catch (NullPointerException e) {
             System.out.println("nullpointer");
+        } catch (InterruptedException e) {
+            e.printStackTrace();
         }
     }
     

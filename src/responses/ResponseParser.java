@@ -76,7 +76,7 @@ public class ResponseParser {
         try {
             url = gson.fromJson(json, AddFileToExperimentResponse.class);
         } catch (JsonParseException e) {
-
+            System.out.println("parse error");
         }
         return url;
     }
@@ -101,6 +101,7 @@ public class ResponseParser {
             processFeedbackData = gson.fromJson(json,
                     ProcessFeedbackData[].class);
         } catch (JsonParseException e) {
+            e.printStackTrace();
             return null;
         }
         return processFeedbackData;

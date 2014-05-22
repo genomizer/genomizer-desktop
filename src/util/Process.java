@@ -1,4 +1,4 @@
-package gui;
+package util;
 
 import javax.swing.JCheckBox;
 import javax.swing.JTextField;

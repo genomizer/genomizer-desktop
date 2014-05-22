@@ -40,8 +40,6 @@ public class ExperimentData {
      */
     public ArrayList<String> getAnnotationValueList(ArrayList<String> headings) {
         ArrayList<String> annotationList = new ArrayList<String>();
-        // annotationList.add(name);
-        // annotationList.add(createdBy);
         
         for (String heading : headings) {
             boolean hasValue = false;
@@ -50,13 +48,6 @@ public class ExperimentData {
                     annotationList.add("-");
                 } else {
                     annotationList.add(name);
-                }
-                hasValue = true;
-            } else if (heading.equals("Experiment Created By")) {
-                if (createdBy == null || createdBy.equals("")) {
-                    annotationList.add("-");
-                } else {
-                    annotationList.add(createdBy);
                 }
                 hasValue = true;
             } else {

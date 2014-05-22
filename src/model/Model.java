@@ -7,6 +7,7 @@ import java.util.concurrent.CopyOnWriteArrayList;
 
 import javax.swing.JOptionPane;
 
+import gui.LoginWindow;
 import requests.AddAnnotationRequest;
 import requests.AddExperimentRequest;
 import requests.AddFileToExperiment;
@@ -234,6 +235,11 @@ public class Model implements GenomizerModel {
     @Override
     public void setIp(String ip) {
         connFactory.setIP(ip);
+    }
+
+    @Override
+    public void setLoginWindow(LoginWindow window) {
+        connFactory.setLoginWindow(window);
     }
 
     @Override
@@ -524,10 +530,11 @@ public class Model implements GenomizerModel {
         conn.sendRequest(request, userID, TEXT_PLAIN);
         System.out.println("proc feedback code: " + conn.getResponseCode());
         if (conn.getResponseCode() == 200) {
-            return ResponseParser.parseProcessFeedbackResponse(conn
-                    .getResponseBody());
+            ProcessFeedbackData[] data = ResponseParser.parseProcessFeedbackResponse(conn.getResponseBody());
+            return data;
+        } else {
+            return null;
         }
-        return null;
     }
 
     @Override
