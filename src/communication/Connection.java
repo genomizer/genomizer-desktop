@@ -22,6 +22,8 @@ public class Connection {
     public Connection(String ip, LoginWindow window) {
         this.ip = ip;
         this.window = window;
+        responseBody = "";
+        responseCode = 0;
     }
 
     public boolean sendRequest(Request request, String userID, String type) {
@@ -30,8 +32,6 @@ public class Connection {
         }
         try {
             String targetUrl = "http://" + ip + request.url;
-            responseBody = "";
-            responseCode = 0;
             System.out.println(targetUrl);
             System.out.println("the request.toJson(): " + request.toJson());
             URL url = new URL(targetUrl);
