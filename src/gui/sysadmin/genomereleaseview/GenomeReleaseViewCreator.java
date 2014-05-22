@@ -1,16 +1,15 @@
 package gui.sysadmin.genomereleaseview;
 
-import com.sun.org.apache.xpath.internal.SourceTree;
 import gui.sysadmin.strings.SysStrings;
-import util.FileData;
 
 import java.awt.*;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyListener;
+import java.awt.event.MouseListener;
 import java.io.File;
 import java.io.IOException;
 import javax.swing.*;
 import javax.swing.border.Border;
-import javax.swing.table.JTableHeader;
 import javax.swing.table.TableModel;
 import javax.swing.table.TableRowSorter;
 
@@ -29,7 +28,12 @@ public class GenomeReleaseViewCreator {
     private JButton clearButton;
     private JButton deleteButton;
     private JButton fileButton;
-    private GenomeTextFieldListener textListener;
+    private GenomeTextFieldListener textListner;
+    private MouseListener mouseGenomeTableListener;
+    private KeyListener keyGenomeTableListener;
+
+    private JPanel fileListPanel;
+    private JPanel extraInfoPanel;
 
 
 
@@ -38,9 +42,11 @@ public class GenomeReleaseViewCreator {
     }
 
     public JPanel buildGenomeReleaseView(ActionListener buttonListener,
-            GenomeTextFieldListener textListener) {
+            GenomeTextFieldListener textListener, MouseListener mgrListener, KeyListener kgrListener) {
         this.buttonListener = buttonListener;
-        this.textListener = textListener;
+        this.textListner = textListener;
+        this.mouseGenomeTableListener = mgrListener;
+        this.keyGenomeTableListener = kgrListener;
         JPanel mainPanel = new JPanel(new BorderLayout());
         mainPanel.setBackground(new Color(255, 250, 250));
         mainPanel.add(buildGenomeReleasePanel(), BorderLayout.CENTER);
@@ -62,29 +68,33 @@ public class GenomeReleaseViewCreator {
         return mainPanel;
     }
 
-    private JPanel buildSidePanel() {
-        JPanel mainPanel = new JPanel(new BorderLayout());
+    public JPanel buildGenomeFileList() {
+        fileListPanel = new JPanel(new BorderLayout());
 
-        mainPanel.add(buildAddNewSpeciePanel(), BorderLayout.NORTH);
-        mainPanel.add(buildAddGenomeFilePanel(), BorderLayout.CENTER);
 
-        return mainPanel;
+        grTablemodel = new GenomereleaseTableModel();
+
+        grTable = new JTable(grTablemodel);
+
+        grTable.setShowGrid(false);
+
+        TableRowSorter<TableModel> rowSorter = new TableRowSorter<TableModel>(
+                grTablemodel);
+
+        grTable.setSelectionMode(DefaultListSelectionModel.SINGLE_SELECTION);
+        grTable.setRowSorter(rowSorter);
+
+        JScrollPane scrollPane = new JScrollPane(grTable);
+
+        grTable.addMouseListener(mouseGenomeTableListener);
+        grTable.addKeyListener(keyGenomeTableListener);
+
+        fileListPanel.add(scrollPane, BorderLayout.CENTER);
+
+        return fileListPanel;
     }
 
-    private JPanel buildGenomeHeaderPanel() {
-        JPanel mainPanel = new JPanel(new BorderLayout());
-
-        JLabel label = new JLabel();
-        /** TODO: set variable string! */
-        label.setText("Genome release files");
-
-        Border border = BorderFactory.createEmptyBorder(5, 5, 5, 5);
-        label.setBorder(border);
-        mainPanel.add(label, BorderLayout.WEST);
-        return mainPanel;
-    }
-
-    private JPanel buildFileInfoPanel(){
+    public void addExtraInfoPanel(){
         JPanel mainPanel = new JPanel(new BorderLayout());
 
         deleteButton = new JButton(SysStrings.GENOME_BUTTON_DELETE);
@@ -98,10 +108,49 @@ public class GenomeReleaseViewCreator {
         buttonPanel.add(closeButton);
         buttonCeptionPanel.add(buttonPanel, BorderLayout.EAST);
 
+
+        
+
+
         mainPanel.add(buttonCeptionPanel, BorderLayout.EAST);
+        if(extraInfoPanel != null)
+            removeExtraInfoPanel();
+
+        extraInfoPanel = mainPanel;
+        fileListPanel.add(extraInfoPanel, BorderLayout.SOUTH);
+        extraInfoPanel.setVisible(true);
+        fileListPanel.repaint();
+    }
+
+    public void removeExtraInfoPanel(){
+        extraInfoPanel.removeAll();
+        extraInfoPanel.setVisible(false);
+    }
+
+    private JPanel buildSidePanel() {
+        JPanel mainPanel = new JPanel(new BorderLayout());
+
+        mainPanel.add(buildAddNewSpeciePanel(), BorderLayout.NORTH);
+        mainPanel.add(buildAddGenomeFilePanel(), BorderLayout.CENTER);
 
         return mainPanel;
     }
+
+
+    private JPanel buildGenomeHeaderPanel() {
+        JPanel mainPanel = new JPanel(new BorderLayout());
+        
+        JLabel label = new JLabel();
+        /** TODO: set variable string! */
+        label.setText("Genome release files");
+        
+        Border border = BorderFactory.createEmptyBorder(5, 5, 5, 5);
+        label.setBorder(border);
+        mainPanel.add(label, BorderLayout.WEST);
+        return mainPanel;
+    }
+
+
 
     private JPanel buildAddNewSpeciePanel(){
         JPanel mainPanel = new JPanel(new BorderLayout());
@@ -120,7 +169,7 @@ public class GenomeReleaseViewCreator {
 
         JPanel textNButton = new JPanel(new BorderLayout());
 
-        /** TODO fix this text and button so it works properly*/
+        /** TODO fix this text and button so it works propperly*/
         JLabel specieLabel = new JLabel();
         specieLabel.setBorder(border);
         specieLabel.setText("Specie");
@@ -145,7 +194,7 @@ public class GenomeReleaseViewCreator {
 
         return mainPanel;
     }
-
+    
     private JPanel buildAddGenomeFilePanel() {
 
         JPanel mainPanel = new JPanel(new BorderLayout());
@@ -178,10 +227,10 @@ public class GenomeReleaseViewCreator {
 
         /* text fields*/
         versionText = new JTextField(20);
-        versionText.addKeyListener(textListener);
+        versionText.addKeyListener(textListner);
         speciesText = new JComboBox();
         fileText = new JTextField(20);
-        fileText.addKeyListener(textListener);
+        fileText.addKeyListener(textListner);
         fileText.setEditable(false);
         fileText.setEnabled(false);
 
@@ -218,7 +267,7 @@ public class GenomeReleaseViewCreator {
 
         buttonCeptionPanel.add(buttonPanel, BorderLayout.WEST);
 
-
+        
 
 
 
@@ -229,7 +278,7 @@ public class GenomeReleaseViewCreator {
                         .addComponent(fileLabel)
                         .addComponent(buttonCeptionPanel)
         ));
-
+        
         layout.setVerticalGroup(layout.createSequentialGroup()
                 .addComponent(versionLabel).addComponent(versionText)
                 .addComponent(speciesLabel).addComponent(speciesText)
@@ -238,35 +287,13 @@ public class GenomeReleaseViewCreator {
         );
 
 
-
+        
 
         mainPanel.add(containerPanel, BorderLayout.NORTH);
         return mainPanel;
     }
 
-    public JPanel buildGenomeFileList() {
-        JPanel mainPanel = new JPanel(new BorderLayout());
 
-
-        grTablemodel = new GenomereleaseTableModel();
-
-        grTable = new JTable(grTablemodel);
-
-        grTable.setShowGrid(false);
-
-        TableRowSorter<TableModel> rowSorter = new TableRowSorter<TableModel>(
-                grTablemodel);
-
-        grTable.setSelectionMode(DefaultListSelectionModel.SINGLE_SELECTION);
-        grTable.setRowSorter(rowSorter);
-
-        JScrollPane scrollPane = new JScrollPane(grTable);
-
-
-        mainPanel.add(scrollPane, BorderLayout.CENTER);
-        mainPanel.add(buildFileInfoPanel(), BorderLayout.SOUTH);
-        return mainPanel;
-    }
 
 
 
