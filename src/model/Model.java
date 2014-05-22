@@ -177,12 +177,6 @@ public class Model implements GenomizerModel {
             System.out.println(conn.getResponseCode());
         }
         return false;
-
-        /*
-         * UploadHandler handler = new UploadHandler(aFTER.URLupload,
-         * f.getAbsolutePath(), userID, "pvt:pvt"); Thread thread = new
-         * Thread(handler); thread.start();
-         */
     }
 
     @Override
