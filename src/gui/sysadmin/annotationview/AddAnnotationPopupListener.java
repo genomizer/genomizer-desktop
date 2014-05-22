@@ -12,6 +12,12 @@ public class AddAnnotationPopupListener implements ActionListener {
     private SysadminTab sysTab;
     private SysadminController sysController;
 
+    /**
+     * The listener for actions within the AddAnnotationPopup
+     *
+     * @param sysTab
+     *            is the SysadminTab which opened the popup
+     */
     public AddAnnotationPopupListener(SysadminTab sysTab) {
         this.sysTab = sysTab;
         this.sysController = sysTab.getSysController();
