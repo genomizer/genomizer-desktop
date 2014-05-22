@@ -17,9 +17,11 @@ import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
 import javax.swing.AbstractButton;
+import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
 import javax.swing.GroupLayout;
 import javax.swing.JButton;
+import javax.swing.JCheckBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -28,6 +30,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.ScrollPaneConstants;
+import javax.swing.border.Border;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import javax.swing.text.BadLocationException;
@@ -38,8 +41,10 @@ public class EditAnnotationPopup2 extends JPanel {
 
     private JTable table;
     private AnnotationDataType annotation;
+    JButton cancelButton = new JButton(SysStrings.ANNOTATIONS_MODIFY_CANCEL);
     private JButton activateNameChangeButton = new JButton(
             SysStrings.ANNOTATIONS_RENAME_FINAL);;
+
     private JButton renameButton;
     private JTextField nameField;
     private ArrayList<JButton> valueButtons = new ArrayList<JButton>();
@@ -47,19 +52,25 @@ public class EditAnnotationPopup2 extends JPanel {
     private JPanel centerpanel;
     private ArrayList<AnnotationValuePanel> valuePanels = new ArrayList<AnnotationValuePanel>();
     private ArrayList<EditAnnotationDocumentListener> docListeners = new ArrayList<EditAnnotationDocumentListener>();
-
     public EditAnnotationPopup2(JTable table) {
         this.table = table;
         if (!setAnnotation()) {
             JOptionPane.showMessageDialog(null,
                     "Please select an annotation to edit");
             this.setEnabled(false);
-            this.setLayout(new BorderLayout());
         } else {
+            this.setLayout(new BorderLayout());
             createAnnotationNamePanel();
             createValuesPanel();
             createForcedPanel();
+            createCancelPanel();
         }
+    }
+
+    private void createCancelPanel() {
+        JPanel cancelPanel = new JPanel();
+        cancelPanel.add(cancelButton);
+        this.add(cancelPanel, BorderLayout.SOUTH);
     }
 
     private void createForcedPanel() {
@@ -68,10 +79,10 @@ public class EditAnnotationPopup2 extends JPanel {
 
     private void createValuesPanel() {
 
-        BoxLayout layout;
+        //BoxLayout layout;
         centerpanel = new JPanel();
-        centerpanel.setLayout(new BoxLayout(centerpanel, BoxLayout.Y_AXIS));
-        layout = (BoxLayout) centerpanel.getLayout();
+        //centerpanel.setLayout(new BoxLayout(centerpanel, BoxLayout.Y_AXIS));
+        //layout = (BoxLayout) centerpanel.getLayout();
         for (String annotationValue : annotation.getValues()) {
             AnnotationValuePanel panel = createAnnotationValue(annotationValue);
             valuePanels.add(panel);
@@ -186,6 +197,7 @@ public class EditAnnotationPopup2 extends JPanel {
     public void addEditAnnotationListener(ActionListener listener) {
         renameButton.addActionListener(listener);
         activateNameChangeButton.addActionListener(listener);
+        cancelButton.addActionListener(listener);
 
         for (JButton button : valueButtons) {
             button.addActionListener(listener);

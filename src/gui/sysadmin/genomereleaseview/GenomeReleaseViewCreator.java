@@ -29,7 +29,7 @@ public class GenomeReleaseViewCreator {
     private JButton clearButton;
     private JButton deleteButton;
     private JButton fileButton;
-    private GenomeTextFieldListener textListner;
+    private GenomeTextFieldListener textListener;
 
 
 
@@ -40,7 +40,7 @@ public class GenomeReleaseViewCreator {
     public JPanel buildGenomeReleaseView(ActionListener buttonListener,
             GenomeTextFieldListener textListener) {
         this.buttonListener = buttonListener;
-        this.textListner = textListener;
+        this.textListener = textListener;
         JPanel mainPanel = new JPanel(new BorderLayout());
         mainPanel.setBackground(new Color(255, 250, 250));
         mainPanel.add(buildGenomeReleasePanel(), BorderLayout.CENTER);
@@ -73,11 +73,11 @@ public class GenomeReleaseViewCreator {
 
     private JPanel buildGenomeHeaderPanel() {
         JPanel mainPanel = new JPanel(new BorderLayout());
-        
+
         JLabel label = new JLabel();
         /** TODO: set variable string! */
         label.setText("Genome release files");
-        
+
         Border border = BorderFactory.createEmptyBorder(5, 5, 5, 5);
         label.setBorder(border);
         mainPanel.add(label, BorderLayout.WEST);
@@ -120,7 +120,7 @@ public class GenomeReleaseViewCreator {
 
         JPanel textNButton = new JPanel(new BorderLayout());
 
-        /** TODO fix this text and button so it works propperly*/
+        /** TODO fix this text and button so it works properly*/
         JLabel specieLabel = new JLabel();
         specieLabel.setBorder(border);
         specieLabel.setText("Specie");
@@ -145,7 +145,7 @@ public class GenomeReleaseViewCreator {
 
         return mainPanel;
     }
-    
+
     private JPanel buildAddGenomeFilePanel() {
 
         JPanel mainPanel = new JPanel(new BorderLayout());
@@ -178,10 +178,10 @@ public class GenomeReleaseViewCreator {
 
         /* text fields*/
         versionText = new JTextField(20);
-        versionText.addKeyListener(textListner);
+        versionText.addKeyListener(textListener);
         speciesText = new JComboBox();
         fileText = new JTextField(20);
-        fileText.addKeyListener(textListner);
+        fileText.addKeyListener(textListener);
         fileText.setEditable(false);
         fileText.setEnabled(false);
 
@@ -218,7 +218,7 @@ public class GenomeReleaseViewCreator {
 
         buttonCeptionPanel.add(buttonPanel, BorderLayout.WEST);
 
-        
+
 
 
 
@@ -229,7 +229,7 @@ public class GenomeReleaseViewCreator {
                         .addComponent(fileLabel)
                         .addComponent(buttonCeptionPanel)
         ));
-        
+
         layout.setVerticalGroup(layout.createSequentialGroup()
                 .addComponent(versionLabel).addComponent(versionText)
                 .addComponent(speciesLabel).addComponent(speciesText)
@@ -238,7 +238,7 @@ public class GenomeReleaseViewCreator {
         );
 
 
-        
+
 
         mainPanel.add(containerPanel, BorderLayout.NORTH);
         return mainPanel;

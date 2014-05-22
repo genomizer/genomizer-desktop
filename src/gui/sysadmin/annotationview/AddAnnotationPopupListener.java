@@ -30,7 +30,10 @@ public class AddAnnotationPopupListener implements ActionListener {
             case SysStrings.ANNOTATIONS_POPUP_CREATE_ANNO:
                 System.out.println("Creating new annotation....");
                 sysController.sendNewAnnotation();
+                sysTab.getNewAnnotationFrame().setVisible(false);
+                sysTab.getNewAnnotationFrame().dispose();
                 break;
+
 
         }
     }

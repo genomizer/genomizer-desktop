@@ -34,6 +34,8 @@ public class SysadminTab extends JPanel {
     private GenomeReleaseViewCreator genomeReleaseView;
     private AddAnnotationPopup pop;
     private EditAnnotationPopup2 editPopup;
+    private JFrame editFrame;
+    private JFrame newAnnotationFrame;
 
     /**
      * Create the panel.
@@ -151,6 +153,7 @@ public class SysadminTab extends JPanel {
         popupFrame.setLocationRelativeTo(null);
         popupFrame.setSize(new Dimension(600, 600));
         popupFrame.setVisible(true);
+        newAnnotationFrame = popupFrame;
     }
 
     public void editAnnotationPopup() {
@@ -168,11 +171,20 @@ public class SysadminTab extends JPanel {
             popupFrame.setResizable(false);
             popupFrame.setSize(new Dimension(600, 600));
             popupFrame.setVisible(true);
+            editFrame = popupFrame;
         }
     }
 
     public EditAnnotationPopup2 getEditPopup() {
         return editPopup;
+    }
+
+    public JFrame getEditFrame() {
+        return editFrame;
+    }
+
+    public JFrame getNewAnnotationFrame() {
+        return newAnnotationFrame;
     }
 
     public AddAnnotationPopup getPop() {

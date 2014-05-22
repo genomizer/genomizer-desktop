@@ -6,8 +6,10 @@ import gui.sysadmin.strings.SysStrings;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowEvent;
 
 import javax.swing.JButton;
+import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
@@ -103,6 +105,10 @@ public class EditAnnotationPopupListener implements ActionListener {
             case SysStrings.ANNOTATIONS_VALUE_NAME_CHANGED:
                 System.out.println("Value name has changed!");
                 break;
+
+            case SysStrings.ANNOTATIONS_MODIFY_CANCEL:
+                sysTab.getEditFrame().setVisible(false);
+                sysTab.getEditFrame().dispose();
         }
     }
 
