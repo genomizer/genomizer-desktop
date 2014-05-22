@@ -7,6 +7,7 @@ import gui.sysadmin.annotationview.EditAnnotationPopup2;
 import gui.sysadmin.annotationview.EditAnnotationPopupListener;
 import gui.sysadmin.genomereleaseview.GenomeButtonListener;
 import gui.sysadmin.genomereleaseview.GenomeReleaseViewCreator;
+import gui.sysadmin.genomereleaseview.GenomeTableListener;
 import gui.sysadmin.genomereleaseview.GenomeTextFieldListener;
 import gui.sysadmin.processview.ProcessViewCreator;
 import gui.sysadmin.strings.SysadminTabButtons;
@@ -16,6 +17,8 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyListener;
+import java.awt.event.MouseListener;
 
 import javax.swing.BorderFactory;
 import javax.swing.JFrame;
@@ -91,7 +94,9 @@ public class SysadminTab extends JPanel {
     private JPanel buildGenomeReleaseView() {
         ActionListener listener = new GenomeButtonListener(this);
         GenomeTextFieldListener textListener = new GenomeTextFieldListener(genomeReleaseView);
-        return genomeReleaseView.buildGenomeReleaseView(listener, textListener);
+        GenomeTableListener tableListener = new GenomeTableListener(this);
+        return genomeReleaseView.buildGenomeReleaseView(listener, textListener
+        , tableListener, tableListener);
     }
 
     public void setController(SysadminController sysController) {

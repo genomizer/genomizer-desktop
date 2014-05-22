@@ -1,11 +1,9 @@
 package gui.sysadmin.genomereleaseview;
 
-import com.sun.org.apache.xpath.internal.SourceTree;
 import gui.sysadmin.SysadminController;
 import gui.sysadmin.SysadminTab;
 import gui.sysadmin.strings.SysStrings;
 
-import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -36,6 +34,9 @@ public class GenomeButtonListener implements ActionListener{
                 break;
             case SysStrings.GENOME_BUTTON_FILE:
                 sysTab.getGenomeReleaseView().selectFile();
+                break;
+            case SysStrings.GENOME_BUTTON_CLOSE:
+                sysTab.getGenomeReleaseView().removeExtraInfoPanel();
                 break;
         }
     }
