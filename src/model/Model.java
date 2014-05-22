@@ -278,6 +278,7 @@ public class Model implements GenomizerModel {
         } else {
             System.err
                     .println("addAnnotaion FAILURE, did not recive 201 response");
+            System.out.println("responsecode: " + conn.getResponseCode());
             return false;
         }
     }
@@ -333,6 +334,7 @@ public class Model implements GenomizerModel {
         } else {
             System.err.println("Could not delete annotation name "
                     + deleteAnnoationData + "!");
+            System.out.println("responsecode: " + conn.getResponseCode());
         }
         return false;
     }
