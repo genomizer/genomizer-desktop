@@ -28,6 +28,8 @@ import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.JTree;
 import javax.swing.ListSelectionModel;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeCellRenderer;
 
@@ -156,6 +158,8 @@ public class ProcessTab extends JPanel {
         /* TEST */
         initBowtieParameters();
         setDefaultRatioPar();
+        setGenomeActionLister();
+        setFlagsListener();
 
     }
 
@@ -170,7 +174,7 @@ public class ProcessTab extends JPanel {
         ratioSmoothType.addItem(ratioSmooth.get(1));
         smoothType.addItem(ratioSmooth.get(0));
         smoothType.addItem(ratioSmooth.get(1));
-        
+
         /* TEST */
         ArrayList<String> comboSingle = new ArrayList<String>();
         /* TEST */
@@ -179,7 +183,7 @@ public class ProcessTab extends JPanel {
 
         single.addItem(comboSingle.get(0));
         single.addItem(comboSingle.get(1));
-        
+
         /* TEST */
         ArrayList<String> gFiles = new ArrayList<String>();
         /* TEST */
@@ -278,12 +282,10 @@ public class ProcessTab extends JPanel {
                                 + "</html>");
                 DefaultMutableTreeNode startedTimeNode = new DefaultMutableTreeNode(
                         "<html><u>Time Started</u>: " + data.timeStarted
-                                + "</html>"
-                );
+                                + "</html>");
                 DefaultMutableTreeNode finishedTimeNode = new DefaultMutableTreeNode(
                         "<html><u>Time Finished</u>: " + data.timeFinished
-                                + "</html>"
-                );
+                                + "</html>");
                 expNode.add(addedTimeNode);
                 expNode.add(startedTimeNode);
                 expNode.add(finishedTimeNode);
@@ -321,8 +323,7 @@ public class ProcessTab extends JPanel {
      */
     private void addConvertFilesPanel() {
         middlePanel.add(consolePanel, BorderLayout.CENTER);
-        consolePanel.setBorder(BorderFactory
-                .createTitledBorder("Console"));
+        consolePanel.setBorder(BorderFactory.createTitledBorder("Console"));
     }
 
     /**
@@ -784,8 +785,7 @@ public class ProcessTab extends JPanel {
                         fileData.id, specie));
             }
         }
-        fileList.setListData(
-                itemList.toArray(new CheckListItem[itemList.size()]));
+        fileList.setListData(itemList.toArray(new CheckListItem[itemList.size()]));
         this.revalidate();
         this.repaint();
     }
@@ -811,8 +811,10 @@ public class ProcessTab extends JPanel {
     /**
      * Checks if an item in a list is selected.
      *
-     * @param arr       - the list
-     * @param checkItem - the item in the list
+     * @param arr
+     *            - the list
+     * @param checkItem
+     *            - the item in the list
      */
     private void checkItemIsSelected(ArrayList<FileData> arr,
             CheckListItem checkItem) {
@@ -857,11 +859,88 @@ public class ProcessTab extends JPanel {
         revalidate();
     }
 
+    public void setFlagsListener() {
+
+        flags.getDocument().addDocumentListener(new DocumentListener() {
+            @Override
+            public void changedUpdate(DocumentEvent e) {
+                checkFlags();
+            }
+
+            @Override
+            public void removeUpdate(DocumentEvent e) {
+                checkFlags();
+            }
+
+            @Override
+            public void insertUpdate(DocumentEvent e) {
+                checkFlags();
+            }
+
+            private void checkFlags() {
+                if (flags.getText().startsWith("-")
+                        && flags.getText().length() > 1) {
+                    genomeFile.setEnabled(true);
+                } else {
+
+                    useRatio.setEnabled(false);
+                    ratioCalcButton.setEnabled(false);
+                    profileButton.setEnabled(false);
+
+                    genomeFile.setEnabled(false);
+                    smoothWindowSize.setEnabled(false);
+                    smoothType.setEnabled(false);
+                    stepPosition.setEnabled(false);
+                    printMean.setEnabled(false);
+                    printZeros.setEnabled(false);
+                    stepSizeBox.setEnabled(false);
+                    outputSGR.setEnabled(false);
+                    outputGFF.setEnabled(false);
+                    stepSize.setEnabled(false);
+
+                }
+
+            }
+
+        });
+    }
+
+    public void setGenomeActionLister() {
+
+        genomeFile.addActionListener(new ActionListener() {
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                checkGenome();
+            }
+
+            private void checkGenome() {
+                if (flags.getText().startsWith("-")
+                        && flags.getText().length() > 1) {
+                    genomeFile.setEnabled(true);
+                } else {
+
+                    profileButton.setEnabled(false);
+                    genomeFile.setEnabled(false);
+                }
+                if (!genomeFile.equals(null)
+                        && !genomeFile.getSelectedItem().toString().isEmpty()
+                        && !flags.getText().equals("")) {
+                    profileButton.setEnabled(true);
+                    outputSGR.setEnabled(true);
+                    outputGFF.setEnabled(true);
+                }
+            }
+        });
+
+    }
+
     /**
      * Prints message to genProfArea. The message is red if it is a warning
      * message, black otherwise.
      *
-     * @param message - Whether or not create profile data succeeded
+     * @param message
+     *            - Whether or not create profile data succeeded
      */
     public void printToConsole(String message) {
         consoleArea.append(message);
