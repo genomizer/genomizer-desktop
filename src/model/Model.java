@@ -133,6 +133,8 @@ public class Model implements GenomizerModel {
                     System.out.println(userID);
                     return true;
                 }
+            } else {
+                System.out.println("Login response: " + conn.getResponseCode() + " " + conn.getResponseBody());
             }
         }
         return false;
@@ -177,12 +179,6 @@ public class Model implements GenomizerModel {
             System.out.println(conn.getResponseCode());
         }
         return false;
-
-        /*
-         * UploadHandler handler = new UploadHandler(aFTER.URLupload,
-         * f.getAbsolutePath(), userID, "pvt:pvt"); Thread thread = new
-         * Thread(handler); thread.start();
-         */
     }
 
     @Override
@@ -345,7 +341,6 @@ public class Model implements GenomizerModel {
         Connection conn = connFactory.makeConnection();
         conn.sendRequest(request, userID, TEXT_PLAIN);
         if (conn.getResponseCode() == 200) {
-            System.err.println("Sent getAnnotionrequestsuccess!");
             AnnotationDataType[] annotations = ResponseParser
                     .parseGetAnnotationResponse(conn.getResponseBody());
             return annotations;

@@ -6,18 +6,22 @@ import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
 import java.util.ArrayList;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
+import javax.swing.JCheckBox;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
+import javax.swing.SwingConstants;
 
+import util.ActiveSearchPanel;
 import util.AnnotationDataType;
 import util.ExperimentData;
 import util.TreeTable;
-import util.ActiveSearchPanel;
 
 /**
  * Class representing the search tab of the gui
@@ -136,12 +140,32 @@ public class QuerySearchTab extends JPanel {
                 clearSearchFields();
             }
         });
-        searchArea = new JTextArea(
-                "Use the builder below to create your search");
+        searchArea = new JTextArea("");
         searchArea.setLineWrap(true);
         searchArea.setSize(850, 20);
         JScrollPane searchScroll = new JScrollPane(searchArea);
         searchScroll.setPreferredSize(new Dimension(800, 35));
+        JCheckBox queryBuilderCheckbox = new JCheckBox("Query Builder");
+        queryBuilderCheckbox.setHorizontalTextPosition(SwingConstants.LEFT);
+        queryBuilderCheckbox.addItemListener(new ItemListener() {
+            @Override
+            public synchronized void itemStateChanged(ItemEvent e) {
+                if (e.getStateChange() == ItemEvent.DESELECTED) {
+                    searchArea.setEditable(true);
+                    
+                    for (QueryBuilderRow row : rowList) {
+                        row.setEnabled(false);
+                    }
+                } else {
+                    searchArea.setEditable(false);
+                    for (QueryBuilderRow row : rowList) {
+                        row.setEnabled(true);
+                    }
+                }
+            }
+        });
+        queryBuilderCheckbox.setSelected(true);
+        searchPanel.add(queryBuilderCheckbox);
         searchPanel.add(searchScroll);
         searchPanel.add(searchButton);
         // searchPanel.add(Box.createHorizontalStrut(5));
@@ -211,7 +235,7 @@ public class QuerySearchTab extends JPanel {
         updateAnnotationsButton.doClick();
         rowList.clear();
         addRow();
-        searchArea.setText("Use the builder below to create your search");
+        searchArea.setText("");
         revalidate();
         repaint();
     }
@@ -291,7 +315,7 @@ public class QuerySearchTab extends JPanel {
             }
         }
         if (searchString.isEmpty()) {
-            searchArea.setText("Use the builder below to create your search");
+            searchArea.setText("");
         } else {
             searchArea.setText(searchString);
         }
@@ -331,11 +355,11 @@ public class QuerySearchTab extends JPanel {
     public String getSearchString() {
         return searchArea.getText();
     }
-
+    
     public ActiveSearchPanel getActivePanel() {
         return activePanel;
     }
-
+    
     public JButton getBackButton() {
         return backButton;
     }
