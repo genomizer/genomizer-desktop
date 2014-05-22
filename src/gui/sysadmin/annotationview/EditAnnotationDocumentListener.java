@@ -1,5 +1,8 @@
 package gui.sysadmin.annotationview;
 
+import gui.sysadmin.annotationview.panels.AnnotationNamePanel;
+import gui.sysadmin.annotationview.panels.AnnotationValuePanel;
+
 import javax.swing.JButton;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;

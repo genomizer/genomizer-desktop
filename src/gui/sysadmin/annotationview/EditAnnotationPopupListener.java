@@ -81,6 +81,7 @@ public class EditAnnotationPopupListener implements ActionListener {
                         sysController.updateAnnotationTable();
                         editPopup.updateAnnotation(j3.getText());
                         editPopup.addEditAnnotationListener(this);
+                        editPopup.updateDocListeners();
                     } else {
                         JOptionPane.showMessageDialog(editPopup, "Could not add annotation value!");
                     }

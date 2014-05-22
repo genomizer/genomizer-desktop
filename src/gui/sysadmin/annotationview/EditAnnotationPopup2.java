@@ -1,5 +1,7 @@
 package gui.sysadmin.annotationview;
 
+import gui.sysadmin.annotationview.panels.AnnotationNamePanel;
+import gui.sysadmin.annotationview.panels.AnnotationValuePanel;
 import gui.sysadmin.strings.SysStrings;
 
 import java.awt.BorderLayout;
@@ -114,7 +116,7 @@ public class EditAnnotationPopup2 extends JPanel {
     }
 
     private void createAnnotationNamePanel() {
-        JPanel annotationNamePanel = new JPanel();
+        AnnotationValuePanel annotationNamePanel = new AnnotationValuePanel(this, annotation.getName());
 
         JLabel name = new JLabel("Name: ");
         annotationNamePanel.add(name);
@@ -131,6 +133,7 @@ public class EditAnnotationPopup2 extends JPanel {
         // forced.setMinimumSize(new Dimension(80, 10));
         // annotationNamePanel.add(forced);
         this.add(annotationNamePanel, BorderLayout.NORTH);
+        //valuePanels.add(annotationNamePanel);
     }
 
     /**
