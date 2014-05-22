@@ -309,15 +309,6 @@ public class ProcessTab extends JPanel {
         renderer.setClosedIcon(null);
         renderer.setOpenIcon(null);
         scrollProcessList.setViewportView(tree);
-        // processFeedbackButton = CustomButtonFactory.makeCustomButton(
-        // IconFactory.getRefreshIcon(30, 30),
-        // IconFactory.getRefreshHoverIcon(32, 32), 32, 32,
-        // "Get process information from server");
-        //processFeedbackButton.addActionListener(procFeedbackListener);
-        // addToFileListButton = CustomButtonFactory.makeCustomButton(
-        // IconFactory.getAddToListIcon(30, 30),
-        // IconFactory.getAddToListHoverIcon(32, 32), 32, 32,
-        // "Add selected files to list");
         addToFileListButton = new JButton("Add to file list");
         addToFileListButton.setEnabled(false);
         procInfoSouthPanel.add(addToFileListButton);
