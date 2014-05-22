@@ -277,7 +277,7 @@ public class ProcessTab extends JPanel {
                                 + "</html>");
                 outputNode.add(fileNode);
             }*/
-
+            
         }
         // create the tree by passing in the root node
         JTree tree = new JTree(root);

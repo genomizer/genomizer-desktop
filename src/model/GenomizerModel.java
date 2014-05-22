@@ -4,6 +4,7 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.concurrent.CopyOnWriteArrayList;
 
+import gui.LoginWindow;
 import util.AnnotationDataType;
 import util.AnnotationDataValue;
 import util.ExperimentData;
@@ -31,6 +32,8 @@ public interface GenomizerModel {
             String fileName);
 
     public void setIp(String ip);
+
+    void setLoginWindow(LoginWindow window);
 
     public boolean addNewAnnotation(String name, String[] categories,
             boolean forced);

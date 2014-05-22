@@ -22,12 +22,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 import model.GenomizerModel;
-import util.AnnotationDataType;
-import util.AnnotationDataValue;
-import util.ExperimentData;
-import util.FileData;
-import util.GenomeReleaseData;
-import util.ProcessFeedbackData;
+import util.*;
 
 import communication.HTTPURLUpload;
 
@@ -50,11 +45,16 @@ public class Controller {
         view.addRawToRegionDataListener(new RawToRegionDataListener());
         view.addScheduleFileListener(new ScheduleFileListener());
         view.addDownloadFileListener(new DownloadWindowListener());
-        view.addSelectFilesToUploadButtonListener(new SelectFilesToUploadButtonListener());
-        view.setSysadminController(sysController = new SysadminController(model));
-        view.addAddToExistingExpButtonListener(new AddToExistingExpButtonListener());
-        view.addUploadToExperimentButtonListener(new UploadToExperimentButtonListener());
-        view.addUpdateSearchAnnotationsListener(new updateSearchAnnotationsListener());
+        view.addSelectFilesToUploadButtonListener(
+                new SelectFilesToUploadButtonListener());
+        view.setSysadminController(
+                sysController = new SysadminController(model));
+        view.addAddToExistingExpButtonListener(
+                new AddToExistingExpButtonListener());
+        view.addUploadToExperimentButtonListener(
+                new UploadToExperimentButtonListener());
+        view.addUpdateSearchAnnotationsListener(
+                new updateSearchAnnotationsListener());
         view.addProcessFileListener(new ProcessFileListener());
         view.addSearchToWorkspaceListener(new SearchToWorkspaceListener());
         view.addNewExpButtonListener(new NewExpButtonListener());
@@ -233,6 +233,7 @@ public class Controller {
 
         @Override
         public void run() {
+            model.setLoginWindow(view.getLoginWindow());
             model.setIp(view.getIp());
             String username = view.getUsername();
             String pwd = view.getPassword();
@@ -256,7 +257,7 @@ public class Controller {
             ArrayList<ExperimentData> searchResults = model.search(pubmed);
             if (searchResults != null) {
                 view.updateQuerySearchResults(searchResults);
-            } else {
+            } else if(view.getActiveSearchPanel() == ActiveSearchPanel.SEARCH) {
                 /*
                  * searchResults = new
                  * ArrayList<ExperimentData>(Arrays.asList(ExperimentData
@@ -265,6 +266,8 @@ public class Controller {
                  */
                 JOptionPane.showMessageDialog(null, "No search results!",
                         "Search Warning", JOptionPane.WARNING_MESSAGE);
+            } else {
+                view.getBackButton().doClick();
             }
         }
     }
@@ -282,22 +285,6 @@ public class Controller {
             } else {
                 view.updateLogout();
             }
-
-        }
-    }
-
-    class UploadListener implements ActionListener, Runnable {
-
-        @Override
-        public void actionPerformed(ActionEvent actionEvent) {
-            new Thread(this).start();
-        }
-
-        @Override
-        public void run() {
-            // if (model.uploadFile()) {
-            // update view?
-            // }
 
         }
     }
@@ -707,10 +694,8 @@ public class Controller {
 
         @Override
         public void run() {
-            ProcessFeedbackData[] processFeedbackData = model
-                    .getProcessFeedback();
+            ProcessFeedbackData[] processFeedbackData = model.getProcessFeedback();
             if (processFeedbackData != null && processFeedbackData.length > 0) {
-                System.out.println("Feedbackdata received");
                 view.showProcessFeedback(processFeedbackData);
             }
         }
@@ -721,6 +706,8 @@ public class Controller {
         public void actionPerformed(ActionEvent e) {
             new Thread(this).start();
         }
+
+        K
 
         @Override
         public void run() {

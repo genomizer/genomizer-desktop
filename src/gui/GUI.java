@@ -72,8 +72,8 @@ public class GUI extends JFrame implements GenomizerView {
     public void addAnalyzeSelectedListener(ActionListener listener) {
         workspaceTab.addAnalyzeSelectedListener(listener);
     }
-    
-    @Override
+
+   @Override
     public LoginWindow getLoginWindow() {
         return loginWindow;
     }
