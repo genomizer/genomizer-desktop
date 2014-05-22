@@ -116,7 +116,7 @@ public class EditAnnotationPopup2 extends JPanel {
     }
 
     private void createAnnotationNamePanel() {
-        AnnotationValuePanel annotationNamePanel = new AnnotationValuePanel(this, annotation.getName());
+        JPanel annotationNamePanel = new JPanel();
 
         JLabel name = new JLabel("Name: ");
         annotationNamePanel.add(name);
@@ -126,14 +126,14 @@ public class EditAnnotationPopup2 extends JPanel {
         annotationNamePanel.add(nameField);
         renameButton = new JButton(SysStrings.ANNOTATIONS_RENAME);
         renameButton.setMinimumSize(new Dimension(80, 10));
-        renameButton.setEnabled(false);
+        renameButton.setEnabled(true);
         annotationNamePanel.add(renameButton);
 
         // JButton forced = new JButton("set Required");
         // forced.setMinimumSize(new Dimension(80, 10));
         // annotationNamePanel.add(forced);
         this.add(annotationNamePanel, BorderLayout.NORTH);
-        //valuePanels.add(annotationNamePanel);
+        // valuePanels.add(annotationNamePanel);
     }
 
     /**
@@ -192,10 +192,9 @@ public class EditAnnotationPopup2 extends JPanel {
         }
 
         for (AnnotationValuePanel panel : valuePanels) {
-            EditAnnotationDocumentListener listen = new EditAnnotationDocumentListener(panel, this);
-            panel.getNameField()
-                    .getDocument()
-                    .addDocumentListener(listen);
+            EditAnnotationDocumentListener listen = new EditAnnotationDocumentListener(
+                    panel, this);
+            panel.getNameField().getDocument().addDocumentListener(listen);
             docListeners.add(listen);
         }
 
@@ -229,8 +228,8 @@ public class EditAnnotationPopup2 extends JPanel {
 
     }
 
-    public void updateDocListeners(){
-        for(EditAnnotationDocumentListener listener : docListeners) {
+    public void updateDocListeners() {
+        for (EditAnnotationDocumentListener listener : docListeners) {
             listener.updateOldString();
         }
     }
