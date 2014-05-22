@@ -228,6 +228,7 @@ public class Controller {
 
         @Override
         public void run() {
+            model.setLoginWindow(view.getLoginWindow());
             model.setIp(view.getIp());
             String username = view.getUsername();
             String pwd = view.getPassword();

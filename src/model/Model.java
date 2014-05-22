@@ -7,6 +7,7 @@ import java.util.concurrent.CopyOnWriteArrayList;
 
 import javax.swing.JOptionPane;
 
+import gui.LoginWindow;
 import requests.AddAnnotationRequest;
 import requests.AddExperimentRequest;
 import requests.AddFileToExperiment;
@@ -234,6 +235,11 @@ public class Model implements GenomizerModel {
     @Override
     public void setIp(String ip) {
         connFactory.setIP(ip);
+    }
+
+    @Override
+    public void setLoginWindow(LoginWindow window) {
+        connFactory.setLoginWindow(window);
     }
 
     @Override

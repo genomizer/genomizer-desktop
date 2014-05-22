@@ -32,6 +32,8 @@ public interface GenomizerView {
 
     public void refreshSearch();
 
+    LoginWindow getLoginWindow();
+
     public void addLoginListener(ActionListener listener);
 
     public void addScheduleFileListener(ActionListener listener);
