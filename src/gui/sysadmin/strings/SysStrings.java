@@ -30,7 +30,7 @@ public class SysStrings {
     public final static String GENOME_TABLE_VERSION  = "Version";
     public final static String GENOME_TABLE_SPECIES  = "Species";
     public final static String GENOME_TABLE_FILENAME = "Filename";
-    
+
     /* Edit annotation popup */
     public static final String ANNOTATIONS_RENAME_FINAL = "Rename annotation";
     public static final String ANNOTATIONS_RENAME = "Rename";
