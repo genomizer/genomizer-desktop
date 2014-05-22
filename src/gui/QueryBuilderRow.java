@@ -323,4 +323,13 @@ public class QueryBuilderRow extends JPanel {
     public String getAnnotation() {
         return (String) annotationBox.getSelectedItem();
     }
+
+    public void setEnabled(boolean enabled) {
+        annotationBox.setEnabled(enabled);
+        annotationAlternatives.setEnabled(enabled);
+        logicBox.setEnabled(enabled);
+        textField.setEnabled(enabled);
+        plusButton.setEnabled(enabled);
+        minusButton.setEnabled(enabled);
+    }
 }
