@@ -133,6 +133,8 @@ public class Model implements GenomizerModel {
                     System.out.println(userID);
                     return true;
                 }
+            } else {
+                System.out.println("Login response: " + conn.getResponseCode() + " " + conn.getResponseBody());
             }
         }
         return false;
