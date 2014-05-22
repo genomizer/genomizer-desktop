@@ -257,16 +257,19 @@ public class Controller {
             ArrayList<ExperimentData> searchResults = model.search(pubmed);
             if (searchResults != null) {
                 view.updateQuerySearchResults(searchResults);
+
+            //If search results are null and the active panel is search
             } else if(view.getActiveSearchPanel() == ActiveSearchPanel.SEARCH) {
                 /*
-                 * searchResults = new
-                 * ArrayList<ExperimentData>(Arrays.asList(ExperimentData
-                 * .getExample()));
-                 * view.updateQuerySearchResults(searchResults);
+                 * Display a message to the user that says there are no search
+                 * results.
                  */
                 JOptionPane.showMessageDialog(null, "No search results!",
                         "Search Warning", JOptionPane.WARNING_MESSAGE);
-            } else {
+
+            //If search results are null and the active panel is table
+            } else if(view.getActiveSearchPanel() == ActiveSearchPanel.TABLE) {
+                //Go back to the query search
                 view.getBackButton().doClick();
             }
         }
