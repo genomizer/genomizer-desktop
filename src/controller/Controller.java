@@ -707,7 +707,6 @@ public class Controller {
             new Thread(this).start();
         }
 
-        K
 
         @Override
         public void run() {
