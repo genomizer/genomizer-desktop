@@ -12,18 +12,9 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.concurrent.CopyOnWriteArrayList;
 
-import javax.swing.JFrame;
-import javax.swing.JList;
-import javax.swing.JPanel;
-import javax.swing.JTabbedPane;
-import javax.swing.UIManager;
+import javax.swing.*;
 
-import util.AnnotationDataType;
-import util.AnnotationDataValue;
-import util.ExperimentData;
-import util.FileData;
-import util.GenomeReleaseData;
-import util.ProcessFeedbackData;
+import util.*;
 
 import communication.HTTPURLUpload;
 
@@ -498,7 +489,6 @@ public class GUI extends JFrame implements GenomizerView {
     /**
      * 
      * @param message
-     * @param color
      */
     @Override
     public void printToConsole(String message) {
@@ -741,5 +731,13 @@ public class GUI extends JFrame implements GenomizerView {
     @Override
     public boolean useRatio() {
         return processTab.useRatio();
+    }
+
+    public ActiveSearchPanel getActiveSearchPanel() {
+        return querySearchTab.getActivePanel();
+    }
+
+    public JButton getBackButton() {
+        return querySearchTab.getBackButton();
     }
 }

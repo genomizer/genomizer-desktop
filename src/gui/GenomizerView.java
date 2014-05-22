@@ -8,15 +8,9 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.concurrent.CopyOnWriteArrayList;
 
-import javax.swing.JFrame;
-import javax.swing.JList;
+import javax.swing.*;
 
-import util.AnnotationDataType;
-import util.AnnotationDataValue;
-import util.ExperimentData;
-import util.FileData;
-import util.GenomeReleaseData;
-import util.ProcessFeedbackData;
+import util.*;
 
 import communication.HTTPURLUpload;
 
@@ -193,4 +187,8 @@ public interface GenomizerView {
     public void setProfileButton(boolean bool);
 
     public boolean useRatio();
+
+    public ActiveSearchPanel getActiveSearchPanel();
+
+    public JButton getBackButton();
 }

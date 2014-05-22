@@ -22,12 +22,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 import model.GenomizerModel;
-import util.AnnotationDataType;
-import util.AnnotationDataValue;
-import util.ExperimentData;
-import util.FileData;
-import util.GenomeReleaseData;
-import util.ProcessFeedbackData;
+import util.*;
 
 import communication.HTTPURLUpload;
 
@@ -256,7 +251,7 @@ public class Controller {
             ArrayList<ExperimentData> searchResults = model.search(pubmed);
             if (searchResults != null) {
                 view.updateQuerySearchResults(searchResults);
-            } else {
+            } else if(view.getActiveSearchPanel() == ActiveSearchPanel.SEARCH) {
                 /*
                  * searchResults = new
                  * ArrayList<ExperimentData>(Arrays.asList(ExperimentData
@@ -265,6 +260,8 @@ public class Controller {
                  */
                 JOptionPane.showMessageDialog(null, "No search results!",
                         "Search Warning", JOptionPane.WARNING_MESSAGE);
+            } else {
+                view.getBackButton().doClick();
             }
         }
     }
