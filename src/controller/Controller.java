@@ -145,14 +145,14 @@ public class Controller {
 
                     } else {
                         message = "WARNING - The server couldn't start processing on file: "
-                                + fileName 
+                                + fileName
                                 + " from experiment: " + expid + "\n";
                         view.printToConsole(message);
                         }
                     }
                 }
             }else{
-                //TODO Popup window 
+                //TODO Popup window
                 message = "Parameters are invalid!\n";
                 view.printToConsole(message);
             }
@@ -706,7 +706,6 @@ public class Controller {
         public void actionPerformed(ActionEvent e) {
             new Thread(this).start();
         }
-
 
         @Override
         public void run() {
