@@ -283,22 +283,6 @@ public class Controller {
         }
     }
 
-    class UploadListener implements ActionListener, Runnable {
-
-        @Override
-        public void actionPerformed(ActionEvent actionEvent) {
-            new Thread(this).start();
-        }
-
-        @Override
-        public void run() {
-            // if (model.uploadFile()) {
-            // update view?
-            // }
-
-        }
-    }
-
     class DownloadWindowListener implements ActionListener, Runnable {
 
         @Override
