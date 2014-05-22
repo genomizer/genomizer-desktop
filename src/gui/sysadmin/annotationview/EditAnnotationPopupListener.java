@@ -28,11 +28,6 @@ public class EditAnnotationPopupListener implements ActionListener {
     public void actionPerformed(ActionEvent e) {
 
         switch (e.getActionCommand()) {
-            case SysStrings.ANNOTATIONS_MODIFY:
-                System.out.println("Editing annotation....");
-                sysController.editAnnotation();
-                sysController.updateAnnotationTable();
-                break;
 
             case SysStrings.ANNOTATIONS_RENAME:
                 String oldName = editPopup.getAnnotation().name;
