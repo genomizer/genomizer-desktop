@@ -16,6 +16,7 @@ import javax.swing.JCheckBox;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
+import javax.swing.SwingConstants;
 
 import util.ActiveSearchPanel;
 import util.AnnotationDataType;
@@ -145,11 +146,13 @@ public class QuerySearchTab extends JPanel {
         JScrollPane searchScroll = new JScrollPane(searchArea);
         searchScroll.setPreferredSize(new Dimension(800, 35));
         JCheckBox queryBuilderCheckbox = new JCheckBox("Query Builder");
+        queryBuilderCheckbox.setHorizontalTextPosition(SwingConstants.LEFT);
         queryBuilderCheckbox.addItemListener(new ItemListener() {
             @Override
             public synchronized void itemStateChanged(ItemEvent e) {
                 if (e.getStateChange() == ItemEvent.DESELECTED) {
                     searchArea.setEditable(true);
+                    
                     for (QueryBuilderRow row : rowList) {
                         row.setEnabled(false);
                     }
