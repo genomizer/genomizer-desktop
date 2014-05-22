@@ -105,7 +105,8 @@ public class ProcessTab extends JPanel {
     private final JButton regionButton = new JButton("Create region data");
     private final JButton ratioCalcButton = new JButton(
             "Ratio calculation option");
-    private final JButton processFeedbackButton = new JButton("Get process feedback");
+    private final JButton processFeedbackButton = new JButton(
+            "Get process feedback");
     private JButton addToFileListButton;
     // private final JCheckBox scheduleButton = new JCheckBox(
     // "Schedule files");
@@ -169,7 +170,7 @@ public class ProcessTab extends JPanel {
         ratioSmoothType.addItem(ratioSmooth.get(1));
         smoothType.addItem(ratioSmooth.get(0));
         smoothType.addItem(ratioSmooth.get(1));
-
+        
         /* TEST */
         ArrayList<String> comboSingle = new ArrayList<String>();
         /* TEST */
@@ -178,7 +179,7 @@ public class ProcessTab extends JPanel {
 
         single.addItem(comboSingle.get(0));
         single.addItem(comboSingle.get(1));
-
+        
         /* TEST */
         ArrayList<String> gFiles = new ArrayList<String>();
         /* TEST */
@@ -243,44 +244,65 @@ public class ProcessTab extends JPanel {
         DefaultMutableTreeNode root = new DefaultMutableTreeNode(
                 "<html><b>Current processes</b></html>");
         // create the child nodes
+
+        ArrayList<String> authors = new ArrayList<String>();
         for (int i = 0; i < processFeedbackData.length; i++) {
-            ProcessFeedbackData data = processFeedbackData[i];
-            DefaultMutableTreeNode procNode = new DefaultMutableTreeNode(
-                    "<html><b>Process " + i + "</b></html>");
-            root.add(procNode);
-            DefaultMutableTreeNode expNode = new DefaultMutableTreeNode(
-                    "<html><u>ExpID</u>: " + data.experimentName + "</html>");
-            procNode.add(expNode);
+            if (!authors.contains(processFeedbackData[i].author)) {
+                authors.add(processFeedbackData[i].author);
+            }
+        }
+        for (String author : authors) {
+
             DefaultMutableTreeNode authorNode = new DefaultMutableTreeNode(
-                    "<html><u>Author</u>: " + data.author + "</html>");
-            procNode.add(authorNode);
-            DefaultMutableTreeNode statusNode = new DefaultMutableTreeNode(
-                    "<html><u>Status</u>: " + data.status + "</html>");
-            procNode.add(statusNode);
-            DefaultMutableTreeNode addedNode = new DefaultMutableTreeNode(
-                    "<html><u>Time Added</u>: " + data.timeAdded + "</html>");
-            procNode.add(addedNode);
-            DefaultMutableTreeNode startedNode = new DefaultMutableTreeNode(
-                    "<html><u>Time Started</u>: " + data.timeStarted
-                            + "</html>");
-            procNode.add(startedNode);
+                    "<html><u>Author</u>: " + author + "</html>");
+            root.add(authorNode);
             DefaultMutableTreeNode finishedNode = new DefaultMutableTreeNode(
-                    "<html><u>Time Finished</u>: " + data.timeFinished
-                            + "</html>");
-            procNode.add(finishedNode);
-           /* DefaultMutableTreeNode outputNode = new DefaultMutableTreeNode(
-                    "<html><b>Output files</b></html>");
-            procNode.add(outputNode);
-            for (int j = 0; j < data.outputFiles.length; j++) {
-                DefaultMutableTreeNode fileNode = new DefaultMutableTreeNode(
-                        "<html><u>File Name</u>: " + data.outputFiles[j]
+                    "<html><u>Finished</u></html>");
+            authorNode.add(finishedNode);
+            DefaultMutableTreeNode crashedNode = new DefaultMutableTreeNode(
+                    "<html><u>Crashed</u></html>");
+            authorNode.add(crashedNode);
+            DefaultMutableTreeNode startedNode = new DefaultMutableTreeNode(
+                    "<html><u>Started</u></html>");
+            authorNode.add(startedNode);
+            DefaultMutableTreeNode waitingNode = new DefaultMutableTreeNode(
+                    "<html><u>Waiting</u></html>");
+            authorNode.add(waitingNode);
+            for (int i = 0; i < processFeedbackData.length; i++) {
+                ProcessFeedbackData data = processFeedbackData[i];
+                DefaultMutableTreeNode expNode = new DefaultMutableTreeNode(
+                        "<html><u>ExpID</u>: " + data.experimentName
                                 + "</html>");
-                outputNode.add(fileNode);
-            }*/
-            
+                DefaultMutableTreeNode addedTimeNode = new DefaultMutableTreeNode(
+                        "<html><u>Time Added</u>: " + data.timeAdded
+                                + "</html>");
+                DefaultMutableTreeNode startedTimeNode = new DefaultMutableTreeNode(
+                        "<html><u>Time Started</u>: " + data.timeStarted
+                                + "</html>"
+                );
+                DefaultMutableTreeNode finishedTimeNode = new DefaultMutableTreeNode(
+                        "<html><u>Time Finished</u>: " + data.timeFinished
+                                + "</html>"
+                );
+                expNode.add(addedTimeNode);
+                expNode.add(startedTimeNode);
+                expNode.add(finishedTimeNode);
+
+                if (data.status.equals("Finished")) {
+                    finishedNode.add(expNode);
+                } else if (data.status.equals("Waiting")) {
+                    waitingNode.add(expNode);
+                } else if (data.status.equals("Crashed")) {
+                    crashedNode.add(expNode);
+                } else if (data.status.equals("Started")) {
+                    startedNode.add(expNode);
+                }
+
+            }
         }
         // create the tree by passing in the root node
         JTree tree = new JTree(root);
+        tree.setRootVisible(false);
         DefaultTreeCellRenderer renderer = (DefaultTreeCellRenderer) tree
                 .getCellRenderer();
         renderer.setLeafIcon(null);
@@ -771,7 +793,8 @@ public class ProcessTab extends JPanel {
                         fileData.id, specie));
             }
         }
-        fileList.setListData(itemList.toArray(new CheckListItem[itemList.size()]));
+        fileList.setListData(
+                itemList.toArray(new CheckListItem[itemList.size()]));
         this.revalidate();
         this.repaint();
     }
@@ -797,10 +820,8 @@ public class ProcessTab extends JPanel {
     /**
      * Checks if an item in a list is selected.
      *
-     * @param arr
-     *            - the list
-     * @param checkItem
-     *            - the item in the list
+     * @param arr       - the list
+     * @param checkItem - the item in the list
      */
     private void checkItemIsSelected(ArrayList<FileData> arr,
             CheckListItem checkItem) {
@@ -849,8 +870,7 @@ public class ProcessTab extends JPanel {
      * Prints message to genProfArea. The message is red if it is a warning
      * message, black otherwise.
      *
-     * @param message
-     *            - Whether or not create profile data succeeded
+     * @param message - Whether or not create profile data succeeded
      */
     public void printToConsole(String message) {
         consoleArea.append(message);
