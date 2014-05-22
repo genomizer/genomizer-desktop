@@ -530,10 +530,11 @@ public class Model implements GenomizerModel {
         conn.sendRequest(request, userID, TEXT_PLAIN);
         System.out.println("proc feedback code: " + conn.getResponseCode());
         if (conn.getResponseCode() == 200) {
-            return ResponseParser.parseProcessFeedbackResponse(conn
-                    .getResponseBody());
+            ProcessFeedbackData[] data = ResponseParser.parseProcessFeedbackResponse(conn.getResponseBody());
+            return data;
+        } else {
+            return null;
         }
-        return null;
     }
 
     @Override

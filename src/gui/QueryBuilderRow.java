@@ -206,10 +206,10 @@ public class QueryBuilderRow extends JPanel {
         ArrayList<AnnotationDataType> annotations = new ArrayList<AnnotationDataType>();
         annotations.add(new AnnotationDataType("ExpID", null, true));
         annotations.add(new AnnotationDataType("FileName", null, true));
+        annotations.add(new AnnotationDataType("FileType", new String[] {"Raw", "Profile", "Region"}, true));
         annotations.add(new AnnotationDataType("Date", null, true));
         annotations.add(new AnnotationDataType("Author", null, true));
         annotations.add(new AnnotationDataType("Uploader", null, true));
-        annotations.add(new AnnotationDataType("FileType", new String[] {"Raw", "Profile", "Region"}, true));
         return annotations;
     }
     

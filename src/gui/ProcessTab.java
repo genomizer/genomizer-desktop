@@ -105,7 +105,7 @@ public class ProcessTab extends JPanel {
     private final JButton regionButton = new JButton("Create region data");
     private final JButton ratioCalcButton = new JButton(
             "Ratio calculation option");
-    private JButton processFeedbackButton;
+    private final JButton processFeedbackButton = new JButton("Get process feedback");
     private JButton addToFileListButton;
     // private final JCheckBox scheduleButton = new JCheckBox(
     // "Schedule files");
@@ -268,7 +268,7 @@ public class ProcessTab extends JPanel {
                     "<html><u>Time Finished</u>: " + data.timeFinished
                             + "</html>");
             procNode.add(finishedNode);
-            DefaultMutableTreeNode outputNode = new DefaultMutableTreeNode(
+           /* DefaultMutableTreeNode outputNode = new DefaultMutableTreeNode(
                     "<html><b>Output files</b></html>");
             procNode.add(outputNode);
             for (int j = 0; j < data.outputFiles.length; j++) {
@@ -276,7 +276,7 @@ public class ProcessTab extends JPanel {
                         "<html><u>File Name</u>: " + data.outputFiles[j]
                                 + "</html>");
                 outputNode.add(fileNode);
-            }
+            }*/
             
         }
         // create the tree by passing in the root node
@@ -291,8 +291,7 @@ public class ProcessTab extends JPanel {
         // IconFactory.getRefreshIcon(30, 30),
         // IconFactory.getRefreshHoverIcon(32, 32), 32, 32,
         // "Get process information from server");
-        processFeedbackButton = new JButton("Get process feedback");
-        processFeedbackButton.addActionListener(procFeedbackListener);
+        //processFeedbackButton.addActionListener(procFeedbackListener);
         // addToFileListButton = CustomButtonFactory.makeCustomButton(
         // IconFactory.getAddToListIcon(30, 30),
         // IconFactory.getAddToListHoverIcon(32, 32), 32, 32,
@@ -819,8 +818,7 @@ public class ProcessTab extends JPanel {
     }
     
     public void addProcessFeedbackListener(ActionListener listener) {
-        procFeedbackListener = listener;
-        processFeedbackButton.addActionListener(procFeedbackListener);
+        processFeedbackButton.addActionListener(listener);
     }
     
     public void addRawToProfileDataListener(ActionListener listener) {
@@ -853,8 +851,6 @@ public class ProcessTab extends JPanel {
      * 
      * @param message
      *            - Whether or not create profile data succeeded
-     * @param color
-     *            - What color the message should have
      */
     public void printToConsole(String message) {        
         consoleArea.append(message);

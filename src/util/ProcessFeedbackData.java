@@ -12,12 +12,12 @@ public class ProcessFeedbackData {
     public String status;
     public String author;
     public String[] outputFiles;
-    public int timeAdded;
-    public int timeStarted;
-    public int timeFinished;
+    public long timeAdded;
+    public long timeStarted;
+    public long timeFinished;
 
     public ProcessFeedbackData(String experimentName, String status, String author
-            , String[] outputFiles, int timeAdded, int timeFinished, int timeStarted) {
+            , String[] outputFiles, long timeAdded, long timeFinished, long timeStarted) {
         this.experimentName = experimentName;
         this.status = status;
         this.author = author;
