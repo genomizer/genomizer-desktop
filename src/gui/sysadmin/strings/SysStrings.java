@@ -39,7 +39,7 @@ public class SysStrings {
     public static final String ANNOTATIONS_MODIFY_ADD_VALUE = "Add value";
     public static final String ANNOTATIONS_MODIFY_SET_FORCED = "CHANGE FORCED";
     public static final String ANNOTATIONS_VALUE_NAME_CHANGED = "Value name changed";
-    public static final String ANNOTATIONS_MODIFY_CANCEL = "Cancel";
+    public static final String ANNOTATIONS_MODIFY_CANCEL = "Close";
 
 
     public SysStrings() {
