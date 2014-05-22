@@ -30,7 +30,9 @@ public class SysadminController {
     
     /**
      * Constructs a controller for the admin part of the program
-     * @param model is the model with which the controller communicates
+     * 
+     * @param model
+     *            is the model with which the controller communicates
      */
     public SysadminController(GenomizerModel model) {
         this.model = model;
@@ -38,6 +40,7 @@ public class SysadminController {
     
     /**
      * Creates a listener for the buttons in the sysadmin tab.
+     * 
      * @return a new AnnotationButtonsListener
      */
     public ActionListener createAnnotationButtonListener() {
@@ -46,6 +49,7 @@ public class SysadminController {
     
     /**
      * Sets the tab which the controller is connected to
+     * 
      * @param sysTab
      */
     public void setSysadminPanel(SysadminTab sysTab) {
@@ -68,7 +72,7 @@ public class SysadminController {
             JOptionPane.showMessageDialog(null, e.getMessage());
         }
     }
-
+    
     /**
      * @return the list of current annotations from the database
      */
@@ -96,8 +100,8 @@ public class SysadminController {
     }
     
     /**
-     * Removes the annotation currently highlighted in the annotation table.
-     * If no annotation is selected, an error message will be shown.
+     * Removes the annotation currently highlighted in the annotation table. If
+     * no annotation is selected, an error message will be shown.
      */
     public void deleteAnnotation() {
         
@@ -136,7 +140,6 @@ public class SysadminController {
         }
     }
     
-
     public util.GenomeReleaseData[] getGenomeReleases() {
         
         GenomeReleaseData[] grdarray = null;
@@ -190,19 +193,26 @@ public class SysadminController {
     
     /**
      * Sends a message to the model to rename an annotation
-     * @param oldName is the annotation to be renamed
-     * @param newName is the new name
+     * 
+     * @param oldName
+     *            is the annotation to be renamed
+     * @param newName
+     *            is the new name
      * @return true if successfully renamed, otherwise false
      */
     public boolean renameAnnotationField(String oldName, String newName) {
-        return (model.renameAnnotationField(oldName, newName)); 
+        return (model.renameAnnotationField(oldName, newName));
     }
     
     /**
      * Sends a message to the model to rename an annotation value
-     * @param name is the name of the annotation
-     * @param oldValue is the name of the annotation value to be renamed
-     * @param newValue is the new name for the value
+     * 
+     * @param name
+     *            is the name of the annotation
+     * @param oldValue
+     *            is the name of the annotation value to be renamed
+     * @param newValue
+     *            is the new name for the value
      * @return true if successfully renamed, otherwise false
      */
     public boolean renameAnnotationValue(String name, String oldValue,
@@ -213,11 +223,14 @@ public class SysadminController {
     
     /**
      * Sends a message to the model to remove an annotation value
-     * @param annotationName is the name of the annotation containing the value
-     * @param annotationValue is the value to be removed
+     * 
+     * @param annotationName
+     *            is the name of the annotation containing the value
+     * @param annotationValue
+     *            is the value to be removed
      * @return true if successfully removed, otherwise false
      */
-    public boolean  removeAnnotationValue(String annotationName,
+    public boolean removeAnnotationValue(String annotationName,
             String annotationValue) {
         return model.removeAnnotationValue(annotationName, annotationValue);
         
@@ -225,8 +238,11 @@ public class SysadminController {
     
     /**
      * Adds a value to an annotation
-     * @param annotationName the name of the annotation
-     * @param valueName the name of the new value
+     * 
+     * @param annotationName
+     *            the name of the annotation
+     * @param valueName
+     *            the name of the new value
      * @return true if successfully created, otherwise false
      */
     public boolean addAnnotationValue(String annotationName, String valueName) {

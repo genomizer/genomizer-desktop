@@ -248,7 +248,7 @@ public class SysadminTab extends JPanel {
     public JFrame getNewAnnotationFrame() {
         return newAnnotationFrame;
     }
-
+    
     /**
      * @return the frame of the new annotation popup
      */
