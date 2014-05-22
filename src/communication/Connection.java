@@ -66,6 +66,7 @@ public class Connection {
             if(responseCode == 401 && !userID.isEmpty()) {
                 window.setVisible(true);
                 System.out.println("The token has expired, or was removed from the server.");
+                return false;
             }
             if (responseCode >= 300) {
                 return false;
