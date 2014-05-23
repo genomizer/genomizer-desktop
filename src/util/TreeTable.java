@@ -414,7 +414,7 @@ public class TreeTable extends JPanel {
     public synchronized ArrayList<ExperimentData> getSelectedExperiments() {
         /* Get the data that are selected in the table */
         int[] rows = table.getSelectedRows();
-        ArrayList<ExperimentData> selectedExperiments = new ArrayList<ExperimentData>();
+        ArrayList<ExperimentData> selectedExperiments = new ArrayList<>();
         /* For each selected row */
         for (int i = 0; i < rows.length; i++) {
             /* Get the node of the selected row */
