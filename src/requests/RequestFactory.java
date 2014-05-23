@@ -44,9 +44,9 @@ public class RequestFactory {
     }
 
     public static AddExperimentRequest makeAddExperimentRequest(
-            String expirementName, String createdBy,
+            String expirementName,
             AnnotationDataValue[] annotations) {
-        return new AddExperimentRequest(expirementName, createdBy, annotations);
+        return new AddExperimentRequest(expirementName, annotations);
     }
 
     public static RetrieveExperimentRequest makeRetrieveExperimentRequest(
@@ -162,10 +162,10 @@ public class RequestFactory {
         return new RemoveFileFromExperimentRequest(fileID);
 
     }
-    
+
     public static AddFileFromGeoRequest makeAddFileFromGeoRequest (String experimentID, String filename, String type,
             String author, String uploader, boolean isPrivate, String grVersion, String url) {
         return new AddFileFromGeoRequest(experimentID, filename, type, author, uploader, isPrivate, grVersion, url);
-        
+
     }
 }
