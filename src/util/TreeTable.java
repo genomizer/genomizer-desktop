@@ -47,7 +47,6 @@ public class TreeTable extends JPanel {
     private CopyOnWriteArrayList<String> hiddenHeadings;
     private ArrayList<String> visibleHeadings;
     private ArrayList<JCheckBox> columnCheckBoxes;
-    private DefaultTreeTableModel model;
     
     /**
      * Tree Table empty constructor
@@ -173,13 +172,13 @@ public class TreeTable extends JPanel {
     public synchronized void setContent(ArrayList<ExperimentData> experimentData) {
         
         /* Initiate the column sorting orders */
-        sortingOrders = new HashMap<String, Boolean>();
+        sortingOrders = new HashMap<>();
         /* If the input experiment data is not null or empty */
         if (experimentData != null && experimentData.size() > 0) {
             experiments = experimentData;
             /* Retreive the headings from the experiment data */
             int nrOfColumns = 1;
-            headings = new ArrayList<String>();
+            headings = new ArrayList<>();
             headings.add("ExpID");
             for (int i = 0; i < experiments.size(); i++) {
                 for (AnnotationDataValue annotation : experiments.get(i).annotations) {
@@ -195,7 +194,7 @@ public class TreeTable extends JPanel {
             }
             
         }
-        columnCheckBoxes = new ArrayList<JCheckBox>();
+        columnCheckBoxes = new ArrayList<>();
         for (final String heading : headings) {
             JCheckBox checkBox = new JCheckBox(heading);
             checkBox.setSelected(true);
@@ -217,7 +216,7 @@ public class TreeTable extends JPanel {
         }
         
         /* Create the tree structure */
-        hiddenHeadings = new CopyOnWriteArrayList<String>();
+        hiddenHeadings = new CopyOnWriteArrayList<>();
         createTreeStructure();
     }
     
@@ -330,7 +329,7 @@ public class TreeTable extends JPanel {
     public synchronized ArrayList<ExperimentData> getSelectedData() {
         /* Get the data that are selected in the table */
         int[] rows = table.getSelectedRows();
-        ArrayList<ExperimentData> selectedExperiments = new ArrayList<ExperimentData>();
+        ArrayList<ExperimentData> selectedExperiments = new ArrayList<>();
         /* For each selected row */
         for (int i = 0; i < rows.length; i++) {
             /* Get the node of the selected row */
@@ -351,7 +350,7 @@ public class TreeTable extends JPanel {
             } else if (nodeObject instanceof FileNode) {
                 /* If file node */
                 FileNode fileNode = (FileNode) nodeObject;
-                ArrayList<FileData> newFile = new ArrayList<FileData>();
+                ArrayList<FileData> newFile = new ArrayList<>();
                 newFile.add(fileNode.getFile());
                 Object parentNode = fileNode.getParent().getParent();
                 if (parentNode instanceof ExperimentNode) {
@@ -376,14 +375,13 @@ public class TreeTable extends JPanel {
                  * node
                  */
                 SupportNode node = (SupportNode) nodeObject;
-                ArrayList<FileData> newFiles = new ArrayList<FileData>();
+                ArrayList<FileData> newFiles = new ArrayList<>();
                 for (int j = 0; j < node.getChildCount(); j++) {
                     if (node.getChildAt(j) instanceof FileNode) {
                         FileNode fileNode = (FileNode) node.getChildAt(j);
                         newFiles.add(fileNode.getFile());
                     }
                 }
-                ;
                 Object parentNode = node.getParent();
                 if (parentNode instanceof ExperimentNode) {
                     ExperimentNode expNode = (ExperimentNode) parentNode;
@@ -393,7 +391,7 @@ public class TreeTable extends JPanel {
                         for (FileData file : newFiles) {
                             if (!selectedExperiments.get(index).files
                                     .contains(file)) {
-                                ArrayList<FileData> newFile = new ArrayList<FileData>();
+                                ArrayList<FileData> newFile = new ArrayList<>();
                                 newFile.add(file);
                                 selectedExperiments.get(index)
                                         .addFiles(newFile);
@@ -444,7 +442,7 @@ public class TreeTable extends JPanel {
      */
     public synchronized void removeSelectedData() {
         ArrayList<ExperimentData> selectedData = getSelectedData();
-        ArrayList<FileData> selectedFiles = new ArrayList<FileData>();
+        ArrayList<FileData> selectedFiles = new ArrayList<>();
         for (ExperimentData experiment : selectedData) {
             for (FileData file : experiment.files) {
                 if (!selectedFiles.contains(file)) {
@@ -488,11 +486,10 @@ public class TreeTable extends JPanel {
      */
     private synchronized void updateVisibleHeadings() {
         try {
-            visibleHeadings = new ArrayList<String>();
+            visibleHeadings = new ArrayList<>();
             int columnCount = table.getColumnCount();
-            System.out.println("colcount :" + columnCount);
             if (columnCount > 0) {
-                visibleHeadings = new ArrayList<String>();
+                visibleHeadings = new ArrayList<>();
                 for (int i = 0; i < columnCount; i++) {
                     Thread.sleep(10);
                     visibleHeadings.add(table.getColumnName(i));
@@ -531,7 +528,10 @@ public class TreeTable extends JPanel {
                 root.add(experimentNode);
             }
             /* Create the model and add it to the table */
-            
+            visibleHeadings.remove("");
+            while (visibleHeadings.size() < 3) {
+                visibleHeadings.add("");
+            }
             DefaultTreeTableModel model = new DefaultTreeTableModel(root,
                     Arrays.asList(visibleHeadings
                             .toArray(new String[visibleHeadings.size()])));
