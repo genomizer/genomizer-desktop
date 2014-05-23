@@ -6,8 +6,8 @@ import gui.sysadmin.strings.SysStrings;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-
 import javax.swing.JButton;
+import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
@@ -28,11 +28,6 @@ public class EditAnnotationPopupListener implements ActionListener {
     public void actionPerformed(ActionEvent e) {
 
         switch (e.getActionCommand()) {
-            case SysStrings.ANNOTATIONS_MODIFY:
-                System.out.println("Editing annotation....");
-                sysController.editAnnotation();
-                sysController.updateAnnotationTable();
-                break;
 
             case SysStrings.ANNOTATIONS_RENAME:
                 String oldName = editPopup.getAnnotation().name;
@@ -48,7 +43,7 @@ public class EditAnnotationPopupListener implements ActionListener {
                 // John was here:
                 JTextField j1 = getJTextFieldFromEvent(e);
                 if (sysController.renameAnnotationValue(
-                        editPopup.getNewAnnotationName(), j1.getName(),
+                        editPopup.getAnnotationName(), j1.getName(),
                         j1.getText())) {
                     j1.setName(j1.getText());
                     editPopup.deactivateUpdateButton((JButton) e.getSource());
@@ -69,7 +64,7 @@ public class EditAnnotationPopupListener implements ActionListener {
                 JPanel panel = (JPanel) j2.getParent();
                 System.out.println(editPopup.getNewAnnotationName() + "   " + j2.getName());
                 if (sysController.removeAnnotationValue(
-                        editPopup.getNewAnnotationName(), j2.getName())) {
+                        editPopup.getAnnotationName(), j2.getName())) {
                     panel.setVisible(false);
                 } else {
                     JOptionPane.showMessageDialog(editPopup,
@@ -83,7 +78,7 @@ public class EditAnnotationPopupListener implements ActionListener {
                 JTextField j3 = getJTextFieldFromEvent(e);
                 if (!j3.getText().isEmpty()) {
                     if (sysController.addAnnotationValue(
-                            editPopup.getNewAnnotationName(), j3.getText())) {
+                            editPopup.getAnnotationName(), j3.getText())) {
                         sysController.updateAnnotationTable();
                         editPopup.updateAnnotation(j3.getText());
                         editPopup.addEditAnnotationListener(this);
@@ -102,6 +97,11 @@ public class EditAnnotationPopupListener implements ActionListener {
 
             case SysStrings.ANNOTATIONS_VALUE_NAME_CHANGED:
                 System.out.println("Value name has changed!");
+                break;
+
+            case SysStrings.ANNOTATIONS_MODIFY_CANCEL:
+                sysTab.getEditFrame().setVisible(false);
+                sysTab.getEditFrame().dispose();
                 break;
         }
     }

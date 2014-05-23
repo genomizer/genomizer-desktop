@@ -37,7 +37,7 @@ public class HTTPURLUpload {
         this.uploadPath = uploadPath;
     }
 
-    public boolean sendFile(String username, String password) {
+    public boolean sendFile(String userID) {
         uploadPath = uploadPath.replaceFirst("\\u003d", "=");
         String path;
         if (uploadPath.contains("=")) {
@@ -53,11 +53,11 @@ public class HTTPURLUpload {
         CloseableHttpClient httpClient = hcBuilder.build();
 
         // Authentication information
-        CredentialsProvider credentialsProvider = new BasicCredentialsProvider();
+        /*CredentialsProvider credentialsProvider = new BasicCredentialsProvider();
         credentialsProvider.setCredentials(AuthScope.ANY,
-                new UsernamePasswordCredentials(username + ":" + password));
+                new UsernamePasswordCredentials(username + ":" + password));*/
         HttpClientContext localContext = HttpClientContext.create();
-        localContext.setCredentialsProvider(credentialsProvider);
+        //localContext.setCredentialsProvider(credentialsProvider);
 
         // post header
         File file = new File(filePath);
@@ -68,6 +68,7 @@ public class HTTPURLUpload {
             e.printStackTrace();
         }
         HttpPost httpPost = new HttpPost(uploadPath);
+        httpPost.addHeader("Authorization", userID);
         System.out.println(httpPost.getURI().getRawQuery());
         // HttpPost httpPost = new HttpPost(filePath);
 

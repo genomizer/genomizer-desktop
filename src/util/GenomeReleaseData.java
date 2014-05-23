@@ -5,7 +5,7 @@ public class GenomeReleaseData {
     private String genomeVersion;
     private String specie;
     private String path;
-    private String fileName;
+    private String[] fileName;
 
     public GenomeReleaseData(String genomeVersion, String specie, String path,
             String fileName) {
@@ -13,8 +13,6 @@ public class GenomeReleaseData {
         this.genomeVersion = genomeVersion;
         this.specie = specie;
         this.path = path;
-        this.fileName = fileName;
-
     }
 
     public String getVersion() {
@@ -25,7 +23,7 @@ public class GenomeReleaseData {
         return specie;
     }
 
-    public String getFilename() {
+    public String[] getFilename() {
         return fileName;
     }
 

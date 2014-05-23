@@ -16,7 +16,6 @@ public class AddExperimentRequest extends Request {
      *
      */
     public String name;
-    public String createdBy;
     public AnnotationDataValue[] annotations;
 
     /**
@@ -24,17 +23,14 @@ public class AddExperimentRequest extends Request {
      *
      * @param experimentName
      *            String representing the name of the experiment.
-     * @param createdBy
-     *            String representing the user creating the experiment.
      * @param annotations
      *            An array representing the annotations assigned to the
      *            experiment.
      */
-    public AddExperimentRequest(String experimentName, String createdBy,
+    public AddExperimentRequest(String experimentName,
             AnnotationDataValue[] annotations) {
         super("addexperiment", "/experiment", "POST");
         this.name = experimentName;
-        this.createdBy = createdBy;
         this.annotations = annotations;
     }
 }

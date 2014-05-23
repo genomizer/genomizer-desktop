@@ -10,7 +10,13 @@ import java.util.concurrent.CopyOnWriteArrayList;
 
 import javax.swing.*;
 
-import util.*;
+import util.ActiveSearchPanel;
+import util.AnnotationDataType;
+import util.AnnotationDataValue;
+import util.ExperimentData;
+import util.FileData;
+import util.GenomeReleaseData;
+import util.ProcessFeedbackData;
 
 import communication.HTTPURLUpload;
 
@@ -28,8 +34,9 @@ public interface GenomizerView {
      * @param listener
      *            The listener
      */
-    public void addAnalyzeSelectedListener(ActionListener listener);
 
+    public void addUploadToListener(ActionListener listener);
+    
     public void refreshSearch();
 
     LoginWindow getLoginWindow();
@@ -106,8 +113,6 @@ public interface GenomizerView {
     public void updateLoginNeglected(String errorMessage);
 
     public void updateLogout();
-
-    // public void updateQuerySearchResults(ExperimentData[] searchResults);
 
     public void setSearchAnnotationTypes(AnnotationDataType[] annotationTypes);
 
@@ -193,4 +198,12 @@ public interface GenomizerView {
     public ActiveSearchPanel getActiveSearchPanel();
 
     public JButton getBackButton();
+
+    public void resetGUI();
+
+    public JTabbedPane getTabbedPane();
+
+    public String getSelectedSpecies();
+
+    public void addSpeciesSelectedListener(ActionListener listener);
 }

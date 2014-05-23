@@ -11,7 +11,6 @@ import com.google.gson.Gson;
 public class ExperimentData {
     
     public String name;
-    public String createdBy;
     public ArrayList<FileData> files;
     public ArrayList<AnnotationDataValue> annotations;
     
@@ -19,11 +18,9 @@ public class ExperimentData {
         
     }
     
-    public ExperimentData(String name, String createdBy,
-            ArrayList<FileData> files,
+    public ExperimentData(String name, ArrayList<FileData> files,
             ArrayList<AnnotationDataValue> annotations) {
         this.name = name;
-        this.createdBy = createdBy;
         this.files = files;
         this.annotations = annotations;
     }
@@ -50,6 +47,8 @@ public class ExperimentData {
                     annotationList.add(name);
                 }
                 hasValue = true;
+            } else if (heading.equals("")) {
+                annotationList.add("-");
             } else {
                 for (AnnotationDataValue annotation : annotations) {
                     if (heading.equals(annotation.name)) {
@@ -125,8 +124,8 @@ public class ExperimentData {
                     .add(new AnnotationDataValue("2", "Annotationx", "x"));
             annotationData
                     .add(new AnnotationDataValue("2", "Annotationy", "y"));
-            searchResponses[i] = new ExperimentData("Experiment" + i,
-                    names[rand.nextInt(5)], fileData, annotationData);
+            searchResponses[i] = new ExperimentData("Experiment" + i, fileData,
+                    annotationData);
             
         }
         

@@ -1,5 +1,7 @@
 package model;
 
+import gui.LoginWindow;
+
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -7,7 +9,6 @@ import java.util.concurrent.CopyOnWriteArrayList;
 
 import javax.swing.JOptionPane;
 
-import gui.LoginWindow;
 import requests.AddAnnotationRequest;
 import requests.AddExperimentRequest;
 import requests.AddFileToExperiment;
@@ -173,7 +174,7 @@ public class Model implements GenomizerModel {
                 return true;
             }
             ongoingUploads.add(upload);
-            if (upload.sendFile(default_username, default_password)) {
+            if (upload.sendFile(userID)) {
                 return true;
             }
         } else {
@@ -369,8 +370,7 @@ public class Model implements GenomizerModel {
             
             System.out.println("GenomeRelease responsecode: "
                     + conn.getResponseCode());
-            JOptionPane
-                    .showMessageDialog(null, "Could not get genomereleases!");
+            System.out.println("GenomeRelease responsebody: " + conn.getResponseBody());
         }
         
         return new GenomeReleaseData[] {};
@@ -408,7 +408,7 @@ public class Model implements GenomizerModel {
             ongoingUploads.add(upload);
             
             /** TODO */
-            if (upload.sendFile(default_username, default_password)) {
+            if (upload.sendFile(userID)) {
                 
                 System.out.println("Succefully added genome release.");
                 return true;
@@ -426,10 +426,9 @@ public class Model implements GenomizerModel {
     }
     
     @Override
-    public boolean addNewExperiment(String expName, String username,
-            AnnotationDataValue[] annotations) {
+    public boolean addNewExperiment(String expName, AnnotationDataValue[] annotations) {
         AddExperimentRequest aER = RequestFactory.makeAddExperimentRequest(
-                expName, username, annotations);
+                expName, annotations);
         System.out.println(aER.toJson());
         Connection conn = connFactory.makeConnection();
         conn.sendRequest(aER, getUserID(), JSON);
@@ -621,6 +620,13 @@ public class Model implements GenomizerModel {
             return true;
         }
         return false;
+    }
+    
+    public void resetModel() {
+        userID = "";
+        searchHistory = new ArrayList<String>();
+        ongoingDownloads = new CopyOnWriteArrayList<DownloadHandler>();
+        ongoingUploads = new CopyOnWriteArrayList<HTTPURLUpload>();
     }
     
 }

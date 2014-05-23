@@ -12,10 +12,21 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.concurrent.CopyOnWriteArrayList;
 
-import javax.swing.*;
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JList;
+import javax.swing.JPanel;
+import javax.swing.JTabbedPane;
+import javax.swing.UIManager;
 
-import util.*;
+import util.ActiveSearchPanel;
+import util.AnnotationDataType;
+import util.AnnotationDataValue;
+import util.ExperimentData;
+import util.FileData;
+import util.GenomeReleaseData;
 import util.Process;
+import util.ProcessFeedbackData;
 
 import communication.HTTPURLUpload;
 
@@ -23,13 +34,10 @@ public class GUI extends JFrame implements GenomizerView {
 
     private static final long serialVersionUID = 6659839768426124853L;
     private JPanel mainPanel;
-    private JPanel processPanel;
     private JTabbedPane tabbedPane;
     private SearchTab searchTab;
-    // private LoginPanel loginPanel;
     private UserPanel userPanel;
     private UploadTab uploadTab;
-    private AnalyzeTab analyzeTab;
     private WorkspaceTab workspaceTab;
     private LoginWindow loginWindow;
     private ProcessTab processTab;
@@ -70,11 +78,11 @@ public class GUI extends JFrame implements GenomizerView {
     }
 
     @Override
-    public void addAnalyzeSelectedListener(ActionListener listener) {
-        workspaceTab.addAnalyzeSelectedListener(listener);
+    public void addUploadToListener(ActionListener listener) {
+        workspaceTab.addUploadToListener(listener);
     }
 
-   @Override
+    @Override
     public LoginWindow getLoginWindow() {
         return loginWindow;
     }
@@ -325,7 +333,9 @@ public class GUI extends JFrame implements GenomizerView {
      */
     @Override
     public void updateLogout() {
+
         this.setVisible(false);
+
         loginWindow.setVisible(true);
     }
 
@@ -406,19 +416,6 @@ public class GUI extends JFrame implements GenomizerView {
     }
 
     /**
-     * Sets the analyzeTab of the GUI. Also sets the name of the tab in the
-     * tabbedPane.
-     *
-     * @param analyzeTab
-     *            The AnalyzeTab to set the attribute to.
-     */
-    public void setAnalyzeTab(AnalyzeTab analyzeTab) {
-        this.analyzeTab = analyzeTab;
-        tabbedPane.addTab("ANALYZE", null, analyzeTab, "Analyze");
-        // tabbedPane.setEnabledAt(4, false);
-    }
-
-    /**
      * Sets the sysadminTab of the GUI. Also sets the name of the tab in the
      * tabbedPane.
      *
@@ -482,15 +479,8 @@ public class GUI extends JFrame implements GenomizerView {
         }
         tabbedPane.setSelectedIndex(2);
         processTab.setFileInfo(allFileData, getSelectedDataInWorkspace());
-        // processTab
 
     }
-
-    /*
-     * @Override public void closePopup() { sysadminTab.closePopup(); }
-     *
-     * @Override public void annotationPopup() { sysadminTab.popup(); }
-     */
 
     /**
      *
@@ -530,10 +520,6 @@ public class GUI extends JFrame implements GenomizerView {
         loginWindow.setVisible(true);
     }
 
-    /*
-     * @Override public void addDeleteAnnotationListener(ActionListener
-     * listener) { sysadminTab.addDeleteAnnotationListener(listener); }
-     */
     @Override
     public void setSysadminController(SysadminController sysadminController) {
         sysadminTab.setController(sysadminController);
@@ -637,8 +623,9 @@ public class GUI extends JFrame implements GenomizerView {
 
     @Override
     public String[] getOtherParameters() {
-        //return processTab.getOtherParameters();
-        return process.getOtherParameters(processTab.outputGFF, processTab.outputSGR);
+        // return processTab.getOtherParameters();
+        return process.getOtherParameters(processTab.outputGFF,
+                processTab.outputSGR);
     }
 
     /**
@@ -706,7 +693,7 @@ public class GUI extends JFrame implements GenomizerView {
     }
 
     public void removeUploadExpName() {
-        uploadTab.removeExpName();
+        // uploadTab.removeExpName();
     }
 
     public void removeSelectedFromWorkspace() {
@@ -714,17 +701,15 @@ public class GUI extends JFrame implements GenomizerView {
     }
 
     public void disableSelectedRow(File f) {
-        uploadTab.disableRow(f);
+        // uploadTab.disableRow(f);
     }
 
     public boolean isCorrectToProcess() {
-        // return processTab.isCorrectToProcess();
         return process.isCorrectToProcess(processTab.smoothWindowSize,
                 processTab.stepPosition, processTab.stepSize);
     }
 
     public boolean isRatioCorrectToProcess() {
-        // return ratioCalcPopup.isRatioCorrectToProcess();
         return process.isRatioCorrectToProcess(ratioCalcPopup.ratioWindowSize,
                 ratioCalcPopup.inputReads, ratioCalcPopup.chromosome,
                 ratioCalcPopup.ratioStepPosition);
@@ -745,5 +730,37 @@ public class GUI extends JFrame implements GenomizerView {
 
     public JButton getBackButton() {
         return querySearchTab.getBackButton();
+    }
+
+    public String getSelectedSpecies() {
+        return uploadTab.getNewExpPanel().getSelectedSpecies();
+    }
+
+    public void addSpeciesSelectedListener(ActionListener listener) {
+        uploadTab.getNewExpPanel().addSpeciesSelectedListener(listener);
+    }
+
+    public void resetGUI() {
+        System.out.println("fdfdfdsfdsfds");
+        while (tabbedPane.getTabCount() > 0) {
+            tabbedPane.removeTabAt(0);
+        }
+        SearchTab st = new SearchTab();
+        UploadTab ut = new UploadTab();
+        ProcessTab pt = new ProcessTab();
+        WorkspaceTab wt = new WorkspaceTab();
+        SysadminTab sat = new SysadminTab();
+        QuerySearchTab qst = new QuerySearchTab();
+        setQuerySearchTab(qst);
+        setUploadTab(ut);
+        setProcessTab(pt);
+        setWorkspaceTab(wt);
+        setSysAdminTab(sat);
+        repaint();
+        revalidate();
+    }
+
+    public JTabbedPane getTabbedPane() {
+        return tabbedPane;
     }
 }
