@@ -56,7 +56,8 @@ public class RequestFactory {
 
     public static RemoveExperimentRequest makeRemoveExperimentRequest(
             String experimentID) {
-        return new RemoveExperimentRequest(experimentID);
+        String urlExperimentID = decodeToURL(experimentID);
+        return new RemoveExperimentRequest(urlExperimentID);
     }
 
     public static UpdateExperimentRequest makeUpdateExperimentRequest(
