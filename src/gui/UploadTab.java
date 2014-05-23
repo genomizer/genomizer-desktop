@@ -522,8 +522,8 @@ public class UploadTab extends JPanel /*implements ExperimentPanel*/ {
 //     * @return true if all forced annotation fields (including expID) are
 //     *         filled. Otherwise returns false.
 //     */
-//    public boolean forcedAnnotationCheck() {
-//
+    public boolean forcedAnnotationCheck() {
+        return newPanel.forcedAnnotationCheck();
 //        String expIDName = expID.getText();
 //        if (expIDName == null || expIDName.equals("")) {
 //            return false;
@@ -557,7 +557,7 @@ public class UploadTab extends JPanel /*implements ExperimentPanel*/ {
 //            }
 //        }
 //        return allForcedAnnotationsAreFilled;
-//    }
+    }
 
     /**
      * Sets the experiment button to either be enabled or disabled. Only enables
