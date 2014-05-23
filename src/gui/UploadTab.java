@@ -38,10 +38,10 @@ import communication.HTTPURLUpload;
  * This class allows the user to upload files to the database of the
  * application.
  */
-public class UploadTab extends JPanel implements ExperimentPanel {
+public class UploadTab extends JPanel /*implements ExperimentPanel*/ {
 
     private static final long serialVersionUID = -2830290705724588252L;
-    private JButton addToExistingExpButton, newExpButton, selectButton,
+    private JButton existingExpButton, newExpButton, selectButton,
             uploadButton, uploadSelectedBtn;
     private JPanel northPanel, expNamePanel, uploadPanel, newExpPanel,
             uploadFilesPanel, uploadBackground;
@@ -58,6 +58,10 @@ public class UploadTab extends JPanel implements ExperimentPanel {
     private JScrollPane uploadScroll;
     private JPanel buttonsPanel;
 
+    //Test purpose
+    private ArrayList<UploadToNewExpPanel> newExps = new ArrayList<UploadToNewExpPanel>();
+    private UploadToNewExpPanel newPanel;
+
     /**
      * Constructor creating a upload tab.
      */
@@ -67,6 +71,7 @@ public class UploadTab extends JPanel implements ExperimentPanel {
         activePanel = ActivePanel.NONE;
         setLayout(new BorderLayout());
         uploadToExistingExpPanel = new UploadToExistingExpPanel();
+        newPanel = new UploadToNewExpPanel();
         northPanel = new JPanel();
         expNamePanel = new JPanel();
         add(northPanel, BorderLayout.NORTH);
@@ -80,18 +85,19 @@ public class UploadTab extends JPanel implements ExperimentPanel {
         // IconFactory.getSearchIcon(35, 35),
         // IconFactory.getSearchHoverIcon(37, 37), 37, 37,
         // "Search for existing experiment");
-        addToExistingExpButton = new JButton("Search for existing experiment");
-        northPanel.add(addToExistingExpButton, BorderLayout.EAST);
+        existingExpButton = new JButton("Search for existing experiment");
+        newExpButton = new JButton("Create new experiment");
+        northPanel.add(existingExpButton, BorderLayout.EAST);
+        northPanel.add(newExpButton, BorderLayout.EAST);
         uploadPanel = new JPanel(new BorderLayout());
         uploadScroll = new JScrollPane(uploadPanel);
         add(uploadScroll, BorderLayout.CENTER);
         uploadBackground = new JPanel(new BorderLayout());
-        buttonsPanel = new JPanel(new FlowLayout());
-        uploadFilesPanel = new JPanel(new GridLayout(0, 1));
-        newExpButton = new JButton("Create new experiment");
-        selectButton = new JButton("Browse for files");
-        uploadSelectedBtn = new JButton("Create with selected files");
-        uploadButton = new JButton("Create with all files");
+//        buttonsPanel = new JPanel(new FlowLayout());
+//        uploadFilesPanel = new JPanel(new GridLayout(0, 1));
+//        selectButton = new JButton("Browse for files");
+//        uploadSelectedBtn = new JButton("Create with selected files");
+//        uploadButton = new JButton("Create with all files");
 
         // newExpButton = CustomButtonFactory.makeCustomButton(
         // IconFactory.getNewExperimentIcon(35, 35),
@@ -108,10 +114,9 @@ public class UploadTab extends JPanel implements ExperimentPanel {
         boldTextLabel.setOpaque(true);
         newExpPanel = new JPanel();
         expNameLabel = new JLabel();
-        expID = new JTextField();
-        expID.setColumns(10);
-        expID.getDocument().addDocumentListener(new FreetextListener());
-        northPanel.add(newExpButton, BorderLayout.EAST);
+//        expID = new JTextField();
+//        expID.setColumns(10);
+//        expID.getDocument().addDocumentListener(new FreetextListener());
         enableUploadButton(false);
         updateProgress();
     }
@@ -123,7 +128,7 @@ public class UploadTab extends JPanel implements ExperimentPanel {
      *            The listener to add file to existing experiment.
      */
     public void addAddToExistingExpButtonListener(ActionListener listener) {
-        addToExistingExpButton.addActionListener(listener);
+        existingExpButton.addActionListener(listener);
     }
 
     /**
@@ -143,7 +148,7 @@ public class UploadTab extends JPanel implements ExperimentPanel {
      *            The listener to select files.
      */
     public void addSelectButtonListener(ActionListener listener) {
-        selectButton.addActionListener(listener);
+        newPanel.addSelectButtonListener(listener);
     }
 
     /**
@@ -153,7 +158,17 @@ public class UploadTab extends JPanel implements ExperimentPanel {
      *            The listener to start uploading all files.
      */
     public void addUploadButtonListener(ActionListener listener) {
-        uploadButton.addActionListener(listener);
+        newPanel.addUploadButtonListener(listener);
+    }
+
+    /**
+     * Method adding a listener to the "uploadSelectedBtn".
+     *
+     * @param listener
+     *            The listener to start uploading selected files.
+     */
+    public void addUploadSelectedFiles(ActionListener listener) {
+        newPanel.addUploadSelectedFiles(listener);
     }
 
     /**
@@ -187,6 +202,20 @@ public class UploadTab extends JPanel implements ExperimentPanel {
     }
 
     /**
+     * TRY
+     */
+    public void addNewExpPanel(AnnotationDataType[] annotations) {
+        killContentsOfUploadPanel();
+        activePanel = ActivePanel.NEW;
+        newPanel.createNewExpPanel(annotations);
+        uploadPanel.add(newPanel, BorderLayout.CENTER);
+        newExps.add(newPanel);
+        repaint();
+        revalidate();
+    }
+
+
+    /**
      * A method creating a panel for creating a new experiment to upload files
      * to it.
      *
@@ -194,40 +223,45 @@ public class UploadTab extends JPanel implements ExperimentPanel {
      *            The annotations currently available at the server.
      */
     public void createNewExp(AnnotationDataType[] annotations) {
-        killContentsOfUploadPanel();
+        this.annotations = annotations;
+        for(AnnotationDataType a : annotations)
+            System.out.println(a.name);
+        addNewExpPanel(annotations);
 
-        /*
-         * setBorder(BorderFactory
-         * .createTitledBorder("Create new experiment"));
-         */
-        try {
-            this.annotations = annotations;
-            activePanel = ActivePanel.NEW;
-            GridBagLayout gbl_panel = new GridBagLayout();
-            gbl_panel.columnWidths = new int[] { 0, 0, 0, 0, 0, 0, 0 };
-            gbl_panel.rowHeights = new int[] { 0, 0, 0, 0 };
-            gbl_panel.columnWeights = new double[] { 0.0, 0.0, 0.0, 0.0, 0.0,
-                    0.0, Double.MIN_VALUE };
-            gbl_panel.rowWeights = new double[] { 0.0, 0.0, 0.0,
-                    Double.MIN_VALUE };
-            newExpPanel.setLayout(gbl_panel);
-            uploadPanel.add(newExpPanel, BorderLayout.NORTH);
-            addAnnotationsForExp();
-            repaintSelectedFiles();
-            uploadBackground.add(uploadFilesPanel, BorderLayout.NORTH);
-            uploadPanel.add(uploadBackground, BorderLayout.CENTER);
-            // Makes dragging & dropping of files into the panel possible
-            new FileDrop(this, new FileDrop.Listener() {
-                public void filesDropped(java.io.File[] files) {
-                    createUploadFileRow(files);
-                    enableUploadButton(true);
-                }
-            });
-        } catch (NullPointerException e) {
-            JOptionPane.showMessageDialog(this,
-                    "Eggs are supposed to be green.", "Inane error",
-                    JOptionPane.ERROR_MESSAGE);
-        }
+//        killContentsOfUploadPanel();
+//
+//        /*
+//         * setBorder(BorderFactory
+//         * .createTitledBorder("Create new experiment"));
+//         */
+//        try {
+//            this.annotations = annotations;
+//            activePanel = ActivePanel.NEW;
+//            GridBagLayout gbl_panel = new GridBagLayout();
+//            gbl_panel.columnWidths = new int[] { 0, 0, 0, 0, 0, 0, 0 };
+//            gbl_panel.rowHeights = new int[] { 0, 0, 0, 0 };
+//            gbl_panel.columnWeights = new double[] { 0.0, 0.0, 0.0, 0.0, 0.0,
+//                    0.0, Double.MIN_VALUE };
+//            gbl_panel.rowWeights = new double[] { 0.0, 0.0, 0.0,
+//                    Double.MIN_VALUE };
+//            newExpPanel.setLayout(gbl_panel);
+//            uploadPanel.add(newExpPanel, BorderLayout.NORTH);
+//            addAnnotationsForExp();
+//            repaintSelectedFiles();
+//            uploadBackground.add(uploadFilesPanel, BorderLayout.NORTH);
+//            uploadPanel.add(uploadBackground, BorderLayout.CENTER);
+//            // Makes dragging & dropping of files into the panel possible
+//            new FileDrop(this, new FileDrop.Listener() {
+//                public void filesDropped(java.io.File[] files) {
+//                    createUploadFileRow(files);
+//                    enableUploadButton(true);
+//                }
+//            });
+//        } catch (NullPointerException e) {
+//            JOptionPane.showMessageDialog(this,
+//                    "Eggs are supposed to be green.", "Inane error",
+//                    JOptionPane.ERROR_MESSAGE);
+//        }
     }
 
     /**
@@ -237,137 +271,138 @@ public class UploadTab extends JPanel implements ExperimentPanel {
      * @throws NullPointerException
      *             if a annotation points at null value.
      */
-    private void addAnnotationsForExp() throws NullPointerException {
-        annotationBoxes = new HashMap<String, JComboBox>();
-        annotationFields = new HashMap<String, JTextField>();
-        annotationHeaders.clear();
-        int x = 0;
-        int y = 0;
-        String[] annotationNames = new String[annotations.length];
-        GridBagConstraints gbc = new GridBagConstraints();
-        gbc.anchor = GridBagConstraints.WEST;
-        gbc.insets = new Insets(5, 0, 5, 30);
-        gbc.gridx = x;
-        gbc.gridy = y;
-
-        JPanel exp = new JPanel(new BorderLayout());
-        expNameLabel.setText("<html><b>Experiment ID</b></html>");
-        // expNameLabel.setForeground(Color.RED);
-        expNameLabel.setToolTipText("Bold indicates a forced annotation");
-        exp.add(expNameLabel, BorderLayout.NORTH);
-        expID.setText(experimentNameField.getText());
-        exp.add(expID, BorderLayout.CENTER);
-        newExpPanel.add(exp, gbc);
-        x++;
-        for (int i = 0; i < annotations.length; i++) {
-
-            if (annotations[i].getValues().length > 0) {
-                if (x > 6) {
-                    x = 0;
-                    y++;
-                }
-                gbc.anchor = GridBagConstraints.WEST;
-                gbc.insets = new Insets(5, 0, 5, 30);
-                gbc.gridx = x;
-                gbc.gridy = y;
-                JPanel p = new JPanel(new BorderLayout());
-                JLabel annotationLabel = null;
-                if (annotations[i].isForced()) {
-                    annotationLabel = new JLabel("<html><b>"
-                            + annotations[i].getName() + "</b></html>");
-                    annotationLabel
-                            .setToolTipText("Bold indicates a forced annotation");
-                } else {
-                    annotationLabel = new JLabel(annotations[i].getName());
-                }
-                annotationHeaders.add(annotations[i].getName());
-                p.add(annotationLabel, BorderLayout.NORTH);
-                if (annotations[i].getValues()[0].equals("freetext")) {
-                    final JTextField textField = new JTextField();
-                    textField.setColumns(10);
-
-                    // Add listener for when the text in the textfield changes.
-                    textField.getDocument().addDocumentListener(
-                            new FreetextListener());
-
-                    annotationFields.put(annotations[i].getName(), textField);
-                    p.add(textField, BorderLayout.CENTER);
-                    newExpPanel.add(p, gbc);
-
-                } else {
-                    final JComboBox comboBox = new JComboBox(
-                            annotations[i].getValues());
-                    comboBox.setPreferredSize(new Dimension(120, 31));
-
-                    /*
-                     * Listener for when the user chooses something in the
-                     * combobox.
-                     */
-                    comboBox.addActionListener(new ActionListener() {
-                        @Override
-                        public void actionPerformed(ActionEvent actionEvent) {
-                            String text = (String) comboBox.getSelectedItem();
-                            if (!text.equals("") && text != null) {
-                                enableUploadButton(true);
-                            }
-                        }
-                    });
-
-                    annotationBoxes.put(annotations[i].getName(), comboBox);
-                    p.add(comboBox, BorderLayout.CENTER);
-                    newExpPanel.add(p, gbc);
-                }
-                x++;
-            }
-        }
-    }
-
-    /**
-     * Creates an uploadFileRow from the provided files. Checks if the files are
-     * already in an uploadFileRow so there won't be duplicates. Displays an
-     * error message if it was selected and added previously.
-     *
-     * @param files
-     *            The files to make an uploadFileRow out of.
-     */
+//    private void addAnnotationsForExp() throws NullPointerException {
+//        annotationBoxes = new HashMap<String, JComboBox>();
+//        annotationFields = new HashMap<String, JTextField>();
+//        annotationHeaders.clear();
+//        int x = 0;
+//        int y = 0;
+//        String[] annotationNames = new String[annotations.length];
+//        GridBagConstraints gbc = new GridBagConstraints();
+//        gbc.anchor = GridBagConstraints.WEST;
+//        gbc.insets = new Insets(5, 0, 5, 30);
+//        gbc.gridx = x;
+//        gbc.gridy = y;
+//
+//        JPanel exp = new JPanel(new BorderLayout());
+//        expNameLabel.setText("<html><b>Experiment ID</b></html>");
+//        // expNameLabel.setForeground(Color.RED);
+//        expNameLabel.setToolTipText("Bold indicates a forced annotation");
+//        exp.add(expNameLabel, BorderLayout.NORTH);
+//        expID.setText(experimentNameField.getText());
+//        exp.add(expID, BorderLayout.CENTER);
+//        newExpPanel.add(exp, gbc);
+//        x++;
+//        for (int i = 0; i < annotations.length; i++) {
+//
+//            if (annotations[i].getValues().length > 0) {
+//                if (x > 6) {
+//                    x = 0;
+//                    y++;
+//                }
+//                gbc.anchor = GridBagConstraints.WEST;
+//                gbc.insets = new Insets(5, 0, 5, 30);
+//                gbc.gridx = x;
+//                gbc.gridy = y;
+//                JPanel p = new JPanel(new BorderLayout());
+//                JLabel annotationLabel = null;
+//                if (annotations[i].isForced()) {
+//                    annotationLabel = new JLabel("<html><b>"
+//                            + annotations[i].getName() + "</b></html>");
+//                    annotationLabel
+//                            .setToolTipText("Bold indicates a forced annotation");
+//                } else {
+//                    annotationLabel = new JLabel(annotations[i].getName());
+//                }
+//                annotationHeaders.add(annotations[i].getName());
+//                p.add(annotationLabel, BorderLayout.NORTH);
+//                if (annotations[i].getValues()[0].equals("freetext")) {
+//                    final JTextField textField = new JTextField();
+//                    textField.setColumns(10);
+//
+//                    // Add listener for when the text in the textfield changes.
+//                    textField.getDocument().addDocumentListener(
+//                            new FreetextListener());
+//
+//                    annotationFields.put(annotations[i].getName(), textField);
+//                    p.add(textField, BorderLayout.CENTER);
+//                    newExpPanel.add(p, gbc);
+//
+//                } else {
+//                    final JComboBox comboBox = new JComboBox(
+//                            annotations[i].getValues());
+//                    comboBox.setPreferredSize(new Dimension(120, 31));
+//
+//                    /*
+//                     * Listener for when the user chooses something in the
+//                     * combobox.
+//                     */
+//                    comboBox.addActionListener(new ActionListener() {
+//                        @Override
+//                        public void actionPerformed(ActionEvent actionEvent) {
+//                            String text = (String) comboBox.getSelectedItem();
+//                            if (!text.equals("") && text != null) {
+//                                enableUploadButton(true);
+//                            }
+//                        }
+//                    });
+//
+//                    annotationBoxes.put(annotations[i].getName(), comboBox);
+//                    p.add(comboBox, BorderLayout.CENTER);
+//                    newExpPanel.add(p, gbc);
+//                }
+//                x++;
+//            }
+//        }
+//    }
+//
+//    /**
+//     * Creates an uploadFileRow from the provided files. Checks if the files are
+//     * already in an uploadFileRow so there won't be duplicates. Displays an
+//     * error message if it was selected and added previously.
+//     *
+//     * @param files
+//     *            The files to make an uploadFileRow out of.
+//     */
     public void createUploadFileRow(File[] files) {
-        for (File f : files) {
-            if (!uploadFileRows.containsKey(f)) {
-                UploadFileRow fileRow = new UploadFileRow(f, this, true);
-                uploadFileRows.put(f, fileRow);
-            } else {
-                JOptionPane.showMessageDialog(this, "File already selected: "
-                        + f.getName() + "", "File error",
-                        JOptionPane.ERROR_MESSAGE);
-            }
-        }
-        repaintSelectedFiles();
+        newPanel.createUploadFileRow(files);
+//        for (File f : files) {
+//            if (!uploadFileRows.containsKey(f)) {
+//                UploadFileRow fileRow = new UploadFileRow(f, this, true);
+//                uploadFileRows.put(f, fileRow);
+//            } else {
+//                JOptionPane.showMessageDialog(this, "File already selected: "
+//                        + f.getName() + "", "File error",
+//                        JOptionPane.ERROR_MESSAGE);
+//            }
+//        }
+//        repaintSelectedFiles();
     }
-
-    /**
-     * Checks if there are any uploadfilerows. Disables the uploadbutton if
-     * there aren't, and adds them to the panel if there are. After these
-     * updates, it repaints the panel.
-     */
-    private void repaintSelectedFiles() {
-        uploadFilesPanel.add(boldTextLabel);
-        if (!uploadFileRows.isEmpty()) {
-            for (File f : uploadFileRows.keySet()) {
-                uploadFilesPanel.add(uploadFileRows.get(f));
-            }
-        } else {
-            enableUploadButton(false);
-        }
-        buttonsPanel.add(selectButton);
-        // buttonsPanel.add(Box.createHorizontalStrut(20));
-        // (orsakar att knapparna flyttar mer och mer åt höger efter varje
-        // repaint)
-        buttonsPanel.add(uploadSelectedBtn);
-        buttonsPanel.add(uploadButton);
-        uploadFilesPanel.add(buttonsPanel);
-        repaint();
-        revalidate();
-    }
+//
+//    /**
+//     * Checks if there are any uploadfilerows. Disables the uploadbutton if
+//     * there aren't, and adds them to the panel if there are. After these
+//     * updates, it repaints the panel.
+//     */
+//    private void repaintSelectedFiles() {
+//        uploadFilesPanel.add(boldTextLabel);
+//        if (!uploadFileRows.isEmpty()) {
+//            for (File f : uploadFileRows.keySet()) {
+//                uploadFilesPanel.add(uploadFileRows.get(f));
+//            }
+//        } else {
+//            enableUploadButton(false);
+//        }
+//        buttonsPanel.add(selectButton);
+//        // buttonsPanel.add(Box.createHorizontalStrut(20));
+//        // (orsakar att knapparna flyttar mer och mer åt höger efter varje
+//        // repaint)
+//        buttonsPanel.add(uploadSelectedBtn);
+//        buttonsPanel.add(uploadButton);
+//        uploadFilesPanel.add(buttonsPanel);
+//        repaint();
+//        revalidate();
+//    }
 
     /**
      * A method removing the components in the panels when one of them gets
@@ -387,10 +422,12 @@ public class UploadTab extends JPanel implements ExperimentPanel {
                 activePanel = ActivePanel.NONE;
                 break;
             case NEW:
-                uploadPanel.removeAll();
-                newExpPanel.removeAll();
-                uploadFilesPanel.removeAll();
-                uploadBackground.removeAll();
+                uploadPanel.remove(newPanel);
+                newPanel.removeAll();
+//                uploadPanel.removeAll();
+//                newExpPanel.removeAll();
+//                uploadFilesPanel.removeAll();
+//                uploadBackground.removeAll();
                 repaint();
                 revalidate();
                 activePanel = ActivePanel.NONE;
@@ -402,26 +439,26 @@ public class UploadTab extends JPanel implements ExperimentPanel {
                 break;
         }
     }
-
-    /**
-     * Deletes an uploadFileRow and calls repaintSelectedFiles() to repaint. If
-     * it fails to find the file, an error message is shown to the user.
-     *
-     * @param f
-     *            This is used to identify which uploadFileRow to be deleted.
-     */
-    public void deleteFileRow(File f) {
-        if (uploadFileRows.containsKey(f)) {
-            uploadFileRows.remove(f);
-            uploadFilesPanel.removeAll();
-            buttonsPanel.removeAll();
-            repaintSelectedFiles();
-        } else {
-            JOptionPane.showMessageDialog(this,
-                    "Can't delete file: " + f.getName() + "", "File error",
-                    JOptionPane.ERROR_MESSAGE);
-        }
-    }
+//
+//    /**
+//     * Deletes an uploadFileRow and calls repaintSelectedFiles() to repaint. If
+//     * it fails to find the file, an error message is shown to the user.
+//     *
+//     * @param f
+//     *            This is used to identify which uploadFileRow to be deleted.
+//     */
+//    public void deleteFileRow(File f) {
+//        if (uploadFileRows.containsKey(f)) {
+//            uploadFileRows.remove(f);
+//            uploadFilesPanel.removeAll();
+//            buttonsPanel.removeAll();
+//            repaintSelectedFiles();
+//        } else {
+//            JOptionPane.showMessageDialog(this,
+//                    "Can't delete file: " + f.getName() + "", "File error",
+//                    JOptionPane.ERROR_MESSAGE);
+//        }
+//    }
 
     /**
      * Method returning the ExpID for a new experiment.
@@ -429,25 +466,27 @@ public class UploadTab extends JPanel implements ExperimentPanel {
      * @return a String with the ID of a experiment.
      */
     public String getNewExpID() {
-        return expID.getText();
+        return newPanel.getNewExpID();
     }
 
     public AnnotationDataValue[] getUploadAnnotations() {
-        AnnotationDataValue[] annotations = new AnnotationDataValue[annotationHeaders
-                .size()];
-        for (int i = 0; i < annotationHeaders.size(); i++) {
-            if (annotationBoxes.containsKey(annotationHeaders.get(i))) {
-                annotations[i] = new AnnotationDataValue(Integer.toString(i),
-                        annotationHeaders.get(i), annotationBoxes
-                                .get(annotationHeaders.get(i))
-                                .getSelectedItem().toString());
-            } else if (annotationFields.containsKey(annotationHeaders.get(i))) {
-                annotations[i] = new AnnotationDataValue(Integer.toString(i),
-                        annotationHeaders.get(i), annotationFields.get(
-                                annotationHeaders.get(i)).getText());
-            }
-        }
-        return annotations;
+        return newPanel.getUploadAnnotations();
+
+//        AnnotationDataValue[] annotations = new AnnotationDataValue[annotationHeaders
+//                .size()];
+//        for (int i = 0; i < annotationHeaders.size(); i++) {
+//            if (annotationBoxes.containsKey(annotationHeaders.get(i))) {
+//                annotations[i] = new AnnotationDataValue(Integer.toString(i),
+//                        annotationHeaders.get(i), annotationBoxes
+//                                .get(annotationHeaders.get(i))
+//                                .getSelectedItem().toString());
+//            } else if (annotationFields.containsKey(annotationHeaders.get(i))) {
+//                annotations[i] = new AnnotationDataValue(Integer.toString(i),
+//                        annotationHeaders.get(i), annotationFields.get(
+//                                annotationHeaders.get(i)).getText());
+//            }
+//        }
+//        return annotations;
     }
 
     /**
@@ -456,11 +495,12 @@ public class UploadTab extends JPanel implements ExperimentPanel {
      * @return a array with the files.
      */
     public ArrayList<File> getUploadFiles() {
-        ArrayList<File> files = new ArrayList<File>();
-        for (File f : uploadFileRows.keySet()) {
-            files.add(f);
-        }
-        return files;
+        return newPanel.getUploadFiles();
+//        ArrayList<File> files = new ArrayList<File>();
+//        for (File f : uploadFileRows.keySet()) {
+//            files.add(f);
+//        }
+//        return files;
     }
 
     /**
@@ -469,53 +509,54 @@ public class UploadTab extends JPanel implements ExperimentPanel {
      * @return a HashMap with the filenames and there types.
      */
     public HashMap<String, String> getTypes() {
-        HashMap<String, String> types = new HashMap<String, String>();
-        for (File f : uploadFileRows.keySet()) {
-            types.put(f.getName(), uploadFileRows.get(f).getType());
-        }
-        return types;
+        return newPanel.getTypes();
+//        HashMap<String, String> types = new HashMap<String, String>();
+//        for (File f : uploadFileRows.keySet()) {
+//            types.put(f.getName(), uploadFileRows.get(f).getType());
+//        }
+//        return types;
     }
-
-    /**
-     * @return true if all forced annotation fields (including expID) are
-     *         filled. Otherwise returns false.
-     */
-    public boolean forcedAnnotationCheck() {
-
-        String expIDName = expID.getText();
-        if (expIDName == null || expIDName.equals("")) {
-            return false;
-        }
-
-        boolean allForcedAnnotationsAreFilled = true;
-        String annotationName = null;
-        String text = null;
-        JTextField annotationField = null;
-        JComboBox<Object> annotationBox = null;
-
-        for (int i = 0; i < annotations.length; i++) {
-            if (annotations[i].isForced()) {
-                annotationName = annotations[i].getName();
-                if (annotationFields.containsKey(annotationName)) {
-                    annotationField = annotationFields.get(annotationName);
-                    text = annotationField.getText();
-                    if (text == null || text.equals("")) {
-                        allForcedAnnotationsAreFilled = false;
-                    }
-                    text = null;
-                } else if (annotationBoxes.containsKey(annotationName)) {
-                    annotationBox = annotationBoxes.get(annotationName);
-                    text = (String) annotationBox.getSelectedItem();
-                    if (text == null || text.equals("")) {
-                        allForcedAnnotationsAreFilled = false;
-                    }
-
-                    text = null;
-                }
-            }
-        }
-        return allForcedAnnotationsAreFilled;
-    }
+//
+//    /**
+//     * @return true if all forced annotation fields (including expID) are
+//     *         filled. Otherwise returns false.
+//     */
+//    public boolean forcedAnnotationCheck() {
+//
+//        String expIDName = expID.getText();
+//        if (expIDName == null || expIDName.equals("")) {
+//            return false;
+//        }
+//
+//        boolean allForcedAnnotationsAreFilled = true;
+//        String annotationName = null;
+//        String text = null;
+//        JTextField annotationField = null;
+//        JComboBox<Object> annotationBox = null;
+//
+//        for (int i = 0; i < annotations.length; i++) {
+//            if (annotations[i].isForced()) {
+//                annotationName = annotations[i].getName();
+//                if (annotationFields.containsKey(annotationName)) {
+//                    annotationField = annotationFields.get(annotationName);
+//                    text = annotationField.getText();
+//                    if (text == null || text.equals("")) {
+//                        allForcedAnnotationsAreFilled = false;
+//                    }
+//                    text = null;
+//                } else if (annotationBoxes.containsKey(annotationName)) {
+//                    annotationBox = annotationBoxes.get(annotationName);
+//                    text = (String) annotationBox.getSelectedItem();
+//                    if (text == null || text.equals("")) {
+//                        allForcedAnnotationsAreFilled = false;
+//                    }
+//
+//                    text = null;
+//                }
+//            }
+//        }
+//        return allForcedAnnotationsAreFilled;
+//    }
 
     /**
      * Sets the experiment button to either be enabled or disabled. Only enables
@@ -527,15 +568,16 @@ public class UploadTab extends JPanel implements ExperimentPanel {
      *            it (false)
      */
     public void enableUploadButton(boolean b) {
-        if (b) {
-            if (!uploadFileRows.isEmpty() && forcedAnnotationCheck()) {
-                uploadSelectedBtn.setEnabled(b);
-                uploadButton.setEnabled(b);
-            }
-        } else {
-            uploadSelectedBtn.setEnabled(b);
-            uploadButton.setEnabled(b);
-        }
+        newPanel.enableUploadButton(b);
+//        if (b) {
+//            if (!uploadFileRows.isEmpty() && forcedAnnotationCheck()) {
+//                uploadSelectedBtn.setEnabled(b);
+//                uploadButton.setEnabled(b);
+//            }
+//        } else {
+//            uploadSelectedBtn.setEnabled(b);
+//            uploadButton.setEnabled(b);
+//        }
     }
 
     /**
@@ -606,54 +648,46 @@ public class UploadTab extends JPanel implements ExperimentPanel {
      * @return an ArrayList with the selected files.
      */
     public ArrayList<File> getSelectedFilesToUpload() {
-        ArrayList<File> files = new ArrayList<File>();
-        for (File f : uploadFileRows.keySet()) {
-            if (uploadFileRows.get(f).isSelected()) {
-                files.add(f);
-            }
-        }
-        return files;
+        return newPanel.getSelectedFilesToUpload();
+//        ArrayList<File> files = new ArrayList<File>();
+//        for (File f : uploadFileRows.keySet()) {
+//            if (uploadFileRows.get(f).isSelected()) {
+//                files.add(f);
+//            }
+//        }
+//        return files;
     }
+//
+//
+//    public void removeExpName() {
+//        expID.setText("");
+//    }
 
-    /**
-     * Method adding a listener to the "uploadSelectedBtn".
-     *
-     * @param listener
-     *            The listener to start uploading selected files.
-     */
-    public void addUploadSelectedFiles(ActionListener listener) {
-        uploadSelectedBtn.addActionListener(listener);
-    }
-
-    public void removeExpName() {
-        expID.setText("");
-    }
-
-    public void disableRow(File f) {
-        uploadFileRows.get(f).disableRow();
-    }
-
-    /**
-     * Listener for when the text in a textfield changes.
-     */
-    private class FreetextListener implements DocumentListener {
-        @Override
-        public void insertUpdate(DocumentEvent documentEvent) {
-            react();
-        }
-
-        @Override
-        public void removeUpdate(DocumentEvent documentEvent) {
-            react();
-        }
-
-        @Override
-        public void changedUpdate(DocumentEvent documentEvent) {
-            react();
-        }
-
-        public void react() {
-            enableUploadButton(forcedAnnotationCheck());
-        }
-    }
+//    public void disableRow(File f) {
+//        uploadFileRows.get(f).disableRow();
+//    }
+//
+//    /**
+//     * Listener for when the text in a textfield changes.
+//     */
+//    private class FreetextListener implements DocumentListener {
+//        @Override
+//        public void insertUpdate(DocumentEvent documentEvent) {
+//            react();
+//        }
+//
+//        @Override
+//        public void removeUpdate(DocumentEvent documentEvent) {
+//            react();
+//        }
+//
+//        @Override
+//        public void changedUpdate(DocumentEvent documentEvent) {
+//            react();
+//        }
+//
+//        public void react() {
+//            enableUploadButton(forcedAnnotationCheck());
+//        }
+//    }
 }
