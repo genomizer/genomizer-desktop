@@ -13,7 +13,7 @@ import util.GenomeReleaseData;
 import communication.Connection;
 import communication.ConnectionFactory;
 
-public class GetAllgenomReleasesTest {
+public class GetAllGenomeReleasesTest {
     
     public Model model;
     private SysadminController controller;
