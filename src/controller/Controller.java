@@ -79,6 +79,7 @@ public class Controller {
         view.addDeleteFromDatabaseListener(new DeleteFromDatabaseListener());
         view.setOngoingUploads(model.getOngoingUploads());
         view.addUploadSelectedFilesListener(new UploadSelectedFilesListener());
+        view.addSpeciesSelectedListener(new SpeciesSelectedListener());
     }
     
     class ConvertFileListener implements ActionListener, Runnable {
@@ -115,7 +116,7 @@ public class Controller {
             ArrayList<FileData> allMarked = view.getAllMarkedFiles();
             String message;
             Boolean isConverted;
-            
+
             if (view.isCorrectToProcess()) {
                 if (!allMarked.isEmpty()) {
                     
@@ -841,6 +842,20 @@ public class Controller {
             } else {
                 JOptionPane.showMessageDialog(null, "No files selected.");
             }
+        }
+    }
+
+    class SpeciesSelectedListener implements ActionListener, Runnable {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            new Thread(this).start();
+        }
+
+        @Override
+        public void run() {
+
+            String species = view.getSelectedSpecies();
+            System.out.println(species);
         }
     }
 }

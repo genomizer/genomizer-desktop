@@ -164,7 +164,7 @@ public class UploadTab extends JPanel /*implements ExperimentPanel*/ {
      *            The listener to start uploading selected files.
      */
     public void addUploadSelectedFiles(ActionListener listener) {
-        newPanel.addUploadSelectedFiles(listener);
+        newPanel.addUploadSelectedFilesListener(listener);
     }
 
     /**
@@ -174,6 +174,10 @@ public class UploadTab extends JPanel /*implements ExperimentPanel*/ {
      */
     public UploadToExistingExpPanel getUploadToExistingExpPanel() {
         return uploadToExistingExpPanel;
+    }
+
+    public UploadToNewExpPanel getNewExpPanel() {
+        return newPanel;
     }
 
     /**
