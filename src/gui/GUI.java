@@ -180,11 +180,6 @@ public class GUI extends JFrame implements GenomizerView {
         workspaceTab.addDeleteSelectedListener(listener);
     }
     
-    @Override
-    public void addSearchResultsDownloadListener(ActionListener listener) {
-        querySearchTab.addDownloadButtonListener(listener);
-    }
-    
     /**
      * Adds the provided ExperimentDatas to the workspaceTab.
      * 
@@ -269,17 +264,6 @@ public class GUI extends JFrame implements GenomizerView {
     @Override
     public String getIp() {
         return loginWindow.getIPInput();
-    }
-    
-    /*
-     * @Override public AnnotationDataType
-     * getSelectedAnnoationAtAnnotationTable() { // TODO Auto-generated method
-     * stub return sysadminTab.getSelectedAnnotationAtAnnotationTable(); }
-     */
-    @Override
-    public int getSelectedRowAtAnnotationTable() {
-        // TODO Auto-generated method stub
-        return 0;
     }
     
     /**
@@ -557,11 +541,6 @@ public class GUI extends JFrame implements GenomizerView {
         uploadTab.createUploadFileRow(files);
     }
     
-    @Override
-    public void selectFilesToExistingExp(File[] files) {
-        uploadTab.getUploadToExistingExpPanel().createUploadFileRow(files);
-    }
-    
     /**
      * @return The GUI's downloadWindow.
      */
@@ -654,11 +633,6 @@ public class GUI extends JFrame implements GenomizerView {
     
     public void addUploadSelectedFilesListener(ActionListener listener) {
         uploadTab.addUploadSelectedFiles(listener);
-    }
-    
-    @Override
-    public void setDefaultRatioPar() {
-        ratioCalcPopup.setDefaultRatioPar();
     }
     
     @Override
