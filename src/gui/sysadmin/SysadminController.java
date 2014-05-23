@@ -146,6 +146,10 @@ public class SysadminController {
         
         try {
             grdarray = model.getGenomeReleases();
+            if (grdarray.length == 0) {
+                JOptionPane
+                .showMessageDialog(null, "Could not get genomereleases!");
+            }
             
         } catch (IllegalArgumentException e) {
             JOptionPane.showMessageDialog(null, e.getMessage());
