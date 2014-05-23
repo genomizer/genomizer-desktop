@@ -34,13 +34,10 @@ public class GUI extends JFrame implements GenomizerView {
     
     private static final long serialVersionUID = 6659839768426124853L;
     private JPanel mainPanel;
-    private JPanel processPanel;
     private JTabbedPane tabbedPane;
     private SearchTab searchTab;
-    // private LoginPanel loginPanel;
     private UserPanel userPanel;
     private UploadTab uploadTab;
-    private AnalyzeTab analyzeTab;
     private WorkspaceTab workspaceTab;
     private LoginWindow loginWindow;
     private ProcessTab processTab;
@@ -182,7 +179,7 @@ public class GUI extends JFrame implements GenomizerView {
     public void addDeleteFromDatabaseListener(ActionListener listener) {
         workspaceTab.addDeleteSelectedListener(listener);
     }
-    
+
     @Override
     public void addSearchResultsDownloadListener(ActionListener listener) {
         querySearchTab.addDownloadButtonListener(listener);
@@ -273,7 +270,7 @@ public class GUI extends JFrame implements GenomizerView {
     public String getIp() {
         return loginWindow.getIPInput();
     }
-    
+
     /*
      * @Override public AnnotationDataType
      * getSelectedAnnoationAtAnnotationTable() { // TODO Auto-generated method
@@ -419,19 +416,6 @@ public class GUI extends JFrame implements GenomizerView {
     }
     
     /**
-     * Sets the analyzeTab of the GUI. Also sets the name of the tab in the
-     * tabbedPane.
-     * 
-     * @param analyzeTab
-     *            The AnalyzeTab to set the attribute to.
-     */
-    public void setAnalyzeTab(AnalyzeTab analyzeTab) {
-        this.analyzeTab = analyzeTab;
-        tabbedPane.addTab("ANALYZE", null, analyzeTab, "Analyze");
-        // tabbedPane.setEnabledAt(4, false);
-    }
-    
-    /**
      * Sets the sysadminTab of the GUI. Also sets the name of the tab in the
      * tabbedPane.
      * 
@@ -495,16 +479,9 @@ public class GUI extends JFrame implements GenomizerView {
         }
         tabbedPane.setSelectedIndex(2);
         processTab.setFileInfo(allFileData, getSelectedDataInWorkspace());
-        // processTab
         
     }
-    
-    /*
-     * @Override public void closePopup() { sysadminTab.closePopup(); }
-     * 
-     * @Override public void annotationPopup() { sysadminTab.popup(); }
-     */
-    
+
     /**
      * 
      * @param message
@@ -542,11 +519,7 @@ public class GUI extends JFrame implements GenomizerView {
     public void showLoginWindow() {
         loginWindow.setVisible(true);
     }
-    
-    /*
-     * @Override public void addDeleteAnnotationListener(ActionListener
-     * listener) { sysadminTab.addDeleteAnnotationListener(listener); }
-     */
+
     @Override
     public void setSysadminController(SysadminController sysadminController) {
         sysadminTab.setController(sysadminController);
@@ -583,7 +556,7 @@ public class GUI extends JFrame implements GenomizerView {
     public void selectFilesToNewExp(File[] files) {
         uploadTab.createUploadFileRow(files);
     }
-    
+
     @Override
     public void selectFilesToExistingExp(File[] files) {
         uploadTab.getUploadToExistingExpPanel().createUploadFileRow(files);
@@ -682,7 +655,7 @@ public class GUI extends JFrame implements GenomizerView {
     public void addUploadSelectedFilesListener(ActionListener listener) {
         uploadTab.addUploadSelectedFiles(listener);
     }
-    
+
     @Override
     public void setDefaultRatioPar() {
         ratioCalcPopup.setDefaultRatioPar();
@@ -726,19 +699,17 @@ public class GUI extends JFrame implements GenomizerView {
     public void removeSelectedFromWorkspace() {
         workspaceTab.removeSelectedData();
     }
-    
+
     public void disableSelectedRow(File f) {
         // uploadTab.disableRow(f);
     }
     
     public boolean isCorrectToProcess() {
-        // return processTab.isCorrectToProcess();
         return process.isCorrectToProcess(processTab.smoothWindowSize,
                 processTab.stepPosition, processTab.stepSize);
     }
     
     public boolean isRatioCorrectToProcess() {
-        // return ratioCalcPopup.isRatioCorrectToProcess();
         return process.isRatioCorrectToProcess(ratioCalcPopup.ratioWindowSize,
                 ratioCalcPopup.inputReads, ratioCalcPopup.chromosome,
                 ratioCalcPopup.ratioStepPosition);
