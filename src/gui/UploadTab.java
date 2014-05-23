@@ -402,4 +402,11 @@ public class UploadTab extends JPanel /*implements ExperimentPanel*/ {
     public ArrayList<File> getSelectedFilesToUpload() {
         return newPanel.getSelectedFilesToUpload();
     }
+
+    public JButton getExistingExpButton() {
+        return existingExpButton;
+    }
+    public JTextField getExperimentNameField() {
+        return experimentNameField;
+    }
 }

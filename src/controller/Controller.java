@@ -58,17 +58,22 @@ public class Controller {
         view.addRawToRegionDataListener(new RawToRegionDataListener());
         view.addScheduleFileListener(new ScheduleFileListener());
         view.addDownloadFileListener(new DownloadWindowListener());
-        view.addSelectFilesToUploadButtonListener(new SelectFilesToUploadButtonListener());
-        view.setSysadminController(sysController = new SysadminController(model));
-        view.addAddToExistingExpButtonListener(new AddToExistingExpButtonListener());
-        view.addUploadToExperimentButtonListener(new UploadToExperimentButtonListener());
-        view.addUpdateSearchAnnotationsListener(new updateSearchAnnotationsListener());
+        view.addSelectFilesToUploadButtonListener(
+                new SelectFilesToUploadButtonListener());
+        view.setSysadminController(
+                sysController = new SysadminController(model));
+        view.addAddToExistingExpButtonListener(
+                new AddToExistingExpButtonListener());
+        view.addUploadToExperimentButtonListener(
+                new UploadToExperimentButtonListener());
+        view.addUpdateSearchAnnotationsListener(
+                new updateSearchAnnotationsListener());
         view.addProcessFileListener(new ProcessFileListener());
         view.addSearchToWorkspaceListener(new SearchToWorkspaceListener());
         view.addNewExpButtonListener(new NewExpButtonListener());
         view.addSelectButtonListener(new SelectFilesToNewExpListener());
         view.addUploadButtonListener(new UploadNewExpListener());
-        view.addAnalyzeSelectedListener(new AnalyzeSelectedListener());
+        view.addUploadToListener(new UploadToListener());
         fileListAddMouseListener(view.getfileList());
         view.addProcessFeedbackListener(new ProcessFeedbackListener());
         view.addDeleteFromDatabaseListener(new DeleteFromDatabaseListener());
@@ -593,7 +598,7 @@ public class Controller {
         }
     }
 
-    class AnalyzeSelectedListener implements ActionListener, Runnable {
+    class UploadToListener implements ActionListener, Runnable {
 
         @Override
         public void actionPerformed(ActionEvent e) {
@@ -602,7 +607,12 @@ public class Controller {
 
         @Override
         public void run() {
-            System.out.println("ANALYZE");
+            ExperimentData firstChosenExperiment =
+                    view.getSelectedExperimentsInWorkspace().get(0);
+            UploadTab ut = view.getUploadTab();
+            ut.getExperimentNameField()
+                    .setText(firstChosenExperiment.getName());
+            ut.getExistingExpButton().doClick();
         }
     }
 
