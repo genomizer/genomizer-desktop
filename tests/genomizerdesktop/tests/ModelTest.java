@@ -50,7 +50,7 @@ public class ModelTest {
     public void shouldAddExperiment() throws Exception {
         AnnotationDataValue[] values = new AnnotationDataValue[1];
         values[0] = new AnnotationDataValue("test", "name", "val");
-        assertThat(m.addNewExperiment("testexp", "genomizer", values)).isTrue();
+        assertThat(m.addNewExperiment("testexp", values)).isTrue();
     }
 
     @Test
