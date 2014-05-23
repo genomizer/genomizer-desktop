@@ -94,6 +94,7 @@ public class DownloadWindow extends JFrame {
         // Add comboboxes to each row in the table.
         table.setRowHeight(30);
         table.setEnabled(false);
+        table.getTableHeader().setReorderingAllowed(false);
         JScrollPane scrollPane = new JScrollPane(table);
         tablePanel.add(scrollPane, BorderLayout.CENTER);
         tablePanel.add(table.getTableHeader(), BorderLayout.NORTH);
