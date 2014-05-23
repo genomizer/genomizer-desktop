@@ -125,8 +125,6 @@ public class UploadToNewExpPanel extends JPanel implements ExperimentPanel {
          * .createTitledBorder("Create new experiment"));
          */
         try {
-            System.out
-                    .println("LOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOL");
             GridBagLayout gbl_panel = new GridBagLayout();
             gbl_panel.columnWidths = new int[] { 0, 0, 0, 0, 0, 0, 0 };
             gbl_panel.rowHeights = new int[] { 0, 0, 0, 0 };
@@ -165,6 +163,9 @@ public class UploadToNewExpPanel extends JPanel implements ExperimentPanel {
     private void addAnnotationsForExp() throws NullPointerException {
         annotationBoxes = new HashMap<String, JComboBox>();
         annotationFields = new HashMap<String, JTextField>();
+        annotationHeaders.clear();
+        annotationBoxes = new HashMap<>();
+        annotationFields = new HashMap<>();
         int x = 0;
         int y = 0;
         String[] annotationNames = new String[annotations.length];
@@ -182,9 +183,7 @@ public class UploadToNewExpPanel extends JPanel implements ExperimentPanel {
         x++;
         for (int i = 0; i < annotations.length; i++) {
 
-            if (!annotations[i].getValues()[0].equals("freetext")
-                    && annotations[i].getValues().length > 0
-                    && annotations[i].isForced()) {
+            if (annotations[i].getValues().length > 0) {
                 if (x > 6) {
                     x = 0;
                     y++;
@@ -347,7 +346,7 @@ public class UploadToNewExpPanel extends JPanel implements ExperimentPanel {
      *
      */
     public ArrayList<File> getUploadFiles() {
-        ArrayList<File> files = new ArrayList<File>();
+        ArrayList<File> files = new ArrayList<>();
         for (File f : uploadFileRows.keySet()) {
             files.add(f);
         }
@@ -380,10 +379,10 @@ public class UploadToNewExpPanel extends JPanel implements ExperimentPanel {
         }
 
         boolean allForcedAnnotationsAreFilled = true;
-        String annotationName = null;
-        String text = null;
-        JTextField annotationField = null;
-        JComboBox<Object> annotationBox = null;
+        String annotationName;
+        String text;
+        JTextField annotationField;
+        JComboBox<Object> annotationBox;
 
         for (int i = 0; i < annotations.length; i++) {
             if (annotations[i].isForced()) {
@@ -445,7 +444,7 @@ public class UploadToNewExpPanel extends JPanel implements ExperimentPanel {
         this.ongoingUploads = ongoingUploads;
     }
 
-    private void updateProgress() {
+    public void updateProgress() {
         new Thread(new Runnable() {
             private boolean running;
 

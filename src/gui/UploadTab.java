@@ -598,49 +598,51 @@ public class UploadTab extends JPanel /*implements ExperimentPanel*/ {
      */
     public void setOngoingUploads(
             CopyOnWriteArrayList<HTTPURLUpload> ongoingUploads) {
-        this.ongoingUploads = ongoingUploads;
+            newPanel.setOngoingUploads(ongoingUploads);
+//        this.ongoingUploads = ongoingUploads;
     }
 
     /**
      * Method updating the progress of ongoing uploads.
      */
     private void updateProgress() {
-        new Thread(new Runnable() {
-            private boolean running;
-
-            @Override
-            public void run() {
-                running = true;
-                while (running) {
-                    for (File key : uploadFileRows.keySet()) {
-                        UploadFileRow row = uploadFileRows.get(key);
-
-                        for (HTTPURLUpload upload : ongoingUploads) {
-                            if (upload.getFileName().equals(row.getFileName())) {
-                                row.updateProgressBar(upload
-                                        .getCurrentProgress());
-                            }
-                        }
-                    }
-                    for (File key : uploadToExistingExpPanel.getFileRows()
-                            .keySet()) {
-                        UploadFileRow row = uploadToExistingExpPanel
-                                .getFileRows().get(key);
-                        for (HTTPURLUpload upload : ongoingUploads) {
-                            if (upload.getFileName().equals(row.getFileName())) {
-                                row.updateProgressBar(upload
-                                        .getCurrentProgress());
-                            }
-                        }
-                    }
-                    try {
-                        Thread.sleep(100);
-                    } catch (InterruptedException e) {
-                        running = false;
-                    }
-                }
-            }
-        }).start();
+        newPanel.updateProgress();
+//        new Thread(new Runnable() {
+//            private boolean running;
+//
+//            @Override
+//            public void run() {
+//                running = true;
+//                while (running) {
+//                    for (File key : uploadFileRows.keySet()) {
+//                        UploadFileRow row = uploadFileRows.get(key);
+//
+//                        for (HTTPURLUpload upload : ongoingUploads) {
+//                            if (upload.getFileName().equals(row.getFileName())) {
+//                                row.updateProgressBar(upload
+//                                        .getCurrentProgress());
+//                            }
+//                        }
+//                    }
+//                    for (File key : uploadToExistingExpPanel.getFileRows()
+//                            .keySet()) {
+//                        UploadFileRow row = uploadToExistingExpPanel
+//                                .getFileRows().get(key);
+//                        for (HTTPURLUpload upload : ongoingUploads) {
+//                            if (upload.getFileName().equals(row.getFileName())) {
+//                                row.updateProgressBar(upload
+//                                        .getCurrentProgress());
+//                            }
+//                        }
+//                    }
+//                    try {
+//                        Thread.sleep(100);
+//                    } catch (InterruptedException e) {
+//                        running = false;
+//                    }
+//                }
+//            }
+//        }).start();
     }
 
     /**
