@@ -290,9 +290,9 @@ public class Controller {
         public void run() {
             model.logoutUser();
             model.resetModel();
+            view.updateLogout();
             view.resetGUI();
             updateView();
-            view.updateLogout();
             
         }
     }
