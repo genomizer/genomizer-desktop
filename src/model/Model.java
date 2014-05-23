@@ -1,5 +1,7 @@
 package model;
 
+import gui.LoginWindow;
+
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -7,7 +9,6 @@ import java.util.concurrent.CopyOnWriteArrayList;
 
 import javax.swing.JOptionPane;
 
-import gui.LoginWindow;
 import requests.AddAnnotationRequest;
 import requests.AddExperimentRequest;
 import requests.AddFileToExperiment;
@@ -621,6 +622,13 @@ public class Model implements GenomizerModel {
             return true;
         }
         return false;
+    }
+    
+    public void resetModel() {
+        userID = "";
+        searchHistory = new ArrayList<String>();
+        ongoingDownloads = new CopyOnWriteArrayList<DownloadHandler>();
+        ongoingUploads = new CopyOnWriteArrayList<HTTPURLUpload>();
     }
     
 }

@@ -7,13 +7,11 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import javax.swing.JButton;
-import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
-import util.AnnotationDataType;
 import util.AnnotationDataValue;
 import util.ExperimentData;
 import util.FileDrop;
@@ -21,13 +19,8 @@ import util.FileDrop;
 public class UploadToExistingExpPanel extends JPanel implements ExperimentPanel {
 
     private JButton selectFilesToUploadButton, uploadFilesToExperimentButton;
-    private ArrayList<JComboBox> annotationBoxes;
-    private ArrayList<JTextField> annotationFields;
-    private AnnotationDataType[] annotations;
-    private JPanel northPanel, centerPanel, uploadFilesPanel, buttonsPanel,
-            mainPanel;
+    private JPanel northPanel, centerPanel, uploadFilesPanel, buttonsPanel;
     private HashMap<File, UploadFileRow> uploadFileRows;
-    private JPanel backgroundPanel;
     private ExperimentData ed;
 
     /**
@@ -36,21 +29,12 @@ public class UploadToExistingExpPanel extends JPanel implements ExperimentPanel 
      */
 
     public UploadToExistingExpPanel() {
-        // selectFilesToUploadButton = CustomButtonFactory.makeCustomButton(
-        // IconFactory.getBrowseIcon(40, 40),
-        // IconFactory.getBrowseHoverIcon(42, 42), 42, 42,
-        // "Browse for files");
-        // uploadFilesToExperimentButton = CustomButtonFactory.makeCustomButton(
-        // IconFactory.getUploadIcon(40, 40),
-        // IconFactory.getUploadHoverIcon(42, 42), 42, 42, "Upload data");
         selectFilesToUploadButton = new JButton("Browse for files");
-        uploadFilesToExperimentButton = new JButton("Upload data");
-        uploadFileRows = new HashMap<File, UploadFileRow>();
+        uploadFilesToExperimentButton = new JButton("Upload files");
+        uploadFileRows = new HashMap<>();
 
-        mainPanel = new JPanel(new BorderLayout());
         northPanel = new JPanel(new BorderLayout());
         centerPanel = new JPanel(new BorderLayout());
-        backgroundPanel = new JPanel(new BorderLayout());
         uploadFilesPanel = new JPanel(new GridLayout(0, 1));
         buttonsPanel = new JPanel(new FlowLayout());
 
@@ -78,17 +62,6 @@ public class UploadToExistingExpPanel extends JPanel implements ExperimentPanel 
                 Double.MIN_VALUE };
         gbl_panel.rowWeights = new double[] { 0.0, 0.0, 0.0, Double.MIN_VALUE };
         northPanel.setLayout(gbl_panel);
-
-        // buttonsPanel.add(selectFilesToUploadButton);
-        // buttonsPanel.add(uploadFilesToExperimentButton);
-
-        // mainPanel.add(buttonsPanel, BorderLayout.SOUTH);
-        // uploadFilesToExperimentButton.setEnabled(false);
-        // add(mainPanel, BorderLayout.CENTER);
-        // repaint();
-        // revalidate();
-        // uploadFilesPanel.repaint();
-        // uploadFilesPanel.revalidate();
         repaintSelectedFiles();
     }
 
@@ -155,16 +128,6 @@ public class UploadToExistingExpPanel extends JPanel implements ExperimentPanel 
     }
 
     /**
-     * Sets the annotations.
-     *
-     * @param annotations
-     *            The annotations to set the panel's annotations to.
-     */
-    public void setAnnotations(AnnotationDataType[] annotations) {
-        this.annotations = annotations;
-    }
-
-    /**
      * Checks if there are any uploadfilerows. Disables the uploadbutton if
      * there aren't, and adds them to the panel if there are. After these
      * updates, it repaints the panel.
@@ -175,11 +138,9 @@ public class UploadToExistingExpPanel extends JPanel implements ExperimentPanel 
                 uploadFilesPanel.add(uploadFileRows.get(f));
             }
         } else {
-            enableUploadButton(false);
+            enableUploadButton();
         }
         buttonsPanel.add(selectFilesToUploadButton);
-//        buttonsPanel.add(Box.createHorizontalStrut(20))
-// (orsakar att knapparna flyttar mer och mer åt höger efter varje repaint)
         buttonsPanel.add(uploadFilesToExperimentButton);
         uploadFilesPanel.add(buttonsPanel);
         repaint();
@@ -189,13 +150,10 @@ public class UploadToExistingExpPanel extends JPanel implements ExperimentPanel 
     /**
      * Tries to set the experiment button to either be enabled or disabled. If
      * there are no fileRows, it won't be set to true.
-     *
-     * @param b
-     *            Whether it should be enabled (true) or disabled (false)
      */
-    public void enableUploadButton(boolean b) {
-        if (b && !uploadFileRows.isEmpty()) {
-            uploadFilesToExperimentButton.setEnabled(b);
+    public void enableUploadButton() {
+        if (!uploadFileRows.isEmpty()) {
+            uploadFilesToExperimentButton.setEnabled(true);
         } else {
             uploadFilesToExperimentButton.setEnabled(false);
         }
@@ -271,7 +229,7 @@ public class UploadToExistingExpPanel extends JPanel implements ExperimentPanel 
     }
 
     public ArrayList<File> getFilesToUpload() {
-        ArrayList<File> files = new ArrayList<File>();
+        ArrayList<File> files = new ArrayList<>();
         for (File f : uploadFileRows.keySet()) {
             files.add(f);
         }
@@ -279,19 +237,21 @@ public class UploadToExistingExpPanel extends JPanel implements ExperimentPanel 
     }
 
     public HashMap<String, String> getTypes() {
-        HashMap<String, String> types = new HashMap<String, String>();
+        HashMap<String, String> types = new HashMap<>();
         for (File f : uploadFileRows.keySet()) {
             types.put(f.getName(), uploadFileRows.get(f).getType());
         }
         return types;
     }
 
+    /**
+     * Makes dragging & dropping of files into the panel possible
+     */
     public void addFileDrop() {
-        // Makes dragging & dropping of files into the panel possible
         new FileDrop(this, new FileDrop.Listener() {
             public void filesDropped(java.io.File[] files) {
                 createUploadFileRow(files);
-                enableUploadButton(true);
+                enableUploadButton();
             }
         });
     }
