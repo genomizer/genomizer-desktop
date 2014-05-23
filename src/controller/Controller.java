@@ -63,16 +63,11 @@ public class Controller {
         view.addRawToRegionDataListener(new RawToRegionDataListener());
         view.addScheduleFileListener(new ScheduleFileListener());
         view.addDownloadFileListener(new DownloadWindowListener());
-        view.addSelectFilesToUploadButtonListener(
-                new SelectFilesToUploadButtonListener());
-        view.setSysadminController(
-                sysController = new SysadminController(model));
-        view.addAddToExistingExpButtonListener(
-                new AddToExistingExpButtonListener());
-        view.addUploadToExperimentButtonListener(
-                new UploadToExperimentButtonListener());
-        view.addUpdateSearchAnnotationsListener(
-                new updateSearchAnnotationsListener());
+        view.addSelectFilesToUploadButtonListener(new SelectFilesToUploadButtonListener());
+        view.setSysadminController(sysController = new SysadminController(model));
+        view.addAddToExistingExpButtonListener(new AddToExistingExpButtonListener());
+        view.addUploadToExperimentButtonListener(new UploadToExperimentButtonListener());
+        view.addUpdateSearchAnnotationsListener(new updateSearchAnnotationsListener());
         view.addProcessFileListener(new ProcessFileListener());
         view.addSearchToWorkspaceListener(new SearchToWorkspaceListener());
         view.addNewExpButtonListener(new NewExpButtonListener());
@@ -121,7 +116,7 @@ public class Controller {
             ArrayList<FileData> allMarked = view.getAllMarkedFiles();
             String message;
             Boolean isConverted;
-
+            
             if (view.isCorrectToProcess()) {
                 if (!allMarked.isEmpty()) {
                     
@@ -618,8 +613,8 @@ public class Controller {
                         .getSelectedExperimentsInWorkspace().get(0);
                 UploadTab ut = view.getUploadTab();
                 view.getTabbedPane().setSelectedComponent(ut);
-                ut.getExperimentNameField()
-                        .setText(firstChosenExperiment.getName());
+                ut.getExperimentNameField().setText(
+                        firstChosenExperiment.getName());
                 ut.getExistingExpButton().doClick();
             } catch (IndexOutOfBoundsException e) {
                 JOptionPane.showMessageDialog(null,
@@ -730,7 +725,6 @@ public class Controller {
                 for (ExperimentData data : selectedData) {
                     for (FileData fileData : data.files) {
                         if (!abortDeletion) {
-                            System.out.println("k�r1");
                             model.deleteFileFromExperiment(fileData.id);
                         }
                         i++;
@@ -740,7 +734,6 @@ public class Controller {
                 }
                 for (ExperimentData data : selectedExps) {
                     if (!abortDeletion) {
-                        System.out.println("k�r2");
                         model.deleteExperimentFromDatabase(data.name);
                     }
                     i++;
@@ -854,16 +847,16 @@ public class Controller {
             }
         }
     }
-
+    
     class SpeciesSelectedListener implements ActionListener, Runnable {
         @Override
         public void actionPerformed(ActionEvent e) {
             new Thread(this).start();
         }
-
+        
         @Override
         public void run() {
-
+            
             String species = view.getSelectedSpecies();
             System.out.println(species);
         }
