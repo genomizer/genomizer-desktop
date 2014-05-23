@@ -762,24 +762,20 @@ public class GUI extends JFrame implements GenomizerView {
     }
     
     public void resetGUI() {
-        try {
-            tabbedPane.removeAll();
-        } catch (IndexOutOfBoundsException e) {
-            // ignore exception when clearing tabbedpane
+        System.out.println("fdfdfdsfdsfds");
+        while (tabbedPane.getTabCount() > 0) {
+            tabbedPane.removeTabAt(0);
         }
         SearchTab st = new SearchTab();
         UploadTab ut = new UploadTab();
         ProcessTab pt = new ProcessTab();
         WorkspaceTab wt = new WorkspaceTab();
-        // AnalyzeTab at = new AnalyzeTab();
         SysadminTab sat = new SysadminTab();
         QuerySearchTab qst = new QuerySearchTab();
         setQuerySearchTab(qst);
         setUploadTab(ut);
         setProcessTab(pt);
         setWorkspaceTab(wt);
-        // setAnalyzeTab(at);
-        
         setSysAdminTab(sat);
         repaint();
         revalidate();

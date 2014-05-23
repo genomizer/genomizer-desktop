@@ -97,6 +97,7 @@ public class LoginWindow extends JFrame {
      *            The listener to login to the server
      */
     public void addLoginListener(ActionListener listener) {
+        System.out.println("feddsgdsgdsgds");
         loginButton.addActionListener(listener);
     }
     

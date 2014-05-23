@@ -42,12 +42,15 @@ public class Controller {
     public Controller(GenomizerView view, GenomizerModel model) {
         this.view = view;
         this.model = model;
+        view.addLoginListener(new LoginListener());
+        view.addLogoutListener(new LogoutListener());
+        view.addCancelListener(new CancelListener());
+        view.addOkListener(new OkListener());
         updateView();
     }
     
     private void updateView() {
-        view.addLoginListener(new LoginListener());
-        view.addLogoutListener(new LogoutListener());
+        view.addRatioCalcListener(new RatioCalcListener());
         view.addSearchListener(new QuerySearchListener());
         view.addConvertFileListener(new ConvertFileListener());
         view.addQuerySearchListener(new QuerySearchListener());
@@ -67,10 +70,7 @@ public class Controller {
         view.addUploadButtonListener(new UploadNewExpListener());
         view.addAnalyzeSelectedListener(new AnalyzeSelectedListener());
         fileListAddMouseListener(view.getfileList());
-        view.addRatioCalcListener(new RatioCalcListener());
         view.addProcessFeedbackListener(new ProcessFeedbackListener());
-        view.addCancelListener(new CancelListener());
-        view.addOkListener(new OkListener());
         view.addDeleteFromDatabaseListener(new DeleteFromDatabaseListener());
         view.setOngoingUploads(model.getOngoingUploads());
         view.addUploadSelectedFilesListener(new UploadSelectedFilesListener());
@@ -734,7 +734,7 @@ public class Controller {
         
         @Override
         public void run() {
-            
+            System.out.println("ok");
             if (view.isRatioCorrectToProcess()) {
                 view.setProfileButton(true);
                 System.out.println("OK");
@@ -754,6 +754,7 @@ public class Controller {
         
         @Override
         public void run() {
+            
             System.out.println("CANCEL");
             view.setUnusedRatioPar();
             view.getRatioCalcPopup().hideRatioWindow();
