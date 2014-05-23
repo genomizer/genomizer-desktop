@@ -85,7 +85,6 @@ public class DownloadWindow extends JFrame {
         String[] headings = new String[] { "File Name" };
         String[][] content = new String[data.size()][1];
         for (int i = 0; i < data.size(); i++) {
-            System.out.println("add data");
             content[i][0] = data.get(i);
         }
         table = new JTable(content, headings);
