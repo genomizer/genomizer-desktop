@@ -79,6 +79,7 @@ public class Controller {
         view.addDeleteFromDatabaseListener(new DeleteFromDatabaseListener());
         view.setOngoingUploads(model.getOngoingUploads());
         view.addUploadSelectedFilesListener(new UploadSelectedFilesListener());
+        view.addSpeciesSelectedListener(new SpeciesSelectedListener());
     }
     
     class ConvertFileListener implements ActionListener, Runnable {
@@ -607,12 +608,18 @@ public class Controller {
         
         @Override
         public void run() {
-            ExperimentData firstChosenExperiment = view
-                    .getSelectedExperimentsInWorkspace().get(0);
-            UploadTab ut = view.getUploadTab();
-            ut.getExperimentNameField()
-                    .setText(firstChosenExperiment.getName());
-            ut.getExistingExpButton().doClick();
+            try {
+                ExperimentData firstChosenExperiment = view
+                        .getSelectedExperimentsInWorkspace().get(0);
+                UploadTab ut = view.getUploadTab();
+                view.getTabbedPane().setSelectedComponent(ut);
+                ut.getExperimentNameField().setText(
+                        firstChosenExperiment.getName());
+                ut.getExistingExpButton().doClick();
+            } catch (IndexOutOfBoundsException e) {
+                JOptionPane.showMessageDialog(null,
+                        "No experiment was selected.");
+            }
         }
     }
     
@@ -718,7 +725,6 @@ public class Controller {
                 for (ExperimentData data : selectedData) {
                     for (FileData fileData : data.files) {
                         if (!abortDeletion) {
-                            System.out.println("kör1");
                             model.deleteFileFromExperiment(fileData.id);
                         }
                         i++;
@@ -728,7 +734,6 @@ public class Controller {
                 }
                 for (ExperimentData data : selectedExps) {
                     if (!abortDeletion) {
-                        System.out.println("kör2");
                         model.deleteExperimentFromDatabase(data.name);
                     }
                     i++;
@@ -840,6 +845,20 @@ public class Controller {
             } else {
                 JOptionPane.showMessageDialog(null, "No files selected.");
             }
+        }
+    }
+    
+    class SpeciesSelectedListener implements ActionListener, Runnable {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            new Thread(this).start();
+        }
+        
+        @Override
+        public void run() {
+            
+            String species = view.getSelectedSpecies();
+            System.out.println(species);
         }
     }
 }
