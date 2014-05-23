@@ -1,7 +1,6 @@
 package gui;
 
 import java.awt.BorderLayout;
-import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.GridBagConstraints;
@@ -20,7 +19,6 @@ import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
@@ -29,7 +27,7 @@ import util.AnnotationDataType;
 import util.AnnotationDataValue;
 import util.FileDrop;
 
-import communication.UploadHandler;
+import communication.HTTPURLUpload;
 
 public class UploadToNewExpPanel extends JPanel implements ExperimentPanel {
 
@@ -43,7 +41,7 @@ public class UploadToNewExpPanel extends JPanel implements ExperimentPanel {
     private AnnotationDataType[] annotations;
     private JLabel expNameLabel, boldTextLabel;
     private JTextField expID;
-    private CopyOnWriteArrayList<UploadHandler> ongoingUploads;
+    private CopyOnWriteArrayList<HTTPURLUpload> ongoingUploads;
 
     public UploadToNewExpPanel() {
         this.annotations = annotations;
@@ -446,7 +444,7 @@ public class UploadToNewExpPanel extends JPanel implements ExperimentPanel {
     }
 
     public void setOngoingUploads(
-            CopyOnWriteArrayList<UploadHandler> ongoingUploads) {
+            CopyOnWriteArrayList<HTTPURLUpload> ongoingUploads) {
         this.ongoingUploads = ongoingUploads;
     }
 

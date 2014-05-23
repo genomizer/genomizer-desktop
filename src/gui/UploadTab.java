@@ -447,7 +447,8 @@ public class UploadTab extends JPanel /*implements ExperimentPanel*/ {
 //     * @param f
 //     *            This is used to identify which uploadFileRow to be deleted.
 //     */
-//    public void deleteFileRow(File f) {
+    public void deleteFileRow(File f) {
+       newPanel.deleteFileRow(f);
 //        if (uploadFileRows.containsKey(f)) {
 //            uploadFileRows.remove(f);
 //            uploadFilesPanel.removeAll();
@@ -458,7 +459,7 @@ public class UploadTab extends JPanel /*implements ExperimentPanel*/ {
 //                    "Can't delete file: " + f.getName() + "", "File error",
 //                    JOptionPane.ERROR_MESSAGE);
 //        }
-//    }
+    }
 
     /**
      * Method returning the ExpID for a new experiment.
