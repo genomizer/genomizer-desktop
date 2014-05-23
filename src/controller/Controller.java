@@ -108,8 +108,8 @@ public class Controller {
             
             view.setBowtieParameters();
             ArrayList<FileData> allMarked = view.getAllMarkedFiles();
-            String message = null;
-            Boolean isConverted = false;
+            String message;
+            Boolean isConverted;
             
             if (view.isCorrectToProcess()) {
                 if (!allMarked.isEmpty()) {
@@ -222,7 +222,7 @@ public class Controller {
             // TODO Skicka in filedata arrayen
             ArrayList<ExperimentData> selectedData = view
                     .getSelectedDataInWorkspace();
-            ArrayList<FileData> selectedFiles = new ArrayList<FileData>();
+            ArrayList<FileData> selectedFiles = new ArrayList<>();
             for (ExperimentData experiment : selectedData) {
                 for (FileData file : experiment.files) {
                     if (!selectedFiles.contains(file)) {
@@ -310,7 +310,7 @@ public class Controller {
             // Skicka med arraylist<FileData> för de filer som ska nerladdas
             ArrayList<ExperimentData> selectedData = view
                     .getSelectedDataInWorkspace();
-            ArrayList<FileData> selectedFiles = new ArrayList<FileData>();
+            ArrayList<FileData> selectedFiles = new ArrayList<>();
             for (ExperimentData experiment : selectedData) {
                 for (FileData file : experiment.files) {
                     if (!selectedFiles.contains(file)) {
@@ -376,7 +376,6 @@ public class Controller {
             if (expID.length() > 0) {
                 try {
                     ExperimentData ed = model.retrieveExperiment(expID);
-                    ArrayList<FileData> f = new ArrayList<FileData>();
                     uploadTab.addExistingExpPanel(ed);
                 } catch (NullPointerException e) {
                     JOptionPane.showMessageDialog(null,
@@ -409,11 +408,7 @@ public class Controller {
             } else {
                 return;
             }
-            
-            String[] fileNames = new String[files.length];
-            for (int i = 0; i < files.length; i++) {
-                fileNames[i] = files[i].getName();
-            }
+
             UploadToExistingExpPanel uploadToExistingExpPanel = view
                     .getUploadTab().getUploadToExistingExpPanel();
             uploadToExistingExpPanel.createUploadFileRow(files);
