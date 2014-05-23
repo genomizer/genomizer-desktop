@@ -38,7 +38,7 @@ public interface GenomizerView {
      */
 
     public void addUploadToListener(ActionListener listener);
-    
+
     public void refreshSearch();
 
     LoginWindow getLoginWindow();
@@ -206,4 +206,8 @@ public interface GenomizerView {
     public String getSelectedSpecies();
 
     public void addSpeciesSelectedListener(ActionListener listener);
+
+    public void setGenomeReleases(GenomeReleaseData[] grd);
+
+    public String getGenomeVersion();
 }

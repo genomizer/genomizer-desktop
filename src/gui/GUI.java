@@ -740,6 +740,14 @@ public class GUI extends JFrame implements GenomizerView {
         uploadTab.getNewExpPanel().addSpeciesSelectedListener(listener);
     }
 
+    public void setGenomeReleases(GenomeReleaseData[] grd) {
+        uploadTab.getNewExpPanel().setGenomeReleases(grd);
+    }
+
+    public String getGenomeVersion() {
+        return uploadTab.getNewExpPanel().getGenomeVersion();
+    }
+
     public void resetGUI() {
         System.out.println("fdfdfdsfdsfds");
         while (tabbedPane.getTabCount() > 0) {
