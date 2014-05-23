@@ -751,4 +751,8 @@ public class GUI extends JFrame implements GenomizerView {
         repaint();
         revalidate();
     }
+
+    public JTabbedPane getTabbedPane() {
+        return tabbedPane;
+    }
 }

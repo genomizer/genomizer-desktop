@@ -610,6 +610,7 @@ public class Controller {
             ExperimentData firstChosenExperiment = view
                     .getSelectedExperimentsInWorkspace().get(0);
             UploadTab ut = view.getUploadTab();
+            view.getTabbedPane().setSelectedComponent(ut);
             ut.getExperimentNameField()
                     .setText(firstChosenExperiment.getName());
             ut.getExistingExpButton().doClick();
@@ -718,7 +719,7 @@ public class Controller {
                 for (ExperimentData data : selectedData) {
                     for (FileData fileData : data.files) {
                         if (!abortDeletion) {
-                            System.out.println("kör1");
+                            System.out.println("kï¿½r1");
                             model.deleteFileFromExperiment(fileData.id);
                         }
                         i++;
@@ -728,7 +729,7 @@ public class Controller {
                 }
                 for (ExperimentData data : selectedExps) {
                     if (!abortDeletion) {
-                        System.out.println("kör2");
+                        System.out.println("kï¿½r2");
                         model.deleteExperimentFromDatabase(data.name);
                     }
                     i++;
