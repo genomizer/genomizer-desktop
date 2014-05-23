@@ -64,7 +64,7 @@ public class DownloadWindow extends JFrame {
         setUpOngoingPanel();
         add(mainPanel, BorderLayout.CENTER);
         updateProgress();
-        if(files.size() > 0) {
+        if (files.size() > 0) {
             downloadButton.doClick();
         }
     }
@@ -87,24 +87,16 @@ public class DownloadWindow extends JFrame {
         for (int i = 0; i < data.size(); i++) {
             content[i][0] = data.get(i);
         }
-        table = new JTable(content, headings) {
-            @Override
-            public boolean isCellEditable(int row, int column) {
-                return column == 1 ? true : false;
-            }
-        };
+        table = new JTable(content, headings);
         
         // Add comboboxes to each row in the table.
         table.setRowHeight(30);
         table.setEnabled(false);
         table.getTableHeader().setReorderingAllowed(false);
         JScrollPane scrollPane = new JScrollPane(table);
-        //tablePanel.add(scrollPane, BorderLayout.CENTER);
-        //tablePanel.add(table.getTableHeader(), BorderLayout.NORTH);
+        tablePanel.add(scrollPane, BorderLayout.CENTER);
+        tablePanel.add(table.getTableHeader(), BorderLayout.NORTH);
         
-        // downloadButton = CustomButtonFactory.makeCustomButton(
-        // IconFactory.getDownloadIcon(50, 50),
-        // IconFactory.getDownloadHoverIcon(52, 52), 52, 52, "Download files");
         downloadButton = new JButton("Download");
         JPanel flowSouth = new JPanel();
         flowSouth.add(downloadButton);
