@@ -99,8 +99,8 @@ public class DownloadWindow extends JFrame {
         table.setEnabled(false);
         table.getTableHeader().setReorderingAllowed(false);
         JScrollPane scrollPane = new JScrollPane(table);
-        tablePanel.add(scrollPane, BorderLayout.CENTER);
-        tablePanel.add(table.getTableHeader(), BorderLayout.NORTH);
+        //tablePanel.add(scrollPane, BorderLayout.CENTER);
+        //tablePanel.add(table.getTableHeader(), BorderLayout.NORTH);
         
         // downloadButton = CustomButtonFactory.makeCustomButton(
         // IconFactory.getDownloadIcon(50, 50),
@@ -109,7 +109,6 @@ public class DownloadWindow extends JFrame {
         JPanel flowSouth = new JPanel();
         flowSouth.add(downloadButton);
         tablePanel.add(flowSouth, BorderLayout.SOUTH);
-        
         setTitle("Download Files");
         setSize(500, 500);
         setLocationRelativeTo(null);
