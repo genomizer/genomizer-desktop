@@ -14,6 +14,7 @@ import javax.swing.Box;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JPanel;
+import javax.swing.SwingUtilities;
 
 import util.ExperimentData;
 import util.TreeTable;
@@ -24,7 +25,7 @@ public class WorkspaceTab extends JPanel {
     private TreeTable table;
     private JPanel buttonPanel, filePanel;
     private JButton deleteButton, removeButton, downloadButton;
-    private JButton analyzeButton, browseButton, processButton;
+    private JButton uploadToButton, processButton;
     
     public WorkspaceTab() {
         setLayout(new BorderLayout());
@@ -65,9 +66,8 @@ public class WorkspaceTab extends JPanel {
         });
         downloadButton = new JButton("Download");
         downloadButton.setPreferredSize(new Dimension(150, 40));
-        analyzeButton = new JButton("Analyze");
-        analyzeButton.setPreferredSize(new Dimension(150, 40));
-        analyzeButton.setEnabled(false);
+        uploadToButton = new JButton("Upload to");
+        uploadToButton.setPreferredSize(new Dimension(150, 40));
         processButton = new JButton("Process");
         processButton.setPreferredSize(new Dimension(150, 40));
         // downloadButton = CustomButtonFactory.makeCustomButton(
@@ -101,7 +101,7 @@ public class WorkspaceTab extends JPanel {
         
         buttonPanel.add(Box.createHorizontalStrut(50));
         
-        buttonPanel.add(analyzeButton);
+        buttonPanel.add(uploadToButton);
         
         buttonPanel.add(Box.createHorizontalStrut(50));
         
@@ -130,8 +130,8 @@ public class WorkspaceTab extends JPanel {
         processButton.addActionListener(listener);
     }
     
-    public void addAnalyzeSelectedListener(ActionListener listener) {
-        analyzeButton.addActionListener(listener);
+    public void addUploadToListener(ActionListener listener) {
+        uploadToButton.addActionListener(listener);
     }
     
     public void addDeleteSelectedListener(ActionListener listener) {
@@ -179,6 +179,10 @@ public class WorkspaceTab extends JPanel {
     }
     
     public synchronized void removeSelectedData() {
-        table.removeSelectedData();
+        SwingUtilities.invokeLater(new Runnable() {
+            public void run() {
+                table.removeSelectedData();
+            }
+        });
     }
 }

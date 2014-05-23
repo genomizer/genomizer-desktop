@@ -1,6 +1,7 @@
 package controller;
 
 import gui.CheckListItem;
+import gui.DeleteDataWindow;
 import gui.DownloadWindow;
 import gui.GenomizerView;
 import gui.UploadTab;
@@ -11,6 +12,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -22,6 +25,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 import model.GenomizerModel;
+import util.ActiveSearchPanel;
 import util.AnnotationDataType;
 import util.AnnotationDataValue;
 import util.ExperimentData;
@@ -37,12 +41,21 @@ public class Controller {
     private GenomizerModel model;
     private final JFileChooser fileChooser = new JFileChooser();
     private SysadminController sysController;
+    private boolean abortDeletion;
 
     public Controller(GenomizerView view, GenomizerModel model) {
+        abortDeletion = false;
         this.view = view;
         this.model = model;
         view.addLoginListener(new LoginListener());
         view.addLogoutListener(new LogoutListener());
+        view.addCancelListener(new CancelListener());
+        view.addOkListener(new OkListener());
+        updateView();
+    }
+
+    private void updateView() {
+        view.addRatioCalcListener(new RatioCalcListener());
         view.addSearchListener(new QuerySearchListener());
         view.addConvertFileListener(new ConvertFileListener());
         view.addQuerySearchListener(new QuerySearchListener());
@@ -60,15 +73,13 @@ public class Controller {
         view.addNewExpButtonListener(new NewExpButtonListener());
         view.addSelectButtonListener(new SelectFilesToNewExpListener());
         view.addUploadButtonListener(new UploadNewExpListener());
-        view.addAnalyzeSelectedListener(new AnalyzeSelectedListener());
+        view.addUploadToListener(new UploadToListener());
         fileListAddMouseListener(view.getfileList());
-        view.addRatioCalcListener(new RatioCalcListener());
         view.addProcessFeedbackListener(new ProcessFeedbackListener());
-        view.addCancelListener(new CancelListener());
-        view.addOkListener(new OkListener());
         view.addDeleteFromDatabaseListener(new DeleteFromDatabaseListener());
         view.setOngoingUploads(model.getOngoingUploads());
         view.addUploadSelectedFilesListener(new UploadSelectedFilesListener());
+        view.addSpeciesSelectedListener(new SpeciesSelectedListener());
     }
 
     class ConvertFileListener implements ActionListener, Runnable {
@@ -102,64 +113,63 @@ public class Controller {
         public void run() {
 
             view.setBowtieParameters();
-            ArrayList<FileData> allMarked = view.getAllMarkedFileData();
-            String message = null;
-            Boolean isConverted = false;
+            ArrayList<FileData> allMarked = view.getAllMarkedFiles();
+            String message;
+            Boolean isConverted;
+            
+            if (view.isCorrectToProcess()) {
+                if (!allMarked.isEmpty()) {
 
-            if(view.isCorrectToProcess()){
-            if (!allMarked.isEmpty()) {
+                    for (FileData data : allMarked) {
 
-                for (FileData data : allMarked) {
+                        String fileName = data.filename;
+                        String author = view.getUsername();
+                        String parameters[] = new String[8];
 
-                    String fileName = data.filename;
-                    String fileID = data.id;
-                    String author = view.getUsername();
-                    String parameters[] = new String[8];
-                    String processtype = "rawtoprofile";
+                        parameters[0] = view.getParameters()[0];
+                        parameters[1] = view.getParameters()[1];
+                        parameters[2] = view.getOtherParameters()[0];// "y";
+                        parameters[3] = view.getOtherParameters()[1];// "y";
+                        parameters[4] = view.getParameters()[2];
+                        parameters[5] = view.getParameters()[3];
 
-                    parameters[0] = view.getParameters()[0];
-                    parameters[1] = view.getParameters()[1];
-                    parameters[2] = view.getOtherParameters()[0];// "y";
-                    parameters[3] = view.getOtherParameters()[1];// "y";
-                    parameters[4] = view.getParameters()[2];
-                    parameters[5] = view.getParameters()[3];
+                        if (view.useRatio()) {
+                            parameters[6] = view.getRatioCalcParameters()[0]; // "single 4 0";
+                            parameters[7] = view.getRatioCalcParameters()[1]; // "150 1 7 0 0";
+                        } else {
+                            parameters[6] = "";
+                            parameters[7] = "";
+                        }
 
-                    if(view.useRatio()){
-                        parameters[6] = view.getRatioCalcParameters()[0]; // "single 4 0";
-                        parameters[7] = view.getRatioCalcParameters()[1]; // "150 1 7 0 0";
-                    }else{
-                        parameters[6] = "";
-                        parameters[7] = "";
-                    }
+                        String expid = data.expId;
+                        String genomeVersion = data.grVersion;
+                        String metadata = data.metaData;
 
-                    String expid = data.expId;
-                    String genomeVersion = data.grVersion;
-                    String metadata = data.metaData;
+                        isConverted = model.rawToProfile(expid, parameters,
+                                metadata, genomeVersion, author);
 
-                    // isConverted = model.rawToProfile(fileName, fileID, expid,
-                    // processtype, parameters, metadata, genomeRelease,
-                    // author);
+                        if (isConverted) {
+                            message = "The server has started process on file: "
+                                    + fileName
+                                    + " from experiment: "
+                                    + expid
+                                    + "\n";
+                            view.printToConsole(message);
 
-                    isConverted = model.rawToProfile(expid, parameters,
-                            metadata, genomeVersion, author);
-
-                    if (isConverted) {
-                        message = "The server has converted: " + fileName
-                                + " with file id: " + fileID + " from " + expid
-                                + "\n";
-                        view.printToConvertText(message, "green");
-
-                    } else {
-                        message = "WARNING - The server couldn't convert: "
-                                + fileName + " with file id: " + fileID
-                                + " from " + expid + "\n";
-                        view.printToConvertText(message, "red");
+                        } else {
+                            message = "WARNING - The server couldn't start processing on file: "
+                                    + fileName
+                                    + " from experiment: "
+                                    + expid
+                                    + "\n";
+                            view.printToConsole(message);
                         }
                     }
                 }
-            }else{
+            } else {
+                // TODO Popup window
                 message = "Parameters are invalid!\n";
-                view.printToConvertText(message, "green");
+                view.printToConsole(message);
             }
         }
 
@@ -218,7 +228,7 @@ public class Controller {
             // TODO Skicka in filedata arrayen
             ArrayList<ExperimentData> selectedData = view
                     .getSelectedDataInWorkspace();
-            ArrayList<FileData> selectedFiles = new ArrayList<FileData>();
+            ArrayList<FileData> selectedFiles = new ArrayList<>();
             for (ExperimentData experiment : selectedData) {
                 for (FileData file : experiment.files) {
                     if (!selectedFiles.contains(file)) {
@@ -238,6 +248,7 @@ public class Controller {
 
         @Override
         public void run() {
+            model.setLoginWindow(view.getLoginWindow());
             model.setIp(view.getIp());
             String username = view.getUsername();
             String pwd = view.getPassword();
@@ -261,15 +272,16 @@ public class Controller {
             ArrayList<ExperimentData> searchResults = model.search(pubmed);
             if (searchResults != null) {
                 view.updateQuerySearchResults(searchResults);
-            } else {
-                /*
-                 * searchResults = new
-                 * ArrayList<ExperimentData>(Arrays.asList(ExperimentData
-                 * .getExample()));
-                 * view.updateQuerySearchResults(searchResults);
-                 */
+
+                // If search results are null and the active panel is search
+            } else if (view.getActiveSearchPanel() == ActiveSearchPanel.SEARCH) {
                 JOptionPane.showMessageDialog(null, "No search results!",
                         "Search Warning", JOptionPane.WARNING_MESSAGE);
+
+                // If search results are null and the active panel is table
+            } else if (view.getActiveSearchPanel() == ActiveSearchPanel.TABLE) {
+                // Go back to the query search
+                view.getBackButton().doClick();
             }
         }
     }
@@ -282,27 +294,11 @@ public class Controller {
 
         @Override
         public void run() {
-            if (model.logoutUser()) {
-                view.updateLogout();
-            } else {
-                view.updateLogout();
-            }
-
-        }
-    }
-
-    class UploadListener implements ActionListener, Runnable {
-
-        @Override
-        public void actionPerformed(ActionEvent actionEvent) {
-            new Thread(this).start();
-        }
-
-        @Override
-        public void run() {
-            // if (model.uploadFile()) {
-            // update view?
-            // }
+            model.logoutUser();
+            model.resetModel();
+            view.updateLogout();
+            view.resetGUI();
+            updateView();
 
         }
     }
@@ -320,7 +316,7 @@ public class Controller {
             // Skicka med arraylist<FileData> för de filer som ska nerladdas
             ArrayList<ExperimentData> selectedData = view
                     .getSelectedDataInWorkspace();
-            ArrayList<FileData> selectedFiles = new ArrayList<FileData>();
+            ArrayList<FileData> selectedFiles = new ArrayList<>();
             for (ExperimentData experiment : selectedData) {
                 for (FileData file : experiment.files) {
                     if (!selectedFiles.contains(file)) {
@@ -348,18 +344,6 @@ public class Controller {
 
             DownloadWindow downloadWindow = view.getDownloadWindow();
             ArrayList<FileData> fileData = downloadWindow.getFiles();
-            /*
-             * >>>>>>> branch 'dev' of
-             * https://github.com/genomizer/genomizer-desktop.git FileDialog
-             * fileDialog = new FileDialog((java.awt.Frame) null,
-             * "Choose a directory", FileDialog.SAVE);
-             * fileDialog.setVisible(true); String directoryName =
-             * fileDialog.getDirectory(); System.out.println("You chose " +
-             * directoryName);
-             *
-             * if (fileData == null) {
-             * System.err.println("No directory selected"); return; }
-             */
             fileChooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
             int ret = fileChooser.showOpenDialog(new JPanel());
             String directoryName = "";
@@ -398,10 +382,7 @@ public class Controller {
             if (expID.length() > 0) {
                 try {
                     ExperimentData ed = model.retrieveExperiment(expID);
-                    ArrayList<FileData> f = new ArrayList<FileData>();
                     uploadTab.addExistingExpPanel(ed);
-                    // uploadTab.repaint();
-                    // uploadTab.revalidate();
                 } catch (NullPointerException e) {
                     JOptionPane.showMessageDialog(null,
                             "Couldn't find or retrieve experiment", "ERROR",
@@ -434,20 +415,10 @@ public class Controller {
                 return;
             }
 
-            /*
-             * FileDialog fileDialog = new java.awt.FileDialog( (java.awt.Frame)
-             * view); fileDialog.setMultipleMode(true);
-             * fileDialog.setVisible(true); File[] files =
-             * fileDialog.getFiles();
-             */
-            String[] fileNames = new String[files.length];
-            for (int i = 0; i < files.length; i++) {
-                fileNames[i] = files[i].getName();
-            }
             UploadToExistingExpPanel uploadToExistingExpPanel = view
                     .getUploadTab().getUploadToExistingExpPanel();
             uploadToExistingExpPanel.createUploadFileRow(files);
-            uploadToExistingExpPanel.enableUploadButton(true);
+            uploadToExistingExpPanel.enableUploadButton();
             uploadToExistingExpPanel.addFileDrop();
         }
     }
@@ -467,14 +438,14 @@ public class Controller {
             HashMap<String, String> types = view.getUploadTab()
                     .getUploadToExistingExpPanel().getTypes();
             // Should be genome release from uploadTab
-            String release = "rn5";
+//            String release = "wk1m";
 
             ExperimentData ed = view.getUploadTab()
                     .getUploadToExistingExpPanel().getExperiment();
 
             for (File f : files) {
                 if (model.uploadFile(ed.getName(), f, types.get(f.getName()),
-                        view.getUsername(), false, release)) {
+                        view.getUsername(), false, view.getGenomeVersion())) {
                     view.getUploadTab().getUploadToExistingExpPanel()
                             .deleteFileRow(f);
                     if (view.getUploadTab().getUploadToExistingExpPanel()
@@ -558,13 +529,6 @@ public class Controller {
 
         @Override
         public void run() {
-            /*
-             * FileDialog fileDialog = new java.awt.FileDialog( (java.awt.Frame)
-             * view); fileDialog.setMultipleMode(true);
-             * fileDialog.setVisible(true); File[] files =
-             * fileDialog.getFiles();
-             */
-
             fileChooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
             fileChooser.setMultiSelectionEnabled(true);
             int ret = fileChooser.showOpenDialog(new JPanel());
@@ -598,13 +562,12 @@ public class Controller {
                     && expName != null) {
                 HashMap<String, String> types = view.getFilesToUploadTypes();
                 // Should be genome release from uploadTab
-                String release = "rn5";
+//                String release = "wk1m";
                 // Test purpose
                 for (AnnotationDataValue a : annotations) {
                     System.out.println(a.getName() + " " + a.getValue());
                 }
-                boolean created = model.addNewExperiment(expName,
-                        view.getUsername(), annotations);
+                boolean created = model.addNewExperiment(expName, annotations);
                 System.out.println(created);
                 if (created) {
                     for (File f : files) {
@@ -612,7 +575,7 @@ public class Controller {
                         System.out.println(f.getName());
                         if (model.uploadFile(expName, f,
                                 types.get(f.getName()), view.getUsername(),
-                                false, release)) {
+                                false, view.getGenomeVersion())) {
                             view.deleteUploadFileRow(f);
                             for (HTTPURLUpload upload : model
                                     .getOngoingUploads()) {
@@ -636,7 +599,7 @@ public class Controller {
         }
     }
 
-    class AnalyzeSelectedListener implements ActionListener, Runnable {
+    class UploadToListener implements ActionListener, Runnable {
 
         @Override
         public void actionPerformed(ActionEvent e) {
@@ -645,7 +608,18 @@ public class Controller {
 
         @Override
         public void run() {
-            System.out.println("ANALYZE");
+            try {
+                ExperimentData firstChosenExperiment = view
+                        .getSelectedExperimentsInWorkspace().get(0);
+                UploadTab ut = view.getUploadTab();
+                view.getTabbedPane().setSelectedComponent(ut);
+                ut.getExperimentNameField().setText(
+                        firstChosenExperiment.getName());
+                ut.getExistingExpButton().doClick();
+            } catch (IndexOutOfBoundsException e) {
+                JOptionPane.showMessageDialog(null,
+                        "No experiment was selected.");
+            }
         }
     }
 
@@ -657,7 +631,7 @@ public class Controller {
             @Override
             public void mouseClicked(MouseEvent event) {
                 JList list = (JList) event.getSource();
-                String specie = "";
+                // String specie = "";
 
                 if (list.getModel().getSize() > 0) {
                     int index = list.locationToIndex(event.getPoint());
@@ -715,7 +689,6 @@ public class Controller {
             ProcessFeedbackData[] processFeedbackData = model
                     .getProcessFeedback();
             if (processFeedbackData != null && processFeedbackData.length > 0) {
-                System.out.println("Feedbackdata received");
                 view.showProcessFeedback(processFeedbackData);
             }
         }
@@ -735,22 +708,41 @@ public class Controller {
                             null,
                             "Are you sure you want to delete the selected data from the database?",
                             "Delete from database", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
+                DeleteDataWindow deleteWindow = new DeleteDataWindow(view);
+                deleteWindow.setVisible(true);
+                deleteWindow.addWindowListener(new WindowAdapter() {
+                    public void windowClosing(WindowEvent e) {
+                        abortDeletion = true;
+                    }
+                });
                 i = 0;
-                ArrayList<ExperimentData> expData = view
+                ArrayList<ExperimentData> selectedExps = view
+                        .getSelectedExperimentsInWorkspace();
+                ArrayList<ExperimentData> selectedData = view
                         .getSelectedDataInWorkspace();
-                for (ExperimentData data : expData) {
+                int size = selectedData.size() + selectedExps.size();
+                int progress = 0;
+                for (ExperimentData data : selectedData) {
                     for (FileData fileData : data.files) {
-                        model.deleteFileFromExperiment(fileData.id);
+                        if (!abortDeletion) {
+                            model.deleteFileFromExperiment(fileData.id);
+                        }
                         i++;
                     }
+                    progress++;
+                    deleteWindow.updateProgress(progress, size);
                 }
-                expData = view.getSelectedExperimentsInWorkspace();
-                for (ExperimentData data : expData) {
-                    model.deleteExperimentFromDatabase(data.name);
+                for (ExperimentData data : selectedExps) {
+                    if (!abortDeletion) {
+                        model.deleteExperimentFromDatabase(data.name);
+                    }
                     i++;
+                    progress++;
+                    deleteWindow.updateProgress(progress, size);
                 }
+                deleteWindow.dispose();
             }
-
+            abortDeletion = false;
             if (i == 0) {
                 JOptionPane.showMessageDialog(null, "No data was selected",
                         "Delete error", JOptionPane.ERROR_MESSAGE);
@@ -772,12 +764,12 @@ public class Controller {
 
         @Override
         public void run() {
-
-            if(view.isRatioCorrectToProcess()){
+            System.out.println("ok");
+            if (view.isRatioCorrectToProcess()) {
                 view.setProfileButton(true);
                 System.out.println("OK");
                 view.getRatioCalcPopup().hideRatioWindow();
-            }else{
+            } else {
                 view.setProfileButton(false);
             }
         }
@@ -792,6 +784,7 @@ public class Controller {
 
         @Override
         public void run() {
+
             System.out.println("CANCEL");
             view.setUnusedRatioPar();
             view.getRatioCalcPopup().hideRatioWindow();
@@ -814,13 +807,12 @@ public class Controller {
                     && expName != null) {
                 HashMap<String, String> types = view.getFilesToUploadTypes();
                 // Should be genome release from uploadTab
-                String release = "rn5";
+//                String release = "wk1m";
                 // Test purpose
                 for (AnnotationDataValue a : annotations) {
                     System.out.println(a.getName() + " " + a.getValue());
                 }
-                boolean created = model.addNewExperiment(expName,
-                        view.getUsername(), annotations);
+                boolean created = model.addNewExperiment(expName, annotations);
                 System.out.println(created);
                 if (created) {
                     for (File f : files) {
@@ -828,7 +820,7 @@ public class Controller {
                         view.disableSelectedRow(f);
                         if (model.uploadFile(expName, f,
                                 types.get(f.getName()), view.getUsername(),
-                                false, release)) {
+                                false, view.getGenomeVersion())) {
                             view.deleteUploadFileRow(f);
                             for (HTTPURLUpload upload : model
                                     .getOngoingUploads()) {
@@ -842,18 +834,31 @@ public class Controller {
                                     "Error", JOptionPane.ERROR_MESSAGE);
                         }
                     }
-                    //Shown when all files have been uploaded to experiment.
-                    JOptionPane.showMessageDialog(null, "Upload to the new " +
-                            "experiment \"" + expName +"\" complete");
+                    // Shown when all files have been uploaded to experiment.
+                    JOptionPane.showMessageDialog(null, "Upload to the new "
+                            + "experiment \"" + expName + "\" complete");
                 } else {
                     JOptionPane.showMessageDialog(null,
                             "Couldn't create new experiment " + expName + ".",
                             "Error", JOptionPane.ERROR_MESSAGE);
                 }
             } else {
-                JOptionPane.showMessageDialog(null,
-                        "No files selected.");
+                JOptionPane.showMessageDialog(null, "No files selected.");
             }
+        }
+    }
+    
+    class SpeciesSelectedListener implements ActionListener, Runnable {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            new Thread(this).start();
+        }
+        
+        @Override
+        public void run() {
+            String species = view.getSelectedSpecies();
+            GenomeReleaseData[] grd = model.getSpecieGenomeReleases(species);
+            view.setGenomeReleases(grd);
         }
     }
 }

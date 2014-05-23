@@ -1,5 +1,7 @@
 package model;
 
+import gui.LoginWindow;
+
 import java.io.File;
 import java.util.ArrayList;
 import java.util.concurrent.CopyOnWriteArrayList;
@@ -7,9 +9,9 @@ import java.util.concurrent.CopyOnWriteArrayList;
 import util.AnnotationDataType;
 import util.AnnotationDataValue;
 import util.ExperimentData;
-import util.FileData;
 import util.GenomeReleaseData;
 import util.ProcessFeedbackData;
+
 import communication.DownloadHandler;
 import communication.HTTPURLUpload;
 
@@ -32,6 +34,8 @@ public interface GenomizerModel {
 
     public void setIp(String ip);
 
+    void setLoginWindow(LoginWindow window);
+
     public boolean addNewAnnotation(String name, String[] categories,
             boolean forced);
 
@@ -41,7 +45,7 @@ public interface GenomizerModel {
 
     boolean deleteAnnotation(String annotationName);
 
-    public boolean addNewExperiment(String expName, String username,
+    public boolean addNewExperiment(String expName,
             AnnotationDataValue[] annotations);
 
     boolean editAnnotation(String name, String[] categories, boolean forced,
@@ -76,4 +80,8 @@ public interface GenomizerModel {
             String version);
 
     public boolean addNewAnnotationValue(String annotationName, String valueName);
+
+    public void resetModel();
+
+    public boolean addGenomeRelease();
 }

@@ -22,6 +22,7 @@ import javax.swing.UIManager;
  */
 public class LoginWindow extends JFrame {
     
+    private static final long serialVersionUID = -150623476066679412L;
     private JButton loginButton;
     private JTextField usernameField;
     private JPasswordField passwordField;
@@ -63,7 +64,7 @@ public class LoginWindow extends JFrame {
         
         usernameField = new JTextField(20);
         usernameField.setBounds(100, 10, 160, 25);
-        usernameField.setText("Genome researcher 1");
+        usernameField.setText("desktop");
         mainPanel.add(usernameField);
         
         JLabel passwordLabel = new JLabel("Password");
@@ -72,7 +73,7 @@ public class LoginWindow extends JFrame {
         
         passwordField = new JPasswordField(20);
         passwordField.setBounds(100, 40, 160, 25);
-        passwordField.setText("superhemligt");
+        passwordField.setText("umea@2014");
         mainPanel.add(passwordField);
         
         JLabel ipLabel = new JLabel("IP");
@@ -97,6 +98,7 @@ public class LoginWindow extends JFrame {
      *            The listener to login to the server
      */
     public void addLoginListener(ActionListener listener) {
+        System.out.println("feddsgdsgdsgds");
         loginButton.addActionListener(listener);
     }
     
@@ -112,10 +114,10 @@ public class LoginWindow extends JFrame {
     /**
      * Method for getting the password
      * 
-     * @return the password entered buy the user
+     * @return the password entered by the user
      */
     public String getPasswordInput() {
-        return passwordField.getText();
+        return new String(passwordField.getPassword());
     }
     
     /**

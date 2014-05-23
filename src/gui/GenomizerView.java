@@ -8,9 +8,9 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.concurrent.CopyOnWriteArrayList;
 
-import javax.swing.JFrame;
-import javax.swing.JList;
+import javax.swing.*;
 
+import util.ActiveSearchPanel;
 import util.AnnotationDataType;
 import util.AnnotationDataValue;
 import util.ExperimentData;
@@ -34,9 +34,12 @@ public interface GenomizerView {
      * @param listener
      *            The listener
      */
-    public void addAnalyzeSelectedListener(ActionListener listener);
+
+    public void addUploadToListener(ActionListener listener);
 
     public void refreshSearch();
+
+    LoginWindow getLoginWindow();
 
     public void addLoginListener(ActionListener listener);
 
@@ -105,21 +108,17 @@ public interface GenomizerView {
 
     public int getSelectedRowAtAnnotationTable();
 
-    public ArrayList<FileData> getAllMarkedFileData();
-
     public void updateLoginAccepted(String username, String pwd, String name);
 
     public void updateLoginNeglected(String errorMessage);
 
     public void updateLogout();
 
-    // public void updateQuerySearchResults(ExperimentData[] searchResults);
-
     public void setSearchAnnotationTypes(AnnotationDataType[] annotationTypes);
 
     public void setProcessFileList(ArrayList<FileData> arrayList);
 
-    public void printToConvertText(String message, String color);
+    public void printToConsole(String message);
 
     public void setSysadminController(SysadminController sysadminController);
 
@@ -195,4 +194,20 @@ public interface GenomizerView {
     public void setProfileButton(boolean bool);
 
     public boolean useRatio();
+
+    public ActiveSearchPanel getActiveSearchPanel();
+
+    public JButton getBackButton();
+
+    public void resetGUI();
+
+    public JTabbedPane getTabbedPane();
+
+    public String getSelectedSpecies();
+
+    public void addSpeciesSelectedListener(ActionListener listener);
+
+    public void setGenomeReleases(GenomeReleaseData[] grd);
+
+    public String getGenomeVersion();
 }

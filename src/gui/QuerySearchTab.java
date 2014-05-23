@@ -6,14 +6,20 @@ import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
 import java.util.ArrayList;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
+import javax.swing.JCheckBox;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
+import javax.swing.SwingConstants;
+import javax.swing.SwingUtilities;
 
+import util.ActiveSearchPanel;
 import util.AnnotationDataType;
 import util.ExperimentData;
 import util.TreeTable;
@@ -32,6 +38,7 @@ public class QuerySearchTab extends JPanel {
     private JPanel searchPanel;
     private JPanel resultsHeaderPanel;
     private JButton clearButton;
+    private JButton backButton;
     private JButton updateAnnotationsButton;
     private JButton addToWorkspaceButton;
     private JButton searchButton;
@@ -40,12 +47,7 @@ public class QuerySearchTab extends JPanel {
     private ArrayList<QueryBuilderRow> rowList;
     private TreeTable resultsTable;
     private AnnotationDataType[] annotationTypes;
-    
-    private enum ActivePanel {
-        SEARCH, TABLE
-    }
-    
-    private ActivePanel activePanel;
+    private ActiveSearchPanel activePanel;
     
     /**
      * Create a query search tab
@@ -58,7 +60,7 @@ public class QuerySearchTab extends JPanel {
         setUpResultsHeaderPanel();
         showSearchView();
         clearSearchFields();
-        activePanel = ActivePanel.SEARCH;
+        activePanel = ActiveSearchPanel.SEARCH;
     }
     
     /**
@@ -74,7 +76,7 @@ public class QuerySearchTab extends JPanel {
         bottomPanel.removeAll();
         topPanel.add(searchPanel);
         bottomPanel.add(rowsPanel, BorderLayout.NORTH);
-        activePanel = ActivePanel.SEARCH;
+        activePanel = ActiveSearchPanel.SEARCH;
         repaint();
         revalidate();
     }
@@ -90,7 +92,7 @@ public class QuerySearchTab extends JPanel {
         bottomPanel.removeAll();
         topPanel.add(resultsHeaderPanel);
         bottomPanel.add(resultsTable, BorderLayout.CENTER);
-        activePanel = ActivePanel.TABLE;
+        activePanel = ActiveSearchPanel.TABLE;
         repaint();
         revalidate();
     }
@@ -139,12 +141,32 @@ public class QuerySearchTab extends JPanel {
                 clearSearchFields();
             }
         });
-        searchArea = new JTextArea(
-                "Use the builder below to create your search");
+        searchArea = new JTextArea("");
         searchArea.setLineWrap(true);
         searchArea.setSize(850, 20);
         JScrollPane searchScroll = new JScrollPane(searchArea);
         searchScroll.setPreferredSize(new Dimension(800, 35));
+        JCheckBox queryBuilderCheckbox = new JCheckBox("Query Builder");
+        queryBuilderCheckbox.setHorizontalTextPosition(SwingConstants.LEFT);
+        queryBuilderCheckbox.addItemListener(new ItemListener() {
+            @Override
+            public synchronized void itemStateChanged(ItemEvent e) {
+                if (e.getStateChange() == ItemEvent.DESELECTED) {
+                    searchArea.setEditable(true);
+                    
+                    for (QueryBuilderRow row : rowList) {
+                        row.setEnabled(false);
+                    }
+                } else {
+                    searchArea.setEditable(false);
+                    for (QueryBuilderRow row : rowList) {
+                        row.setEnabled(true);
+                    }
+                }
+            }
+        });
+        queryBuilderCheckbox.setSelected(true);
+        searchPanel.add(queryBuilderCheckbox);
         searchPanel.add(searchScroll);
         searchPanel.add(searchButton);
         // searchPanel.add(Box.createHorizontalStrut(5));
@@ -160,7 +182,7 @@ public class QuerySearchTab extends JPanel {
         // IconFactory.getBackIcon(25, 25),
         // IconFactory.getBackHoverIcon(27, 27), 25, 25,
         // "Back to search view");
-        final JButton backButton = new JButton("Back");
+        backButton = new JButton("Back");
         backButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -180,8 +202,7 @@ public class QuerySearchTab extends JPanel {
     }
     
     public void refresh() {
-        if (activePanel == ActivePanel.TABLE) {
-            // backButton.doClick();
+        if (activePanel == ActiveSearchPanel.TABLE) {
             searchButton.doClick();
         }
     }
@@ -198,13 +219,18 @@ public class QuerySearchTab extends JPanel {
      * 
      * @param searchResults
      */
-    public void updateSearchResults(ArrayList<ExperimentData> searchResults) {
+    public void updateSearchResults(
+            final ArrayList<ExperimentData> searchResults) {
         // updateAnnotationsButton.doClick();
         // updateRows();
-        paintRows();
-        resultsTable = new TreeTable();
-        resultsTable.setContent(searchResults);
-        showResultsView();
+        SwingUtilities.invokeLater(new Runnable() {
+            public void run() {
+                paintRows();
+                resultsTable = new TreeTable(searchResults);
+                showResultsView();
+            }
+        });
+        
     }
     
     /**
@@ -215,7 +241,7 @@ public class QuerySearchTab extends JPanel {
         updateAnnotationsButton.doClick();
         rowList.clear();
         addRow();
-        searchArea.setText("Use the builder below to create your search");
+        searchArea.setText("");
         revalidate();
         repaint();
     }
@@ -295,7 +321,7 @@ public class QuerySearchTab extends JPanel {
             }
         }
         if (searchString.isEmpty()) {
-            searchArea.setText("Use the builder below to create your search");
+            searchArea.setText("");
         } else {
             searchArea.setText(searchString);
         }
@@ -336,4 +362,11 @@ public class QuerySearchTab extends JPanel {
         return searchArea.getText();
     }
     
+    public ActiveSearchPanel getActivePanel() {
+        return activePanel;
+    }
+    
+    public JButton getBackButton() {
+        return backButton;
+    }
 }

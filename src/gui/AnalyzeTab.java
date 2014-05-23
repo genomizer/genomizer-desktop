@@ -11,7 +11,7 @@ public class AnalyzeTab extends JPanel {
     private JPanel southWestPanel, southEastPanel;
     private JLabel filesLabel, overlapLabel, regionAnalysisLabel;
     private JLabel profileAnalysisLabel;
-    private JCheckBoxList list;
+  //  private JCheckBoxList list;
 
     public AnalyzeTab() {
 
@@ -34,9 +34,9 @@ public class AnalyzeTab extends JPanel {
 
         DefaultListModel listModel = new DefaultListModel();
 
-        list = new JCheckBoxList();
-        list.setModel(listModel);
-        list.setPreferredSize(new Dimension(300, 400));
+     //   list = new JCheckBoxList();
+    //    list.setModel(listModel);
+    //    list.setPreferredSize(new Dimension(300, 400));
 
         int numberOfJobs;
 
@@ -46,10 +46,10 @@ public class AnalyzeTab extends JPanel {
 
         }
 
-        JScrollPane scrollPane = new JScrollPane(list);
+      //  JScrollPane scrollPane = new JScrollPane(list);
 
         northWestPanel.add(filesLabel, BorderLayout.NORTH);
-        northWestPanel.add(scrollPane, BorderLayout.SOUTH);
+     //   northWestPanel.add(scrollPane, BorderLayout.SOUTH);
         northEastPanel.add(overlapLabel, BorderLayout.NORTH);
         southWestPanel.add(regionAnalysisLabel, BorderLayout.NORTH);
         southEastPanel.add(profileAnalysisLabel, BorderLayout.NORTH);
