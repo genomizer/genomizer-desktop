@@ -21,13 +21,8 @@ import util.FileDrop;
 public class UploadToExistingExpPanel extends JPanel implements ExperimentPanel {
 
     private JButton selectFilesToUploadButton, uploadFilesToExperimentButton;
-    private ArrayList<JComboBox> annotationBoxes;
-    private ArrayList<JTextField> annotationFields;
-    private AnnotationDataType[] annotations;
-    private JPanel northPanel, centerPanel, uploadFilesPanel, buttonsPanel,
-            mainPanel;
+    private JPanel northPanel, centerPanel, uploadFilesPanel, buttonsPanel;
     private HashMap<File, UploadFileRow> uploadFileRows;
-    private JPanel backgroundPanel;
     private ExperimentData ed;
 
     /**
@@ -36,21 +31,12 @@ public class UploadToExistingExpPanel extends JPanel implements ExperimentPanel 
      */
 
     public UploadToExistingExpPanel() {
-        // selectFilesToUploadButton = CustomButtonFactory.makeCustomButton(
-        // IconFactory.getBrowseIcon(40, 40),
-        // IconFactory.getBrowseHoverIcon(42, 42), 42, 42,
-        // "Browse for files");
-        // uploadFilesToExperimentButton = CustomButtonFactory.makeCustomButton(
-        // IconFactory.getUploadIcon(40, 40),
-        // IconFactory.getUploadHoverIcon(42, 42), 42, 42, "Upload data");
         selectFilesToUploadButton = new JButton("Browse for files");
-        uploadFilesToExperimentButton = new JButton("Upload data");
+        uploadFilesToExperimentButton = new JButton("Upload files");
         uploadFileRows = new HashMap<File, UploadFileRow>();
 
-        mainPanel = new JPanel(new BorderLayout());
         northPanel = new JPanel(new BorderLayout());
         centerPanel = new JPanel(new BorderLayout());
-        backgroundPanel = new JPanel(new BorderLayout());
         uploadFilesPanel = new JPanel(new GridLayout(0, 1));
         buttonsPanel = new JPanel(new FlowLayout());
 
@@ -152,16 +138,6 @@ public class UploadToExistingExpPanel extends JPanel implements ExperimentPanel 
      */
     public void addUploadToExperimentButtonListener(ActionListener listener) {
         uploadFilesToExperimentButton.addActionListener(listener);
-    }
-
-    /**
-     * Sets the annotations.
-     *
-     * @param annotations
-     *            The annotations to set the panel's annotations to.
-     */
-    public void setAnnotations(AnnotationDataType[] annotations) {
-        this.annotations = annotations;
     }
 
     /**
@@ -286,8 +262,10 @@ public class UploadToExistingExpPanel extends JPanel implements ExperimentPanel 
         return types;
     }
 
+    /**
+     * Makes dragging & dropping of files into the panel possible
+     */
     public void addFileDrop() {
-        // Makes dragging & dropping of files into the panel possible
         new FileDrop(this, new FileDrop.Listener() {
             public void filesDropped(java.io.File[] files) {
                 createUploadFileRow(files);
