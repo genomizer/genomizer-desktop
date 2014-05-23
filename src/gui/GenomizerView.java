@@ -69,8 +69,6 @@ public interface GenomizerView {
     
     public void addUploadToExperimentButtonListener(ActionListener listener);
     
-    public void addSearchResultsDownloadListener(ActionListener listener);
-    
     public void addSelectFilesToUploadButtonListener(ActionListener listener);
     
     public void addUpdateSearchAnnotationsListener(ActionListener listener);
@@ -107,15 +105,11 @@ public interface GenomizerView {
     
     public UploadTab getUploadTab();
     
-    public int getSelectedRowAtAnnotationTable();
-    
     public void updateLoginAccepted(String username, String pwd, String name);
     
     public void updateLoginNeglected(String errorMessage);
     
     public void updateLogout();
-    
-    // public void updateQuerySearchResults(ExperimentData[] searchResults);
     
     public void setSearchAnnotationTypes(AnnotationDataType[] annotationTypes);
     
@@ -134,8 +128,6 @@ public interface GenomizerView {
     public String[] getParameters();
     
     public void selectFilesToNewExp(File[] files);
-    
-    public void selectFilesToExistingExp(File[] files);
     
     public ArrayList<File> getFilesToUpload();
     
@@ -161,8 +153,6 @@ public interface GenomizerView {
     
     public void addRatioCalcListener(ActionListener listener);
     
-    public void setDefaultRatioPar();
-    
     public void setUnusedRatioPar();
     
     public void showRatioPopup();
@@ -184,11 +174,7 @@ public interface GenomizerView {
     
     public void addUploadSelectedFilesListener(ActionListener listener);
     
-    public void removeUploadExpName();
-    
     public void removeSelectedFromWorkspace();
-    
-    public void disableSelectedRow(File f);
     
     public boolean isCorrectToProcess();
     
