@@ -370,8 +370,7 @@ public class Model implements GenomizerModel {
             
             System.out.println("GenomeRelease responsecode: "
                     + conn.getResponseCode());
-            JOptionPane
-                    .showMessageDialog(null, "Could not get genomereleases!");
+            System.out.println("GenomeRelease responsebody: " + conn.getResponseBody());
         }
         
         return new GenomeReleaseData[] {};
