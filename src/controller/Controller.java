@@ -44,13 +44,13 @@ public class Controller {
         this.model = model;
         view.addLoginListener(new LoginListener());
         view.addLogoutListener(new LogoutListener());
+        view.addCancelListener(new CancelListener());
+        view.addOkListener(new OkListener());
         updateView();
     }
     
     private void updateView() {
         view.addRatioCalcListener(new RatioCalcListener());
-        view.addCancelListener(new CancelListener());
-        view.addOkListener(new OkListener());
         view.addSearchListener(new QuerySearchListener());
         view.addConvertFileListener(new ConvertFileListener());
         view.addQuerySearchListener(new QuerySearchListener());
@@ -734,7 +734,7 @@ public class Controller {
         
         @Override
         public void run() {
-            
+            System.out.println("ok");
             if (view.isRatioCorrectToProcess()) {
                 view.setProfileButton(true);
                 System.out.println("OK");
@@ -754,6 +754,7 @@ public class Controller {
         
         @Override
         public void run() {
+            
             System.out.println("CANCEL");
             view.setUnusedRatioPar();
             view.getRatioCalcPopup().hideRatioWindow();
