@@ -42,7 +42,8 @@ public class UploadToNewExpPanel extends JPanel implements ExperimentPanel {
     private AnnotationDataType[] annotations;
     private JLabel expNameLabel, genomeLabel, boldTextLabel;
     private JTextField expID;
-    private JComboBox<String> species, genome;
+    private JComboBox<String> species;
+    private ArrayList<String> genome;
     private CopyOnWriteArrayList<HTTPURLUpload> ongoingUploads;
 
     public UploadToNewExpPanel() {
@@ -69,8 +70,7 @@ public class UploadToNewExpPanel extends JPanel implements ExperimentPanel {
         species = new JComboBox<String>();
         species.setPreferredSize(new Dimension(120, 31));
         genomeLabel = new JLabel();
-        genome = new JComboBox();
-        genome.setPreferredSize(new Dimension(120, 31));
+        genome = new ArrayList<String>();
         enableUploadButton(false);
     }
 
@@ -102,16 +102,20 @@ public class UploadToNewExpPanel extends JPanel implements ExperimentPanel {
     }
 
     public void setGenomeReleases(GenomeReleaseData[] grd) {
-        if(genome.getItemCount() > 0) {
-            genome.removeAllItems();
+        if(genome.size() > 0) {
+            genome.clear();
         }
         for(GenomeReleaseData g : grd) {
-            genome.addItem(g.getVersion());
+            genome.add(g.getVersion());
         }
     }
 
+    public ArrayList<String> getGenomeReleases() {
+        return genome;
+    }
     public String getGenomeVersion() {
-        return genome.getSelectedItem().toString();
+//        return genome.getSelectedItem().toString();
+        return null;
     }
 
     /**
