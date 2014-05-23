@@ -118,9 +118,6 @@ public class UploadToNewExpPanel extends JPanel implements ExperimentPanel {
     /**
      * A method creating a panel for creating a new experiment to upload files
      * to it.
-     *
-     * @param annotations
-     *            The annotations currently available at the server.
      */
     public void createNewExp() {
         /*
