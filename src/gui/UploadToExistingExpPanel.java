@@ -64,17 +64,6 @@ public class UploadToExistingExpPanel extends JPanel implements ExperimentPanel 
                 Double.MIN_VALUE };
         gbl_panel.rowWeights = new double[] { 0.0, 0.0, 0.0, Double.MIN_VALUE };
         northPanel.setLayout(gbl_panel);
-
-        // buttonsPanel.add(selectFilesToUploadButton);
-        // buttonsPanel.add(uploadFilesToExperimentButton);
-
-        // mainPanel.add(buttonsPanel, BorderLayout.SOUTH);
-        // uploadFilesToExperimentButton.setEnabled(false);
-        // add(mainPanel, BorderLayout.CENTER);
-        // repaint();
-        // revalidate();
-        // uploadFilesPanel.repaint();
-        // uploadFilesPanel.revalidate();
         repaintSelectedFiles();
     }
 
@@ -154,8 +143,6 @@ public class UploadToExistingExpPanel extends JPanel implements ExperimentPanel 
             enableUploadButton(false);
         }
         buttonsPanel.add(selectFilesToUploadButton);
-//        buttonsPanel.add(Box.createHorizontalStrut(20))
-// (orsakar att knapparna flyttar mer och mer åt höger efter varje repaint)
         buttonsPanel.add(uploadFilesToExperimentButton);
         uploadFilesPanel.add(buttonsPanel);
         repaint();
