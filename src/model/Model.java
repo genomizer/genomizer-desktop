@@ -628,5 +628,10 @@ public class Model implements GenomizerModel {
         ongoingDownloads = new CopyOnWriteArrayList<DownloadHandler>();
         ongoingUploads = new CopyOnWriteArrayList<HTTPURLUpload>();
     }
+
+    @Override
+    public boolean addGenomeRelease() {
+        return false;
+    }
     
 }

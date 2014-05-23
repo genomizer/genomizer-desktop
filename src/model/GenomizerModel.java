@@ -82,4 +82,6 @@ public interface GenomizerModel {
     public boolean addNewAnnotationValue(String annotationName, String valueName);
 
     public void resetModel();
+
+    public boolean addGenomeRelease();
 }
