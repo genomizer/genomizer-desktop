@@ -64,6 +64,9 @@ public class DownloadWindow extends JFrame {
         setUpOngoingPanel();
         add(mainPanel, BorderLayout.CENTER);
         updateProgress();
+        if(files.size() > 0) {
+            downloadButton.doClick();
+        }
     }
     
     /**

@@ -78,8 +78,8 @@ public class GUI extends JFrame implements GenomizerView {
     }
     
     @Override
-    public void addAnalyzeSelectedListener(ActionListener listener) {
-        workspaceTab.addAnalyzeSelectedListener(listener);
+    public void addUploadToListener(ActionListener listener) {
+        workspaceTab.addUploadToListener(listener);
     }
     
     @Override

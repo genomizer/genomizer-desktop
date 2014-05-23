@@ -73,7 +73,6 @@ public class Controller {
         view.addNewExpButtonListener(new NewExpButtonListener());
         view.addSelectButtonListener(new SelectFilesToNewExpListener());
         view.addUploadButtonListener(new UploadNewExpListener());
-        
         view.addUploadToListener(new UploadToListener());
         fileListAddMouseListener(view.getfileList());
         view.addProcessFeedbackListener(new ProcessFeedbackListener());
