@@ -622,7 +622,8 @@ public class Controller {
                         .setText(firstChosenExperiment.getName());
                 ut.getExistingExpButton().doClick();
             } catch (IndexOutOfBoundsException e) {
-                JOptionPane.showMessageDialog(null, "No files were selected.");
+                JOptionPane.showMessageDialog(null,
+                        "No experiment was selected.");
             }
         }
     }
