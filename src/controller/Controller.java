@@ -417,7 +417,7 @@ public class Controller {
             UploadToExistingExpPanel uploadToExistingExpPanel = view
                     .getUploadTab().getUploadToExistingExpPanel();
             uploadToExistingExpPanel.createUploadFileRow(files);
-            uploadToExistingExpPanel.enableUploadButton(true);
+            uploadToExistingExpPanel.enableUploadButton();
             uploadToExistingExpPanel.addFileDrop();
         }
     }
