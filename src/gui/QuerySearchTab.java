@@ -17,6 +17,7 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.SwingConstants;
+import javax.swing.SwingUtilities;
 
 import util.ActiveSearchPanel;
 import util.AnnotationDataType;
@@ -218,13 +219,18 @@ public class QuerySearchTab extends JPanel {
      * 
      * @param searchResults
      */
-    public void updateSearchResults(ArrayList<ExperimentData> searchResults) {
+    public void updateSearchResults(
+            final ArrayList<ExperimentData> searchResults) {
         // updateAnnotationsButton.doClick();
         // updateRows();
-        paintRows();
-        resultsTable = new TreeTable();
-        resultsTable.setContent(searchResults);
-        showResultsView();
+        SwingUtilities.invokeLater(new Runnable() {
+            public void run() {
+                paintRows();
+                resultsTable = new TreeTable(searchResults);
+                showResultsView();
+            }
+        });
+        
     }
     
     /**

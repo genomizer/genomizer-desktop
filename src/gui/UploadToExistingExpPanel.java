@@ -7,13 +7,11 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import javax.swing.JButton;
-import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
-import util.AnnotationDataType;
 import util.AnnotationDataValue;
 import util.ExperimentData;
 import util.FileDrop;
@@ -33,7 +31,7 @@ public class UploadToExistingExpPanel extends JPanel implements ExperimentPanel 
     public UploadToExistingExpPanel() {
         selectFilesToUploadButton = new JButton("Browse for files");
         uploadFilesToExperimentButton = new JButton("Upload files");
-        uploadFileRows = new HashMap<File, UploadFileRow>();
+        uploadFileRows = new HashMap<>();
 
         northPanel = new JPanel(new BorderLayout());
         centerPanel = new JPanel(new BorderLayout());
@@ -140,7 +138,7 @@ public class UploadToExistingExpPanel extends JPanel implements ExperimentPanel 
                 uploadFilesPanel.add(uploadFileRows.get(f));
             }
         } else {
-            enableUploadButton(false);
+            enableUploadButton();
         }
         buttonsPanel.add(selectFilesToUploadButton);
         buttonsPanel.add(uploadFilesToExperimentButton);
@@ -152,13 +150,10 @@ public class UploadToExistingExpPanel extends JPanel implements ExperimentPanel 
     /**
      * Tries to set the experiment button to either be enabled or disabled. If
      * there are no fileRows, it won't be set to true.
-     *
-     * @param b
-     *            Whether it should be enabled (true) or disabled (false)
      */
-    public void enableUploadButton(boolean b) {
-        if (b && !uploadFileRows.isEmpty()) {
-            uploadFilesToExperimentButton.setEnabled(b);
+    public void enableUploadButton() {
+        if (!uploadFileRows.isEmpty()) {
+            uploadFilesToExperimentButton.setEnabled(true);
         } else {
             uploadFilesToExperimentButton.setEnabled(false);
         }
@@ -234,7 +229,7 @@ public class UploadToExistingExpPanel extends JPanel implements ExperimentPanel 
     }
 
     public ArrayList<File> getFilesToUpload() {
-        ArrayList<File> files = new ArrayList<File>();
+        ArrayList<File> files = new ArrayList<>();
         for (File f : uploadFileRows.keySet()) {
             files.add(f);
         }
@@ -242,7 +237,7 @@ public class UploadToExistingExpPanel extends JPanel implements ExperimentPanel 
     }
 
     public HashMap<String, String> getTypes() {
-        HashMap<String, String> types = new HashMap<String, String>();
+        HashMap<String, String> types = new HashMap<>();
         for (File f : uploadFileRows.keySet()) {
             types.put(f.getName(), uploadFileRows.get(f).getType());
         }
@@ -256,7 +251,7 @@ public class UploadToExistingExpPanel extends JPanel implements ExperimentPanel 
         new FileDrop(this, new FileDrop.Listener() {
             public void filesDropped(java.io.File[] files) {
                 createUploadFileRow(files);
-                enableUploadButton(true);
+                enableUploadButton();
             }
         });
     }
