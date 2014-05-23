@@ -36,8 +36,9 @@ public interface GenomizerView {
      * @param listener
      *            The listener
      */
-    public void addAnalyzeSelectedListener(ActionListener listener);
 
+    public void addUploadToListener(ActionListener listener);
+    
     public void refreshSearch();
 
     LoginWindow getLoginWindow();

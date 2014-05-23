@@ -117,7 +117,7 @@ public class LoginWindow extends JFrame {
      * @return the password entered by the user
      */
     public String getPasswordInput() {
-        return passwordField.getPassword().toString();
+        return new String(passwordField.getPassword());
     }
     
     /**

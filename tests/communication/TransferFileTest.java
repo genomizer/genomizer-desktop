@@ -30,7 +30,7 @@ public class TransferFileTest {
         fout.flush();
         HTTPURLUpload upload = new HTTPURLUpload("http://" + ip + ":8000/upload.php?path=/var/www/data/test.txt",
                 homeDir + "/.testupload.txt", ".testupload.txt");
-        upload.sendFile("pvt", "pvt");
+        upload.sendFile("test");
         assertThat(upload.getResponseCode()).isEqualTo(201);
     }
 
@@ -44,7 +44,7 @@ public class TransferFileTest {
         fout.flush();
         HTTPURLUpload upload = new HTTPURLUpload("http://" + ip + ":8000/upload.php?path=/var/www/data/testup.txt",
                 homeDir + "/.testupload.txt", ".testupload.txt");
-        upload.sendFile("pvt", "pvt");
+        upload.sendFile("test");
 
         DownloadHandler handler = new DownloadHandler("pvt", "pvt", "test.txt");
         handler.download("http://" + ip + ":8000/download.php?path=/var/www/data/testup.txt",
