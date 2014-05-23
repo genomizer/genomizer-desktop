@@ -342,7 +342,7 @@ public class TreeTable extends JPanel {
                 ExperimentNode expNode = (ExperimentNode) nodeObject;
                 ExperimentData exp = expNode.getExperiment();
                 ExperimentData newExp = new ExperimentData(exp.name,
-                        exp.createdBy, (ArrayList<FileData>) exp.files.clone(),
+                        (ArrayList<FileData>) exp.files.clone(),
                         (ArrayList<AnnotationDataValue>) exp.annotations
                                 .clone());
                 if (!selectedExperiments.contains(exp)) {
@@ -365,7 +365,7 @@ public class TreeTable extends JPanel {
                         }
                     } else {
                         ExperimentData exp = new ExperimentData(tempExp.name,
-                                tempExp.createdBy, newFile, tempExp.annotations);
+                                newFile, tempExp.annotations);
                         selectedExperiments.add(exp);
                     }
                     
@@ -402,7 +402,6 @@ public class TreeTable extends JPanel {
                     } else {
                         ExperimentData exp = new ExperimentData(
                                 tempExp.name,
-                                tempExp.createdBy,
                                 newFiles,
                                 (ArrayList<AnnotationDataValue>) tempExp.annotations
                                         .clone());
@@ -429,7 +428,7 @@ public class TreeTable extends JPanel {
                 ExperimentNode expNode = (ExperimentNode) nodeObject;
                 ExperimentData exp = expNode.getExperiment();
                 ExperimentData newExp = new ExperimentData(exp.name,
-                        exp.createdBy, (ArrayList<FileData>) exp.files.clone(),
+                        (ArrayList<FileData>) exp.files.clone(),
                         (ArrayList<AnnotationDataValue>) exp.annotations
                                 .clone());
                 if (!selectedExperiments.contains(exp)) {
