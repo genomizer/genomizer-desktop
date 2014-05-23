@@ -39,22 +39,22 @@ public class SearchTab extends JPanel {
     private String[] pubStrings7 = { "7", "Cat", "Dog", "Rabbit", "Pig4" };
     private String[] pubStrings8 = { "8", "Cat", "Dog", "Rabbit", "Pig5" };
 
-    private JComboBox expBox0;
-    private JComboBox expBox1;
-    private JComboBox expBox2;
-    private JComboBox expBox3;
-    private JComboBox expBox4;
-    private JComboBox expBox5;
+    private JComboBox<String> expBox0;
+    private JComboBox<String> expBox1;
+    private JComboBox<String> expBox2;
+    private JComboBox<String> expBox3;
+    private JComboBox<String> expBox4;
+    private JComboBox<String> expBox5;
 
-    private JComboBox pubBox0;
-    private JComboBox pubBox1;
-    private JComboBox pubBox2;
-    private JComboBox pubBox3;
-    private JComboBox pubBox4;
-    private JComboBox pubBox5;
-    private JComboBox pubBox6;
-    private JComboBox pubBox7;
-    private JComboBox pubBox8;
+    private JComboBox<String> pubBox0;
+    private JComboBox<String> pubBox1;
+    private JComboBox<String> pubBox2;
+    private JComboBox<String> pubBox3;
+    private JComboBox<String> pubBox4;
+    private JComboBox<String> pubBox5;
+    private JComboBox<String> pubBox6;
+    private JComboBox<String> pubBox7;
+    private JComboBox<String> pubBox8;
 
     private JButton searchButton;
 
@@ -277,22 +277,22 @@ public class SearchTab extends JPanel {
         expID = new JTextField();
         pubID = new JTextField();
 
-        expBox0 = new JComboBox(expStrings0);
-        expBox1 = new JComboBox(expStrings1);
-        expBox2 = new JComboBox(expStrings2);
-        expBox3 = new JComboBox(expStrings3);
-        expBox4 = new JComboBox(expStrings4);
-        expBox5 = new JComboBox(expStrings5);
+        expBox0 = new JComboBox<>(expStrings0);
+        expBox1 = new JComboBox<>(expStrings1);
+        expBox2 = new JComboBox<>(expStrings2);
+        expBox3 = new JComboBox<>(expStrings3);
+        expBox4 = new JComboBox<>(expStrings4);
+        expBox5 = new JComboBox<>(expStrings5);
 
-        pubBox0 = new JComboBox(pubStrings0);
-        pubBox1 = new JComboBox(pubStrings1);
-        pubBox2 = new JComboBox(pubStrings2);
-        pubBox3 = new JComboBox(pubStrings3);
-        pubBox4 = new JComboBox(pubStrings4);
-        pubBox5 = new JComboBox(pubStrings5);
-        pubBox6 = new JComboBox(pubStrings6);
-        pubBox7 = new JComboBox(pubStrings7);
-        pubBox8 = new JComboBox(pubStrings8);
+        pubBox0 = new JComboBox<>(pubStrings0);
+        pubBox1 = new JComboBox<>(pubStrings1);
+        pubBox2 = new JComboBox<>(pubStrings2);
+        pubBox3 = new JComboBox<>(pubStrings3);
+        pubBox4 = new JComboBox<>(pubStrings4);
+        pubBox5 = new JComboBox<>(pubStrings5);
+        pubBox6 = new JComboBox<>(pubStrings6);
+        pubBox7 = new JComboBox<>(pubStrings7);
+        pubBox8 = new JComboBox<>(pubStrings8);
 
         searchButton = new JButton("Search");
 
