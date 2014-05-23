@@ -133,6 +133,19 @@ public class ExperimentData {
         
     }
     
+    public void convertToUTF8() {
+        this.name = UTF8Converter.convertFromUTF8(name);
+        for (AnnotationDataValue value : annotations) {
+            value.name = UTF8Converter.convertFromUTF8(value.name);
+            value.value = UTF8Converter.convertFromUTF8(value.value);
+        }
+        for (FileData data : files) {
+            data.filename = UTF8Converter.convertFromUTF8(data.filename);
+            data.author = UTF8Converter.convertFromUTF8(data.author);
+            data.uploader = UTF8Converter.convertFromUTF8(data.uploader);
+        }
+    }
+    
     public boolean equals(Object o) {
         return (((ExperimentData) o)).name.equals(name);
     }
