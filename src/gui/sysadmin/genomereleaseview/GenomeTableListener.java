@@ -18,7 +18,7 @@ public class GenomeTableListener implements MouseListener, KeyListener  {
 
     @Override
     public void mouseClicked(MouseEvent e) {
-        //Do nothing
+        displayInfoData();
     }
 
     @Override
@@ -28,7 +28,7 @@ public class GenomeTableListener implements MouseListener, KeyListener  {
 
     @Override
     public void mouseReleased(MouseEvent e) {
-        displayInfoData();
+
     }
 
     @Override

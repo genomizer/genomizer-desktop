@@ -26,6 +26,7 @@ import util.ActivePanel;
 import util.AnnotationDataType;
 import util.AnnotationDataValue;
 import util.ExperimentData;
+import util.GenomeReleaseData;
 
 import communication.HTTPURLUpload;
 
@@ -213,7 +214,6 @@ public class UploadTab extends JPanel /*implements ExperimentPanel*/ {
         repaint();
         revalidate();
     }
-
 
     /**
      * A method creating a panel for creating a new experiment to upload files

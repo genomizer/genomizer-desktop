@@ -11,7 +11,9 @@ public class GenomereleaseTableModel extends AbstractTableModel {
     
     @Override
     public int getRowCount() {
-        
+        if(grData == null)
+            return 0;
+
         return grData.length;
     }
     

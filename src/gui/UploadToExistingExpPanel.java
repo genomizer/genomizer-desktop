@@ -255,4 +255,9 @@ public class UploadToExistingExpPanel extends JPanel implements ExperimentPanel 
             }
         });
     }
+
+    //FIXA
+    public ArrayList<String> getGenomeReleases() {
+        return null;
+    }
 }
