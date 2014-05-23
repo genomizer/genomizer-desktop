@@ -8,6 +8,7 @@ import java.awt.event.KeyListener;
 import java.awt.event.MouseListener;
 import java.io.File;
 import java.io.IOException;
+import java.util.Random;
 import javax.swing.*;
 import javax.swing.border.Border;
 import javax.swing.table.TableModel;
@@ -109,10 +110,25 @@ public class GenomeReleaseViewCreator {
         buttonCeptionPanel.add(buttonPanel, BorderLayout.EAST);
 
 
-        
+        Border border = BorderFactory.createEmptyBorder(0, 5, 0, 0);
+        JLabel headerText = new JLabel("Genome release files");
+        headerText.setBorder(border);
+        buttonCeptionPanel.add(headerText, BorderLayout.WEST);
 
 
-        mainPanel.add(buttonCeptionPanel, BorderLayout.EAST);
+
+        //TODO: get the real data here using some magic methods!
+        // model.getGenomeReleaseFiles(); return string array!
+        String rands = String.valueOf(Math.random());
+        String[] data = new String[]{"someGenomefile.wig", "someOtherfile.wig", rands};
+
+        JList<String> fileNameList = new JList<String>(data);
+        fileNameList.setEnabled(false);
+
+        mainPanel.add(fileNameList, BorderLayout.CENTER);
+
+
+        mainPanel.add(buttonCeptionPanel, BorderLayout.NORTH);
         if(extraInfoPanel != null)
             removeExtraInfoPanel();
 
@@ -120,6 +136,7 @@ public class GenomeReleaseViewCreator {
         fileListPanel.add(extraInfoPanel, BorderLayout.SOUTH);
         extraInfoPanel.setVisible(true);
         fileListPanel.repaint();
+        fileListPanel.setVisible(true);
     }
 
     public void removeExtraInfoPanel(){
@@ -142,7 +159,7 @@ public class GenomeReleaseViewCreator {
         
         JLabel label = new JLabel();
         /** TODO: set variable string! */
-        label.setText("Genome release files");
+        label.setText("Genome releases");
         
         Border border = BorderFactory.createEmptyBorder(5, 5, 5, 5);
         label.setBorder(border);
@@ -399,9 +416,12 @@ public class GenomeReleaseViewCreator {
 
     public void setSpeciesDDList(String[] listItems){
         speciesText.removeAllItems();
-        for(String item : listItems){
-            speciesText.addItem(item);
+        if(listItems != null){
+            for(String item : listItems){
+                speciesText.addItem(item);
+            }
         }
+
         speciesText.repaint();
     }
 
