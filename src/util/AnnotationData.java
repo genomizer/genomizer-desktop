@@ -4,7 +4,7 @@ public class AnnotationData {
     public String name;
     
     public AnnotationData(String name) {
-        this.name = UTF8Converter.convertFromUTF8(name);
+        this.name = name;
     }
     
     public String getName() {
