@@ -625,7 +625,7 @@ public class GUI extends JFrame implements GenomizerView {
     public String[] getOtherParameters() {
         // return processTab.getOtherParameters();
         return process.getOtherParameters(processTab.outputGFF,
-                processTab.outputSGR);
+                processTab.outputSGR,processTab.outputSAM);
     }
 
     /**
