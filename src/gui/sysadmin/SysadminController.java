@@ -8,7 +8,6 @@ import gui.sysadmin.genomereleaseview.GenomeReleaseViewCreator;
 import gui.sysadmin.genomereleaseview.GenomereleaseTableModel;
 
 import java.awt.event.ActionListener;
-import java.math.BigDecimal;
 
 import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;

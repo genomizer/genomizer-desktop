@@ -1,13 +1,14 @@
 package util;
 
 import javax.swing.JCheckBox;
+import javax.swing.JRadioButton;
 import javax.swing.JTextField;
 
 public class Process {
-    
+
     public boolean isCorrectToProcess(JTextField smoothWindowSize,
             JTextField stepPosition, JTextField stepSize) {
-        
+
         if (aboveZero(smoothWindowSize.getText().trim())
                 && aboveZero(stepPosition.getText().trim())
                 && aboveZero(stepSize.getText().trim())) {
@@ -16,11 +17,11 @@ public class Process {
             return false;
         }
     }
-    
+
     public boolean isRatioCorrectToProcess(JTextField ratioWindowSize,
             JTextField inputReads, JTextField chromosome,
             JTextField ratioStepPosition) {
-        
+
         if (aboveZero(ratioWindowSize.getText().trim())
                 && aboveZero(inputReads.getText().trim())
                 && aboveZero(chromosome.getText().trim())
@@ -30,9 +31,9 @@ public class Process {
             return false;
         }
     }
-    
+
     public boolean aboveZero(String string) {
-        
+
         try {
             int value = Integer.parseInt(string);
             if (value >= 0) {
@@ -44,20 +45,18 @@ public class Process {
             return false;
         }
     }
-    
-    public String[] getOtherParameters(JCheckBox outputGFF,JCheckBox outputSGR) {
+
+    public String[] getOtherParameters(JRadioButton outputGFF,JRadioButton outputSGR,JRadioButton outputSAM) {
         String[] s = new String[2];
-        s[0] = getFormat(outputGFF);
-        s[1] = getFormat(outputSGR);
-
-        return s;
-    }
-
-    private String getFormat(JCheckBox format) {
-        if (format.isSelected()) {
-            return "y";
-        } else {
-            return "";
+        s[0] = "y";
+        if(outputSAM.isSelected()){
+            s[0] = "";
+            s[1] = "";
+        }else if(outputSGR.isSelected()){
+            s[1] = "y";
+        }else{
+            s[1] = "n";
         }
+        return s;
     }
 }
