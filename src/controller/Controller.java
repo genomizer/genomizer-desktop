@@ -430,7 +430,7 @@ public class Controller {
             HashMap<String, String> types = view.getUploadTab()
                     .getUploadToExistingExpPanel().getTypes();
             // Should be genome release from uploadTab
-            String release = "rn5";
+            String release = "fb5";
             
             ExperimentData ed = view.getUploadTab()
                     .getUploadToExistingExpPanel().getExperiment();
@@ -554,7 +554,7 @@ public class Controller {
                     && expName != null) {
                 HashMap<String, String> types = view.getFilesToUploadTypes();
                 // Should be genome release from uploadTab
-                String release = "rn5";
+                String release = "fb5";
                 // Test purpose
                 for (AnnotationDataValue a : annotations) {
                     System.out.println(a.getName() + " " + a.getValue());
@@ -769,7 +769,7 @@ public class Controller {
                     && expName != null) {
                 HashMap<String, String> types = view.getFilesToUploadTypes();
                 // Should be genome release from uploadTab
-                String release = "rn5";
+                String release = "fb5";
                 // Test purpose
                 for (AnnotationDataValue a : annotations) {
                     System.out.println(a.getName() + " " + a.getValue());
