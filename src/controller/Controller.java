@@ -73,7 +73,8 @@ public class Controller {
         view.addNewExpButtonListener(new NewExpButtonListener());
         view.addSelectButtonListener(new SelectFilesToNewExpListener());
         view.addUploadButtonListener(new UploadNewExpListener());
-        view.addAnalyzeSelectedListener(new AnalyzeSelectedListener());
+        
+        view.addUploadToListener(new UploadToListener());
         fileListAddMouseListener(view.getfileList());
         view.addProcessFeedbackListener(new ProcessFeedbackListener());
         view.addDeleteFromDatabaseListener(new DeleteFromDatabaseListener());
@@ -598,7 +599,7 @@ public class Controller {
         }
     }
     
-    class AnalyzeSelectedListener implements ActionListener, Runnable {
+    class UploadToListener implements ActionListener, Runnable {
         
         @Override
         public void actionPerformed(ActionEvent e) {
@@ -607,7 +608,12 @@ public class Controller {
         
         @Override
         public void run() {
-            System.out.println("ANALYZE");
+            ExperimentData firstChosenExperiment = view
+                    .getSelectedExperimentsInWorkspace().get(0);
+            UploadTab ut = view.getUploadTab();
+            ut.getExperimentNameField()
+                    .setText(firstChosenExperiment.getName());
+            ut.getExistingExpButton().doClick();
         }
     }
     
