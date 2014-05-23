@@ -122,6 +122,8 @@ public class GenomeReleaseViewCreator {
         String rands = String.valueOf(Math.random());
         String[] data = new String[]{"someGenomefile.wig", "someOtherfile.wig", rands};
 
+        grTablemodel.getFileNames(grTable.convertRowIndexToModel(grTable.getSelectedRow()));
+
         JList<String> fileNameList = new JList<String>(data);
         fileNameList.setEnabled(false);
 
