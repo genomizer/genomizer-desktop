@@ -30,6 +30,11 @@ public class AnnotationsViewCreator {
 
     }
 
+    /**
+     * Builds the annotations view
+     *
+     * @return the view as a JPanel
+     */
     public JPanel buildAnnotationsView() {
 
         JPanel mainPanel = new JPanel();
@@ -47,8 +52,6 @@ public class AnnotationsViewCreator {
         mainPanel.setLayout(new BorderLayout(0, 0));
         mainPanel.add(searchPanel, BorderLayout.NORTH);
         mainPanel.add(bottomPanel);
-
-        // add(mainPanel, BorderLayout.CENTER);
 
         return mainPanel;
     }
@@ -83,19 +86,14 @@ public class AnnotationsViewCreator {
         addButton.setMinimumSize(new Dimension(80, 10));
         removeButton.setMinimumSize(new Dimension(80, 10));
 
-
-
-
         layout.setHorizontalGroup(layout.createSequentialGroup().addGroup(
                 layout.createParallelGroup(GroupLayout.Alignment.LEADING)
                         .addComponent(modifyButton).addComponent(addButton)
-                        .addComponent(removeButton)
-        ));
+                        .addComponent(removeButton)));
 
         layout.setVerticalGroup(layout.createSequentialGroup()
-                        .addComponent(modifyButton).addComponent(addButton)
-                        .addComponent(removeButton)
-        );
+                .addComponent(modifyButton).addComponent(addButton)
+                .addComponent(removeButton));
 
         buttonPanel.add(containerPanel);
     }

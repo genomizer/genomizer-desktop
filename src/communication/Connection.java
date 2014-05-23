@@ -7,17 +7,23 @@ import java.io.PrintWriter;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
+import gui.LoginWindow;
+import model.Model;
 import requests.Request;
 
 import javax.swing.*;
 
 public class Connection {
+    private final LoginWindow window;
     private String ip;
     private int responseCode;
     private String responseBody;
 
-    public Connection(String ip) {
+    public Connection(String ip, LoginWindow window) {
         this.ip = ip;
+        this.window = window;
+        responseBody = "";
+        responseCode = 0;
     }
 
     public boolean sendRequest(Request request, String userID, String type) {
@@ -26,8 +32,6 @@ public class Connection {
         }
         try {
             String targetUrl = "http://" + ip + request.url;
-            responseBody = "";
-            responseCode = 0;
             System.out.println(targetUrl);
             System.out.println("the request.toJson(): " + request.toJson());
             URL url = new URL(targetUrl);
@@ -59,6 +63,11 @@ public class Connection {
                 outputStream.flush();
             }
             responseCode = connection.getResponseCode();
+            if(responseCode == 401 && !userID.isEmpty()) {
+                window.setVisible(true);
+                System.out.println("The token has expired, or was removed from the server.");
+                return false;
+            }
             if (responseCode >= 300) {
                 return false;
             }

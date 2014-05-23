@@ -38,8 +38,7 @@ public class UserPanel extends JPanel {
         this.name = name;
         this.username = username;
         this.admin = admin;
-        usernameLabel.setText("<html><b>" + username + " (" + name
-                + ")</b></html>");
+        usernameLabel.setText("<html><b>" + username);
         this.repaint();
         this.revalidate();
     }

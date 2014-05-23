@@ -1,10 +1,11 @@
 package gui.sysadmin.annotationview;
 
+import gui.sysadmin.annotationview.panels.AnnotationValuePanel;
+
 import javax.swing.JButton;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import javax.swing.text.BadLocationException;
-
 
 public class EditAnnotationDocumentListener implements DocumentListener {
 
@@ -13,9 +14,11 @@ public class EditAnnotationDocumentListener implements DocumentListener {
     private EditAnnotationPopup2 edPop;
     private AnnotationValuePanel panel;
 
-    public EditAnnotationDocumentListener(AnnotationValuePanel panel, EditAnnotationPopup2 edPop) {
+    public EditAnnotationDocumentListener(AnnotationValuePanel panel,
+            EditAnnotationPopup2 edPop) {
         this.panel = panel;
         this.oldString = panel.getNameField().getText();
+
         this.button = panel.getRenameButton();
         this.edPop = edPop;
 

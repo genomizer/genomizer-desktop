@@ -1,7 +1,6 @@
 package gui;
 
 import java.awt.BorderLayout;
-import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
@@ -12,7 +11,10 @@ import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
+import java.text.Format;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 import javax.swing.BorderFactory;
 import javax.swing.Box;
@@ -28,6 +30,8 @@ import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.JTree;
 import javax.swing.ListSelectionModel;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeCellRenderer;
 
@@ -36,7 +40,6 @@ import util.ExperimentData;
 import util.FileData;
 import util.GenomeReleaseData;
 import util.ProcessFeedbackData;
-import util.TreeTable;
 
 /**
  * Visual presentation of the process tab.
@@ -105,7 +108,8 @@ public class ProcessTab extends JPanel {
     private final JButton regionButton = new JButton("Create region data");
     private final JButton ratioCalcButton = new JButton(
             "Ratio calculation option");
-    private JButton processFeedbackButton;
+    private final JButton processFeedbackButton = new JButton(
+            "Get process feedback");
     private JButton addToFileListButton;
     // private final JCheckBox scheduleButton = new JCheckBox(
     // "Schedule files");
@@ -130,12 +134,18 @@ public class ProcessTab extends JPanel {
     private ArrayList<ExperimentData> experimentData;
     private ActionListener procFeedbackListener;
     
+    // private ProfilePanelListener profilePanelListener = new
+    // ProfilePanelListener();
+    
     public ProcessTab() {
         processFeedbackData = new ProcessFeedbackData[0];
         setPreferredSize(new Dimension(1225, 725));
         setMinimumSize(new Dimension(20000, 20000));
         this.setLayout(new BorderLayout());
+        // flags.addActionListener(profilePanelListener);
+        // genomeFile.addActionListener(profilePanelListener);
         initPanels();
+        
     }
     
     /**
@@ -155,6 +165,8 @@ public class ProcessTab extends JPanel {
         /* TEST */
         initBowtieParameters();
         setDefaultRatioPar();
+        setGenomeActionLister();
+        setFlagsListener();
         
     }
     
@@ -243,60 +255,84 @@ public class ProcessTab extends JPanel {
         DefaultMutableTreeNode root = new DefaultMutableTreeNode(
                 "<html><b>Current processes</b></html>");
         // create the child nodes
+        
+        ArrayList<String> authors = new ArrayList<String>();
         for (int i = 0; i < processFeedbackData.length; i++) {
-            ProcessFeedbackData data = processFeedbackData[i];
-            DefaultMutableTreeNode procNode = new DefaultMutableTreeNode(
-                    "<html><b>Process " + i + "</b></html>");
-            root.add(procNode);
-            DefaultMutableTreeNode expNode = new DefaultMutableTreeNode(
-                    "<html><u>ExpID</u>: " + data.experimentName + "</html>");
-            procNode.add(expNode);
-            DefaultMutableTreeNode authorNode = new DefaultMutableTreeNode(
-                    "<html><u>Author</u>: " + data.author + "</html>");
-            procNode.add(authorNode);
-            DefaultMutableTreeNode statusNode = new DefaultMutableTreeNode(
-                    "<html><u>Status</u>: " + data.status + "</html>");
-            procNode.add(statusNode);
-            DefaultMutableTreeNode addedNode = new DefaultMutableTreeNode(
-                    "<html><u>Time Added</u>: " + data.timeAdded + "</html>");
-            procNode.add(addedNode);
-            DefaultMutableTreeNode startedNode = new DefaultMutableTreeNode(
-                    "<html><u>Time Started</u>: " + data.timeStarted
-                            + "</html>");
-            procNode.add(startedNode);
-            DefaultMutableTreeNode finishedNode = new DefaultMutableTreeNode(
-                    "<html><u>Time Finished</u>: " + data.timeFinished
-                            + "</html>");
-            procNode.add(finishedNode);
-            DefaultMutableTreeNode outputNode = new DefaultMutableTreeNode(
-                    "<html><b>Output files</b></html>");
-            procNode.add(outputNode);
-            for (int j = 0; j < data.outputFiles.length; j++) {
-                DefaultMutableTreeNode fileNode = new DefaultMutableTreeNode(
-                        "<html><u>File Name</u>: " + data.outputFiles[j]
-                                + "</html>");
-                outputNode.add(fileNode);
+            if (!authors.contains(processFeedbackData[i].author)) {
+                authors.add(processFeedbackData[i].author);
             }
+        }
+        for (String author : authors) {
             
+            DefaultMutableTreeNode authorNode = new DefaultMutableTreeNode(
+                    "<html><b>Author</b>: " + author + "</html>");
+            root.add(authorNode);
+            DefaultMutableTreeNode finishedNode = new DefaultMutableTreeNode(
+                    "<html><b>Finished</b></html>");
+            authorNode.add(finishedNode);
+            DefaultMutableTreeNode crashedNode = new DefaultMutableTreeNode(
+                    "<html><b>Crashed</b></html>");
+            authorNode.add(crashedNode);
+            DefaultMutableTreeNode startedNode = new DefaultMutableTreeNode(
+                    "<html><b>Started</b></html>");
+            authorNode.add(startedNode);
+            DefaultMutableTreeNode waitingNode = new DefaultMutableTreeNode(
+                    "<html><b>Waiting</b></html>");
+            authorNode.add(waitingNode);
+            for (int i = 0; i < processFeedbackData.length; i++) {
+                Format format = new SimpleDateFormat("yyyy-MM-dd, HH:mm");
+                ProcessFeedbackData data = processFeedbackData[i];
+                String timeAdded = "Not added";
+                String timeStarted = "Not started";
+                String timeFinished = "Not finished";
+                if (data.timeAdded != 0) {
+                    timeAdded = format.format(new Date(data.timeAdded))
+                            .toString();
+                }
+                if (data.timeStarted != 0) {
+                    timeStarted = format.format(new Date(data.timeStarted))
+                            .toString();
+                }
+                if (data.timeFinished != 0) {
+                    timeFinished = format.format(new Date(data.timeFinished))
+                            .toString();
+                }
+                DefaultMutableTreeNode expNode = new DefaultMutableTreeNode(
+                        "<html><b>ExpID</b>: " + data.experimentName
+                                + "</html>");
+                DefaultMutableTreeNode addedTimeNode = new DefaultMutableTreeNode(
+                        "<html><u>Time Added</u>: " + timeAdded + "</html>");
+                DefaultMutableTreeNode startedTimeNode = new DefaultMutableTreeNode(
+                        "<html><u>Time Started</u>: " + timeStarted + "</html>");
+                DefaultMutableTreeNode finishedTimeNode = new DefaultMutableTreeNode(
+                        "<html><u>Time Finished</u>: " + timeFinished
+                                + "</html>");
+                
+                expNode.add(addedTimeNode);
+                expNode.add(startedTimeNode);
+                expNode.add(finishedTimeNode);
+                
+                if (data.status.equals("Finished")) {
+                    finishedNode.add(expNode);
+                } else if (data.status.equals("Waiting")) {
+                    waitingNode.add(expNode);
+                } else if (data.status.equals("Crashed")) {
+                    crashedNode.add(expNode);
+                } else if (data.status.equals("Started")) {
+                    startedNode.add(expNode);
+                }
+                
+            }
         }
         // create the tree by passing in the root node
         JTree tree = new JTree(root);
+        tree.setRootVisible(false);
         DefaultTreeCellRenderer renderer = (DefaultTreeCellRenderer) tree
                 .getCellRenderer();
         renderer.setLeafIcon(null);
         renderer.setClosedIcon(null);
         renderer.setOpenIcon(null);
         scrollProcessList.setViewportView(tree);
-        // processFeedbackButton = CustomButtonFactory.makeCustomButton(
-        // IconFactory.getRefreshIcon(30, 30),
-        // IconFactory.getRefreshHoverIcon(32, 32), 32, 32,
-        // "Get process information from server");
-        processFeedbackButton = new JButton("Get process feedback");
-        processFeedbackButton.addActionListener(procFeedbackListener);
-        // addToFileListButton = CustomButtonFactory.makeCustomButton(
-        // IconFactory.getAddToListIcon(30, 30),
-        // IconFactory.getAddToListHoverIcon(32, 32), 32, 32,
-        // "Add selected files to list");
         addToFileListButton = new JButton("Add to file list");
         addToFileListButton.setEnabled(false);
         procInfoSouthPanel.add(addToFileListButton);
@@ -309,8 +345,7 @@ public class ProcessTab extends JPanel {
      */
     private void addConvertFilesPanel() {
         middlePanel.add(consolePanel, BorderLayout.CENTER);
-        consolePanel.setBorder(BorderFactory
-                .createTitledBorder("Console"));
+        consolePanel.setBorder(BorderFactory.createTitledBorder("Console"));
     }
     
     /**
@@ -819,8 +854,7 @@ public class ProcessTab extends JPanel {
     }
     
     public void addProcessFeedbackListener(ActionListener listener) {
-        procFeedbackListener = listener;
-        processFeedbackButton.addActionListener(procFeedbackListener);
+        processFeedbackButton.addActionListener(listener);
     }
     
     public void addRawToProfileDataListener(ActionListener listener) {
@@ -847,16 +881,72 @@ public class ProcessTab extends JPanel {
         revalidate();
     }
     
+    public void setFlagsListener() {
+        flags.getDocument().addDocumentListener(new DocumentListener() {
+            
+            @Override
+            public void changedUpdate(DocumentEvent e) {
+                check();
+            }
+            
+            @Override
+            public void removeUpdate(DocumentEvent e) {
+                check();
+            }
+            
+            @Override
+            public void insertUpdate(DocumentEvent e) {
+                check();
+            }
+        });
+    }
+    
+    public void setGenomeActionLister() {
+        genomeFile.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                check();
+            }
+        });
+        
+    }
+    
+    private void check() {
+        if (flags.getText().startsWith("-") && flags.getText().length() > 1
+                && genomeFile.getItemCount() > 0) {
+            genomeFile.setEnabled(true);
+        } else {
+            
+            useRatio.setEnabled(false);
+            ratioCalcButton.setEnabled(false);
+            profileButton.setEnabled(false);
+            genomeFile.setEnabled(false);
+            smoothWindowSize.setEnabled(false);
+            smoothType.setEnabled(false);
+            stepPosition.setEnabled(false);
+            printMean.setEnabled(false);
+            printZeros.setEnabled(false);
+            stepSizeBox.setEnabled(false);
+            outputSGR.setEnabled(false);
+            outputGFF.setEnabled(false);
+            stepSize.setEnabled(false);
+        }
+        
+        if (genomeFile.isEnabled()) {
+            profileButton.setEnabled(true);
+            outputSGR.setEnabled(true);
+            outputGFF.setEnabled(true);
+        }
+    }
+    
     /**
      * Prints message to genProfArea. The message is red if it is a warning
      * message, black otherwise.
      * 
      * @param message
      *            - Whether or not create profile data succeeded
-     * @param color
-     *            - What color the message should have
      */
-    public void printToConsole(String message) {        
+    public void printToConsole(String message) {
         consoleArea.append(message);
     }
     

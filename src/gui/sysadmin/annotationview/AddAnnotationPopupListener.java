@@ -12,6 +12,12 @@ public class AddAnnotationPopupListener implements ActionListener {
     private SysadminTab sysTab;
     private SysadminController sysController;
 
+    /**
+     * The listener for actions within the AddAnnotationPopup
+     *
+     * @param sysTab
+     *            is the SysadminTab which opened the popup
+     */
     public AddAnnotationPopupListener(SysadminTab sysTab) {
         this.sysTab = sysTab;
         this.sysController = sysTab.getSysController();
@@ -24,7 +30,10 @@ public class AddAnnotationPopupListener implements ActionListener {
             case SysStrings.ANNOTATIONS_POPUP_CREATE_ANNO:
                 System.out.println("Creating new annotation....");
                 sysController.sendNewAnnotation();
+                sysTab.getNewAnnotationFrame().setVisible(false);
+                sysTab.getNewAnnotationFrame().dispose();
                 break;
+
 
         }
     }
