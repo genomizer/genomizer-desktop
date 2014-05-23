@@ -51,12 +51,12 @@ public class ProcessTab extends JPanel {
     private static final long serialVersionUID = -2830290705724588252L;
 
     private final JList<CheckListItem> fileList = new JList<CheckListItem>();
-    private final JList<CheckListItem> scheduleList = new JList<CheckListItem>();
+    //private final JList<CheckListItem> scheduleList = new JList<CheckListItem>();
 
     private final JPanel convPanel = new JPanel();
     private final JPanel buttonPanel = new JPanel();
     private final JPanel filesPanel = new JPanel(new BorderLayout());
-    private final JPanel scheduleProcPanel = new JPanel(new BorderLayout());
+   // private final JPanel scheduleProcPanel = new JPanel(new BorderLayout());
     private final JPanel genProfileDataPanel = new JPanel(new BorderLayout());
     private final JPanel genRegionDataPanel = new JPanel(new BorderLayout());
     private final JPanel consolePanel = new JPanel(new BorderLayout());
@@ -64,7 +64,7 @@ public class ProcessTab extends JPanel {
     private final JPanel rawToProfileMenuPanel = new JPanel();
     private final JPanel timePanel = new JPanel();
     private final JPanel middlePanel = new JPanel(new GridLayout(3, 1));
-    private final JPanel westPanel = new JPanel(new GridLayout(2, 1));
+    private final JPanel westPanel = new JPanel(new GridLayout(1,1));
 
     private final JPanel flagsPanel = new JPanel();
     private final JPanel genomeReleasePanel = new JPanel();
@@ -96,7 +96,7 @@ public class ProcessTab extends JPanel {
     private final JTextField ratioWindowSize = new JTextField();
     private final JTextField ratioStepPosition = new JTextField();
 
-    private final JScrollPane scrollSchedule = new JScrollPane();
+   // private final JScrollPane scrollSchedule = new JScrollPane();
     private final JScrollPane scrollConvert = new JScrollPane();
     private final JScrollPane scrollRegion = new JScrollPane();
     private final JScrollPane scrollProfile = new JScrollPane();
@@ -142,8 +142,6 @@ public class ProcessTab extends JPanel {
         setPreferredSize(new Dimension(1225, 725));
         setMinimumSize(new Dimension(20000, 20000));
         this.setLayout(new BorderLayout());
-        // flags.addActionListener(profilePanelListener);
-        // genomeFile.addActionListener(profilePanelListener);
         initPanels();
         disableAllParameters();
 
@@ -224,7 +222,7 @@ public class ProcessTab extends JPanel {
         this.add(westPanel, BorderLayout.WEST);
         filesPanel.setBorder(BorderFactory.createTitledBorder("Files"));
         addFilesScheduleToWestPanel();
-        addScheduleProcPanel();
+       // addScheduleProcPanel();
 
     }
 
@@ -395,12 +393,12 @@ public class ProcessTab extends JPanel {
     /**
      * Initiates the scrollSchedule in scheduleProcPanel.
      */
-    private void addScheduleProcPanel() {
+  /*  private void addScheduleProcPanel() {
         scheduleProcPanel.setBorder(BorderFactory
                 .createTitledBorder("Scheduled Processing"));
         scheduleProcPanel.add(scrollSchedule);
         scrollSchedule.setViewportView(scheduleList);
-    }
+    }*/
 
     /**
      * Writes text to convertArea. The user gets a visual message whether or not
@@ -421,7 +419,7 @@ public class ProcessTab extends JPanel {
         filesPanel.add(scrollFiles);
 
         scrollFiles.setViewportView(fileList);
-        westPanel.add(scheduleProcPanel);
+       // westPanel.add(scheduleProcPanel);
     }
 
     /**
@@ -920,10 +918,7 @@ public class ProcessTab extends JPanel {
     }
 
     private void check() {
-        if (flags.getText().startsWith("-") && flags.getText().length() > 1
-                && genomeFile.getItemCount() > 0) {
-            genomeFile.setEnabled(true);
-        }
+
         if (flags.getText().isEmpty()
                 || !(flags.getText().startsWith("-") && flags.getText()
                         .length() > 1) || genomeFile.getItemCount() < 0) {
