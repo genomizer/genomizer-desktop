@@ -47,6 +47,8 @@ public class ExperimentData {
                     annotationList.add(name);
                 }
                 hasValue = true;
+            } else if (heading.equals("")) {
+                annotationList.add("-");
             } else {
                 for (AnnotationDataValue annotation : annotations) {
                     if (heading.equals(annotation.name)) {
