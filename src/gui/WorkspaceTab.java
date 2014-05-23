@@ -14,6 +14,7 @@ import javax.swing.Box;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JPanel;
+import javax.swing.SwingUtilities;
 
 import util.ExperimentData;
 import util.TreeTable;
@@ -179,6 +180,10 @@ public class WorkspaceTab extends JPanel {
     }
     
     public synchronized void removeSelectedData() {
-        table.removeSelectedData();
+        SwingUtilities.invokeLater(new Runnable() {
+            public void run() {
+                table.removeSelectedData();
+            }
+        });
     }
 }

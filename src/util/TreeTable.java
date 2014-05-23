@@ -26,6 +26,7 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JViewport;
+import javax.swing.SwingUtilities;
 import javax.swing.table.TableColumnModel;
 import javax.swing.tree.TreePath;
 
@@ -491,11 +492,9 @@ public class TreeTable extends JPanel {
             if (columnCount > 0) {
                 visibleHeadings = new ArrayList<>();
                 for (int i = 0; i < columnCount; i++) {
-                    Thread.sleep(10);
                     visibleHeadings.add(table.getColumnName(i));
                 }
                 for (String heading : headings) {
-                    Thread.sleep(10);
                     if (!visibleHeadings.contains(heading)
                             && !hiddenHeadings.contains(heading)) {
                         visibleHeadings.add(heading);
@@ -508,8 +507,6 @@ public class TreeTable extends JPanel {
             }
         } catch (NullPointerException e) {
             System.out.println("nullpointer");
-        } catch (InterruptedException e) {
-            e.printStackTrace();
         }
     }
     
@@ -519,8 +516,14 @@ public class TreeTable extends JPanel {
     private synchronized void createTreeStructure() {
         /* Create the tree root */
         updateVisibleHeadings();
-        SupportNode root = new SupportNode(new Object[] { "Root" });
+        final SupportNode root = new SupportNode(new Object[] { "Root" });
         try {
+            while (visibleHeadings.contains("")) {
+                visibleHeadings.remove("");
+            }
+            while (visibleHeadings.size() < 3) {
+                visibleHeadings.add("");
+            }
             for (ExperimentData experiment : experiments) {
                 /* Create experiment node and add to root */
                 ExperimentNode experimentNode = new ExperimentNode(experiment,
@@ -528,15 +531,16 @@ public class TreeTable extends JPanel {
                 root.add(experimentNode);
             }
             /* Create the model and add it to the table */
-            visibleHeadings.remove("");
-            while (visibleHeadings.size() < 3) {
-                visibleHeadings.add("");
-            }
-            DefaultTreeTableModel model = new DefaultTreeTableModel(root,
-                    Arrays.asList(visibleHeadings
-                            .toArray(new String[visibleHeadings.size()])));
-            table.setTreeTableModel(model);
-            table.packAll();
+            SwingUtilities.invokeLater(new Runnable() {
+                public void run() {
+                    DefaultTreeTableModel model = new DefaultTreeTableModel(
+                            root,
+                            Arrays.asList(visibleHeadings
+                                    .toArray(new String[visibleHeadings.size()])));
+                    table.setTreeTableModel(model);
+                    table.packAll();
+                }
+            });
             
         } catch (NullPointerException e) {
             
