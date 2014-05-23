@@ -22,7 +22,13 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 import model.GenomizerModel;
-import util.*;
+import util.ActiveSearchPanel;
+import util.AnnotationDataType;
+import util.AnnotationDataValue;
+import util.ExperimentData;
+import util.FileData;
+import util.GenomeReleaseData;
+import util.ProcessFeedbackData;
 
 import communication.HTTPURLUpload;
 
@@ -278,11 +284,8 @@ public class Controller {
         
         @Override
         public void run() {
-            if (model.logoutUser()) {
-                view.updateLogout();
-            } else {
-                view.updateLogout();
-            }
+            model.resetModel();
+            view.updateLogout();
             
         }
     }
@@ -517,7 +520,7 @@ public class Controller {
         }
         
         @Override
-        public void run() {            
+        public void run() {
             fileChooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
             fileChooser.setMultiSelectionEnabled(true);
             int ret = fileChooser.showOpenDialog(new JPanel());
@@ -610,7 +613,7 @@ public class Controller {
             @Override
             public void mouseClicked(MouseEvent event) {
                 JList list = (JList) event.getSource();
-//                String specie = "";
+                // String specie = "";
                 
                 if (list.getModel().getSize() > 0) {
                     int index = list.locationToIndex(event.getPoint());
