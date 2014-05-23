@@ -113,10 +113,10 @@ public class LoginWindow extends JFrame {
     /**
      * Method for getting the password
      * 
-     * @return the password entered buy the user
+     * @return the password entered by the user
      */
     public String getPasswordInput() {
-        return passwordField.getText();
+        return passwordField.getPassword().toString();
     }
     
     /**
