@@ -532,7 +532,8 @@ public class ProcessTab extends JPanel {
         gbc2.gridy = 1;
         lowerCheckBoxPanel.add(outputSGR, gbc2);
         
-        checkBoxPanel.setPreferredSize(new Dimension(315, 96));
+        checkBoxPanel.setPreferredSize(new Dimension(315, 81));
+        
         
         convPanel.add(stepSizePanel);
         stepSizePanel.setBorder(BorderFactory.createTitledBorder("Step size"));
@@ -549,7 +550,7 @@ public class ProcessTab extends JPanel {
         flagsPanel.add(flags);
         flags.setBorder(null);
         flags.setText("-a -m 1 --best -p 10 -v 2 -q -S");
-        flags.setPreferredSize(new Dimension(180, 45));
+        flags.setPreferredSize(new Dimension(180, 30));
     }
     
     /**
@@ -557,7 +558,7 @@ public class ProcessTab extends JPanel {
      */
     private void addGenomeFileToConv() {
         genomeReleasePanel.add(genomeFile);
-        genomeFile.setPreferredSize(new Dimension(180, 45));
+        genomeFile.setPreferredSize(new Dimension(180, 30));
         genomeFile.setBorder(null);
     }
     
@@ -566,7 +567,7 @@ public class ProcessTab extends JPanel {
      */
     private void addSmoothWindowSizeToConv() {
         windowSizePanel.add(smoothWindowSize);
-        smoothWindowSize.setPreferredSize(new Dimension(70, 45));
+        smoothWindowSize.setPreferredSize(new Dimension(70, 30));
         smoothWindowSize.setBorder(null);
         smoothWindowSize.setHorizontalAlignment(JTextField.CENTER);
     }
@@ -576,7 +577,7 @@ public class ProcessTab extends JPanel {
      */
     private void addSmoothTypeToConv() {
         smoothTypePanel.add(smoothType);
-        smoothType.setPreferredSize(new Dimension(70, 45));
+        smoothType.setPreferredSize(new Dimension(140, 30));
         smoothType.setBorder(null);
     }
     
@@ -585,7 +586,7 @@ public class ProcessTab extends JPanel {
      */
     private void addStepPositionToConv() {
         stepPositionPanel.add(stepPosition);
-        stepPosition.setPreferredSize(new Dimension(75, 45));
+        stepPosition.setPreferredSize(new Dimension(75, 30));
         stepPosition.setBorder(null);
         stepPosition.setHorizontalAlignment(JTextField.CENTER);
     }
@@ -595,7 +596,7 @@ public class ProcessTab extends JPanel {
      */
     private void addStepSizeToConv() {
         stepSizePanel.add(stepSize);
-        stepSize.setPreferredSize(new Dimension(70, 45));
+        stepSize.setPreferredSize(new Dimension(70, 30));
         stepSize.setBorder(null);
         stepSize.setHorizontalAlignment(JTextField.CENTER);
     }
@@ -604,16 +605,16 @@ public class ProcessTab extends JPanel {
      * Initiates the print mean checkbox in raw to profile tab
      */
     private void addPrintMeanToConv() {
-        printMean.setPreferredSize(new Dimension(110, 55));
+        printMean.setPreferredSize(new Dimension(110, 30));
         printMean.setBorder(null);
-        stepSizeBox.setPreferredSize(new Dimension(110, 55));
+        stepSizeBox.setPreferredSize(new Dimension(110, 30));
     }
     
     /**
      * Initiates the print zeros checkbox in raw to profile tab
      */
     private void addPrintZeroToConv() {
-        printZeros.setPreferredSize(new Dimension(110, 55));
+        printZeros.setPreferredSize(new Dimension(110, 30));
         printZeros.setBorder(null);
     }
     
