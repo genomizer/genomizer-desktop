@@ -305,8 +305,9 @@ public class ProcessTab extends JPanel {
                 DefaultMutableTreeNode startedTimeNode = new DefaultMutableTreeNode(
                         "<html><u>Time Started</u>: " + timeStarted + "</html>");
                 DefaultMutableTreeNode finishedTimeNode = new DefaultMutableTreeNode(
-                        "<html><u>Time Finished</u>: " + timeFinished + "</html>");
-
+                        "<html><u>Time Finished</u>: " + timeFinished
+                                + "</html>");
+                
                 expNode.add(addedTimeNode);
                 expNode.add(startedTimeNode);
                 expNode.add(finishedTimeNode);
@@ -900,11 +901,7 @@ public class ProcessTab extends JPanel {
         });
     }
     
-<<<<<<< HEAD
     public void setGenomeActionLister() {
-=======
-    public void setGenomeActionLister() {    
->>>>>>> branch 'dev' of https://github.com/genomizer/genomizer-desktop.git
         genomeFile.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
