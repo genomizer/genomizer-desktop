@@ -223,6 +223,9 @@ public class Model implements GenomizerModel {
             ExperimentData[] searchResponses = ResponseParser
                     .parseSearchResponse(conn.getResponseBody());
             if (searchResponses != null && searchResponses.length > 0) {
+                for (int i = 0; i < searchResponses.length; i++) {
+                    searchResponses[i].convertToUTF8();
+                }
                 return new ArrayList<ExperimentData>(
                         Arrays.asList(searchResponses));
             }
@@ -370,7 +373,8 @@ public class Model implements GenomizerModel {
             
             System.out.println("GenomeRelease responsecode: "
                     + conn.getResponseCode());
-            System.out.println("GenomeRelease responsebody: " + conn.getResponseBody());
+            System.out.println("GenomeRelease responsebody: "
+                    + conn.getResponseBody());
         }
         
         return new GenomeReleaseData[] {};
@@ -426,7 +430,8 @@ public class Model implements GenomizerModel {
     }
     
     @Override
-    public boolean addNewExperiment(String expName, AnnotationDataValue[] annotations) {
+    public boolean addNewExperiment(String expName,
+            AnnotationDataValue[] annotations) {
         AddExperimentRequest aER = RequestFactory.makeAddExperimentRequest(
                 expName, annotations);
         System.out.println(aER.toJson());

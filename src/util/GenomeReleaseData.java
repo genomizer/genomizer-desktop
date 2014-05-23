@@ -3,16 +3,16 @@ package util;
 public class GenomeReleaseData {
 
     private String genomeVersion;
-    private String specie;
-    private String path;
-    private String[] fileName;
+    private String species;
+    private String folderPath;
+    private String[] files;
 
     public GenomeReleaseData(String genomeVersion, String specie, String path,
             String fileName) {
 
         this.genomeVersion = genomeVersion;
-        this.specie = specie;
-        this.path = path;
+        this.species = specie;
+        this.folderPath = path;
     }
 
     public String getVersion() {
@@ -20,15 +20,15 @@ public class GenomeReleaseData {
     }
 
     public String getSpecies() {
-        return specie;
+        return species;
     }
 
-    public String[] getFilename() {
-        return fileName;
+    public String[] getFilenames() {
+        return files;
     }
 
     public String getPath() {
-        return path;
+        return folderPath;
     }
 
 }
