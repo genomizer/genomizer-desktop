@@ -238,6 +238,9 @@ public class TreeTable extends JPanel {
                 sortingOrders.put(key, true);
             }
         }
+        if (heading.equals("")) {
+            return;
+        }
         
         Collections.sort(experiments, new Comparator<ExperimentData>() {
             public synchronized int compare(ExperimentData a, ExperimentData b) {
