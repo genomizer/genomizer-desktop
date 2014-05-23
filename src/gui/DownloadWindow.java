@@ -9,10 +9,8 @@ import java.awt.event.WindowEvent;
 import java.util.ArrayList;
 import java.util.concurrent.CopyOnWriteArrayList;
 
-import javax.swing.DefaultCellEditor;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
-import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -81,11 +79,10 @@ public class DownloadWindow extends JFrame {
         tablePanel.add(new JLabel("test"), BorderLayout.SOUTH);
         
         // Set up the JTable
-        String[] headings = new String[] { "File Name", "Format Conversion" };
-        String[][] content = new String[data.size()][2];
+        String[] headings = new String[] { "File Name" };
+        String[][] content = new String[data.size()][1];
         for (int i = 0; i < data.size(); i++) {
             content[i][0] = data.get(i);
-            content[i][1] = "Click here to choose file format";
         }
         table = new JTable(content, headings) {
             @Override
@@ -95,11 +92,8 @@ public class DownloadWindow extends JFrame {
         };
         
         // Add comboboxes to each row in the table.
-        JComboBox<String> comboBox = new JComboBox<String>(new String[] {
-                "RAW", "WIG" });
-        DefaultCellEditor cellEditor = new DefaultCellEditor(comboBox);
-        table.getColumnModel().getColumn(1).setCellEditor(cellEditor);
         table.setRowHeight(30);
+        table.setEnabled(false);
         JScrollPane scrollPane = new JScrollPane(table);
         tablePanel.add(scrollPane, BorderLayout.CENTER);
         tablePanel.add(table.getTableHeader(), BorderLayout.NORTH);
