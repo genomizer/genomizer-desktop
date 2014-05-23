@@ -42,12 +42,15 @@ public class Controller {
     public Controller(GenomizerView view, GenomizerModel model) {
         this.view = view;
         this.model = model;
+        view.addLoginListener(new LoginListener());
+        view.addLogoutListener(new LogoutListener());
         updateView();
     }
     
     private void updateView() {
-        view.addLoginListener(new LoginListener());
-        view.addLogoutListener(new LogoutListener());
+        view.addRatioCalcListener(new RatioCalcListener());
+        view.addCancelListener(new CancelListener());
+        view.addOkListener(new OkListener());
         view.addSearchListener(new QuerySearchListener());
         view.addConvertFileListener(new ConvertFileListener());
         view.addQuerySearchListener(new QuerySearchListener());
@@ -67,10 +70,7 @@ public class Controller {
         view.addUploadButtonListener(new UploadNewExpListener());
         view.addAnalyzeSelectedListener(new AnalyzeSelectedListener());
         fileListAddMouseListener(view.getfileList());
-        view.addRatioCalcListener(new RatioCalcListener());
         view.addProcessFeedbackListener(new ProcessFeedbackListener());
-        view.addCancelListener(new CancelListener());
-        view.addOkListener(new OkListener());
         view.addDeleteFromDatabaseListener(new DeleteFromDatabaseListener());
         view.setOngoingUploads(model.getOngoingUploads());
         view.addUploadSelectedFilesListener(new UploadSelectedFilesListener());
