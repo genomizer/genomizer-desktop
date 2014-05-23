@@ -39,8 +39,9 @@ public class UploadToNewExpPanel extends JPanel implements ExperimentPanel {
             uploadBackground;
     private JButton uploadButton, uploadSelectedBtn, selectButton;
     private AnnotationDataType[] annotations;
-    private JLabel expNameLabel, boldTextLabel;
+    private JLabel expNameLabel, genomeLabel, boldTextLabel;
     private JTextField expID;
+    private JComboBox species, genome;
     private CopyOnWriteArrayList<HTTPURLUpload> ongoingUploads;
 
     public UploadToNewExpPanel() {
@@ -50,7 +51,6 @@ public class UploadToNewExpPanel extends JPanel implements ExperimentPanel {
         annotationBoxes = new HashMap<String, JComboBox>();
         annotationFields = new HashMap<String, JTextField>();
         annotationHeaders = new ArrayList<String>();
-//        uploadPanel = new JPanel(new BorderLayout());
         uploadBackground = new JPanel(new BorderLayout());
         buttonsPanel = new JPanel(new FlowLayout());
         uploadFilesPanel = new JPanel(new GridLayout(0, 1));
@@ -66,8 +66,10 @@ public class UploadToNewExpPanel extends JPanel implements ExperimentPanel {
         expID = new JTextField();
         expID.setColumns(10);
         expID.getDocument().addDocumentListener(new FreetextListener());
+        genomeLabel = new JLabel();
+        genome = new JComboBox();
+        genome.setPreferredSize(new Dimension(120, 31));
         enableUploadButton(false);
-        updateProgress();
     }
 
     /**
@@ -88,6 +90,10 @@ public class UploadToNewExpPanel extends JPanel implements ExperimentPanel {
     public void removeAll() {
         newExpPanel.removeAll();
         super.removeAll();
+    }
+
+    public HashMap<File, UploadFileRow> getFileRows() {
+        return uploadFileRows;
     }
 
     /**
@@ -236,6 +242,10 @@ public class UploadToNewExpPanel extends JPanel implements ExperimentPanel {
                         }
                     });
 
+                    if(annotations[i].getName().equals("Species")) {
+                        species = comboBox;
+                        //Fixa actionlistener som kollar byter ut genome realeses efter specie!
+                    }
                     annotationBoxes.put(annotations[i].getName(), comboBox);
                     p.add(comboBox, BorderLayout.CENTER);
                     newExpPanel.add(p, gbc);
@@ -243,6 +253,16 @@ public class UploadToNewExpPanel extends JPanel implements ExperimentPanel {
                 x++;
             }
         }
+        gbc.anchor = GridBagConstraints.WEST;
+        gbc.insets = new Insets(5, 0, 5, 30);
+        gbc.gridx = x;
+        gbc.gridy = y;
+        JPanel gr = new JPanel(new BorderLayout());
+        genomeLabel.setText("<html><b>Genome release</b></html>");
+        genomeLabel.setToolTipText("Bold indicates a forced annotation");
+        gr.add(genomeLabel, BorderLayout.NORTH);
+        gr.add(genome, BorderLayout.CENTER);
+        newExpPanel.add(gr, gbc);
     }
 
     /**
@@ -437,32 +457,6 @@ public class UploadToNewExpPanel extends JPanel implements ExperimentPanel {
             }
         }
         return files;
-    }
-
-    public void setOngoingUploads(
-            CopyOnWriteArrayList<HTTPURLUpload> ongoingUploads) {
-        this.ongoingUploads = ongoingUploads;
-    }
-
-    public void updateProgress() {
-        new Thread(new Runnable() {
-            private boolean running;
-
-            @Override
-            public void run() {
-                running = true;
-                while (running) {
-                    for (File key : uploadFileRows.keySet()) {
-
-                    }
-                    try {
-                        Thread.sleep(1000);
-                    } catch (InterruptedException e) {
-                        running = false;
-                    }
-                }
-            }
-        }).start();
     }
 
     /**

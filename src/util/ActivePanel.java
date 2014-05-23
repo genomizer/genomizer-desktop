@@ -1,5 +1,5 @@
 package util;
 
 public enum ActivePanel {
-    EXISTING, NEW, GEO, NONE
+    EXISTING, NEW, NONE
 }
