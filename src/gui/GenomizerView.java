@@ -114,8 +114,6 @@ public interface GenomizerView {
     public void updateLoginNeglected(String errorMessage);
     
     public void updateLogout();
-
-    // public void updateQuerySearchResults(ExperimentData[] searchResults);
     
     public void setSearchAnnotationTypes(AnnotationDataType[] annotationTypes);
     
