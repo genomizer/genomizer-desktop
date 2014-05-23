@@ -115,14 +115,10 @@ public class GenomeReleaseViewCreator {
         headerText.setBorder(border);
         buttonCeptionPanel.add(headerText, BorderLayout.WEST);
 
+        String[] data = grTablemodel.getFilenames(grTable.convertRowIndexToModel(grTable.getSelectedRow()));
 
-
-        //TODO: get the real data here using some magic methods!
-        // model.getGenomeReleaseFiles(); return string array!
-        String rands = String.valueOf(Math.random());
-        String[] data = new String[]{"someGenomefile.wig", "someOtherfile.wig", rands};
-
-        grTablemodel.getFileNames(grTable.convertRowIndexToModel(grTable.getSelectedRow()));
+        if(data == null)
+            data = new String[]{"Does not fucking work", ":("};
 
         JList<String> fileNameList = new JList<String>(data);
         fileNameList.setEnabled(false);
