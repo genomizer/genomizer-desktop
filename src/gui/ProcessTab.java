@@ -936,15 +936,7 @@ public class ProcessTab extends JPanel {
             outputGFF.setEnabled(true);
         }
         if (outputSGR.isSelected() && outputSGR.isEnabled()) {
-            smoothWindowSize.setEnabled(true);
-            smoothType.setEnabled(true);
-            stepPosition.setEnabled(true);
-            printMean.setEnabled(true);
-            printZeros.setEnabled(true);
-            stepSizeBox.setEnabled(true);
-            smoothWindowSize.setText("10");
-            stepPosition.setText("5");
-
+            setSmoothingEnabled(true,"10","5");
         }
         if (!outputSGR.isSelected() || !outputSGR.isEnabled()) {
             setSmoothingEnabled(false,"","");
@@ -973,16 +965,16 @@ public class ProcessTab extends JPanel {
         }
     }
 
-    private void setSmoothingEnabled(boolean bool,String windowSize, String stepPosition) {
+    private void setSmoothingEnabled(boolean bool,String windowSize, String step) {
         smoothWindowSize.setEnabled(bool);
         smoothType.setEnabled(bool);
-      //  stepPosition.setEnabled(bool);
+        stepPosition.setEnabled(bool);
         printMean.setEnabled(bool);
         printZeros.setEnabled(bool);
         stepSizeBox.setEnabled(bool);
         stepSize.setEnabled(bool);
         smoothWindowSize.setText(windowSize);
-    //    stepPosition.setText(stepPosition);
+        stepPosition.setText(step);
     }
 
     private void disableAllParameters() {
