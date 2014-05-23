@@ -8,9 +8,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.concurrent.CopyOnWriteArrayList;
 
-import javax.swing.JButton;
-import javax.swing.JFrame;
-import javax.swing.JList;
+import javax.swing.*;
 
 import util.ActiveSearchPanel;
 import util.AnnotationDataType;
@@ -202,6 +200,8 @@ public interface GenomizerView {
     public JButton getBackButton();
 
     public void resetGUI();
+
+    public JTabbedPane getTabbedPane();
 
     public String getSelectedSpecies();
 

@@ -28,7 +28,7 @@ public class GenomereleaseTableModel extends AbstractTableModel {
                 return grData[rowIndex].getSpecies();
 
             case 2:
-                return grData[rowIndex].getFilename();
+                return grData[rowIndex].getFilenames();
 
         }
 
