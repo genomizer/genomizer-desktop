@@ -760,4 +760,11 @@ public class GUI extends JFrame implements GenomizerView {
     public JButton getBackButton() {
         return querySearchTab.getBackButton();
     }
+    
+    public void resetGUI() {
+        mainPanel.remove(tabbedPane);
+        tabbedPane = new JTabbedPane();
+        tabbedPane.setFocusable(false);
+        mainPanel.add(tabbedPane);
+    }
 }
