@@ -63,7 +63,7 @@ public class LoginWindow extends JFrame {
         
         usernameField = new JTextField(20);
         usernameField.setBounds(100, 10, 160, 25);
-        usernameField.setText("Genome researcher 1");
+        usernameField.setText("desktop");
         mainPanel.add(usernameField);
         
         JLabel passwordLabel = new JLabel("Password");
