@@ -183,6 +183,10 @@ public class EditAnnotationPopup2 extends JPanel {
         return nameField.getText();
     }
     
+    public String getAnnotationName() { 
+        return annotation.name;
+    }
+    
     public Boolean getNewAnnotationForcedValue() {
         return annotation.isForced();
     }

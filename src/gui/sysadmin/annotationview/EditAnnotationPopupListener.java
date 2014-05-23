@@ -43,7 +43,7 @@ public class EditAnnotationPopupListener implements ActionListener {
                 // John was here:
                 JTextField j1 = getJTextFieldFromEvent(e);
                 if (sysController.renameAnnotationValue(
-                        editPopup.getNewAnnotationName(), j1.getName(),
+                        editPopup.getAnnotationName(), j1.getName(),
                         j1.getText())) {
                     j1.setName(j1.getText());
                     editPopup.deactivateUpdateButton((JButton) e.getSource());
@@ -64,7 +64,7 @@ public class EditAnnotationPopupListener implements ActionListener {
                 JPanel panel = (JPanel) j2.getParent();
                 System.out.println(editPopup.getNewAnnotationName() + "   " + j2.getName());
                 if (sysController.removeAnnotationValue(
-                        editPopup.getNewAnnotationName(), j2.getName())) {
+                        editPopup.getAnnotationName(), j2.getName())) {
                     panel.setVisible(false);
                 } else {
                     JOptionPane.showMessageDialog(editPopup,
@@ -78,7 +78,7 @@ public class EditAnnotationPopupListener implements ActionListener {
                 JTextField j3 = getJTextFieldFromEvent(e);
                 if (!j3.getText().isEmpty()) {
                     if (sysController.addAnnotationValue(
-                            editPopup.getNewAnnotationName(), j3.getText())) {
+                            editPopup.getAnnotationName(), j3.getText())) {
                         sysController.updateAnnotationTable();
                         editPopup.updateAnnotation(j3.getText());
                         editPopup.addEditAnnotationListener(this);
