@@ -151,10 +151,10 @@ public class RequestFactory {
         return new GetGenomeSpecieReleasesRequest(specie);
     }
     
-    public static AddGenomeReleaseRequest makeAddGenomeRelease(String fileName,
-            String specie, String version) {
+    public static AddGenomeReleaseRequest makeAddGenomeRelease(String[] files,
+            String species, String version) {
         
-        return new AddGenomeReleaseRequest(fileName, specie, version);
+        return new AddGenomeReleaseRequest(files, species, version);
     }
     
     public static RemoveFileFromExperimentRequest makeRemoveFileFromExperimentRequest(

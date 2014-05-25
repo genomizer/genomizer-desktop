@@ -328,8 +328,9 @@ public class GenomeReleaseViewCreator {
         return speciesText.getName();
     }
 
-    public String getFileText() {
-        return fileText.getText();
+    //TODO: this is temporary!
+    public String[] getFileText() {
+        return new String[] {fileText.getText()};
     }
 
     public void clearTextFields(){

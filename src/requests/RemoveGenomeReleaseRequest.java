@@ -2,9 +2,9 @@ package requests;
 
 public class RemoveGenomeReleaseRequest extends Request {
 
-    public RemoveGenomeReleaseRequest(String specie, String version) {
+    public RemoveGenomeReleaseRequest(String species, String version) {
         super("deleteGenomeRelease",
-                "/genomeRelease/" + specie + "/" + version, "DELETE");
+                "/genomeRelease/" + species + "/" + version, "DELETE");
 
 
 

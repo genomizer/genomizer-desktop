@@ -6,6 +6,7 @@ import gui.sysadmin.SysadminController;
 import gui.sysadmin.SysadminTab;
 import model.Model;
 
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -15,8 +16,11 @@ import communication.ConnectionFactory;
 
 public class AddGenomeReleaseTest {
     
-    public Model model;
+    private Model model;
     private SysadminController controller;
+    private final String SPECIES = "Fly";
+    private final String VERSION = "TEST";
+    private final String[] PATHS = new String[] {"C:/TEST/TESTgr1.txt", "C:/TEST/TESTgr2.txt"};
     
     @Before
     public void setUp() throws Exception {
@@ -24,5 +28,15 @@ public class AddGenomeReleaseTest {
         model.setIp("http://scratchy.cs.umu.se:7000");
         model.loginUser("SysadminGRTests", "umea@2014");
         controller = new SysadminController(model);
+    }
+    
+    @Test
+    public void shouldAddGenomRelease() {
+        assertThat(model.uploadGenomeReleaseFile(PATHS, SPECIES, VERSION)).isTrue();
+    }
+    
+    @After
+    public void shouldRemoveAddedGenomeRelease() {
+        model.deleteGenomeRelease(SPECIES, VERSION);
     }
 }

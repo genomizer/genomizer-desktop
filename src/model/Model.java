@@ -44,6 +44,7 @@ import util.GenomeReleaseData;
 import util.ProcessFeedbackData;
 
 import com.google.gson.Gson;
+
 import communication.Connection;
 import communication.ConnectionFactory;
 import communication.DownloadHandler;
@@ -381,7 +382,7 @@ public class Model implements GenomizerModel {
     }
     
     @Override
-    public boolean uploadGenomeReleaseFile(String filePath, String specie,
+    public boolean uploadGenomeReleaseFile(String[] filePaths, String species,
             String version) {
         
         // String[] filepaths = new String[2];
@@ -394,36 +395,50 @@ public class Model implements GenomizerModel {
         // }
         
         /**********************************************************/
-        
-        File f = new File(filePath);
+        File[] files = new File[filePaths.length];
+        String[] names = new String[filePaths.length];
+        for (int i = 0; i < filePaths.length; i++) {
+            files[i] = new File(filePaths[i]);
+            names[i] = files[i].getName();
+        }
         
         AddGenomeReleaseRequest request = RequestFactory.makeAddGenomeRelease(
-                f.getName(), specie, version);
+                names, species, version);
         System.out.println(request.toJson());
         Connection conn = connFactory.makeConnection();
         conn.sendRequest(request, userID, JSON);
         if (conn.getResponseCode() == 201) {
             
-            AddGenomeReleaseResponse aGRR = ResponseParser
+            AddGenomeReleaseResponse[] aGRR = ResponseParser
                     .parseGenomeUploadResponse(conn.getResponseBody());
-            HTTPURLUpload upload = new HTTPURLUpload(aGRR.URLupload,
-                    f.getAbsolutePath(), f.getName());
             
-            ongoingUploads.add(upload);
+            //TODO: fix this mess I am about to do right now tomorrow regards,
+            // the past me.
             
-            /** TODO */
-            if (upload.sendFile(userID)) {
+            for (int i = 0 ; i < files.length ; i++) {
+                HTTPURLUpload upload = new HTTPURLUpload(aGRR[i].urlUpload,
+                        files[i].getAbsolutePath(), files[i].getName());
                 
-                System.out.println("Succefully added genome release.");
-                return true;
+                ongoingUploads.add(upload);
                 
-            }
+                /** TODO */
+                if (upload.sendFile(userID)) {
+                    
+                    System.out.println("Succefully added genome release file named " + files[i].getName() + ".");
+                    
+                } else {
+                    System.err.println("Could not add genome release file named " + files[i].getName() + "!");
+                    return false;
+                }
+                
+            } 
+            return true;
             
         } else {
             
             System.out
                     .println("Something went wrong, could not add genome release: "
-                            + conn.getResponseCode());
+                            + conn.getResponseCode() + "\n" + conn.getResponseBody());
         }
         
         return false;
@@ -566,6 +581,7 @@ public class Model implements GenomizerModel {
         } else {
             System.err.println("Could not remove genome release: " + version
                     + " species: " + specie);
+            System.err.println(conn.getResponseBody());
             
         }
         return false;
