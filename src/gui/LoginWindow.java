@@ -1,10 +1,11 @@
 package gui;
 
-import java.awt.GridBagLayout;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.net.URL;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -32,6 +33,10 @@ public class LoginWindow extends JFrame {
      * Constructor creating the login window and adding listeners.
      */
     public LoginWindow(final GenomizerView parent) {
+        URL url = ClassLoader.getSystemResource("icons/logo.png");
+        Toolkit kit = Toolkit.getDefaultToolkit();
+        Image img = kit.createImage(url);
+        setIconImage(img);
         addWindowListener(new WindowAdapter() {
             @Override
             public void windowClosed(WindowEvent e) {
