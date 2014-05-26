@@ -116,8 +116,9 @@ public class Controller {
             ArrayList<FileData> allMarked = view.getAllMarkedFiles();
             String message;
             Boolean isConverted;
-
+            System.out.println("before check");
             if (view.isCorrectToProcess()) {
+                System.out.println("after check");
                 if (!allMarked.isEmpty()) {
 
                     for (FileData data : allMarked) {
@@ -248,7 +249,7 @@ public class Controller {
 
         @Override
         public void run() {
-            model.setLoginWindow(view.getLoginWindow());
+            model.setGenomizerView(view);
             model.setIp(view.getIp());
             String username = view.getUsername();
             String pwd = view.getPassword();
@@ -303,6 +304,10 @@ public class Controller {
         }
     }
 
+    /**
+     * Listener for when the download button in workspace is clicked. Opens a
+     * DownloadWindow with the selected files.
+     */
     class DownloadWindowListener implements ActionListener, Runnable {
 
         @Override
@@ -331,6 +336,10 @@ public class Controller {
         }
     }
 
+    /**
+     * Listener for when the download button in the download window is clicked.
+     * Opens a file chooser.
+     */
     class DownloadFileListener implements ActionListener, Runnable {
 
         @Override
@@ -393,7 +402,7 @@ public class Controller {
                     }
                     if(existingSpecies) {
                         uploadTab.addExistingExpPanel(ed);
-                        GenomeReleaseData[] grd = model.getSpecieGenomeReleases(species);
+                        GenomeReleaseData[] grd = model.getSpeciesGenomeReleases(species);
                         view.setGenomeReleases(grd);
                     } else {
                         JOptionPane.showMessageDialog(null,
@@ -455,7 +464,7 @@ public class Controller {
             HashMap<String, String> types = view.getUploadTab()
                     .getUploadToExistingExpPanel().getTypes();
             // Should be genome release from uploadTab
-//            String release = "wk1m";
+            // String release = "wk1m";
 
             ExperimentData ed = view.getUploadTab()
                     .getUploadToExistingExpPanel().getExperiment();
@@ -578,6 +587,12 @@ public class Controller {
             if (files != null && files.size() > 0 && annotations != null
                     && expName != null) {
                 HashMap<String, String> types = view.getFilesToUploadTypes();
+                // Should be genome release from uploadTab
+                // String release = "wk1m";
+                // Test purpose
+                for (AnnotationDataValue a : annotations) {
+                    System.out.println(a.getName() + " " + a.getValue());
+                }
                 boolean created = model.addNewExperiment(expName, annotations);
                 System.out.println(created);
                 if (created) {
@@ -644,7 +659,6 @@ public class Controller {
             public void mouseClicked(MouseEvent event) {
                 JList list = (JList) event.getSource();
                 // String specie = "";
-
                 if (list.getModel().getSize() > 0) {
                     int index = list.locationToIndex(event.getPoint());
 
@@ -661,8 +675,12 @@ public class Controller {
                         item.setSelected(!item.isSelected());
 
                         GenomeReleaseData[] genome = model
-                                .getSpecieGenomeReleases(item.getSpecie());
-                        view.setGenomeFileList(genome);
+                                .getSpeciesGenomeReleases(item.getSpecie());
+                        if (view.getAllMarkedFiles().isEmpty()) {
+                            view.setGenomeFileList(null);
+                        } else {
+                            view.setGenomeFileList(genome);
+                        }
 
                         if (item.isSelected()) {
                             count++;
@@ -819,7 +837,7 @@ public class Controller {
                     && expName != null) {
                 HashMap<String, String> types = view.getFilesToUploadTypes();
                 // Should be genome release from uploadTab
-//                String release = "wk1m";
+                // String release = "wk1m";
                 // Test purpose
                 for (AnnotationDataValue a : annotations) {
                     System.out.println(a.getName() + " " + a.getValue());
@@ -869,7 +887,7 @@ public class Controller {
         @Override
         public void run() {
             String species = view.getSelectedSpecies();
-            GenomeReleaseData[] grd = model.getSpecieGenomeReleases(species);
+            GenomeReleaseData[] grd = model.getSpeciesGenomeReleases(species);
             view.setGenomeReleases(grd);
         }
     }
