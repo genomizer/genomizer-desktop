@@ -116,13 +116,13 @@ public class TreeTable extends JPanel {
                             }
                         });
 
-                        /* Add hide column checkboxes */
-                        popupMenu.add(deselectButton);
                         popupMenu.add(selectButton);
+                        popupMenu.add(deselectButton);
 
                         //Add some space between the checkboxes and the buttons.
                         popupMenu.add(new JLabel("\n"));
 
+                        /* Add hide column checkboxes */
                         for (JCheckBox checkBox : columnCheckBoxes) {
                             getPopupMenu().add(checkBox);
                         }
