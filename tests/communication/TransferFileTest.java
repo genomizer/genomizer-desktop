@@ -1,5 +1,7 @@
 package communication;
 
+import model.Model;
+import org.junit.Before;
 import org.junit.Test;
 
 import java.io.*;
@@ -12,10 +14,16 @@ import static org.fest.assertions.api.Assertions.assertThat;
  */
 public class TransferFileTest {
     String ip = "sterner.cc";
+    Model m = new Model();
 
+    @Before
+    public void setUp() throws Exception {
+        m.setIp("http://sterner.cc:7000");
+        m.loginUser("desktoptest", "umea@2014");
+    }
     @Test
     public void testDownloadIs200() throws Exception {
-        DownloadHandler handler = new DownloadHandler("pvt", "pvt", "filename.txt");
+        DownloadHandler handler = new DownloadHandler(m.getUserID(), "filename.txt");
         String homeDir = System.getProperty("user.home");
         assertThat(handler.download("http://www.sterner.cc", homeDir + "/.test")).isTrue();
     }
@@ -30,7 +38,7 @@ public class TransferFileTest {
         fout.flush();
         HTTPURLUpload upload = new HTTPURLUpload("http://" + ip + ":8000/upload.php?path=/var/www/data/test.txt",
                 homeDir + "/.testupload.txt", ".testupload.txt");
-        upload.sendFile("test");
+        upload.sendFile(m.getUserID());
         assertThat(upload.getResponseCode()).isEqualTo(201);
     }
 
@@ -44,9 +52,9 @@ public class TransferFileTest {
         fout.flush();
         HTTPURLUpload upload = new HTTPURLUpload("http://" + ip + ":8000/upload.php?path=/var/www/data/testup.txt",
                 homeDir + "/.testupload.txt", ".testupload.txt");
-        upload.sendFile("test");
+        upload.sendFile(m.getUserID());
 
-        DownloadHandler handler = new DownloadHandler("pvt", "pvt", "test.txt");
+        DownloadHandler handler = new DownloadHandler(m.getUserID(), "test.txt");
         handler.download("http://" + ip + ":8000/download.php?path=/var/www/data/testup.txt",
                 homeDir + "/.testtransferdown.txt");
         File file2 = new File(homeDir + "/.testtransferdown.txt");
