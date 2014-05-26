@@ -304,17 +304,17 @@ public class QuerySearchTab extends JPanel {
         for (QueryBuilderRow row : rowList) {
             if (!row.getText().isEmpty()) {
                 String logic;
-                String endParantesis = "";
+                String endParenthesis = "";
                 if (i == 0) {
                     logic = "";
                 } else {
                     logic = row.getLogic() + " ";
                     searchString = "(" + searchString;
-                    endParantesis = ") ";
+                    endParenthesis = ") ";
                 }
                 String text = row.getText();
                 String annotation = row.getAnnotation();
-                searchString = searchString + endParantesis + logic + text
+                searchString = searchString + endParenthesis + logic + text
                         + "[" + annotation + "]";
                 i++;
             }
