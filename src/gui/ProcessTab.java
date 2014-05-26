@@ -677,8 +677,8 @@ public class ProcessTab extends JPanel {
      * @return String - "y" + stepSize || "n" + stepSize
      */
     private String getStepSize() {
-        if (stepSizeBox.isSelected()) {
-            return stepSize.getText().trim();
+        if (outputSGR.isSelected() && stepSizeBox.isSelected()) {
+            return "y " + stepSize.getText().trim();
         } else {
             return "";
         }
@@ -758,7 +758,7 @@ public class ProcessTab extends JPanel {
     
     public String[] getRegularParameters() {
         
-        String[] parameters = new String[7];
+        String[] parameters = new String[6];
         parameters[0] = getTextFromFlags();
         parameters[1] = getTextGenomeFileName();
         if (outputGFF.isSelected()) {
@@ -771,14 +771,14 @@ public class ProcessTab extends JPanel {
         } else {
             parameters[3] = "";
         }
-        
-        parameters[4] = getSmoothingParameters();
-        parameters[5] = getStepSize();
-        parameters[6] = "";
-        if (stepSizeBox.isSelected()) {
-            parameters[6] = stepSize.getText();
+        if (outputSGR.isSelected()) {
+            parameters[4] = getSmoothingParameters();
+        } else {
+            parameters[4] = "";
         }
-        return null;
+        
+        parameters[5] = getStepSize();
+        return parameters;
     }
     
     /**

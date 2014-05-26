@@ -19,20 +19,20 @@ public class GenomeTextFieldListener implements KeyListener{
     }
 
     @Override public void keyPressed(KeyEvent keyEvent) {
-
-    }
-
-    @Override public void keyReleased(KeyEvent keyEvent) {
         if(gr.isTextFieldsEmpty()){
             gr.enableClearButton(false);
         } else {
             gr.enableClearButton(true);
         }
-
+        
         if(gr.allTextFieldsContainInfo()){
             gr.enableAddButton(true);
         } else {
             gr.enableAddButton(false);
         }
+
+    }
+
+    @Override public void keyReleased(KeyEvent keyEvent) {
     }
 }

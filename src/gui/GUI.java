@@ -574,7 +574,7 @@ public class GUI extends JFrame implements GenomizerView {
     
     @Override
     public String[] getParameters() {
-        return processTab.getBowtieParameters();
+        return processTab.getRegularParameters();
     }
     
     @Override
@@ -622,13 +622,6 @@ public class GUI extends JFrame implements GenomizerView {
     
     public String[] getRatioCalcParameters() {
         return ratioCalcPopup.getRatioCalcParameters();
-    }
-    
-    @Override
-    public String[] getOtherParameters() {
-        // return processTab.getOtherParameters();
-        return process.getOtherParameters(processTab.outputGFF,
-                processTab.outputSGR, processTab.outputSAM);
     }
     
     /**

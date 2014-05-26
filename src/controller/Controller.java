@@ -116,9 +116,7 @@ public class Controller {
             ArrayList<FileData> allMarked = view.getAllMarkedFiles();
             String message;
             Boolean isConverted;
-            System.out.println("before check");
             if (view.isCorrectToProcess()) {
-                System.out.println("after check");
                 if (!allMarked.isEmpty()) {
 
                     for (FileData data : allMarked) {
@@ -129,10 +127,10 @@ public class Controller {
 
                         parameters[0] = view.getParameters()[0];
                         parameters[1] = view.getParameters()[1];
-                        parameters[2] = view.getOtherParameters()[0];// "y";
-                        parameters[3] = view.getOtherParameters()[1];// "y";
-                        parameters[4] = view.getParameters()[2];
-                        parameters[5] = view.getParameters()[3];
+                        parameters[2] = view.getParameters()[2];
+                        parameters[3] = view.getParameters()[3];
+                        parameters[4] = view.getParameters()[4];
+                        parameters[5] = view.getParameters()[5];
 
                         if (view.useRatio()) {
                             parameters[6] = view.getRatioCalcParameters()[0]; // "single 4 0";

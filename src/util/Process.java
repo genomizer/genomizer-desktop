@@ -1,6 +1,5 @@
 package util;
 
-import javax.swing.JRadioButton;
 import javax.swing.JTextField;
 
 public class Process {
@@ -50,18 +49,4 @@ public class Process {
         }
     }
     
-    public String[] getOtherParameters(JRadioButton outputGFF,
-            JRadioButton outputSGR, JRadioButton outputSAM) {
-        String[] s = new String[2];
-        s[0] = "y";
-        if (outputSAM.isSelected()) {
-            s[0] = "";
-            s[1] = "";
-        } else if (outputSGR.isSelected()) {
-            s[1] = "y";
-        } else {
-            s[1] = "";
-        }
-        return s;
-    }
 }
