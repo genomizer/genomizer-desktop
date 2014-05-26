@@ -94,10 +94,8 @@ public class Connection {
                 inputStream));
         String buffer;
         StringBuilder output = new StringBuilder();
-        char[] cbuff = new char[1024];
-        int length;
-        while ((length = in.read(cbuff)) != -1) {
-            output.append(cbuff, 0, length);
+        while ((buffer = in.readLine()) != null) {
+            output.append(buffer);
         }
         responseBody = output.toString();
         System.out.println("Responsebody:" + responseBody);
