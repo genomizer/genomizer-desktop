@@ -409,14 +409,14 @@ public class Model implements GenomizerModel {
         conn.sendRequest(request, userID, JSON);
         if (conn.getResponseCode() == 201) {
             
-            AddGenomeReleaseResponse[] aGRR = ResponseParser
+            String[] aGRR = ResponseParser
                     .parseGenomeUploadResponse(conn.getResponseBody());
             
             //TODO: fix this mess I am about to do right now tomorrow regards,
             // the past me.
             
             for (int i = 0 ; i < files.length ; i++) {
-                HTTPURLUpload upload = new HTTPURLUpload(aGRR[i].urlUpload,
+                HTTPURLUpload upload = new HTTPURLUpload(aGRR[i],
                         files[i].getAbsolutePath(), files[i].getName());
                 
                 ongoingUploads.add(upload);
