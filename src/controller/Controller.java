@@ -534,7 +534,7 @@ public class Controller {
                             "\" to the workspace.");
                 } else {
                     JOptionPane.showMessageDialog(null, "Added experiments to" +
-                            "the workspace.");
+                            " the workspace.");
                 }
             }
         }
