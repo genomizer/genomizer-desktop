@@ -889,6 +889,7 @@ public class Controller {
             String species = view.getSelectedSpecies();
             GenomeReleaseData[] grd = model.getSpeciesGenomeReleases(species);
             view.setGenomeReleases(grd);
+            System.out.println("HEJ DANIEL");
         }
     }
 }
