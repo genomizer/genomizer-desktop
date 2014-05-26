@@ -173,7 +173,6 @@ public class ProcessTab extends JPanel {
         radioGroup.add(outputSGR);
         radioGroup.add(outputGFF);
         radioGroup.add(outputSAM);
-        radioGroup.setSelected(outputSAM.getModel(), true);
         setComboBoxActionListener(genomeFile);
         setRadioButtonListener(outputSGR);
         setRadioButtonListener(outputGFF);
@@ -964,6 +963,7 @@ public class ProcessTab extends JPanel {
             outputSGR.setEnabled(true);
             outputGFF.setEnabled(true);
             outputSAM.setEnabled(true);
+            // radioGroup.setSelected(outputSGR.getModel(), true);
         }
         if (outputSGR.isSelected() && outputSGR.isEnabled()) {
             setSmoothingEnabled(true, "10", "5");

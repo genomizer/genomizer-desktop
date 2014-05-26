@@ -81,11 +81,12 @@ public class ResponseParser {
         return url;
     }
 
-    public static AddGenomeReleaseResponse[] parseGenomeUploadResponse(String json) {
+    public static String[] parseGenomeUploadResponse(String json) {
 
         AddGenomeReleaseResponse[] urls = null;
+        String[] url = null;
         try {
-            urls = gson.fromJson(json, AddGenomeReleaseResponse[].class);
+            url = gson.fromJson(json, String[].class);
 
         } catch (JsonParseException e) {
 
@@ -93,7 +94,7 @@ public class ResponseParser {
                     .println("Could not parse url response for adding genome release.");
         }
 
-        return urls;
+        return url;
     }
     public static ProcessFeedbackData[] parseProcessFeedbackResponse(String json) {
         ProcessFeedbackData[] processFeedbackData = null;
