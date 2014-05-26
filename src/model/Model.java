@@ -416,6 +416,7 @@ public class Model implements GenomizerModel {
                     System.err
                             .println("Could not add genome release file named "
                                     + files[i].getName() + "!");
+                    System.out.println(conn.getResponseBody());
                     return false;
                 }
                 

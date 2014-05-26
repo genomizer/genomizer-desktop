@@ -190,7 +190,7 @@ public class SysadminController {
     
     public void addGenomeRelease() {
         GenomeReleaseViewCreator gr = sysTab.getGenomeReleaseView();
-        model.addGenomeReleaseFile(gr.getFileText(), gr.getSpeciesText(),
+        model.addGenomeReleaseFile(gr.getFilenames(), gr.getSpeciesText(),
                 gr.getVersionText());
         setGenomeReleaseTable();
     }

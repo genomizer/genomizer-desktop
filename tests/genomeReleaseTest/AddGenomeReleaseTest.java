@@ -20,7 +20,8 @@ public class AddGenomeReleaseTest {
     private SysadminController controller;
     private final String SPECIES = "Fly";
     private final String VERSION = "TEST";
-    private final String[] PATHS = new String[] {"/home/c12/c12jvr/Public/TESTgr1.test"};
+    //private final String[] PATHS = new String[] {"/home/c12/c12jvr/Public/TESTgr1.test"};
+    private final String[] PATHS = new String[] {"C:/TEST/TESTgr1.txt"};
     
     @Before
     public void setUp() throws Exception {
