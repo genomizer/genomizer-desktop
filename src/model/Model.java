@@ -198,8 +198,7 @@ public class Model implements GenomizerModel {
         DownloadFileResponse response = gson.fromJson(conn.getResponseBody(),
                 DownloadFileResponse.class);
         System.out.println(conn.getResponseBody());
-        final DownloadHandler handler = new DownloadHandler("pvt", "pvt",
-                fileName);
+        final DownloadHandler handler = new DownloadHandler(userID, fileName);
         if (handler != null) {
             ongoingDownloads.add(handler);
         }
