@@ -37,7 +37,6 @@ public class QuerySearchTab extends JPanel {
     private JPanel rowsPanel;
     private JPanel searchPanel;
     private JPanel resultsHeaderPanel;
-    private JButton clearButton;
     private JButton backButton;
     private JButton updateAnnotationsButton;
     private JButton addToWorkspaceButton;
@@ -103,7 +102,7 @@ public class QuerySearchTab extends JPanel {
     private void setUpQuerySearchTab() {
         updateAnnotationsButton = new JButton();
         annotationTypes = new AnnotationDataType[0];
-        rowList = new ArrayList<QueryBuilderRow>();
+        rowList = new ArrayList<>();
         this.setLayout(new BorderLayout());
         bottomPanel = new JPanel(new BorderLayout());
         topPanel = new JPanel(new BorderLayout());
@@ -134,7 +133,7 @@ public class QuerySearchTab extends JPanel {
         // IconFactory.getClearIcon(35, 35),
         // IconFactory.getClearHoverIcon(37, 37), 37, 37,
         // "Clear search fields");
-        clearButton = new JButton("Clear");
+        JButton clearButton = new JButton("Clear");
         clearButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -304,7 +303,7 @@ public class QuerySearchTab extends JPanel {
         int i = 0;
         for (QueryBuilderRow row : rowList) {
             if (!row.getText().isEmpty()) {
-                String logic = "";
+                String logic;
                 String endParantesis = "";
                 if (i == 0) {
                     logic = "";
