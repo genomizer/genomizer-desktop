@@ -386,10 +386,8 @@ public class ProcessTab extends JPanel {
         
         tabbedPane.addTab("Create profile data", null, rawTabpanel, null);
         rawTabpanel.add(rawParameterPanel, BorderLayout.NORTH);
-        formatPanel.setPreferredSize(new Dimension(100, 80));
-        formatPanel.setBorder(new TitledBorder(UIManager
-                .getBorder("TitledBorder.border"), "Format",
-                TitledBorder.LEADING, TitledBorder.TOP, null, null));
+        formatPanel.setPreferredSize(new Dimension(100, 82));
+        formatPanel.setBorder(BorderFactory.createTitledBorder("Format"));
         
         rawParameterPanel.add(formatPanel);
         formatPanel.setLayout(new GridLayout(0, 1, 0, 0));
