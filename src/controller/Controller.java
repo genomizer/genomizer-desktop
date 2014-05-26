@@ -249,7 +249,7 @@ public class Controller {
         
         @Override
         public void run() {
-            model.setLoginWindow(view.getLoginWindow());
+            model.setGenomizerView(view);
             model.setIp(view.getIp());
             String username = view.getUsername();
             String pwd = view.getPassword();

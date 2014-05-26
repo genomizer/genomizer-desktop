@@ -57,6 +57,7 @@ public class DownloadHandler {
             FileOutputStream fileOut = new FileOutputStream(file);
             Long previousTime = System.currentTimeMillis();
             if (!isBinaryFile()) {
+                System.out.println("Text file");
                 BufferedReader reader = new BufferedReader(new InputStreamReader(in));
                 BufferedWriter writer = new BufferedWriter(new FileWriter(file));
                 while ((buffer = reader.readLine()) != null && !isFinished()) {
@@ -73,6 +74,7 @@ public class DownloadHandler {
                 writer.close();
                 reader.close();
             } else {
+                System.out.println("Binary file");
                 System.out.println(conn.getContentLength());
                 byte[] buff = new byte[conn.getContentLength() + 1];
                 int total = 0;
@@ -81,7 +83,6 @@ public class DownloadHandler {
                 fileOut.write(buff, 0, count);
                 while ((count = in.read(buff)) != -1 && !isFinished()) {
                     total += count;
-                    System.out.println(count);
                     if (count > 0) {
                         fileOut.write(buff, 0, count);
                     }

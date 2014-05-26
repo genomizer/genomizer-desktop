@@ -708,8 +708,10 @@ public class GUI extends JFrame implements GenomizerView {
     }
     
     public boolean isCorrectToProcess() {
+        boolean sgrFormat = processTab.radioGroup
+                .isSelected(processTab.outputSGR.getModel());
         return process.isCorrectToProcess(processTab.smoothWindowSize,
-                processTab.stepPosition, processTab.stepSize);
+                processTab.stepPosition, processTab.stepSize, sgrFormat);
     }
     
     public boolean isRatioCorrectToProcess() {

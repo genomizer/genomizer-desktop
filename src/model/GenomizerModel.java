@@ -1,5 +1,6 @@
 package model;
 
+import gui.GenomizerView;
 import gui.LoginWindow;
 
 import java.io.File;
@@ -33,7 +34,7 @@ public interface GenomizerModel {
 
     public void setIp(String ip);
 
-    void setLoginWindow(LoginWindow window);
+    void setGenomizerView(GenomizerView view);
 
     public boolean addNewAnnotation(String name, String[] categories,
             boolean forced);
