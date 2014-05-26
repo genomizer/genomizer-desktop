@@ -172,7 +172,7 @@ public interface GenomizerView {
     
     public void addOkListener(ActionListener listener);
     
-    public void addCancelListener(ActionListener listener);
+    // public void addCancelListener(ActionListener listener);
     
     public RatioCalcPopup getRatioCalcPopup();
     
@@ -211,4 +211,10 @@ public interface GenomizerView {
     public void setGenomeReleases(GenomeReleaseData[] grd);
     
     public String getGenomeVersion(File f);
+    
+    public void addDeleteSelectedListener(ActionListener listener);
+    
+    public ArrayList<ExperimentData> getFileInfo();
+    
+    public void setFileInfo(ArrayList<ExperimentData> fileInfo);
 }

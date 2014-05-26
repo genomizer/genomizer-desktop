@@ -13,7 +13,7 @@ public class Process {
             return true;
         } else if (!smoothing.isSelected()) {
             return true;
-        } else if (zeroOrAbove(smoothWindowSize.getText().trim())
+        } else if (aboveZero(smoothWindowSize.getText().trim())
                 && zeroOrAbove(stepPosition.getText().trim())) {
             if (!stepBox.isSelected()
                     || (stepBox.isSelected() && aboveZero(stepSize.getText()
@@ -28,9 +28,9 @@ public class Process {
             JTextField inputReads, JTextField chromosome,
             JTextField ratioStepPosition) {
         if (aboveZero(ratioWindowSize.getText().trim())
-                && aboveZero(inputReads.getText().trim())
-                && aboveZero(chromosome.getText().trim())
-                && aboveZero(ratioStepPosition.getText().trim())) {
+                && zeroOrAbove(inputReads.getText().trim())
+                && zeroOrAbove(chromosome.getText().trim())
+                && zeroOrAbove(ratioStepPosition.getText().trim())) {
             return true;
         } else {
             return false;
