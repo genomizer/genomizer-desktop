@@ -177,6 +177,7 @@ public class DownloadWindow extends JFrame {
      */
     public void addDownloadFileListener(ActionListener listener) {
         downloadButton.addActionListener(listener);
+        downloadButton.doClick();
     }
     
     /**

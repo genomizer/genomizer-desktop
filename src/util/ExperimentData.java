@@ -134,15 +134,27 @@ public class ExperimentData {
     }
     
     public void convertToUTF8() {
-        this.name = UTF8Converter.convertFromUTF8(name);
+        if (this.name != null && !this.name.isEmpty()) {
+            this.name = UTF8Converter.convertFromUTF8(name);
+        }
         for (AnnotationDataValue value : annotations) {
-            value.name = UTF8Converter.convertFromUTF8(value.name);
-            value.value = UTF8Converter.convertFromUTF8(value.value);
+            if (value.name != null && !value.name.isEmpty()) {
+                value.name = UTF8Converter.convertFromUTF8(value.name);
+            }
+            if (value.value != null && !value.value.isEmpty()) {
+                value.value = UTF8Converter.convertFromUTF8(value.value);
+            }
         }
         for (FileData data : files) {
-            data.filename = UTF8Converter.convertFromUTF8(data.filename);
-            data.author = UTF8Converter.convertFromUTF8(data.author);
-            data.uploader = UTF8Converter.convertFromUTF8(data.uploader);
+            if (data.filename != null && !data.filename.isEmpty()) {
+                data.filename = UTF8Converter.convertFromUTF8(data.filename);
+            }
+            if (data.author != null && !data.author.isEmpty()) {
+                data.author = UTF8Converter.convertFromUTF8(data.author);
+            }
+            if (data.uploader != null && !data.uploader.isEmpty()) {
+                data.uploader = UTF8Converter.convertFromUTF8(data.uploader);
+            }
         }
     }
     
