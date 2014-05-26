@@ -6,12 +6,14 @@ import javax.swing.JTextField;
 public class Process {
     
     public boolean isCorrectToProcess(JTextField smoothWindowSize,
-            JTextField stepPosition, JTextField stepSize) {
-        System.out.println("checking if parameters are correct");
-        System.out.println("smmoth: " + smoothWindowSize.getText().trim());
-        System.out.println("stepposition: " + stepPosition.getText().trim());
-        System.out.println("stepsize: " + stepSize.getText().trim());
-        if (aboveZero(smoothWindowSize.getText().trim())
+            JTextField stepPosition, JTextField stepSize, boolean sgrFormat) {
+        System.out.println("sgrformat: " + sgrFormat);
+        System.out.println("smmothsize: " + smoothWindowSize.getText());
+        System.out.println("steppos: " + stepPosition.getText());
+        System.out.println("stepSize: " + stepSize.getText());
+        if (!sgrFormat) {
+            return true;
+        } else if (aboveZero(smoothWindowSize.getText().trim())
                 && aboveZero(stepPosition.getText().trim())
                 && aboveZero(stepSize.getText().trim())) {
             return true;
@@ -58,7 +60,7 @@ public class Process {
         } else if (outputSGR.isSelected()) {
             s[1] = "y";
         } else {
-            s[1] = "n";
+            s[1] = "";
         }
         return s;
     }
