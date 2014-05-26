@@ -35,6 +35,7 @@ public class GenomeReleaseViewCreator {
 
     private JPanel fileListPanel;
     private JPanel extraInfoPanel;
+    private String[] directoryNames;
 
 
 
@@ -336,6 +337,7 @@ public class GenomeReleaseViewCreator {
     public void clearTextFields(){
         versionText.setText("");
         fileText.setText("");
+        directoryNames =  null;
         enableClearButton(false);
         enableAddButton(false);
     }
@@ -385,13 +387,18 @@ public class GenomeReleaseViewCreator {
         int ret = fileChooser.showOpenDialog(new JPanel());
 
         String directoryName = "";
-
+        directoryNames = null;
         File[] selectedFiles;
         if (ret == JFileChooser.APPROVE_OPTION) {
             try {
                 directoryName = fileChooser.getSelectedFile()
                         .getCanonicalPath();
+                
                 selectedFiles = fileChooser.getSelectedFiles();
+                directoryNames = new String[selectedFiles.length];
+                for (int i = 0 ; i < selectedFiles.length; i++){
+                    directoryNames[i] = selectedFiles[i].getCanonicalPath();
+                }
 
             } catch (IOException e) {
                 e.printStackTrace();
