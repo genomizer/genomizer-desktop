@@ -7,6 +7,7 @@ import gui.sysadmin.annotationview.EditAnnotationPopup2;
 import gui.sysadmin.genomereleaseview.GenomeReleaseViewCreator;
 import gui.sysadmin.genomereleaseview.GenomereleaseTableModel;
 
+import java.awt.HeadlessException;
 import java.awt.event.ActionListener;
 
 import javax.swing.JOptionPane;
@@ -117,19 +118,21 @@ public class SysadminController {
                         "Are you sure you want to delete the "
                                 + annotation.name + " annotation?",
                         "Remove annotation", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
-                    if (model.deleteAnnotation(annotation.name)) {
-                        JOptionPane.showMessageDialog(null, annotation.name
-                                + " has been removed!");
-                        SwingUtilities.invokeLater(new Runnable() {
-                            
-                            @Override
-                            public void run() {
-                                updateAnnotationTable();
-                            }
-                        });
-                    } else {
+                    try {
+                        model.deleteAnnotation(annotation.name);
+                            JOptionPane.showMessageDialog(null, annotation.name
+                                    + " has been removed!");
+                            SwingUtilities.invokeLater(new Runnable() {
+                                
+                                @Override
+                                public void run() {
+                                    updateAnnotationTable();
+                                }
+                            });
+                        
+                    } catch (Exception e) {
                         JOptionPane.showMessageDialog(null,
-                                "Could not remove annotation");
+                                e.getMessage());
                     }
                 }
             } catch (IllegalArgumentException e) {
@@ -185,9 +188,9 @@ public class SysadminController {
         tableModel.setGenomeReleases(getGenomeReleases());
     }
     
-    public void sendNewGenomeRelease() {
+    public void addGenomeRelease() {
         GenomeReleaseViewCreator gr = sysTab.getGenomeReleaseView();
-        model.uploadGenomeReleaseFile(gr.getFileText(), gr.getSpeciesText(),
+        model.addGenomeReleaseFile(gr.getFileText(), gr.getSpeciesText(),
                 gr.getVersionText());
         setGenomeReleaseTable();
     }

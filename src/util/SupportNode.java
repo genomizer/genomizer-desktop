@@ -1,6 +1,9 @@
 package util;
 
+import com.sun.istack.internal.NotNull;
 import org.jdesktop.swingx.treetable.AbstractMutableTreeTableNode;
+
+import java.util.Arrays;
 
 /**
  * A custom node implementation (For TreeTable).
@@ -29,7 +32,7 @@ public class SupportNode extends AbstractMutableTreeTableNode implements
     @Override
     public int compareTo(Object arg0) {
         SupportNode node = (SupportNode) arg0;
-        if (node.getData().equals(getData())) {
+        if (Arrays.equals(node.getData(),getData())) {
             return 0;
         }
         return -1;

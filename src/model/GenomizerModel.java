@@ -43,7 +43,7 @@ public interface GenomizerModel {
 
     public GenomeReleaseData[] getGenomeReleases();
 
-    boolean deleteAnnotation(String annotationName);
+    boolean deleteAnnotation(String annotationName) throws Exception;
 
     public boolean addNewExperiment(String expName,
             AnnotationDataValue[] annotations);
@@ -64,8 +64,6 @@ public interface GenomizerModel {
 
     public boolean removeAnnotationValue(String annotationName, String valueName);
 
-    public boolean removeAnnotationField(String annotationName);
-
     public ProcessFeedbackData[] getProcessFeedback();
 
     public boolean deleteGenomeRelease(String gr, String specie);
@@ -76,7 +74,7 @@ public interface GenomizerModel {
 
     public boolean deleteExperimentFromDatabase(String name);
 
-    public boolean uploadGenomeReleaseFile(String[] filePaths, String specie,
+    public boolean addGenomeReleaseFile(String[] filePaths, String specie,
             String version);
 
     public boolean addNewAnnotationValue(String annotationName, String valueName);

@@ -1,21 +1,15 @@
 package gui;
 
-import java.awt.BorderLayout;
-import java.awt.GridLayout;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.concurrent.CopyOnWriteArrayList;
 
-import javax.swing.JButton;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.JProgressBar;
-import javax.swing.JScrollPane;
-import javax.swing.JTable;
+import javax.swing.*;
 
 import util.FileData;
 
@@ -39,6 +33,12 @@ public class DownloadWindow extends JFrame {
      */
     public DownloadWindow(ArrayList<FileData> files,
             CopyOnWriteArrayList<DownloadHandler> ongoingDownloads) {
+
+        URL url = ClassLoader.getSystemResource("icons/logo.png");
+        Toolkit kit = Toolkit.getDefaultToolkit();
+        Image img = kit.createImage(url);
+        setIconImage(img);
+
         this.ongoingDownloads = ongoingDownloads;
         this.setLayout(new BorderLayout());
         this.files = files;
@@ -169,9 +169,15 @@ public class DownloadWindow extends JFrame {
         /*
          * Automatically click the download button when the listener has been
          * added to let the user choose where to save the files immediately.
+         * If no files were selected, show a message dialog and close the
+         * DownloadWindow.
          */
         if(files.size() > 0) {
             downloadButton.doClick();
+        } else {
+            JOptionPane.showMessageDialog(null,"No files were selected.");
+            setVisible(false);
+            dispose();
         }
     }
     

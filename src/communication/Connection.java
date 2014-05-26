@@ -2,6 +2,7 @@ package communication;
 
 import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.HttpURLConnection;
@@ -20,6 +21,7 @@ public class Connection {
     private String ip;
     private int responseCode;
     private String responseBody;
+    private HttpURLConnection connection;
     public Connection(String ip, GenomizerView view) {
         this.ip = ip;
         this.view = view;
@@ -36,7 +38,7 @@ public class Connection {
             System.out.println(targetUrl);
             System.out.println("the request.toJson(): " + request.toJson());
             URL url = new URL(targetUrl);
-            HttpURLConnection connection = (HttpURLConnection) url
+            connection = (HttpURLConnection) url
                     .openConnection();
             if (type.equals("application/json")) {
                 connection.setDoOutput(true);
@@ -49,9 +51,9 @@ public class Connection {
             }
 
             if (request.type.equals("DELETE")) {
-                connection.connect();
+                //connection.connect();
                 responseCode = connection.getResponseCode();
-                fetchResponse(connection);
+                fetchResponse(connection.getInputStream());
                 if (responseCode >= 300) {
                     return false;
                 }
@@ -65,7 +67,7 @@ public class Connection {
                 outputStream.flush();
             }
             responseCode = connection.getResponseCode();
-            fetchResponse(connection);
+            fetchResponse(connection.getInputStream());
             if(responseCode == 401 && !userID.isEmpty()) {
                 view.updateLogout();
                 System.out.println("The token has expired, or was removed from the server.");
@@ -76,21 +78,27 @@ public class Connection {
             }
             connection.disconnect();
         } catch (IOException e) {
+            try {
+                fetchResponse(connection.getErrorStream());
+            } catch (IOException e1) {
+                e1.printStackTrace();
+                return false;
+            }
             return false;
         }
         return true;
     }
 
-    private void fetchResponse(HttpURLConnection connection) throws IOException {
+    private void fetchResponse(InputStream inputStream) throws IOException {
         BufferedReader in = new BufferedReader(new InputStreamReader(
-                connection.getInputStream()));
+                inputStream));
         String buffer;
         StringBuilder output = new StringBuilder();
         while ((buffer = in.readLine()) != null) {
             output.append(buffer);
         }
         responseBody = output.toString();
-        System.out.println(responseBody);
+        System.out.println("Responsebody:" + responseBody);
     }
 
     public int getResponseCode() {

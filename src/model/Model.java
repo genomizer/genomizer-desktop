@@ -324,7 +324,7 @@ public class Model implements GenomizerModel {
     }
 
     @Override
-    public boolean deleteAnnotation(String deleteAnnoationData) {
+    public boolean deleteAnnotation(String deleteAnnoationData) throws Exception {
 
         RemoveAnnotationFieldRequest request = RequestFactory
                 .makeDeleteAnnotationRequest(deleteAnnoationData);
@@ -337,10 +337,9 @@ public class Model implements GenomizerModel {
         } else {
             System.err.println("Could not delete annotation name "
                     + deleteAnnoationData + "!");
-            System.out.println("Response code: " + conn.getResponseCode() + " "
-                    + conn.getResponseBody());
+            throw new Exception(conn.getResponseBody());
+            //return false;
         }
-        return false;
     }
 
     public synchronized AnnotationDataType[] getAnnotations() {
@@ -382,7 +381,7 @@ public class Model implements GenomizerModel {
     }
 
     @Override
-    public boolean uploadGenomeReleaseFile(String[] filePaths, String species,
+    public boolean addGenomeReleaseFile(String[] filePaths, String species,
             String version) {
         File[] files = new File[filePaths.length];
         String[] names = new String[filePaths.length];
@@ -550,12 +549,6 @@ public class Model implements GenomizerModel {
         } else {
             return null;
         }
-    }
-
-    @Override
-    public boolean removeAnnotationField(String annotationName) {
-        // TODO Auto-generated method stub
-        return false;
     }
 
     @Override

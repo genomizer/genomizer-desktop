@@ -23,7 +23,7 @@ public class GenomeButtonListener implements ActionListener{
     @Override public void actionPerformed(ActionEvent actionEvent) {
         switch(actionEvent.getActionCommand()){
             case SysStrings.GENOME_BUTTON_ADD:
-                sysController.sendNewGenomeRelease();
+                sysController.addGenomeRelease();
                 sysTab.getGenomeReleaseView().clearTextFields();
                 break;
             case SysStrings.GENOME_BUTTON_CLEAR:
