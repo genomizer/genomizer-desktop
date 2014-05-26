@@ -58,9 +58,6 @@ public class DownloadWindow extends JFrame {
         setUpOngoingPanel();
         add(mainPanel, BorderLayout.CENTER);
         updateProgress();
-        if (files.size() > 0) {
-            downloadButton.doClick();
-        }
     }
     
     /**
@@ -168,7 +165,14 @@ public class DownloadWindow extends JFrame {
      */
     public void addDownloadFileListener(ActionListener listener) {
         downloadButton.addActionListener(listener);
-        downloadButton.doClick();
+
+        /*
+         * Automatically click the download button when the listener has been
+         * added to let the user choose where to save the files immediately.
+         */
+        if(files.size() > 0) {
+            downloadButton.doClick();
+        }
     }
     
     /**
