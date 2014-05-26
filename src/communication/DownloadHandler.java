@@ -71,6 +71,7 @@ public class DownloadHandler {
                         previousDownload = totalDownload;
                     }
                 }
+                System.out.println("Size: " + totalDownload + " Expected: " + conn.getContentLength());
                 writer.close();
                 reader.close();
             } else {
@@ -87,14 +88,11 @@ public class DownloadHandler {
                         fileOut.write(buff, 0, count);
                     }
                 }
-                System.out.println("SSize: " + total + " Expected: " + conn.getContentLength());
-
+                System.out.println("Size: " + total + " Expected: " + conn.getContentLength());
             }
             in.close();
             fileOut.close();
             finished = true;
-            System.out.println("Size: " + totalDownload + " Expected: "
-                    + conn.getContentLength());
             conn.disconnect();
 
         } catch (MalformedURLException e) {
