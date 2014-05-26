@@ -325,7 +325,7 @@ public class GenomeReleaseViewCreator {
     }
 
     public String getSpeciesText() {
-        return speciesText.getName();
+        return (String)speciesText.getSelectedItem();
     }
 
     //TODO: this is temporary!

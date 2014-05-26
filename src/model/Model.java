@@ -1,5 +1,6 @@
 package model;
 
+import gui.GenomizerView;
 import gui.LoginWindow;
 
 import java.io.File;
@@ -239,8 +240,8 @@ public class Model implements GenomizerModel {
     }
     
     @Override
-    public void setLoginWindow(LoginWindow window) {
-        connFactory.setLoginWindow(window);
+    public void setGenomizerView(GenomizerView view) {
+        connFactory.setGenomizerView(view);
     }
     
     @Override
@@ -398,11 +399,11 @@ public class Model implements GenomizerModel {
         conn.sendRequest(request, userID, JSON);
         if (conn.getResponseCode() == 201) {
             
-            String[] aGRR = ResponseParser.parseGenomeUploadResponse(conn
+              AddGenomeReleaseResponse[] aGRR = ResponseParser.parseGenomeUploadResponse(conn
                     .getResponseBody());
             
             for (int i = 0; i < files.length; i++) {
-                HTTPURLUpload upload = new HTTPURLUpload(aGRR[i],
+                HTTPURLUpload upload = new HTTPURLUpload(aGRR[i].URLupload,
                         files[i].getAbsolutePath(), files[i].getName());
                 
                 ongoingUploads.add(upload);

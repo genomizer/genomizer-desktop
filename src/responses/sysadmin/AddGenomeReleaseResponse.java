@@ -4,11 +4,11 @@ import responses.Response;
 
 public class AddGenomeReleaseResponse extends Response {
 
-    public String urlUpload;
+    public String URLupload;
 
     public AddGenomeReleaseResponse(String responseName, String URLupload) {
         super(responseName);
-        this.urlUpload = URLupload;
+        this.URLupload = URLupload;
 
     }
 
