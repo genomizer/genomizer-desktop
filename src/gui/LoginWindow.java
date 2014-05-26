@@ -17,9 +17,6 @@ import javax.swing.UIManager;
 /**
  * Class for loginwindow. Presents a window that prompts for a username,
  * password and server with port. User authorization
- * 
- * @author
- * 
  */
 public class LoginWindow extends JFrame {
     
@@ -117,7 +114,6 @@ public class LoginWindow extends JFrame {
      *            The listener to login to the server
      */
     public void addLoginListener(ActionListener listener) {
-        System.out.println("feddsgdsgdsgds");
         loginButton.addActionListener(listener);
     }
     
