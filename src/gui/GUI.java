@@ -713,9 +713,15 @@ public class GUI extends JFrame implements GenomizerView {
     }
     
     public boolean isRatioCorrectToProcess() {
-        return process.isRatioCorrectToProcess(ratioCalcPopup.ratioWindowSize,
-                ratioCalcPopup.inputReads, ratioCalcPopup.chromosome,
-                ratioCalcPopup.ratioStepPosition);
+        if (processTab.useRatio()) {
+            return process
+                    .isRatioCorrectToProcess(ratioCalcPopup.ratioWindowSize,
+                            ratioCalcPopup.inputReads,
+                            ratioCalcPopup.chromosome,
+                            ratioCalcPopup.ratioStepPosition);
+        } else {
+            return true;
+        }
     }
     
     public void setProfileButton(boolean bool) {

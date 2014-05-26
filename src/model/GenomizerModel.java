@@ -69,7 +69,7 @@ public interface GenomizerModel {
 
     public boolean deleteGenomeRelease(String gr, String specie);
 
-    public GenomeReleaseData[] getSpecieGenomeReleases(String specie);
+    public GenomeReleaseData[] getSpeciesGenomeReleases(String specie);
 
     public boolean deleteFileFromExperiment(String id);
 
