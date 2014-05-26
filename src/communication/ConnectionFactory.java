@@ -1,6 +1,6 @@
 package communication;
 
-import gui.LoginWindow;
+import gui.GenomizerView;
 
 /**
  * Created by c11dkn on 2014-05-16.
@@ -8,14 +8,13 @@ import gui.LoginWindow;
 public class ConnectionFactory {
 
     private String ip;
-    private LoginWindow window;
-
+    private GenomizerView view;
     public ConnectionFactory() {
 
     }
 
     public Connection makeConnection() {
-        Connection conn = new Connection(ip, window);
+        Connection conn = new Connection(ip, view);
         return conn;
     }
 
@@ -23,8 +22,8 @@ public class ConnectionFactory {
         this.ip = ip;
     }
 
-    public void setLoginWindow(LoginWindow window) {
-        this.window = window;
+    public void setGenomizerView(GenomizerView view) {
+        this.view = view;
     }
 
 }

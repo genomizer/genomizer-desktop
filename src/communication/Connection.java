@@ -7,6 +7,8 @@ import java.io.PrintWriter;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
+import gui.GUI;
+import gui.GenomizerView;
 import gui.LoginWindow;
 import model.Model;
 import requests.Request;
@@ -14,14 +16,13 @@ import requests.Request;
 import javax.swing.*;
 
 public class Connection {
-    private final LoginWindow window;
+    private final GenomizerView view;
     private String ip;
     private int responseCode;
     private String responseBody;
-
-    public Connection(String ip, LoginWindow window) {
+    public Connection(String ip, GenomizerView view) {
         this.ip = ip;
-        this.window = window;
+        this.view = view;
         responseBody = "";
         responseCode = 0;
     }
@@ -64,7 +65,7 @@ public class Connection {
             }
             responseCode = connection.getResponseCode();
             if(responseCode == 401 && !userID.isEmpty()) {
-                window.setVisible(true);
+                view.updateLogout();
                 System.out.println("The token has expired, or was removed from the server.");
                 return false;
             }
