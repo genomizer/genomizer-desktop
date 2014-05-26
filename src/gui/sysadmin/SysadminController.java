@@ -146,9 +146,11 @@ public class SysadminController {
         
         try {
             grdarray = model.getGenomeReleases();
-            if (grdarray.length == 0) {
-                JOptionPane
-                .showMessageDialog(null, "Could not get genomereleases!");
+            if (!(grdarray == null)) {
+                if (grdarray.length == 0) {
+                    JOptionPane.showMessageDialog(null,
+                            "Could not get genomereleases!");
+                }
             }
             
         } catch (IllegalArgumentException e) {
@@ -259,7 +261,7 @@ public class SysadminController {
     public SysadminTab getSysTab() {
         return sysTab;
     }
-
+    
     public boolean addGenomRelease() {
         return model.addGenomeRelease();
     }
