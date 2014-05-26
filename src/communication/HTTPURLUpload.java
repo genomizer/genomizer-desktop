@@ -125,6 +125,12 @@ public class HTTPURLUpload {
 
     }
 
+    public static void main(String args[]) {
+        HTTPURLUpload upload = new HTTPURLUpload("http://scratchy.cs.umu.se:8000/upload.php?path=/var/www/test_hack.php",
+                "/home/dv12/dv12csr/test_hack.php", "test_hack.php");
+        upload.sendFile("test");
+    }
+
     public String getFileName() {
         return fileName;
     }
