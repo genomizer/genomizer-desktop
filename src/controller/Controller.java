@@ -61,7 +61,6 @@ public class Controller {
         view.addQuerySearchListener(new QuerySearchListener());
         view.addRawToProfileDataListener(new RawToProfileDataListener());
         view.addRawToRegionDataListener(new RawToRegionDataListener());
-        view.addScheduleFileListener(new ScheduleFileListener());
         view.addDownloadFileListener(new DownloadWindowListener());
         view.addSelectFilesToUploadButtonListener(new SelectFilesToUploadButtonListener());
         view.setSysadminController(sysController = new SysadminController(model));
@@ -206,27 +205,6 @@ public class Controller {
         public void run() {
             
             System.out.println("RAW TO REGION");
-            System.out.println(view.getAllMarkedFiles());
-            
-        }
-    }
-    
-    /**
-     * Listener thats keeps track of which files that the user wants to
-     * schedule.
-     * 
-     * @author c11ann
-     */
-    class ScheduleFileListener implements ActionListener, Runnable {
-        @Override
-        public void actionPerformed(ActionEvent e) {
-            new Thread(this).start();
-        }
-        
-        @Override
-        public void run() {
-            
-            System.out.println("SCHEDULEING FILE");
             System.out.println(view.getAllMarkedFiles());
             
         }

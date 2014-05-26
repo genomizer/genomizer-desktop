@@ -129,11 +129,6 @@ public class GUI extends JFrame implements GenomizerView {
         processTab.addRawToRegionDataListener(listener);
     }
     
-    @Override
-    public void addScheduleFileListener(ActionListener listener) {
-        processTab.addScheduleFileListener(listener);
-    }
-    
     public void addSearchToWorkspaceListener(ActionListener listener) {
         querySearchTab.addAddToWorkspaceButtonListener(listener);
     }
@@ -589,7 +584,7 @@ public class GUI extends JFrame implements GenomizerView {
     
     @Override
     public void setBowtieParameters() {
-        processTab.setBowtieParameters();
+        processTab.setRegularParameters();
     }
     
     @Override

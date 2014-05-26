@@ -46,8 +46,6 @@ public interface GenomizerView {
     
     public void addLoginListener(ActionListener listener);
     
-    public void addScheduleFileListener(ActionListener listener);
-    
     public void addSearchToWorkspaceListener(ActionListener listener);
     
     public void addLogoutListener(ActionListener listener);
@@ -171,8 +169,6 @@ public interface GenomizerView {
             CopyOnWriteArrayList<HTTPURLUpload> ongoingUploads);
     
     public void addOkListener(ActionListener listener);
-    
-    // public void addCancelListener(ActionListener listener);
     
     public RatioCalcPopup getRatioCalcPopup();
     

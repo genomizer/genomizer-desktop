@@ -4,10 +4,7 @@ import java.awt.BorderLayout;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
 import java.awt.GridLayout;
-import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
@@ -43,6 +40,8 @@ import util.ExperimentData;
 import util.FileData;
 import util.GenomeReleaseData;
 import util.ProcessFeedbackData;
+import javax.swing.border.TitledBorder;
+import javax.swing.UIManager;
 
 /**
  * Visual presentation of the process tab.
@@ -54,27 +53,18 @@ public class ProcessTab extends JPanel {
     private static final long serialVersionUID = -2830290705724588252L;
     
     private final JList<CheckListItem> fileList = new JList<CheckListItem>();
-    /* Tabort */private final JList<CheckListItem> scheduleList = new JList<CheckListItem>();
     
-    private final JPanel convPanel = new JPanel();
+    private final JPanel rawParameterPanel = new JPanel();
     private final JPanel buttonPanel = new JPanel();
     private final JPanel filesPanel = new JPanel(new BorderLayout());
-    // private final JPanel scheduleProcPanel = new JPanel(new BorderLayout());
-    /* Tabort */private final JPanel genProfileDataPanel = new JPanel(
-            new BorderLayout());
-    /* Tabort */private final JPanel genRegionDataPanel = new JPanel(
-            new BorderLayout());
     private final JPanel consolePanel = new JPanel(new BorderLayout());
     private JPanel procInfoPanel = new JPanel(new BorderLayout());
     private final JPanel rawToProfileMenuPanel = new JPanel();
-    /* Bytnamn till southPanel */private final JPanel timePanel = new JPanel();
-    /* Byts mot consolePanel */private final JPanel middlePanel = new JPanel(
-            new GridLayout(1, 1));
-    /* Byts mot filesPanel */private final JPanel westPanel = new JPanel(
-            new BorderLayout());
+    private final JPanel southPanel = new JPanel();
+    private final JPanel westPanel = new JPanel(new BorderLayout());
     
-    /* Bytnamn */private final JPanel flagsPanel = new JPanel();
-    /* Bytnamn */private final JPanel genomeReleasePanel = new JPanel();
+    private final JPanel flagsPanel = new JPanel();
+    private final JPanel genomeReleasePanel = new JPanel();
     private final JPanel windowSizePanel = new JPanel();
     private final JPanel smoothTypePanel = new JPanel();
     private final JPanel stepPositionPanel = new JPanel();
@@ -82,31 +72,22 @@ public class ProcessTab extends JPanel {
     private final JPanel checkBoxPanel = new JPanel();
     private final JPanel createRegTabPanel = new JPanel();
     private final JPanel convWigTabPanel = new JPanel();
-    private final JPanel convTabpanel = new JPanel(new BorderLayout());
-    private final JPanel lowerCheckBoxPanel = new JPanel();
-    private final JPanel upperCheckBoxPanel = new JPanel();
+    private final JPanel rawTabpanel = new JPanel(new BorderLayout());
+    private final JPanel removePanel = new JPanel(new FlowLayout());
+    private final JPanel createProfilePanel = new JPanel();
+    private final JPanel formatPanel = new JPanel();
     
-    /* Tabort */private final JTextArea textArea = new JTextArea();
-    /* Tabort */private final JTextArea genProfArea = new JTextArea();
-    /* Tabort */private final JTextArea genRegArea = new JTextArea();
-    /* Tabort */private final JTextArea timeArea = new JTextArea();
     private final JTextArea consoleArea = new JTextArea();
-    
     private final JTextField flags = new JTextField();
     public final JTextField smoothWindowSize = new JTextField();
     public final JTextField stepPosition = new JTextField();
     public final JTextField stepSize = new JTextField();
-    
-    // RATIO CALC
     private final JTextField inputReads = new JTextField();
     private final JTextField chromosome = new JTextField();
     private final JTextField ratioWindowSize = new JTextField();
     private final JTextField ratioStepPosition = new JTextField();
     
-    // private final JScrollPane scrollSchedule = new JScrollPane();
-    /* Tabort || bytnamn */private final JScrollPane scrollConvert = new JScrollPane();
-    /* Tabort */private final JScrollPane scrollRegion = new JScrollPane();
-    /* Tabort */private final JScrollPane scrollProfile = new JScrollPane();
+    private final JScrollPane scrollConsole = new JScrollPane();
     private final JScrollPane scrollProcessList = new JScrollPane();
     private final JScrollPane scrollFiles = new JScrollPane();
     
@@ -118,32 +99,27 @@ public class ProcessTab extends JPanel {
     private final JButton processFeedbackButton = new JButton(
             "Get process feedback");
     private final JButton deleteButton = new JButton("Delete selected");
-    // private final JButton selectButton = new JButton("Select all");
-    // private final JCheckBox scheduleButton = new JCheckBox(
-    // "Schedule files");
     
     private final JCheckBox printMean = new JCheckBox("Print mean");
     private final JCheckBox printZeros = new JCheckBox("Print zeros");
     public final JCheckBox stepSizeBox = new JCheckBox("Step size");
     public final JCheckBox useSmoothing = new JCheckBox("Smoothing");
-    public final JRadioButton outputSGR = new JRadioButton("SGR");
-    public final JRadioButton outputGFF = new JRadioButton("GFF");
-    public final JRadioButton outputSAM = new JRadioButton("SAM");
-    public final ButtonGroup radioGroup = new ButtonGroup();
     private final JCheckBox useRatio = new JCheckBox("Ratio calculation");
     
     private final JComboBox<String> genomeFile = new JComboBox<String>();
     private final JComboBox<String> smoothType = new JComboBox<String>();
-    /* Bytnamn */private final JComboBox<String> single = new JComboBox<String>();
-    /* Osäker om kvar */private final JComboBox<String> ratioSmoothType = new JComboBox<String>();
+    private final JComboBox<String> single = new JComboBox<String>();
+    
+    public final JRadioButton outputSGR = new JRadioButton("SGR");
+    public final JRadioButton outputGFF = new JRadioButton("GFF");
+    public final JRadioButton outputSAM = new JRadioButton("SAM");
+    public final ButtonGroup radioGroup = new ButtonGroup();
     
     private final JTabbedPane tabbedPane = new JTabbedPane(JTabbedPane.BOTTOM);
     public final JOptionPane ratioPopup = new JOptionPane();
-    /* Oanvänd */private ArrayList<String> genomeReleaseFiles;
-    /* Borde vara kortare/enklare */private String[] bowtieParameters = new String[4];
-    /* Osäker */private ProcessFeedbackData[] processFeedbackData;
+    private String[] regularParameters = new String[4];
+    private ProcessFeedbackData[] processFeedbackData;
     private ArrayList<ExperimentData> experimentData;
-    /* Oanvänd */private ActionListener procFeedbackListener;
     
     public ProcessTab() {
         processFeedbackData = new ProcessFeedbackData[0];
@@ -162,16 +138,21 @@ public class ProcessTab extends JPanel {
         
         addNorthPanel();
         addWestPanels();
-        addMiddlePanel();
+        addConsolePanel();
         addProcessInfoPanel();
-        addTimePanel();
-        addConvertTextArea();
+        addSouthPanel();
+        addConsoleTextArea();
         initFileList();
         /* TEST */
         initComboBoxes();
         /* TEST */
-        initBowtieParameters();
+        initRegularParameters();
         setDefaultRatioPar();
+        setButtonListeners();
+        
+    }
+    
+    private void setButtonListeners() {
         radioGroup.add(outputSGR);
         radioGroup.add(outputGFF);
         radioGroup.add(outputSAM);
@@ -184,10 +165,8 @@ public class ProcessTab extends JPanel {
         setCheckBoxListener(useSmoothing);
         setCheckBoxListener(useRatio);
         setFlagsListener();
-        
     }
     
-    /* Hårdkodning */
     private void initComboBoxes() {
         
         ArrayList<String> ratioSmooth = new ArrayList<String>();
@@ -195,8 +174,6 @@ public class ProcessTab extends JPanel {
         ratioSmooth.add("Median");
         ratioSmooth.add("Trimmed Mean");
         
-        ratioSmoothType.addItem(ratioSmooth.get(0));
-        ratioSmoothType.addItem(ratioSmooth.get(1));
         smoothType.addItem(ratioSmooth.get(0));
         smoothType.addItem(ratioSmooth.get(1));
         
@@ -214,7 +191,6 @@ public class ProcessTab extends JPanel {
         /* TEST */
         gFiles.add("");
         /* TEST */
-        setGenomeReleaseFiles(gFiles);
     }
     
     /**
@@ -233,27 +209,18 @@ public class ProcessTab extends JPanel {
     /**
      * Initiates the west panel in the process tabs borderlayout.
      */
-    /* Borde bara vara filesPanel */
     private void addWestPanels() {
-        
         this.add(westPanel, BorderLayout.WEST);
         westPanel.setBorder(BorderFactory.createTitledBorder("Files"));
-        addFilesScheduleToWestPanel();
-        // addScheduleProcPanel();
-        
+        addFilesPanel();
     }
     
     /**
      * Initiates the center panel in the process tabs borderlayout.
      */
-    /* Borde bara vara consolePanel */
-    private void addMiddlePanel() {
-        
-        this.add(middlePanel, BorderLayout.CENTER);
-        // addGenProfileDataPanel();
-        // addGenRegionDataPanel();
-        addConvertFilesPanel();
-        
+    private void addConsolePanel() {
+        this.add(consolePanel, BorderLayout.CENTER);
+        consolePanel.setBorder(BorderFactory.createTitledBorder("Console"));
     }
     
     /**
@@ -366,95 +333,33 @@ public class ProcessTab extends JPanel {
     }
     
     /**
-     * Initiates the convertFilesPanel in the center panel.
+     * Initiates southPanel to south in the process tabs borderlayout.
      */
-    /* Tabort fragetacekn pa consolePanel */
-    private void addConvertFilesPanel() {
-        middlePanel.add(consolePanel, BorderLayout.CENTER);
-        consolePanel.setBorder(BorderFactory.createTitledBorder("Console"));
-    }
-    
-    /**
-     * Initiates the genRegionDataPanel in the center panel.
-     */
-    /* Tabort */
-    private void addGenRegionDataPanel() {
-        middlePanel.add(genRegionDataPanel, BorderLayout.CENTER);
-        genRegionDataPanel.setBorder(BorderFactory
-                .createTitledBorder("Generate Region Data"));
-        addScrollGenRegionData();
-    }
-    
-    /**
-     * Adds scrollpane to genRegionData in the genRedionDataPanel.
-     */
-    /* Tabort */
-    private void addScrollGenRegionData() {
-        genRegionDataPanel.add(scrollRegion, BorderLayout.CENTER);
-        scrollRegion.setViewportView(genRegArea);
-        genRegArea.setEditable(false);
-        genRegionDataPanel.add(textArea);
-    }
-    
-    /**
-     * Initiates the genProfileDataPanel in the center panel.
-     */
-    /* Tabort */
-    private void addGenProfileDataPanel() {
-        middlePanel.add(genProfileDataPanel, BorderLayout.CENTER);
-        genProfileDataPanel.setBorder(BorderFactory
-                .createTitledBorder("Generate Profile Data"));
-        genProfileDataPanel.add(scrollProfile);
-        scrollProfile.setViewportView(genProfArea);
-        genProfArea.setEditable(false);
-    }
-    
-    /**
-     * Initiates timePanel to south in the process tabs borderlayout.
-     */
-    /* Bytanamn */
-    private void addTimePanel() {
-        this.add(timePanel, BorderLayout.SOUTH);
-        timePanel.setPreferredSize(new Dimension(300, 30));
+    private void addSouthPanel() {
+        this.add(southPanel, BorderLayout.SOUTH);
+        southPanel.setPreferredSize(new Dimension(300, 30));
         
     }
-    
-    /**
-     * Initiates the scrollSchedule in scheduleProcPanel.
-     */
-    /*
-     * private void addScheduleProcPanel() {
-     * scheduleProcPanel.setBorder(BorderFactory
-     * .createTitledBorder("Scheduled Processing"));
-     * scheduleProcPanel.add(scrollSchedule);
-     * scrollSchedule.setViewportView(scheduleList); }
-     */
     
     /**
      * Writes text to convertArea. The user gets a visual message whether or not
      * the conversion succeeded.
      */
-    /* Fragetecken */
-    private void addConvertTextArea() {
-        
-        consolePanel.add(scrollConvert);
-        scrollConvert.setViewportView(consoleArea);
+    private void addConsoleTextArea() {
+        consolePanel.add(scrollConsole);
+        scrollConsole.setViewportView(consoleArea);
         consoleArea.setEditable(false);
     }
     
     /**
      * Initiates filesPanel in westPanel.
      */
-    private void addFilesScheduleToWestPanel() {
+    private void addFilesPanel() {
         westPanel.add(filesPanel);
         filesPanel.add(scrollFiles);
-        JPanel removePanel = new JPanel(new FlowLayout());
-        // removePanel.add(selectButton);
         removePanel.add(deleteButton);
         westPanel.add(removePanel, BorderLayout.SOUTH);
-        
         scrollFiles.setViewportView(fileList);
-        // westPanel.add(scheduleProcPanel);
     }
     
     /**
@@ -462,14 +367,14 @@ public class ProcessTab extends JPanel {
      */
     private void addOptionsToRawToProfileTab() {
         addPanelsToRawToProfileTab();
-        addFlagsToConv();
-        addGenomeFileToConv();
-        addSmoothTypeToConv();
-        addSmoothWindowSizeToConv();
-        addStepPositionToConv();
-        addStepSizeToConv();
-        addPrintMeanToConv();
-        addPrintZeroToConv();
+        addFlagsToRawTab();
+        addGenomeFileToRawTab();
+        addSmoothTypeToRawTab();
+        addSmoothWindowSizeToRawTab();
+        addStepPositionToRawTab();
+        addStepSizeToRawTab();
+        addPrintMeanToRawTab();
+        addPrintZeroToRawTab();
     }
     
     /**
@@ -479,113 +384,45 @@ public class ProcessTab extends JPanel {
         rawToProfileMenuPanel.setLayout(new BorderLayout());
         rawToProfileMenuPanel.add(tabbedPane, BorderLayout.CENTER);
         
-        tabbedPane.addTab("Create profile data", null, convTabpanel, null);
-        convTabpanel.add(convPanel, BorderLayout.NORTH);
+        tabbedPane.addTab("Create profile data", null, rawTabpanel, null);
+        rawTabpanel.add(rawParameterPanel, BorderLayout.NORTH);
+        formatPanel.setPreferredSize(new Dimension(100, 80));
+        formatPanel.setBorder(new TitledBorder(UIManager
+                .getBorder("TitledBorder.border"), "Format",
+                TitledBorder.LEADING, TitledBorder.TOP, null, null));
         
-        checkBoxPanel.setLayout(new GridLayout(2, 0));
-        lowerCheckBoxPanel.setLayout(new GridBagLayout());
-        lowerCheckBoxPanel
-                .setBorder(BorderFactory.createTitledBorder("Format"));
-        lowerCheckBoxPanel.setPreferredSize(new Dimension(100, 80));
-        GridBagConstraints gbc1 = new GridBagConstraints();
+        rawParameterPanel.add(formatPanel);
+        formatPanel.setLayout(new GridLayout(0, 1, 0, 0));
+        formatPanel.add(outputSAM);
+        formatPanel.add(outputGFF);
+        formatPanel.add(outputSGR);
         
-        gbc1.fill = GridBagConstraints.BOTH;
-        gbc1.insets = new Insets(0, 0, 0, 5);
-        gbc1.gridx = 1;
-        gbc1.gridy = 1;
-        lowerCheckBoxPanel.add(outputSAM, gbc1);
-        
-        gbc1.fill = GridBagConstraints.BOTH;
-        gbc1.insets = new Insets(0, 0, 0, 5);
-        gbc1.gridx = 1;
-        gbc1.gridy = 2;
-        lowerCheckBoxPanel.add(outputGFF, gbc1);
-        
-        gbc1.fill = GridBagConstraints.BOTH;
-        gbc1.insets = new Insets(0, 0, 0, 5);
-        gbc1.gridx = 1;
-        gbc1.gridy = 3;
-        lowerCheckBoxPanel.add(outputSGR, gbc1);
-        convPanel.add(lowerCheckBoxPanel);
-        
-        convPanel.add(flagsPanel);
+        rawParameterPanel.add(flagsPanel);
         flagsPanel.setBorder(BorderFactory.createTitledBorder("Bowtie flags"));
-        convPanel.add(genomeReleasePanel);
+        rawParameterPanel.add(genomeReleasePanel);
         genomeReleasePanel.setBorder(BorderFactory
                 .createTitledBorder("Genome release files"));
-        convPanel.add(windowSizePanel);
+        rawParameterPanel.add(windowSizePanel);
         windowSizePanel.setBorder(BorderFactory
                 .createTitledBorder("Window size"));
-        convPanel.add(smoothTypePanel);
+        rawParameterPanel.add(smoothTypePanel);
         smoothTypePanel.setBorder(BorderFactory
                 .createTitledBorder("Smooth type"));
-        convPanel.add(stepPositionPanel);
+        rawParameterPanel.add(stepPositionPanel);
         stepPositionPanel.setBorder(BorderFactory
                 .createTitledBorder("Step position"));
-        convPanel.setBorder(null);
-        // checkBoxPanel.setAlignmentY(1.0f);
-        // checkBoxPanel.setBorder(BorderFactory.createTitledBorder("Checkboxes"));
-        // convPanel.add(checkBoxPanel);
-        
-        // checkBoxPanel.setLayout(new GridLayout(2, 0));
-        // lowerCheckBoxPanel.setLayout(new GridBagLayout());
-        upperCheckBoxPanel.setLayout(new GridBagLayout());
-        /*
-         * GridBagConstraints gbc = new GridBagConstraints(); gbc.fill =
-         * GridBagConstraints.BOTH; gbc.insets = new Insets(0, 0, 0, 0);
-         * gbc.gridx = 0; gbc.gridy = 0; checkBoxPanel.add(upperCheckBoxPanel);
-         * 
-         * gbc.fill = GridBagConstraints.BOTH; gbc.insets = new Insets(0, 0, 0,
-         * 0); gbc.gridx = 0; gbc.gridy = 1;
-         * checkBoxPanel.add(lowerCheckBoxPanel);
-         * 
-         * GridBagConstraints gbc2 = new GridBagConstraints(); gbc2.fill =
-         * GridBagConstraints.BOTH; gbc2.insets = new Insets(0, 0, 0, 0);
-         * gbc2.gridx = 0; gbc2.gridy = 0; upperCheckBoxPanel.add(printMean,
-         * gbc2);
-         * 
-         * gbc2.fill = GridBagConstraints.BOTH; gbc2.insets = new Insets(0, 10,
-         * 0, 0); gbc2.gridx = 1; gbc2.gridy = 0;
-         * upperCheckBoxPanel.add(printZeros, gbc2);
-         * 
-         * gbc2.fill = GridBagConstraints.BOTH; gbc2.insets = new Insets(0, 10,
-         * 0, 0); gbc2.gridx = 2; gbc2.gridy = 0;
-         * upperCheckBoxPanel.add(stepSizeBox, gbc2);
-         */
-        /*
-         * gbc2.fill = GridBagConstraints.BOTH; gbc2.insets = new Insets(0, 0,
-         * 0, 5); gbc2.gridx = 0; gbc2.gridy = 1;
-         * lowerCheckBoxPanel.add(useSmoothing, gbc2);
-         */
-        /*
-         * gbc2.fill = GridBagConstraints.BOTH; gbc2.insets = new Insets(0, 0,
-         * 0, 5); gbc2.gridx = 1; gbc2.gridy = 1;
-         * lowerCheckBoxPanel.add(outputSAM, gbc2);
-         * 
-         * gbc2.fill = GridBagConstraints.BOTH; gbc2.insets = new Insets(0, 0,
-         * 0, 5); gbc2.gridx = 2; gbc2.gridy = 1;
-         * lowerCheckBoxPanel.add(outputGFF, gbc2);
-         * 
-         * gbc2.fill = GridBagConstraints.BOTH; gbc2.insets = new Insets(0, 5,
-         * 0, 0); gbc2.gridx = 3; gbc2.gridy = 1;
-         * lowerCheckBoxPanel.add(outputSGR, gbc2);
-         */
-        
+        rawParameterPanel.setBorder(null);
         checkBoxPanel.setPreferredSize(new Dimension(315, 81));
         
-        convPanel.add(stepSizePanel);
+        rawParameterPanel.add(stepSizePanel);
         stepSizePanel.setBorder(BorderFactory.createTitledBorder("Step size"));
         
-        // tabbedPane.addTab("Convert to WIG", null, convWigTabPanel, null);
-        
-        // tabbedPane.addTab("Create region data", null, createRegTabPanel,
-        // null);
     }
     
     /**
      * Initiates the flag text field in raw to profile tab
      */
-    private void addFlagsToConv() {
+    private void addFlagsToRawTab() {
         flagsPanel.add(flags);
         flags.setBorder(null);
         flags.setText("-a -m 1 --best -p 10 -v 2 -q -S");
@@ -595,7 +432,7 @@ public class ProcessTab extends JPanel {
     /**
      * Initiates the genome files combobox in raw to profile tab
      */
-    private void addGenomeFileToConv() {
+    private void addGenomeFileToRawTab() {
         genomeReleasePanel.add(genomeFile);
         genomeFile.setPreferredSize(new Dimension(180, 30));
         genomeFile.setBorder(null);
@@ -604,7 +441,7 @@ public class ProcessTab extends JPanel {
     /**
      * Initiates the window size text field in raw to profile tab
      */
-    private void addSmoothWindowSizeToConv() {
+    private void addSmoothWindowSizeToRawTab() {
         windowSizePanel.add(smoothWindowSize);
         smoothWindowSize.setPreferredSize(new Dimension(70, 30));
         smoothWindowSize.setBorder(null);
@@ -614,7 +451,7 @@ public class ProcessTab extends JPanel {
     /**
      * Initiates the smooth type text field in raw to profile tab
      */
-    private void addSmoothTypeToConv() {
+    private void addSmoothTypeToRawTab() {
         smoothTypePanel.add(smoothType);
         smoothType.setPreferredSize(new Dimension(140, 30));
         smoothType.setBorder(null);
@@ -623,7 +460,7 @@ public class ProcessTab extends JPanel {
     /**
      * Initiates the step position text field in raw to profile tab
      */
-    private void addStepPositionToConv() {
+    private void addStepPositionToRawTab() {
         stepPositionPanel.add(stepPosition);
         stepPosition.setPreferredSize(new Dimension(75, 30));
         stepPosition.setBorder(null);
@@ -633,7 +470,7 @@ public class ProcessTab extends JPanel {
     /**
      * Initiates the step size text field in raw to profile tab
      */
-    private void addStepSizeToConv() {
+    private void addStepSizeToRawTab() {
         stepSizePanel.add(stepSize);
         stepSize.setPreferredSize(new Dimension(70, 30));
         stepSize.setBorder(null);
@@ -643,17 +480,17 @@ public class ProcessTab extends JPanel {
     /**
      * Initiates the print mean checkbox in raw to profile tab
      */
-    private void addPrintMeanToConv() {
-        printMean.setPreferredSize(new Dimension(110, 30));
+    private void addPrintMeanToRawTab() {
+        printMean.setPreferredSize(new Dimension(90, 30));
         printMean.setBorder(null);
-        stepSizeBox.setPreferredSize(new Dimension(110, 30));
+        stepSizeBox.setPreferredSize(new Dimension(80, 30));
     }
     
     /**
      * Initiates the print zeros checkbox in raw to profile tab
      */
-    private void addPrintZeroToConv() {
-        printZeros.setPreferredSize(new Dimension(110, 30));
+    private void addPrintZeroToRawTab() {
+        printZeros.setPreferredSize(new Dimension(90, 30));
         printZeros.setBorder(null);
     }
     
@@ -665,39 +502,36 @@ public class ProcessTab extends JPanel {
         regionButton.setEnabled(false);
         convWigTabPanel.add(convertButton);
         convertButton.setEnabled(false);
-        convTabpanel.add(buttonPanel, BorderLayout.SOUTH);
+        rawTabpanel.add(buttonPanel, BorderLayout.SOUTH);
+        useSmoothing.setPreferredSize(new Dimension(95, 30));
         
         buttonPanel.add(useSmoothing);
         buttonPanel.add(printMean);
         buttonPanel.add(printZeros);
         buttonPanel.add(stepSizeBox);
+        useRatio.setPreferredSize(new Dimension(130, 30));
         
         buttonPanel.add(useRatio);
         buttonPanel.add(ratioCalcButton);
-        buttonPanel.add(profileButton);
-        // scheduleProcPanel.add(scheduleButton);
-        
     }
     
     /**
      * Initiates default parameters in the raw to profile tab.
      */
-    private void initBowtieParameters() {
-        
+    private void initRegularParameters() {
         stepSize.setText("");
         smoothWindowSize.setText("");
         smoothType.setSelectedIndex(0);
         stepPosition.setText("");
         printZeros.setSelected(true);
         genomeFile.removeAllItems();
-        
     }
     
     private void initFileList() {
         fileListSetCellRenderer();
     }
     
-    public JList getFileList() {
+    public JList<CheckListItem> getFileList() {
         return fileList;
     }
     
@@ -772,19 +606,19 @@ public class ProcessTab extends JPanel {
      * 
      * @return String[] - bowtieParameters
      */
-    public String[] getBowtieParameters() {
-        return this.bowtieParameters;
+    public String[] getregularParameters() {
+        return this.regularParameters;
     }
     
     /**
      * Sets bowtieParameters from all the parameters in raw to profile tab.
      */
-    public void setBowtieParameters() {
+    public void setRegularParameters() {
         
-        bowtieParameters[0] = getTextFromFlags(); // "-a -m 1 --best -p 10 -v 2";
-        bowtieParameters[1] = getTextGenomeFileName(); // "hg38";
-        bowtieParameters[2] = getSmoothingParameters(); // "10 1 5 0 1";
-        bowtieParameters[3] = getStepSize(); // "y 10";
+        regularParameters[0] = getTextFromFlags(); // "-a -m 1 --best -p 10 -v 2";
+        regularParameters[1] = getTextGenomeFileName(); // "hg38";
+        regularParameters[2] = getSmoothingParameters(); // "10 1 5 0 1";
+        regularParameters[3] = getStepSize(); // "y 10";
         
     }
     
@@ -811,16 +645,6 @@ public class ProcessTab extends JPanel {
         
         parameters[5] = getStepSize();
         return parameters;
-    }
-    
-    /**
-     * Sets the genomeReleaseFiles list, Retrieves all genome files a specific
-     * species has.
-     * 
-     * @param genomeReleaseFiles
-     */
-    public void setGenomeReleaseFiles(ArrayList<String> genomeReleaseFiles) {
-        this.genomeReleaseFiles = genomeReleaseFiles;
     }
     
     public void setGenomeFileList(GenomeReleaseData[] genomeReleases) {
@@ -851,13 +675,10 @@ public class ProcessTab extends JPanel {
     }
     
     public void setDefaultRatioPar() {
-        
         inputReads.setText("4");
         chromosome.setText("0");
         ratioWindowSize.setText("150");
-        ratioSmoothType.setSelectedIndex(0);
         ratioStepPosition.setText("7");
-        
     }
     
     public void setProfileButton(boolean bool) {
@@ -948,10 +769,6 @@ public class ProcessTab extends JPanel {
         regionButton.addActionListener(listener);
     }
     
-    public void addScheduleFileListener(ActionListener listener) {
-        // scheduleButton.addActionListener(listener);
-    }
-    
     public void addRatioCalcListener(ActionListener listener) {
         ratioCalcButton.addActionListener(listener);
     }
@@ -988,7 +805,7 @@ public class ProcessTab extends JPanel {
         });
     }
     
-    public void setComboBoxActionListener(JComboBox combobox) {
+    public void setComboBoxActionListener(JComboBox<String> combobox) {
         combobox.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -1082,6 +899,8 @@ public class ProcessTab extends JPanel {
     private void disableAllParameters() {
         useRatio.setEnabled(false);
         ratioCalcButton.setEnabled(false);
+        buttonPanel.add(createProfilePanel);
+        createProfilePanel.add(profileButton);
         profileButton.setEnabled(false);
         genomeFile.setEnabled(false);
         smoothWindowSize.setEnabled(false);
@@ -1113,7 +932,4 @@ public class ProcessTab extends JPanel {
         return (useRatio.isEnabled() && useRatio.isSelected());
     }
     
-    public void selectAll() {
-        
-    }
 }
