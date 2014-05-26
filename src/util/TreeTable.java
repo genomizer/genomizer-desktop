@@ -86,8 +86,11 @@ public class TreeTable extends JPanel {
                 public synchronized void addVisibilityActionItems(
                         List<? extends AbstractActionExt> actions) {
                     if (!actions.isEmpty()) {
+                        JPopupMenu popupMenu = getPopupMenu();
+
                         /* Hide all columns button */
-                        JButton deselectButton = new JButton("Deselect All");
+                        JButton deselectButton =
+                                new JButton("Hide all annotations");
                         deselectButton.addActionListener(new ActionListener() {
                             @Override
                             public void actionPerformed(ActionEvent e) {
@@ -99,7 +102,8 @@ public class TreeTable extends JPanel {
                                 }
                             }
                         });
-                        JButton selectButton = new JButton("Select All");
+                        JButton selectButton =
+                                new JButton("Show all annotations");
                         selectButton.addActionListener(new ActionListener() {
                             @Override
                             public void actionPerformed(ActionEvent e) {
@@ -111,15 +115,20 @@ public class TreeTable extends JPanel {
                                 }
                             }
                         });
+
                         /* Add hide column checkboxes */
-                        getPopupMenu().add(deselectButton);
-                        getPopupMenu().add(selectButton);
+                        popupMenu.add(deselectButton);
+                        popupMenu.add(selectButton);
+
+                        //Add some space between the checkboxes and the buttons.
+                        popupMenu.add(new JLabel("\n"));
+
                         for (JCheckBox checkBox : columnCheckBoxes) {
                             getPopupMenu().add(checkBox);
                         }
 
                         //Add some space between the checkboxes and the buttons.
-                        getPopupMenu().add(new JLabel("\n"));
+                        popupMenu.add(new JLabel("\n"));
 
                         //Add expand all button with listener.
                         JButton expandAllButton = new JButton("Expand all");
@@ -129,7 +138,7 @@ public class TreeTable extends JPanel {
                                         table.expandAll();
                             }
                         });
-                        getPopupMenu().add(expandAllButton);
+                        popupMenu.add(expandAllButton);
 
                         //Add collapse all button with listener.
                         JButton collapseAllButton = new JButton("Collapse all");
@@ -140,10 +149,10 @@ public class TreeTable extends JPanel {
                                 table.collapseAll();
                             }
                         });
-                        getPopupMenu().add(collapseAllButton);
+                        popupMenu.add(collapseAllButton);
 
-                        getPopupMenu().repaint();
-                        getPopupMenu().revalidate();
+                        popupMenu.repaint();
+                        popupMenu.revalidate();
                     }
                 }
                 
