@@ -97,9 +97,12 @@ public class HTTPURLUpload {
             // execute HTTP post request
             response = httpClient.execute(httpPost, localContext);
             HttpEntity resEntity = response.getEntity();
-            System.out.println("Response code: "
-                    + response.getStatusLine().getStatusCode());
             responseCode = response.getStatusLine().getStatusCode();
+            System.out.println("Response code: "
+                    + responseCode);
+            if(responseCode != 201) {
+                return false;
+            }
             if (resEntity != null) {
 
                 String responseStr = EntityUtils.toString(resEntity).trim();
