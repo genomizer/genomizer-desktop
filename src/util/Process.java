@@ -13,8 +13,8 @@ public class Process {
             return true;
         } else if (!smoothing.isSelected()) {
             return true;
-        } else if (aboveZero(smoothWindowSize.getText().trim())
-                && aboveZero(stepPosition.getText().trim())) {
+        } else if (zeroOrAbove(smoothWindowSize.getText().trim())
+                && zeroOrAbove(stepPosition.getText().trim())) {
             if (!stepBox.isSelected()
                     || (stepBox.isSelected() && aboveZero(stepSize.getText()
                             .trim()))) {
@@ -41,17 +41,17 @@ public class Process {
         
         try {
             int value = Integer.parseInt(string);
-            if (value >= 0) {
+            if (value > 0) {
                 return true;
             } else {
                 return false;
             }
-        } catch (Exception e) {
+        } catch (NumberFormatException e) {
             return false;
         }
     }
     
-    public boolean ZeroOr(String string) {
+    public boolean zeroOrAbove(String string) {
         
         try {
             int value = Integer.parseInt(string);
@@ -60,7 +60,7 @@ public class Process {
             } else {
                 return false;
             }
-        } catch (Exception e) {
+        } catch (NumberFormatException e) {
             return false;
         }
     }
