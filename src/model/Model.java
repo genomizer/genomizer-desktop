@@ -384,16 +384,6 @@ public class Model implements GenomizerModel {
     public boolean uploadGenomeReleaseFile(String[] filePaths, String species,
             String version) {
         
-        // String[] filepaths = new String[2];
-        
-        /*********************************************************/
-        
-        // for (String theFilePath : filepaths) {
-        
-        /** Put everything in here! */
-        // }
-        
-        /**********************************************************/
         File[] files = new File[filePaths.length];
         String[] names = new String[filePaths.length];
         for (int i = 0; i < filePaths.length; i++) {
@@ -408,36 +398,38 @@ public class Model implements GenomizerModel {
         conn.sendRequest(request, userID, JSON);
         if (conn.getResponseCode() == 201) {
             
-            String[] aGRR = ResponseParser
-                    .parseGenomeUploadResponse(conn.getResponseBody());
+            String[] aGRR = ResponseParser.parseGenomeUploadResponse(conn
+                    .getResponseBody());
             
-            //TODO: fix this mess I am about to do right now tomorrow regards,
-            // the past me.
-            
-            for (int i = 0 ; i < files.length ; i++) {
+            for (int i = 0; i < files.length; i++) {
                 HTTPURLUpload upload = new HTTPURLUpload(aGRR[i],
                         files[i].getAbsolutePath(), files[i].getName());
                 
                 ongoingUploads.add(upload);
                 
-                /** TODO */
                 if (upload.sendFile(userID)) {
                     
-                    System.out.println("Succefully added genome release file named " + files[i].getName() + ".");
+                    System.out
+                            .println("Succefully added genome release file named "
+                                    + files[i].getName() + ".");
                     
                 } else {
-                    System.err.println("Could not add genome release file named " + files[i].getName() + "!");
+                    System.err
+                            .println("Could not add genome release file named "
+                                    + files[i].getName() + "!");
                     return false;
                 }
                 
-            } 
+            }
             return true;
             
         } else {
             
             System.out
                     .println("Something went wrong, could not add genome release: "
-                            + conn.getResponseCode() + "\n" + conn.getResponseBody());
+                            + conn.getResponseCode()
+                            + "\n"
+                            + conn.getResponseBody());
         }
         
         return false;
@@ -648,7 +640,7 @@ public class Model implements GenomizerModel {
         ongoingDownloads = new CopyOnWriteArrayList<DownloadHandler>();
         ongoingUploads = new CopyOnWriteArrayList<HTTPURLUpload>();
     }
-
+    
     @Override
     public boolean addGenomeRelease() {
         return false;
