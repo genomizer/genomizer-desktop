@@ -18,15 +18,7 @@ import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import javax.swing.Action;
-import javax.swing.JButton;
-import javax.swing.JCheckBox;
-import javax.swing.JOptionPane;
-import javax.swing.JPanel;
-import javax.swing.JScrollPane;
-import javax.swing.JTable;
-import javax.swing.JViewport;
-import javax.swing.SwingUtilities;
+import javax.swing.*;
 import javax.swing.table.TableColumnModel;
 import javax.swing.tree.TreePath;
 
@@ -125,6 +117,9 @@ public class TreeTable extends JPanel {
                         for (JCheckBox checkBox : columnCheckBoxes) {
                             getPopupMenu().add(checkBox);
                         }
+
+                        //Add some space between the checkboxes and the buttons.
+                        getPopupMenu().add(new JLabel("\n"));
 
                         //Add expand all button with listener.
                         JButton expandAllButton = new JButton("Expand all");
