@@ -19,7 +19,8 @@ import java.util.ArrayList;
 public class ModelTest {
     
     Model m;
-    
+    String username = "desktoptest";
+    String password = "umea@2014";
     @Before
     public void setUp() throws Exception {
         m = new Model();
@@ -34,13 +35,13 @@ public class ModelTest {
     @Test
     public void shouldLogin() throws Exception {
         assertThat(m.getUserID()).isEmpty();
-        assertThat(m.loginUser("genomizer", "supersecretpass")).isTrue();
+        assertThat(m.loginUser(username, password)).isTrue();
         assertThat(m.getUserID()).isNotEmpty();
     }
 
     @Test
     public void shouldLogout() throws Exception {
-        assertThat(m.loginUser("genomizer", "supersecretpass")).isTrue();
+        assertThat(m.loginUser(username, password)).isTrue();
         assertThat(m.getUserID()).isNotEmpty();
         assertThat(m.logoutUser()).isTrue();
         assertThat(m.getUserID()).isEmpty();
@@ -55,7 +56,7 @@ public class ModelTest {
 
     @Test
     public void shouldUploadFile() throws Exception {
-        assertThat(m.uploadFile("test", new File("test"), "type", "user", false, "rn5")).isTrue();
+        assertThat(m.uploadFile("test", new File("test"), "type", "user", false, "fb5")).isTrue();
     }
 
     @Test
@@ -88,7 +89,7 @@ public class ModelTest {
         }
         Model m2 = new Model();
         m2.setIp("http://scratchy.cs.umu.se:7000");
-        m2.loginUser("genomizer", "supersecretpass");
+        m2.loginUser(username, password);
         AnnotationDataType[] types = m2.getAnnotations();
         AnnotationDataValue[] values = new AnnotationDataValue[types.length];
         for(int i = 0; i < types.length; i++) {

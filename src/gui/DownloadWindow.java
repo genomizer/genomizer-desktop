@@ -58,9 +58,6 @@ public class DownloadWindow extends JFrame {
         setUpOngoingPanel();
         add(mainPanel, BorderLayout.CENTER);
         updateProgress();
-        if (files.size() > 0) {
-            downloadButton.doClick();
-        }
     }
     
     /**
@@ -122,7 +119,7 @@ public class DownloadWindow extends JFrame {
                                 double speed = handler.getCurrentSpeed() / 1024 / 2014;
                                 north.add(new JLabel(handler.getFileName()
                                         + " (" + Math.round(speed * 100.0)
-                                        / 100.0 + "Mb/s)"), BorderLayout.CENTER);
+                                        / 100.0 + "MiB/s)"), BorderLayout.CENTER);
                                 JProgressBar progress = new JProgressBar(0,
                                         handler.getTotalSize());
                                 progress.setValue(handler.getCurrentProgress());
@@ -168,7 +165,14 @@ public class DownloadWindow extends JFrame {
      */
     public void addDownloadFileListener(ActionListener listener) {
         downloadButton.addActionListener(listener);
-        downloadButton.doClick();
+
+        /*
+         * Automatically click the download button when the listener has been
+         * added to let the user choose where to save the files immediately.
+         */
+        if(files.size() > 0) {
+            downloadButton.doClick();
+        }
     }
     
     /**

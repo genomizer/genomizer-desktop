@@ -304,6 +304,10 @@ public class Controller {
         }
     }
     
+    /**
+     * Listener for when the download button in workspace is clicked. Opens a
+     * DownloadWindow with the selected files.
+     */
     class DownloadWindowListener implements ActionListener, Runnable {
         
         @Override
@@ -332,6 +336,10 @@ public class Controller {
         }
     }
     
+    /**
+     * Listener for when the download button in the download window is clicked.
+     * Opens a file chooser.
+     */
     class DownloadFileListener implements ActionListener, Runnable {
         
         @Override
