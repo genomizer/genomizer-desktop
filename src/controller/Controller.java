@@ -230,7 +230,7 @@ public class Controller {
             ArrayList<FileData> selectedFiles = new ArrayList<>();
             for (ExperimentData experiment : selectedData) {
                 for (FileData file : experiment.files) {
-                    if (!selectedFiles.contains(file)) {
+                    if (!selectedFiles.contains(file.filename)) {
                         selectedFiles.add(file);
                     }
                 }
@@ -814,7 +814,7 @@ public class Controller {
         public void run() {
 
             System.out.println("CANCEL");
-            view.setUnusedRatioPar();
+           // view.setUnusedRatioPar();
             view.getRatioCalcPopup().hideRatioWindow();
         }
     }
