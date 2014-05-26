@@ -51,6 +51,7 @@ public class Connection {
             if (request.type.equals("DELETE")) {
                 connection.connect();
                 responseCode = connection.getResponseCode();
+                fetchResponse(connection);
                 if (responseCode >= 300) {
                     return false;
                 }
@@ -64,6 +65,7 @@ public class Connection {
                 outputStream.flush();
             }
             responseCode = connection.getResponseCode();
+            fetchResponse(connection);
             if(responseCode == 401 && !userID.isEmpty()) {
                 view.updateLogout();
                 System.out.println("The token has expired, or was removed from the server.");
@@ -72,20 +74,23 @@ public class Connection {
             if (responseCode >= 300) {
                 return false;
             }
-            BufferedReader in = new BufferedReader(new InputStreamReader(
-                    connection.getInputStream()));
-            String buffer;
-            StringBuilder output = new StringBuilder();
-            while ((buffer = in.readLine()) != null) {
-                output.append(buffer);
-            }
-            responseBody = output.toString();
-            System.out.println(responseBody);
             connection.disconnect();
         } catch (IOException e) {
             return false;
         }
         return true;
+    }
+
+    private void fetchResponse(HttpURLConnection connection) throws IOException {
+        BufferedReader in = new BufferedReader(new InputStreamReader(
+                connection.getInputStream()));
+        String buffer;
+        StringBuilder output = new StringBuilder();
+        while ((buffer = in.readLine()) != null) {
+            output.append(buffer);
+        }
+        responseBody = output.toString();
+        System.out.println(responseBody);
     }
 
     public int getResponseCode() {
