@@ -9,15 +9,11 @@ import javax.swing.JProgressBar;
 /**
  * Class for loginwindow. Presents a window that prompts for a username,
  * password and server with port. User authorization
- * 
- * @author
- * 
  */
 public class DeleteDataWindow extends JFrame {
     
     private static final long serialVersionUID = -150623476066679412L;
     private JProgressBar progressBar;
-    private JPanel mainPanel;
     
     /**
      * Constructor creating the login window and adding listeners.
@@ -36,7 +32,7 @@ public class DeleteDataWindow extends JFrame {
      * Sets the layout and looks to the login window
      */
     private void placeComponents() {
-        mainPanel = new JPanel();
+        JPanel mainPanel = new JPanel();
         mainPanel.setLayout(new BorderLayout());
         progressBar = new JProgressBar();
         progressBar.setStringPainted(true);
