@@ -142,7 +142,10 @@ public class Controller {
                         
                         String expid = data.expId;
                         String genomeVersion = view.getParameters()[1];
-                        String metadata = data.metaData;
+                        String metadata = parameters[0] + " " + parameters[1]
+                                + " " + parameters[2] + " " + parameters[3]
+                                + " " + parameters[4] + " " + parameters[5]
+                                + " " + parameters[6] + " " + parameters[7];
                         
                         isConverted = model.rawToProfile(expid, parameters,
                                 metadata, genomeVersion, author);
