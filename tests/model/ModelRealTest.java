@@ -1,5 +1,6 @@
 package model;
 
+import org.junit.Before;
 import org.junit.Test;
 import util.AnnotationDataType;
 import util.AnnotationDataValue;
@@ -21,7 +22,12 @@ public class ModelRealTest {
 
     String username = "desktoptest";
     String password = "umea@2014";
-
+    Model m = new Model();
+    @Before
+    public void setUp() {
+        m.setIp("http://scratchy.cs.umu.se:7000");
+        m.loginUser(username, password);
+    }
     @Test
     public void shouldUploadExperimentAndRemove() {
         String expid = "thisisatestexp476-";
@@ -39,10 +45,7 @@ public class ModelRealTest {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        Model m2 = new Model();
-        m2.setIp("http://scratchy.cs.umu.se:7000");
-        m2.loginUser(username, password);
-        AnnotationDataType[] types = m2.getAnnotations();
+        AnnotationDataType[] types = m.getAnnotations();
         AnnotationDataValue[] values = new AnnotationDataValue[types.length];
         for(int i = 0; i < types.length; i++) {
             if(types[i].getName().equalsIgnoreCase("ExpID")) {
@@ -58,15 +61,15 @@ public class ModelRealTest {
                 values[i] = new AnnotationDataValue(Integer.toString(i), types[i].getName(), "test");
             }
         }
-        assertThat(m2.search(expid + "[ExpID]")).isNull();
-        assertThat(m2.addNewExperiment(expid, values)).isTrue();
-        assertThat(m2.uploadFile(expid, file, "Profile", "genomizer", false, "fb5")).isTrue();
-        ArrayList<ExperimentData> data = m2.search(expid + "[ExpID]");
+        assertThat(m.search(expid + "[ExpID]")).isNull();
+        assertThat(m.addNewExperiment(expid, values)).isTrue();
+        assertThat(m.uploadFile(expid, file, "Profile", "genomizer", false, "fb5")).isTrue();
+        ArrayList<ExperimentData> data = m.search(expid + "[ExpID]");
         assertThat(data).isNotNull();
         for(FileData fileData: data.get(0).files) {
-            assertThat(m2.deleteFileFromExperiment(fileData.id));
+            assertThat(m.deleteFileFromExperiment(fileData.id));
         }
-        assertThat(m2.deleteExperimentFromDatabase(expid)).isTrue();
-        assertThat(m2.search(expid + "[ExpID]")).isNull();
+        assertThat(m.deleteExperimentFromDatabase(expid)).isTrue();
+        assertThat(m.search(expid + "[ExpID]")).isNull();
     }
 }
