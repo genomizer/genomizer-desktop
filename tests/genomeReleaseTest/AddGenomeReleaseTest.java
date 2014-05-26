@@ -32,7 +32,7 @@ public class AddGenomeReleaseTest {
     
     @Test
     public void shouldAddGenomRelease() {
-        assertThat(model.uploadGenomeReleaseFile(PATHS, SPECIES, VERSION)).isTrue();
+        assertThat(model.addGenomeReleaseFile(PATHS, SPECIES, VERSION)).isTrue();
     }
     
     @After

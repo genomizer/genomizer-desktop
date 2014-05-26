@@ -74,7 +74,7 @@ public interface GenomizerModel {
 
     public boolean deleteExperimentFromDatabase(String name);
 
-    public boolean uploadGenomeReleaseFile(String[] filePaths, String specie,
+    public boolean addGenomeReleaseFile(String[] filePaths, String specie,
             String version);
 
     public boolean addNewAnnotationValue(String annotationName, String valueName);

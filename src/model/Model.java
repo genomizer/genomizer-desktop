@@ -381,7 +381,7 @@ public class Model implements GenomizerModel {
     }
 
     @Override
-    public boolean uploadGenomeReleaseFile(String[] filePaths, String species,
+    public boolean addGenomeReleaseFile(String[] filePaths, String species,
             String version) {
         File[] files = new File[filePaths.length];
         String[] names = new String[filePaths.length];
