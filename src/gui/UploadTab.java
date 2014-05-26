@@ -63,8 +63,8 @@ public class UploadTab extends JPanel /*implements ExperimentPanel*/ {
      * Constructor creating a upload tab.
      */
     public UploadTab() {
-        uploadFileRows = new HashMap<File, UploadFileRow>();
-        annotationHeaders = new ArrayList<String>();
+        uploadFileRows = new HashMap<>();
+        annotationHeaders = new ArrayList<>();
         activePanel = ActivePanel.NONE;
         setLayout(new BorderLayout());
         uploadToExistingExpPanel = new UploadToExistingExpPanel();
