@@ -30,11 +30,16 @@ public class RemoveAnnotationTest {
         String name = "FREE TEXTTEST";
         AnnotationDataType toBeRemoved = getSpecificAnnotationType(name);
         if (toBeRemoved != null) {
-            if (model.deleteAnnotation(toBeRemoved.name)) {
-                AnnotationDataType newAnnotation = getSpecificAnnotationType(name);
-                assertThat(newAnnotation).isNull();
-            } else {
-                fail("could not do model.deleteAnnotation()");
+            try {
+                if (model.deleteAnnotation(toBeRemoved.name)) {
+                    AnnotationDataType newAnnotation = getSpecificAnnotationType(name);
+                    assertThat(newAnnotation).isNull();
+                } else {
+                    fail("could not do model.deleteAnnotation()");
+                }
+            } catch (Exception e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
             }
         } else {
             fail("did not find toberemoved annotation");
