@@ -586,10 +586,10 @@ public class Model implements GenomizerModel {
         return false;
     }
     
-    public GenomeReleaseData[] getSpecieGenomeReleases(String specie) {
+    public GenomeReleaseData[] getSpeciesGenomeReleases(String species) {
         
         GetGenomeSpecieReleasesRequest request = RequestFactory
-                .makeGetGenomeSpecieReleaseRequest(specie);
+                .makeGetGenomeSpecieReleaseRequest(species);
         
         // GetGenomeReleasesRequest request = RequestFactory
         // .makeGetGenomeReleaseRequest();
