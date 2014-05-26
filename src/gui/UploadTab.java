@@ -350,10 +350,8 @@ public class UploadTab extends JPanel /*implements ExperimentPanel*/ {
 
     public void setGenomeReleases(GenomeReleaseData[] grd) {
         if(activePanel == ActivePanel.EXISTING) {
-            System.out.println("H컴컴컴컴컴컴컴R");
             uploadToExistingExpPanel.setGenomeReleases(grd);
         } else {
-            System.out.println("D컴컴컴컴컴컴컴R");
             uploadToNewExpPanel.setGenomeReleases(grd);
         }
     }
