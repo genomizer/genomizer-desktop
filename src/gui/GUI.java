@@ -741,11 +741,11 @@ public class GUI extends JFrame implements GenomizerView {
     }
 
     public void setGenomeReleases(GenomeReleaseData[] grd) {
-        uploadTab.getNewExpPanel().setGenomeReleases(grd);
+        uploadTab.setGenomeReleases(grd);
     }
 
-    public String getGenomeVersion() {
-        return uploadTab.getNewExpPanel().getGenomeVersion();
+    public String getGenomeVersion(File f) {
+        return uploadTab.getGenomeVersion(f);
     }
 
     public void resetGUI() {

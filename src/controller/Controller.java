@@ -116,7 +116,7 @@ public class Controller {
             ArrayList<FileData> allMarked = view.getAllMarkedFiles();
             String message;
             Boolean isConverted;
-            
+
             if (view.isCorrectToProcess()) {
                 if (!allMarked.isEmpty()) {
 
@@ -382,7 +382,24 @@ public class Controller {
             if (expID.length() > 0) {
                 try {
                     ExperimentData ed = model.retrieveExperiment(expID);
-                    uploadTab.addExistingExpPanel(ed);
+                    String species = null;
+                    boolean existingSpecies = false;
+                    for(AnnotationDataValue adv : ed.getAnnotations()) {
+                        if(adv.getName().equalsIgnoreCase("species")) {
+                            species = adv.getValue();
+                            existingSpecies = true;
+                        }
+
+                    }
+                    if(existingSpecies) {
+                        uploadTab.addExistingExpPanel(ed);
+                        GenomeReleaseData[] grd = model.getSpecieGenomeReleases(species);
+                        view.setGenomeReleases(grd);
+                    } else {
+                        JOptionPane.showMessageDialog(null,
+                                "Missing species in experiment.", "ERROR",
+                                JOptionPane.ERROR_MESSAGE);
+                    }
                 } catch (NullPointerException e) {
                     JOptionPane.showMessageDialog(null,
                             "Couldn't find or retrieve experiment", "ERROR",
@@ -445,7 +462,7 @@ public class Controller {
 
             for (File f : files) {
                 if (model.uploadFile(ed.getName(), f, types.get(f.getName()),
-                        view.getUsername(), false, view.getGenomeVersion())) {
+                        view.getUsername(), false, view.getGenomeVersion(f))) {
                     view.getUploadTab().getUploadToExistingExpPanel()
                             .deleteFileRow(f);
                     if (view.getUploadTab().getUploadToExistingExpPanel()
@@ -561,21 +578,16 @@ public class Controller {
             if (files != null && files.size() > 0 && annotations != null
                     && expName != null) {
                 HashMap<String, String> types = view.getFilesToUploadTypes();
-                // Should be genome release from uploadTab
-//                String release = "wk1m";
-                // Test purpose
-                for (AnnotationDataValue a : annotations) {
-                    System.out.println(a.getName() + " " + a.getValue());
-                }
                 boolean created = model.addNewExperiment(expName, annotations);
                 System.out.println(created);
                 if (created) {
                     for (File f : files) {
                         view.disableSelectedRow(f);
                         System.out.println(f.getName());
+                        System.out.println(view.getGenomeVersion(f));
                         if (model.uploadFile(expName, f,
                                 types.get(f.getName()), view.getUsername(),
-                                false, view.getGenomeVersion())) {
+                                false, view.getGenomeVersion(f))) {
                             view.deleteUploadFileRow(f);
                             for (HTTPURLUpload upload : model
                                     .getOngoingUploads()) {
@@ -820,7 +832,7 @@ public class Controller {
                         view.disableSelectedRow(f);
                         if (model.uploadFile(expName, f,
                                 types.get(f.getName()), view.getUsername(),
-                                false, view.getGenomeVersion())) {
+                                false, view.getGenomeVersion(f))) {
                             view.deleteUploadFileRow(f);
                             for (HTTPURLUpload upload : model
                                     .getOngoingUploads()) {
@@ -847,13 +859,13 @@ public class Controller {
             }
         }
     }
-    
+
     class SpeciesSelectedListener implements ActionListener, Runnable {
         @Override
         public void actionPerformed(ActionEvent e) {
             new Thread(this).start();
         }
-        
+
         @Override
         public void run() {
             String species = view.getSelectedSpecies();

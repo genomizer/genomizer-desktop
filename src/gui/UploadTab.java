@@ -57,7 +57,7 @@ public class UploadTab extends JPanel /*implements ExperimentPanel*/ {
 
     //Test purpose
     private ArrayList<UploadToNewExpPanel> newExps = new ArrayList<UploadToNewExpPanel>();
-    private UploadToNewExpPanel newPanel;
+    private UploadToNewExpPanel uploadToNewExpPanel;
 
     /**
      * Constructor creating a upload tab.
@@ -68,7 +68,7 @@ public class UploadTab extends JPanel /*implements ExperimentPanel*/ {
         activePanel = ActivePanel.NONE;
         setLayout(new BorderLayout());
         uploadToExistingExpPanel = new UploadToExistingExpPanel();
-        newPanel = new UploadToNewExpPanel();
+        uploadToNewExpPanel = new UploadToNewExpPanel();
         northPanel = new JPanel();
         expNamePanel = new JPanel();
         add(northPanel, BorderLayout.NORTH);
@@ -145,7 +145,7 @@ public class UploadTab extends JPanel /*implements ExperimentPanel*/ {
      *            The listener to select files.
      */
     public void addSelectButtonListener(ActionListener listener) {
-        newPanel.addSelectButtonListener(listener);
+        uploadToNewExpPanel.addSelectButtonListener(listener);
     }
 
     /**
@@ -155,7 +155,7 @@ public class UploadTab extends JPanel /*implements ExperimentPanel*/ {
      *            The listener to start uploading all files.
      */
     public void addUploadButtonListener(ActionListener listener) {
-        newPanel.addUploadButtonListener(listener);
+        uploadToNewExpPanel.addUploadButtonListener(listener);
     }
 
     /**
@@ -165,7 +165,7 @@ public class UploadTab extends JPanel /*implements ExperimentPanel*/ {
      *            The listener to start uploading selected files.
      */
     public void addUploadSelectedFiles(ActionListener listener) {
-        newPanel.addUploadSelectedFilesListener(listener);
+        uploadToNewExpPanel.addUploadSelectedFilesListener(listener);
     }
 
     /**
@@ -178,7 +178,7 @@ public class UploadTab extends JPanel /*implements ExperimentPanel*/ {
     }
 
     public UploadToNewExpPanel getNewExpPanel() {
-        return newPanel;
+        return uploadToNewExpPanel;
     }
 
     /**
@@ -208,9 +208,9 @@ public class UploadTab extends JPanel /*implements ExperimentPanel*/ {
     public void addNewExpPanel(AnnotationDataType[] annotations) {
         killContentsOfUploadPanel();
         activePanel = ActivePanel.NEW;
-        newPanel.createNewExpPanel(annotations);
-        uploadPanel.add(newPanel, BorderLayout.CENTER);
-        newExps.add(newPanel);
+        uploadToNewExpPanel.createNewExpPanel(annotations);
+        uploadPanel.add(uploadToNewExpPanel, BorderLayout.CENTER);
+        newExps.add(uploadToNewExpPanel);
         repaint();
         revalidate();
     }
@@ -238,7 +238,7 @@ public class UploadTab extends JPanel /*implements ExperimentPanel*/ {
      *            The files to make an uploadFileRow out of.
      */
     public void createUploadFileRow(File[] files) {
-        newPanel.createUploadFileRow(files);
+        uploadToNewExpPanel.createUploadFileRow(files);
     }
 
     /**
@@ -259,8 +259,8 @@ public class UploadTab extends JPanel /*implements ExperimentPanel*/ {
                 activePanel = ActivePanel.NONE;
                 break;
             case NEW:
-                uploadPanel.remove(newPanel);
-                newPanel.removeAll();
+                uploadPanel.remove(uploadToNewExpPanel);
+                uploadToNewExpPanel.removeAll();
                 repaint();
                 revalidate();
                 activePanel = ActivePanel.NONE;
@@ -276,7 +276,7 @@ public class UploadTab extends JPanel /*implements ExperimentPanel*/ {
      *            This is used to identify which uploadFileRow to be deleted.
      */
     public void deleteFileRow(File f) {
-       newPanel.deleteFileRow(f);
+       uploadToNewExpPanel.deleteFileRow(f);
     }
 
     /**
@@ -285,11 +285,11 @@ public class UploadTab extends JPanel /*implements ExperimentPanel*/ {
      * @return a String with the ID of a experiment.
      */
     public String getNewExpID() {
-        return newPanel.getNewExpID();
+        return uploadToNewExpPanel.getNewExpID();
     }
 
     public AnnotationDataValue[] getUploadAnnotations() {
-        return newPanel.getUploadAnnotations();
+        return uploadToNewExpPanel.getUploadAnnotations();
     }
 
     /**
@@ -298,7 +298,7 @@ public class UploadTab extends JPanel /*implements ExperimentPanel*/ {
      * @return a array with the files.
      */
     public ArrayList<File> getUploadFiles() {
-        return newPanel.getUploadFiles();
+        return uploadToNewExpPanel.getUploadFiles();
     }
 
     /**
@@ -307,7 +307,7 @@ public class UploadTab extends JPanel /*implements ExperimentPanel*/ {
      * @return a HashMap with the filenames and there types.
      */
     public HashMap<String, String> getTypes() {
-        return newPanel.getTypes();
+        return uploadToNewExpPanel.getTypes();
     }
 
     /**
@@ -315,7 +315,7 @@ public class UploadTab extends JPanel /*implements ExperimentPanel*/ {
      *         filled. Otherwise returns false.
      */
     public boolean forcedAnnotationCheck() {
-        return newPanel.forcedAnnotationCheck();
+        return uploadToNewExpPanel.forcedAnnotationCheck();
     }
 
     /**
@@ -328,7 +328,7 @@ public class UploadTab extends JPanel /*implements ExperimentPanel*/ {
      *            it (false)
      */
     public void enableUploadButton(boolean b) {
-        newPanel.enableUploadButton(b);
+        uploadToNewExpPanel.enableUploadButton(b);
     }
 
     /**
@@ -338,6 +338,24 @@ public class UploadTab extends JPanel /*implements ExperimentPanel*/ {
      */
     public String getSearchText() {
         return experimentNameField.getText();
+    }
+
+    public String getGenomeVersion(File f) {
+        if(activePanel == ActivePanel.EXISTING) {
+            return uploadToExistingExpPanel.getGenomeVersion(f);
+        } else {
+            return uploadToNewExpPanel.getGenomeVersion(f);
+        }
+    }
+
+    public void setGenomeReleases(GenomeReleaseData[] grd) {
+        if(activePanel == ActivePanel.EXISTING) {
+            System.out.println("H컴컴컴컴컴컴컴R");
+            uploadToExistingExpPanel.setGenomeReleases(grd);
+        } else {
+            System.out.println("D컴컴컴컴컴컴컴R");
+            uploadToNewExpPanel.setGenomeReleases(grd);
+        }
     }
 
     /**
@@ -362,9 +380,9 @@ public class UploadTab extends JPanel /*implements ExperimentPanel*/ {
             public void run() {
                 running = true;
                 while (running) {
-                    for (File key : newPanel.getFileRows()
+                    for (File key : uploadToNewExpPanel.getFileRows()
                             .keySet()) {
-                        UploadFileRow row = newPanel
+                        UploadFileRow row = uploadToNewExpPanel
                                 .getFileRows().get(key);
                         for (HTTPURLUpload upload : ongoingUploads) {
                             if (upload.getFileName().equals(row.getFileName())) {
@@ -400,7 +418,7 @@ public class UploadTab extends JPanel /*implements ExperimentPanel*/ {
      * @return an ArrayList with the selected files.
      */
     public ArrayList<File> getSelectedFilesToUpload() {
-        return newPanel.getSelectedFilesToUpload();
+        return uploadToNewExpPanel.getSelectedFilesToUpload();
     }
 
     public JButton getExistingExpButton() {

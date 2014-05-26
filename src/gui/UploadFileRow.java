@@ -104,7 +104,7 @@ public class UploadFileRow extends JPanel {
                 }
                 if (typeBox.getSelectedItem().toString().equals("Profile")
                         || typeBox.getSelectedItem().toString()
-                                .equals("Region")) {
+                        .equals("Region")) {
                     ArrayList<String> gr = parent.getGenomeReleases();
                     for(String g : gr) {
                         genome.addItem(g);
@@ -208,6 +208,16 @@ public class UploadFileRow extends JPanel {
      */
     public boolean isSelected() {
         return uploadBox.isSelected();
+    }
+
+    /**
+     * Method returning the chosen genome release
+     * for the current file.
+     *
+     * @return String representing the genome release.
+     */
+    public String getGenomeRelease() {
+        return genome.getSelectedItem().toString();
     }
 
     /**
