@@ -117,7 +117,6 @@ public class ProcessTab extends JPanel {
             "Ratio calculation option");
     private final JButton processFeedbackButton = new JButton(
             "Get process feedback");
-    private JButton addToFileListButton;
     // private final JCheckBox scheduleButton = new JCheckBox(
     // "Schedule files");
     
@@ -357,11 +356,9 @@ public class ProcessTab extends JPanel {
                 renderer.setClosedIcon(null);
                 renderer.setOpenIcon(null);
                 scrollProcessList.setViewportView(tree);
-                addToFileListButton = new JButton("Add to file list");
-                addToFileListButton.setEnabled(false);
-                procInfoSouthPanel.add(addToFileListButton);
                 procInfoSouthPanel.add(Box.createHorizontalStrut(35));
                 procInfoSouthPanel.add(processFeedbackButton);
+                procInfoSouthPanel.add(Box.createHorizontalStrut(35));
             }
         });
     }
@@ -1099,6 +1096,6 @@ public class ProcessTab extends JPanel {
     }
     
     public boolean useRatio() {
-        return useRatio.isSelected();
+        return (useRatio.isEnabled() && useRatio.isSelected());
     }
 }
