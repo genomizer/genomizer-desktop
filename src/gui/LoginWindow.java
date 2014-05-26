@@ -1,6 +1,7 @@
 package gui;
 
 import java.awt.GridBagLayout;
+import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
@@ -16,9 +17,6 @@ import javax.swing.UIManager;
 /**
  * Class for loginwindow. Presents a window that prompts for a username,
  * password and server with port. User authorization
- * 
- * @author
- * 
  */
 public class LoginWindow extends JFrame {
     
@@ -88,7 +86,25 @@ public class LoginWindow extends JFrame {
         loginButton = new JButton("login");
         loginButton.setBounds(10, 110, 80, 25);
         mainPanel.add(loginButton);
-        
+
+        //Add listeners to the JTextFields for if enter/return is pressed.
+        usernameField.addActionListener(new ActionListener() {
+            @Override public void actionPerformed(ActionEvent actionEvent) {
+                loginButton.doClick();
+            }
+        });
+
+        passwordField.addActionListener(new ActionListener() {
+            @Override public void actionPerformed(ActionEvent actionEvent) {
+                loginButton.doClick();
+            }
+        });
+
+        ipField.addActionListener(new ActionListener() {
+            @Override public void actionPerformed(ActionEvent actionEvent) {
+                loginButton.doClick();
+            }
+        });
     }
     
     /**
@@ -98,7 +114,6 @@ public class LoginWindow extends JFrame {
      *            The listener to login to the server
      */
     public void addLoginListener(ActionListener listener) {
-        System.out.println("feddsgdsgdsgds");
         loginButton.addActionListener(listener);
     }
     

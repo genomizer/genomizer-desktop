@@ -173,6 +173,7 @@ public class ProcessTab extends JPanel {
         radioGroup.add(outputSGR);
         radioGroup.add(outputGFF);
         radioGroup.add(outputSAM);
+        radioGroup.setSelected(outputSAM.getModel(), true);
         setComboBoxActionListener(genomeFile);
         setRadioButtonListener(outputSGR);
         setRadioButtonListener(outputGFF);
@@ -766,7 +767,7 @@ public class ProcessTab extends JPanel {
     }
     
     public void setGenomeFileList(GenomeReleaseData[] genomeReleases) {
-        
+        System.out.println("genomreleases: " + genomeReleases);
         genomeFile.removeAllItems();
         if (genomeReleases != null && genomeReleases.length > 0) {
             for (GenomeReleaseData version : genomeReleases) {
@@ -953,8 +954,8 @@ public class ProcessTab extends JPanel {
         
         if (genomeFile.getItemCount() > 0) {
             genomeFile.setEnabled(true);
-        }
-        if (genomeFile.getItemCount() < 0) {
+            flags.setEnabled(true);
+        } else {
             disableAllParameters();
         }
         
@@ -963,7 +964,6 @@ public class ProcessTab extends JPanel {
             outputSGR.setEnabled(true);
             outputGFF.setEnabled(true);
             outputSAM.setEnabled(true);
-            // radioGroup.setSelected(outputSGR.getModel(), true);
         }
         if (outputSGR.isSelected() && outputSGR.isEnabled()) {
             setSmoothingEnabled(true, "10", "5");
@@ -1027,6 +1027,7 @@ public class ProcessTab extends JPanel {
         outputGFF.setEnabled(false);
         outputSAM.setEnabled(false);
         stepSize.setEnabled(false);
+        flags.setEnabled(false);
     }
     
     /**
