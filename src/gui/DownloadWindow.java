@@ -9,13 +9,7 @@ import java.awt.event.WindowEvent;
 import java.util.ArrayList;
 import java.util.concurrent.CopyOnWriteArrayList;
 
-import javax.swing.JButton;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.JProgressBar;
-import javax.swing.JScrollPane;
-import javax.swing.JTable;
+import javax.swing.*;
 
 import util.FileData;
 
@@ -169,9 +163,15 @@ public class DownloadWindow extends JFrame {
         /*
          * Automatically click the download button when the listener has been
          * added to let the user choose where to save the files immediately.
+         * If no files were selected, show a message dialog and close the
+         * DownloadWindow.
          */
         if(files.size() > 0) {
             downloadButton.doClick();
+        } else {
+            JOptionPane.showMessageDialog(null,"No files were selected.");
+            setVisible(false);
+            dispose();
         }
     }
     
