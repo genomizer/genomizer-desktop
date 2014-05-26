@@ -209,6 +209,12 @@ public interface GenomizerView {
     public void addSpeciesSelectedListener(ActionListener listener);
     
     public void setGenomeReleases(GenomeReleaseData[] grd);
+<<<<<<< HEAD
     
     public String getGenomeVersion();
+=======
+
+    public String getGenomeVersion(File f);
+>>>>>>> branch 'dev' of https://github.com/genomizer/genomizer-desktop.git
+    public String getGenomeVersion(File f);
 }

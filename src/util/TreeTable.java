@@ -125,6 +125,28 @@ public class TreeTable extends JPanel {
                         for (JCheckBox checkBox : columnCheckBoxes) {
                             getPopupMenu().add(checkBox);
                         }
+
+                        //Add expand all button with listener.
+                        JButton expandAllButton = new JButton("Expand all");
+                        expandAllButton.addActionListener(new ActionListener() {
+                            @Override public void actionPerformed(
+                                    ActionEvent actionEvent) {
+                                        table.expandAll();
+                            }
+                        });
+                        getPopupMenu().add(expandAllButton);
+
+                        //Add collapse all button with listener.
+                        JButton collapseAllButton = new JButton("Collapse all");
+                        collapseAllButton.addActionListener(
+                                new ActionListener() {
+                            @Override public void actionPerformed(
+                                    ActionEvent actionEvent) {
+                                table.collapseAll();
+                            }
+                        });
+                        getPopupMenu().add(collapseAllButton);
+
                         getPopupMenu().repaint();
                         getPopupMenu().revalidate();
                     }

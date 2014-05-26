@@ -36,13 +36,13 @@ import util.ProcessFeedbackData;
 import communication.HTTPURLUpload;
 
 public class Controller {
-    
+
     private GenomizerView view;
     private GenomizerModel model;
     private final JFileChooser fileChooser = new JFileChooser();
     private SysadminController sysController;
     private boolean abortDeletion;
-    
+
     public Controller(GenomizerView view, GenomizerModel model) {
         abortDeletion = false;
         this.view = view;
@@ -53,7 +53,7 @@ public class Controller {
         view.addOkListener(new OkListener());
         updateView();
     }
-    
+
     private void updateView() {
         view.addRatioCalcListener(new RatioCalcListener());
         view.addSearchListener(new QuerySearchListener());
@@ -81,26 +81,26 @@ public class Controller {
         view.addUploadSelectedFilesListener(new UploadSelectedFilesListener());
         view.addSpeciesSelectedListener(new SpeciesSelectedListener());
     }
-    
+
     class ConvertFileListener implements ActionListener, Runnable {
         @Override
         public void actionPerformed(ActionEvent e) {
             new Thread(this).start();
         }
-        
+
         @Override
         public void run() {
-            
+
             System.out.println("CONVERT");
             System.out.println(view.getAllMarkedFiles());
-            
+
         }
     }
-    
+
     /**
      * The listener to create profile data, Sends a request to the server for
      * every RAW-file that the user wants to create profile data.
-     * 
+     *
      * @author c11ann
      */
     class RawToProfileDataListener implements ActionListener, Runnable {
@@ -108,30 +108,30 @@ public class Controller {
         public void actionPerformed(ActionEvent e) {
             new Thread(this).start();
         }
-        
+
         @Override
         public void run() {
-            
+
             view.setBowtieParameters();
             ArrayList<FileData> allMarked = view.getAllMarkedFiles();
             String message;
             Boolean isConverted;
             if (view.isCorrectToProcess()) {
                 if (!allMarked.isEmpty()) {
-                    
+
                     for (FileData data : allMarked) {
-                        
+
                         String fileName = data.filename;
                         String author = view.getUsername();
                         String parameters[] = new String[8];
-                        
+
                         parameters[0] = view.getParameters()[0];
                         parameters[1] = view.getParameters()[1];
                         parameters[2] = view.getParameters()[2];
                         parameters[3] = view.getParameters()[3];
                         parameters[4] = view.getParameters()[4];
                         parameters[5] = view.getParameters()[5];
-                        
+
                         if (view.useRatio()) {
                             parameters[6] = view.getRatioCalcParameters()[0]; // "single 4 0";
                             parameters[7] = view.getRatioCalcParameters()[1]; // "150 1 7 0 0";
@@ -139,14 +139,14 @@ public class Controller {
                             parameters[6] = "";
                             parameters[7] = "";
                         }
-                        
+
                         String expid = data.expId;
                         String genomeVersion = data.grVersion;
                         String metadata = data.metaData;
-                        
+
                         isConverted = model.rawToProfile(expid, parameters,
                                 metadata, genomeVersion, author);
-                        
+
                         if (isConverted) {
                             message = "The server has started process on file: "
                                     + fileName
@@ -154,7 +154,7 @@ public class Controller {
                                     + expid
                                     + "\n";
                             view.printToConsole(message);
-                            
+
                         } else {
                             message = "WARNING - The server couldn't start processing on file: "
                                     + fileName
@@ -171,12 +171,12 @@ public class Controller {
                 view.printToConsole(message);
             }
         }
-        
+
     }
-    
+
     /**
      * The listener to create region data,
-     * 
+     *
      * @author c11ann
      */
     class RawToRegionDataListener implements ActionListener, Runnable {
@@ -184,20 +184,20 @@ public class Controller {
         public void actionPerformed(ActionEvent e) {
             new Thread(this).start();
         }
-        
+
         @Override
         public void run() {
-            
+
             System.out.println("RAW TO REGION");
             System.out.println(view.getAllMarkedFiles());
-            
+
         }
     }
-    
+
     /**
      * Listener thats keeps track of which files that the user wants to
      * schedule.
-     * 
+     *
      * @author c11ann
      */
     class ScheduleFileListener implements ActionListener, Runnable {
@@ -205,22 +205,22 @@ public class Controller {
         public void actionPerformed(ActionEvent e) {
             new Thread(this).start();
         }
-        
+
         @Override
         public void run() {
-            
+
             System.out.println("SCHEDULEING FILE");
             System.out.println(view.getAllMarkedFiles());
-            
+
         }
     }
-    
+
     class ProcessFileListener implements ActionListener, Runnable {
         @Override
         public void actionPerformed(ActionEvent e) {
             new Thread(this).start();
         }
-        
+
         @Override
         public void run() {
             System.out.println("Process");
@@ -238,13 +238,13 @@ public class Controller {
             view.setProcessFileList(selectedFiles);
         }
     }
-    
+
     class LoginListener implements ActionListener, Runnable {
         @Override
         public void actionPerformed(ActionEvent e) {
             new Thread(this).start();
         }
-        
+
         @Override
         public void run() {
             model.setGenomizerView(view);
@@ -259,24 +259,24 @@ public class Controller {
             }
         }
     }
-    
+
     class QuerySearchListener implements ActionListener, Runnable {
         public void actionPerformed(ActionEvent e) {
             new Thread(this).start();
         }
-        
+
         @Override
         public void run() {
             String pubmed = view.getQuerySearchString();
             ArrayList<ExperimentData> searchResults = model.search(pubmed);
             if (searchResults != null) {
                 view.updateQuerySearchResults(searchResults);
-                
+
                 // If search results are null and the active panel is search
             } else if (view.getActiveSearchPanel() == ActiveSearchPanel.SEARCH) {
                 JOptionPane.showMessageDialog(null, "No search results!",
                         "Search Warning", JOptionPane.WARNING_MESSAGE);
-                
+
                 // If search results are null and the active panel is table
             } else if (view.getActiveSearchPanel() == ActiveSearchPanel.TABLE) {
                 // Go back to the query search
@@ -284,13 +284,13 @@ public class Controller {
             }
         }
     }
-    
+
     class LogoutListener implements ActionListener, Runnable {
         @Override
         public void actionPerformed(ActionEvent e) {
             new Thread(this).start();
         }
-        
+
         @Override
         public void run() {
             model.logoutUser();
@@ -298,22 +298,22 @@ public class Controller {
             view.updateLogout();
             view.resetGUI();
             updateView();
-            
+
         }
     }
-    
+
     /**
      * Listener for when the download button in workspace is clicked. Opens a
      * DownloadWindow with the selected files.
      */
     class DownloadWindowListener implements ActionListener, Runnable {
-        
+
         @Override
         public void actionPerformed(ActionEvent actionEvent) {
-            
+
             new Thread(this).start();
         }
-        
+
         @Override
         public void run() {
             // Skicka med arraylist<FileData> för de filer som ska nerladdas
@@ -333,22 +333,22 @@ public class Controller {
             downloadWindow.addDownloadFileListener(new DownloadFileListener());
         }
     }
-    
+
     /**
      * Listener for when the download button in the download window is clicked.
      * Opens a file chooser.
      */
     class DownloadFileListener implements ActionListener, Runnable {
-        
+
         @Override
         public void actionPerformed(ActionEvent actionEvent) {
-            
+
             new Thread(this).start();
         }
-        
+
         @Override
         public void run() {
-            
+
             DownloadWindow downloadWindow = view.getDownloadWindow();
             ArrayList<FileData> fileData = downloadWindow.getFiles();
             fileChooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
@@ -365,7 +365,7 @@ public class Controller {
             } else {
                 return;
             }
-            
+
             for (FileData data : fileData) {
                 System.out.println(data.url);
                 model.downloadFile(data.url, data.id, directoryName + "/"
@@ -373,15 +373,15 @@ public class Controller {
             }
         }
     }
-    
+
     class AddToExistingExpButtonListener implements ActionListener, Runnable {
-        
+
         @Override
         public void actionPerformed(ActionEvent actionEvent) {
-            
+
             new Thread(this).start();
         }
-        
+
         @Override
         public void run() {
             UploadTab uploadTab = view.getUploadTab();
@@ -389,7 +389,24 @@ public class Controller {
             if (expID.length() > 0) {
                 try {
                     ExperimentData ed = model.retrieveExperiment(expID);
-                    uploadTab.addExistingExpPanel(ed);
+                    String species = null;
+                    boolean existingSpecies = false;
+                    for(AnnotationDataValue adv : ed.getAnnotations()) {
+                        if(adv.getName().equalsIgnoreCase("species")) {
+                            species = adv.getValue();
+                            existingSpecies = true;
+                        }
+
+                    }
+                    if(existingSpecies) {
+                        uploadTab.addExistingExpPanel(ed);
+                        GenomeReleaseData[] grd = model.getSpeciesGenomeReleases(species);
+                        view.setGenomeReleases(grd);
+                    } else {
+                        JOptionPane.showMessageDialog(null,
+                                "Missing species in experiment.", "ERROR",
+                                JOptionPane.ERROR_MESSAGE);
+                    }
                 } catch (NullPointerException e) {
                     JOptionPane.showMessageDialog(null,
                             "Couldn't find or retrieve experiment", "ERROR",
@@ -402,14 +419,14 @@ public class Controller {
             }
         }
     }
-    
+
     class SelectFilesToUploadButtonListener implements ActionListener, Runnable {
         @Override
         public void actionPerformed(ActionEvent actionEvent) {
-            
+
             new Thread(this).start();
         }
-        
+
         @Override
         public void run() {
             fileChooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
@@ -421,7 +438,7 @@ public class Controller {
             } else {
                 return;
             }
-            
+
             UploadToExistingExpPanel uploadToExistingExpPanel = view
                     .getUploadTab().getUploadToExistingExpPanel();
             uploadToExistingExpPanel.createUploadFileRow(files);
@@ -429,15 +446,15 @@ public class Controller {
             uploadToExistingExpPanel.addFileDrop();
         }
     }
-    
+
     class UploadToExperimentButtonListener implements ActionListener, Runnable {
-        
+
         @Override
         public void actionPerformed(ActionEvent actionEvent) {
-            
+
             new Thread(this).start();
         }
-        
+
         @Override
         public void run() {
             ArrayList<File> files = view.getUploadTab()
@@ -446,13 +463,13 @@ public class Controller {
                     .getUploadToExistingExpPanel().getTypes();
             // Should be genome release from uploadTab
             // String release = "wk1m";
-            
+
             ExperimentData ed = view.getUploadTab()
                     .getUploadToExistingExpPanel().getExperiment();
-            
+
             for (File f : files) {
                 if (model.uploadFile(ed.getName(), f, types.get(f.getName()),
-                        view.getUsername(), false, view.getGenomeVersion())) {
+                        view.getUsername(), false, view.getGenomeVersion(f))) {
                     view.getUploadTab().getUploadToExistingExpPanel()
                             .deleteFileRow(f);
                     if (view.getUploadTab().getUploadToExistingExpPanel()
@@ -475,15 +492,15 @@ public class Controller {
             }
         }
     }
-    
+
     class updateSearchAnnotationsListener implements ActionListener, Runnable {
-        
+
         @Override
         public void actionPerformed(ActionEvent actionEvent) {
-            
+
             new Thread(this).start();
         }
-        
+
         @Override
         public void run() {
             AnnotationDataType[] annotations = model.getAnnotations();
@@ -492,15 +509,15 @@ public class Controller {
             }
         }
     }
-    
+
     class SearchToWorkspaceListener implements ActionListener, Runnable {
-        
+
         @Override
         public void actionPerformed(ActionEvent actionEvent) {
-            
+
             new Thread(this).start();
         }
-        
+
         @Override
         public void run() {
             ArrayList<ExperimentData> selectedData = view
@@ -509,31 +526,31 @@ public class Controller {
                 view.addToWorkspace(view.getSelectedDataInSearch());
             }
         }
-        
+
     }
-    
+
     class NewExpButtonListener implements ActionListener, Runnable {
-        
+
         @Override
         public void actionPerformed(ActionEvent actionEvent) {
-            
+
             new Thread(this).start();
         }
-        
+
         @Override
         public void run() {
             AnnotationDataType[] annotations = model.getAnnotations();
             view.createNewExp(annotations);
         }
     }
-    
+
     class SelectFilesToNewExpListener implements ActionListener, Runnable {
-        
+
         @Override
         public void actionPerformed(ActionEvent e) {
             new Thread(this).start();
         }
-        
+
         @Override
         public void run() {
             fileChooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
@@ -552,14 +569,14 @@ public class Controller {
             view.enableUploadButton(true);
         }
     }
-    
+
     class UploadNewExpListener implements ActionListener, Runnable {
-        
+
         @Override
         public void actionPerformed(ActionEvent e) {
             new Thread(this).start();
         }
-        
+
         @Override
         public void run() {
             String expName = view.getNewExpName();
@@ -580,9 +597,10 @@ public class Controller {
                     for (File f : files) {
                         view.disableSelectedRow(f);
                         System.out.println(f.getName());
+                        System.out.println(view.getGenomeVersion(f));
                         if (model.uploadFile(expName, f,
                                 types.get(f.getName()), view.getUsername(),
-                                false, view.getGenomeVersion())) {
+                                false, view.getGenomeVersion(f))) {
                             view.deleteUploadFileRow(f);
                             for (HTTPURLUpload upload : model
                                     .getOngoingUploads()) {
@@ -605,14 +623,14 @@ public class Controller {
             }
         }
     }
-    
+
     class UploadToListener implements ActionListener, Runnable {
-        
+
         @Override
         public void actionPerformed(ActionEvent e) {
             new Thread(this).start();
         }
-        
+
         @Override
         public void run() {
             try {
@@ -629,19 +647,19 @@ public class Controller {
             }
         }
     }
-    
+
     private void fileListAddMouseListener(JList fileList) {
         fileList.addMouseListener(new MouseAdapter() {
             String species = "";
             int count = 0;
-            
+
             @Override
             public void mouseClicked(MouseEvent event) {
                 JList list = (JList) event.getSource();
                 // String specie = "";
                 if (list.getModel().getSize() > 0) {
                     int index = list.locationToIndex(event.getPoint());
-                    
+
                     CheckListItem item = (CheckListItem) list.getModel()
                             .getElementAt(index);
                     if (count == 0) {
@@ -651,9 +669,9 @@ public class Controller {
                         species = item.getSpecie();
                     }
                     if (item.getSpecie().equals(species)) {
-                        
+
                         item.setSelected(!item.isSelected());
-                        
+
                         GenomeReleaseData[] genome = model
                                 .getSpeciesGenomeReleases(item.getSpecie());
                         if (view.getAllMarkedFiles().isEmpty()) {
@@ -661,7 +679,7 @@ public class Controller {
                         } else {
                             view.setGenomeFileList(genome);
                         }
-                        
+
                         if (item.isSelected()) {
                             count++;
                         } else {
@@ -673,13 +691,13 @@ public class Controller {
             }
         });
     }
-    
+
     class RatioCalcListener implements ActionListener, Runnable {
         @Override
         public void actionPerformed(ActionEvent e) {
             new Thread(this).start();
         }
-        
+
         @Override
         public void run() {
             System.out.println("RATIO CALC");
@@ -687,13 +705,13 @@ public class Controller {
             view.showRatioPopup();
         }
     }
-    
+
     class ProcessFeedbackListener implements ActionListener, Runnable {
         @Override
         public void actionPerformed(ActionEvent e) {
             new Thread(this).start();
         }
-        
+
         @Override
         public void run() {
             ProcessFeedbackData[] processFeedbackData = model
@@ -703,13 +721,13 @@ public class Controller {
             }
         }
     }
-    
+
     class DeleteFromDatabaseListener implements ActionListener, Runnable {
         @Override
         public void actionPerformed(ActionEvent e) {
             new Thread(this).start();
         }
-        
+
         @Override
         public void run() {
             int i = -1;
@@ -765,13 +783,13 @@ public class Controller {
             }
         }
     }
-    
+
     class OkListener implements ActionListener, Runnable {
         @Override
         public void actionPerformed(ActionEvent e) {
             new Thread(this).start();
         }
-        
+
         @Override
         public void run() {
             System.out.println("ok");
@@ -783,31 +801,31 @@ public class Controller {
                 view.setProfileButton(false);
             }
         }
-        
+
     }
-    
+
     class CancelListener implements ActionListener, Runnable {
         @Override
         public void actionPerformed(ActionEvent e) {
             new Thread(this).start();
         }
-        
+
         @Override
         public void run() {
-            
+
             System.out.println("CANCEL");
             view.setUnusedRatioPar();
             view.getRatioCalcPopup().hideRatioWindow();
         }
     }
-    
+
     class UploadSelectedFilesListener implements ActionListener, Runnable {
-        
+
         @Override
         public void actionPerformed(ActionEvent arg0) {
             new Thread(this).start();
         }
-        
+
         @Override
         public void run() {
             String expName = view.getNewExpName();
@@ -830,7 +848,7 @@ public class Controller {
                         view.disableSelectedRow(f);
                         if (model.uploadFile(expName, f,
                                 types.get(f.getName()), view.getUsername(),
-                                false, view.getGenomeVersion())) {
+                                false, view.getGenomeVersion(f))) {
                             view.deleteUploadFileRow(f);
                             for (HTTPURLUpload upload : model
                                     .getOngoingUploads()) {
@@ -857,13 +875,13 @@ public class Controller {
             }
         }
     }
-    
+
     class SpeciesSelectedListener implements ActionListener, Runnable {
         @Override
         public void actionPerformed(ActionEvent e) {
             new Thread(this).start();
         }
-        
+
         @Override
         public void run() {
             String species = view.getSelectedSpecies();
