@@ -78,17 +78,16 @@ public class DownloadHandler {
                 System.out.println("Binary file");
                 System.out.println(conn.getContentLength());
                 byte[] buff = new byte[conn.getContentLength() + 1];
-                int total = 0;
                 int count = in.read(buff, 0, conn.getContentLength());
-                total += count;
+                totalDownload += count;
                 fileOut.write(buff, 0, count);
                 while ((count = in.read(buff)) != -1 && !isFinished()) {
-                    total += count;
+                    totalDownload += count;
                     if (count > 0) {
                         fileOut.write(buff, 0, count);
                     }
                 }
-                System.out.println("Size: " + total + " Expected: " + conn.getContentLength());
+                System.out.println("Size: " + totalDownload + " Expected: " + conn.getContentLength());
             }
             in.close();
             fileOut.close();
@@ -119,7 +118,7 @@ public class DownloadHandler {
     }
 
     public int getCurrentProgress() {
-        return totalDownload;
+            return totalDownload;
     }
 
     public int getCurrentSpeed() {

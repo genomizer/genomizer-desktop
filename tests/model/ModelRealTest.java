@@ -1,6 +1,5 @@
 package model;
 
-import org.junit.Before;
 import org.junit.Test;
 import util.AnnotationDataType;
 import util.AnnotationDataValue;
@@ -62,7 +61,6 @@ public class ModelRealTest {
         assertThat(m2.search(expid + "[ExpID]")).isNull();
         assertThat(m2.addNewExperiment(expid, values)).isTrue();
         assertThat(m2.uploadFile(expid, file, "Profile", "genomizer", false, "fb5")).isTrue();
-        // SEARCH IS WRONG SOMEHOW
         ArrayList<ExperimentData> data = m2.search(expid + "[ExpID]");
         assertThat(data).isNotNull();
         for(FileData fileData: data.get(0).files) {
