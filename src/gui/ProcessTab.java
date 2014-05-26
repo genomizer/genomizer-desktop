@@ -71,7 +71,7 @@ public class ProcessTab extends JPanel {
     /* Byts mot consolePanel */private final JPanel middlePanel = new JPanel(
             new GridLayout(1, 1));
     /* Byts mot filesPanel */private final JPanel westPanel = new JPanel(
-            new GridLayout(1, 1));
+            new BorderLayout());
     
     /* Bytnamn */private final JPanel flagsPanel = new JPanel();
     /* Bytnamn */private final JPanel genomeReleasePanel = new JPanel();
@@ -117,6 +117,8 @@ public class ProcessTab extends JPanel {
             "Ratio calculation option");
     private final JButton processFeedbackButton = new JButton(
             "Get process feedback");
+    private final JButton deleteButton = new JButton("Delete selected");
+    // private final JButton selectButton = new JButton("Select all");
     // private final JCheckBox scheduleButton = new JCheckBox(
     // "Schedule files");
     
@@ -235,7 +237,7 @@ public class ProcessTab extends JPanel {
     private void addWestPanels() {
         
         this.add(westPanel, BorderLayout.WEST);
-        filesPanel.setBorder(BorderFactory.createTitledBorder("Files"));
+        westPanel.setBorder(BorderFactory.createTitledBorder("Files"));
         addFilesScheduleToWestPanel();
         // addScheduleProcPanel();
         
@@ -414,6 +416,7 @@ public class ProcessTab extends JPanel {
     private void addTimePanel() {
         this.add(timePanel, BorderLayout.SOUTH);
         timePanel.setPreferredSize(new Dimension(300, 30));
+        
     }
     
     /**
@@ -445,6 +448,10 @@ public class ProcessTab extends JPanel {
     private void addFilesScheduleToWestPanel() {
         westPanel.add(filesPanel);
         filesPanel.add(scrollFiles);
+        JPanel removePanel = new JPanel(new FlowLayout());
+        // removePanel.add(selectButton);
+        removePanel.add(deleteButton);
+        westPanel.add(removePanel, BorderLayout.SOUTH);
         
         scrollFiles.setViewportView(fileList);
         // westPanel.add(scheduleProcPanel);
@@ -834,10 +841,13 @@ public class ProcessTab extends JPanel {
      * 
      * @param allFileData
      */
-    public void setFileInfo(ArrayList<FileData> allFileData,
-            ArrayList<ExperimentData> experimentData) {
+    public void setFileInfo(ArrayList<ExperimentData> experimentData) {
         this.experimentData = experimentData;
         parseFileData();
+    }
+    
+    public ArrayList<ExperimentData> getFileInfo() {
+        return this.experimentData;
     }
     
     public void setDefaultRatioPar() {
@@ -944,6 +954,10 @@ public class ProcessTab extends JPanel {
     
     public void addRatioCalcListener(ActionListener listener) {
         ratioCalcButton.addActionListener(listener);
+    }
+    
+    public void addDeleteSelectedListener(ActionListener listener) {
+        deleteButton.addActionListener(listener);
     }
     
     public void showProcessFeedback(ProcessFeedbackData[] processFeedbackData) {
@@ -1097,5 +1111,9 @@ public class ProcessTab extends JPanel {
     
     public boolean useRatio() {
         return (useRatio.isEnabled() && useRatio.isSelected());
+    }
+    
+    public void selectAll() {
+        
     }
 }

@@ -49,7 +49,7 @@ public class Controller {
         this.model = model;
         view.addLoginListener(new LoginListener());
         view.addLogoutListener(new LogoutListener());
-        view.addCancelListener(new CancelListener());
+        // view.addCancelListener(new CancelListener());
         view.addOkListener(new OkListener());
         updateView();
     }
@@ -80,6 +80,7 @@ public class Controller {
         view.setOngoingUploads(model.getOngoingUploads());
         view.addUploadSelectedFilesListener(new UploadSelectedFilesListener());
         view.addSpeciesSelectedListener(new SpeciesSelectedListener());
+        view.addDeleteSelectedListener(new DeleteSelectedListener());
     }
     
     class ConvertFileListener implements ActionListener, Runnable {
@@ -116,7 +117,7 @@ public class Controller {
             ArrayList<FileData> allMarked = view.getAllMarkedFiles();
             String message;
             Boolean isConverted;
-            if (view.isCorrectToProcess()) {
+            if (view.isCorrectToProcess() && view.isRatioCorrectToProcess()) {
                 if (!allMarked.isEmpty()) {
                     
                     for (FileData data : allMarked) {
@@ -155,7 +156,7 @@ public class Controller {
                                     + fileName
                                     + " from experiment: "
                                     + expid
-                                    + "\n";
+                                    + "\n\n";
                             view.printToConsole(message);
                             
                         } else {
@@ -163,14 +164,27 @@ public class Controller {
                                     + fileName
                                     + " from experiment: "
                                     + expid
-                                    + "\n";
+                                    + "\n\n";
                             view.printToConsole(message);
                         }
                     }
                 }
             } else {
                 // TODO Popup window
-                message = "Parameters are invalid!\n";
+                message = "Parameters are invalid!: \n";
+                message = message.concat("Window size must be >= 0\n");
+                message = message.concat("Step position must be >= 0\n");
+                message = message.concat("Step size must be > 0\n");
+                
+                message = message
+                        .concat("Ratio calculation Input reads cut-off must be >= 0\n");
+                message = message
+                        .concat("Ratio calculation Chromosomes must be >= 0\n");
+                message = message
+                        .concat("Ratio calculation Window size must be > 0\n");
+                message = message
+                        .concat("Ratio calculation Step position must be >= 0\n\n");
+                
                 view.printToConsole(message);
             }
         }
@@ -528,6 +542,14 @@ public class Controller {
                     .getSelectedDataInSearch();
             if (selectedData != null && selectedData.size() > 0) {
                 view.addToWorkspace(view.getSelectedDataInSearch());
+                if(selectedData.size()==1) {
+                    JOptionPane.showMessageDialog(null, "Added experiment \"" +
+                            selectedData.get(0).getName() +
+                            "\" to the workspace.");
+                } else {
+                    JOptionPane.showMessageDialog(null, "Added experiments to" +
+                            " the workspace.");
+                }
             }
         }
         
@@ -705,7 +727,7 @@ public class Controller {
         @Override
         public void run() {
             System.out.println("RATIO CALC");
-            view.getRatioCalcPopup().setDefaultRatioPar();
+            // view.getRatioCalcPopup().setDefaultRatioPar();
             view.showRatioPopup();
         }
     }
@@ -796,32 +818,22 @@ public class Controller {
         
         @Override
         public void run() {
-            System.out.println("ok");
-            if (view.isRatioCorrectToProcess()) {
-                view.setProfileButton(true);
-                System.out.println("OK");
-                view.getRatioCalcPopup().hideRatioWindow();
-            } else {
-                view.setProfileButton(false);
-            }
+            view.getRatioCalcPopup().hideRatioWindow();
         }
         
     }
     
-    class CancelListener implements ActionListener, Runnable {
-        @Override
-        public void actionPerformed(ActionEvent e) {
-            new Thread(this).start();
-        }
-        
-        @Override
-        public void run() {
-            
-            System.out.println("CANCEL");
-            // view.setUnusedRatioPar();
-            view.getRatioCalcPopup().hideRatioWindow();
-        }
-    }
+    /*
+     * class CancelListener implements ActionListener, Runnable {
+     * 
+     * @Override public void actionPerformed(ActionEvent e) { new
+     * Thread(this).start(); }
+     * 
+     * @Override public void run() {
+     * 
+     * System.out.println("CANCEL"); // view.setUnusedRatioPar();
+     * view.getRatioCalcPopup().hideRatioWindow(); } }
+     */
     
     class UploadSelectedFilesListener implements ActionListener, Runnable {
         
@@ -892,6 +904,27 @@ public class Controller {
             GenomeReleaseData[] grd = model.getSpeciesGenomeReleases(species);
             view.setGenomeReleases(grd);
             System.out.println("HEJ DANIEL");
+        }
+    }
+    
+    class DeleteSelectedListener implements ActionListener, Runnable {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            new Thread(this).start();
+        }
+        
+        @Override
+        public void run() {
+            
+            System.out.println("Delete");
+            
+            ArrayList<FileData> markedFiles = view.getAllMarkedFiles();
+            ArrayList<ExperimentData> exData = view.getFileInfo();
+            
+            for (ExperimentData data : exData) {
+                data.files.removeAll(markedFiles);
+            }
+            view.setFileInfo(exData);
         }
     }
 }
