@@ -36,7 +36,7 @@ public class UploadToNewExpPanel extends JPanel implements ExperimentPanel {
     private HashMap<String, JComboBox> annotationBoxes;
     private HashMap<String, JTextField> annotationFields;
     private ArrayList<String> annotationHeaders;
-    private JPanel /* uploadPanel, */uploadFilesPanel, newExpPanel,
+    private JPanel uploadFilesPanel, newExpPanel,
             buttonsPanel, uploadBackground;
     private JButton uploadButton, uploadSelectedBtn, selectButton;
     private AnnotationDataType[] annotations;
@@ -105,19 +105,25 @@ public class UploadToNewExpPanel extends JPanel implements ExperimentPanel {
         if(genome.size() > 0) {
             genome.clear();
         }
-        for(GenomeReleaseData g : grd) {
-            genome.add(g.getVersion());
+        if(grd.length > 0) {
+            for(GenomeReleaseData g : grd) {
+                try {
+                    genome.add(g.getVersion());
+                } catch (NullPointerException e) {
+                    System.out.println("Couldn't find genome version.");
+                }
+            }
+            if(genome.size() > 0) {
+                for(File f : uploadFileRows.keySet()) {
+                    uploadFileRows.get(f).resetType();
+                }
+            }
         }
     }
 
     public ArrayList<String> getGenomeReleases() {
         return genome;
     }
-
-//    public String getGenomeVersion() {
-////        return genome.getSelectedItem().toString();
-//        return null;
-//    }
 
     /**
      * Method adding a listener to the "selectButton".
@@ -288,16 +294,6 @@ public class UploadToNewExpPanel extends JPanel implements ExperimentPanel {
                 x++;
             }
         }
-//        gbc.anchor = GridBagConstraints.WEST;
-//        gbc.insets = new Insets(5, 0, 5, 30);
-//        gbc.gridx = x;
-//        gbc.gridy = y;
-//        JPanel gr = new JPanel(new BorderLayout());
-//        genomeLabel.setText("<html><b>Genome release</b></html>");
-//        genomeLabel.setToolTipText("Bold indicates a forced annotation");
-//        gr.add(genomeLabel, BorderLayout.NORTH);
-//        gr.add(genome, BorderLayout.CENTER);
-//        newExpPanel.add(gr, gbc);
     }
 
     /**
@@ -337,9 +333,6 @@ public class UploadToNewExpPanel extends JPanel implements ExperimentPanel {
             enableUploadButton(false);
         }
         buttonsPanel.add(selectButton);
-        // buttonsPanel.add(Box.createHorizontalStrut(20));
-        // (orsakar att knapparna flyttar mer och mer åt höger efter varje
-        // repaint)
         buttonsPanel.add(uploadSelectedBtn);
         buttonsPanel.add(uploadButton);
         uploadFilesPanel.add(buttonsPanel);

@@ -109,7 +109,13 @@ public class UploadFileRow extends JPanel {
                     for(String g : gr) {
                         genome.addItem(g);
                     }
-                    genome.setEnabled(true);
+                    if(genome.getItemCount() > 0) {
+                        System.out.println(typeBox.getSelectedItem().toString());
+                        genome.setEnabled(true);
+                        typeBox.setSelectedItem(typeBox.getSelectedItem());
+                    } else {
+                        genome.setEnabled(false);
+                    }
                 } else if (typeBox.getSelectedItem().toString().equals("Raw")) {
                     genome.addItem("No GR");
                     genome.setEnabled(false);
@@ -242,5 +248,9 @@ public class UploadFileRow extends JPanel {
         public void run() {
             parent.deleteFileRow(file);
         }
+    }
+
+    public void resetType() {
+        typeBox.setSelectedItem(typeBox.getSelectedItem());
     }
 }

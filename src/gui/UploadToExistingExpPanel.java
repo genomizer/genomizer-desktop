@@ -213,7 +213,7 @@ public class UploadToExistingExpPanel extends JPanel implements ExperimentPanel 
             gbc.gridx = x;
             gbc.gridy = y;
             JPanel p = new JPanel(new BorderLayout());
-            if(adv.getName().equalsIgnoreCase("species")) {
+            if (adv.getName().equalsIgnoreCase("species")) {
                 species = adv.getValue();
             }
             JLabel annotationHeader = new JLabel(adv.getName());
@@ -264,18 +264,24 @@ public class UploadToExistingExpPanel extends JPanel implements ExperimentPanel 
     }
 
     public String getGenomeVersion(File f) {
-        if(uploadFileRows.containsKey(f)) {
+        if (uploadFileRows.containsKey(f)) {
             return uploadFileRows.get(f).getGenomeRelease();
         }
         return null;
     }
 
     public void setGenomeReleases(GenomeReleaseData[] grd) {
-        if(genome.size() > 0) {
+        if (genome.size() > 0) {
             genome.clear();
         }
-        for(GenomeReleaseData g : grd) {
-            genome.add(g.getVersion());
+        if (grd.length > 0) {
+            for (GenomeReleaseData g : grd) {
+                try {
+                    genome.add(g.getVersion());
+                } catch (NullPointerException e) {
+                    System.out.println("Couldn't find genome version.");
+                }
+            }
         }
     }
 
