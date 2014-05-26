@@ -708,8 +708,10 @@ public class GUI extends JFrame implements GenomizerView {
     }
     
     public boolean isCorrectToProcess() {
+        boolean sgrFormat = processTab.radioGroup
+                .isSelected(processTab.outputSGR.getModel());
         return process.isCorrectToProcess(processTab.smoothWindowSize,
-                processTab.stepPosition, processTab.stepSize);
+                processTab.stepPosition, processTab.stepSize, sgrFormat);
     }
     
     public boolean isRatioCorrectToProcess() {
@@ -750,11 +752,11 @@ public class GUI extends JFrame implements GenomizerView {
     }
     
     public void setGenomeReleases(GenomeReleaseData[] grd) {
-        uploadTab.getNewExpPanel().setGenomeReleases(grd);
+        uploadTab.setGenomeReleases(grd);
     }
-    
-    public String getGenomeVersion() {
-        return uploadTab.getNewExpPanel().getGenomeVersion();
+
+    public String getGenomeVersion(File f) {
+        return uploadTab.getGenomeVersion(f);
     }
     
     public void resetGUI() {

@@ -15,6 +15,7 @@ import javax.swing.JTextField;
 import util.AnnotationDataValue;
 import util.ExperimentData;
 import util.FileDrop;
+import util.GenomeReleaseData;
 
 public class UploadToExistingExpPanel extends JPanel implements ExperimentPanel {
 
@@ -22,6 +23,8 @@ public class UploadToExistingExpPanel extends JPanel implements ExperimentPanel 
     private JPanel northPanel, centerPanel, uploadFilesPanel, buttonsPanel;
     private HashMap<File, UploadFileRow> uploadFileRows;
     private ExperimentData ed;
+    private ArrayList<String> genome;
+    private String species;
 
     /**
      * Initiates an uploadToExistingExpPanel with its standard buttons and
@@ -32,6 +35,7 @@ public class UploadToExistingExpPanel extends JPanel implements ExperimentPanel 
         selectFilesToUploadButton = new JButton("Browse for files");
         uploadFilesToExperimentButton = new JButton("Upload files");
         uploadFileRows = new HashMap<>();
+        genome = new ArrayList<String>();
 
         northPanel = new JPanel(new BorderLayout());
         centerPanel = new JPanel(new BorderLayout());
@@ -209,6 +213,9 @@ public class UploadToExistingExpPanel extends JPanel implements ExperimentPanel 
             gbc.gridx = x;
             gbc.gridy = y;
             JPanel p = new JPanel(new BorderLayout());
+            if(adv.getName().equalsIgnoreCase("species")) {
+                species = adv.getValue();
+            }
             JLabel annotationHeader = new JLabel(adv.getName());
             font = annotationHeader.getFont();
             boldFont = new Font(font.getFontName(), Font.BOLD, font.getSize());
@@ -256,8 +263,23 @@ public class UploadToExistingExpPanel extends JPanel implements ExperimentPanel 
         });
     }
 
-    //FIXA
-    public ArrayList<String> getGenomeReleases() {
+    public String getGenomeVersion(File f) {
+        if(uploadFileRows.containsKey(f)) {
+            return uploadFileRows.get(f).getGenomeRelease();
+        }
         return null;
+    }
+
+    public void setGenomeReleases(GenomeReleaseData[] grd) {
+        if(genome.size() > 0) {
+            genome.clear();
+        }
+        for(GenomeReleaseData g : grd) {
+            genome.add(g.getVersion());
+        }
+    }
+
+    public ArrayList<String> getGenomeReleases() {
+        return genome;
     }
 }

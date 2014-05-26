@@ -756,6 +756,31 @@ public class ProcessTab extends JPanel {
         
     }
     
+    public String[] getRegularParameters() {
+        
+        String[] parameters = new String[7];
+        parameters[0] = getTextFromFlags();
+        parameters[1] = getTextGenomeFileName();
+        if (outputGFF.isSelected()) {
+            parameters[2] = "y";
+        } else {
+            parameters[2] = "";
+        }
+        if (outputSGR.isSelected()) {
+            parameters[3] = "y";
+        } else {
+            parameters[3] = "";
+        }
+        
+        parameters[4] = getSmoothingParameters();
+        parameters[5] = getStepSize();
+        parameters[6] = "";
+        if (stepSizeBox.isSelected()) {
+            parameters[6] = stepSize.getText();
+        }
+        return null;
+    }
+    
     /**
      * Sets the genomeReleaseFiles list, Retrieves all genome files a specific
      * species has.

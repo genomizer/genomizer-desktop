@@ -209,5 +209,5 @@ public interface GenomizerView {
 
     public void setGenomeReleases(GenomeReleaseData[] grd);
 
-    public String getGenomeVersion();
+    public String getGenomeVersion(File f);
 }

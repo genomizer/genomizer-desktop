@@ -113,10 +113,11 @@ public class UploadToNewExpPanel extends JPanel implements ExperimentPanel {
     public ArrayList<String> getGenomeReleases() {
         return genome;
     }
-    public String getGenomeVersion() {
-//        return genome.getSelectedItem().toString();
-        return null;
-    }
+
+//    public String getGenomeVersion() {
+////        return genome.getSelectedItem().toString();
+//        return null;
+//    }
 
     /**
      * Method adding a listener to the "selectButton".
@@ -496,6 +497,16 @@ public class UploadToNewExpPanel extends JPanel implements ExperimentPanel {
             }
         }
         return files;
+    }
+
+    /**
+     *
+     */
+    public String getGenomeVersion(File f) {
+        if(uploadFileRows.containsKey(f)) {
+            return uploadFileRows.get(f).getGenomeRelease();
+        }
+        return null;
     }
 
     /**
