@@ -14,26 +14,19 @@ import java.net.URL;
 public class DownloadHandler {
 
     private HttpURLConnection conn;
-    private String username;
-    private String password;
+    private String userID;
     private String fileName;
     private boolean finished;
     private int totalDownload;
     private int perSecond;
 
-    public DownloadHandler(String username, String password, String fileName) {
-        this.username = username;
-        this.password = password;
+    public DownloadHandler(String userID, String fileName) {
+        this.userID = userID;
         this.fileName = fileName;
     }
 
     public boolean download(String url, String localFilePath) {
         try {
-            // Use this url in the real version. vvv
-            /*
-             * URL targetUrl = new URL(
-             * "http://scratchy.cs.umu.se:8090/html/download.php?path=" + url);
-             */
             File file = new File(localFilePath);
             if (file.isFile()) {
                 fileName = file.getName();
@@ -41,13 +34,13 @@ public class DownloadHandler {
             url = url.replaceFirst("\\u003d", "=");
 
             URL targetUrl = new URL(url);
-            String authString = username + ":" + password;
+            /*String authString = userID;
             byte[] authEncBytes = Base64.encodeBase64(authString.getBytes());
-            String authStringEnc = new String(authEncBytes);
+            String authStringEnc = new String(authEncBytes);*/
             conn = (HttpURLConnection) targetUrl.openConnection();
             conn.setRequestMethod("GET");
             conn.setRequestProperty("Content-Type", "text/plain");
-            conn.setRequestProperty("Authorization", "Basic " + authStringEnc);
+            conn.setRequestProperty("Authorization", userID);
             int responseCode;
             responseCode = conn.getResponseCode();
             if (responseCode != 200) {

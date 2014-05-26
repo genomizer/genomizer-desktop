@@ -9,7 +9,6 @@ import java.awt.event.WindowEvent;
 import java.util.ArrayList;
 import java.util.concurrent.CopyOnWriteArrayList;
 
-import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -19,7 +18,6 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 
 import util.FileData;
-import util.IconFactory;
 
 import communication.DownloadHandler;
 
@@ -27,14 +25,11 @@ public class DownloadWindow extends JFrame {
     
     private static final long serialVersionUID = -7647204230941649167L;
     private JPanel mainPanel;
-    private JPanel tablePanel;
     private JPanel ongoingPanel;
-    private JTable table;
     private JButton downloadButton;
     private ArrayList<FileData> files;
     private CopyOnWriteArrayList<DownloadHandler> ongoingDownloads;
     private boolean running;
-    private ImageIcon stopIcon;
     
     /**
      * Initiates a new DownloadWindow with the files it receives.
@@ -44,12 +39,11 @@ public class DownloadWindow extends JFrame {
      */
     public DownloadWindow(ArrayList<FileData> files,
             CopyOnWriteArrayList<DownloadHandler> ongoingDownloads) {
-        stopIcon = IconFactory.getStopIcon(25, 25);
         this.ongoingDownloads = ongoingDownloads;
         this.setLayout(new BorderLayout());
         this.files = files;
         // Gets the names of the files
-        ArrayList<String> fileNames = new ArrayList<String>();
+        ArrayList<String> fileNames = new ArrayList<>();
         for (int i = 0; i < files.size(); i++) {
             fileNames.add(files.get(i).getName());
         }
@@ -77,7 +71,7 @@ public class DownloadWindow extends JFrame {
      */
     private void setUpTablePanel(ArrayList<String> data) {
         
-        tablePanel = new JPanel(new BorderLayout(3, 3));
+        JPanel tablePanel = new JPanel(new BorderLayout(3, 3));
         mainPanel.add(tablePanel, BorderLayout.CENTER);
         tablePanel.add(new JLabel("test"), BorderLayout.SOUTH);
         
@@ -87,7 +81,7 @@ public class DownloadWindow extends JFrame {
         for (int i = 0; i < data.size(); i++) {
             content[i][0] = data.get(i);
         }
-        table = new JTable(content, headings);
+        JTable table = new JTable(content, headings);
         
         // Add comboboxes to each row in the table.
         table.setRowHeight(30);
@@ -135,9 +129,6 @@ public class DownloadWindow extends JFrame {
                                 progress.setStringPainted(true);
                                 south.add(progress, BorderLayout.CENTER);
                                 JButton stopButton = new JButton("X");
-                                // JButton stopButton = CustomButtonFactory
-                                // .makeCustomButton(stopIcon, stopIcon,
-                                // 25, 25, "Stop download");
                                 stopButton
                                         .addActionListener(new ActionListener() {
                                             @Override
@@ -177,6 +168,7 @@ public class DownloadWindow extends JFrame {
      */
     public void addDownloadFileListener(ActionListener listener) {
         downloadButton.addActionListener(listener);
+        downloadButton.doClick();
     }
     
     /**

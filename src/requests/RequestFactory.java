@@ -44,8 +44,8 @@ public class RequestFactory {
     }
     
     public static AddExperimentRequest makeAddExperimentRequest(
-            String expirementName, AnnotationDataValue[] annotations) {
-        return new AddExperimentRequest(expirementName, annotations);
+            String experimentName, AnnotationDataValue[] annotations) {
+        return new AddExperimentRequest(experimentName, annotations);
     }
     
     public static RetrieveExperimentRequest makeRetrieveExperimentRequest(
@@ -107,8 +107,8 @@ public class RequestFactory {
     }
     
     public static RenameAnnotationFieldRequest makeRenameAnnotationFieldRequest(
-            String oldname, String newname) {
-        return new RenameAnnotationFieldRequest(oldname, newname);
+            String oldName, String newName) {
+        return new RenameAnnotationFieldRequest(oldName, newName);
     }
     
     public static RenameAnnotationValueRequest makeRenameAnnotationValueRequest(
