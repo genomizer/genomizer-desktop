@@ -1,5 +1,6 @@
 package model;
 
+import gui.GenomizerView;
 import gui.LoginWindow;
 
 import java.io.File;
@@ -239,8 +240,8 @@ public class Model implements GenomizerModel {
     }
     
     @Override
-    public void setLoginWindow(LoginWindow window) {
-        connFactory.setLoginWindow(window);
+    public void setGenomizerView(GenomizerView view) {
+        connFactory.setGenomizerView(view);
     }
     
     @Override
