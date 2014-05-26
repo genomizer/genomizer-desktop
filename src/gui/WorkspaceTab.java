@@ -23,7 +23,7 @@ public class WorkspaceTab extends JPanel {
     
     private static final long serialVersionUID = -7278768268151806081L;
     private TreeTable table;
-    private JPanel buttonPanel, filePanel;
+    private JPanel buttonPanel;
     private JButton deleteButton, removeButton, downloadButton;
     private JButton uploadToButton, processButton;
     
@@ -31,7 +31,7 @@ public class WorkspaceTab extends JPanel {
         setLayout(new BorderLayout());
         buttonPanel = new JPanel();
         buttonPanel.setBorder(BorderFactory.createTitledBorder("Workspace"));
-        filePanel = new JPanel(new BorderLayout());
+        JPanel filePanel = new JPanel(new BorderLayout());
         add(buttonPanel, BorderLayout.NORTH);
         add(filePanel, BorderLayout.CENTER);
         
@@ -139,7 +139,7 @@ public class WorkspaceTab extends JPanel {
     }
     
     private String[] concatArrays(String[] first, String[] second) {
-        ArrayList<String> both = new ArrayList<String>(first.length
+        ArrayList<String> both = new ArrayList<>(first.length
                 + second.length);
         Collections.addAll(both, first);
         Collections.addAll(both, second);
@@ -147,7 +147,7 @@ public class WorkspaceTab extends JPanel {
     }
     
     public void addExperimentsToTable(ArrayList<ExperimentData> newExperiments) {
-        ArrayList<ExperimentData> expList = new ArrayList<ExperimentData>();
+        ArrayList<ExperimentData> expList = new ArrayList<>();
         if (table.getContent() != null) {
             expList.addAll(table.getContent());
         }
