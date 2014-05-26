@@ -35,8 +35,8 @@ public class Connection {
         }
         try {
             String targetUrl = "http://" + ip + request.url;
-            //System.out.println(targetUrl);
-            //System.out.println("the request.toJson(): " + request.toJson());
+            System.out.println(targetUrl);
+            System.out.println("the request.toJson(): " + request.toJson());
             URL url = new URL(targetUrl);
             connection = (HttpURLConnection) url
                     .openConnection();
@@ -51,7 +51,6 @@ public class Connection {
             }
 
             if (request.type.equals("DELETE")) {
-                System.out.println("john");
                 //connection.connect();
                 responseCode = connection.getResponseCode();
                 fetchResponse(connection.getInputStream());
@@ -99,7 +98,6 @@ public class Connection {
         int length;
         while ((length = in.read(cbuff)) != -1) {
             output.append(cbuff, 0, length);
-            System.err.println("kalle");
         }
         responseBody = output.toString();
         System.out.println("Responsebody:" + responseBody);
