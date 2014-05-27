@@ -126,7 +126,6 @@ public class ProcessTab extends JPanel {
         this.setLayout(new BorderLayout());
         initPanels();
         disableAllParameters();
-        
     }
     
     /**
@@ -141,9 +140,12 @@ public class ProcessTab extends JPanel {
         addSouthPanel();
         addConsolePanelComponents();
         initFileList();
-        /* TEST */
-        initComboBoxes();
-        /* TEST */
+        
+        ArrayList<String> smooth = new ArrayList<String>();
+        smooth.add("Median");
+        smooth.add("Trimmed Mean");
+        initComboBoxes(smooth, smoothType);
+        
         initRegularParameters();
         setDefaultRatioPar();
         setButtonListeners();
@@ -165,30 +167,14 @@ public class ProcessTab extends JPanel {
         setFlagsListener();
     }
     
-    private void initComboBoxes() {
+    private void initComboBoxes(ArrayList<String> items,
+            JComboBox<String> dropDownList) {
         
-        ArrayList<String> ratioSmooth = new ArrayList<String>();
-        /* TEST */
-        ratioSmooth.add("Median");
-        ratioSmooth.add("Trimmed Mean");
-        
-        smoothType.addItem(ratioSmooth.get(0));
-        smoothType.addItem(ratioSmooth.get(1));
-        
-        /* TEST */
-        ArrayList<String> comboSingle = new ArrayList<String>();
-        /* TEST */
-        comboSingle.add("single");
-        comboSingle.add("double");
-        
-        single.addItem(comboSingle.get(0));
-        single.addItem(comboSingle.get(1));
-        
-        /* TEST */
-        ArrayList<String> gFiles = new ArrayList<String>();
-        /* TEST */
-        gFiles.add("");
-        /* TEST */
+        if (!dropDownList.equals(null)) {
+            for (String item : items) {
+                dropDownList.addItem(item);
+            }
+        }
     }
     
     /**
@@ -236,13 +222,12 @@ public class ProcessTab extends JPanel {
                 add(procInfoPanel, BorderLayout.EAST);
                 procInfoPanel.add(procInfoSouthPanel, BorderLayout.SOUTH);
                 procInfoPanel.add(procInfoCenterPanel, BorderLayout.CENTER);
-                scrollProcessList.setPreferredSize(new Dimension(200, 700));
+                scrollProcessList.setPreferredSize(new Dimension(300, 700));
                 procInfoCenterPanel.add(scrollProcessList, BorderLayout.CENTER);
                 // create the root node
                 DefaultMutableTreeNode root = new DefaultMutableTreeNode(
                         "<html><b>Current processes</b></html>");
                 // create the child nodes
-                
                 ArrayList<String> authors = new ArrayList<String>();
                 for (int i = 0; i < processFeedbackData.length; i++) {
                     if (!authors.contains(processFeedbackData[i].author)) {
@@ -267,49 +252,52 @@ public class ProcessTab extends JPanel {
                             "<html><b>Waiting</b></html>");
                     authorNode.add(waitingNode);
                     for (int i = 0; i < processFeedbackData.length; i++) {
-                        Format format = new SimpleDateFormat(
-                                "yyyy-MM-dd, HH:mm");
                         ProcessFeedbackData data = processFeedbackData[i];
-                        String timeAdded = "Not added";
-                        String timeStarted = "Not started";
-                        String timeFinished = "Not finished";
-                        if (data.timeAdded != 0) {
-                            timeAdded = format.format(new Date(data.timeAdded))
-                                    .toString();
-                        }
-                        if (data.timeStarted != 0) {
-                            timeStarted = format.format(
-                                    new Date(data.timeStarted)).toString();
-                        }
-                        if (data.timeFinished != 0) {
-                            timeFinished = format.format(
-                                    new Date(data.timeFinished)).toString();
-                        }
-                        DefaultMutableTreeNode expNode = new DefaultMutableTreeNode(
-                                "<html><b>ExpID</b>: " + data.experimentName
-                                        + "</html>");
-                        DefaultMutableTreeNode addedTimeNode = new DefaultMutableTreeNode(
-                                "<html><u>Time Added</u>: " + timeAdded
-                                        + "</html>");
-                        DefaultMutableTreeNode startedTimeNode = new DefaultMutableTreeNode(
-                                "<html><u>Time Started</u>: " + timeStarted
-                                        + "</html>");
-                        DefaultMutableTreeNode finishedTimeNode = new DefaultMutableTreeNode(
-                                "<html><u>Time Finished</u>: " + timeFinished
-                                        + "</html>");
-                        
-                        expNode.add(addedTimeNode);
-                        expNode.add(startedTimeNode);
-                        expNode.add(finishedTimeNode);
-                        
-                        if (data.status.equals("Finished")) {
-                            finishedNode.add(expNode);
-                        } else if (data.status.equals("Waiting")) {
-                            waitingNode.add(expNode);
-                        } else if (data.status.equals("Crashed")) {
-                            crashedNode.add(expNode);
-                        } else if (data.status.equals("Started")) {
-                            startedNode.add(expNode);
+                        if (author.equals(data.author)) {
+                            Format format = new SimpleDateFormat(
+                                    "yyyy-MM-dd, HH:mm");
+                            String timeAdded = "Not added";
+                            String timeStarted = "Not started";
+                            String timeFinished = "Not finished";
+                            if (data.timeAdded != 0) {
+                                timeAdded = format.format(
+                                        new Date(data.timeAdded)).toString();
+                            }
+                            if (data.timeStarted != 0) {
+                                timeStarted = format.format(
+                                        new Date(data.timeStarted)).toString();
+                            }
+                            if (data.timeFinished != 0) {
+                                timeFinished = format.format(
+                                        new Date(data.timeFinished)).toString();
+                            }
+                            DefaultMutableTreeNode expNode = new DefaultMutableTreeNode(
+                                    "<html><b>ExpID</b>: "
+                                            + data.experimentName + "</html>");
+                            DefaultMutableTreeNode addedTimeNode = new DefaultMutableTreeNode(
+                                    "<html><u>Time Added</u>: " + timeAdded
+                                            + "</html>");
+                            DefaultMutableTreeNode startedTimeNode = new DefaultMutableTreeNode(
+                                    "<html><u>Time Started</u>: " + timeStarted
+                                            + "</html>");
+                            DefaultMutableTreeNode finishedTimeNode = new DefaultMutableTreeNode(
+                                    "<html><u>Time Finished</u>: "
+                                            + timeFinished + "</html>");
+                            
+                            expNode.add(addedTimeNode);
+                            expNode.add(startedTimeNode);
+                            expNode.add(finishedTimeNode);
+                            
+                            if (data.status.equals("Finished")) {
+                                finishedNode.add(expNode);
+                            } else if (data.status.equals("Waiting")) {
+                                waitingNode.add(expNode);
+                            } else if (data.status.equals("Crashed")) {
+                                crashedNode.add(expNode);
+                            } else if (data.status.equals("Started")) {
+                                startedNode.add(expNode);
+                            }
+                            
                         }
                         
                     }
@@ -353,7 +341,7 @@ public class ProcessTab extends JPanel {
         clearConsoleButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                 consoleArea.setText("");  
+                consoleArea.setText("");
             }
         });
         clearConsolePanel.add(clearConsoleButton);

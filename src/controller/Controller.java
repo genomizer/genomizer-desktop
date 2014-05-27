@@ -442,7 +442,7 @@ public class Controller {
             }
             
             UploadToExistingExpPanel uploadToExistingExpPanel = view
-                    .getUploadTab().getUploadToExistingExpPanel();
+                    .getUploadTab().getExistExpPanel();
             uploadToExistingExpPanel.createUploadFileRow(files);
             uploadToExistingExpPanel.enableUploadButton();
             uploadToExistingExpPanel.addFileDrop();
@@ -460,21 +460,21 @@ public class Controller {
         @Override
         public void run() {
             ArrayList<File> files = view.getUploadTab()
-                    .getUploadToExistingExpPanel().getFilesToUpload();
+                    .getExistExpPanel().getFilesToUpload();
             HashMap<String, String> types = view.getUploadTab()
-                    .getUploadToExistingExpPanel().getTypes();
+                    .getExistExpPanel().getTypes();
             // Should be genome release from uploadTab
             // String release = "wk1m";
             
             ExperimentData ed = view.getUploadTab()
-                    .getUploadToExistingExpPanel().getExperiment();
+                    .getExistExpPanel().getExperiment();
             
             for (File f : files) {
                 if (model.uploadFile(ed.getName(), f, types.get(f.getName()),
                         view.getUsername(), false, view.getGenomeVersion(f))) {
-                    view.getUploadTab().getUploadToExistingExpPanel()
+                    view.getUploadTab().getExistExpPanel()
                             .deleteFileRow(f);
-                    if (view.getUploadTab().getUploadToExistingExpPanel()
+                    if (view.getUploadTab().getExistExpPanel()
                             .getFileRows().size() == 0) {
                         JOptionPane.showMessageDialog(null,
                                 "Upload to experiment \"" + ed.getName()
@@ -526,14 +526,7 @@ public class Controller {
                     .getSelectedDataInSearch();
             if (selectedData != null && selectedData.size() > 0) {
                 view.addToWorkspace(view.getSelectedDataInSearch());
-                if (selectedData.size() == 1) {
-                    JOptionPane.showMessageDialog(null, "Added experiment \""
-                            + selectedData.get(0).getName()
-                            + "\" to the workspace.");
-                } else {
-                    JOptionPane.showMessageDialog(null, "Added experiments to"
-                            + " the workspace.");
-                }
+
             }
         }
         
