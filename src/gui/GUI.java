@@ -38,7 +38,6 @@ public class GUI extends JFrame implements GenomizerView {
     private static final long serialVersionUID = 6659839768426124853L;
     private JPanel mainPanel;
     private JTabbedPane tabbedPane;
-    private SearchTab searchTab;
     private UserPanel userPanel;
     private UploadTab uploadTab;
     private WorkspaceTab workspaceTab;
@@ -239,13 +238,6 @@ public class GUI extends JFrame implements GenomizerView {
     }
 
     /**
-     * @return The search tab.
-     */
-    public JPanel getSearchPanel() {
-        return searchTab;
-    }
-
-    /**
      * @return The password input from the login window.
      */
     @Override
@@ -376,17 +368,6 @@ public class GUI extends JFrame implements GenomizerView {
             // If Nimbus is not available, you can set the GUI to another look
             // and feel.
         }
-    }
-
-    /**
-     * Sets the searchTab of the GUI.
-     *
-     * @param searchTab
-     *            The SearchTab to set the attribute to.
-     */
-    public void setSearchTab(SearchTab searchTab) {
-        this.searchTab = searchTab;
-        // tabbedPane.add("SEARCH", searchTab);
     }
 
     /**
@@ -752,7 +733,6 @@ public class GUI extends JFrame implements GenomizerView {
         while (tabbedPane.getTabCount() > 0) {
             tabbedPane.removeTabAt(0);
         }
-        SearchTab st = new SearchTab();
         UploadTab ut = new UploadTab();
         ProcessTab pt = new ProcessTab();
         WorkspaceTab wt = new WorkspaceTab();
