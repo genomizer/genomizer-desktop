@@ -139,7 +139,7 @@ public class ProcessTab extends JPanel {
         addConsolePanel();
         addProcessInfoPanel();
         addSouthPanel();
-        addConsoleTextArea();
+        addConsolePanelComponents();
         initFileList();
         /* TEST */
         initComboBoxes();
@@ -343,7 +343,7 @@ public class ProcessTab extends JPanel {
      * Writes text to convertArea. The user gets a visual message whether or not
      * the conversion succeeded.
      */
-    private void addConsoleTextArea() {
+    private void addConsolePanelComponents() {
         consolePanel.add(scrollConsole, BorderLayout.CENTER);
         scrollConsole.setViewportView(consoleArea);
         consoleArea.setEditable(false);
