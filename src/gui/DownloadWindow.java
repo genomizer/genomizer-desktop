@@ -141,6 +141,8 @@ public class DownloadWindow extends JFrame {
                                 ongoingPanel.add(south);
                             } else {
                                 ongoingDownloads.remove(handler);
+                                JOptionPane.showMessageDialog(null,
+                                        "Download complete");
                             }
                         }
                         
