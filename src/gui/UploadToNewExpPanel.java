@@ -259,6 +259,7 @@ public class UploadToNewExpPanel extends JPanel implements ExperimentPanel {
                         annotationBoxes.put(annotations[i].getName(), species);
                         p.add(species, BorderLayout.CENTER);
                         newExpPanel.add(p, gbc);
+                        species.setSelectedIndex(0);
                     } else {
                         final JComboBox<String> comboBox = new JComboBox<String>(
                                 annotations[i].getValues());
