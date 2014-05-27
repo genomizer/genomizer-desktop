@@ -173,7 +173,7 @@ public class WorkspaceTab extends JPanel {
         
         if (addedData) {
             JOptionPane.showMessageDialog(null,
-                    "Added selected data to the workspace.", "Add data ",
+                    "Added selected data to the workspace.", "Add data",
                     JOptionPane.INFORMATION_MESSAGE);
         } else {
             JOptionPane.showMessageDialog(null,

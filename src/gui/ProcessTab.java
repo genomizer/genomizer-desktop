@@ -126,7 +126,6 @@ public class ProcessTab extends JPanel {
         this.setLayout(new BorderLayout());
         initPanels();
         disableAllParameters();
-        
     }
     
     /**
@@ -246,6 +245,8 @@ public class ProcessTab extends JPanel {
                 ArrayList<String> authors = new ArrayList<String>();
                 for (int i = 0; i < processFeedbackData.length; i++) {
                     if (!authors.contains(processFeedbackData[i].author)) {
+                        System.out.println("author: "
+                                + processFeedbackData[i].author);
                         authors.add(processFeedbackData[i].author);
                     }
                 }
@@ -267,49 +268,52 @@ public class ProcessTab extends JPanel {
                             "<html><b>Waiting</b></html>");
                     authorNode.add(waitingNode);
                     for (int i = 0; i < processFeedbackData.length; i++) {
-                        Format format = new SimpleDateFormat(
-                                "yyyy-MM-dd, HH:mm");
                         ProcessFeedbackData data = processFeedbackData[i];
-                        String timeAdded = "Not added";
-                        String timeStarted = "Not started";
-                        String timeFinished = "Not finished";
-                        if (data.timeAdded != 0) {
-                            timeAdded = format.format(new Date(data.timeAdded))
-                                    .toString();
-                        }
-                        if (data.timeStarted != 0) {
-                            timeStarted = format.format(
-                                    new Date(data.timeStarted)).toString();
-                        }
-                        if (data.timeFinished != 0) {
-                            timeFinished = format.format(
-                                    new Date(data.timeFinished)).toString();
-                        }
-                        DefaultMutableTreeNode expNode = new DefaultMutableTreeNode(
-                                "<html><b>ExpID</b>: " + data.experimentName
-                                        + "</html>");
-                        DefaultMutableTreeNode addedTimeNode = new DefaultMutableTreeNode(
-                                "<html><u>Time Added</u>: " + timeAdded
-                                        + "</html>");
-                        DefaultMutableTreeNode startedTimeNode = new DefaultMutableTreeNode(
-                                "<html><u>Time Started</u>: " + timeStarted
-                                        + "</html>");
-                        DefaultMutableTreeNode finishedTimeNode = new DefaultMutableTreeNode(
-                                "<html><u>Time Finished</u>: " + timeFinished
-                                        + "</html>");
-                        
-                        expNode.add(addedTimeNode);
-                        expNode.add(startedTimeNode);
-                        expNode.add(finishedTimeNode);
-                        
-                        if (data.status.equals("Finished")) {
-                            finishedNode.add(expNode);
-                        } else if (data.status.equals("Waiting")) {
-                            waitingNode.add(expNode);
-                        } else if (data.status.equals("Crashed")) {
-                            crashedNode.add(expNode);
-                        } else if (data.status.equals("Started")) {
-                            startedNode.add(expNode);
+                        if (author.equals(data.author)) {
+                            Format format = new SimpleDateFormat(
+                                    "yyyy-MM-dd, HH:mm");
+                            String timeAdded = "Not added";
+                            String timeStarted = "Not started";
+                            String timeFinished = "Not finished";
+                            if (data.timeAdded != 0) {
+                                timeAdded = format.format(
+                                        new Date(data.timeAdded)).toString();
+                            }
+                            if (data.timeStarted != 0) {
+                                timeStarted = format.format(
+                                        new Date(data.timeStarted)).toString();
+                            }
+                            if (data.timeFinished != 0) {
+                                timeFinished = format.format(
+                                        new Date(data.timeFinished)).toString();
+                            }
+                            DefaultMutableTreeNode expNode = new DefaultMutableTreeNode(
+                                    "<html><b>ExpID</b>: "
+                                            + data.experimentName + "</html>");
+                            DefaultMutableTreeNode addedTimeNode = new DefaultMutableTreeNode(
+                                    "<html><u>Time Added</u>: " + timeAdded
+                                            + "</html>");
+                            DefaultMutableTreeNode startedTimeNode = new DefaultMutableTreeNode(
+                                    "<html><u>Time Started</u>: " + timeStarted
+                                            + "</html>");
+                            DefaultMutableTreeNode finishedTimeNode = new DefaultMutableTreeNode(
+                                    "<html><u>Time Finished</u>: "
+                                            + timeFinished + "</html>");
+                            
+                            expNode.add(addedTimeNode);
+                            expNode.add(startedTimeNode);
+                            expNode.add(finishedTimeNode);
+                            
+                            if (data.status.equals("Finished")) {
+                                finishedNode.add(expNode);
+                            } else if (data.status.equals("Waiting")) {
+                                waitingNode.add(expNode);
+                            } else if (data.status.equals("Crashed")) {
+                                crashedNode.add(expNode);
+                            } else if (data.status.equals("Started")) {
+                                startedNode.add(expNode);
+                            }
+                            
                         }
                         
                     }
@@ -353,7 +357,7 @@ public class ProcessTab extends JPanel {
         clearConsoleButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                 consoleArea.setText("");  
+                consoleArea.setText("");
             }
         });
         clearConsolePanel.add(clearConsoleButton);
