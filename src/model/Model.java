@@ -34,6 +34,7 @@ import requests.SearchRequest;
 import requests.rawToProfileRequest;
 import responses.AddFileToExperimentResponse;
 import responses.DownloadFileResponse;
+import responses.ErrorResponse;
 import responses.LoginResponse;
 import responses.ResponseParser;
 import responses.sysadmin.AddGenomeReleaseResponse;
@@ -115,9 +116,16 @@ public class Model implements GenomizerModel {
             } else {
                 System.out.println("Login response: " + conn.getResponseCode()
                         + " " + conn.getResponseBody());
-                return conn.getResponseBody();
+                ErrorResponse response = ResponseParser.parseErrorResponse(conn
+                        .getResponseBody());
+                if (response != null) {
+                    return response.message;
+                } else {
+                    return "No connection";
+                }
             }
         }
+        
         return "No username or password inserted";
     }
     
