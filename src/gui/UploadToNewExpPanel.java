@@ -36,15 +36,14 @@ public class UploadToNewExpPanel extends JPanel implements ExperimentPanel {
     private HashMap<String, JComboBox> annotationBoxes;
     private HashMap<String, JTextField> annotationFields;
     private ArrayList<String> annotationHeaders;
-    private JPanel uploadFilesPanel, newExpPanel,
-            buttonsPanel, uploadBackground;
+    private JPanel uploadFilesPanel, newExpPanel, buttonsPanel,
+            uploadBackground;
     private JButton uploadButton, uploadSelectedBtn, selectButton;
     private AnnotationDataType[] annotations;
     private JLabel expNameLabel, genomeLabel, boldTextLabel;
     private JTextField expID;
     private JComboBox<String> species;
     private ArrayList<String> genome;
-    private CopyOnWriteArrayList<HTTPURLUpload> ongoingUploads;
 
     public UploadToNewExpPanel() {
         setLayout(new BorderLayout());
@@ -102,19 +101,19 @@ public class UploadToNewExpPanel extends JPanel implements ExperimentPanel {
     }
 
     public void setGenomeReleases(GenomeReleaseData[] grd) {
-        if(genome.size() > 0) {
+        if (genome.size() > 0) {
             genome.clear();
         }
-        if(grd.length > 0) {
-            for(GenomeReleaseData g : grd) {
+        if (grd.length > 0) {
+            for (GenomeReleaseData g : grd) {
                 try {
                     genome.add(g.getVersion());
                 } catch (NullPointerException e) {
                     System.out.println("Couldn't find genome version.");
                 }
             }
-            if(genome.size() > 0) {
-                for(File f : uploadFileRows.keySet()) {
+            if (genome.size() > 0) {
+                for (File f : uploadFileRows.keySet()) {
                     uploadFileRows.get(f).resetType();
                 }
             }
@@ -139,12 +138,18 @@ public class UploadToNewExpPanel extends JPanel implements ExperimentPanel {
      * Method adding a listener to the "uploadButton".
      *
      * @param listener
-     *            The listener to start uploading selected files.
+     *            The listener to start uploading all files.
      */
     public void addUploadButtonListener(ActionListener listener) {
         uploadButton.addActionListener(listener);
     }
 
+    /**
+     * Method adding a listener to the "uploadSelectedBtn".
+     *
+     * @param listener
+     *            The listener to start uploading selected files.
+     */
     public void addUploadSelectedFilesListener(ActionListener listener) {
         uploadSelectedBtn.addActionListener(listener);
 
@@ -159,10 +164,6 @@ public class UploadToNewExpPanel extends JPanel implements ExperimentPanel {
      * to it.
      */
     public void createNewExp() {
-        /*
-         * setBorder(BorderFactory
-         * .createTitledBorder("Create new experiment"));
-         */
         try {
             GridBagLayout gbl_panel = new GridBagLayout();
             gbl_panel.columnWidths = new int[] { 0, 0, 0, 0, 0, 0, 0 };
@@ -177,6 +178,7 @@ public class UploadToNewExpPanel extends JPanel implements ExperimentPanel {
             repaintSelectedFiles();
             uploadBackground.add(uploadFilesPanel, BorderLayout.NORTH);
             add(uploadBackground, BorderLayout.CENTER);
+
             // Makes dragging & dropping of files into the panel possible
             new FileDrop(this, new FileDrop.Listener() {
                 public void filesDropped(java.io.File[] files) {
@@ -184,6 +186,7 @@ public class UploadToNewExpPanel extends JPanel implements ExperimentPanel {
                     enableUploadButton(true);
                 }
             });
+
         } catch (NullPointerException e) {
             JOptionPane.showMessageDialog(this,
                     "Eggs are supposed to be green.", "Inane error",
@@ -258,7 +261,7 @@ public class UploadToNewExpPanel extends JPanel implements ExperimentPanel {
 
                 } else {
                     if (annotations[i].getName().equalsIgnoreCase("species")) {
-                        if(species.getItemCount() > 0) {
+                        if (species.getItemCount() > 0) {
                             species.removeAllItems();
                         }
                         for (String s : annotations[i].getValues()) {
@@ -273,6 +276,7 @@ public class UploadToNewExpPanel extends JPanel implements ExperimentPanel {
                                 annotations[i].getValues());
                         comboBox.setPreferredSize(new Dimension(120, 31));
                         /*
+                         *
                          * Listener for when the user chooses something in the
                          * combobox.
                          */
@@ -286,6 +290,7 @@ public class UploadToNewExpPanel extends JPanel implements ExperimentPanel {
                                 }
                             }
                         });
+
                         annotationBoxes.put(annotations[i].getName(), comboBox);
                         p.add(comboBox, BorderLayout.CENTER);
                         newExpPanel.add(p, gbc);
@@ -319,6 +324,26 @@ public class UploadToNewExpPanel extends JPanel implements ExperimentPanel {
     }
 
     /**
+     * Deletes an uploadFileRow and calls repaintSelectedFiles() to repaint. If
+     * it fails to find the file, an error message is shown to the user.
+     *
+     * @param f
+     *            This is used to identify which uploadFileRow to be deleted.
+     */
+    public void deleteFileRow(File f) {
+        if (uploadFileRows.containsKey(f)) {
+            uploadFileRows.remove(f);
+            uploadFilesPanel.removeAll();
+            buttonsPanel.removeAll();
+            repaintSelectedFiles();
+        } else {
+            JOptionPane.showMessageDialog(this,
+                    "Can't delete file: " + f.getName() + "", "File error",
+                    JOptionPane.ERROR_MESSAGE);
+        }
+    }
+
+    /**
      * Checks if there are any uploadfilerows. Disables the uploadbutton if
      * there aren't, and adds them to the panel if there are. After these
      * updates, it repaints the panel.
@@ -341,26 +366,6 @@ public class UploadToNewExpPanel extends JPanel implements ExperimentPanel {
     }
 
     /**
-     * Deletes an uploadFileRow and calls repaintSelectedFiles() to repaint. If
-     * it fails to find the file, an error message is shown to the user.
-     *
-     * @param f
-     *            This is used to identify which uploadFileRow to be deleted.
-     */
-    public void deleteFileRow(File f) {
-        if (uploadFileRows.containsKey(f)) {
-            uploadFileRows.remove(f);
-            uploadFilesPanel.removeAll();
-            buttonsPanel.removeAll();
-            repaintSelectedFiles();
-        } else {
-            JOptionPane.showMessageDialog(this,
-                    "Can't delete file: " + f.getName() + "", "File error",
-                    JOptionPane.ERROR_MESSAGE);
-        }
-    }
-
-    /**
      * Method returning the ExpID for a new experiment.
      *
      * @return a String with the ID of a experiment.
@@ -369,6 +374,21 @@ public class UploadToNewExpPanel extends JPanel implements ExperimentPanel {
         return expID.getText();
     }
 
+    /**
+     *
+     */
+    public String getGenomeVersion(File f) {
+        if (uploadFileRows.containsKey(f)) {
+            return uploadFileRows.get(f).getGenomeRelease();
+        }
+        return null;
+    }
+
+    /**
+     * Method returning the chosen annotations for the new experiment.
+     *
+     * @return a AnnotationDataValue array with all the annotations.
+     */
     public AnnotationDataValue[] getUploadAnnotations() {
         AnnotationDataValue[] annotations = new AnnotationDataValue[annotationHeaders
                 .size()];
@@ -402,6 +422,21 @@ public class UploadToNewExpPanel extends JPanel implements ExperimentPanel {
     }
 
     /**
+     * Method returning the files that are selected.
+     *
+     * @return an ArrayList with the selected files.
+     */
+    public ArrayList<File> getSelectedFilesToUpload() {
+        ArrayList<File> files = new ArrayList<File>();
+        for (File f : uploadFileRows.keySet()) {
+            if (uploadFileRows.get(f).isSelected()) {
+                files.add(f);
+            }
+        }
+        return files;
+    }
+
+    /**
      * Method returning the type of the files to be uploaded.
      *
      * @return a HashMap with the filenames and there types.
@@ -416,6 +451,8 @@ public class UploadToNewExpPanel extends JPanel implements ExperimentPanel {
     }
 
     /**
+     * Method checking if the forced annotations are filled.
+     *
      * @return true if all forced annotation fields (including expID) are
      *         filled. Otherwise returns false.
      */
@@ -475,31 +512,6 @@ public class UploadToNewExpPanel extends JPanel implements ExperimentPanel {
             uploadSelectedBtn.setEnabled(b);
             uploadButton.setEnabled(b);
         }
-    }
-
-    /**
-     * Method returning the files that are selected.
-     *
-     * @return an ArrayList with the selected files.
-     */
-    public ArrayList<File> getSelectedFilesToUpload() {
-        ArrayList<File> files = new ArrayList<File>();
-        for (File f : uploadFileRows.keySet()) {
-            if (uploadFileRows.get(f).isSelected()) {
-                files.add(f);
-            }
-        }
-        return files;
-    }
-
-    /**
-     *
-     */
-    public String getGenomeVersion(File f) {
-        if(uploadFileRows.containsKey(f)) {
-            return uploadFileRows.get(f).getGenomeRelease();
-        }
-        return null;
     }
 
     /**
