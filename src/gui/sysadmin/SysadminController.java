@@ -1,5 +1,6 @@
 package gui.sysadmin;
 
+import gui.UploadFileRow;
 import gui.sysadmin.annotationview.AddAnnotationPopup;
 import gui.sysadmin.annotationview.AnnotationButtonsListener;
 import gui.sysadmin.annotationview.AnnotationTableModel;
@@ -7,9 +8,12 @@ import gui.sysadmin.genomereleaseview.GenomeReleaseViewCreator;
 import gui.sysadmin.genomereleaseview.GenomereleaseTableModel;
 
 import java.awt.event.ActionListener;
+import java.io.File;
 
 import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
+
+import communication.HTTPURLUpload;
 
 import model.GenomizerModel;
 import util.AnnotationDataType;
@@ -265,5 +269,25 @@ public class SysadminController {
     
     public boolean addGenomRelease() {
         return model.addGenomeRelease();
+    }
+    
+    public void uploadGenomeReleaseProgress() {
+        new Thread(new Runnable() {
+            private boolean running;
+
+            @Override
+            public void run() {
+                running = true;
+                while (running) {
+                    running = sysTab.getGenomeReleaseView().updateUploadProgress(model.getOngoingUploads());
+                    try {
+                        Thread.sleep(100);
+                    } catch (InterruptedException e) {
+                        running = false;
+                    }
+                }
+            }
+        }).start();
+        
     }
 }
