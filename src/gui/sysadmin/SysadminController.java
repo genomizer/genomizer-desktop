@@ -3,11 +3,9 @@ package gui.sysadmin;
 import gui.sysadmin.annotationview.AddAnnotationPopup;
 import gui.sysadmin.annotationview.AnnotationButtonsListener;
 import gui.sysadmin.annotationview.AnnotationTableModel;
-import gui.sysadmin.annotationview.EditAnnotationPopup2;
 import gui.sysadmin.genomereleaseview.GenomeReleaseViewCreator;
 import gui.sysadmin.genomereleaseview.GenomereleaseTableModel;
 
-import java.awt.HeadlessException;
 import java.awt.event.ActionListener;
 
 import javax.swing.JOptionPane;
@@ -92,6 +90,7 @@ public class SysadminController {
             
             if (a.getName().equals("Species")) {
                 
+                System.out.println("FOUND SPECIES!");
                 return a.getValues();
             }
         }
@@ -138,7 +137,6 @@ public class SysadminController {
                 JOptionPane.showMessageDialog(null, e.getMessage());
             }
         } else {
-            //TODO: this should be a popup
             System.out.println("Please select an annotation to delete");
         }
     }
@@ -268,5 +266,4 @@ public class SysadminController {
     public boolean addGenomRelease() {
         return model.addGenomeRelease();
     }
-    
 }
