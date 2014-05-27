@@ -232,8 +232,6 @@ public class ProcessTab extends JPanel {
                 ArrayList<String> authors = new ArrayList<String>();
                 for (int i = 0; i < processFeedbackData.length; i++) {
                     if (!authors.contains(processFeedbackData[i].author)) {
-                        System.out.println("author: "
-                                + processFeedbackData[i].author);
                         authors.add(processFeedbackData[i].author);
                     }
                 }
