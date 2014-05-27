@@ -9,6 +9,8 @@ import java.awt.Dimension;
 import java.awt.Image;
 import java.awt.Toolkit;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.io.File;
 import java.net.URL;
 import java.util.ArrayList;
@@ -55,6 +57,13 @@ public class GUI extends JFrame implements GenomizerView {
     public GUI() {
 
         setLookAndFeel();
+
+        addWindowListener(new WindowAdapter() {
+            public void windowActivated(WindowEvent e) {
+                querySearchTab.getSearchButton().requestFocusInWindow();
+            }
+        });
+
         this.setTitle("Genomizer");
         setSize(1024, 768);
         this.setMinimumSize(new Dimension(1024, 768));
