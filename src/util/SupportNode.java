@@ -1,6 +1,5 @@
 package util;
 
-import com.sun.istack.internal.NotNull;
 import org.jdesktop.swingx.treetable.AbstractMutableTreeTableNode;
 
 import java.util.Arrays;

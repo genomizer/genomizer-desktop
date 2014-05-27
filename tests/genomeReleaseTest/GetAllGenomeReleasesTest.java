@@ -1,17 +1,13 @@
 package genomeReleaseTest;
 
 import static org.fest.assertions.api.Assertions.assertThat;
-import static org.fest.assertions.api.Assertions.fail;
 import gui.sysadmin.SysadminController;
-import gui.sysadmin.SysadminTab;
 import model.Model;
 
 import org.junit.Before;
 import org.junit.Test;
 
 import util.GenomeReleaseData;
-import communication.Connection;
-import communication.ConnectionFactory;
 
 public class GetAllGenomeReleasesTest {
     

@@ -12,8 +12,6 @@ import java.awt.event.ActionListener;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.concurrent.CopyOnWriteArrayList;
-
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
@@ -28,10 +26,9 @@ import util.AnnotationDataValue;
 import util.FileDrop;
 import util.GenomeReleaseData;
 
-import communication.HTTPURLUpload;
-
 public class UploadToNewExpPanel extends JPanel implements ExperimentPanel {
 
+    private static final long serialVersionUID = 7664913630434090250L;
     private HashMap<File, UploadFileRow> uploadFileRows;
     private HashMap<String, JComboBox<String>> annotationBoxes;
     private HashMap<String, JTextField> annotationFields;

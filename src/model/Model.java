@@ -1,8 +1,6 @@
 package model;
 
 import gui.GenomizerView;
-import gui.LoginWindow;
-
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -50,8 +48,6 @@ import communication.Connection;
 import communication.ConnectionFactory;
 import communication.DownloadHandler;
 import communication.HTTPURLUpload;
-
-// import org.apache.http.protocol.HTTP;
 
 public class Model implements GenomizerModel {
 

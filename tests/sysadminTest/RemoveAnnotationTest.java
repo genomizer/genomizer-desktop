@@ -9,7 +9,6 @@ import org.junit.Before;
 import org.junit.Test;
 
 import util.AnnotationDataType;
-import communication.Connection;
 
 public class RemoveAnnotationTest {
     public Model model;

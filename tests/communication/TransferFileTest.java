@@ -40,6 +40,7 @@ public class TransferFileTest {
                 homeDir + "/.testupload.txt", ".testupload.txt");
         upload.sendFile(m.getUserID());
         assertThat(upload.getResponseCode()).isEqualTo(201);
+        fout.close();
     }
 
     @Test
@@ -60,5 +61,7 @@ public class TransferFileTest {
         File file2 = new File(homeDir + "/.testtransferdown.txt");
         BufferedReader fin = new BufferedReader(new FileReader(file2));
         assertThat(fin.readLine()).isEqualTo("test");
+        fout.close();
+        fin.close();
     }
 }

@@ -1,8 +1,6 @@
 package model;
 
 import gui.GenomizerView;
-import gui.LoginWindow;
-
 import java.io.File;
 import java.util.ArrayList;
 import java.util.concurrent.CopyOnWriteArrayList;
