@@ -25,7 +25,7 @@ import util.IconFactory;
  * @author bDtKarlsson
  */
 public class QueryBuilderRow extends JPanel {
-
+    
     private static final long serialVersionUID = -7684513985741278158L;
     private JComboBox annotationBox;
     private JComboBox annotationAlternatives;
@@ -128,7 +128,7 @@ public class QueryBuilderRow extends JPanel {
     private void setPlusButton() {
         plusButton = CustomButtonFactory.makeCustomButton(
                 IconFactory.getPlusIcon(15, 15),
-                IconFactory.getPlusHoverIcon(17, 17), 17, 25, null);
+                IconFactory.getPlusIcon(17, 17), 17, 25, null);
         plusButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -144,7 +144,7 @@ public class QueryBuilderRow extends JPanel {
     private void setMinusButton() {
         minusButton = CustomButtonFactory.makeCustomButton(
                 IconFactory.getMinusIcon(15, 15),
-                IconFactory.getMinusHoverIcon(17, 17), 17, 25, null);
+                IconFactory.getMinusIcon(17, 17), 17, 25, null);
         final QueryBuilderRow row = this;
         minusButton.addActionListener(new ActionListener() {
             @Override
@@ -203,12 +203,13 @@ public class QueryBuilderRow extends JPanel {
             }
         });
     }
-
+    
     private ArrayList<AnnotationDataType> getManuallyAddedAnnotations() {
         ArrayList<AnnotationDataType> annotations = new ArrayList<AnnotationDataType>();
         annotations.add(new AnnotationDataType("ExpID", null, true));
         annotations.add(new AnnotationDataType("FileName", null, true));
-        annotations.add(new AnnotationDataType("FileType", new String[] {"Raw", "Profile", "Region"}, true));
+        annotations.add(new AnnotationDataType("FileType", new String[] {
+                "Raw", "Profile", "Region" }, true));
         annotations.add(new AnnotationDataType("Date", null, true));
         annotations.add(new AnnotationDataType("Author", null, true));
         annotations.add(new AnnotationDataType("Uploader", null, true));
@@ -224,18 +225,20 @@ public class QueryBuilderRow extends JPanel {
     public void setAnnotationBox(AnnotationDataType[] annotations) {
         annotationTypes = new ArrayList<AnnotationDataType>();
         annotationTypes.addAll(getManuallyAddedAnnotations());
-        annotationTypes.addAll(new ArrayList<AnnotationDataType>(Arrays.asList(annotations)));
+        annotationTypes.addAll(new ArrayList<AnnotationDataType>(Arrays
+                .asList(annotations)));
         /* Get the annotation names */
         ArrayList<String> annotationNames = new ArrayList<String>();
         for (AnnotationDataType dataType : annotationTypes) {
             annotationNames.add(dataType.getName());
         }
         if (annotationNames.size() > 0) {
-            annotationBox = new JComboBox(annotationNames.toArray(new String[annotationNames.size()]));
+            annotationBox = new JComboBox(
+                    annotationNames.toArray(new String[annotationNames.size()]));
         } else {
             annotationBox = new JComboBox();
         }
-        //annotationBox.setPrototypeDisplayValue("AAAAAAAAAAAAAAAAAAAAAAA");
+        // annotationBox.setPrototypeDisplayValue("AAAAAAAAAAAAAAAAAAAAAAA");
         annotationBox.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -260,7 +263,7 @@ public class QueryBuilderRow extends JPanel {
                             }
                         }
                     }
-                     /* Update row and parent search area */
+                    /* Update row and parent search area */
                     setAs(firstRow, lastRow);
                     parent.updateSearchArea();
                     repaint();
@@ -325,7 +328,7 @@ public class QueryBuilderRow extends JPanel {
     public String getAnnotation() {
         return (String) annotationBox.getSelectedItem();
     }
-
+    
     public void setEnabled(boolean enabled) {
         annotationBox.setEnabled(enabled);
         annotationAlternatives.setEnabled(enabled);

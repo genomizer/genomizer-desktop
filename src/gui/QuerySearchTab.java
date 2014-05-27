@@ -9,6 +9,7 @@ import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
 import javax.swing.BorderFactory;
+import javax.swing.Box;
 import javax.swing.ButtonGroup;
 import javax.swing.JButton;
 import javax.swing.JPanel;
@@ -20,6 +21,7 @@ import javax.swing.SwingUtilities;
 import util.ActiveSearchPanel;
 import util.AnnotationDataType;
 import util.ExperimentData;
+import util.IconFactory;
 import util.TreeTable;
 
 /**
@@ -121,17 +123,16 @@ public class QuerySearchTab extends JPanel {
     private void setUpSearchHeader() {
         searchPanel = new JPanel(new FlowLayout());
         
-        searchButton = new JButton("Search");
-        // searchButton = CustomButtonFactory.makeCustomButton(
-        // IconFactory.getSearchIcon(28, 28),
-        // IconFactory.getSearchHoverIcon(30, 30), 30, 30,
-        // "Search for data");
+        // searchButton = new JButton("Search");
+        searchButton = CustomButtonFactory.makeCustomButton(
+                IconFactory.getSearchIcon(30, 30),
+                IconFactory.getSearchIcon(32, 32), 32, 32, "Search for data");
         
-        // clearButton = CustomButtonFactory.makeCustomButton(
-        // IconFactory.getClearIcon(35, 35),
-        // IconFactory.getClearHoverIcon(37, 37), 37, 37,
-        // "Clear search fields");
-        JButton clearButton = new JButton("Clear");
+        JButton clearButton = CustomButtonFactory
+                .makeCustomButton(IconFactory.getClearIcon(30, 30),
+                        IconFactory.getClearIcon(32, 32), 32, 32,
+                        "Clear search fields");
+        // JButton clearButton = new JButton("Clear");
         clearButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -141,6 +142,7 @@ public class QuerySearchTab extends JPanel {
         searchArea = new JTextArea("");
         searchArea.setLineWrap(true);
         searchArea.setSize(850, 20);
+        searchArea.setEditable(false);
         JScrollPane searchScroll = new JScrollPane(searchArea);
         searchScroll.setPreferredSize(new Dimension(800, 35));
         JRadioButton queryBuilderButton = new JRadioButton("Query Builder");
@@ -169,33 +171,13 @@ public class QuerySearchTab extends JPanel {
         buttonGroup.add(queryBuilderButton);
         buttonGroup.add(manualEditButton);
         buttonGroup.setSelected(queryBuilderButton.getModel(), true);
-        // JCheckBox queryBuilderCheckbox = new JCheckBox("Query Builder");
-        // queryBuilderCheckbox.setHorizontalTextPosition(SwingConstants.LEFT);
-        // queryBuilderCheckbox.addItemListener(new ItemListener() {
-        // @Override
-        // public synchronized void itemStateChanged(ItemEvent e) {
-        // if (e.getStateChange() == ItemEvent.DESELECTED) {
-        // searchArea.setEditable(true);
-        //
-        // for (QueryBuilderRow row : rowList) {
-        // row.setEnabled(false);
-        // }
-        // } else {
-        // searchArea.setEditable(false);
-        // for (QueryBuilderRow row : rowList) {
-        // row.setEnabled(true);
-        // }
-        // }
-        // }
-        // });
-        // queryBuilderCheckbox.setSelected(true);
-        
         searchPanel.add(queryBuilderButton);
         searchPanel.add(manualEditButton);
         searchPanel.add(searchScroll);
         searchPanel.add(searchButton);
-        // searchPanel.add(Box.createHorizontalStrut(5));
+        searchPanel.add(Box.createHorizontalStrut(5));
         searchPanel.add(clearButton);
+        searchPanel.add(Box.createHorizontalStrut(50));
     }
     
     /**
@@ -203,11 +185,10 @@ public class QuerySearchTab extends JPanel {
      */
     private void setUpResultsHeaderPanel() {
         resultsHeaderPanel = new JPanel(new BorderLayout());
-        // JButton backButton = CustomButtonFactory.makeCustomButton(
-        // IconFactory.getBackIcon(25, 25),
-        // IconFactory.getBackHoverIcon(27, 27), 25, 25,
-        // "Back to search view");
-        backButton = new JButton("Back");
+        JButton backButton = CustomButtonFactory.makeCustomButton(
+                IconFactory.getBackIcon(25, 25),
+                IconFactory.getBackIcon(27, 27), 25, 25, "Back to search view");
+        // backButton = new JButton("Back");
         backButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -394,7 +375,7 @@ public class QuerySearchTab extends JPanel {
     public JButton getBackButton() {
         return backButton;
     }
-
+    
     public JButton getSearchButton() {
         return searchButton;
     }
