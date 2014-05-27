@@ -38,22 +38,14 @@ import communication.HTTPURLUpload;
 public class UploadTab extends JPanel {
 
     private static final long serialVersionUID = -2830290705724588252L;
-    private JButton existingExpButton, newExpButton, selectButton,
-            uploadButton, uploadSelectedBtn;
-    private JPanel northPanel, expNamePanel, uploadPanel, newExpPanel,
-            uploadFilesPanel, uploadBackground;
+    private JButton existingExpButton, newExpButton;
+    private JPanel northPanel, expNamePanel, uploadPanel;
     private UploadToExistingExpPanel uploadToExistingExpPanel;
-    private AnnotationDataType[] annotations;
-    private ArrayList<String> annotationHeaders;
     private CopyOnWriteArrayList<HTTPURLUpload> ongoingUploads;
-    private HashMap<String, JComboBox> annotationBoxes;
-    private HashMap<String, JTextField> annotationFields;
-    private HashMap<File, UploadFileRow> uploadFileRows;
     private ActivePanel activePanel;
-    private JLabel expNameLabel, boldTextLabel;
-    private JTextField experimentNameField, expID;
+    private JLabel boldTextLabel;
+    private JTextField experimentNameField;
     private JScrollPane uploadScroll;
-    private JPanel buttonsPanel;
 
     // Test purpose
     private ArrayList<UploadToNewExpPanel> newExps = new ArrayList<UploadToNewExpPanel>();
@@ -63,8 +55,6 @@ public class UploadTab extends JPanel {
      * Constructor creating a upload tab.
      */
     public UploadTab() {
-        uploadFileRows = new HashMap<>();
-        annotationHeaders = new ArrayList<>();
         activePanel = ActivePanel.NONE;
         setLayout(new BorderLayout());
         uploadToExistingExpPanel = new UploadToExistingExpPanel();
@@ -85,12 +75,9 @@ public class UploadTab extends JPanel {
         uploadPanel = new JPanel(new BorderLayout());
         uploadScroll = new JScrollPane(uploadPanel);
         add(uploadScroll, BorderLayout.CENTER);
-        uploadBackground = new JPanel(new BorderLayout());
-        boldTextLabel = new JLabel( // Bolded isn't a word..
+        boldTextLabel = new JLabel(
                 "<html><b>Bold text indicates a forced annotation.</b></html>");
         boldTextLabel.setOpaque(true);
-        newExpPanel = new JPanel();
-        expNameLabel = new JLabel();
         updateProgress();
     }
 
@@ -138,7 +125,6 @@ public class UploadTab extends JPanel {
      *
      */
     public void addNewExpPanel(AnnotationDataType[] annotations) {
-        this.annotations = annotations;
         killContentsOfUploadPanel();
         activePanel = ActivePanel.NEW;
         uploadToNewExpPanel.createNewExpPanel(annotations);

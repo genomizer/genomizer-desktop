@@ -472,7 +472,7 @@ public class GUI extends JFrame implements GenomizerView {
         // TESTING
         for (int i = 0; i < fileArray.size(); i++) {
 
-            System.out.println(fileArray.get(i).filename);
+            //System.out.println(fileArray.get(i).filename);
 
         }
         tabbedPane.setSelectedIndex(2);
@@ -749,7 +749,6 @@ public class GUI extends JFrame implements GenomizerView {
     }
 
     public void resetGUI() {
-        System.out.println("fdfdfdsfdsfds");
         while (tabbedPane.getTabCount() > 0) {
             tabbedPane.removeTabAt(0);
         }
