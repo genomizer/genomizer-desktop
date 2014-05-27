@@ -46,6 +46,12 @@ public class IconFactory {
                 Image.SCALE_SMOOTH));
     }
     
+    public static ImageIcon getLogoIcon(int x, int y) {
+        ImageIcon icon = getBufferedImage("/icons/logo.png");
+        return new ImageIcon(icon.getImage().getScaledInstance(x, y,
+                Image.SCALE_SMOOTH));
+    }
+    
     public static ImageIcon getPlusIcon(int x, int y) {
         ImageIcon icon = getBufferedImage("/icons/plus2.png");
         return new ImageIcon(icon.getImage().getScaledInstance(x, y,
