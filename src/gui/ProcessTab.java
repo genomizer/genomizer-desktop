@@ -5,17 +5,21 @@ import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
+import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
+import java.io.IOException;
 import java.text.Format;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 
+import javax.imageio.ImageIO;
 import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.ButtonGroup;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
@@ -39,6 +43,7 @@ import util.AnnotationDataValue;
 import util.ExperimentData;
 import util.FileData;
 import util.GenomeReleaseData;
+import util.IconFactory;
 import util.ProcessFeedbackData;
 
 /**
@@ -93,7 +98,7 @@ public class ProcessTab extends JPanel {
     private final JButton processFeedbackButton = new JButton(
             "Get process feedback");
     private final JButton deleteButton = new JButton("Delete selected");
-    private final JButton infoButton = new JButton("?");
+    private final JButton infoButton = new JButton();
 
     private final JCheckBox printMean = new JCheckBox("Print mean");
     private final JCheckBox printZeros = new JCheckBox("Print zeros");
@@ -418,6 +423,9 @@ public class ProcessTab extends JPanel {
         rawParameterPanel.add(stepSizePanel);
         stepSizePanel.setBorder(BorderFactory.createTitledBorder("Step size"));
         rawParameterPanel.add(infoButton);
+
+        ImageIcon img = IconFactory.getInfoIcon(30, 30);
+        infoButton.setIcon(img);
 
     }
 
