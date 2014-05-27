@@ -392,8 +392,6 @@ public class ProcessTab extends JPanel {
         formatPanel.setPreferredSize(new Dimension(100, 82));
         formatPanel.setBorder(BorderFactory.createTitledBorder("Format"));
 
-        rawParameterPanel.add(infoButton);
-
         rawParameterPanel.add(formatPanel);
         formatPanel.setLayout(new GridLayout(0, 1, 0, 0));
         formatPanel.add(outputSAM);
@@ -419,6 +417,7 @@ public class ProcessTab extends JPanel {
 
         rawParameterPanel.add(stepSizePanel);
         stepSizePanel.setBorder(BorderFactory.createTitledBorder("Step size"));
+        rawParameterPanel.add(infoButton);
 
     }
 
