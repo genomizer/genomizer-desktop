@@ -170,14 +170,18 @@ public class DownloadWindow extends JFrame {
          * Automatically click the download button when the listener has been
          * added to let the user choose where to save the files immediately.
          * If no files were selected, show a message dialog and close the
-         * DownloadWindow.
+         * DownloadWindow. If downloads are ongoing, just display the progress
+         * bars and let the user choose himself if he wants to download more
+         * files.
          */
-        if(files.size() > 0) {
-            downloadButton.doClick();
-        } else {
-            JOptionPane.showMessageDialog(null,"No files were selected.");
-            setVisible(false);
-            dispose();
+        if(ongoingDownloads.size()==0) {
+            if (files.size() > 0) {
+                downloadButton.doClick();
+            } else {
+                JOptionPane.showMessageDialog(null, "No files were selected.");
+                setVisible(false);
+                dispose();
+            }
         }
     }
     
