@@ -68,8 +68,6 @@ public class ProcessTab extends JPanel {
     private final JPanel stepPositionPanel = new JPanel();
     private final JPanel stepSizePanel = new JPanel();
     private final JPanel checkBoxPanel = new JPanel();
-    private final JPanel createRegTabPanel = new JPanel();
-    private final JPanel convWigTabPanel = new JPanel();
     private final JPanel rawTabpanel = new JPanel(new BorderLayout());
     private final JPanel removePanel = new JPanel(new FlowLayout());
     private final JPanel createProfilePanel = new JPanel();
@@ -89,9 +87,7 @@ public class ProcessTab extends JPanel {
     private final JScrollPane scrollProcessList = new JScrollPane();
     private final JScrollPane scrollFiles = new JScrollPane();
 
-    private final JButton convertButton = new JButton("Convert to WIG");
-    private final JButton profileButton = new JButton("Create profile data");
-    private final JButton regionButton = new JButton("Create region data");
+    private final JButton profileButton = new JButton("Start process");
     private final JButton ratioCalcButton = new JButton(
             "Ratio calculation option");
     private final JButton processFeedbackButton = new JButton(
@@ -106,7 +102,6 @@ public class ProcessTab extends JPanel {
 
     private final JComboBox<String> genomeFile = new JComboBox<String>();
     private final JComboBox<String> smoothType = new JComboBox<String>();
-    private final JComboBox<String> single = new JComboBox<String>();
 
     public final JRadioButton outputSGR = new JRadioButton("SGR");
     public final JRadioButton outputGFF = new JRadioButton("GFF");
@@ -126,7 +121,6 @@ public class ProcessTab extends JPanel {
         this.setLayout(new BorderLayout());
         initPanels();
         disableAllParameters();
-
     }
 
     /**
@@ -150,8 +144,6 @@ public class ProcessTab extends JPanel {
         initRegularParameters();
         setDefaultRatioPar();
         setButtonListeners();
-
-
 
     }
 
@@ -492,10 +484,6 @@ public class ProcessTab extends JPanel {
      * Initiates the all buttons.
      */
     private void enableButtons() {
-        createRegTabPanel.add(regionButton);
-        regionButton.setEnabled(false);
-        convWigTabPanel.add(convertButton);
-        convertButton.setEnabled(false);
         rawTabpanel.add(buttonPanel, BorderLayout.SOUTH);
         useSmoothing.setPreferredSize(new Dimension(95, 30));
 
@@ -748,7 +736,7 @@ public class ProcessTab extends JPanel {
     }
 
     public void addConvertFileListener(ActionListener listener) {
-        convertButton.addActionListener(listener);
+        //convertButton.addActionListener(listener);
     }
 
     public void addProcessFeedbackListener(ActionListener listener) {
@@ -760,7 +748,7 @@ public class ProcessTab extends JPanel {
     }
 
     public void addRawToRegionDataListener(ActionListener listener) {
-        regionButton.addActionListener(listener);
+       // regionButton.addActionListener(listener);
     }
 
     public void addRatioCalcListener(ActionListener listener) {
