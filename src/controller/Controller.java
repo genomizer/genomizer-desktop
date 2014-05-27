@@ -520,6 +520,7 @@ public class Controller {
                     .getSelectedDataInSearch();
             if (selectedData != null && selectedData.size() > 0) {
                 view.addToWorkspace(view.getSelectedDataInSearch());
+
             }
         }
         
