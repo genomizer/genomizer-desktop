@@ -6,14 +6,10 @@ import model.Model;
 
 import org.junit.Before;
 import org.junit.Test;
-import util.AnnotationDataType;
 import util.AnnotationDataValue;
 import util.ExperimentData;
 
-import java.io.BufferedWriter;
 import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
 import java.util.ArrayList;
 
 public class ModelTest {

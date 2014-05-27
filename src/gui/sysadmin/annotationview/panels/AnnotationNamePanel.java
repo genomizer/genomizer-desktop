@@ -3,7 +3,6 @@ package gui.sysadmin.annotationview.panels;
 import gui.sysadmin.annotationview.EditAnnotationPopup2;
 import gui.sysadmin.strings.SysStrings;
 
-import java.awt.Color;
 import java.awt.Dimension;
 
 import javax.swing.JButton;
@@ -12,6 +11,7 @@ import javax.swing.JTextField;
 
 public class AnnotationNamePanel extends JPanel {
     
+    private static final long serialVersionUID = -7144255316105334163L;
     private JButton modifyNameButton;
     private JTextField valueTextField;
     

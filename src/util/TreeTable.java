@@ -33,6 +33,7 @@ import org.jdesktop.swingx.treetable.DefaultTreeTableModel;
  */
 public class TreeTable extends JPanel {
     
+    private static final long serialVersionUID = 6033511181052590303L;
     private JXTreeTable table;
     private ArrayList<String> headings;
     private ArrayList<ExperimentData> experiments;
@@ -66,6 +67,8 @@ public class TreeTable extends JPanel {
      */
     private void initiateJXTreeTable() {
         table = new JXTreeTable() {
+            private static final long serialVersionUID = -5027164951558722985L;
+
             public boolean getScrollableTracksViewportWidth() {
                 return getPreferredSize().width < getParent().getWidth();
             }
@@ -76,6 +79,8 @@ public class TreeTable extends JPanel {
         table.setOpenIcon(null);
         /* Custom column control for hiding columns */
         ColumnControlButton controlButton = new ColumnControlButton(table) {
+            private static final long serialVersionUID = 1022478445883845370L;
+
             @Override
             protected ColumnControlPopup createColumnControlPopup() {
                 return (new NFColumnControlPopup());

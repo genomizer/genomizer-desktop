@@ -19,13 +19,12 @@ import util.GenomeReleaseData;
 
 public class UploadToExistingExpPanel extends JPanel implements ExperimentPanel {
 
+    private static final long serialVersionUID = 7796310269631189223L;
     private JButton selectFilesToUploadButton, uploadFilesToExperimentButton;
     private JPanel northPanel, centerPanel, uploadFilesPanel, buttonsPanel;
     private HashMap<File, UploadFileRow> uploadFileRows;
     private ExperimentData ed;
     private ArrayList<String> genome;
-    private String species;
-
     /**
      * Initiates an uploadToExistingExpPanel with its standard buttons and
      * panels. Calls the method build() to build it further.
@@ -207,7 +206,7 @@ public class UploadToExistingExpPanel extends JPanel implements ExperimentPanel 
             gbc.gridy = y;
             JPanel p = new JPanel(new BorderLayout());
             if (adv.getName().equalsIgnoreCase("species")) {
-                species = adv.getValue();
+                adv.getValue();
             }
             JLabel annotationHeader = new JLabel(adv.getName());
             font = annotationHeader.getFont();

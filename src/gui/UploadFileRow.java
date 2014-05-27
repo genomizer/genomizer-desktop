@@ -26,6 +26,8 @@ import javax.swing.JProgressBar;
  * @author oi11ejn
  */
 public class UploadFileRow extends JPanel {
+
+    private static final long serialVersionUID = -4087152834657635393L;
     private ExperimentPanel parent;
     private JPanel filePanel;
     private JLabel fileLabel;

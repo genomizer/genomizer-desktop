@@ -1,7 +1,5 @@
 package communication;
 
-import org.apache.commons.codec.binary.Base64;
-
 import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;

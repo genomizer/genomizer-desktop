@@ -9,6 +9,7 @@ import javax.swing.JPanel;
 
 public class UserPanel extends JPanel {
     
+    private static final long serialVersionUID = -5837140311329422316L;
     private String name, username;
     private boolean admin;
     JLabel usernameLabel;
@@ -23,9 +24,6 @@ public class UserPanel extends JPanel {
     
     private void setLogoutButton() {
         logoutButton = new JButton("Logout");
-        // logoutButton = CustomButtonFactory.makeCustomButton(
-        // IconFactory.getLogoutIcon(35, 35),
-        // IconFactory.getLogoutHoverIcon(37, 37), 37, 37, "Logout user");
         add(logoutButton, BorderLayout.EAST);
     }
     
@@ -38,7 +36,7 @@ public class UserPanel extends JPanel {
         this.name = name;
         this.username = username;
         this.admin = admin;
-        usernameLabel.setText("<html><b>" + username);
+        usernameLabel.setText("<html><b> " + username + "</b></html>");
         this.repaint();
         this.revalidate();
     }

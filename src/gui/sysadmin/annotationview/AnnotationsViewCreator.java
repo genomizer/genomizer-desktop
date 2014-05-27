@@ -3,21 +3,16 @@ package gui.sysadmin.annotationview;
 import gui.sysadmin.strings.SysStrings;
 
 import javax.swing.*;
-import javax.swing.border.Border;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
-import javax.swing.table.JTableHeader;
 import javax.swing.table.TableModel;
 import javax.swing.table.TableRowSorter;
 import javax.swing.text.BadLocationException;
 import java.awt.*;
 import java.awt.event.ActionListener;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
 
 public class AnnotationsViewCreator {
 
-    private static final long serialVersionUID = 3718367832670081148L;
     private TableRowSorter<TableModel> rowSorter;
     private JButton addButton;
     private JButton modifyButton;
@@ -129,9 +124,7 @@ public class AnnotationsViewCreator {
         this.rowSorter = rowSorter;
 
         JScrollPane scroll = new JScrollPane(table);
-        // scroll.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
-        // table.setPreferredSize(scroll.getSize());
-        JTableHeader header = table.getTableHeader();
+        table.getTableHeader();
 
         JPanel panel = new JPanel(new BorderLayout());
         // panel.add(header, BorderLayout.NORTH);
