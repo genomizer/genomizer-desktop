@@ -40,5 +40,7 @@ public class Genomizer {
                 gui.pack();
             }
         });
+
+
     }
 }

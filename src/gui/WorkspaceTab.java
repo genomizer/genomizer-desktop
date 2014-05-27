@@ -139,8 +139,7 @@ public class WorkspaceTab extends JPanel {
     }
     
     private String[] concatArrays(String[] first, String[] second) {
-        ArrayList<String> both = new ArrayList<>(first.length
-                + second.length);
+        ArrayList<String> both = new ArrayList<>(first.length + second.length);
         Collections.addAll(both, first);
         Collections.addAll(both, second);
         return both.toArray(new String[both.size()]);
@@ -164,10 +163,8 @@ public class WorkspaceTab extends JPanel {
                 expList.add(newExperiment);
             }
         }
-        System.out.println("setting content");
+        
         table.setContent(expList);
-        table.repaint();
-        table.revalidate();
     }
     
     public ArrayList<ExperimentData> getSelectedData() {

@@ -46,5 +46,4 @@ public class UserPanel extends JPanel {
     public void addLogoutButtonListener(ActionListener listener) {
         logoutButton.addActionListener(listener);
     }
-    
 }

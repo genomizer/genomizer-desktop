@@ -9,7 +9,6 @@ import java.net.URL;
 
 /**
  * Created by Christoffer on 2014-04-30.
- *
  */
 public class DownloadHandler {
 
@@ -44,11 +43,8 @@ public class DownloadHandler {
             int responseCode;
             responseCode = conn.getResponseCode();
             if (responseCode != 200) {
-                System.out
-                        .println("Error wrong response code: " + responseCode);
                 return false;
             }
-            System.out.println(responseCode);
             InputStream in = conn.getInputStream();
             String buffer;
             totalDownload = 0;
@@ -57,7 +53,6 @@ public class DownloadHandler {
             FileOutputStream fileOut = new FileOutputStream(file);
             Long previousTime = System.currentTimeMillis();
             if (!isBinaryFile()) {
-                System.out.println("Text file");
                 BufferedReader reader = new BufferedReader(new InputStreamReader(in));
                 BufferedWriter writer = new BufferedWriter(new FileWriter(file));
                 while ((buffer = reader.readLine()) != null && !isFinished()) {
@@ -71,12 +66,9 @@ public class DownloadHandler {
                         previousDownload = totalDownload;
                     }
                 }
-                System.out.println("Size: " + totalDownload + " Expected: " + conn.getContentLength());
                 writer.close();
                 reader.close();
             } else {
-                System.out.println("Binary file");
-                System.out.println(conn.getContentLength());
                 byte[] buff = new byte[conn.getContentLength() + 1];
                 int count = in.read(buff, 0, conn.getContentLength());
                 totalDownload += count;
@@ -87,7 +79,6 @@ public class DownloadHandler {
                         fileOut.write(buff, 0, count);
                     }
                 }
-                System.out.println("Size: " + totalDownload + " Expected: " + conn.getContentLength());
             }
             in.close();
             fileOut.close();
@@ -95,7 +86,6 @@ public class DownloadHandler {
             conn.disconnect();
 
         } catch (MalformedURLException e) {
-            System.out.println("ERROR: The url was not correct: " + url);
             return false;
         } catch (IOException e) {
             e.printStackTrace();
@@ -118,7 +108,7 @@ public class DownloadHandler {
     }
 
     public int getCurrentProgress() {
-            return totalDownload;
+        return totalDownload;
     }
 
     public int getCurrentSpeed() {

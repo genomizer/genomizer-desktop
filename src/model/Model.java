@@ -89,25 +89,6 @@ public class Model implements GenomizerModel {
     public boolean rawToProfile(String expid, String[] parameters,
             String metadata, String genomeRelease, String author) {
 
-        // /hej anna
-        System.out.println("RAW TO PROFILE\n");
-        // System.out.println("Filename: " + fileName);
-        // System.out.println("File ID: " + fileID);
-        System.out.println("Expid: " + expid);
-        // System.out.println("Processtype: " + processtype);
-        System.out.println("Parameter 1: " + parameters[0]);
-        System.out.println("Parameter 2: " + parameters[1]);
-        System.out.println("Parameter 3: " + parameters[2]);
-        System.out.println("Parameter 4: " + parameters[3]);
-        System.out.println("Parameter 5: " + parameters[4]);
-        System.out.println("Parameter 6: " + parameters[5]);
-        System.out.println("Parameter 7: " + parameters[6]);
-        System.out.println("Parameter 8: " + parameters[7]);
-        System.out.println("Metadata: " + metadata);
-        System.out.println("Genome Release: " + genomeRelease);
-        System.out.println("Author: " + author);
-        System.out.println("\n");
-
         rawToProfileRequest rawToProfilerequest = RequestFactory
                 .makeRawToProfileRequest(expid, parameters, metadata,
                         genomeRelease, author);
@@ -133,7 +114,6 @@ public class Model implements GenomizerModel {
                         .parseLoginResponse(conn.getResponseBody());
                 if (loginResponse != null) {
                     userID = loginResponse.token;
-                    System.out.println(userID);
                     return true;
                 }
             } else {
@@ -163,7 +143,6 @@ public class Model implements GenomizerModel {
         AddFileToExperiment request = RequestFactory.makeAddFile(expName,
                 f.getName(), type, "metameta", username, username, isPrivate,
                 release);
-        System.out.println(request.toJson());
         Connection conn = connFactory.makeConnection();
         conn.sendRequest(request, userID, JSON);
         if (conn.getResponseCode() == 200) {
@@ -180,7 +159,7 @@ public class Model implements GenomizerModel {
                 return true;
             }
         } else {
-            System.out.println(conn.getResponseCode());
+            System.out.println("Response code: " + conn.getResponseCode());
         }
         return false;
     }
@@ -192,13 +171,11 @@ public class Model implements GenomizerModel {
         DownloadFileRequest request = RequestFactory.makeDownloadFileRequest(
                 fileID, ".wig");
 
-        System.out.println("Test: " + fileID);
         Connection conn = connFactory.makeConnection();
         conn.sendRequest(request, userID, TEXT_PLAIN);
         Gson gson = new Gson();
         DownloadFileResponse response = gson.fromJson(conn.getResponseBody(),
                 DownloadFileResponse.class);
-        System.out.println(conn.getResponseBody());
         final DownloadHandler handler = new DownloadHandler(userID, fileName);
         if (handler != null) {
             ongoingDownloads.add(handler);
@@ -210,7 +187,6 @@ public class Model implements GenomizerModel {
             }
         }).start();
 
-        System.out.println("Test");
         return true;
     }
 
@@ -262,7 +238,8 @@ public class Model implements GenomizerModel {
             if (a.getName().equalsIgnoreCase(name)) {
                 throw new IllegalArgumentException(
                         "Annotations must have a unique name, " + name
-                                + " already exists");
+                                + " already exists"
+                );
             }
         }
 
@@ -356,7 +333,7 @@ public class Model implements GenomizerModel {
                     + conn.getResponseBody());
             JOptionPane.showMessageDialog(null, "Could not get annotations!");
         }
-        return new AnnotationDataType[] {};
+        return new AnnotationDataType[] { };
     }
 
     public GenomeReleaseData[] getGenomeReleases() {
@@ -365,7 +342,6 @@ public class Model implements GenomizerModel {
         Connection conn = connFactory.makeConnection();
         conn.sendRequest(request, userID, TEXT_PLAIN);
         if (conn.getResponseCode() == 200) {
-            System.err.println("Sent getGenomerReleaseRequestSuccess!");
             GenomeReleaseData[] genomeReleases = ResponseParser
                     .parseGetGenomeReleaseResponse(conn.getResponseBody());
             return genomeReleases;
@@ -377,7 +353,7 @@ public class Model implements GenomizerModel {
                     + conn.getResponseBody());
         }
 
-        return new GenomeReleaseData[] {};
+        return new GenomeReleaseData[] { };
     }
 
     @Override
@@ -389,29 +365,29 @@ public class Model implements GenomizerModel {
             files[i] = new File(filePaths[i]);
             names[i] = files[i].getName();
         }
-        
+
         AddGenomeReleaseRequest request = RequestFactory.makeAddGenomeRelease(
                 names, species, version);
         System.out.println(request.toJson());
         Connection conn = connFactory.makeConnection();
         conn.sendRequest(request, userID, JSON);
         if (conn.getResponseCode() == 201) {
-            
-              AddGenomeReleaseResponse[] aGRR = ResponseParser.parseGenomeUploadResponse(conn
+
+            AddGenomeReleaseResponse[] aGRR = ResponseParser.parseGenomeUploadResponse(conn
                     .getResponseBody());
-            
+
             for (int i = 0; i < files.length; i++) {
                 HTTPURLUpload upload = new HTTPURLUpload(aGRR[i].URLupload,
                         files[i].getAbsolutePath(), files[i].getName());
-                
+
                 ongoingUploads.add(upload);
-                
+
                 if (upload.sendFile(userID)) {
-                    
+
                     System.out
                             .println("Succefully added genome release file named "
                                     + files[i].getName() + ".");
-                    
+
                 } else {
                     System.err
                             .println("Could not add genome release file named "
@@ -419,19 +395,19 @@ public class Model implements GenomizerModel {
                     System.out.println(conn.getResponseBody());
                     return false;
                 }
-                
+
             }
             return true;
-            
+
         } else {
-            
+
             System.out
                     .println("Something went wrong, could not add genome release: "
                             + conn.getResponseCode()
                             + "\n"
                             + conn.getResponseBody());
         }
-        
+
         return false;
     }
 
@@ -440,7 +416,6 @@ public class Model implements GenomizerModel {
             AnnotationDataValue[] annotations) {
         AddExperimentRequest aER = RequestFactory.makeAddExperimentRequest(
                 expName, annotations);
-        System.out.println(aER.toJson());
         Connection conn = connFactory.makeConnection();
         conn.sendRequest(aER, getUserID(), JSON);
         if (conn.getResponseCode() == 201) {
@@ -458,7 +433,6 @@ public class Model implements GenomizerModel {
                 .makeRetrieveExperimentRequest(expID);
         Connection conn = connFactory.makeConnection();
         conn.sendRequest(rER, getUserID(), "plain/text");
-        System.out.println(rER.toJson());
         if (conn.getResponseCode() == 200) {
             ExperimentData ed = ResponseParser.parseRetrieveExp(conn
                     .getResponseBody());
@@ -542,7 +516,6 @@ public class Model implements GenomizerModel {
                 .makeProcessFeedbackRequest();
         Connection conn = connFactory.makeConnection();
         conn.sendRequest(request, userID, TEXT_PLAIN);
-        System.out.println("proc feedback code: " + conn.getResponseCode());
         if (conn.getResponseCode() == 200) {
             ProcessFeedbackData[] data = ResponseParser
                     .parseProcessFeedbackResponse(conn.getResponseBody());
@@ -571,19 +544,19 @@ public class Model implements GenomizerModel {
         }
         return false;
     }
-    
+
     public GenomeReleaseData[] getSpeciesGenomeReleases(String species) {
-        
+
         GetGenomeSpecieReleasesRequest request = RequestFactory
                 .makeGetGenomeSpecieReleaseRequest(species);
-        
+
         // GetGenomeReleasesRequest request = RequestFactory
         // .makeGetGenomeReleaseRequest();
         Connection conn = connFactory.makeConnection();
         conn.sendRequest(request, userID, TEXT_PLAIN);
         // conn.sendRequest(request, userID, TEXT_PLAIN);
         if (conn.getResponseCode() == 200) {
-            
+
             System.err.println("Sent getGenomeSpecieReleaseRequestSuccess!");
             GenomeReleaseData[] genomeReleases = ResponseParser
                     .parseGetGenomeReleaseResponse(conn.getResponseBody());
@@ -592,13 +565,13 @@ public class Model implements GenomizerModel {
             // }
             return genomeReleases;
         } else {
-            
+
             System.out.println("GenomeSpecieRelease responsecode: "
                     + conn.getResponseCode());
             JOptionPane.showMessageDialog(null,
                     "Could not get genomespeciereleases!");
         }
-        
+
         //
         return new GenomeReleaseData[1];
 
@@ -634,7 +607,7 @@ public class Model implements GenomizerModel {
         ongoingDownloads = new CopyOnWriteArrayList<DownloadHandler>();
         ongoingUploads = new CopyOnWriteArrayList<HTTPURLUpload>();
     }
-    
+
     @Override
     public boolean addGenomeRelease() {
         return false;
