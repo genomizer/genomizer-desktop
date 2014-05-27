@@ -123,6 +123,7 @@ public class Controller {
                 }
             }
 
+            //DANIEL
             if(allRaw){
                 if (view.isCorrectToProcess() && view.isRatioCorrectToProcess()) {
                     if (!allMarked.isEmpty()) {
