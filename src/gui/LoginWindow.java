@@ -50,6 +50,11 @@ public class LoginWindow extends JFrame {
             public void windowClosed(WindowEvent e) {
                 parent.getFrame().dispose();
             }
+            
+            @Override
+            public void windowActivated(WindowEvent e) {
+                passwordField.requestFocusInWindow();
+            }
         });
         setTitle("Genomizer Login");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -82,7 +87,7 @@ public class LoginWindow extends JFrame {
         bottomPanel.add(usernameLabel);
         
         usernameField = new JTextField(20);
-        usernameField.setBounds(100, 50, 160, 25);
+        usernameField.setBounds(90, 50, 170, 25);
         usernameField.setText("desktop");
         bottomPanel.add(usernameField);
         
@@ -91,7 +96,7 @@ public class LoginWindow extends JFrame {
         bottomPanel.add(passwordLabel);
         
         passwordField = new JPasswordField(20);
-        passwordField.setBounds(100, 80, 160, 25);
+        passwordField.setBounds(90, 80, 170, 25);
         passwordField.setText("umea@2014");
         bottomPanel.add(passwordField);
         
@@ -100,11 +105,11 @@ public class LoginWindow extends JFrame {
         bottomPanel.add(ipLabel);
         
         ipField = new JTextField(20);
-        ipField.setBounds(100, 110, 160, 25);
+        ipField.setBounds(90, 110, 170, 25);
         ipField.setText("scratchy.cs.umu.se:7000");
         bottomPanel.add(ipField);
         
-        loginButton = new JButton("login");
+        loginButton = new JButton("Login");
         buttonPanel.add(loginButton);
         
         // Add listeners to the JTextFields for if enter/return is pressed.
@@ -173,9 +178,10 @@ public class LoginWindow extends JFrame {
     
     public void paintErrorMessage(String message) {
         removeErrorMessage();
+        message = message.replace(".", "");
         errorLabel = new JLabel("<html><b>" + message + "</b></html>");
         // errorLabel.setIcon(UIManager.getIcon("OptionPane.warningIcon"));
-        errorLabel.setBounds(70, 0, 200, 45);
+        errorLabel.setBounds(70, 0, 150, 45);
         bottomPanel.add(errorLabel);
         repaint();
         revalidate();
