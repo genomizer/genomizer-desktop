@@ -18,7 +18,7 @@ public class TransferFileTest {
 
     @Before
     public void setUp() throws Exception {
-        m.setIp("http://sterner.cc:7000");
+        m.setIp("http://" + ip + ":7000");
         m.loginUser("desktoptest", "umea@2014");
     }
     @Test

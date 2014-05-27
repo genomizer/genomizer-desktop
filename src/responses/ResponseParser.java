@@ -14,7 +14,7 @@ public class ResponseParser {
     private static Gson gson = new Gson();
     
     public static LoginResponse parseLoginResponse(String json) {
-        LoginResponse loginResponse = null;
+        LoginResponse loginResponse;
         try {
             loginResponse = gson.fromJson(json, LoginResponse.class);
         } catch (JsonParseException e) {
@@ -24,7 +24,7 @@ public class ResponseParser {
     }
     
     public static ExperimentData parseRetrieveExp(String json) {
-        ExperimentData retrieveExpResponse = null;
+        ExperimentData retrieveExpResponse;
         try {
             retrieveExpResponse = gson.fromJson(json, ExperimentData.class);
         } catch (JsonParseException e) {
@@ -34,7 +34,7 @@ public class ResponseParser {
     }
     
     public static ExperimentData[] parseSearchResponse(String json) {
-        ExperimentData[] searchResponses = null;
+        ExperimentData[] searchResponses;
         try {
             searchResponses = gson.fromJson(json, ExperimentData[].class);
         } catch (JsonParseException e) {
@@ -44,7 +44,7 @@ public class ResponseParser {
     }
     
     public static AnnotationDataType[] parseGetAnnotationResponse(String json) {
-        AnnotationDataType[] annotationResponses = null;
+        AnnotationDataType[] annotationResponses;
         try {
             annotationResponses = gson.fromJson(json,
                     AnnotationDataType[].class);
@@ -56,7 +56,7 @@ public class ResponseParser {
     
     public static GenomeReleaseData[] parseGetGenomeReleaseResponse(String json) {
         
-        GenomeReleaseData[] genomeReleaseResponses = null;
+        GenomeReleaseData[] genomeReleaseResponses;
         try {
             genomeReleaseResponses = gson.fromJson(json,
                     GenomeReleaseData[].class);
@@ -97,7 +97,7 @@ public class ResponseParser {
     }
     
     public static ProcessFeedbackData[] parseProcessFeedbackResponse(String json) {
-        ProcessFeedbackData[] processFeedbackData = null;
+        ProcessFeedbackData[] processFeedbackData;
         try {
             processFeedbackData = gson.fromJson(json,
                     ProcessFeedbackData[].class);
@@ -110,7 +110,7 @@ public class ResponseParser {
     
     public static ErrorResponse parseErrorResponse(String json) {
         
-        ErrorResponse response = null;
+        ErrorResponse response;
         try {
             response = gson.fromJson(json, ErrorResponse.class);
         } catch (JsonParseException e) {

@@ -126,7 +126,7 @@ public class Model implements GenomizerModel {
             }
         }
         
-        return "No username or password inserted";
+        return "No username and/or password inserted";
     }
     
     @Override

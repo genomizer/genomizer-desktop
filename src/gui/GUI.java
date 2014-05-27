@@ -58,7 +58,13 @@ public class GUI extends JFrame implements GenomizerView {
 
         setLookAndFeel();
 
+        /*
+         * When the window is activated, set the focus to the search button.
+         * This prevents the user from accidentally pressing the log out button
+         * after logging in.
+         */
         addWindowListener(new WindowAdapter() {
+            @Override
             public void windowActivated(WindowEvent e) {
                 querySearchTab.getSearchButton().requestFocusInWindow();
             }
@@ -694,15 +700,11 @@ public class GUI extends JFrame implements GenomizerView {
     }
 
     public boolean isRatioCorrectToProcess() {
-        if (processTab.useRatio()) {
-            return process
-                    .isRatioCorrectToProcess(ratioCalcPopup.ratioWindowSize,
-                            ratioCalcPopup.inputReads,
-                            ratioCalcPopup.chromosome,
-                            ratioCalcPopup.ratioStepPosition);
-        } else {
-            return true;
-        }
+        return !processTab.useRatio() ||
+                process.isRatioCorrectToProcess(ratioCalcPopup.ratioWindowSize,
+                    ratioCalcPopup.inputReads,
+                    ratioCalcPopup.chromosome,
+                    ratioCalcPopup.ratioStepPosition);
     }
 
     public void setProfileButton(boolean bool) {
