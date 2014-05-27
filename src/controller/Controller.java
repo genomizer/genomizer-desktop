@@ -170,7 +170,7 @@ public class Controller {
                 }
             } else {
                 // TODO Popup window
-                message = "Parameters are invalid!: \n";
+                message = "PARAMETERS ARE INVALID: \n";
                 message = message.concat("Window size must be >= 0\n");
                 message = message.concat("Step position must be >= 0\n");
                 message = message.concat("Step size must be > 0\n");

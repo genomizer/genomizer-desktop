@@ -37,7 +37,7 @@ public class Process {
         }
     }
     
-    public boolean aboveZero(String string) {
+    private boolean aboveZero(String string) {
         
         try {
             int value = Integer.parseInt(string);
@@ -51,7 +51,7 @@ public class Process {
         }
     }
     
-    public boolean zeroOrAbove(String string) {
+    private boolean zeroOrAbove(String string) {
         
         try {
             int value = Integer.parseInt(string);

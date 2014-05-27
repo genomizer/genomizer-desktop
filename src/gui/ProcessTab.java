@@ -40,8 +40,6 @@ import util.ExperimentData;
 import util.FileData;
 import util.GenomeReleaseData;
 import util.ProcessFeedbackData;
-import javax.swing.border.TitledBorder;
-import javax.swing.UIManager;
 
 /**
  * Visual presentation of the process tab.
@@ -346,9 +344,19 @@ public class ProcessTab extends JPanel {
      * the conversion succeeded.
      */
     private void addConsoleTextArea() {
-        consolePanel.add(scrollConsole);
+        consolePanel.add(scrollConsole, BorderLayout.CENTER);
         scrollConsole.setViewportView(consoleArea);
         consoleArea.setEditable(false);
+        JPanel clearConsolePanel = new JPanel(new FlowLayout());
+        consolePanel.add(clearConsolePanel, BorderLayout.SOUTH);
+        JButton clearConsoleButton = new JButton("Clear console");
+        clearConsoleButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                 consoleArea.setText("");  
+            }
+        });
+        clearConsolePanel.add(clearConsoleButton);
     }
     
     /**
