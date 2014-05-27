@@ -189,7 +189,7 @@ public class GenomeReleaseViewCreator {
                     if (upload.getFileName().equals(bar.getName())) {
                         bar.setValue((int) upload.getCurrentProgress());
                         bar.repaint();
-                        System.out.println("current progress: " + upload.getCurrentProgress());
+                        bar.setStringPainted(true);
                         if (upload.getCurrentProgress() == 100) {
                             r = false;
                         }

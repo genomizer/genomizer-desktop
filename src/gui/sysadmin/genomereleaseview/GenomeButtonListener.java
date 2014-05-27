@@ -31,11 +31,11 @@ public class GenomeButtonListener implements ActionListener {
                     public void run() {
                         System.out.println("ny tråd!");
                         sysController.addGenomeRelease();
-                        sysController.uploadGenomeReleaseProgress();
                         sysTab.getGenomeReleaseView().clearTextFields();
                         sysTab.getGenomeReleaseView().updateFileProgressPanel();
                     }
                 }).start();
+                sysController.uploadGenomeReleaseProgress();
                 break;
             case SysStrings.GENOME_BUTTON_CLEAR:
                 sysTab.getGenomeReleaseView().clearTextFields();
