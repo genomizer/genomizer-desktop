@@ -92,7 +92,6 @@ public class SysadminController {
             
             if (a.getName().equals("Species")) {
                 
-                System.out.println("FOUND SPECIES!");
                 return a.getValues();
             }
         }
@@ -139,6 +138,7 @@ public class SysadminController {
                 JOptionPane.showMessageDialog(null, e.getMessage());
             }
         } else {
+            //TODO: this should be a popup
             System.out.println("Please select an annotation to delete");
         }
     }
@@ -268,4 +268,5 @@ public class SysadminController {
     public boolean addGenomRelease() {
         return model.addGenomeRelease();
     }
+    
 }

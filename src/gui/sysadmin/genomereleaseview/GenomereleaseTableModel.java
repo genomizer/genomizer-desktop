@@ -39,8 +39,6 @@ public class GenomereleaseTableModel extends AbstractTableModel {
         
         if (grData == null) {
             
-            System.out.println("Oh noes...");
-            
         }
         
         this.grData = grData;
@@ -66,7 +64,7 @@ public class GenomereleaseTableModel extends AbstractTableModel {
     @Override
     public int getColumnCount() {
         // TODO Auto-generated method stub
-        return 3;
+        return 2;
     }
     
     public String[] getFilenames(int rowIndex) {

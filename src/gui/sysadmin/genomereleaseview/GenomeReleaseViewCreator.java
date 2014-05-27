@@ -11,6 +11,7 @@ import java.awt.event.KeyListener;
 import java.awt.event.MouseListener;
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 
 import javax.swing.BorderFactory;
 import javax.swing.DefaultListSelectionModel;
@@ -52,6 +53,7 @@ public class GenomeReleaseViewCreator {
     private JPanel extraInfoPanel;
     private String[] filenames;
     private JPanel fileProgressPanel;
+    private ArrayList<JProgressBar> progressbars = new ArrayList<JProgressBar>();
 
     public GenomeReleaseViewCreator() {
     }
@@ -150,7 +152,6 @@ public class GenomeReleaseViewCreator {
     private JPanel buildFileProgressPanel() {
 
         JPanel progressPanel = new JPanel(new GridLayout(0, 1));
-        progressPanel.setBackground(Color.GREEN);
         setFilesForProgresspanel();
 
 
@@ -164,12 +165,26 @@ public class GenomeReleaseViewCreator {
 
                 File f = new File(fileName);
                 JLabel file = new JLabel(f.getName());
-
                 fileProgressPanel.add(file);
+                JProgressBar bar = new JProgressBar(0, 100);
+                bar.setName(fileName);
+                progressbars.add(bar);
+                fileProgressPanel.add(bar);
             }
         } else {
             if (fileProgressPanel != null) {
                 fileProgressPanel.removeAll();
+            }
+        }
+    }
+    
+    private void updateUploadProgress() {
+        if (!progressbars.isEmpty()) {
+            for (JProgressBar bar : progressbars) {
+                //TODO: get currentuploads. see if name matches
+                //the name of the progressbar.
+                //getCurrentProgress(), add to progress bar, 
+                //be happy, and update panel!
             }
         }
     }
