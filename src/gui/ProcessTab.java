@@ -122,7 +122,6 @@ public class ProcessTab extends JPanel {
         this.setLayout(new BorderLayout());
         initPanels();
         disableAllParameters();
-       // helpPopup();
     }
 
     /**
@@ -149,12 +148,14 @@ public class ProcessTab extends JPanel {
 
     }
 
-    private void helpPopup(){
+    private void helpPopup() {
 
-        JOptionPane.showMessageDialog(this,
-            "Eggs are not supposed to be green.",
-            "A plain message",
-            JOptionPane.PLAIN_MESSAGE);
+        JOptionPane
+                .showMessageDialog(
+                        this,
+                        "Regular parameters\n\nFormat: \nBowtie flags: \nGenome release files: \nWindow size: \nSmooth type: \nStep position: \nStep size: \n"
+                                + "\nRatio calculation parameters\n\nSingle/Double: \nInput reads cut-off: \nChromosomes: \nWindow size: \nSmooth type: \nStep position: \nPrint zeros: \nPrint mean: \n",
+                        "Parameter information", JOptionPane.PLAIN_MESSAGE);
     }
 
     private void setButtonListeners() {
@@ -169,6 +170,7 @@ public class ProcessTab extends JPanel {
         setCheckBoxListener(stepSizeBox);
         setCheckBoxListener(useSmoothing);
         setCheckBoxListener(useRatio);
+        setJButtonListener(infoButton);
         setFlagsListener();
     }
 
@@ -820,6 +822,15 @@ public class ProcessTab extends JPanel {
             @Override
             public void actionPerformed(ActionEvent e) {
                 check();
+            }
+        });
+    }
+
+    private void setJButtonListener(JButton infoButton) {
+        infoButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                helpPopup();
             }
         });
     }
