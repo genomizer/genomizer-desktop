@@ -520,14 +520,7 @@ public class Controller {
                     .getSelectedDataInSearch();
             if (selectedData != null && selectedData.size() > 0) {
                 view.addToWorkspace(view.getSelectedDataInSearch());
-                if (selectedData.size() == 1) {
-                    JOptionPane.showMessageDialog(null, "Added experiment \""
-                            + selectedData.get(0).getName()
-                            + "\" to the workspace.");
-                } else {
-                    JOptionPane.showMessageDialog(null, "Added experiments to"
-                            + " the workspace.");
-                }
+
             }
         }
         
