@@ -121,7 +121,7 @@ public class Model implements GenomizerModel {
                 if (response != null) {
                     return response.message;
                 } else {
-                    return "No connection";
+                    return "Server not found";
                 }
             }
         }
