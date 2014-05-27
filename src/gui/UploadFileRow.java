@@ -24,7 +24,6 @@ import javax.swing.JProgressBar;
  * file, a close button and a checkbox for selecting the filerow.
  *
  * @author oi11ejn
- *
  */
 public class UploadFileRow extends JPanel {
     private ExperimentPanel parent;
@@ -39,13 +38,10 @@ public class UploadFileRow extends JPanel {
     /**
      * A constructor creating the upload file row.
      *
-     * @param f
-     *            The file to be uploaded.
-     * @param parent
-     *            The parent of this file row.
-     * @param newExp
-     *            Boolean indicating if this file row is for a new experiment or
-     *            not.
+     * @param f      The file to be uploaded.
+     * @param parent The parent of this file row.
+     * @param newExp Boolean indicating if this file row is for a new experiment or
+     *               not.
      */
     public UploadFileRow(File f, ExperimentPanel parent, boolean newExp) {
         this.parent = parent;
@@ -59,9 +55,8 @@ public class UploadFileRow extends JPanel {
     /**
      * Method setting the content of this file row.
      *
-     * @param newExp
-     *            Boolean indicating if this file row is for a new experiment or
-     *            not.
+     * @param newExp Boolean indicating if this file row is for a new experiment or
+     *               not.
      */
     private void setContent(boolean newExp) {
         GridBagLayout gbl = new GridBagLayout();
@@ -106,11 +101,10 @@ public class UploadFileRow extends JPanel {
                         || typeBox.getSelectedItem().toString()
                         .equals("Region")) {
                     ArrayList<String> gr = parent.getGenomeReleases();
-                    for(String g : gr) {
+                    for (String g : gr) {
                         genome.addItem(g);
                     }
-                    if(genome.getItemCount() > 0) {
-                        System.out.println(typeBox.getSelectedItem().toString());
+                    if (genome.getItemCount() > 0) {
                         genome.setEnabled(true);
                         typeBox.setSelectedItem(typeBox.getSelectedItem());
                     } else {
@@ -169,8 +163,7 @@ public class UploadFileRow extends JPanel {
     /**
      * Method adding a listener to the close button.
      *
-     * @param listener
-     *            The listener to be added.
+     * @param listener The listener to be added.
      */
     public void addCloseButtonListener(ActionListener listener) {
         closeButton.addActionListener(listener);
@@ -197,8 +190,7 @@ public class UploadFileRow extends JPanel {
     /**
      * Method updating the progress bar of this file row.
      *
-     * @param progress
-     *            The current progress.
+     * @param progress The current progress.
      */
     public void updateProgressBar(float progress) {
         /* Progress is handled as % */

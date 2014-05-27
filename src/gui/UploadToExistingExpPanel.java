@@ -74,19 +74,18 @@ public class UploadToExistingExpPanel extends JPanel implements ExperimentPanel 
      * already in an uploadFileRow so there won't be duplicates. Displays an
      * error message if it was selected and added previously.
      *
-     * @param files
-     *            The files to make an uploadFileRow out of.
+     * @param files The files to make an uploadFileRow out of.
      */
     public void createUploadFileRow(File[] files) {
         for (File f : files) {
             if (!uploadFileRows.containsKey(f)) {
-                System.out.println("added");
                 UploadFileRow fileRow = new UploadFileRow(f, this, false);
                 uploadFileRows.put(f, fileRow);
             } else {
                 JOptionPane.showMessageDialog(this, "File already selected: "
-                        + f.getName() + "", "File error",
-                        JOptionPane.ERROR_MESSAGE);
+                                + f.getName() + "", "File error",
+                        JOptionPane.ERROR_MESSAGE
+                );
             }
         }
         repaintSelectedFiles();
@@ -96,8 +95,7 @@ public class UploadToExistingExpPanel extends JPanel implements ExperimentPanel 
      * Deletes an uploadFileRow and calls repaintSelectedFiles() to repaint. If
      * it fails to find the file, an error message is shown to the user.
      *
-     * @param f
-     *            This is used to identify which uploadFileRow to be deleted.
+     * @param f This is used to identify which uploadFileRow to be deleted.
      */
     public void deleteFileRow(File f) {
         if (uploadFileRows.containsKey(f)) {
@@ -114,8 +112,7 @@ public class UploadToExistingExpPanel extends JPanel implements ExperimentPanel 
     /**
      * Adds a listener for the "Select files" button.
      *
-     * @param listener
-     *            The listener to be added.
+     * @param listener The listener to be added.
      */
     public void addSelectFilesToUploadButtonListener(ActionListener listener) {
         selectFilesToUploadButton.addActionListener(listener);
@@ -124,8 +121,7 @@ public class UploadToExistingExpPanel extends JPanel implements ExperimentPanel 
     /**
      * Adds a listener to the upload button.
      *
-     * @param listener
-     *            The listener to be added.
+     * @param listener The listener to be added.
      */
     public void addUploadToExperimentButtonListener(ActionListener listener) {
         uploadFilesToExperimentButton.addActionListener(listener);
@@ -174,10 +170,7 @@ public class UploadToExistingExpPanel extends JPanel implements ExperimentPanel 
     }
 
     /**
-     *
-     *
-     * @param ed
-     *            The experiment to be added, in the form of ExperimentData
+     * @param ed The experiment to be added, in the form of ExperimentData
      */
     public void addExistingExp(ExperimentData ed) {
         this.ed = ed;

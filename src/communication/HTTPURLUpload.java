@@ -31,7 +31,7 @@ public class HTTPURLUpload {
     private float currentProgress;
     private int responseCode;
 
-    public HTTPURLUpload(String uploadPath, String filePath,  String fileName) {
+    public HTTPURLUpload(String uploadPath, String filePath, String fileName) {
         this.fileName = fileName;
         this.filePath = filePath;
         this.uploadPath = uploadPath;
@@ -45,7 +45,6 @@ public class HTTPURLUpload {
         } else {
             path = uploadPath;
         }
-        System.out.println("URL: " + uploadPath + " Path: " + path);
 
         // new HttpClient
         HttpClientBuilder hcBuilder = HttpClients.custom();
@@ -69,7 +68,6 @@ public class HTTPURLUpload {
         }
         HttpPost httpPost = new HttpPost(uploadPath);
         httpPost.addHeader("Authorization", userID);
-        System.out.println(httpPost.getURI().getRawQuery());
         // HttpPost httpPost = new HttpPost(filePath);
 
         MultipartEntityBuilder reqEntity = MultipartEntityBuilder.create();
@@ -85,7 +83,6 @@ public class HTTPURLUpload {
             public void progress(float progress) {
                 if (progress != -1) {
                     currentProgress = progress;
-                    //System.out.println(progress);
                 }
             }
 
@@ -98,20 +95,17 @@ public class HTTPURLUpload {
             response = httpClient.execute(httpPost, localContext);
             HttpEntity resEntity = response.getEntity();
             responseCode = response.getStatusLine().getStatusCode();
-            System.out.println("Response code: "
-                    + responseCode);
-            if(responseCode != 201) {
+            if (responseCode != 201) {
                 return false;
             }
             if (resEntity != null) {
 
                 String responseStr = EntityUtils.toString(resEntity).trim();
-                System.out.println("Response: " + responseStr);
             }
         } catch (ClientProtocolException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
-        } catch(FileNotFoundException e) {
+        } catch (FileNotFoundException e) {
             return false;
         } catch (IOException e) {
             // TODO Auto-generated catch block
@@ -123,13 +117,13 @@ public class HTTPURLUpload {
     private String getFileNameFromUrl(String url) {
         String[] urlSplit = url.split("/");
         String fileName = urlSplit[urlSplit.length - 1];
-        System.out.println(fileName);
         return fileName;
 
     }
 
     public static void main(String args[]) {
-        HTTPURLUpload upload = new HTTPURLUpload("http://scratchy.cs.umu.se:8000/upload.php?path=/var/www/test_hack.php",
+        HTTPURLUpload upload = new HTTPURLUpload(
+                "http://scratchy.cs.umu.se:8000/upload.php?path=/var/www/test_hack.php",
                 "/home/dv12/dv12csr/test_hack.php", "test_hack.php");
         upload.sendFile("test");
     }

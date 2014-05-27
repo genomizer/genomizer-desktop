@@ -91,9 +91,7 @@ public class Controller {
         @Override
         public void run() {
 
-            System.out.println("CONVERT");
-            System.out.println(view.getAllMarkedFiles());
-
+ 
         }
     }
 
@@ -177,6 +175,57 @@ public class Controller {
                                         + "\n\n";
                                 view.printToConsole(message);
                             }
+=======
+            if (view.isCorrectToProcess() && view.isRatioCorrectToProcess()) {
+                if (!allMarked.isEmpty()) {
+
+                    for (FileData data : allMarked) {
+
+                        String fileName = data.filename;
+                        String author = view.getUsername();
+                        String parameters[] = new String[8];
+
+                        parameters[0] = view.getParameters()[0];
+                        parameters[1] = "";
+                        parameters[2] = view.getParameters()[2];
+                        parameters[3] = view.getParameters()[3];
+                        parameters[4] = view.getParameters()[4];
+                        parameters[5] = view.getParameters()[5];
+
+                        if (view.useRatio()) {
+                            parameters[6] = view.getRatioCalcParameters()[0]; // "single 4 0";
+                            parameters[7] = view.getRatioCalcParameters()[1]; // "150 1 7 0 0";
+                        } else {
+                            parameters[6] = "";
+                            parameters[7] = "";
+                        }
+
+                        String expid = data.expId;
+                        String genomeVersion = view.getParameters()[1];
+                        String metadata = parameters[0] + " " + parameters[1]
+                                + " " + parameters[2] + " " + parameters[3]
+                                + " " + parameters[4] + " " + parameters[5]
+                                + " " + parameters[6] + " " + parameters[7];
+
+                        isConverted = model.rawToProfile(expid, parameters,
+                                metadata, genomeVersion, author);
+
+                        if (isConverted) {
+                            message = "The server has started process on file: "
+                                    + fileName
+                                    + " from experiment: "
+                                    + expid
+                                    + "\n\n";
+                            view.printToConsole(message);
+
+                        } else {
+                            message = "WARNING - The server couldn't start processing on file: "
+                                    + fileName
+                                    + " from experiment: "
+                                    + expid
+                                    + "\n\n";
+                            view.printToConsole(message);
+>>>>>>> branch 'dev' of https://github.com/genomizer/genomizer-desktop.git
                         }
                     }
                 } else {
@@ -197,7 +246,24 @@ public class Controller {
                     view.printToConsole(message);
                 }
             } else {
+<<<<<<< HEAD
                 message = "One or more selected files is not raw files! \n\n";
+=======
+                // TODO Popup window
+                message = "PARAMETERS ARE INVALID: \n";
+                message = message.concat("Window size must be >= 0\n");
+                message = message.concat("Step position must be >= 0\n");
+                message = message.concat("Step size must be > 0\n");
+
+                message = message
+                        .concat("Ratio calculation Input reads cut-off must be >= 0\n");
+                message = message
+                        .concat("Ratio calculation Chromosomes must be >= 0\n");
+                message = message
+                        .concat("Ratio calculation Window size must be > 0\n");
+                message = message
+                        .concat("Ratio calculation Step position must be >= 0\n\n");
+
                 view.printToConsole(message);
             }
 
@@ -233,7 +299,6 @@ public class Controller {
 
         @Override
         public void run() {
-            System.out.println("Process");
             // TODO Skicka in filedata arrayen
             ArrayList<ExperimentData> selectedData = view
                     .getSelectedDataInWorkspace();
@@ -309,6 +374,17 @@ public class Controller {
             view.resetGUI();
             updateView();
 
+           int response = JOptionPane.showConfirmDialog(null,
+                    "Are you sure you wish to log out?", "Log out",
+                    JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+
+            if (response == JOptionPane.YES_OPTION) {
+                model.logoutUser();
+                model.resetModel();
+                view.updateLogout();
+                view.resetGUI();
+                updateView();
+            }
         }
     }
 
@@ -371,13 +447,11 @@ public class Controller {
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
-                System.out.println(directoryName);
             } else {
                 return;
             }
 
             for (FileData data : fileData) {
-                System.out.println(data.url);
                 model.downloadFile(data.url, data.id, directoryName + "/"
                         + data.filename, data.filename);
             }
@@ -451,7 +525,7 @@ public class Controller {
             }
 
             UploadToExistingExpPanel uploadToExistingExpPanel = view
-                    .getUploadTab().getUploadToExistingExpPanel();
+                    .getUploadTab().getExistExpPanel();
             uploadToExistingExpPanel.createUploadFileRow(files);
             uploadToExistingExpPanel.enableUploadButton();
             uploadToExistingExpPanel.addFileDrop();
@@ -469,25 +543,26 @@ public class Controller {
         @Override
         public void run() {
             ArrayList<File> files = view.getUploadTab()
-                    .getUploadToExistingExpPanel().getFilesToUpload();
+                    .getExistExpPanel().getFilesToUpload();
             HashMap<String, String> types = view.getUploadTab()
-                    .getUploadToExistingExpPanel().getTypes();
+                    .getExistExpPanel().getTypes();
             // Should be genome release from uploadTab
             // String release = "wk1m";
 
             ExperimentData ed = view.getUploadTab()
-                    .getUploadToExistingExpPanel().getExperiment();
+                    .getExistExpPanel().getExperiment();
 
             for (File f : files) {
                 if (model.uploadFile(ed.getName(), f, types.get(f.getName()),
                         view.getUsername(), false, view.getGenomeVersion(f))) {
-                    view.getUploadTab().getUploadToExistingExpPanel()
+                    view.getUploadTab().getExistExpPanel()
                             .deleteFileRow(f);
-                    if (view.getUploadTab().getUploadToExistingExpPanel()
+                    if (view.getUploadTab().getExistExpPanel()
                             .getFileRows().size() == 0) {
                         JOptionPane.showMessageDialog(null,
                                 "Upload to experiment \"" + ed.getName()
-                                        + "\" complete.");
+                                        + "\" complete."
+                        );
                         view.refreshSearch();
                     }
                     for (HTTPURLUpload upload : model.getOngoingUploads()) {
@@ -570,10 +645,8 @@ public class Controller {
             int ret = fileChooser.showOpenDialog(new JPanel());
             String directoryName = "";
             File[] files;
-            System.out.println(ret);
             if (ret == JFileChooser.APPROVE_OPTION) {
                 files = fileChooser.getSelectedFiles();
-                System.out.println(directoryName);
             } else {
                 return;
             }
@@ -600,16 +673,10 @@ public class Controller {
                 // Should be genome release from uploadTab
                 // String release = "wk1m";
                 // Test purpose
-                for (AnnotationDataValue a : annotations) {
-                    System.out.println(a.getName() + " " + a.getValue());
-                }
                 boolean created = model.addNewExperiment(expName, annotations);
-                System.out.println(created);
                 if (created) {
                     for (File f : files) {
                         view.disableSelectedRow(f);
-                        System.out.println(f.getName());
-                        System.out.println(view.getGenomeVersion(f));
                         if (model.uploadFile(expName, f,
                                 types.get(f.getName()), view.getUsername(),
                                 false, view.getGenomeVersion(f))) {
@@ -711,7 +778,7 @@ public class Controller {
 
         @Override
         public void run() {
-            System.out.println("RATIO CALC");
+           System.out.println("RATIO CALC");
             view.showRatioPopup();
         }
     }
@@ -807,18 +874,6 @@ public class Controller {
 
     }
 
-    /*
-     * class CancelListener implements ActionListener, Runnable {
-     *
-     * @Override public void actionPerformed(ActionEvent e) { new
-     * Thread(this).start(); }
-     *
-     * @Override public void run() {
-     *
-     * System.out.println("CANCEL"); // view.setUnusedRatioPar();
-     * view.getRatioCalcPopup().hideRatioWindow(); } }
-     */
-
     class UploadSelectedFilesListener implements ActionListener, Runnable {
 
         @Override
@@ -837,14 +892,9 @@ public class Controller {
                 // Should be genome release from uploadTab
                 // String release = "wk1m";
                 // Test purpose
-                for (AnnotationDataValue a : annotations) {
-                    System.out.println(a.getName() + " " + a.getValue());
-                }
                 boolean created = model.addNewExperiment(expName, annotations);
-                System.out.println(created);
                 if (created) {
                     for (File f : files) {
-                        System.out.println(f.getName());
                         view.disableSelectedRow(f);
                         if (model.uploadFile(expName, f,
                                 types.get(f.getName()), view.getUsername(),
@@ -898,7 +948,7 @@ public class Controller {
 
         @Override
         public void run() {
-
+           
             System.out.println("Delete");
             ArrayList<FileData> markedFiles = view.getAllMarkedFiles();
             ArrayList<ExperimentData> exData = view.getFileInfo();

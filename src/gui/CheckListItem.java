@@ -12,18 +12,10 @@ public class CheckListItem {
     private String specie;
     private boolean isSelected = false;
 
-    public CheckListItem(FileData file,String label,String fileId,String specie) {
-        //this.exData = exData;
+    public CheckListItem(FileData file, String label, String fileId, String specie) {
         this.file = file;
         this.label = label;
         this.fileId = fileId;
-
-        //for(util.AnnotationDataValue specie:exData.annotations){
-          //  if(specie.equals("specie")){
-            //    this.specie = specie.value;
-              ///  System.out.println("Checklistitem specie: " + specie);
-           // }
-        //}
         this.specie = specie;
 
         this.label = label + " - " + specie;
@@ -42,15 +34,15 @@ public class CheckListItem {
         return label;
     }
 
-    public String fileId(){
+    public String fileId() {
         return fileId;
     }
 
-    public String getSpecie(){
+    public String getSpecie() {
         return specie;
     }
 
-    public FileData getfile(){
+    public FileData getfile() {
         return file;
     }
 }
