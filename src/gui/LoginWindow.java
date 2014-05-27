@@ -1,19 +1,24 @@
 package gui;
 
-import java.awt.*;
+import java.awt.BorderLayout;
+import java.awt.FlowLayout;
+import java.awt.Image;
+import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.net.URL;
 
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
-import javax.swing.UIManager;
+
+import util.IconFactory;
 
 /**
  * Class for loginwindow. Presents a window that prompts for a username,
@@ -27,6 +32,9 @@ public class LoginWindow extends JFrame {
     private JPasswordField passwordField;
     private JTextField ipField;
     private JPanel mainPanel;
+    private JPanel bottomPanel;
+    private JPanel buttonPanel;
+    private JPanel logoPanel;
     private JLabel errorLabel;
     
     /**
@@ -42,10 +50,15 @@ public class LoginWindow extends JFrame {
             public void windowClosed(WindowEvent e) {
                 parent.getFrame().dispose();
             }
+            
+            @Override
+            public void windowActivated(WindowEvent e) {
+                passwordField.requestFocusInWindow();
+            }
         });
         setTitle("Genomizer Login");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setSize(270, 180);
+        setSize(270, 280);
         setResizable(false);
         this.setLocationRelativeTo(parent.getFrame());
         
@@ -56,57 +69,67 @@ public class LoginWindow extends JFrame {
      * Sets the layout and looks to the login window
      */
     private void placeComponents() {
-        mainPanel = new JPanel();
-        mainPanel.setLayout(new GridBagLayout());
+        mainPanel = new JPanel(new BorderLayout());
+        bottomPanel = new JPanel();
+        logoPanel = new JPanel(new BorderLayout());
+        buttonPanel = new JPanel(new FlowLayout());
         add(mainPanel);
-        mainPanel.setLayout(null);
+        mainPanel.add(bottomPanel, BorderLayout.CENTER);
+        mainPanel.add(logoPanel, BorderLayout.NORTH);
+        mainPanel.add(buttonPanel, BorderLayout.SOUTH);
+        ImageIcon icon = IconFactory.getLogoIcon(70, 70);
+        JLabel picLabel = new JLabel(icon);
+        logoPanel.add(picLabel);
+        bottomPanel.setLayout(null);
         
         JLabel usernameLabel = new JLabel("Username");
-        usernameLabel.setBounds(10, 10, 80, 25);
-        mainPanel.add(usernameLabel);
+        usernameLabel.setBounds(10, 50, 80, 25);
+        bottomPanel.add(usernameLabel);
         
         usernameField = new JTextField(20);
-        usernameField.setBounds(100, 10, 160, 25);
+        usernameField.setBounds(90, 50, 170, 25);
         usernameField.setText("desktop");
-        mainPanel.add(usernameField);
+        bottomPanel.add(usernameField);
         
         JLabel passwordLabel = new JLabel("Password");
-        passwordLabel.setBounds(10, 40, 80, 25);
-        mainPanel.add(passwordLabel);
+        passwordLabel.setBounds(10, 80, 80, 25);
+        bottomPanel.add(passwordLabel);
         
         passwordField = new JPasswordField(20);
-        passwordField.setBounds(100, 40, 160, 25);
+        passwordField.setBounds(90, 80, 170, 25);
         passwordField.setText("umea@2014");
-        mainPanel.add(passwordField);
+        bottomPanel.add(passwordField);
         
         JLabel ipLabel = new JLabel("IP");
-        ipLabel.setBounds(10, 70, 80, 25);
-        mainPanel.add(ipLabel);
+        ipLabel.setBounds(10, 110, 80, 25);
+        bottomPanel.add(ipLabel);
         
         ipField = new JTextField(20);
-        ipField.setBounds(100, 70, 160, 25);
+        ipField.setBounds(90, 110, 170, 25);
         ipField.setText("scratchy.cs.umu.se:7000");
-        mainPanel.add(ipField);
+        bottomPanel.add(ipField);
         
-        loginButton = new JButton("login");
-        loginButton.setBounds(10, 110, 80, 25);
-        mainPanel.add(loginButton);
-
-        //Add listeners to the JTextFields for if enter/return is pressed.
+        loginButton = new JButton("Login");
+        buttonPanel.add(loginButton);
+        
+        // Add listeners to the JTextFields for if enter/return is pressed.
         usernameField.addActionListener(new ActionListener() {
-            @Override public void actionPerformed(ActionEvent actionEvent) {
+            @Override
+            public void actionPerformed(ActionEvent actionEvent) {
                 loginButton.doClick();
             }
         });
-
+        
         passwordField.addActionListener(new ActionListener() {
-            @Override public void actionPerformed(ActionEvent actionEvent) {
+            @Override
+            public void actionPerformed(ActionEvent actionEvent) {
                 loginButton.doClick();
             }
         });
-
+        
         ipField.addActionListener(new ActionListener() {
-            @Override public void actionPerformed(ActionEvent actionEvent) {
+            @Override
+            public void actionPerformed(ActionEvent actionEvent) {
                 loginButton.doClick();
             }
         });
@@ -155,17 +178,18 @@ public class LoginWindow extends JFrame {
     
     public void paintErrorMessage(String message) {
         removeErrorMessage();
+        message = message.replace(".", "");
         errorLabel = new JLabel("<html><b>" + message + "</b></html>");
-        errorLabel.setIcon(UIManager.getIcon("OptionPane.warningIcon"));
-        errorLabel.setBounds(120, 100, 150, 45);
-        mainPanel.add(errorLabel);
+        // errorLabel.setIcon(UIManager.getIcon("OptionPane.warningIcon"));
+        errorLabel.setBounds(70, 0, 150, 45);
+        bottomPanel.add(errorLabel);
         repaint();
         revalidate();
     }
     
     public void removeErrorMessage() {
         if (errorLabel != null) {
-            mainPanel.remove(errorLabel);
+            bottomPanel.remove(errorLabel);
             errorLabel = null;
             repaint();
             revalidate();

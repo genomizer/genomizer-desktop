@@ -394,4 +394,8 @@ public class QuerySearchTab extends JPanel {
     public JButton getBackButton() {
         return backButton;
     }
+
+    public JButton getSearchButton() {
+        return searchButton;
+    }
 }

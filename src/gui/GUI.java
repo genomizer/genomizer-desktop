@@ -9,6 +9,8 @@ import java.awt.Dimension;
 import java.awt.Image;
 import java.awt.Toolkit;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.io.File;
 import java.net.URL;
 import java.util.ArrayList;
@@ -38,7 +40,6 @@ public class GUI extends JFrame implements GenomizerView {
     private static final long serialVersionUID = 6659839768426124853L;
     private JPanel mainPanel;
     private JTabbedPane tabbedPane;
-    private SearchTab searchTab;
     private UserPanel userPanel;
     private UploadTab uploadTab;
     private WorkspaceTab workspaceTab;
@@ -56,6 +57,19 @@ public class GUI extends JFrame implements GenomizerView {
     public GUI() {
 
         setLookAndFeel();
+
+        /*
+         * When the window is activated, set the focus to the search button.
+         * This prevents the user from accidentally pressing the log out button
+         * after logging in.
+         */
+        addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowActivated(WindowEvent e) {
+                querySearchTab.getSearchButton().requestFocusInWindow();
+            }
+        });
+
         this.setTitle("Genomizer");
         setSize(1024, 768);
         this.setMinimumSize(new Dimension(1024, 768));
@@ -239,13 +253,6 @@ public class GUI extends JFrame implements GenomizerView {
     }
 
     /**
-     * @return The search tab.
-     */
-    public JPanel getSearchPanel() {
-        return searchTab;
-    }
-
-    /**
      * @return The password input from the login window.
      */
     @Override
@@ -376,17 +383,6 @@ public class GUI extends JFrame implements GenomizerView {
             // If Nimbus is not available, you can set the GUI to another look
             // and feel.
         }
-    }
-
-    /**
-     * Sets the searchTab of the GUI.
-     *
-     * @param searchTab
-     *            The SearchTab to set the attribute to.
-     */
-    public void setSearchTab(SearchTab searchTab) {
-        this.searchTab = searchTab;
-        // tabbedPane.add("SEARCH", searchTab);
     }
 
     /**
@@ -704,15 +700,11 @@ public class GUI extends JFrame implements GenomizerView {
     }
 
     public boolean isRatioCorrectToProcess() {
-        if (processTab.useRatio()) {
-            return process
-                    .isRatioCorrectToProcess(ratioCalcPopup.ratioWindowSize,
-                            ratioCalcPopup.inputReads,
-                            ratioCalcPopup.chromosome,
-                            ratioCalcPopup.ratioStepPosition);
-        } else {
-            return true;
-        }
+        return !processTab.useRatio() ||
+                process.isRatioCorrectToProcess(ratioCalcPopup.ratioWindowSize,
+                    ratioCalcPopup.inputReads,
+                    ratioCalcPopup.chromosome,
+                    ratioCalcPopup.ratioStepPosition);
     }
 
     public void setProfileButton(boolean bool) {
@@ -752,7 +744,6 @@ public class GUI extends JFrame implements GenomizerView {
         while (tabbedPane.getTabCount() > 0) {
             tabbedPane.removeTabAt(0);
         }
-        SearchTab st = new SearchTab();
         UploadTab ut = new UploadTab();
         ProcessTab pt = new ProcessTab();
         WorkspaceTab wt = new WorkspaceTab();

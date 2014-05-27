@@ -1,6 +1,7 @@
 package gui;
 
 import java.awt.BorderLayout;
+import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
 import java.util.ArrayList;
@@ -60,6 +61,11 @@ public class UploadTab extends JPanel {
         northPanel.setBorder(BorderFactory.createTitledBorder("Upload"));
         existingExpButton = new JButton("Search for existing experiment");
         newExpButton = new JButton("Create new experiment");
+        experimentNameField.addActionListener(new ActionListener() {
+            @Override public void actionPerformed(ActionEvent actionEvent) {
+                existingExpButton.doClick();
+            }
+        });
         northPanel.add(existingExpButton, BorderLayout.EAST);
         northPanel.add(newExpButton, BorderLayout.EAST);
         uploadPanel = new JPanel(new BorderLayout());
