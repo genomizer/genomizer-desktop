@@ -78,8 +78,10 @@ public class Connection {
                 }
             } catch (IOException e1) {
                 // e1.printStackTrace();
+                connection.disconnect();
                 return false;
             }
+            connection.disconnect();
             return false;
         }
         return true;
