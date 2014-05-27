@@ -20,11 +20,11 @@ public class UploadTabTest {
         //Fill fields
 
         //Assert
-        assertTrue(uploadTab.forcedAnnotationCheck());
+        assertTrue(uploadTab.getNewExpPanel().forcedAnnotationCheck());
     }
 
     @Test
     public void shouldReturnFalseIfForcedAnnotationFieldsAreNotFilled() {
-        assertFalse(uploadTab.forcedAnnotationCheck());
+        assertFalse(uploadTab.getNewExpPanel().forcedAnnotationCheck());
     }
 }

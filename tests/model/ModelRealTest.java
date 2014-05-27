@@ -23,17 +23,18 @@ public class ModelRealTest {
     String username = "desktoptest";
     String password = "umea@2014";
     Model m = new Model();
+
     @Before
     public void setUp() {
         m.setIp("http://scratchy.cs.umu.se:7000");
         m.loginUser(username, password);
     }
+
     @Test
     public void shouldUploadExperimentAndRemove() {
         String expid = "thisisatestexp476-";
-        String strAp = Long.toString(System.currentTimeMillis()/60);
+        String strAp = Long.toString(System.currentTimeMillis() / 60);
         expid += strAp;
-        System.out.println("This is EXPID: " + expid);
         String homeDir = System.getProperty("user.home");
         File file = new File(homeDir + "/.testupload.txt");
         BufferedWriter fout;
@@ -47,15 +48,15 @@ public class ModelRealTest {
         }
         AnnotationDataType[] types = m.getAnnotations();
         AnnotationDataValue[] values = new AnnotationDataValue[types.length];
-        for(int i = 0; i < types.length; i++) {
-            if(types[i].getName().equalsIgnoreCase("ExpID")) {
+        for (int i = 0; i < types.length; i++) {
+            if (types[i].getName().equalsIgnoreCase("ExpID")) {
                 continue;
             }
-            if(types[i].getName().equalsIgnoreCase("Species")) {
+            if (types[i].getName().equalsIgnoreCase("Species")) {
                 values[i] = new AnnotationDataValue(Integer.toString(i), types[i].getName(), "Fly");
                 continue;
             }
-            if(!types[i].getValues()[0].equalsIgnoreCase("freetext")) {
+            if (!types[i].getValues()[0].equalsIgnoreCase("freetext")) {
                 values[i] = new AnnotationDataValue(Integer.toString(i), types[i].getName(), types[i].getValues()[0]);
             } else {
                 values[i] = new AnnotationDataValue(Integer.toString(i), types[i].getName(), "test");
@@ -66,7 +67,7 @@ public class ModelRealTest {
         assertThat(m.uploadFile(expid, file, "Profile", "genomizer", false, "fb5")).isTrue();
         ArrayList<ExperimentData> data = m.search(expid + "[ExpID]");
         assertThat(data).isNotNull();
-        for(FileData fileData: data.get(0).files) {
+        for (FileData fileData : data.get(0).files) {
             assertThat(m.deleteFileFromExperiment(fileData.id));
         }
         assertThat(m.deleteExperimentFromDatabase(expid)).isTrue();

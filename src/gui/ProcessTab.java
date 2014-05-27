@@ -642,7 +642,6 @@ public class ProcessTab extends JPanel {
     }
     
     public void setGenomeFileList(GenomeReleaseData[] genomeReleases) {
-        System.out.println("genomreleases: " + genomeReleases);
         genomeFile.removeAllItems();
         if (genomeReleases != null && genomeReleases.length > 0) {
             for (GenomeReleaseData version : genomeReleases) {
@@ -656,8 +655,8 @@ public class ProcessTab extends JPanel {
     
     /**
      * Sets the fileData list with all selected files to process from workspace.
-     * 
-     * @param allFileData
+     *
+     * @param experimentData
      */
     public void setFileInfo(ArrayList<ExperimentData> experimentData) {
         this.experimentData = experimentData;

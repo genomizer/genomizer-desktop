@@ -18,22 +18,20 @@ public class Connection {
     private int responseCode;
     private String responseBody;
     private HttpURLConnection connection;
-    
+
     public Connection(String ip, GenomizerView view) {
         this.ip = ip;
         this.view = view;
         responseBody = "";
         responseCode = 0;
     }
-    
+
     public boolean sendRequest(Request request, String userID, String type) {
         if (ip.startsWith("http://")) {
             ip = ip.substring(7);
         }
         try {
             String targetUrl = "http://" + ip + request.url;
-            System.out.println(targetUrl);
-            System.out.println("the request.toJson(): " + request.toJson());
             URL url = new URL(targetUrl);
             connection = (HttpURLConnection) url.openConnection();
             if (type.equals("application/json")) {
@@ -45,7 +43,7 @@ public class Connection {
             if (!userID.isEmpty()) {
                 connection.setRequestProperty("Authorization", userID);
             }
-            
+
             if (request.type.equals("DELETE")) {
                 // connection.connect();
                 responseCode = connection.getResponseCode();
@@ -55,7 +53,7 @@ public class Connection {
                 }
                 return true;
             }
-            
+
             if (type.equals("application/json")) {
                 PrintWriter outputStream = new PrintWriter(
                         connection.getOutputStream(), true);
@@ -66,8 +64,6 @@ public class Connection {
             fetchResponse(connection.getInputStream());
             if (responseCode == 401 && !userID.isEmpty()) {
                 view.updateLogout();
-                System.out
-                        .println("The token has expired, or was removed from the server.");
                 return false;
             }
             if (responseCode >= 300) {
@@ -88,7 +84,7 @@ public class Connection {
         }
         return true;
     }
-    
+
     private void fetchResponse(InputStream inputStream) throws IOException {
         BufferedReader in = new BufferedReader(new InputStreamReader(
                 inputStream));
@@ -98,19 +94,18 @@ public class Connection {
             output.append(buffer);
         }
         responseBody = output.toString();
-        System.out.println("Responsebody:" + responseBody);
     }
-    
+
     public int getResponseCode() {
         return responseCode;
     }
-    
+
     public String getResponseBody() {
         return responseBody;
     }
-    
+
     public void checkType(String output) {
-        
+
     }
-    
+
 }
