@@ -140,9 +140,12 @@ public class ProcessTab extends JPanel {
         addSouthPanel();
         addConsolePanelComponents();
         initFileList();
-        /* TEST */
-        initComboBoxes();
-        /* TEST */
+        
+        ArrayList<String> smooth = new ArrayList<String>();
+        smooth.add("Median");
+        smooth.add("Trimmed Mean");
+        initComboBoxes(smooth, smoothType);
+        
         initRegularParameters();
         setDefaultRatioPar();
         setButtonListeners();
@@ -164,30 +167,14 @@ public class ProcessTab extends JPanel {
         setFlagsListener();
     }
     
-    private void initComboBoxes() {
+    private void initComboBoxes(ArrayList<String> items,
+            JComboBox<String> dropDownList) {
         
-        ArrayList<String> ratioSmooth = new ArrayList<String>();
-        /* TEST */
-        ratioSmooth.add("Median");
-        ratioSmooth.add("Trimmed Mean");
-        
-        smoothType.addItem(ratioSmooth.get(0));
-        smoothType.addItem(ratioSmooth.get(1));
-        
-        /* TEST */
-        ArrayList<String> comboSingle = new ArrayList<String>();
-        /* TEST */
-        comboSingle.add("single");
-        comboSingle.add("double");
-        
-        single.addItem(comboSingle.get(0));
-        single.addItem(comboSingle.get(1));
-        
-        /* TEST */
-        ArrayList<String> gFiles = new ArrayList<String>();
-        /* TEST */
-        gFiles.add("");
-        /* TEST */
+        if (!dropDownList.equals(null)) {
+            for (String item : items) {
+                dropDownList.addItem(item);
+            }
+        }
     }
     
     /**
