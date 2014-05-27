@@ -31,13 +31,13 @@ public class ModelTest {
     @Test
     public void shouldLogin() throws Exception {
         assertThat(m.getUserID()).isEmpty();
-        assertThat(m.loginUser(username, password)).isTrue();
+        assertThat(m.loginUser(username, password)).isEqualToIgnoringCase("true");
         assertThat(m.getUserID()).isNotEmpty();
     }
 
     @Test
     public void shouldLogout() throws Exception {
-        assertThat(m.loginUser(username, password)).isTrue();
+        assertThat(m.loginUser(username, password)).isEqualToIgnoringCase("true");
         assertThat(m.getUserID()).isNotEmpty();
         assertThat(m.logoutUser()).isTrue();
         assertThat(m.getUserID()).isEmpty();
