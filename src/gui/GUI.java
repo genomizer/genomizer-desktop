@@ -422,7 +422,7 @@ public class GUI extends JFrame implements GenomizerView {
      */
     public void setSysAdminTab(SysadminTab sat) {
         this.sysadminTab = sat;
-        tabbedPane.addTab("SYSTEM ADMINISTRATION", null, sysadminTab,
+        tabbedPane.addTab("ADMINISTRATION", null, sysadminTab,
                 "System Administration");
 
     }
