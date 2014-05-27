@@ -98,7 +98,7 @@ public class ProcessTab extends JPanel {
     private final JButton processFeedbackButton = new JButton(
             "Get process feedback");
     private final JButton deleteButton = new JButton("Delete selected");
-    private final JButton infoButton = new JButton();
+    private JButton infoButton;
 
     private final JCheckBox printMean = new JCheckBox("Print mean");
     private final JCheckBox printZeros = new JCheckBox("Print zeros");
@@ -389,6 +389,12 @@ public class ProcessTab extends JPanel {
      * Initiates all panels to the raw to profile tab.
      */
     private void addPanelsToRawToProfileTab() {
+
+        ImageIcon img = IconFactory.getInfoIcon(30, 30);
+        ImageIcon hoverImg = IconFactory.getInfoIcon(32, 32);
+
+        infoButton = CustomButtonFactory.makeCustomButton(img, hoverImg, 32, 32, "Parameter information");
+
         rawToProfileMenuPanel.setLayout(new BorderLayout());
         rawToProfileMenuPanel.add(tabbedPane, BorderLayout.CENTER);
 
@@ -424,8 +430,9 @@ public class ProcessTab extends JPanel {
         stepSizePanel.setBorder(BorderFactory.createTitledBorder("Step size"));
         rawParameterPanel.add(infoButton);
 
-        ImageIcon img = IconFactory.getInfoIcon(30, 30);
-        infoButton.setIcon(img);
+
+
+
 
     }
 
