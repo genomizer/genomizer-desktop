@@ -3,7 +3,6 @@ package genomizerdesktop;
 import gui.GUI;
 import gui.ProcessTab;
 import gui.QuerySearchTab;
-import gui.SearchTab;
 import gui.UploadTab;
 import gui.WorkspaceTab;
 import gui.sysadmin.SysadminTab;
@@ -14,11 +13,10 @@ import model.Model;
 import controller.Controller;
 
 public class Genomizer {
-    
+
     public static void main(String args[]) {
-        
+
         final GUI gui = new GUI();
-        SearchTab st = new SearchTab();
         UploadTab ut = new UploadTab();
         ProcessTab pt = new ProcessTab();
         WorkspaceTab wt = new WorkspaceTab();
@@ -30,7 +28,7 @@ public class Genomizer {
         gui.setProcessTab(pt);
         gui.setWorkspaceTab(wt);
         // gui.setAnalyzeTab(at);
-        
+
         gui.setSysAdminTab(sat);
         Model model = new Model();
         Controller controller = new Controller(gui, model);
