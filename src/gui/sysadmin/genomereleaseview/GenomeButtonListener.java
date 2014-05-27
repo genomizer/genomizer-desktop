@@ -25,15 +25,18 @@ public class GenomeButtonListener implements ActionListener{
             case SysStrings.GENOME_BUTTON_ADD:
                 sysController.addGenomeRelease();
                 sysTab.getGenomeReleaseView().clearTextFields();
+                sysTab.getGenomeReleaseView().updateFileProgressPanel();
                 break;
             case SysStrings.GENOME_BUTTON_CLEAR:
                 sysTab.getGenomeReleaseView().clearTextFields();
+                sysTab.getGenomeReleaseView().updateFileProgressPanel();
                 break;
             case SysStrings.GENOME_BUTTON_DELETE:
                 new GenomeDeletePopup(sysTab);
                 break;
             case SysStrings.GENOME_BUTTON_FILE:
                 sysTab.getGenomeReleaseView().selectFile();
+                sysTab.getGenomeReleaseView().updateFileProgressPanel();
                 break;
             case SysStrings.GENOME_BUTTON_CLOSE:
                 sysTab.getGenomeReleaseView().removeExtraInfoPanel();
