@@ -58,7 +58,13 @@ public class GUI extends JFrame implements GenomizerView {
 
         setLookAndFeel();
 
+        /*
+         * When the window is activated, set the focus to the search button.
+         * This prevents the user from accidentally pressing the log out button
+         * after logging in.
+         */
         addWindowListener(new WindowAdapter() {
+            @Override
             public void windowActivated(WindowEvent e) {
                 querySearchTab.getSearchButton().requestFocusInWindow();
             }
