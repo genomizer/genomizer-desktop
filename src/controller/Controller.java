@@ -283,12 +283,6 @@ public class Controller {
 
         @Override
         public void run() {
-            model.logoutUser();
-            model.resetModel();
-            view.updateLogout();
-            view.resetGUI();
-            updateView();
-
            int response = JOptionPane.showConfirmDialog(null,
                     "Are you sure you wish to log out?", "Log out",
                     JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
