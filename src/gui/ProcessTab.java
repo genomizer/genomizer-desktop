@@ -222,13 +222,12 @@ public class ProcessTab extends JPanel {
                 add(procInfoPanel, BorderLayout.EAST);
                 procInfoPanel.add(procInfoSouthPanel, BorderLayout.SOUTH);
                 procInfoPanel.add(procInfoCenterPanel, BorderLayout.CENTER);
-                scrollProcessList.setPreferredSize(new Dimension(200, 700));
+                scrollProcessList.setPreferredSize(new Dimension(300, 700));
                 procInfoCenterPanel.add(scrollProcessList, BorderLayout.CENTER);
                 // create the root node
                 DefaultMutableTreeNode root = new DefaultMutableTreeNode(
                         "<html><b>Current processes</b></html>");
                 // create the child nodes
-                
                 ArrayList<String> authors = new ArrayList<String>();
                 for (int i = 0; i < processFeedbackData.length; i++) {
                     if (!authors.contains(processFeedbackData[i].author)) {
