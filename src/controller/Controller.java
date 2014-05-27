@@ -178,7 +178,6 @@ public class Controller {
                     }
                 }
             } else {
-                System.out.println("Message1");
                 message = "One or more selected files is not raw files! \n\n";
                 view.printToConsole(message);
             }

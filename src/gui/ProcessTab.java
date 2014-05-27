@@ -619,12 +619,9 @@ public class ProcessTab extends JPanel {
         }
         if (outputSGR.isSelected()) {
             parameters[3] = "y";
-        } else {
-            parameters[3] = "";
-        }
-        if (outputSGR.isSelected()) {
             parameters[4] = getSmoothingParameters();
         } else {
+            parameters[3] = "";
             parameters[4] = "";
         }
 
@@ -641,7 +638,6 @@ public class ProcessTab extends JPanel {
                 }
             }
         }
-        check();
     }
 
     /**
