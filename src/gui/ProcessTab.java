@@ -93,6 +93,7 @@ public class ProcessTab extends JPanel {
     private final JButton processFeedbackButton = new JButton(
             "Get process feedback");
     private final JButton deleteButton = new JButton("Delete selected");
+    private final JButton infoButton = new JButton("?");
 
     private final JCheckBox printMean = new JCheckBox("Print mean");
     private final JCheckBox printZeros = new JCheckBox("Print zeros");
@@ -121,6 +122,7 @@ public class ProcessTab extends JPanel {
         this.setLayout(new BorderLayout());
         initPanels();
         disableAllParameters();
+       // helpPopup();
     }
 
     /**
@@ -145,6 +147,14 @@ public class ProcessTab extends JPanel {
         setDefaultRatioPar();
         setButtonListeners();
 
+    }
+
+    private void helpPopup(){
+
+        JOptionPane.showMessageDialog(this,
+            "Eggs are not supposed to be green.",
+            "A plain message",
+            JOptionPane.PLAIN_MESSAGE);
     }
 
     private void setButtonListeners() {
@@ -379,6 +389,8 @@ public class ProcessTab extends JPanel {
         rawTabpanel.add(rawParameterPanel, BorderLayout.NORTH);
         formatPanel.setPreferredSize(new Dimension(100, 82));
         formatPanel.setBorder(BorderFactory.createTitledBorder("Format"));
+
+        rawParameterPanel.add(infoButton);
 
         rawParameterPanel.add(formatPanel);
         formatPanel.setLayout(new GridLayout(0, 1, 0, 0));
