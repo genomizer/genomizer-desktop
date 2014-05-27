@@ -75,15 +75,12 @@ public class ExperimentData {
      * 
      * @param newFiles
      */
-    public boolean addFiles(ArrayList<FileData> newFiles) {
-        boolean addedFiles = false;
+    public void addFiles(ArrayList<FileData> newFiles) {
         for (FileData newFile : newFiles) {
             if (!files.contains(newFile)) {
                 files.add(newFile);
-                addedFiles = true;
             }
         }
-        return addedFiles;
     }
     
     /**
