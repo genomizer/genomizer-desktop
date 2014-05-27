@@ -841,9 +841,13 @@ public class Controller {
         
         @Override
         public void run() {
-            String species = view.getSelectedSpecies();
-            GenomeReleaseData[] grd = model.getSpeciesGenomeReleases(species);
-            view.setGenomeReleases(grd);
+            try {
+                String species = view.getSelectedSpecies();
+                GenomeReleaseData[] grd = model.getSpeciesGenomeReleases(species);
+                view.setGenomeReleases(grd);
+            } catch (NullPointerException e) {
+                System.err.println("Species not selected yet.");
+            }
         }
     }
     
