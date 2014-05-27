@@ -33,14 +33,14 @@ import communication.HTTPURLUpload;
 public class UploadToNewExpPanel extends JPanel implements ExperimentPanel {
 
     private HashMap<File, UploadFileRow> uploadFileRows;
-    private HashMap<String, JComboBox> annotationBoxes;
+    private HashMap<String, JComboBox<String>> annotationBoxes;
     private HashMap<String, JTextField> annotationFields;
     private ArrayList<String> annotationHeaders;
     private JPanel uploadFilesPanel, newExpPanel, buttonsPanel,
             uploadBackground;
     private JButton uploadButton, uploadSelectedBtn, selectButton;
     private AnnotationDataType[] annotations;
-    private JLabel expNameLabel, genomeLabel, boldTextLabel;
+    private JLabel expNameLabel, boldTextLabel;
     private JTextField expID;
     private JComboBox<String> species;
     private ArrayList<String> genome;
@@ -48,7 +48,7 @@ public class UploadToNewExpPanel extends JPanel implements ExperimentPanel {
     public UploadToNewExpPanel() {
         setLayout(new BorderLayout());
         uploadFileRows = new HashMap<File, UploadFileRow>();
-        annotationBoxes = new HashMap<String, JComboBox>();
+        annotationBoxes = new HashMap<String, JComboBox<String>>();
         annotationFields = new HashMap<String, JTextField>();
         annotationHeaders = new ArrayList<String>();
         uploadBackground = new JPanel(new BorderLayout());
@@ -68,7 +68,6 @@ public class UploadToNewExpPanel extends JPanel implements ExperimentPanel {
         expID.getDocument().addDocumentListener(new FreetextListener());
         species = new JComboBox<String>();
         species.setPreferredSize(new Dimension(120, 31));
-        genomeLabel = new JLabel();
         genome = new ArrayList<String>();
         enableUploadButton(false);
     }
@@ -203,14 +202,13 @@ public class UploadToNewExpPanel extends JPanel implements ExperimentPanel {
      *             if a annotation points at null value.
      */
     private void addAnnotationsForExp() throws NullPointerException {
-        annotationBoxes = new HashMap<String, JComboBox>();
+        annotationBoxes = new HashMap<String, JComboBox<String>>();
         annotationFields = new HashMap<String, JTextField>();
         annotationHeaders.clear();
         annotationBoxes = new HashMap<>();
         annotationFields = new HashMap<>();
         int x = 0;
         int y = 0;
-        String[] annotationNames = new String[annotations.length];
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.anchor = GridBagConstraints.WEST;
         gbc.insets = new Insets(5, 0, 5, 30);
@@ -235,7 +233,6 @@ public class UploadToNewExpPanel extends JPanel implements ExperimentPanel {
                 gbc.gridx = x;
                 gbc.gridy = y;
                 JPanel p = new JPanel(new BorderLayout());
-                String label = null;
                 JLabel annotationLabel = null;
                 if (annotations[i].isForced()) {
                     annotationLabel = new JLabel("<html><b>"
@@ -467,7 +464,7 @@ public class UploadToNewExpPanel extends JPanel implements ExperimentPanel {
         String annotationName;
         String text;
         JTextField annotationField;
-        JComboBox<Object> annotationBox;
+        JComboBox<String> annotationBox;
 
         for (int i = 0; i < annotations.length; i++) {
             if (annotations[i].isForced()) {
