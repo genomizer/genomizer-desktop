@@ -7,6 +7,7 @@ import javax.swing.JTextField;
 
 public class AnnotationValuePanel extends AnnotationNamePanel {
     
+    private static final long serialVersionUID = -5099494931526730268L;
     private JButton modifyNameButton, removeButton;
     private JTextField valueTextField;
     

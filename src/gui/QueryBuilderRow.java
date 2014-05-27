@@ -25,6 +25,8 @@ import util.IconFactory;
  * @author bDtKarlsson
  */
 public class QueryBuilderRow extends JPanel {
+
+    private static final long serialVersionUID = -7684513985741278158L;
     private JComboBox annotationBox;
     private JComboBox annotationAlternatives;
     private JTextField textField;

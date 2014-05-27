@@ -5,6 +5,8 @@ import java.awt.*;
 
 public class CheckListRenderer extends JCheckBox implements ListCellRenderer {
 
+    private static final long serialVersionUID = -61471239947629664L;
+
     @Override
     public Component getListCellRendererComponent(JList list, Object value,
             int index, boolean isSelected, boolean hasFocus) {

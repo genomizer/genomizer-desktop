@@ -1,7 +1,6 @@
 package gui.sysadmin.processview;
 
 import javax.swing.*;
-import javax.swing.table.JTableHeader;
 import java.awt.*;
 
 /**

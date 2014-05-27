@@ -3,11 +3,9 @@ package gui.sysadmin;
 import gui.sysadmin.annotationview.AddAnnotationPopup;
 import gui.sysadmin.annotationview.AnnotationButtonsListener;
 import gui.sysadmin.annotationview.AnnotationTableModel;
-import gui.sysadmin.annotationview.EditAnnotationPopup2;
 import gui.sysadmin.genomereleaseview.GenomeReleaseViewCreator;
 import gui.sysadmin.genomereleaseview.GenomereleaseTableModel;
 
-import java.awt.HeadlessException;
 import java.awt.event.ActionListener;
 
 import javax.swing.JOptionPane;

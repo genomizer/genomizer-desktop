@@ -4,7 +4,6 @@ import gui.sysadmin.SysadminTab;
 import gui.sysadmin.strings.SysStrings;
 
 import javax.swing.*;
-import java.awt.*;
 
 /**
  * Created by dv12ilr on 2014-05-16.
