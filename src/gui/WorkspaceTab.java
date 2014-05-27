@@ -13,6 +13,7 @@ import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 
@@ -139,14 +140,14 @@ public class WorkspaceTab extends JPanel {
     }
     
     private String[] concatArrays(String[] first, String[] second) {
-        ArrayList<String> both = new ArrayList<>(first.length
-                + second.length);
+        ArrayList<String> both = new ArrayList<>(first.length + second.length);
         Collections.addAll(both, first);
         Collections.addAll(both, second);
         return both.toArray(new String[both.size()]);
     }
     
     public void addExperimentsToTable(ArrayList<ExperimentData> newExperiments) {
+        boolean addedData = false;
         ArrayList<ExperimentData> expList = new ArrayList<>();
         if (table.getContent() != null) {
             expList.addAll(table.getContent());
@@ -156,18 +157,29 @@ public class WorkspaceTab extends JPanel {
             for (ExperimentData existingExperiment : expList) {
                 if (newExperiment.name.equals(existingExperiment.name)) {
                     alreadyInTable = true;
-                    existingExperiment.addFiles(newExperiment.files);
+                    if (existingExperiment.addFiles(newExperiment.files)) {
+                        addedData = true;
+                    }
                     break;
                 }
             }
             if (!alreadyInTable) {
                 expList.add(newExperiment);
+                addedData = true;
             }
         }
-        System.out.println("setting content");
+        
         table.setContent(expList);
-        table.repaint();
-        table.revalidate();
+        
+        if (addedData) {
+            JOptionPane.showMessageDialog(null,
+                    "Added selected data to the workspace.", "Add data",
+                    JOptionPane.INFORMATION_MESSAGE);
+        } else {
+            JOptionPane.showMessageDialog(null,
+                    "Selected data already exists in workspace.",
+                    "Add data warning", JOptionPane.WARNING_MESSAGE);
+        }
     }
     
     public ArrayList<ExperimentData> getSelectedData() {
