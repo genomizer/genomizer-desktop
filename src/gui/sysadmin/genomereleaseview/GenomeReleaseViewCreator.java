@@ -115,8 +115,9 @@ public class GenomeReleaseViewCreator {
     }
 
     /***
+     * Builds the available genome releases table.
      * 
-     * @return
+     * @return the panel containing the genome release table
      */
     public JPanel buildGenomeFileList() {
         fileListPanel = new JPanel(new BorderLayout());
@@ -130,6 +131,7 @@ public class GenomeReleaseViewCreator {
         TableRowSorter<TableModel> rowSorter = new TableRowSorter<TableModel>(
                 grTablemodel);
 
+        /** Set the sorting if the column is clicked. */
         grTable.setSelectionMode(DefaultListSelectionModel.SINGLE_SELECTION);
         grTable.setRowSorter(rowSorter);
 
@@ -142,6 +144,11 @@ public class GenomeReleaseViewCreator {
 
         return fileListPanel;
     }
+
+    /***
+     * Creates the extra info panel containing the extra information about tha
+     * files in each genome release and the delete button.
+     */
 
     public void addExtraInfoPanel() {
         JPanel mainPanel = new JPanel(new BorderLayout());
@@ -183,6 +190,11 @@ public class GenomeReleaseViewCreator {
         fileListPanel.setVisible(true);
     }
 
+    /***
+     * Builds the progress panel for uploading genome releases.
+     * 
+     * @return the progress panel
+     */
     private JPanel buildFileProgressPanel() {
 
         JPanel progressPanel = new JPanel(new GridLayout(0, 1));
@@ -192,6 +204,9 @@ public class GenomeReleaseViewCreator {
 
     }
 
+    /***
+     *
+     */
     private void setFilesForProgresspanel() {
         if (filenames != null) {
             for (String fileName : filenames) {
