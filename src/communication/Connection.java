@@ -98,7 +98,7 @@ public class Connection {
             output.append(buffer);
         }
         responseBody = output.toString();
-        if (responseCode != 200) {
+        if (responseCode >= 300) {
             // err response
         System.err.println(request.getRequestName() + " response " + responseCode + " " + responseBody);
         }
