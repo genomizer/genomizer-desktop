@@ -33,6 +33,7 @@ import util.GenomeReleaseData;
 import util.Process;
 import util.ProcessFeedbackData;
 
+import communication.DownloadHandler;
 import communication.HTTPURLUpload;
 
 public class GUI extends JFrame implements GenomizerView {
@@ -773,5 +774,12 @@ public class GUI extends JFrame implements GenomizerView {
     @Override
     public void setFileInfo(ArrayList<ExperimentData> fileInfo) {
         processTab.setFileInfo(fileInfo);
+    }
+    
+    @Override
+    public void setOngoingDownloads(
+            CopyOnWriteArrayList<DownloadHandler> ongoingDownloads) {
+        workspaceTab.setOngoingDownloads(ongoingDownloads);
+        
     }
 }

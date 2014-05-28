@@ -21,6 +21,7 @@ import util.FileData;
 import util.GenomeReleaseData;
 import util.ProcessFeedbackData;
 
+import communication.DownloadHandler;
 import communication.HTTPURLUpload;
 
 /**
@@ -167,6 +168,9 @@ public interface GenomizerView {
     
     public void setOngoingUploads(
             CopyOnWriteArrayList<HTTPURLUpload> ongoingUploads);
+    
+    public void setOngoingDownloads(
+            CopyOnWriteArrayList<DownloadHandler> ongoingDownloads);
     
     public void addOkListener(ActionListener listener);
     

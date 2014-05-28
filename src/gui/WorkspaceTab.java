@@ -4,6 +4,7 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
+import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
@@ -14,6 +15,7 @@ import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JProgressBar;
@@ -34,6 +36,7 @@ public class WorkspaceTab extends JPanel {
     private JButton uploadToButton, processButton, ongoingDownloadsButton;
     private final JTabbedPane tabbedPane;
     private JPanel ongoingDownloadsPanel;
+    private JPanel bottomPanel;
     private CopyOnWriteArrayList<DownloadHandler> ongoingDownloads;
     
     public WorkspaceTab() {
@@ -42,7 +45,8 @@ public class WorkspaceTab extends JPanel {
         buttonPanel = new JPanel();
         buttonPanel.setBorder(BorderFactory.createTitledBorder("Workspace"));
         JPanel filePanel = new JPanel(new BorderLayout());
-        ongoingDownloadsPanel = new JPanel();
+        ongoingDownloadsPanel = new JPanel(new GridLayout(0, 1));
+        bottomPanel = new JPanel(new BorderLayout());
         add(buttonPanel, BorderLayout.NORTH);
         add(tabbedPane, BorderLayout.CENTER);
         buttonPanel.setLayout(new FlowLayout());
@@ -57,8 +61,10 @@ public class WorkspaceTab extends JPanel {
         // table.setContent(ExperimentData.getExample());
         filePanel.add(table, BorderLayout.CENTER);
         tabbedPane.addTab("Workspace", filePanel);
-        tabbedPane.addTab("Ongoing Downloads", ongoingDownloadsPanel);
+        tabbedPane.addTab("Ongoing Downloads", bottomPanel);
+        bottomPanel.add(ongoingDownloadsPanel, BorderLayout.NORTH);
         setVisible(true);
+        updateOngoingDownloadsPanel();
     }
     
     private void createButtons() {
@@ -117,7 +123,8 @@ public class WorkspaceTab extends JPanel {
                         for (final DownloadHandler handler : ongoingDownloads) {
                             if (!handler.isFinished()
                                     && handler.getTotalSize() > 0) {
-                                
+                                JPanel downloadPanel = new JPanel(
+                                        new BorderLayout());
                                 double speed = handler.getCurrentSpeed() / 1024 / 2014;
                                 
                                 JProgressBar progress = new JProgressBar(0,
@@ -135,6 +142,14 @@ public class WorkspaceTab extends JPanel {
                                                         .remove(handler);
                                             }
                                         });
+                                downloadPanel
+                                        .add(progress, BorderLayout.CENTER);
+                                downloadPanel
+                                        .add(stopButton, BorderLayout.EAST);
+                                downloadPanel.add(
+                                        new JLabel(handler.getFileName()),
+                                        BorderLayout.NORTH);
+                                ongoingDownloadsPanel.add(downloadPanel);
                             } else {
                                 ongoingDownloads.remove(handler);
                                 JOptionPane.showMessageDialog(null,
@@ -143,8 +158,8 @@ public class WorkspaceTab extends JPanel {
                         }
                         
                     }
-                    revalidate();
-                    repaint();
+                    ongoingDownloadsPanel.revalidate();
+                    ongoingDownloadsPanel.repaint();
                     try {
                         Thread.sleep(100);
                     } catch (InterruptedException e) {
