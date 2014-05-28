@@ -11,7 +11,6 @@ import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.Arrays;
 
 import javax.swing.BorderFactory;
 import javax.swing.ButtonModel;
@@ -27,20 +26,24 @@ import javax.swing.JTextField;
 import javax.swing.ScrollPaneConstants;
 import javax.swing.SwingUtilities;
 
+/**
+ * This class builds the popup generated when the user wants to add a new
+ * annotation.
+ * */
+
 public class AddAnnotationPopup extends JPanel {
-    
+
     private static final int FREETEXT_TAB = 1;
     private static final long serialVersionUID = -626744436260839622L;
     private JPanel addCategoriesPanel;
     private JButton addButton, removeButton;
     private ButtonModel createNewAnnotationButtonModel;
     private JTextField nameField;
-    // private ArrayList<String> categories = new ArrayList<String>();
     private boolean forced = false;
     private JCheckBox forcedBox;
     private ArrayList<JTextField> valueTexts = new ArrayList<JTextField>();
     private JTabbedPane optionsPane;
-    
+
     public AddAnnotationPopup() {
         this.setLayout(new BorderLayout());
         optionsPane = new JTabbedPane();
@@ -49,54 +52,54 @@ public class AddAnnotationPopup extends JPanel {
         optionsPane.addTab("Free Text", buildSecondTab());
         this.add(optionsPane, BorderLayout.CENTER);
     }
-    
+
     /**
      * @return a JPanel containing the second tab within the popup
      */
     private JPanel buildSecondTab() {
-        
+
         JPanel secondTab = new JPanel(new GridLayout(0, 1));
-        
+
         /* Create the top panel for the second tab */
         JPanel topPanelInSecondTab = new JPanel();
-        
+
         JLabel name = new JLabel("Name:");
         JTextField nameField2 = new JTextField(nameField.getDocument(), "", 0);
         nameField2.setPreferredSize(new Dimension(250, 30));
         topPanelInSecondTab.add(name);
         topPanelInSecondTab.add(nameField2);
-        
+
         /* Create bottom panel for the second tab */
         JPanel botPanelInSecondTab = buildBotPanelInFirstTab();
-        
+
         secondTab.add(topPanelInSecondTab);
         secondTab.add(botPanelInSecondTab);
         return secondTab;
     }
-    
+
     /**
      * @return a JScrollPane in which the first tab of the popup is contained
      */
     private JScrollPane buildFirstTab() {
-        
+
         JPanel firstTab = new JPanel(new BorderLayout());
         JScrollPane scrollPane = new JScrollPane(firstTab);
         scrollPane
                 .setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
-        
+
         JPanel topPanelInFirstTab = buildTopPanelInFirstTab();
         JPanel midPanelInFirstTab = buildMidPanelInFirstTab();
         JPanel botPanelInFirstTab = buildBotPanelInFirstTab();
-        
+
         /* Add all complete panels to the first tab */
         firstTab.add(topPanelInFirstTab, BorderLayout.NORTH);
         firstTab.add(midPanelInFirstTab, BorderLayout.CENTER);
         firstTab.add(botPanelInFirstTab, BorderLayout.SOUTH);
-        
+
         return scrollPane;
-        
+
     }
-    
+
     /**
      * Builds everything contained in the mid panel of the first tab of the
      * popup
@@ -104,29 +107,29 @@ public class AddAnnotationPopup extends JPanel {
      * @return the JPanel with the contents
      */
     private JPanel buildMidPanelInFirstTab() {
-        
+
         JPanel midPanelInFirstTab = new JPanel(new BorderLayout());
         final JCheckBox catCheckBox = new JCheckBox("Add Categories", true);
         catCheckBox.setFocusPainted(false);
-        
+
         final JPanel categoryPanel = new JPanel(new BorderLayout());
-        
+
         addCategoriesPanel = new JPanel(new GridLayout(0, 1));
-        
+
         JPanel baseCatPanel = createDeafultCategoryPanel(addCategoriesPanel);
         addCategoriesPanel.add(baseCatPanel);
-        
+
         categoryPanel.add(addCategoriesPanel, BorderLayout.NORTH);
-        
+
         ComponentTitledBorder componentBorder = createDynamicBorder(
                 categoryPanel, catCheckBox);
         categoryPanel.setBorder(componentBorder);
-        
+
         midPanelInFirstTab.add(categoryPanel, BorderLayout.CENTER);
-        
+
         return midPanelInFirstTab;
     }
-    
+
     /**
      * Creates the panel where the values of the new annotation will be filled
      * in
@@ -136,20 +139,20 @@ public class AddAnnotationPopup extends JPanel {
      */
     private JPanel createDeafultCategoryPanel(final JPanel addCategoriesPanel) {
         JPanel baseCatPanel = new JPanel();
-        
+
         JLabel categorylabel = new JLabel("Category:");
         final JTextField annotationTextField = new JTextField();
         valueTexts.add(annotationTextField);
         annotationTextField.setPreferredSize(new Dimension(200, 30));
-        
+
         baseCatPanel.add(categorylabel);
         baseCatPanel.add(annotationTextField);
-        
+
         createAddCategoryButton(addCategoriesPanel, baseCatPanel,
                 annotationTextField);
         return baseCatPanel;
     }
-    
+
     /**
      * @param categoryHolderPanel
      *            the panel holding the buttonpanel
@@ -160,20 +163,20 @@ public class AddAnnotationPopup extends JPanel {
      */
     private void createAddCategoryButton(final JPanel categoryHolderPanel,
             JPanel baseCatPanel, final JTextField annotationTextField) {
-        
+
         URL imageUrl = getClass().getResource("/icons/plus2.png");
         ImageIcon addIcon = new ImageIcon(imageUrl);
         addIcon = new ImageIcon(addIcon.getImage().getScaledInstance(20, 20,
                 BufferedImage.SCALE_SMOOTH));
         addButton = new JButton("");
-        
+
         addButton.setBorderPainted(false);
         addButton.setContentAreaFilled(false);
-        
+
         addButton.setIcon(addIcon);
-        
+
         addButton.addActionListener(new ActionListener() {
-            
+
             @Override
             public void actionPerformed(ActionEvent e) {
                 if (!annotationTextField.getText().equals("")) {
@@ -181,11 +184,11 @@ public class AddAnnotationPopup extends JPanel {
                             annotationTextField);
                 }
             }
-            
+
         });
         baseCatPanel.add(addButton);
     }
-    
+
     /**
      * Creates a button for removing values from the annotation to be created
      * 
@@ -198,14 +201,14 @@ public class AddAnnotationPopup extends JPanel {
         removeIcon = new ImageIcon(removeIcon.getImage().getScaledInstance(15,
                 15, BufferedImage.SCALE_SMOOTH));
         removeButton = new JButton("");
-        
+
         removeButton.setBorderPainted(false);
         removeButton.setContentAreaFilled(false);
-        
+
         removeButton.setIcon(removeIcon);
-        
+
         removeButton.addActionListener(new ActionListener() {
-            
+
             @Override
             public void actionPerformed(ActionEvent e) {
                 categoryPanel.getParent().remove(categoryPanel);
@@ -215,13 +218,13 @@ public class AddAnnotationPopup extends JPanel {
                     }
                 }
                 repaint();
-                
+
             }
-            
+
         });
         categoryPanel.add(removeButton);
     }
-    
+
     /**
      * Builds the bottom panel of the first tab, containing a checkbox and a
      * label
@@ -233,20 +236,20 @@ public class AddAnnotationPopup extends JPanel {
         JLabel forced = new JLabel("Forced Annotation:");
         forcedBox = new JCheckBox("Yes");
         forcedBox.addActionListener(new ActionListener() {
-            
+
             @Override
             public void actionPerformed(ActionEvent e) {
                 switchForced();
-                
+
             }
         });
         botPanelInFirstTab.add(forced);
         botPanelInFirstTab.add(forcedBox);
         buildCreateNewAnnotationButton(botPanelInFirstTab);
-        
+
         return botPanelInFirstTab;
     }
-    
+
     /**
      * Switches the value of whether the created annotation should be forced or
      * not
@@ -254,7 +257,7 @@ public class AddAnnotationPopup extends JPanel {
     protected void switchForced() {
         forced = (forced == true) ? false : true;
     }
-    
+
     /**
      * Creates the button the user will press when he/she wants to create the
      * annotation as specified
@@ -263,12 +266,12 @@ public class AddAnnotationPopup extends JPanel {
      *            the panel containing the button
      */
     private void buildCreateNewAnnotationButton(JPanel botPanelInFirstTab) {
-        
+
         JButton createNewAnnotationButton = new JButton(
                 SysStrings.ANNOTATIONS_POPUP_CREATE_ANNO);
-        
+
         System.out.println("will create model");
-        
+
         if (createNewAnnotationButtonModel == null) {
             createNewAnnotationButtonModel = createNewAnnotationButton
                     .getModel();
@@ -279,7 +282,7 @@ public class AddAnnotationPopup extends JPanel {
                 .setActionCommand(SysStrings.ANNOTATIONS_POPUP_CREATE_ANNO);
         botPanelInFirstTab.add(createNewAnnotationButton);
     }
-    
+
     /**
      * Builds the top panel in the first tab, where the textfield is located
      * which will hold the name of the new annotation
@@ -289,35 +292,36 @@ public class AddAnnotationPopup extends JPanel {
     private JPanel buildTopPanelInFirstTab() {
         JPanel topPanelInFirstTab = new JPanel(new BorderLayout());
         JLabel name = new JLabel("Annotation name:");
-        
+
         nameField.setPreferredSize(new Dimension(250, 30));
-        
+
         JPanel nameFieldPanel = new JPanel();
         nameFieldPanel.add(name);
         nameFieldPanel.add(nameField);
-        
+
         topPanelInFirstTab.add(nameFieldPanel);
         JLabel infoLabel = new JLabel(
                 "Not adding any categories will result in a Yes/No/Unknown annotation");
         topPanelInFirstTab.add(infoLabel, BorderLayout.SOUTH);
         return topPanelInFirstTab;
     }
-    
+
     private ComponentTitledBorder createDynamicBorder(
             final JPanel categoryPanel, final JCheckBox catCheckBox) {
-        
+
         ComponentTitledBorder componentBorder = new ComponentTitledBorder(
                 catCheckBox, categoryPanel, BorderFactory.createEtchedBorder());
-        
+
         catCheckBox.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 setBorderEnabled(categoryPanel, catCheckBox);
             }
         });
-        
+
         return componentBorder;
     }
-    
+
+
     private void setBorderEnabled(final JPanel categoryPanel,
             final JCheckBox catCheckBox) {
         boolean enable = catCheckBox.isSelected();
@@ -330,7 +334,7 @@ public class AddAnnotationPopup extends JPanel {
             }
         }
     }
-    
+
     /**
      * Creates a new panel for a new value of the annotation which is to be
      * created
@@ -342,7 +346,7 @@ public class AddAnnotationPopup extends JPanel {
      */
     public void addAddedCategoryPanel(JPanel categoryHolderPanel,
             JTextField annotationTextField) {
-        
+
         JPanel newCategoryPanel = new JPanel();
         JLabel categoryLabel = new JLabel("Category:");
         final JTextField textField = new JTextField();
@@ -350,32 +354,32 @@ public class AddAnnotationPopup extends JPanel {
         textField.setText(annotationTextField.getText());
         textField.setEditable(false);
         textField.setPreferredSize(new Dimension(200, 30));
-        
+
         newCategoryPanel.add(categoryLabel);
         newCategoryPanel.add(textField);
-        
+
         valueTexts.add(textField);
-        
+
         createRemoveCategoryButton(newCategoryPanel);
         categoryHolderPanel.add(newCategoryPanel);
         annotationTextField.setText("");
         repaint();
     }
-    
+
     /**
      * @return the string currently in the annotation name field as a String
      */
     public String getNewAnnotationName() {
         return nameField.getText();
     }
-    
+
     /**
      * @return the "forced" value of the new annotation
      */
     public boolean getNewAnnotationForcedValue() {
         return forced;
     }
-    
+
     /**
      * Goes through the textfields and gets all the values of the new
      * annotations
@@ -383,18 +387,18 @@ public class AddAnnotationPopup extends JPanel {
      * @return an array of the values as Strings
      */
     public String[] getNewAnnotationCategories() {
-        
+
         ArrayList<String> categories = new ArrayList<String>();
-        
+
         // TODO: make a model for popup? this should not be in a pure view
         // class.
-        
+
         if (optionsPane.getSelectedIndex() == FREETEXT_TAB) {
             return new String[] { "freetext" };
         }
-        
+
         synchronized (valueTexts) {
-            
+
             for (JTextField field : valueTexts) {
                 if (!field.getText().isEmpty()) {
                     categories.add(field.getText());
@@ -407,10 +411,10 @@ public class AddAnnotationPopup extends JPanel {
                 categories.add("Unknown");
             }
         }
-        
+
         return categories.toArray(new String[categories.size()]);
     }
-    
+
     /**
      * Checks if the categories field is empty
      * 
@@ -424,10 +428,10 @@ public class AddAnnotationPopup extends JPanel {
                 return false;
             }
         }
-        
+
         return true;
     }
-    
+
     /**
      * Closes the popup window
      */
@@ -436,7 +440,7 @@ public class AddAnnotationPopup extends JPanel {
                 .getWindowAncestor(addCategoriesPanel); // UGLY?!?
         frame.setVisible(false);
     }
-    
+
     /**
      * Adds an ActionListener to new annotation button model
      * 
@@ -444,9 +448,9 @@ public class AddAnnotationPopup extends JPanel {
      *            is the listener to be added
      */
     public void addAddAnnotationListener(ActionListener listener) {
-        
+
         System.out.println("Adding listnener to model");
         createNewAnnotationButtonModel.addActionListener(listener);
     }
-    
+
 }
