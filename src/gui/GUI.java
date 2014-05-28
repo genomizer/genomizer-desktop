@@ -23,6 +23,8 @@ import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
 import javax.swing.UIManager;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 
 import util.ActiveSearchPanel;
 import util.AnnotationDataType;
@@ -93,6 +95,14 @@ public class GUI extends JFrame implements GenomizerView {
         setIconImage(img);
         mainPanel.add(userPanel, BorderLayout.NORTH);
         this.setLocationRelativeTo(null);
+    }
+
+    public void addChangedTabListener(ChangeListener listener) {
+        tabbedPane.addChangeListener(listener);
+    }
+
+    public int getSelectedIndex() {
+        return tabbedPane.getSelectedIndex();
     }
 
     @Override
@@ -776,7 +786,7 @@ public class GUI extends JFrame implements GenomizerView {
     public void changeTabInWorkspace(int tabIndex) {
         workspaceTab.changeTab(tabIndex);
     }
-    
+
     public void clearSearchSelection() {
         querySearchTab.clearSearchSelection();
     }
