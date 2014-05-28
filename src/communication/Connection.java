@@ -48,10 +48,7 @@ public class Connection {
                 // connection.connect();
                 responseCode = connection.getResponseCode();
                 fetchResponse(connection.getInputStream());
-                if (responseCode >= 300) {
-                    return false;
-                }
-                return true;
+                return (!(responseCode >= 300));
             }
 
             if (type.equals("application/json")) {

@@ -76,6 +76,7 @@ public class Controller {
         view.addProcessFeedbackListener(new ProcessFeedbackListener());
         view.addDeleteFromDatabaseListener(new DeleteFromDatabaseListener());
         view.setOngoingUploads(model.getOngoingUploads());
+        view.setOngoingDownloads(model.getOngoingDownloads());
         view.addUploadSelectedFilesListener(new UploadSelectedFilesListener());
         view.addSpeciesSelectedListener(new SpeciesSelectedListener());
         view.addDeleteSelectedListener(new DeleteSelectedListener());
@@ -351,6 +352,10 @@ public class Controller {
             for (ExperimentData data : expData) {
                 fileData.addAll(data.files);
             }
+            if (fileData.isEmpty()) {
+                JOptionPane.showMessageDialog(null, "No files were selected.");
+                return;
+            }
             fileChooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
             int ret = fileChooser.showOpenDialog(new JPanel());
             String directoryName = "";
@@ -369,6 +374,7 @@ public class Controller {
                 model.downloadFile(data.url, data.id, directoryName + "/"
                         + data.filename, data.filename);
             }
+            view.changeTabInWorkspace(1);
         }
     }
     
@@ -522,7 +528,7 @@ public class Controller {
                     .getSelectedDataInSearch();
             if (selectedData != null && selectedData.size() > 0) {
                 view.addToWorkspace(view.getSelectedDataInSearch());
-                
+                view.changeTabInWorkspace(0);
             }
         }
         

@@ -14,8 +14,7 @@ public class ConnectionFactory {
     }
 
     public Connection makeConnection() {
-        Connection conn = new Connection(ip, view);
-        return conn;
+        return new Connection(ip, view);
     }
 
     public void setIP(String ip) {

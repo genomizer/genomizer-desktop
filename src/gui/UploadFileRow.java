@@ -244,6 +244,10 @@ public class UploadFileRow extends JPanel {
         }
     }
 
+    /**
+     * Method used to reset the type combobox,
+     * when a new species is chosen in the parent panel.
+     */
     public void resetType() {
         typeBox.setSelectedItem(typeBox.getSelectedItem());
     }

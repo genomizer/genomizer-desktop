@@ -106,8 +106,7 @@ public class HTTPURLUpload {
 
     private String getFileNameFromUrl(String url) {
         String[] urlSplit = url.split("/");
-        String fileName = urlSplit[urlSplit.length - 1];
-        return fileName;
+        return urlSplit[urlSplit.length - 1];
 
     }
 
