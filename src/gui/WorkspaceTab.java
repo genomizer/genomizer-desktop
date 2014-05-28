@@ -19,6 +19,8 @@ import javax.swing.JProgressBar;
 import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
 import javax.swing.SwingUtilities;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 
 import util.ExperimentData;
 import util.TreeTable;
@@ -40,11 +42,12 @@ public class WorkspaceTab extends JPanel {
     private JPanel buttonPanel;
     private JButton deleteButton, removeButton, downloadButton;
     private JButton uploadToButton, processButton, ongoingDownloadsButton;
-    private final JTabbedPane tabbedPane;
+    private JTabbedPane tabbedPane;
     private JPanel ongoingDownloadsPanel;
     private JPanel bottomPanel;
     private JPanel filePanel;
     private CopyOnWriteArrayList<DownloadHandler> ongoingDownloads;
+    private JScrollPane bottomScroll;
     
     /**
      * Constructor creating the workspace tab.
@@ -57,20 +60,38 @@ public class WorkspaceTab extends JPanel {
         table = new TreeTable();
         filePanel.add(table, BorderLayout.CENTER);
         bottomPanel = new JPanel(new BorderLayout());
-        JScrollPane bottomScroll = new JScrollPane(bottomPanel);
+        bottomScroll = new JScrollPane(bottomPanel);
         bottomScroll.setBorder(BorderFactory.createEmptyBorder());
         ongoingDownloadsPanel = new JPanel(new GridLayout(0, 1));
         buttonPanel.setLayout(new FlowLayout());
         createButtons();
         addToButtonPanel();
+        bottomPanel.add(ongoingDownloadsPanel, BorderLayout.NORTH);
+        add(buttonPanel, BorderLayout.NORTH);
+        setTabbedPane();
+        updateOngoingDownloadsPanel();
+        setVisible(true);
+    }
+    
+    private void setTabbedPane() {
         tabbedPane = new JTabbedPane(JTabbedPane.BOTTOM);
         tabbedPane.addTab("Workspace", filePanel);
         tabbedPane.addTab("Downloads", bottomScroll);
-        bottomPanel.add(ongoingDownloadsPanel, BorderLayout.NORTH);
-        add(buttonPanel, BorderLayout.NORTH);
+        tabbedPane.addChangeListener(new ChangeListener() {
+            public void stateChanged(ChangeEvent e) {
+                boolean b = false;
+                if (tabbedPane.getSelectedIndex() == 0) {
+                    b = true;
+                }
+                deleteButton.setEnabled(b);
+                removeButton.setEnabled(b);
+                processButton.setEnabled(b);
+                uploadToButton.setEnabled(b);
+                downloadButton.setEnabled(b);
+                
+            }
+        });
         add(tabbedPane, BorderLayout.CENTER);
-        updateOngoingDownloadsPanel();
-        setVisible(true);
     }
     
     /**
