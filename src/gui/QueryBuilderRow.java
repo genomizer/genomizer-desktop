@@ -5,6 +5,8 @@ import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -156,7 +158,6 @@ public class QueryBuilderRow extends JPanel {
         });
     }
 
-
     /**
      * Method for constructing the text field for free text input
      */
@@ -182,7 +183,40 @@ public class QueryBuilderRow extends JPanel {
                 parent.updateSearchArea();
             }
         });
+        //TODO
+        setTextFieldOnEnterListener(textField);
     }
+
+    private void focusNextQuery(){
+        parent.getNextQuery(this).getTextField().requestFocus();
+    }
+
+    public JTextField getTextField(){
+        return this.textField;
+    }
+
+    private void onPressedEnter(){
+        parent.getSearchButton().doClick();
+    }
+
+    private void setTextFieldOnEnterListener(JTextField textField){
+
+        final QueryBuilderRow queryRow = this;
+
+        textField.addKeyListener(new KeyAdapter() {
+            @Override public void keyPressed(KeyEvent event) {
+                if(event.getKeyCode() == event.VK_ENTER ) {
+                    if(parent.isLastQueryIndex(queryRow)){
+                        onPressedEnter();
+                    }else{
+                        focusNextQuery();
+                    }
+                }
+            }
+        });
+    }
+
+
 
     /**
      * Method for constructing the annotation alternatives combobox
