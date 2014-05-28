@@ -19,7 +19,7 @@ public class UserPanel extends JPanel {
         setLayout(new BorderLayout());
         setLabels();
         setLogoutButton();
-        
+        logoutButton.setFocusable(false);
     }
     
     private void setLogoutButton() {

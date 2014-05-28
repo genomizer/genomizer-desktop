@@ -6,6 +6,16 @@ import javax.swing.JTabbedPane;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
+/**
+ * @author oi11ahn
+ * @author dv12ilr
+ * */
+
+/**
+ * @author oi11ahn
+ * 
+ */
+
 public class SysadminTabChangeListener implements ChangeListener {
 
     private SysadminController sysContoller;
@@ -17,8 +27,17 @@ public class SysadminTabChangeListener implements ChangeListener {
         lastTab = SysStrings.ANNOTATIONS;
     }
 
-    @Override
+    /**
+     * The listener responding the when a new tab i chosen in the Sysadmin view
+     * in the GUI.
+     * 
+     * @param e
+     *            The ChangeEvent that triggered the listner.
+     * */
+
     public void stateChanged(ChangeEvent e) {
+
+        /** Get the source and the name of the tab. */
 
         JTabbedPane tab = (JTabbedPane) e.getSource();
         String tabName = tab.getTitleAt(tab.getSelectedIndex());

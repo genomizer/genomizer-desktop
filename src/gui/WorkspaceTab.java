@@ -14,9 +14,9 @@ import javax.swing.Box;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JProgressBar;
+import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
 import javax.swing.SwingUtilities;
 
@@ -57,13 +57,15 @@ public class WorkspaceTab extends JPanel {
         table = new TreeTable();
         filePanel.add(table, BorderLayout.CENTER);
         bottomPanel = new JPanel(new BorderLayout());
+        JScrollPane bottomScroll = new JScrollPane(bottomPanel);
+        bottomScroll.setBorder(BorderFactory.createEmptyBorder());
         ongoingDownloadsPanel = new JPanel(new GridLayout(0, 1));
         buttonPanel.setLayout(new FlowLayout());
         createButtons();
         addToButtonPanel();
         tabbedPane = new JTabbedPane(JTabbedPane.BOTTOM);
         tabbedPane.addTab("Workspace", filePanel);
-        tabbedPane.addTab("Ongoing Downloads", bottomPanel);
+        tabbedPane.addTab("Ongoing Downloads", bottomScroll);
         bottomPanel.add(ongoingDownloadsPanel, BorderLayout.NORTH);
         add(buttonPanel, BorderLayout.NORTH);
         add(tabbedPane, BorderLayout.CENTER);
@@ -132,6 +134,7 @@ public class WorkspaceTab extends JPanel {
      * Method updating the current ongoing downloads.
      */
     private void updateOngoingDownloadsPanel() {
+        final CopyOnWriteArrayList<DownloadHandler> completedDownloads = new CopyOnWriteArrayList<DownloadHandler>();
         new Thread(new Runnable() {
             @Override
             public void run() {
@@ -156,7 +159,6 @@ public class WorkspaceTab extends JPanel {
                                             @Override
                                             public void actionPerformed(
                                                     ActionEvent e) {
-                                                handler.setFinished(true);
                                                 ongoingDownloads
                                                         .remove(handler);
                                             }
@@ -172,14 +174,36 @@ public class WorkspaceTab extends JPanel {
                                         BorderLayout.NORTH);
                                 ongoingDownloadsPanel.add(downloadPanel);
                             } else {
-                                ongoingDownloads.remove(handler);
                                 if (handler.isFinished()) {
-                                    JOptionPane.showMessageDialog(null,
-                                            "Download complete");
+                                    completedDownloads.add(handler);
                                 }
+                                ongoingDownloads.remove(handler);
                             }
                         }
 
+                    }
+                    for (final DownloadHandler handler : completedDownloads) {
+                        JPanel completedDownloadPanel = new JPanel(
+                                new BorderLayout());
+                        JProgressBar progress = new JProgressBar(0, 100);
+                        progress.setValue(100);
+                        progress.setStringPainted(true);
+                        JButton stopButton = new JButton("X");
+                        stopButton.addActionListener(new ActionListener() {
+                            @Override
+                            public void actionPerformed(ActionEvent e) {
+                                completedDownloads.remove(handler);
+                            }
+                        });
+                        completedDownloadPanel.add(progress,
+                                BorderLayout.CENTER);
+                        completedDownloadPanel.add(stopButton,
+                                BorderLayout.EAST);
+                        completedDownloadPanel.add(
+                                new JLabel("<html><b>Completed: </b>"
+                                        + handler.getFileName() + "</html>"),
+                                BorderLayout.NORTH);
+                        ongoingDownloadsPanel.add(completedDownloadPanel);
                     }
                     ongoingDownloadsPanel.revalidate();
                     ongoingDownloadsPanel.repaint();
