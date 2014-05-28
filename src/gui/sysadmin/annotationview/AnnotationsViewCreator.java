@@ -26,7 +26,7 @@ import javax.swing.text.BadLocationException;
 
 /**
  * This class builds the view shown when the "Annotations" tab is chosen.
- * 
+ *
  * */
 public class AnnotationsViewCreator {
 
@@ -45,7 +45,7 @@ public class AnnotationsViewCreator {
     /**
      * Builds the annotations view itself using methods that build everything
      * else.
-     * 
+     *
      * @return the view as a JPanel
      */
     public JPanel buildAnnotationsView() {
@@ -71,7 +71,7 @@ public class AnnotationsViewCreator {
 
     /***
      * Builds the bottomPanel
-     * 
+     *
      * @param bottomPanel
      *            the bottom panel itself.
      * @param tabPanel
@@ -88,7 +88,7 @@ public class AnnotationsViewCreator {
 
     /***
      * Builds the tabPanel
-     * 
+     *
      * @param tabPanel
      *            the panel that holds the search table.
      */
@@ -101,10 +101,10 @@ public class AnnotationsViewCreator {
 
     /***
      * Builds the buttonPanel
-     * 
+     *
      * @param buttonPanel
      *            the panel to hold all main buttons for the annotations view.
-     * 
+     *
      */
     private void buildButtonPanel(JPanel buttonPanel) {
 
@@ -138,7 +138,7 @@ public class AnnotationsViewCreator {
 
     /***
      * Builds the searchPanel
-     * 
+     *
      * @param searchPanel
      */
     private void buildSearchPanel(JPanel searchPanel) {
@@ -154,9 +154,9 @@ public class AnnotationsViewCreator {
 
     /***
      * Builds the searchField.
-     * 
+     *
      * @return the searchField
-     * 
+     *
      */
     private JTextField buildSearchField() {
         Dimension searchDim = new Dimension(500, 30);
@@ -170,7 +170,7 @@ public class AnnotationsViewCreator {
 
     /***
      * Builds the search table in a scroll pane.
-     * 
+     *
      * @return the panel holding the search table.
      */
     private Component buildSearchTable() {
@@ -210,7 +210,7 @@ public class AnnotationsViewCreator {
 
     /***
      * Gets the search table.
-     * 
+     *
      * @return the search table.
      */
     public JTable getTable() {
@@ -219,7 +219,7 @@ public class AnnotationsViewCreator {
 
     /***
      * Sets the same listener to all the buttons.
-     * 
+     *
      * @param addAnnotationListener
      *            the listener.
      */
@@ -231,7 +231,7 @@ public class AnnotationsViewCreator {
 
     /***
      * Gets the table model for the search table
-     * 
+     *
      * @return the model for the search table
      */
     public TableModel getTableModel() {
@@ -239,10 +239,8 @@ public class AnnotationsViewCreator {
     }
 
     /***
-     * A private class that filters the searh table based on what the user
+     * A private class that filters the search table based on what the user
      * writes in the search field.
-     * 
-     * 
      */
     private class SearchDocumentListener implements DocumentListener {
 

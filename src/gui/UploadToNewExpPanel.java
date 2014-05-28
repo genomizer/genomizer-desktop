@@ -332,6 +332,9 @@ public class UploadToNewExpPanel extends JPanel implements ExperimentPanel {
                 exists.add(a.getName());
             }
         }
+        for(String s : exists) {
+            System.out.println(s);
+        }
         String[] checkIt = new String[annotationHeaders.size()];
         for (int i = 0; i < annotationHeaders.size(); i++) {
             checkIt[i] = annotationHeaders.get(i);
