@@ -32,6 +32,7 @@ public class UploadToNewExpPanel extends JPanel implements ExperimentPanel {
     private HashMap<File, UploadFileRow> uploadFileRows;
     private HashMap<String, JComboBox<String>> annotationBoxes;
     private HashMap<String, JTextField> annotationFields;
+    private HashMap<String, JPanel> currentAnnotations;
     private ArrayList<String> annotationHeaders;
     private JPanel uploadFilesPanel, newExpPanel, buttonsPanel,
             uploadBackground;
@@ -41,6 +42,7 @@ public class UploadToNewExpPanel extends JPanel implements ExperimentPanel {
     private JTextField expID;
     private JComboBox<String> species;
     private ArrayList<String> genome;
+    private GridBagConstraints gbc;
 
     /**
      * Constructor initiating the new experiment panel.
@@ -69,6 +71,7 @@ public class UploadToNewExpPanel extends JPanel implements ExperimentPanel {
         species = new JComboBox<String>();
         species.setPreferredSize(new Dimension(120, 31));
         genome = new ArrayList<String>();
+        currentAnnotations = new HashMap<String, JPanel>();
         enableUploadButton(false);
     }
 
@@ -94,8 +97,8 @@ public class UploadToNewExpPanel extends JPanel implements ExperimentPanel {
     }
 
     /**
-     * Method redefining the removeAll() method of JPanel.
-     * Used to clear this panel.
+     * Method redefining the removeAll() method of JPanel. Used to clear this
+     * panel.
      */
     @Override
     public void removeAll() {
@@ -249,7 +252,7 @@ public class UploadToNewExpPanel extends JPanel implements ExperimentPanel {
         annotationFields = new HashMap<>();
         int x = 0;
         int y = 0;
-        GridBagConstraints gbc = new GridBagConstraints();
+        gbc = new GridBagConstraints();
         gbc.anchor = GridBagConstraints.WEST;
         gbc.insets = new Insets(5, 0, 5, 30);
         gbc.gridx = x;
@@ -261,6 +264,8 @@ public class UploadToNewExpPanel extends JPanel implements ExperimentPanel {
         exp.add(expID, BorderLayout.CENTER);
         newExpPanel.add(exp, gbc);
         x++;
+        annotationHeaders.add("ExpID");
+        currentAnnotations.put("ExpID", exp);
         for (int i = 0; i < annotations.length; i++) {
 
             if (annotations[i].getValues().length > 0) {
@@ -284,7 +289,7 @@ public class UploadToNewExpPanel extends JPanel implements ExperimentPanel {
                 }
                 annotationHeaders.add(annotations[i].getName());
                 p.add(annotationLabel, BorderLayout.NORTH);
-                if (annotations[i].getValues()[0].equals("freetext")) {
+                if (annotations[i].getValues()[0].equalsIgnoreCase("freetext")) {
                     final JTextField textField = new JTextField();
                     textField.setColumns(10);
 
@@ -294,7 +299,6 @@ public class UploadToNewExpPanel extends JPanel implements ExperimentPanel {
 
                     annotationFields.put(annotations[i].getName(), textField);
                     p.add(textField, BorderLayout.CENTER);
-                    newExpPanel.add(p, gbc);
 
                 } else {
                     if (annotations[i].getName().equalsIgnoreCase("species")) {
@@ -306,7 +310,6 @@ public class UploadToNewExpPanel extends JPanel implements ExperimentPanel {
                         }
                         annotationBoxes.put(annotations[i].getName(), species);
                         p.add(species, BorderLayout.CENTER);
-                        newExpPanel.add(p, gbc);
                         species.setSelectedIndex(0);
                     } else {
                         final JComboBox<String> comboBox = new JComboBox<String>(
@@ -330,9 +333,10 @@ public class UploadToNewExpPanel extends JPanel implements ExperimentPanel {
 
                         annotationBoxes.put(annotations[i].getName(), comboBox);
                         p.add(comboBox, BorderLayout.CENTER);
-                        newExpPanel.add(p, gbc);
                     }
                 }
+                newExpPanel.add(p, gbc);
+                currentAnnotations.put(annotations[i].getName(), p);
                 x++;
             }
         }
@@ -551,6 +555,118 @@ public class UploadToNewExpPanel extends JPanel implements ExperimentPanel {
             uploadSelectedBtn.setEnabled(b);
             uploadButton.setEnabled(b);
         }
+    }
+
+    /**
+     * Method updating current annotations.
+     */
+    public void updateAnnotations(AnnotationDataType[] annotations) {
+        ArrayList<String> exists = new ArrayList<String>();
+        for (AnnotationDataType a : annotations) {
+            if (annotationHeaders.contains(a.getName())) {
+                exists.add(a.getName());
+            } else {
+                JPanel p = new JPanel(new BorderLayout());
+                JLabel annotationLabel = null;
+                if (a.isForced()) {
+                    annotationLabel = new JLabel("<html><b>" + a.getName()
+                            + "</b></html>");
+                    annotationLabel
+                            .setToolTipText("Bold indicates a forced annotation");
+                } else {
+                    annotationLabel = new JLabel(a.getName());
+                }
+                annotationHeaders.add(a.getName());
+                p.add(annotationLabel, BorderLayout.NORTH);
+                if (a.getValues()[0].equalsIgnoreCase("freetext")) {
+                    final JTextField textField = new JTextField();
+                    textField.setColumns(10);
+
+                    // Add listener for when the text in the textfield changes.
+                    textField.getDocument().addDocumentListener(
+                            new FreetextListener());
+
+                    annotationFields.put(a.getName(), textField);
+                    p.add(textField, BorderLayout.CENTER);
+                } else {
+                    if (a.getName().equalsIgnoreCase("species")) {
+                        if (species.getItemCount() > 0) {
+                            species.removeAllItems();
+                        }
+                        for (String s : a.getValues()) {
+                            species.addItem(s);
+                        }
+                        annotationBoxes.put(a.getName(), species);
+                        p.add(species, BorderLayout.CENTER);
+                        species.setSelectedIndex(0);
+                    } else {
+                        final JComboBox<String> comboBox = new JComboBox<String>(
+                                a.getValues());
+                        comboBox.setPreferredSize(new Dimension(120, 31));
+                        /*
+                         *
+                         * Listener for when the user chooses something in the
+                         * combobox.
+                         */
+                        comboBox.addActionListener(new ActionListener() {
+                            @Override
+                            public void actionPerformed(ActionEvent actionEvent) {
+                                String text = (String) comboBox
+                                        .getSelectedItem();
+                                if (!text.equals("") && text != null) {
+                                    enableUploadButton(true);
+                                }
+                            }
+                        });
+
+                        annotationBoxes.put(a.getName(), comboBox);
+                        p.add(comboBox, BorderLayout.CENTER);
+                    }
+                }
+                currentAnnotations.put(a.getName(), p);
+                exists.add(a.getName());
+            }
+        }
+        for (String s : annotationHeaders) {
+            if (!exists.contains(s)) {
+                annotationHeaders.remove(s);
+                annotationFields.remove(s);
+                annotationBoxes.remove(s);
+                currentAnnotations.remove(s);
+            }
+        }
+        buildAnnotationsMenu();
+    }
+
+    public void buildAnnotationsMenu() {
+        for (String s : currentAnnotations.keySet()) {
+            int x = 0;
+            int y = 0;
+            gbc = new GridBagConstraints();
+            gbc.anchor = GridBagConstraints.WEST;
+            gbc.insets = new Insets(5, 0, 5, 30);
+            gbc.gridx = x;
+            gbc.gridy = y;
+            newExpPanel.add(currentAnnotations.get(s), gbc);
+            x++;
+            for (int i = 0; i < annotations.length; i++) {
+                if (annotations[i].getValues().length > 0) {
+                    if (x > 6) {
+                        x = 0;
+                        y++;
+                    }
+                    gbc.anchor = GridBagConstraints.WEST;
+                    gbc.insets = new Insets(5, 0, 5, 30);
+                    gbc.gridx = x;
+                    gbc.gridy = y;
+                    newExpPanel.add(currentAnnotations.get(s), gbc);
+                    x++;
+                }
+            }
+        }
+        newExpPanel.repaint();
+        newExpPanel.revalidate();
+        repaintSelectedFiles();
     }
 
     /**
