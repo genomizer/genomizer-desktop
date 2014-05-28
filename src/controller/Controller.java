@@ -530,6 +530,7 @@ public class Controller {
                 view.addToWorkspace(view.getSelectedDataInSearch());
                 view.changeTabInWorkspace(0);
             }
+            view.clearSearchSelection();
         }
         
     }

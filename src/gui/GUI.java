@@ -786,4 +786,8 @@ public class GUI extends JFrame implements GenomizerView {
     public void changeTabInWorkspace(int tabIndex) {
         workspaceTab.changeTab(tabIndex);
     }
+    
+    public void clearSearchSelection() {
+        querySearchTab.clearSearchSelection();
+    }
 }

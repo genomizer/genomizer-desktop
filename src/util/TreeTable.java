@@ -18,7 +18,17 @@ import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import javax.swing.*;
+import javax.swing.Action;
+import javax.swing.JButton;
+import javax.swing.JCheckBox;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JPopupMenu;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
+import javax.swing.JViewport;
+import javax.swing.SwingUtilities;
 import javax.swing.table.TableColumnModel;
 import javax.swing.tree.TreePath;
 
@@ -68,7 +78,7 @@ public class TreeTable extends JPanel {
     private void initiateJXTreeTable() {
         table = new JXTreeTable() {
             private static final long serialVersionUID = -5027164951558722985L;
-
+            
             public boolean getScrollableTracksViewportWidth() {
                 return getPreferredSize().width < getParent().getWidth();
             }
@@ -80,7 +90,7 @@ public class TreeTable extends JPanel {
         /* Custom column control for hiding columns */
         ColumnControlButton controlButton = new ColumnControlButton(table) {
             private static final long serialVersionUID = 1022478445883845370L;
-
+            
             @Override
             protected ColumnControlPopup createColumnControlPopup() {
                 return (new NFColumnControlPopup());
@@ -92,10 +102,10 @@ public class TreeTable extends JPanel {
                         List<? extends AbstractActionExt> actions) {
                     if (!actions.isEmpty()) {
                         JPopupMenu popupMenu = getPopupMenu();
-
+                        
                         /* Hide all columns button */
-                        JButton deselectButton =
-                                new JButton("Hide all annotations");
+                        JButton deselectButton = new JButton(
+                                "Hide all annotations");
                         deselectButton.addActionListener(new ActionListener() {
                             @Override
                             public void actionPerformed(ActionEvent e) {
@@ -107,8 +117,8 @@ public class TreeTable extends JPanel {
                                 }
                             }
                         });
-                        JButton selectButton =
-                                new JButton("Show all annotations");
+                        JButton selectButton = new JButton(
+                                "Show all annotations");
                         selectButton.addActionListener(new ActionListener() {
                             @Override
                             public void actionPerformed(ActionEvent e) {
@@ -120,42 +130,45 @@ public class TreeTable extends JPanel {
                                 }
                             }
                         });
-
+                        
                         popupMenu.add(selectButton);
                         popupMenu.add(deselectButton);
-
-                        //Add some space between the checkboxes and the buttons.
+                        
+                        // Add some space between the checkboxes and the
+                        // buttons.
                         popupMenu.add(new JLabel("\n"));
-
+                        
                         /* Add hide column checkboxes */
                         for (JCheckBox checkBox : columnCheckBoxes) {
                             getPopupMenu().add(checkBox);
                         }
-
-                        //Add some space between the checkboxes and the buttons.
+                        
+                        // Add some space between the checkboxes and the
+                        // buttons.
                         popupMenu.add(new JLabel("\n"));
-
-                        //Add expand all button with listener.
+                        
+                        // Add expand all button with listener.
                         JButton expandAllButton = new JButton("Expand all");
                         expandAllButton.addActionListener(new ActionListener() {
-                            @Override public void actionPerformed(
-                                    ActionEvent actionEvent) {
-                                        table.expandAll();
+                            @Override
+                            public void actionPerformed(ActionEvent actionEvent) {
+                                table.expandAll();
                             }
                         });
                         popupMenu.add(expandAllButton);
-
-                        //Add collapse all button with listener.
+                        
+                        // Add collapse all button with listener.
                         JButton collapseAllButton = new JButton("Collapse all");
-                        collapseAllButton.addActionListener(
-                                new ActionListener() {
-                            @Override public void actionPerformed(
-                                    ActionEvent actionEvent) {
-                                table.collapseAll();
-                            }
-                        });
+                        collapseAllButton
+                                .addActionListener(new ActionListener() {
+                                    @Override
+                                    public void actionPerformed(
+                                            ActionEvent actionEvent) {
+                                        table.collapseAll();
+                                    }
+                                });
                         popupMenu.add(collapseAllButton);
-
+                        
                         popupMenu.repaint();
                         popupMenu.revalidate();
                     }
@@ -514,6 +527,10 @@ public class TreeTable extends JPanel {
      */
     public ArrayList<ExperimentData> getContent() {
         return experiments;
+    }
+    
+    public void deselectTreeTable() {
+        table.clearSelection();
     }
     
     /**
