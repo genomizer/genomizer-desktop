@@ -6,6 +6,8 @@ import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 
 import javax.swing.BorderFactory;
@@ -143,6 +145,20 @@ public class QuerySearchTab extends JPanel {
         searchArea.setLineWrap(true);
         searchArea.setSize(850, 20);
         searchArea.setEditable(false);
+
+        /*
+         * Click the search button if the enter key is pressed while the text
+         * field has focus. (only if it's not editable)
+         */
+        searchArea.addKeyListener(new KeyAdapter() {
+            @Override public void keyPressed(KeyEvent event) {
+                if(event.getKeyCode() == event.VK_ENTER &&
+                        !searchArea.isEditable()) {
+                    searchButton.doClick();
+                }
+            }
+        });
+
         JScrollPane searchScroll = new JScrollPane(searchArea);
         searchScroll.setPreferredSize(new Dimension(800, 35));
         JRadioButton queryBuilderButton = new JRadioButton("Query Builder");
@@ -185,7 +201,7 @@ public class QuerySearchTab extends JPanel {
      */
     private void setUpResultsHeaderPanel() {
         resultsHeaderPanel = new JPanel(new BorderLayout());
-        JButton backButton = CustomButtonFactory.makeCustomButton(
+        backButton = CustomButtonFactory.makeCustomButton(
                 IconFactory.getBackIcon(25, 25),
                 IconFactory.getBackIcon(27, 27), 25, 25, "Back to search view");
         // backButton = new JButton("Back");
@@ -371,7 +387,7 @@ public class QuerySearchTab extends JPanel {
     public ActiveSearchPanel getActivePanel() {
         return activePanel;
     }
-    
+
     public JButton getBackButton() {
         return backButton;
     }

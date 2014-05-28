@@ -42,6 +42,7 @@ public class Controller {
     private final JFileChooser fileChooser = new JFileChooser();
     private SysadminController sysController;
     private boolean abortDeletion;
+    private boolean deletedProcessFiles = false;
 
     public Controller(GenomizerView view, GenomizerModel model) {
         abortDeletion = false;
@@ -151,6 +152,7 @@ public class Controller {
                                     + parameters[5] + " " + parameters[6] + " "
                                     + parameters[7];
 
+                            //Sends a request to create profile data from raw files.
                             isConverted = model.rawToProfile(expid, parameters,
                                     metadata, genomeVersion, author);
 
@@ -647,6 +649,12 @@ public class Controller {
             @Override
             public void mouseClicked(MouseEvent event) {
                 JList list = (JList) event.getSource();
+
+                if(deletedProcessFiles){
+                    species = "";
+                    count = 0;
+                }
+
                 if (list.getModel().getSize() > 0) {
                     int index = list.locationToIndex(event.getPoint());
 
@@ -676,6 +684,7 @@ public class Controller {
                             count--;
                         }
                     }
+                    deletedProcessFiles = false;
                     list.repaint(list.getCellBounds(index, index));
                 }
             }
@@ -871,6 +880,7 @@ public class Controller {
                     data.files.removeAll(markedFiles);
                 }
                 view.setFileInfo(exData);
+                deletedProcessFiles = true;
             }
         }
     }

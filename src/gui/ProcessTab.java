@@ -46,7 +46,7 @@ import util.ProcessFeedbackData;
 /**
  * Visual presentation of the process tab.
  *
- * @author c11ann
+ * @author
  */
 public class ProcessTab extends JPanel {
 
@@ -80,10 +80,7 @@ public class ProcessTab extends JPanel {
     public final JTextField smoothWindowSize = new JTextField();
     public final JTextField stepPosition = new JTextField();
     public final JTextField stepSize = new JTextField();
-    private final JTextField inputReads = new JTextField();
-    private final JTextField chromosome = new JTextField();
-    private final JTextField ratioWindowSize = new JTextField();
-    private final JTextField ratioStepPosition = new JTextField();
+
 
     private final JScrollPane scrollConsole = new JScrollPane();
     private final JScrollPane scrollProcessList = new JScrollPane();
@@ -145,11 +142,13 @@ public class ProcessTab extends JPanel {
         initComboBoxes(smooth, smoothType);
 
         initRegularParameters();
-       // setDefaultRatioPar();
         setButtonListeners();
 
     }
 
+    /**
+     * Shows parameters information popup window.
+     */
     private void helpPopup() {
 
         JOptionPane
@@ -160,6 +159,9 @@ public class ProcessTab extends JPanel {
                         "Parameter information", JOptionPane.PLAIN_MESSAGE);
     }
 
+    /**
+     * Sets buttonListeners to all the parameters textFields and buttons.
+     */
     private void setButtonListeners() {
         radioGroup.add(outputSGR);
         radioGroup.add(outputGFF);
@@ -176,9 +178,16 @@ public class ProcessTab extends JPanel {
         setFlagsListener();
     }
 
+    /**
+     * Initiates the smooth type comboBox in process tab.
+     *
+     * @param items
+     * @param dropDownList
+     */
     private void initComboBoxes(ArrayList<String> items,
             JComboBox<String> dropDownList) {
 
+        // Only if the dropDown is not null
         if (!dropDownList.equals(null)) {
             for (String item : items) {
                 dropDownList.addItem(item);
@@ -534,6 +543,9 @@ public class ProcessTab extends JPanel {
         genomeFile.removeAllItems();
     }
 
+    /**
+     * Initiate fileList.
+     */
     private void initFileList() {
         fileListSetCellRenderer();
     }
@@ -548,6 +560,7 @@ public class ProcessTab extends JPanel {
      * @return String - "y" + stepSize || "n" + stepSize
      */
     private String getStepSize() {
+        // Only if SGR is selected and enabled
         if (outputSGR.isSelected() && stepSizeBox.isSelected()) {
             return "y " + stepSize.getText().trim();
         } else {
@@ -558,7 +571,7 @@ public class ProcessTab extends JPanel {
     /**
      * Gets the text in the flag parameter in raw to profile tab.
      *
-     * @return
+     * @return String
      */
     private String getTextFromFlags() {
         return flags.getText().trim();
@@ -611,14 +624,14 @@ public class ProcessTab extends JPanel {
      * Gets all the parameters that the user has written in the raw to profile
      * tab when trying to create profile data from raw data.
      *
-     * @return String[] - bowtieParameters
+     * @return String[] - regularParameters
      */
     public String[] getregularParameters() {
         return this.regularParameters;
     }
 
     /**
-     * Sets bowtieParameters from all the parameters in raw to profile tab.
+     * Sets regularParameters from the user in raw to profile tab.
      */
     public void setRegularParameters() {
 
@@ -629,6 +642,11 @@ public class ProcessTab extends JPanel {
 
     }
 
+    /**
+     * Gets all the regular parameters that the user has entered.
+     *
+     * @return parameters
+     */
     public String[] getRegularParameters() {
 
         String[] parameters = new String[6];
@@ -651,6 +669,12 @@ public class ProcessTab extends JPanel {
         return parameters;
     }
 
+    /**
+     * Sets the genomeFile comboBox with all the genome release files that exist
+     * for a specific species.
+     *
+     * @param genomeReleases
+     */
     public void setGenomeFileList(GenomeReleaseData[] genomeReleases) {
         genomeFile.removeAllItems();
         if (genomeReleases != null && genomeReleases.length > 0) {
@@ -663,27 +687,24 @@ public class ProcessTab extends JPanel {
     }
 
     /**
-     * Sets the fileData list with all selected files to process from workspace.
+     * Sets the experimentData list with all selected files to process from
+     * workspace.
      *
      * @param experimentData
      */
     public void setFileInfo(ArrayList<ExperimentData> experimentData) {
         this.experimentData = experimentData;
+        // Parse out experiment files.
         parseFileData();
     }
 
+    /**
+     * Get all the experiments from the process tab.
+     *
+     * @return
+     */
     public ArrayList<ExperimentData> getFileInfo() {
         return this.experimentData;
-    }
-
-    /**
-     * Sets default values to ratio calc parameters.
-     */
-    public void setDefaultRatioPar() {
-        inputReads.setText("4");
-        chromosome.setText("0");
-      //  ratioWindowSize.setText("150");
-      //  ratioStepPosition.setText("7");
     }
 
     /**
@@ -695,8 +716,9 @@ public class ProcessTab extends JPanel {
     }
 
     /**
-     * Parse out the all the files from ExperimentData and creates an CheckListItem and adds that file to it.
-     * Adds all the files CheckListItems to fileList.
+     * Parse out the all the files from ExperimentData and creates an
+     * CheckListItem and adds that file to it. Adds all the files CheckListItems
+     * to fileList.
      */
     private void parseFileData() {
 
@@ -755,6 +777,7 @@ public class ProcessTab extends JPanel {
 
     /**
      * Adds listener to the fileList.
+     *
      * @param mouseAdapter
      */
     public void addFileListMouseListener(MouseAdapter mouseAdapter) {
@@ -763,6 +786,7 @@ public class ProcessTab extends JPanel {
 
     /**
      * Adds button listener to processFeedbackButton.
+     *
      * @param listener
      */
     public void addProcessFeedbackListener(ActionListener listener) {
@@ -771,6 +795,7 @@ public class ProcessTab extends JPanel {
 
     /**
      * Adds button listener to profileButton.
+     *
      * @param listener
      */
     public void addRawToProfileDataListener(ActionListener listener) {
@@ -779,6 +804,7 @@ public class ProcessTab extends JPanel {
 
     /**
      * Adds button listener to ratioCalcButton.
+     *
      * @param listener
      */
     public void addRatioCalcListener(ActionListener listener) {
@@ -787,6 +813,7 @@ public class ProcessTab extends JPanel {
 
     /**
      * Adds button listener to deleteButton.
+     *
      * @param listener
      */
     public void addDeleteSelectedListener(ActionListener listener) {
@@ -795,6 +822,7 @@ public class ProcessTab extends JPanel {
 
     /**
      * Showes all the process the server is currently handling.
+     *
      * @param processFeedbackData
      */
     public void showProcessFeedback(ProcessFeedbackData[] processFeedbackData) {
@@ -811,17 +839,17 @@ public class ProcessTab extends JPanel {
     public void setFlagsListener() {
         flags.getDocument().addDocumentListener(new DocumentListener() {
 
-            //If something is changed from the textfield
+            // If something is changed from the textfield
             public void changedUpdate(DocumentEvent e) {
                 check();
             }
 
-            //If something is removed from the textfield
+            // If something is removed from the textfield
             public void removeUpdate(DocumentEvent e) {
                 check();
             }
 
-            //If something is inserted from the textfield
+            // If something is inserted from the textfield
             public void insertUpdate(DocumentEvent e) {
                 check();
             }
@@ -830,6 +858,7 @@ public class ProcessTab extends JPanel {
 
     /**
      * Sets a button listener to a selected JComboBox<String>.
+     *
      * @param combobox
      */
     public void setComboBoxActionListener(JComboBox<String> combobox) {
@@ -843,6 +872,7 @@ public class ProcessTab extends JPanel {
 
     /**
      * Sets a button listener to a selected JCheckBox.
+     *
      * @param checkbox
      */
     public void setCheckBoxListener(JCheckBox checkbox) {
@@ -856,6 +886,7 @@ public class ProcessTab extends JPanel {
 
     /**
      * Sets a button listener to a selected JRadioButton.
+     *
      * @param radioButton
      */
     public void setRadioButtonListener(JRadioButton radioButton) {
@@ -869,6 +900,7 @@ public class ProcessTab extends JPanel {
 
     /**
      * Sets a button listener to a selected JButton.
+     *
      * @param infoButton
      */
     private void setJButtonListener(JButton infoButton) {
