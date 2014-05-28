@@ -172,7 +172,7 @@ public class Controller {
                     }
                 }
             } else {
-                message = "One or more selected files is not raw files! \n\n";
+                message = "One or more selected files are not raw files! \n\n";
                 view.printToConsole(message);
             }
 
@@ -214,7 +214,7 @@ public class Controller {
             ArrayList<FileData> selectedFiles = new ArrayList<>();
             for (ExperimentData experiment : selectedData) {
                 for (FileData file : experiment.files) {
-                    if (!selectedFiles.contains(file.filename)) {
+                    if (!selectedFiles.contains(file)) {
                         selectedFiles.add(file);
                     }
                 }
@@ -408,12 +408,12 @@ public class Controller {
                     }
                 } catch (NullPointerException e) {
                     JOptionPane.showMessageDialog(null,
-                            "Couldn't find or retrieve experiment", "ERROR",
+                            "Couldn't find or retrieve experiment.", "ERROR",
                             JOptionPane.ERROR_MESSAGE);
                 }
             } else {
                 JOptionPane.showMessageDialog(null,
-                        "Please fill in experiment name", "ERROR",
+                        "Please fill in experiment name.", "ERROR",
                         JOptionPane.ERROR_MESSAGE);
             }
         }
@@ -556,7 +556,6 @@ public class Controller {
             fileChooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
             fileChooser.setMultiSelectionEnabled(true);
             int ret = fileChooser.showOpenDialog(new JPanel());
-            String directoryName = "";
             File[] files;
             if (ret == JFileChooser.APPROVE_OPTION) {
                 files = fileChooser.getSelectedFiles();
