@@ -95,12 +95,13 @@ public class Controller {
         public void run() {
             AnnotationDataType[] a;
             if (view.getSelectedIndex() == 1) {
-                if(((a = model.getAnnotations()) != null) && view.getUploadTab().newExpStarted()) {
+                if (((a = model.getAnnotations()) != null)
+                        && view.getUploadTab().newExpStarted()) {
                     view.getUploadTab().getNewExpPanel().updateAnnotations(a);
                     System.out.println("HEJ");
                 }
             } else if (view.getSelectedIndex() == 0) {
-                if((a = model.getAnnotations()) != null) {
+                if ((a = model.getAnnotations()) != null) {
                     view.setSearchAnnotationTypes(a);
                     System.out.println("HEJ");
                 }
@@ -179,7 +180,8 @@ public class Controller {
                                     + parameters[5] + " " + parameters[6] + " "
                                     + parameters[7];
 
-                            //Sends a request to create profile data from raw files.
+                            // Sends a request to create profile data from raw
+                            // files.
                             isConverted = model.rawToProfile(expid, parameters,
                                     metadata, genomeVersion, author);
 
@@ -882,9 +884,12 @@ public class Controller {
 
         @Override
         public void run() {
-            String species = view.getSelectedSpecies();
-            GenomeReleaseData[] grd = model.getSpeciesGenomeReleases(species);
-            view.setGenomeReleases(grd);
+            String species;
+            if ((species = view.getSelectedSpecies()) != null) {
+                GenomeReleaseData[] grd = model
+                        .getSpeciesGenomeReleases(species);
+                view.setGenomeReleases(grd);
+            }
         }
     }
 

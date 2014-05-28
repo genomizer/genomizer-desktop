@@ -7,6 +7,11 @@ import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
+/***
+ * This class is the listener for the genome release table.
+ * 
+ * 
+ */
 
 public class GenomeTableListener implements MouseListener, KeyListener  {
 
@@ -52,9 +57,11 @@ public class GenomeTableListener implements MouseListener, KeyListener  {
         //Do nothing
     }
 
-    @Override
+    /***
+     * Only updates the screen on up and down arrow keys.
+     */
     public void keyReleased(KeyEvent e) {
-        //Only update the screen on up and down arrow keys, (a simple optimization)
+
         if(KeyEvent.VK_UP == e.getKeyCode() || KeyEvent.VK_DOWN == e.getKeyCode())
             displayInfoData();
 
@@ -64,10 +71,7 @@ public class GenomeTableListener implements MouseListener, KeyListener  {
      * Display the extra information tab in the GUI
      */
     private void displayInfoData(){
-        /*
-        if(mainController.getSelectedTableRow() > -1)
-            this.mainController.updateFullInfoScreen(mainController.getSelectedTableRow());
-            */
+
         sysTab.getGenomeReleaseView().addExtraInfoPanel();
 
     }
