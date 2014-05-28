@@ -60,7 +60,7 @@ public class Controller {
         view.addQuerySearchListener(new QuerySearchListener());
         view.addRawToProfileDataListener(new RawToProfileDataListener());
         view.addRawToRegionDataListener(new RawToRegionDataListener());
-        view.addDownloadFileListener(new DownloadWindowListener());
+        view.addDownloadFileListener(new DownloadFileListener());
         view.addSelectFilesToUploadButtonListener(new SelectFilesToUploadButtonListener());
         view.setSysadminController(sysController = new SysadminController(model));
         view.addAddToExistingExpButtonListener(new AddToExistingExpButtonListener());
@@ -325,7 +325,7 @@ public class Controller {
             DownloadWindow downloadWindow = new DownloadWindow(selectedFiles,
                     model.getOngoingDownloads());
             view.setDownloadWindow(downloadWindow);
-            downloadWindow.addDownloadFileListener(new DownloadFileListener());
+            downloadWindow.setVisible(true);
         }
     }
     
@@ -344,8 +344,13 @@ public class Controller {
         @Override
         public void run() {
             
-            DownloadWindow downloadWindow = view.getDownloadWindow();
-            ArrayList<FileData> fileData = downloadWindow.getFiles();
+            // DownloadWindow downloadWindow = view.getDownloadWindow();
+            ArrayList<ExperimentData> expData = view
+                    .getSelectedDataInWorkspace();
+            ArrayList<FileData> fileData = new ArrayList<FileData>();
+            for (ExperimentData data : expData) {
+                fileData.addAll(data.files);
+            }
             fileChooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
             int ret = fileChooser.showOpenDialog(new JPanel());
             String directoryName = "";
@@ -841,13 +846,9 @@ public class Controller {
         
         @Override
         public void run() {
-            try {
-                String species = view.getSelectedSpecies();
-                GenomeReleaseData[] grd = model.getSpeciesGenomeReleases(species);
-                view.setGenomeReleases(grd);
-            } catch (NullPointerException e) {
-                System.err.println("Species not selected yet.");
-            }
+            String species = view.getSelectedSpecies();
+            GenomeReleaseData[] grd = model.getSpeciesGenomeReleases(species);
+            view.setGenomeReleases(grd);
         }
     }
     

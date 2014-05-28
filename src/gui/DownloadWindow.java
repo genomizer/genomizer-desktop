@@ -1,6 +1,9 @@
 package gui;
 
-import java.awt.*;
+import java.awt.BorderLayout;
+import java.awt.GridLayout;
+import java.awt.Image;
+import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
@@ -9,7 +12,14 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.concurrent.CopyOnWriteArrayList;
 
-import javax.swing.*;
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JProgressBar;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
 
 import util.FileData;
 
@@ -33,12 +43,11 @@ public class DownloadWindow extends JFrame {
      */
     public DownloadWindow(ArrayList<FileData> files,
             CopyOnWriteArrayList<DownloadHandler> ongoingDownloads) {
-
+        
         URL url = ClassLoader.getSystemResource("icons/logo.png");
         Toolkit kit = Toolkit.getDefaultToolkit();
         Image img = kit.createImage(url);
         setIconImage(img);
-
         this.ongoingDownloads = ongoingDownloads;
         this.setLayout(new BorderLayout());
         this.files = files;
@@ -95,7 +104,6 @@ public class DownloadWindow extends JFrame {
         setTitle("Download Files");
         setSize(500, 500);
         setLocationRelativeTo(null);
-        setVisible(true);
     }
     
     private void setUpOngoingPanel() {
@@ -119,7 +127,8 @@ public class DownloadWindow extends JFrame {
                                 double speed = handler.getCurrentSpeed() / 1024 / 2014;
                                 north.add(new JLabel(handler.getFileName()
                                         + " (" + Math.round(speed * 100.0)
-                                        / 100.0 + "MiB/s)"), BorderLayout.CENTER);
+                                        / 100.0 + "MiB/s)"),
+                                        BorderLayout.CENTER);
                                 JProgressBar progress = new JProgressBar(0,
                                         handler.getTotalSize());
                                 progress.setValue(handler.getCurrentProgress());
@@ -167,23 +176,29 @@ public class DownloadWindow extends JFrame {
      */
     public void addDownloadFileListener(ActionListener listener) {
         downloadButton.addActionListener(listener);
-
+        
         /*
          * Automatically click the download button when the listener has been
-         * added to let the user choose where to save the files immediately.
-         * If no files were selected, show a message dialog and close the
+         * added to let the user choose where to save the files immediately. If
+         * no files were selected, show a message dialog and close the
          * DownloadWindow. If downloads are ongoing, just display the progress
          * bars and let the user choose himself if he wants to download more
          * files.
          */
-        if(ongoingDownloads.size()==0) {
+        setVisible(false);
+        if (ongoingDownloads.size() == 0) {
             if (files.size() > 0) {
+                System.out.println("first alt");
                 downloadButton.doClick();
+                setVisible(true);
             } else {
+                System.out.println("second alt");
                 JOptionPane.showMessageDialog(null, "No files were selected.");
-                setVisible(false);
                 dispose();
             }
+        } else {
+            System.out.println("third alt");
+            setVisible(true);
         }
     }
     
