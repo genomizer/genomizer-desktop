@@ -401,4 +401,34 @@ public class QuerySearchTab extends JPanel {
     public void clearSearchSelection() {
         resultsTable.deselectTreeTable();
     }
+
+    public ArrayList<QueryBuilderRow> getRowList() {
+        return rowList;
+
+    }
+    /**
+     * Get the QueryBuilderRow's next position in QueryBuilderRow list.
+     */
+    public int getNextQueryPosition(QueryBuilderRow queryRow){
+
+        int thisIndex = rowList.indexOf(queryRow);
+        int nextIndex = thisIndex + 1;
+
+        return nextIndex;
+    }
+
+    protected QueryBuilderRow getNextQuery(QueryBuilderRow queryRow){
+
+        int next = getNextQueryPosition(queryRow);
+
+        return rowList.get(next);
+    }
+
+    public boolean isLastQueryIndex(QueryBuilderRow queryRow) {
+
+        int size = rowList.size();
+
+        return (rowList.indexOf(queryRow) == (size - 1));
+    }
+
 }
