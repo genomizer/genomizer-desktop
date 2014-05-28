@@ -70,6 +70,7 @@ public class GenomeReleaseViewCreator {
 
     public GenomeReleaseViewCreator() {
     }
+
     /***
      *
      * Creates all the basics for the main panel for the genome release view.
@@ -116,8 +117,7 @@ public class GenomeReleaseViewCreator {
         return mainPanel;
     }
 
-
-    /***
+        /***
      * Builds the available genome releases table.
      *
      * @return the panel containing the genome release table
@@ -154,8 +154,6 @@ public class GenomeReleaseViewCreator {
         fileListPanel.add(extraInfoPanel, BorderLayout.NORTH);
 
     }
-
-
     /***
      * Creates the extra info panel containing the extra information about tha
      * files in each genome release and the delete button.
@@ -201,7 +199,6 @@ public class GenomeReleaseViewCreator {
         fileListPanel.setVisible(true);
     }
 
-
     /***
      * Builds the progress panel for uploading genome releases.
      *
@@ -211,14 +208,14 @@ public class GenomeReleaseViewCreator {
 
         JPanel progressPanel = new JPanel(new GridLayout(0, 1));
         setFilesForProgresspanel();
-
         return progressPanel;
-
     }
 
 
-    /***
-     *
+        /***
+     * Uses the array of filenames to create progress bars for each file
+     * uploading.
+     * 
      */
     private void setFilesForProgresspanel() {
         if (filenames != null) {
@@ -238,7 +235,12 @@ public class GenomeReleaseViewCreator {
             }
         }
     }
-
+    /***
+     * Uses the current uploads to
+     * 
+     * @param uploads
+     * @return
+     */
     public boolean updateUploadProgress(
             CopyOnWriteArrayList<HTTPURLUpload> uploads) {
         boolean r = true;

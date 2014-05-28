@@ -138,6 +138,7 @@ public class QueryBuilderRow extends JPanel {
                 parent.addRow();
             }
         });
+        plusButton.setFocusable(false);
     }
 
     /**
@@ -156,6 +157,7 @@ public class QueryBuilderRow extends JPanel {
                 parent.updateSearchArea();
             }
         });
+        minusButton.setFocusable(false);
     }
 
     /**

@@ -25,12 +25,12 @@ public class UsersViewCreator {
 
     private JScrollPane buildUsersList() {
 
-        ;
 
+        /** Example data only */
         Object[] testers = { "Eric Cartman", "Kyle Broflovski",
                 "Kenny McCormick", "Stan Marsh", "Butters Stotch" };
 
-        String testme = "HEKJHFRKJEKJ";
+
         JList usersList = new JList(testers);
         usersList
                 .setSelectionMode(ListSelectionModel.SINGLE_INTERVAL_SELECTION);
