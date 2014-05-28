@@ -36,7 +36,7 @@ public class AnnotationsViewCreator {
     private JButton removeButton;
     private JTable table;
     private AnnotationTableModel tablemodel;
-    private String searchBoxHint = "Search";
+    private String searchBoxHint = "Search annotation by name...";
 
     public AnnotationsViewCreator() {
 
