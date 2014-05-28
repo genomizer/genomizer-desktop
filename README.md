@@ -24,6 +24,8 @@ Programvaruteknik, Umea University Spring 2014
 - Please see Help box and User Manual for guides on using the process
 - File download does not control preventing of writing over an existing file if they have the same file name.
 - You can now also press enter to login and to search(?)
+- When adding really small genome release files not much happens.
+- It is possible to break add genome release uploads in many colorful ways by suppling *wrong* files and with bad names (not A-Z,0-9, non ascii etc)
 
 ##CHANGELOG v0.2.0 RELEASE DATE 14-05-20
 
