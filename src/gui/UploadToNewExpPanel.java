@@ -42,6 +42,9 @@ public class UploadToNewExpPanel extends JPanel implements ExperimentPanel {
     private JComboBox<String> species;
     private ArrayList<String> genome;
 
+    /**
+     * Constructor initiating the new experiment panel.
+     */
     public UploadToNewExpPanel() {
         setLayout(new BorderLayout());
         uploadFileRows = new HashMap<File, UploadFileRow>();
@@ -70,32 +73,61 @@ public class UploadToNewExpPanel extends JPanel implements ExperimentPanel {
     }
 
     /**
-     * TRY
+     * Method building the new experiment panel. In order to create a new
+     * experiment and upload files to it.
      */
     public void build() {
         createNewExp();
         repaintSelectedFiles();
     }
 
+    /**
+     * Method creating the new experiment panel, with the given annotations to
+     * fill in.
+     *
+     * @param annotations
+     *            An array with the current available annotations on the server.
+     */
     public void createNewExpPanel(AnnotationDataType[] annotations) {
         this.annotations = annotations;
         build();
     }
 
+    /**
+     * Method redefining the removeAll() method of JPanel.
+     * Used to clear this panel.
+     */
     @Override
     public void removeAll() {
         newExpPanel.removeAll();
         super.removeAll();
     }
 
+    /**
+     * A method returning the current upload file rows.
+     *
+     * @return A Hashmap containing the current UploadFileRows.
+     */
     public HashMap<File, UploadFileRow> getFileRows() {
         return uploadFileRows;
     }
 
+    /**
+     * Method returning the current selected species.
+     *
+     * @return A String representing the species.
+     */
     public String getSelectedSpecies() {
         return species.getSelectedItem().toString();
     }
 
+    /**
+     * Method used to set the current available genome versions, for the chosen
+     * species.
+     *
+     * @param grd
+     *            An array containing the current genome releases.
+     */
     public void setGenomeReleases(GenomeReleaseData[] grd) {
         if (genome.size() > 0) {
             genome.clear();
@@ -116,38 +148,53 @@ public class UploadToNewExpPanel extends JPanel implements ExperimentPanel {
         }
     }
 
+    /**
+     * Method returning the current available genome releases for the species
+     * selected.
+     *
+     * @return an array of Strings representing the releases.
+     */
     public ArrayList<String> getGenomeReleases() {
         return genome;
     }
 
     /**
-     * Method adding a listener to the "selectButton".
+     * Method adding a listener to the "selectButton" button.
      *
-     * @param listener The listener to select files.
+     * @param listener
+     *            The listener to select files.
      */
     public void addSelectButtonListener(ActionListener listener) {
         selectButton.addActionListener(listener);
     }
 
     /**
-     * Method adding a listener to the "uploadButton".
+     * Method adding a listener to the "uploadButton" button.
      *
-     * @param listener The listener to start uploading all files.
+     * @param listener
+     *            The listener to start uploading all files.
      */
     public void addUploadButtonListener(ActionListener listener) {
         uploadButton.addActionListener(listener);
     }
 
     /**
-     * Method adding a listener to the "uploadSelectedBtn".
+     * Method adding a listener to the "uploadSelectedBtn" button.
      *
-     * @param listener The listener to start uploading selected files.
+     * @param listener
+     *            The listener to start uploading selected files.
      */
     public void addUploadSelectedFilesListener(ActionListener listener) {
         uploadSelectedBtn.addActionListener(listener);
 
     }
 
+    /**
+     * Method adding a listener to the "species" combobox.
+     *
+     * @param listener
+     *            The listener for the species combobox.
+     */
     public void addSpeciesSelectedListener(ActionListener listener) {
         species.addActionListener(listener);
     }
@@ -191,7 +238,8 @@ public class UploadToNewExpPanel extends JPanel implements ExperimentPanel {
      * A method dynamically adding annotations from the server. In order to
      * customize the experiment, which the files should be uploaded to.
      *
-     * @throws NullPointerException if a annotation points at null value.
+     * @throws NullPointerException
+     *             if a annotation points at null value.
      */
     private void addAnnotationsForExp() throws NullPointerException {
         annotationBoxes = new HashMap<String, JComboBox<String>>();
@@ -295,7 +343,8 @@ public class UploadToNewExpPanel extends JPanel implements ExperimentPanel {
      * already in an uploadFileRow so there won't be duplicates. Displays an
      * error message if it was selected and added previously.
      *
-     * @param files The files to make an uploadFileRow out of.
+     * @param files
+     *            The files to make an uploadFileRow out of.
      */
     public void createUploadFileRow(File[] files) {
         for (File f : files) {
@@ -304,9 +353,8 @@ public class UploadToNewExpPanel extends JPanel implements ExperimentPanel {
                 uploadFileRows.put(f, fileRow);
             } else {
                 JOptionPane.showMessageDialog(this, "File already selected: "
-                                + f.getName() + "", "File error",
-                        JOptionPane.ERROR_MESSAGE
-                );
+                        + f.getName() + "", "File error",
+                        JOptionPane.ERROR_MESSAGE);
             }
         }
         repaintSelectedFiles();
@@ -316,7 +364,8 @@ public class UploadToNewExpPanel extends JPanel implements ExperimentPanel {
      * Deletes an uploadFileRow and calls repaintSelectedFiles() to repaint. If
      * it fails to find the file, an error message is shown to the user.
      *
-     * @param f This is used to identify which uploadFileRow to be deleted.
+     * @param f
+     *            This is used to identify which uploadFileRow to be deleted.
      */
     public void deleteFileRow(File f) {
         if (uploadFileRows.containsKey(f)) {
@@ -363,7 +412,11 @@ public class UploadToNewExpPanel extends JPanel implements ExperimentPanel {
     }
 
     /**
+     * Method returning the genome chosen for the file given.
      *
+     * @param f
+     *            The file suppose to be uploaded.
+     * @return a String representing the chosen genome version.
      */
     public String getGenomeVersion(File f) {
         if (uploadFileRows.containsKey(f)) {
@@ -384,14 +437,12 @@ public class UploadToNewExpPanel extends JPanel implements ExperimentPanel {
             if (annotationBoxes.containsKey(annotationHeaders.get(i))) {
                 annotations[i] = new AnnotationDataValue(Integer.toString(i),
                         annotationHeaders.get(i), annotationBoxes
-                        .get(annotationHeaders.get(i))
-                        .getSelectedItem().toString()
-                );
+                                .get(annotationHeaders.get(i))
+                                .getSelectedItem().toString());
             } else if (annotationFields.containsKey(annotationHeaders.get(i))) {
                 annotations[i] = new AnnotationDataValue(Integer.toString(i),
                         annotationHeaders.get(i), annotationFields.get(
-                        annotationHeaders.get(i)).getText()
-                );
+                                annotationHeaders.get(i)).getText());
             }
         }
         return annotations;
@@ -442,7 +493,7 @@ public class UploadToNewExpPanel extends JPanel implements ExperimentPanel {
      * Method checking if the forced annotations are filled.
      *
      * @return true if all forced annotation fields (including expID) are
-     * filled. Otherwise returns false.
+     *         filled. Otherwise returns false.
      */
     public boolean forcedAnnotationCheck() {
 
@@ -486,8 +537,9 @@ public class UploadToNewExpPanel extends JPanel implements ExperimentPanel {
      * it if there are selected files and all forced annotations fields are
      * filled.
      *
-     * @param b Whether it should try to: enable the button (true) or disable
-     *          it (false)
+     * @param b
+     *            Whether it should try to: enable the button (true) or disable
+     *            it (false)
      */
     public void enableUploadButton(boolean b) {
         if (b) {
