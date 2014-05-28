@@ -16,6 +16,7 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JProgressBar;
+import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
 import javax.swing.SwingUtilities;
 
@@ -45,13 +46,15 @@ public class WorkspaceTab extends JPanel {
         table = new TreeTable();
         filePanel.add(table, BorderLayout.CENTER);
         bottomPanel = new JPanel(new BorderLayout());
+        JScrollPane bottomScroll = new JScrollPane(bottomPanel);
+        bottomScroll.setBorder(BorderFactory.createEmptyBorder());
         ongoingDownloadsPanel = new JPanel(new GridLayout(0, 1));
         buttonPanel.setLayout(new FlowLayout());
         createButtons();
         addToButtonPanel();
         tabbedPane = new JTabbedPane(JTabbedPane.BOTTOM);
         tabbedPane.addTab("Workspace", filePanel);
-        tabbedPane.addTab("Ongoing Downloads", bottomPanel);
+        tabbedPane.addTab("Ongoing Downloads", bottomScroll);
         bottomPanel.add(ongoingDownloadsPanel, BorderLayout.NORTH);
         add(buttonPanel, BorderLayout.NORTH);
         add(tabbedPane, BorderLayout.CENTER);
@@ -171,7 +174,8 @@ public class WorkspaceTab extends JPanel {
                         completedDownloadPanel.add(stopButton,
                                 BorderLayout.EAST);
                         completedDownloadPanel.add(
-                                new JLabel(handler.getFileName() + " Completed"),
+                                new JLabel("<html><b>Completed: </b>"
+                                        + handler.getFileName() + "</html>"),
                                 BorderLayout.NORTH);
                         ongoingDownloadsPanel.add(completedDownloadPanel);
                     }
