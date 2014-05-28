@@ -11,25 +11,23 @@ import java.awt.event.ActionListener;
  * Created by dv12ilr on 2014-05-16.
  */
 public class GenomeButtonListener implements ActionListener {
-    
+
     SysadminTab sysTab;
     SysadminController sysController;
-    
+
     public GenomeButtonListener(SysadminTab sysTab) {
         this.sysTab = sysTab;
         this.sysController = sysTab.getSysController();
     }
-    
+
     @Override
     public void actionPerformed(ActionEvent actionEvent) {
         switch (actionEvent.getActionCommand()) {
             case SysStrings.GENOME_BUTTON_ADD:
-                System.out.println("innan ny tråd!");
                 new Thread(new Runnable() {
-                    
+
                     @Override
                     public void run() {
-                        System.out.println("ny tråd!");
                         sysController.addGenomeRelease();
                         sysTab.getGenomeReleaseView().clearTextFields();
                         sysTab.getGenomeReleaseView().updateFileProgressPanel();
