@@ -49,10 +49,10 @@ public class UploadToNewExpPanel extends JPanel implements ExperimentPanel {
      */
     public UploadToNewExpPanel() {
         setLayout(new BorderLayout());
-        uploadFileRows = new HashMap<File, UploadFileRow>();
-        annotationBoxes = new HashMap<String, JComboBox<String>>();
-        annotationFields = new HashMap<String, JTextField>();
-        annotationHeaders = new ArrayList<String>();
+        uploadFileRows = new HashMap<>();
+        annotationBoxes = new HashMap<>();
+        annotationFields = new HashMap<>();
+        annotationHeaders = new ArrayList<>();
         uploadBackground = new JPanel(new BorderLayout());
         buttonsPanel = new JPanel(new FlowLayout());
         uploadFilesPanel = new JPanel(new GridLayout(0, 1));
@@ -68,7 +68,7 @@ public class UploadToNewExpPanel extends JPanel implements ExperimentPanel {
         expID = new JTextField();
         expID.setColumns(10);
         expID.getDocument().addDocumentListener(new FreetextListener());
-        species = new JComboBox<String>();
+        species = new JComboBox<>();
         species.setPreferredSize(new Dimension(120, 31));
         genome = new ArrayList<String>();
         currentAnnotations = new HashMap<String, JPanel>();
@@ -245,8 +245,8 @@ public class UploadToNewExpPanel extends JPanel implements ExperimentPanel {
      *             if a annotation points at null value.
      */
     private void addAnnotationsForExp() throws NullPointerException {
-        annotationBoxes = new HashMap<String, JComboBox<String>>();
-        annotationFields = new HashMap<String, JTextField>();
+        annotationBoxes = new HashMap<>();
+        annotationFields = new HashMap<>();
         annotationHeaders.clear();
         annotationBoxes = new HashMap<>();
         annotationFields = new HashMap<>();
@@ -278,7 +278,7 @@ public class UploadToNewExpPanel extends JPanel implements ExperimentPanel {
                 gbc.gridx = x;
                 gbc.gridy = y;
                 JPanel p = new JPanel(new BorderLayout());
-                JLabel annotationLabel = null;
+                JLabel annotationLabel;
                 if (annotations[i].isForced()) {
                     annotationLabel = new JLabel("<html><b>"
                             + annotations[i].getName() + "</b></html>");
@@ -312,7 +312,7 @@ public class UploadToNewExpPanel extends JPanel implements ExperimentPanel {
                         p.add(species, BorderLayout.CENTER);
                         species.setSelectedIndex(0);
                     } else {
-                        final JComboBox<String> comboBox = new JComboBox<String>(
+                        final JComboBox<String> comboBox = new JComboBox<>(
                                 annotations[i].getValues());
                         comboBox.setPreferredSize(new Dimension(120, 31));
                         /*
@@ -471,7 +471,7 @@ public class UploadToNewExpPanel extends JPanel implements ExperimentPanel {
      * @return an ArrayList with the selected files.
      */
     public ArrayList<File> getSelectedFilesToUpload() {
-        ArrayList<File> files = new ArrayList<File>();
+        ArrayList<File> files = new ArrayList<>();
         for (File f : uploadFileRows.keySet()) {
             if (uploadFileRows.get(f).isSelected()) {
                 files.add(f);
@@ -486,7 +486,7 @@ public class UploadToNewExpPanel extends JPanel implements ExperimentPanel {
      * @return a HashMap with the filenames and there types.
      */
     public HashMap<String, String> getTypes() {
-        HashMap<String, String> types = new HashMap<String, String>();
+        HashMap<String, String> types = new HashMap<>();
         for (File f : uploadFileRows.keySet()) {
             types.put(f.getName(), uploadFileRows.get(f).getType());
         }
@@ -548,12 +548,12 @@ public class UploadToNewExpPanel extends JPanel implements ExperimentPanel {
     public void enableUploadButton(boolean b) {
         if (b) {
             if (!uploadFileRows.isEmpty() && forcedAnnotationCheck()) {
-                uploadSelectedBtn.setEnabled(b);
-                uploadButton.setEnabled(b);
+                uploadSelectedBtn.setEnabled(true);
+                uploadButton.setEnabled(true);
             }
         } else {
-            uploadSelectedBtn.setEnabled(b);
-            uploadButton.setEnabled(b);
+            uploadSelectedBtn.setEnabled(false);
+            uploadButton.setEnabled(false);
         }
     }
 

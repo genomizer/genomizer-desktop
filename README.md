@@ -6,7 +6,20 @@ Programvaruteknik, Umea University Spring 2014
 **Bugs and problems are to be reported to the dev team as soon as possible, either by GitHub Issues or by mail to genomizer@mailinator.com**
 *See User Manual for instructions on using functionality*
 
-=============
+##CHANGELOG V1.0.0 RELEASE DATE 14-05-28
+
+- Switch between Query builder and Manual edit in search cliterias
+- Added the genomizer logo and some nice icons
+- Choose Genome Release version when uploading profile and Region files
+- Please try out the process functionality, preferrably with valid files and 'good' values.
+- View Process info from the server
+- Shorter workflow when downloading a file
+- Option to upload files to an experiment from Workspace
+ 
+
+###NOTES
+- 
+
 ##CHANGELOG v0.2.0 RELEASE DATE 14-05-20
 
 - Batch upload experiments
@@ -17,12 +30,11 @@ Programvaruteknik, Umea University Spring 2014
 - Drag & Drop is stable
 - Search Results updates itself
 - Minor design improvements
-- ~~Annotations are case sensitive~~
-- ~~Can not upload files with spaces in the name.~~
-- ~~Can not upload files that are compressed.~~
+- ~~Annotations are case sensitive~~ fixed.
+- ~~Can not upload files with spaces in the name~~ fixed.
+- ~~Can not upload files that are compressed~~ fixed.
 - 
 
-------
 ##CHANGELOG v0.1.1 RELEASE DATE 14-05-16
 
 - Bugs reported by Yuri on 14-05-13 fixed.

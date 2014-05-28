@@ -74,7 +74,7 @@ public class WorkspaceTab extends JPanel {
     }
     
     private void setTabbedPane() {
-        tabbedPane = new JTabbedPane(JTabbedPane.BOTTOM);
+        tabbedPane = new JTabbedPane(JTabbedPane.TOP);
         tabbedPane.addTab("Workspace", filePanel);
         tabbedPane.addTab("Downloads", bottomScroll);
         tabbedPane.addChangeListener(new ChangeListener() {

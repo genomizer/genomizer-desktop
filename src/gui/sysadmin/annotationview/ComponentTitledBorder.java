@@ -1,10 +1,25 @@
 package gui.sysadmin.annotationview;
 
-import javax.swing.*;
-import javax.swing.border.Border;
-import java.awt.*;
+import java.awt.Component;
+import java.awt.Container;
+import java.awt.Dimension;
+import java.awt.Graphics;
+import java.awt.Insets;
+import java.awt.Point;
+import java.awt.Rectangle;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+
+import javax.swing.JComponent;
+import javax.swing.SwingConstants;
+import javax.swing.SwingUtilities;
+import javax.swing.border.Border;
+
+/***
+ * This class is used to enable and disable the c
+ * 
+ * 
+ */
 
 public class ComponentTitledBorder implements Border, MouseListener,
         SwingConstants {
@@ -34,24 +49,8 @@ public class ComponentTitledBorder implements Border, MouseListener,
         Insets borderInsets = border.getBorderInsets(c);
         Insets insets = getBorderInsets(c);
         int temp = (insets.top - borderInsets.top) / 2;
-        border.paintBorder(c, g, x, y + 10 + temp, width, height - temp); // TODO:
-        // "y + 10 "
-        // is
-        // an
-        // ugly
-        // ugly
-        // quick
-        // fix.
-        // Before
-        // this
-        // is
-        // done
-        // it
-        // must
-        // be
-        // fixed
-        // properly
-        // :)
+        border.paintBorder(c, g, x, y + 10 + temp, width, height - temp);
+
         Dimension size = comp.getPreferredSize();
         rect = new Rectangle(offset, 0, size.width, size.height);
         SwingUtilities.paintComponent(g, comp, (Container) c, rect);

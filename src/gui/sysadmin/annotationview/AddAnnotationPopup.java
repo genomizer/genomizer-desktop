@@ -63,7 +63,7 @@ public class AddAnnotationPopup extends JPanel {
         /* Create the top panel for the second tab */
         JPanel topPanelInSecondTab = new JPanel();
 
-        JLabel name = new JLabel("Name:");
+        JLabel name = new JLabel("Annotation name:");
         JTextField nameField2 = new JTextField(nameField.getDocument(), "", 0);
         nameField2.setPreferredSize(new Dimension(250, 30));
         topPanelInSecondTab.add(name);
@@ -109,7 +109,7 @@ public class AddAnnotationPopup extends JPanel {
     private JPanel buildMidPanelInFirstTab() {
 
         JPanel midPanelInFirstTab = new JPanel(new BorderLayout());
-        final JCheckBox catCheckBox = new JCheckBox("Add Categories", true);
+        final JCheckBox catCheckBox = new JCheckBox("Add Values", true);
         catCheckBox.setFocusPainted(false);
 
         final JPanel categoryPanel = new JPanel(new BorderLayout());
@@ -140,7 +140,7 @@ public class AddAnnotationPopup extends JPanel {
     private JPanel createDeafultCategoryPanel(final JPanel addCategoriesPanel) {
         JPanel baseCatPanel = new JPanel();
 
-        JLabel categorylabel = new JLabel("Category:");
+        JLabel categorylabel = new JLabel("Value:");
         final JTextField annotationTextField = new JTextField();
         valueTexts.add(annotationTextField);
         annotationTextField.setPreferredSize(new Dimension(200, 30));
@@ -270,7 +270,7 @@ public class AddAnnotationPopup extends JPanel {
         JButton createNewAnnotationButton = new JButton(
                 SysStrings.ANNOTATIONS_POPUP_CREATE_ANNO);
 
-        System.out.println("will create model");
+
 
         if (createNewAnnotationButtonModel == null) {
             createNewAnnotationButtonModel = createNewAnnotationButton
@@ -301,7 +301,7 @@ public class AddAnnotationPopup extends JPanel {
 
         topPanelInFirstTab.add(nameFieldPanel);
         JLabel infoLabel = new JLabel(
-                "Not adding any categories will result in a Yes/No/Unknown annotation");
+                "Not adding any values will result in a Yes/No/Unknown drop down annotation.");
         topPanelInFirstTab.add(infoLabel, BorderLayout.SOUTH);
         return topPanelInFirstTab;
     }
@@ -348,7 +348,7 @@ public class AddAnnotationPopup extends JPanel {
             JTextField annotationTextField) {
 
         JPanel newCategoryPanel = new JPanel();
-        JLabel categoryLabel = new JLabel("Category:");
+        JLabel categoryLabel = new JLabel("Value:");
         final JTextField textField = new JTextField();
         textField.setName("textField");
         textField.setText(annotationTextField.getText());
@@ -390,8 +390,7 @@ public class AddAnnotationPopup extends JPanel {
 
         ArrayList<String> categories = new ArrayList<String>();
 
-        // TODO: make a model for popup? this should not be in a pure view
-        // class.
+
 
         if (optionsPane.getSelectedIndex() == FREETEXT_TAB) {
             return new String[] { "freetext" };
@@ -437,7 +436,7 @@ public class AddAnnotationPopup extends JPanel {
      */
     public void closeWindow() {
         JFrame frame = (JFrame) SwingUtilities
-                .getWindowAncestor(addCategoriesPanel); // UGLY?!?
+                .getWindowAncestor(addCategoriesPanel);
         frame.setVisible(false);
     }
 
@@ -449,7 +448,7 @@ public class AddAnnotationPopup extends JPanel {
      */
     public void addAddAnnotationListener(ActionListener listener) {
 
-        System.out.println("Adding listnener to model");
+
         createNewAnnotationButtonModel.addActionListener(listener);
     }
 

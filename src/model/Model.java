@@ -92,7 +92,6 @@ public class Model implements GenomizerModel {
         if (conn.getResponseCode() == 200) {
             return true;
         } else {
-            System.out.println("Response Code: " + conn.getResponseCode());
             return false;
         }
     }
@@ -112,8 +111,6 @@ public class Model implements GenomizerModel {
                     return "true";
                 }
             } else {
-                System.out.println("Login response: " + conn.getResponseCode()
-                        + " " + conn.getResponseBody());
                 ErrorResponse response = ResponseParser.parseErrorResponse(conn
                         .getResponseBody());
                 if (response != null) {
@@ -161,8 +158,6 @@ public class Model implements GenomizerModel {
             if (upload.sendFile(userID)) {
                 return true;
             }
-        } else {
-            System.out.println("Response code: " + conn.getResponseCode());
         }
         return false;
     }
@@ -253,13 +248,13 @@ public class Model implements GenomizerModel {
         Connection conn = connFactory.makeConnection();
         conn.sendRequest(request, userID, JSON);
         if (conn.getResponseCode() == 201) {
-            System.err.println("addAnnotation sent succesfully!");
+//            System.err.println("addAnnotation sent succesfully!");
             return true;
         } else {
             System.err
                     .println("addAnnotaion FAILURE, did not recive 201 response");
-            System.out.println("Response code: " + conn.getResponseCode() + " "
-                    + conn.getResponseBody());
+//            System.out.println("Response code: " + conn.getResponseCode() + " "
+//                    + conn.getResponseBody());
             return false;
         }
     }
@@ -331,8 +326,6 @@ public class Model implements GenomizerModel {
                     .parseGetAnnotationResponse(conn.getResponseBody());
             return annotations;
         } else {
-            System.out.println("Response code: " + conn.getResponseCode() + " "
-                    + conn.getResponseBody());
             JOptionPane.showMessageDialog(null, "Could not get annotations!");
         }
         return new AnnotationDataType[] {};
@@ -347,12 +340,6 @@ public class Model implements GenomizerModel {
             GenomeReleaseData[] genomeReleases = ResponseParser
                     .parseGetGenomeReleaseResponse(conn.getResponseBody());
             return genomeReleases;
-        } else {
-            
-            System.out.println("GenomeRelease responsecode: "
-                    + conn.getResponseCode());
-            System.out.println("GenomeRelease responsebody: "
-                    + conn.getResponseBody());
         }
         
         return new GenomeReleaseData[] {};
@@ -370,7 +357,6 @@ public class Model implements GenomizerModel {
         
         AddGenomeReleaseRequest request = RequestFactory.makeAddGenomeRelease(
                 names, species, version);
-        System.out.println(request.toJson());
         Connection conn = connFactory.makeConnection();
         conn.sendRequest(request, userID, JSON);
         if (conn.getResponseCode() == 201) {
@@ -435,7 +421,6 @@ public class Model implements GenomizerModel {
         if (conn.getResponseCode() == 200) {
             return ResponseParser.parseRetrieveExp(conn.getResponseBody());
         } else {
-            System.out.println("responsecode: " + conn.getResponseCode());
             // JOptionPane.showMessageDialog(null,
             // "Couldn't retrieve experiment",
             // "ERROR", JOptionPane.ERROR_MESSAGE);
@@ -453,11 +438,9 @@ public class Model implements GenomizerModel {
         Connection conn = connFactory.makeConnection();
         conn.sendRequest(request, userID, JSON);
         if (conn.getResponseCode() == 200) {
-            System.err.println("Sent " + request.requestName + "success!");
+//            System.err.println("Sent " + request.requestName + "success!");
             return true;
         } else {
-            System.out.println("Response code: " + conn.getResponseCode() + " "
-                    + conn.getResponseBody());
             return false;
         }
     }
@@ -469,11 +452,8 @@ public class Model implements GenomizerModel {
         Connection conn = connFactory.makeConnection();
         conn.sendRequest(request, userID, JSON);
         if (conn.getResponseCode() == 201 || conn.getResponseCode() == 200) {
-            System.err.println("Sent " + request.requestName + " success!");
+//            System.err.println("Sent " + request.requestName + " success!");
             return true;
-        } else {
-            System.out.println("Response code: " + conn.getResponseCode() + " "
-                    + conn.getResponseBody());
         }
         return false;
     }
@@ -484,11 +464,8 @@ public class Model implements GenomizerModel {
         Connection conn = connFactory.makeConnection();
         conn.sendRequest(request, userID, JSON);
         if (conn.getResponseCode() == 200) {
-            System.err.println("Sent " + request.requestName + " success!");
+//            System.err.println("Sent " + request.requestName + " success!");
             return true;
-        } else {
-            System.out.println("Response code: " + conn.getResponseCode() + " "
-                    + conn.getResponseBody());
         }
         return false;
     }
@@ -499,11 +476,8 @@ public class Model implements GenomizerModel {
         Connection conn = connFactory.makeConnection();
         conn.sendRequest(request, userID, JSON);
         if (conn.getResponseCode() == 201) {
-            System.err.println("Sent " + request.requestName + " success!");
+//            System.err.println("Sent " + request.requestName + " success!");
             return true;
-        } else {
-            System.out.println("Response code: " + conn.getResponseCode() + " "
-                    + conn.getResponseBody());
         }
         return false;
     }
@@ -529,8 +503,8 @@ public class Model implements GenomizerModel {
         Connection conn = connFactory.makeConnection();
         conn.sendRequest(request, userID, JSON);
         if (conn.getResponseCode() == 200) {
-            System.err.println("Genome release version: " + version
-                    + "successfully removed.");
+//            System.err.println("Genome release version: " + version
+//                    + "successfully removed.");
             return true;
         } else {
             System.err.println("Could not remove genome release: " + version
@@ -553,16 +527,13 @@ public class Model implements GenomizerModel {
         // conn.sendRequest(request, userID, TEXT_PLAIN);
         if (conn.getResponseCode() == 200) {
             
-            System.err.println("Sent getGenomeSpecieReleaseRequestSuccess!");
+//            System.err.println("Sent getGenomeSpecieReleaseRequestSuccess!");
             // for(int i = 0;i < genomeReleases.length ; i++){
             // System.out.println(genomeReleases[i].getVersion());
             // }
             return ResponseParser
                     .parseGetGenomeReleaseResponse(conn.getResponseBody());
         } else {
-            
-            System.out.println("GenomeSpecieRelease responsecode: "
-                    + conn.getResponseCode());
             JOptionPane.showMessageDialog(null,
                     "Could not get genomespeciereleases!");
         }
