@@ -32,6 +32,8 @@ public class Connection {
         }
         try {
             String targetUrl = "http://" + ip + request.url;
+            System.out.println(targetUrl);
+            System.out.println("the request.toJson(): " + request.toJson());
             URL url = new URL(targetUrl);
             connection = (HttpURLConnection) url.openConnection();
             if (type.equals("application/json")) {
