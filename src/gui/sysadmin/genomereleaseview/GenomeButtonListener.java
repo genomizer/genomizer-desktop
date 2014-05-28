@@ -20,7 +20,9 @@ public class GenomeButtonListener implements ActionListener {
         this.sysController = sysTab.getSysController();
     }
 
-    @Override
+    /***
+     * Receives the event, figures out what happened and acts accordingly.
+     */
     public void actionPerformed(ActionEvent actionEvent) {
         switch (actionEvent.getActionCommand()) {
             case SysStrings.GENOME_BUTTON_ADD:

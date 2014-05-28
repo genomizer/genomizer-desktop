@@ -7,6 +7,8 @@ import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import javax.swing.text.BadLocationException;
 
+
+
 public class EditAnnotationDocumentListener implements DocumentListener {
 
     private String oldString;

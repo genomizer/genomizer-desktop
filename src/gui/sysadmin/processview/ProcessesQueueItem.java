@@ -16,6 +16,8 @@ public class ProcessesQueueItem {
     private int processPriority;
 
     public ProcessesQueueItem() {
+        
+        /** EXAMPLE DATA ONLY */
         user = "Isak";
         fromFile = "insectFly.WIG";
         toFile = "insectFly.profile";

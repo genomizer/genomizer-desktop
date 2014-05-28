@@ -16,8 +16,8 @@ import javax.swing.SwingUtilities;
 import javax.swing.border.Border;
 
 /***
- * This class is used to enable and disable the c
- * 
+ * This class is used to enable and disable the adding values option in the
+ * AddAnnotationPopup.
  * 
  */
 

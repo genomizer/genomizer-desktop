@@ -28,11 +28,21 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.border.Border;
+import javax.swing.table.JTableHeader;
+import javax.swing.table.TableColumnModel;
 import javax.swing.table.TableModel;
 import javax.swing.table.TableRowSorter;
 
 import communication.HTTPURLUpload;
 
+/***
+ * Builds the genome release view.
+ * 
+ * @author oi11ahn
+ * 
+ * 
+ * 
+ */
 public class GenomeReleaseViewCreator {
 
     private GenomereleaseTableModel grTablemodel;
@@ -61,6 +71,20 @@ public class GenomeReleaseViewCreator {
     public GenomeReleaseViewCreator() {
     }
 
+    /***
+     * 
+     * Creates all the basics for the main panel for the genome release view.
+     * 
+     * @param buttonListener
+     *            the listener for all the buttons
+     * @param textListener
+     *            the text listener
+     * @param mgrListener
+     *            the mouse listener for the table
+     * @param kgrListener
+     *            the key listener for the table
+     * @return
+     */
     public JPanel buildGenomeReleaseView(ActionListener buttonListener,
             GenomeTextFieldListener textListener, MouseListener mgrListener,
             KeyListener kgrListener) {
@@ -74,6 +98,11 @@ public class GenomeReleaseViewCreator {
         return mainPanel;
     }
 
+    /***
+     * Builds the main panel for the genome release view.
+     * 
+     * @return the main panel
+     */
     public JPanel buildGenomeReleasePanel() {
         JPanel mainPanel = new JPanel(new BorderLayout());
 
@@ -87,6 +116,12 @@ public class GenomeReleaseViewCreator {
         return mainPanel;
     }
 
+
+        /***
+     * Builds the available genome releases table.
+     * 
+     * @return the panel containing the genome release table
+     */
     public JPanel buildGenomeFileList() {
         fileListPanel = new JPanel(new BorderLayout());
 
@@ -99,6 +134,8 @@ public class GenomeReleaseViewCreator {
         TableRowSorter<TableModel> rowSorter = new TableRowSorter<TableModel>(
                 grTablemodel);
 
+
+        /** Set the sorting if the column is clicked. */
         grTable.setSelectionMode(DefaultListSelectionModel.SINGLE_SELECTION);
         grTable.setRowSorter(rowSorter);
 
@@ -111,6 +148,12 @@ public class GenomeReleaseViewCreator {
 
         return fileListPanel;
     }
+
+
+    /***
+     * Creates the extra info panel containing the extra information about tha
+     * files in each genome release and the delete button.
+     */
 
     public void addExtraInfoPanel() {
         JPanel mainPanel = new JPanel(new BorderLayout());
@@ -152,6 +195,12 @@ public class GenomeReleaseViewCreator {
         fileListPanel.setVisible(true);
     }
 
+
+        /***
+     * Builds the progress panel for uploading genome releases.
+     * 
+     * @return the progress panel
+     */
     private JPanel buildFileProgressPanel() {
 
         JPanel progressPanel = new JPanel(new GridLayout(0, 1));
@@ -161,6 +210,12 @@ public class GenomeReleaseViewCreator {
 
     }
 
+
+        /***
+     * Uses the array of filenames to create progress bars for each file
+     * uploading.
+     * 
+     */
     private void setFilesForProgresspanel() {
         if (filenames != null) {
             for (String fileName : filenames) {
@@ -180,7 +235,14 @@ public class GenomeReleaseViewCreator {
         }
     }
 
-    public boolean updateUploadProgress(CopyOnWriteArrayList<HTTPURLUpload> uploads) {
+    /***
+     * Uses the current uploads to
+     * 
+     * @param uploads
+     * @return
+     */
+    public boolean updateUploadProgress(
+            CopyOnWriteArrayList<HTTPURLUpload> uploads) {
         boolean r = true;
         if (!progressbars.isEmpty()) {
             for (JProgressBar bar : progressbars) {
@@ -412,10 +474,22 @@ public class GenomeReleaseViewCreator {
     }
 
     public String getSelectedVersion() {
-        return (String) grTable.getValueAt(
+        /*
+        String str = (String) grTable.getValueAt(
                 grTable.getSelectedRow(),
                 grTable.getTableHeader().getColumnModel()
                         .getColumnIndex(SysStrings.GENOME_TABLE_VERSION));
+        */
+        int selectedRow = grTable.getSelectedRow();
+        if (selectedRow == -1) {
+            selectedRow = 0;
+        }
+        JTableHeader tableheader =grTable.getTableHeader();
+        TableColumnModel tcm = tableheader.getColumnModel();
+        int columnIndex = tcm.getColumnIndex(SysStrings.GENOME_TABLE_VERSION);
+        System.out.println(selectedRow + " " + columnIndex);
+        String str = (String) grTable.getValueAt(selectedRow, columnIndex);
+        return str;
     }
 
     public String getSelectedSpecie() {

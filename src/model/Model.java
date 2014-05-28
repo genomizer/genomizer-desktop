@@ -380,7 +380,6 @@ public class Model implements GenomizerModel {
                     System.err
                             .println("Could not add genome release file named "
                                     + files[i].getName() + "!");
-                    System.out.println(conn.getResponseBody());
                     return false;
                 }
                 
@@ -388,7 +387,7 @@ public class Model implements GenomizerModel {
             return true;
             
         } else {
-            
+            JOptionPane.showMessageDialog(null, conn.getResponseBody());
             System.out
                     .println("Something went wrong, could not add genome release: "
                             + conn.getResponseCode()
@@ -503,10 +502,10 @@ public class Model implements GenomizerModel {
         Connection conn = connFactory.makeConnection();
         conn.sendRequest(request, userID, JSON);
         if (conn.getResponseCode() == 200) {
-//            System.err.println("Genome release version: " + version
-//                    + "successfully removed.");
+            JOptionPane.showMessageDialog(null, "Succesfully removed " + version);
             return true;
         } else {
+            JOptionPane.showMessageDialog(null, conn.getResponseBody());
             System.err.println("Could not remove genome release: " + version
                     + " species: " + specie);
             System.err.println(conn.getResponseBody());
@@ -519,18 +518,16 @@ public class Model implements GenomizerModel {
         
         GetGenomeSpecieReleasesRequest request = RequestFactory
                 .makeGetGenomeSpecieReleaseRequest(species);
-        
-        // GetGenomeReleasesRequest request = RequestFactory
-        // .makeGetGenomeReleaseRequest();
+
         Connection conn = connFactory.makeConnection();
         conn.sendRequest(request, userID, TEXT_PLAIN);
-        // conn.sendRequest(request, userID, TEXT_PLAIN);
         if (conn.getResponseCode() == 200) {
             
 //            System.err.println("Sent getGenomeSpecieReleaseRequestSuccess!");
             // for(int i = 0;i < genomeReleases.length ; i++){
             // System.out.println(genomeReleases[i].getVersion());
             // }
+            System.out.println(conn.getResponseBody());
             return ResponseParser
                     .parseGetGenomeReleaseResponse(conn.getResponseBody());
         } else {

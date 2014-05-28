@@ -179,6 +179,7 @@ public class Controller {
                                     + parameters[5] + " " + parameters[6] + " "
                                     + parameters[7];
 
+                            //Sends a request to create profile data from raw files.
                             isConverted = model.rawToProfile(expid, parameters,
                                     metadata, genomeVersion, author);
 
