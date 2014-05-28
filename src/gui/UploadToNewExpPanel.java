@@ -218,7 +218,6 @@ public class UploadToNewExpPanel extends JPanel implements ExperimentPanel {
             newExpPanel.setLayout(gbl_panel);
             add(newExpPanel, BorderLayout.NORTH);
             addAnnotationsForExp();
-            repaintSelectedFiles();
             uploadBackground.add(uploadFilesPanel, BorderLayout.NORTH);
             add(uploadBackground, BorderLayout.CENTER);
 
@@ -245,51 +244,46 @@ public class UploadToNewExpPanel extends JPanel implements ExperimentPanel {
      *             if a annotation points at null value.
      */
     private void addAnnotationsForExp() throws NullPointerException {
-        annotationBoxes = new HashMap<>();
-        annotationFields = new HashMap<>();
+        annotationBoxes = new HashMap<String, JComboBox<String>>();
+        annotationFields = new HashMap<String, JTextField>();
         annotationHeaders.clear();
-        annotationBoxes = new HashMap<>();
-        annotationFields = new HashMap<>();
-        int x = 0;
-        int y = 0;
-        gbc = new GridBagConstraints();
-        gbc.anchor = GridBagConstraints.WEST;
-        gbc.insets = new Insets(5, 0, 5, 30);
-        gbc.gridx = x;
-        gbc.gridy = y;
+
         JPanel exp = new JPanel(new BorderLayout());
         expNameLabel.setText("<html><b>Experiment ID</b></html>");
         expNameLabel.setToolTipText("Bold indicates a forced annotation");
         exp.add(expNameLabel, BorderLayout.NORTH);
         exp.add(expID, BorderLayout.CENTER);
-        newExpPanel.add(exp, gbc);
-        x++;
-        annotationHeaders.add("ExpID");
-        currentAnnotations.put("ExpID", exp);
-        for (int i = 0; i < annotations.length; i++) {
+        annotationHeaders.add("UniqueExpID");
+        currentAnnotations.put("UniqueExpID", exp);
+        updateAnnotations(annotations);
+    }
 
-            if (annotations[i].getValues().length > 0) {
-                if (x > 6) {
-                    x = 0;
-                    y++;
-                }
-                gbc.anchor = GridBagConstraints.WEST;
-                gbc.insets = new Insets(5, 0, 5, 30);
-                gbc.gridx = x;
-                gbc.gridy = y;
+    /**
+     * Method updating current annotations.
+     */
+    public void updateAnnotations(AnnotationDataType[] annotations) {
+        ArrayList<String> exists = new ArrayList<String>();
+        exists.add("UniqueExpID");
+        for (AnnotationDataType a : annotations) {
+            if ((annotationHeaders.contains(a.getName()))
+                    && ((a.getValues()[0].equalsIgnoreCase("freetext") || a
+                            .getValues().length == annotationBoxes.get(
+                            a.getName()).getItemCount()))) {
+                exists.add(a.getName());
+            } else {
                 JPanel p = new JPanel(new BorderLayout());
-                JLabel annotationLabel;
-                if (annotations[i].isForced()) {
-                    annotationLabel = new JLabel("<html><b>"
-                            + annotations[i].getName() + "</b></html>");
+                JLabel annotationLabel = null;
+                if (a.isForced()) {
+                    annotationLabel = new JLabel("<html><b>" + a.getName()
+                            + "</b></html>");
                     annotationLabel
                             .setToolTipText("Bold indicates a forced annotation");
                 } else {
-                    annotationLabel = new JLabel(annotations[i].getName());
+                    annotationLabel = new JLabel(a.getName());
                 }
-                annotationHeaders.add(annotations[i].getName());
+                annotationHeaders.add(a.getName());
                 p.add(annotationLabel, BorderLayout.NORTH);
-                if (annotations[i].getValues()[0].equalsIgnoreCase("freetext")) {
+                if (a.getValues()[0].equalsIgnoreCase("freetext")) {
                     final JTextField textField = new JTextField();
                     textField.setColumns(10);
 
@@ -297,23 +291,22 @@ public class UploadToNewExpPanel extends JPanel implements ExperimentPanel {
                     textField.getDocument().addDocumentListener(
                             new FreetextListener());
 
-                    annotationFields.put(annotations[i].getName(), textField);
+                    annotationFields.put(a.getName(), textField);
                     p.add(textField, BorderLayout.CENTER);
-
                 } else {
-                    if (annotations[i].getName().equalsIgnoreCase("species")) {
+                    if (a.getName().equalsIgnoreCase("species")) {
                         if (species.getItemCount() > 0) {
                             species.removeAllItems();
                         }
-                        for (String s : annotations[i].getValues()) {
+                        for (String s : a.getValues()) {
                             species.addItem(s);
                         }
-                        annotationBoxes.put(annotations[i].getName(), species);
+                        annotationBoxes.put(a.getName(), species);
                         p.add(species, BorderLayout.CENTER);
                         species.setSelectedIndex(0);
                     } else {
-                        final JComboBox<String> comboBox = new JComboBox<>(
-                                annotations[i].getValues());
+                        final JComboBox<String> comboBox = new JComboBox<String>(
+                                a.getValues());
                         comboBox.setPreferredSize(new Dimension(120, 31));
                         /*
                          *
@@ -331,15 +324,59 @@ public class UploadToNewExpPanel extends JPanel implements ExperimentPanel {
                             }
                         });
 
-                        annotationBoxes.put(annotations[i].getName(), comboBox);
+                        annotationBoxes.put(a.getName(), comboBox);
                         p.add(comboBox, BorderLayout.CENTER);
                     }
                 }
-                newExpPanel.add(p, gbc);
-                currentAnnotations.put(annotations[i].getName(), p);
+                currentAnnotations.put(a.getName(), p);
+                exists.add(a.getName());
+            }
+        }
+        String[] checkIt = new String[annotationHeaders.size()];
+        for (int i = 0; i < annotationHeaders.size(); i++) {
+            checkIt[i] = annotationHeaders.get(i);
+        }
+        for (String s : checkIt) {
+            if (!exists.contains(s)) {
+                annotationHeaders.remove(s);
+                annotationFields.remove(s);
+                annotationBoxes.remove(s);
+                currentAnnotations.remove(s);
+            }
+        }
+        buildAnnotationsMenu();
+        this.annotations = annotations;
+    }
+
+    /**
+     * Method building the annotation menu.
+     */
+    public void buildAnnotationsMenu() {
+        newExpPanel.removeAll();
+        int x = 0;
+        int y = 0;
+        gbc = new GridBagConstraints();
+        gbc.anchor = GridBagConstraints.WEST;
+        gbc.insets = new Insets(5, 0, 5, 30);
+        gbc.gridx = x;
+        gbc.gridy = y;
+        newExpPanel.add(currentAnnotations.get("UniqueExpID"), gbc);
+        x++;
+        for (String s : currentAnnotations.keySet()) {
+            if (!s.equals("UniqueExpID")) {
+                if (x > 6) {
+                    x = 0;
+                    y++;
+                }
+                gbc.gridx = x;
+                gbc.gridy = y;
+                newExpPanel.add(currentAnnotations.get(s), gbc);
                 x++;
             }
         }
+        newExpPanel.repaint();
+        newExpPanel.revalidate();
+        repaintSelectedFiles();
     }
 
     /**
@@ -435,21 +472,25 @@ public class UploadToNewExpPanel extends JPanel implements ExperimentPanel {
      * @return a AnnotationDataValue array with all the annotations.
      */
     public AnnotationDataValue[] getUploadAnnotations() {
-        AnnotationDataValue[] annotations = new AnnotationDataValue[annotationHeaders
-                .size()];
+        AnnotationDataValue[] a = new AnnotationDataValue[annotationHeaders
+                .size() - 1];
+        int nrOfAdded = 0;
         for (int i = 0; i < annotationHeaders.size(); i++) {
-            if (annotationBoxes.containsKey(annotationHeaders.get(i))) {
-                annotations[i] = new AnnotationDataValue(Integer.toString(i),
-                        annotationHeaders.get(i), annotationBoxes
-                                .get(annotationHeaders.get(i))
-                                .getSelectedItem().toString());
-            } else if (annotationFields.containsKey(annotationHeaders.get(i))) {
-                annotations[i] = new AnnotationDataValue(Integer.toString(i),
-                        annotationHeaders.get(i), annotationFields.get(
-                                annotationHeaders.get(i)).getText());
+            if(!annotationHeaders.get(i).equals("UniqueExpID")) {
+                if (annotationBoxes.containsKey(annotationHeaders.get(i))) {
+                    a[nrOfAdded] = new AnnotationDataValue(Integer.toString(i),
+                            annotationHeaders.get(i), annotationBoxes
+                            .get(annotationHeaders.get(i))
+                            .getSelectedItem().toString());
+                } else if (annotationFields.containsKey(annotationHeaders.get(i))) {
+                    a[nrOfAdded] = new AnnotationDataValue(Integer.toString(i),
+                            annotationHeaders.get(i), annotationFields.get(
+                                    annotationHeaders.get(i)).getText());
+                }
+                nrOfAdded++;
             }
         }
-        return annotations;
+        return a;
     }
 
     /**
@@ -555,118 +596,6 @@ public class UploadToNewExpPanel extends JPanel implements ExperimentPanel {
             uploadSelectedBtn.setEnabled(false);
             uploadButton.setEnabled(false);
         }
-    }
-
-    /**
-     * Method updating current annotations.
-     */
-    public void updateAnnotations(AnnotationDataType[] annotations) {
-        ArrayList<String> exists = new ArrayList<String>();
-        for (AnnotationDataType a : annotations) {
-            if (annotationHeaders.contains(a.getName())) {
-                exists.add(a.getName());
-            } else {
-                JPanel p = new JPanel(new BorderLayout());
-                JLabel annotationLabel = null;
-                if (a.isForced()) {
-                    annotationLabel = new JLabel("<html><b>" + a.getName()
-                            + "</b></html>");
-                    annotationLabel
-                            .setToolTipText("Bold indicates a forced annotation");
-                } else {
-                    annotationLabel = new JLabel(a.getName());
-                }
-                annotationHeaders.add(a.getName());
-                p.add(annotationLabel, BorderLayout.NORTH);
-                if (a.getValues()[0].equalsIgnoreCase("freetext")) {
-                    final JTextField textField = new JTextField();
-                    textField.setColumns(10);
-
-                    // Add listener for when the text in the textfield changes.
-                    textField.getDocument().addDocumentListener(
-                            new FreetextListener());
-
-                    annotationFields.put(a.getName(), textField);
-                    p.add(textField, BorderLayout.CENTER);
-                } else {
-                    if (a.getName().equalsIgnoreCase("species")) {
-                        if (species.getItemCount() > 0) {
-                            species.removeAllItems();
-                        }
-                        for (String s : a.getValues()) {
-                            species.addItem(s);
-                        }
-                        annotationBoxes.put(a.getName(), species);
-                        p.add(species, BorderLayout.CENTER);
-                        species.setSelectedIndex(0);
-                    } else {
-                        final JComboBox<String> comboBox = new JComboBox<String>(
-                                a.getValues());
-                        comboBox.setPreferredSize(new Dimension(120, 31));
-                        /*
-                         *
-                         * Listener for when the user chooses something in the
-                         * combobox.
-                         */
-                        comboBox.addActionListener(new ActionListener() {
-                            @Override
-                            public void actionPerformed(ActionEvent actionEvent) {
-                                String text = (String) comboBox
-                                        .getSelectedItem();
-                                if (!text.equals("") && text != null) {
-                                    enableUploadButton(true);
-                                }
-                            }
-                        });
-
-                        annotationBoxes.put(a.getName(), comboBox);
-                        p.add(comboBox, BorderLayout.CENTER);
-                    }
-                }
-                currentAnnotations.put(a.getName(), p);
-                exists.add(a.getName());
-            }
-        }
-        for (String s : annotationHeaders) {
-            if (!exists.contains(s)) {
-                annotationHeaders.remove(s);
-                annotationFields.remove(s);
-                annotationBoxes.remove(s);
-                currentAnnotations.remove(s);
-            }
-        }
-        buildAnnotationsMenu();
-    }
-
-    public void buildAnnotationsMenu() {
-        for (String s : currentAnnotations.keySet()) {
-            int x = 0;
-            int y = 0;
-            gbc = new GridBagConstraints();
-            gbc.anchor = GridBagConstraints.WEST;
-            gbc.insets = new Insets(5, 0, 5, 30);
-            gbc.gridx = x;
-            gbc.gridy = y;
-            newExpPanel.add(currentAnnotations.get(s), gbc);
-            x++;
-            for (int i = 0; i < annotations.length; i++) {
-                if (annotations[i].getValues().length > 0) {
-                    if (x > 6) {
-                        x = 0;
-                        y++;
-                    }
-                    gbc.anchor = GridBagConstraints.WEST;
-                    gbc.insets = new Insets(5, 0, 5, 30);
-                    gbc.gridx = x;
-                    gbc.gridy = y;
-                    newExpPanel.add(currentAnnotations.get(s), gbc);
-                    x++;
-                }
-            }
-        }
-        newExpPanel.repaint();
-        newExpPanel.revalidate();
-        repaintSelectedFiles();
     }
 
     /**

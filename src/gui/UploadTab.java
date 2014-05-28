@@ -143,6 +143,10 @@ public class UploadTab extends JPanel {
         return uploadToNewExpPanel;
     }
 
+    public boolean newExpStarted() {
+        return activePanel == ActivePanel.NEW;
+    }
+
     /**
      * Method returning the text in the experiment name field.
      *
