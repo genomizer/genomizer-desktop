@@ -45,7 +45,7 @@ public class QueryBuilderRow extends JPanel {
         /* The Parent query search tab */
         this.parent = parent;
         /* The annotation information */
-        this.annotationTypes = new ArrayList<AnnotationDataType>();
+        this.annotationTypes = new ArrayList<>();
         setLayout(new FlowLayout());
         /* Set up the components (fieldBox must be set last) */
         setPlusButton();
@@ -205,7 +205,7 @@ public class QueryBuilderRow extends JPanel {
     }
     
     private ArrayList<AnnotationDataType> getManuallyAddedAnnotations() {
-        ArrayList<AnnotationDataType> annotations = new ArrayList<AnnotationDataType>();
+        ArrayList<AnnotationDataType> annotations = new ArrayList<>();
         annotations.add(new AnnotationDataType("ExpID", null, true));
         annotations.add(new AnnotationDataType("FileName", null, true));
         annotations.add(new AnnotationDataType("FileType", new String[] {
@@ -223,12 +223,12 @@ public class QueryBuilderRow extends JPanel {
      *            - the annotations
      */
     public void setAnnotationBox(AnnotationDataType[] annotations) {
-        annotationTypes = new ArrayList<AnnotationDataType>();
+        annotationTypes = new ArrayList<>();
         annotationTypes.addAll(getManuallyAddedAnnotations());
-        annotationTypes.addAll(new ArrayList<AnnotationDataType>(Arrays
+        annotationTypes.addAll(new ArrayList<>(Arrays
                 .asList(annotations)));
         /* Get the annotation names */
-        ArrayList<String> annotationNames = new ArrayList<String>();
+        ArrayList<String> annotationNames = new ArrayList<>();
         for (AnnotationDataType dataType : annotationTypes) {
             annotationNames.add(dataType.getName());
         }
