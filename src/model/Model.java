@@ -519,12 +519,9 @@ public class Model implements GenomizerModel {
         
         GetGenomeSpecieReleasesRequest request = RequestFactory
                 .makeGetGenomeSpecieReleaseRequest(species);
-        
-        // GetGenomeReleasesRequest request = RequestFactory
-        // .makeGetGenomeReleaseRequest();
+
         Connection conn = connFactory.makeConnection();
         conn.sendRequest(request, userID, TEXT_PLAIN);
-        // conn.sendRequest(request, userID, TEXT_PLAIN);
         if (conn.getResponseCode() == 200) {
             
 //            System.err.println("Sent getGenomeSpecieReleaseRequestSuccess!");

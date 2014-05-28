@@ -8,16 +8,20 @@ Programvaruteknik, Umea University Spring 2014
 
 ##CHANGELOG V1.0.0 RELEASE DATE 14-05-28
 
-- Switch between Query builder and Manual edit in search cliterias
+- Nicer login screen
 - Added the genomizer logo and some nice icons
-- Choose Genome Release version when uploading profile and Region files
+- Switch between Query builder and Manual edit in search cliterias
+- Choose Genome Release version when uploading profile and region files
 - Please try out the process functionality, preferrably with valid files and 'good' values.
 - View Process info from the server
-- Shorter workflow when downloading a file
+- Shorter workflow when downloading a file, with a tab to show progress
 - Option to upload files to an experiment from Workspace
+- Sysadmin additions?
  
 
 ###NOTES
+- Please see Help box and User Manual for guides on using the process
+- File download does not control preventing of writing over an existing file if they have the same file name.
 - 
 
 ##CHANGELOG v0.2.0 RELEASE DATE 14-05-20
