@@ -106,7 +106,7 @@ public class UploadToNewExpPanel extends JPanel implements ExperimentPanel {
     /**
      * A method returning the current upload file rows.
      *
-     * @return A Hashmap containing the current UploadFileRows.
+     * @return a Hashmap containing the current UploadFileRows.
      */
     public HashMap<File, UploadFileRow> getFileRows() {
         return uploadFileRows;
@@ -115,7 +115,7 @@ public class UploadToNewExpPanel extends JPanel implements ExperimentPanel {
     /**
      * Method returning the current selected species.
      *
-     * @return A String representing the species.
+     * @return a String representing the species.
      */
     public String getSelectedSpecies() {
         return species.getSelectedItem().toString();
