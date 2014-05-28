@@ -114,11 +114,7 @@ public class Controller {
             Boolean allRaw = false;
 
             for (FileData raw : allMarked) {
-                if (raw.type.equals("Raw")) {
-                    allRaw = true;
-                } else {
-                    allRaw = false;
-                }
+                allRaw = raw.type.equals("Raw");
             }
 
             // DANIEL
@@ -346,7 +342,7 @@ public class Controller {
             // DownloadWindow downloadWindow = view.getDownloadWindow();
             ArrayList<ExperimentData> expData = view
                     .getSelectedDataInWorkspace();
-            ArrayList<FileData> fileData = new ArrayList<FileData>();
+            ArrayList<FileData> fileData = new ArrayList<>();
             for (ExperimentData data : expData) {
                 fileData.addAll(data.files);
             }
@@ -488,7 +484,7 @@ public class Controller {
                     }
                 } else {
                     JOptionPane.showMessageDialog(null,
-                            "Upload of " + f.getName() + " not complete",
+                            "Upload of " + f.getName() + " failed.",
                             "Error", JOptionPane.ERROR_MESSAGE);
                 }
             }
