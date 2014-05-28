@@ -23,6 +23,8 @@ import javax.swing.JFileChooser;
 import javax.swing.JList;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 
 import model.GenomizerModel;
 import util.ActiveSearchPanel;
@@ -79,6 +81,31 @@ public class Controller {
         view.addUploadSelectedFilesListener(new UploadSelectedFilesListener());
         view.addSpeciesSelectedListener(new SpeciesSelectedListener());
         view.addDeleteSelectedListener(new DeleteSelectedListener());
+        view.addChangedTabListener(new ChangedTabListener());
+    }
+
+    class ChangedTabListener implements ChangeListener, Runnable {
+
+        @Override
+        public void stateChanged(ChangeEvent e) {
+            new Thread(this).start();
+        }
+
+        @Override
+        public void run() {
+            AnnotationDataType[] a;
+            if (view.getSelectedIndex() == 1) {
+                if(((a = model.getAnnotations()) != null) && view.getUploadTab().newExpStarted()) {
+                    view.getUploadTab().getNewExpPanel().updateAnnotations(a);
+                    System.out.println("HEJ");
+                }
+            } else if (view.getSelectedIndex() == 0) {
+                if((a = model.getAnnotations()) != null) {
+                    view.setSearchAnnotationTypes(a);
+                    System.out.println("HEJ");
+                }
+            }
+        }
     }
 
     class ConvertFileListener implements ActionListener, Runnable {
@@ -486,8 +513,8 @@ public class Controller {
                     }
                 } else {
                     JOptionPane.showMessageDialog(null,
-                            "Upload of " + f.getName() + " failed.",
-                            "Error", JOptionPane.ERROR_MESSAGE);
+                            "Upload of " + f.getName() + " failed.", "Error",
+                            JOptionPane.ERROR_MESSAGE);
                 }
             }
         }
@@ -650,7 +677,7 @@ public class Controller {
             public void mouseClicked(MouseEvent event) {
                 JList list = (JList) event.getSource();
 
-                if(deletedProcessFiles){
+                if (deletedProcessFiles) {
                     species = "";
                     count = 0;
                 }

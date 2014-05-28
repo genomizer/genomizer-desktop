@@ -102,6 +102,7 @@ public class EditAnnotationPopupListener implements ActionListener {
             case SysStrings.ANNOTATIONS_MODIFY_CANCEL:
                 sysTab.getEditFrame().setVisible(false);
                 sysTab.getEditFrame().dispose();
+                sysTab.requestFocus();
                 break;
         }
     }

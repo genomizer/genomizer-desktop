@@ -37,11 +37,11 @@ import communication.HTTPURLUpload;
 
 /***
  * Builds the genome release view.
- * 
+ *
  * @author oi11ahn
- * 
- * 
- * 
+ *
+ *
+ *
  */
 public class GenomeReleaseViewCreator {
 
@@ -72,9 +72,9 @@ public class GenomeReleaseViewCreator {
     }
 
     /***
-     * 
+     *
      * Creates all the basics for the main panel for the genome release view.
-     * 
+     *
      * @param buttonListener
      *            the listener for all the buttons
      * @param textListener
@@ -95,12 +95,13 @@ public class GenomeReleaseViewCreator {
         JPanel mainPanel = new JPanel(new BorderLayout());
         mainPanel.setBackground(new Color(255, 250, 250));
         mainPanel.add(buildGenomeReleasePanel(), BorderLayout.CENTER);
+        setupExtraInfoPanel();
         return mainPanel;
     }
 
     /***
      * Builds the main panel for the genome release view.
-     * 
+     *
      * @return the main panel
      */
     public JPanel buildGenomeReleasePanel() {
@@ -116,10 +117,9 @@ public class GenomeReleaseViewCreator {
         return mainPanel;
     }
 
-
         /***
      * Builds the available genome releases table.
-     * 
+     *
      * @return the panel containing the genome release table
      */
     public JPanel buildGenomeFileList() {
@@ -149,7 +149,11 @@ public class GenomeReleaseViewCreator {
         return fileListPanel;
     }
 
+    public void setupExtraInfoPanel() {
+        extraInfoPanel = new JPanel();
+        fileListPanel.add(extraInfoPanel, BorderLayout.NORTH);
 
+    }
     /***
      * Creates the extra info panel containing the extra information about tha
      * files in each genome release and the delete button.
@@ -195,19 +199,16 @@ public class GenomeReleaseViewCreator {
         fileListPanel.setVisible(true);
     }
 
-
-        /***
+    /***
      * Builds the progress panel for uploading genome releases.
-     * 
+     *
      * @return the progress panel
      */
     private JPanel buildFileProgressPanel() {
 
         JPanel progressPanel = new JPanel(new GridLayout(0, 1));
         setFilesForProgresspanel();
-
         return progressPanel;
-
     }
 
 
@@ -234,7 +235,6 @@ public class GenomeReleaseViewCreator {
             }
         }
     }
-
     /***
      * Uses the current uploads to
      * 

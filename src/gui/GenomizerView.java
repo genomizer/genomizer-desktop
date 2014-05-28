@@ -12,6 +12,7 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JList;
 import javax.swing.JTabbedPane;
+import javax.swing.event.ChangeListener;
 
 import util.ActiveSearchPanel;
 import util.AnnotationDataType;
@@ -215,6 +216,10 @@ public interface GenomizerView {
     public ArrayList<ExperimentData> getFileInfo();
 
     public void setFileInfo(ArrayList<ExperimentData> fileInfo);
-    
+
     public void clearSearchSelection();
+
+    public int getSelectedIndex();
+
+    public void addChangedTabListener(ChangeListener listener);
 }
