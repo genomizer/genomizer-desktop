@@ -11,10 +11,10 @@ public class rawToProfileRequest extends Request {
     /**
      * Creates the request for creating profile data from RAW-file.
      *
-     * @param fileName
+     * @param expid
      * @param parameters
      * @param metadata
-     * @param genomeRelease
+     * @param genomeVersion
      * @param author
      */
     public rawToProfileRequest(String expid, String[] parameters, String metadata,

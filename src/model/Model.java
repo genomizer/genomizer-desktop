@@ -51,9 +51,7 @@ import communication.DownloadHandler;
 import communication.HTTPURLUpload;
 
 public class Model implements GenomizerModel {
-    
-    private String default_username = "pvt";
-    private String default_password = "pvt";
+
     private static final String TEXT_PLAIN = "text/plain";
     private static final String JSON = "application/json";
     private String userID = "";
@@ -64,9 +62,9 @@ public class Model implements GenomizerModel {
     
     public Model() {
         connFactory = new ConnectionFactory();
-        searchHistory = new ArrayList<String>();
-        ongoingDownloads = new CopyOnWriteArrayList<DownloadHandler>();
-        ongoingUploads = new CopyOnWriteArrayList<HTTPURLUpload>();
+        searchHistory = new ArrayList<>();
+        ongoingDownloads = new CopyOnWriteArrayList<>();
+        ongoingUploads = new CopyOnWriteArrayList<>();
     }
     
     public String getUserID() {
@@ -182,9 +180,8 @@ public class Model implements GenomizerModel {
         DownloadFileResponse response = gson.fromJson(conn.getResponseBody(),
                 DownloadFileResponse.class);
         final DownloadHandler handler = new DownloadHandler(userID, fileName);
-        if (handler != null) {
-            ongoingDownloads.add(handler);
-        }
+        ongoingDownloads.add(handler);
+
         new Thread(new Runnable() {
             @Override
             public void run() {
@@ -208,7 +205,7 @@ public class Model implements GenomizerModel {
                 for (int i = 0; i < searchResponses.length; i++) {
                     searchResponses[i].convertToUTF8();
                 }
-                return new ArrayList<ExperimentData>(
+                return new ArrayList<>(
                         Arrays.asList(searchResponses));
             }
         }
@@ -423,10 +420,7 @@ public class Model implements GenomizerModel {
                 expName, annotations);
         Connection conn = connFactory.makeConnection();
         conn.sendRequest(aER, getUserID(), JSON);
-        if (conn.getResponseCode() == 201) {
-            return true;
-        }
-        return false;
+        return (conn.getResponseCode() == 201);
     }
     
     public CopyOnWriteArrayList<DownloadHandler> getOngoingDownloads() {
@@ -439,9 +433,7 @@ public class Model implements GenomizerModel {
         Connection conn = connFactory.makeConnection();
         conn.sendRequest(rER, getUserID(), "plain/text");
         if (conn.getResponseCode() == 200) {
-            ExperimentData ed = ResponseParser.parseRetrieveExp(conn
-                    .getResponseBody());
-            return ed;
+            return ResponseParser.parseRetrieveExp(conn.getResponseBody());
         } else {
             System.out.println("responsecode: " + conn.getResponseCode());
             // JOptionPane.showMessageDialog(null,
@@ -522,9 +514,8 @@ public class Model implements GenomizerModel {
         Connection conn = connFactory.makeConnection();
         conn.sendRequest(request, userID, TEXT_PLAIN);
         if (conn.getResponseCode() == 200) {
-            ProcessFeedbackData[] data = ResponseParser
+            return ResponseParser
                     .parseProcessFeedbackResponse(conn.getResponseBody());
-            return data;
         } else {
             return null;
         }
@@ -563,12 +554,11 @@ public class Model implements GenomizerModel {
         if (conn.getResponseCode() == 200) {
             
             System.err.println("Sent getGenomeSpecieReleaseRequestSuccess!");
-            GenomeReleaseData[] genomeReleases = ResponseParser
-                    .parseGetGenomeReleaseResponse(conn.getResponseBody());
             // for(int i = 0;i < genomeReleases.length ; i++){
             // System.out.println(genomeReleases[i].getVersion());
             // }
-            return genomeReleases;
+            return ResponseParser
+                    .parseGetGenomeReleaseResponse(conn.getResponseBody());
         } else {
             
             System.out.println("GenomeSpecieRelease responsecode: "
@@ -588,10 +578,7 @@ public class Model implements GenomizerModel {
                 .makeRemoveFileFromExperimentRequest(id);
         Connection conn = connFactory.makeConnection();
         conn.sendRequest(request, userID, TEXT_PLAIN);
-        if (conn.getResponseCode() == 200) {
-            return true;
-        }
-        return false;
+        return (conn.getResponseCode() == 200);
     }
     
     @Override
@@ -600,17 +587,14 @@ public class Model implements GenomizerModel {
                 .makeRemoveExperimentRequest(name);
         Connection conn = connFactory.makeConnection();
         conn.sendRequest(request, userID, TEXT_PLAIN);
-        if (conn.getResponseCode() == 200) {
-            return true;
-        }
-        return false;
+        return (conn.getResponseCode() == 200);
     }
     
     public void resetModel() {
         userID = "";
-        searchHistory = new ArrayList<String>();
-        ongoingDownloads = new CopyOnWriteArrayList<DownloadHandler>();
-        ongoingUploads = new CopyOnWriteArrayList<HTTPURLUpload>();
+        searchHistory = new ArrayList<>();
+        ongoingDownloads = new CopyOnWriteArrayList<>();
+        ongoingUploads = new CopyOnWriteArrayList<>();
     }
     
     @Override
