@@ -8,16 +8,22 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JProgressBar;
+import javax.swing.JTabbedPane;
 import javax.swing.SwingUtilities;
 
 import util.ExperimentData;
 import util.TreeTable;
+
+import communication.DownloadHandler;
 
 public class WorkspaceTab extends JPanel {
     
@@ -25,16 +31,20 @@ public class WorkspaceTab extends JPanel {
     private TreeTable table;
     private JPanel buttonPanel;
     private JButton deleteButton, removeButton, downloadButton;
-    private JButton uploadToButton, processButton;
+    private JButton uploadToButton, processButton, ongoingDownloadsButton;
+    private final JTabbedPane tabbedPane;
+    private JPanel ongoingDownloadsPanel;
+    private CopyOnWriteArrayList<DownloadHandler> ongoingDownloads;
     
     public WorkspaceTab() {
         setLayout(new BorderLayout());
+        tabbedPane = new JTabbedPane(JTabbedPane.BOTTOM);
         buttonPanel = new JPanel();
         buttonPanel.setBorder(BorderFactory.createTitledBorder("Workspace"));
         JPanel filePanel = new JPanel(new BorderLayout());
+        ongoingDownloadsPanel = new JPanel();
         add(buttonPanel, BorderLayout.NORTH);
-        add(filePanel, BorderLayout.CENTER);
-        
+        add(tabbedPane, BorderLayout.CENTER);
         buttonPanel.setLayout(new FlowLayout());
         
         // buttonPanel.setBackground(new Color(210, 210, 210));
@@ -46,14 +56,12 @@ public class WorkspaceTab extends JPanel {
         table = new TreeTable();
         // table.setContent(ExperimentData.getExample());
         filePanel.add(table, BorderLayout.CENTER);
+        tabbedPane.addTab("Workspace", filePanel);
+        tabbedPane.addTab("Ongoing Downloads", ongoingDownloadsPanel);
         setVisible(true);
     }
     
     private void createButtons() {
-        // removeButton = CustomButtonFactory.makeCustomButton(
-        // IconFactory.getClearIcon(50, 50),
-        // IconFactory.getClearHoverIcon(52, 52), 52, 52,
-        // "Remove selected data from workspace");
         deleteButton = new JButton("Delete from database");
         deleteButton.setPreferredSize(new Dimension(190, 40));
         removeButton = new JButton("Remove from workspace");
@@ -70,22 +78,11 @@ public class WorkspaceTab extends JPanel {
         uploadToButton.setPreferredSize(new Dimension(150, 40));
         processButton = new JButton("Process");
         processButton.setPreferredSize(new Dimension(150, 40));
-        // downloadButton = CustomButtonFactory.makeCustomButton(
-        // IconFactory.getDownloadIcon(45, 45),
-        // IconFactory.getDownloadHoverIcon(47, 47), 47, 47,
-        // "Download selected data");
-        //
-        // analyzeButton = CustomButtonFactory.makeCustomButton(
-        // IconFactory.getAnalyzeIcon(50, 50),
-        // IconFactory.getAnalyzeHoverIcon(52, 52), 52, 52,
-        // "Analyze selected data");
-        // analyzeButton.setEnabled(false);
-        //
-        // processButton = CustomButtonFactory.makeCustomButton(
-        // IconFactory.getProcessIcon(50, 50),
-        // IconFactory.getProcessHoverIcon(52, 52), 52, 52,
-        // "Process selected data");
-        // processButton.setEnabled(false);
+    }
+    
+    public void setOngoingDownloads(
+            CopyOnWriteArrayList<DownloadHandler> ongoingDownloads) {
+        this.ongoingDownloads = ongoingDownloads;
     }
     
     private void addToButtonPanel() {
@@ -107,6 +104,55 @@ public class WorkspaceTab extends JPanel {
         
         buttonPanel.add(processButton);
         
+    }
+    
+    private void updateOngoingDownloadsPanel() {
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                boolean running = true;
+                while (running) {
+                    ongoingDownloadsPanel.removeAll();
+                    if (ongoingDownloads != null) {
+                        for (final DownloadHandler handler : ongoingDownloads) {
+                            if (!handler.isFinished()
+                                    && handler.getTotalSize() > 0) {
+                                
+                                double speed = handler.getCurrentSpeed() / 1024 / 2014;
+                                
+                                JProgressBar progress = new JProgressBar(0,
+                                        handler.getTotalSize());
+                                progress.setValue(handler.getCurrentProgress());
+                                progress.setStringPainted(true);
+                                JButton stopButton = new JButton("X");
+                                stopButton
+                                        .addActionListener(new ActionListener() {
+                                            @Override
+                                            public void actionPerformed(
+                                                    ActionEvent e) {
+                                                handler.setFinished(true);
+                                                ongoingDownloads
+                                                        .remove(handler);
+                                            }
+                                        });
+                            } else {
+                                ongoingDownloads.remove(handler);
+                                JOptionPane.showMessageDialog(null,
+                                        "Download complete");
+                            }
+                        }
+                        
+                    }
+                    revalidate();
+                    repaint();
+                    try {
+                        Thread.sleep(100);
+                    } catch (InterruptedException e) {
+                        running = false;
+                    }
+                }
+            }
+        }).start();
     }
     
     /**
