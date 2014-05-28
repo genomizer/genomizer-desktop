@@ -219,4 +219,6 @@ public interface GenomizerView {
     public ArrayList<ExperimentData> getFileInfo();
     
     public void setFileInfo(ArrayList<ExperimentData> fileInfo);
+    
+    public void clearSearchSelection();
 }

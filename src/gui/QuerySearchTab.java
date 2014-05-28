@@ -379,4 +379,8 @@ public class QuerySearchTab extends JPanel {
     public JButton getSearchButton() {
         return searchButton;
     }
+    
+    public void clearSearchSelection() {
+        resultsTable.deselectTreeTable();
+    }
 }
