@@ -16,7 +16,8 @@ Programvaruteknik, Umea University Spring 2014
 - View Process info from the server
 - Shorter workflow when downloading a file, with a tab to show progress
 - Option to upload files to an experiment from Workspace
-- Sysadmin additions?
+- Administation of annotation *should* work.
+- Add genome release files in administration is working, but lacks visual appeal and user feedback.
  
 
 ###NOTES
