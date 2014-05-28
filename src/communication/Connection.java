@@ -29,6 +29,7 @@ public class Connection {
 
     public boolean sendRequest(Request request, String token, String type) {
         this.request = request;
+
         if (ip.startsWith("http://")) {
             ip = ip.substring(7);
         }
