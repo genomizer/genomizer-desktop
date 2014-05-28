@@ -38,7 +38,7 @@ public class EditAnnotationDocumentListener implements DocumentListener {
 
     @Override
     public void changedUpdate(DocumentEvent ev) {
-        System.out.println("ChangedUpdate called");
+        // Changed
 
     }
 

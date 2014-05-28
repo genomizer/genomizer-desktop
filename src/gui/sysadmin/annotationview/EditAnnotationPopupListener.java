@@ -53,8 +53,6 @@ public class EditAnnotationPopupListener implements ActionListener {
                     j1.setName(j1.getText());
                     editPopup.deactivateUpdateButton((JButton) e.getSource());
                     editPopup.updateDocListeners();
-
-                    System.out.println("set name");
                 } else {
                     JOptionPane.showMessageDialog(editPopup,
                             "Could not rename annotation value!");
@@ -64,10 +62,8 @@ public class EditAnnotationPopupListener implements ActionListener {
                 break;
 
             case SysStrings.ANNOTATIONS_MODIFY_REMOVE:
-                System.out.println("remove!");
                 JTextField j2 = getJTextFieldFromEvent(e);
                 JPanel panel = (JPanel) j2.getParent();
-                System.out.println(editPopup.getNewAnnotationName() + "   " + j2.getName());
                 if (sysController.removeAnnotationValue(
                         editPopup.getAnnotationName(), j2.getName())) {
                     panel.setVisible(false);
@@ -79,7 +75,6 @@ public class EditAnnotationPopupListener implements ActionListener {
                 break;
 
             case SysStrings.ANNOTATIONS_MODIFY_ADD_VALUE:
-                System.out.println("add annotation value");
                 JTextField j3 = getJTextFieldFromEvent(e);
                 if (!j3.getText().isEmpty()) {
                     if (sysController.addAnnotationValue(
@@ -97,11 +92,9 @@ public class EditAnnotationPopupListener implements ActionListener {
                 break;
 
             case SysStrings.ANNOTATIONS_MODIFY_SET_FORCED:
-                System.out.println("HEJSAN!");
                 break;
 
             case SysStrings.ANNOTATIONS_VALUE_NAME_CHANGED:
-                System.out.println("Value name has changed!");
                 break;
 
             case SysStrings.ANNOTATIONS_MODIFY_CANCEL:

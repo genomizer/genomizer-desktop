@@ -164,7 +164,6 @@ public class EditAnnotationPopup2 extends JPanel {
                     col);
             return true;
         } else {
-            System.out.println("You must select an annotation to edit");
             return false;
         }
     }

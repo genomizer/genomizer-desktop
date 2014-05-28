@@ -31,16 +31,13 @@ public class AnnotationButtonsListener implements ActionListener {
 
         switch (e.getActionCommand()) {
             case SysStrings.ANNOTATIONS_ADD:
-                System.out.println("add");
                 sysTab.addAnnotationsPopup();
                 break;
             case SysStrings.ANNOTATIONS_MODIFY:
-                System.out.println("modify");
                 sysTab.editAnnotationPopup();
 
                 break;
             case SysStrings.ANNOTATIONS_DELETE:
-                System.out.println("delete");
                 sysTab.deleteAnnotation();
                 break;
 
