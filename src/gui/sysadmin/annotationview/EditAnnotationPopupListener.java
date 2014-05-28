@@ -24,6 +24,11 @@ public class EditAnnotationPopupListener implements ActionListener {
         this.editPopup = sysTab.getEditPopup();
     }
 
+    /**
+     * The actionPerformed method checks and compares the ActionCommand of the
+     * event and performs different actions depending on where the action
+     * originated.
+     */
     @Override
     public void actionPerformed(ActionEvent e) {
 
@@ -107,6 +112,11 @@ public class EditAnnotationPopupListener implements ActionListener {
         }
     }
 
+    /**
+     * @param e the ActionEvent
+     * @return the JTextField connected to the JButton that the ActionEvent originated
+     * from
+     */
     private JTextField getJTextFieldFromEvent(ActionEvent e) {
         JButton b = (JButton) e.getSource();
         JTextField jt = (JTextField) b.getParent().getComponent(0);
