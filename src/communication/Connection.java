@@ -35,8 +35,8 @@ public class Connection {
         }
         try {
             String targetUrl = "http://" + ip + request.url;
-            System.out.println(targetUrl);
-            System.out.println("the request.toJson(): " + request.toJson());
+//            System.out.println(targetUrl);
+//            System.out.println("the request.toJson(): " + request.toJson());
             URL url = new URL(targetUrl);
             connection = (HttpURLConnection) url.openConnection();
             if (type.equals("application/json")) {
@@ -98,7 +98,7 @@ public class Connection {
             output.append(buffer);
         }
         responseBody = output.toString();
-        if (responseCode != 200) {
+        if (responseCode >= 300) {
             // err response
         System.err.println(request.getRequestName() + " response " + responseCode + " " + responseBody);
         }
