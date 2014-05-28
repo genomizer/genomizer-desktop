@@ -33,6 +33,14 @@ import javax.swing.table.TableRowSorter;
 
 import communication.HTTPURLUpload;
 
+/***
+ * Builds the genome release view.
+ * 
+ * @author oi11ahn
+ * 
+ * 
+ * 
+ */
 public class GenomeReleaseViewCreator {
 
     private GenomereleaseTableModel grTablemodel;
@@ -61,6 +69,20 @@ public class GenomeReleaseViewCreator {
     public GenomeReleaseViewCreator() {
     }
 
+    /***
+     * 
+     * Creates all the basics for the main panel for the genome release view.
+     * 
+     * @param buttonListener
+     *            the listener for all the buttons
+     * @param textListener
+     *            the text listener
+     * @param mgrListener
+     *            the mouse listener for the table
+     * @param kgrListener
+     *            the key listener for the table
+     * @return
+     */
     public JPanel buildGenomeReleaseView(ActionListener buttonListener,
             GenomeTextFieldListener textListener, MouseListener mgrListener,
             KeyListener kgrListener) {
@@ -74,6 +96,11 @@ public class GenomeReleaseViewCreator {
         return mainPanel;
     }
 
+    /***
+     * Builds the main panel for the genome release view.
+     * 
+     * @return the main panel
+     */
     public JPanel buildGenomeReleasePanel() {
         JPanel mainPanel = new JPanel(new BorderLayout());
 
@@ -87,6 +114,10 @@ public class GenomeReleaseViewCreator {
         return mainPanel;
     }
 
+    /***
+     * 
+     * @return
+     */
     public JPanel buildGenomeFileList() {
         fileListPanel = new JPanel(new BorderLayout());
 
