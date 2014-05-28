@@ -10,6 +10,7 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.net.URL;
 
+import javax.swing.Box;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -79,33 +80,34 @@ public class LoginWindow extends JFrame {
         mainPanel.add(buttonPanel, BorderLayout.SOUTH);
         ImageIcon icon = IconFactory.getLogoIcon(70, 70);
         JLabel picLabel = new JLabel(icon);
-        logoPanel.add(picLabel);
+        logoPanel.add(picLabel, BorderLayout.CENTER);
+        logoPanel.add(Box.createVerticalStrut(10), BorderLayout.NORTH);
         bottomPanel.setLayout(null);
         
         JLabel usernameLabel = new JLabel("Username");
-        usernameLabel.setBounds(10, 50, 80, 25);
+        usernameLabel.setBounds(10, 40, 80, 25);
         bottomPanel.add(usernameLabel);
         
         usernameField = new JTextField(20);
-        usernameField.setBounds(90, 50, 170, 25);
+        usernameField.setBounds(90, 40, 170, 25);
         usernameField.setText("desktop");
         bottomPanel.add(usernameField);
         
         JLabel passwordLabel = new JLabel("Password");
-        passwordLabel.setBounds(10, 80, 80, 25);
+        passwordLabel.setBounds(10, 70, 80, 25);
         bottomPanel.add(passwordLabel);
         
         passwordField = new JPasswordField(20);
-        passwordField.setBounds(90, 80, 170, 25);
+        passwordField.setBounds(90, 70, 170, 25);
         passwordField.setText("umea@2014");
         bottomPanel.add(passwordField);
         
         JLabel ipLabel = new JLabel("IP");
-        ipLabel.setBounds(10, 110, 80, 25);
+        ipLabel.setBounds(10, 100, 80, 25);
         bottomPanel.add(ipLabel);
         
         ipField = new JTextField(20);
-        ipField.setBounds(90, 110, 170, 25);
+        ipField.setBounds(90, 100, 170, 25);
         ipField.setText("scratchy.cs.umu.se:7000");
         bottomPanel.add(ipField);
         
@@ -181,7 +183,7 @@ public class LoginWindow extends JFrame {
         message = message.replace(".", "");
         errorLabel = new JLabel("<html><b>" + message + "</b></html>");
         // errorLabel.setIcon(UIManager.getIcon("OptionPane.warningIcon"));
-        errorLabel.setBounds(70, 0, 150, 45);
+        errorLabel.setBounds(73, 0, 150, 45);
         bottomPanel.add(errorLabel);
         repaint();
         revalidate();

@@ -18,6 +18,7 @@ public class Connection {
     private int responseCode;
     private String responseBody;
     private HttpURLConnection connection;
+    private Request request;
 
     public Connection(String ip, GenomizerView view) {
         this.ip = ip;
@@ -27,6 +28,8 @@ public class Connection {
     }
 
     public boolean sendRequest(Request request, String token, String type) {
+        this.request = request;
+
         if (ip.startsWith("http://")) {
             ip = ip.substring(7);
         }
@@ -95,6 +98,10 @@ public class Connection {
             output.append(buffer);
         }
         responseBody = output.toString();
+        if (responseCode != 200) {
+            // err response
+        System.err.println(request.getRequestName() + " response " + responseCode + " " + responseBody);
+        }
     }
 
     public int getResponseCode() {
