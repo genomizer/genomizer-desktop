@@ -18,4 +18,8 @@ public class Request {
         return gson.toJson(this);
     }
 
+    public String getRequestName() {
+        return requestName;
+    }
+
 }
