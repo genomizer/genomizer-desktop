@@ -70,7 +70,6 @@ public class GenomeReleaseViewCreator {
     
     public GenomeReleaseViewCreator() {
     }
-    
     /***
      * 
      * Creates all the basics for the main panel for the genome release view.
@@ -97,7 +96,7 @@ public class GenomeReleaseViewCreator {
         mainPanel.add(buildGenomeReleasePanel(), BorderLayout.CENTER);
         return mainPanel;
     }
-    
+
     /***
      * Builds the main panel for the genome release view.
      * 
@@ -116,6 +115,7 @@ public class GenomeReleaseViewCreator {
         return mainPanel;
     }
     
+
     /***
      * Builds the available genome releases table.
      * 
@@ -133,6 +133,7 @@ public class GenomeReleaseViewCreator {
         TableRowSorter<TableModel> rowSorter = new TableRowSorter<TableModel>(
                 grTablemodel);
         
+
         /** Set the sorting if the column is clicked. */
         grTable.setSelectionMode(DefaultListSelectionModel.SINGLE_SELECTION);
         grTable.setRowSorter(rowSorter);
@@ -147,6 +148,7 @@ public class GenomeReleaseViewCreator {
         return fileListPanel;
     }
     
+
     /***
      * Creates the extra info panel containing the extra information about tha
      * files in each genome release and the delete button.
@@ -192,6 +194,7 @@ public class GenomeReleaseViewCreator {
         fileListPanel.setVisible(true);
     }
     
+
     /***
      * Builds the progress panel for uploading genome releases.
      * 
@@ -206,6 +209,7 @@ public class GenomeReleaseViewCreator {
         
     }
     
+
     /***
      *
      */
