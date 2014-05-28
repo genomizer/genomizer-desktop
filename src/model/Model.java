@@ -339,7 +339,6 @@ public class Model implements GenomizerModel {
         if (conn.getResponseCode() == 200) {
             GenomeReleaseData[] genomeReleases = ResponseParser
                     .parseGetGenomeReleaseResponse(conn.getResponseBody());
-            System.out.println(conn.getResponseBody());
             return genomeReleases;
         }
         
