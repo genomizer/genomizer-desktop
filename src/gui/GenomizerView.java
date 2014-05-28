@@ -202,6 +202,8 @@ public interface GenomizerView {
     
     public void resetGUI();
     
+    public void changeTabInWorkspace(int tabIndex);
+    
     public JTabbedPane getTabbedPane();
     
     public String getSelectedSpecies();

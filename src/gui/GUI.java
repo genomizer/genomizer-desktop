@@ -782,4 +782,8 @@ public class GUI extends JFrame implements GenomizerView {
         workspaceTab.setOngoingDownloads(ongoingDownloads);
         
     }
+    
+    public void changeTabInWorkspace(int tabIndex) {
+        workspaceTab.changeTab(tabIndex);
+    }
 }
