@@ -10,7 +10,7 @@ Programvaruteknik, Umea University Spring 2014
 
 - Nicer login screen
 - Added the genomizer logo and some nice icons
-- Switch between Query builder and Manual edit in search cliterias
+- Switch between Query builder and Manual edit in search criterias
 - Choose Genome Release version when uploading profile and region files
 - Please try out the process functionality, preferrably with valid files and 'good' values.
 - View Process info from the server
