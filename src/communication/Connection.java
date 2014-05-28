@@ -26,12 +26,14 @@ public class Connection {
         responseCode = 0;
     }
 
-    public boolean sendRequest(Request request, String userID, String type) {
+    public boolean sendRequest(Request request, String token, String type) {
         if (ip.startsWith("http://")) {
             ip = ip.substring(7);
         }
         try {
             String targetUrl = "http://" + ip + request.url;
+            System.out.println(targetUrl);
+            System.out.println("the request.toJson(): " + request.toJson());
             URL url = new URL(targetUrl);
             connection = (HttpURLConnection) url.openConnection();
             if (type.equals("application/json")) {
@@ -40,8 +42,8 @@ public class Connection {
             connection.setReadTimeout(2000);
             connection.setRequestMethod(request.type);
             connection.setRequestProperty("Content-Type", type);
-            if (!userID.isEmpty()) {
-                connection.setRequestProperty("Authorization", userID);
+            if (!token.isEmpty()) {
+                connection.setRequestProperty("Authorization", token);
             }
 
             if (request.type.equals("DELETE")) {
@@ -59,7 +61,7 @@ public class Connection {
             }
             responseCode = connection.getResponseCode();
             fetchResponse(connection.getInputStream());
-            if (responseCode == 401 && !userID.isEmpty()) {
+            if (responseCode == 401 && !token.isEmpty()) {
                 view.updateLogout();
                 return false;
             }
