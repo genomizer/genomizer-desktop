@@ -297,7 +297,7 @@ public class GenomeReleaseViewCreator {
 
     private JPanel buildAddNewSpeciePanel() {
         JPanel mainPanel = new JPanel(new BorderLayout());
-        mainPanel.setBorder(BorderFactory.createTitledBorder("Add new specie"));
+        mainPanel.setBorder(BorderFactory.createTitledBorder("Add new species"));
 
         JPanel containerPanel = new JPanel();
 
@@ -314,7 +314,7 @@ public class GenomeReleaseViewCreator {
         /** TODO fix this text and button so it works propperly */
         JLabel specieLabel = new JLabel();
         specieLabel.setBorder(border);
-        specieLabel.setText("Specie");
+        specieLabel.setText("Species");
         JTextField specie = new JTextField(20);
 
         JButton button = new JButton("Add");
