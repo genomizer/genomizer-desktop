@@ -9,6 +9,7 @@ import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
+import java.util.ArrayList;
 
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
@@ -23,15 +24,16 @@ import javax.swing.JProgressBar;
  * file, a close button and a checkbox for selecting the filerow.
  *
  * @author oi11ejn
- *
  */
 public class UploadFileRow extends JPanel {
+
+    private static final long serialVersionUID = -4087152834657635393L;
     private ExperimentPanel parent;
     private JPanel filePanel;
     private JLabel fileLabel;
     private JButton closeButton;
     private JCheckBox uploadBox;
-    private JComboBox typeBox;
+    private JComboBox<String> typeBox, genome;
     private JProgressBar uploadBar;
     private File file;
 
@@ -87,39 +89,69 @@ public class UploadFileRow extends JPanel {
         filePanel.add(uploadBar, gbc);
 
         String[] fileTypes = { "Profile", "Raw", "Region" };
-        typeBox = new JComboBox(fileTypes);
+        typeBox = new JComboBox<String>(fileTypes);
+        typeBox.setSelectedItem("Raw");
         typeBox.setPreferredSize(new Dimension(120, 31));
+        genome = new JComboBox<String>();
+        genome.setPreferredSize(new Dimension(120, 31));
+        genome.addItem("No GR");
+        genome.setEnabled(false);
+        typeBox.addActionListener(new ActionListener() {
+
+            @Override
+            public void actionPerformed(ActionEvent arg0) {
+                genome.removeAllItems();
+                if (typeBox.getSelectedItem().toString().equals("Profile")
+                        || typeBox.getSelectedItem().toString()
+                                .equals("Region")) {
+                    ArrayList<String> gr = parent.getGenomeReleases();
+                    for (String g : gr) {
+                        genome.addItem(g);
+                    }
+                    if (genome.getItemCount() > 0) {
+                        genome.setEnabled(true);
+                        typeBox.setSelectedItem(typeBox.getSelectedItem());
+                    } else {
+                        genome.setEnabled(false);
+                    }
+                } else if (typeBox.getSelectedItem().toString().equals("Raw")) {
+                    genome.addItem("No GR");
+                    genome.setEnabled(false);
+                }
+            }
+        });
+
         gbc.insets = new Insets(0, 0, 0, 5);
         gbc.anchor = GridBagConstraints.WEST;
         gbc.gridx = 1;
         gbc.gridy = 1;
         filePanel.add(typeBox, gbc);
+
+        gbc.insets = new Insets(0, 0, 0, 5);
+        gbc.anchor = GridBagConstraints.WEST;
+        gbc.gridx = 2;
+        gbc.gridy = 1;
+        filePanel.add(genome, gbc);
+
         closeButton = new JButton("X");
-        // closeButton = CustomButtonFactory.makeCustomButton(
-        // IconFactory.getStopIcon(30, 30),
-        // IconFactory.getStopHoverIcon(32, 32), 32, 32, "Stop upload");
         addCloseButtonListener(new closeButtonListener());
         GridBagConstraints gbc_btnX = new GridBagConstraints();
-        gbc_btnX.gridx = 2;
+        gbc_btnX.gridx = 3;
         gbc_btnX.gridy = 1;
         filePanel.add(closeButton, gbc_btnX);
 
         if (newExp) {
-            // uploadButton = CustomButtonFactory.makeCustomButton(
-            // IconFactory.getUploadIcon(25,25),
-            // IconFactory.getUploadHoverIcon(28,28), 28, 28,
-            // "Upload file to current experiment");
             JPanel p = new JPanel(new FlowLayout());
             JLabel selectLabel = new JLabel(" Select:");
             gbc.insets = new Insets(0, 0, 0, 5);
             gbc.anchor = GridBagConstraints.EAST;
-            gbc.gridx = 3;
+            gbc.gridx = 4;
             gbc.gridy = 1;
             filePanel.add(selectLabel, gbc);
             uploadBox = new JCheckBox();
             gbc.insets = new Insets(0, 0, 0, 5);
             gbc.anchor = GridBagConstraints.EAST;
-            gbc.gridx = 4;
+            gbc.gridx = 5;
             gbc.gridy = 1;
             filePanel.add(uploadBox, gbc);
         }
@@ -176,6 +208,15 @@ public class UploadFileRow extends JPanel {
     }
 
     /**
+     * Method returning the chosen genome release for the current file.
+     *
+     * @return String representing the genome release.
+     */
+    public String getGenomeRelease() {
+        return genome.getSelectedItem().toString();
+    }
+
+    /**
      * Method disabling the components of this file row.
      */
     public void disableRow() {
@@ -197,5 +238,13 @@ public class UploadFileRow extends JPanel {
         public void run() {
             parent.deleteFileRow(file);
         }
+    }
+
+    /**
+     * Method used to reset the type combobox, when a new species is chosen in
+     * the parent panel.
+     */
+    public void resetType() {
+        typeBox.setSelectedItem(typeBox.getSelectedItem());
     }
 }

@@ -3,7 +3,6 @@ package gui.sysadmin;
 import gui.sysadmin.annotationview.AddAnnotationPopup;
 import gui.sysadmin.annotationview.AnnotationButtonsListener;
 import gui.sysadmin.annotationview.AnnotationTableModel;
-import gui.sysadmin.annotationview.EditAnnotationPopup2;
 import gui.sysadmin.genomereleaseview.GenomeReleaseViewCreator;
 import gui.sysadmin.genomereleaseview.GenomereleaseTableModel;
 
@@ -16,6 +15,9 @@ import model.GenomizerModel;
 import util.AnnotationDataType;
 import util.GenomeReleaseData;
 
+/**
+ * The controller for the admin part of the program.
+ */
 public class SysadminController {
 
     private SysadminTab sysTab;
@@ -25,21 +27,39 @@ public class SysadminController {
 
     }
 
+    /**
+     * Constructs a controller for the admin part of the program
+     *
+     * @param model
+     *            is the model with which the controller communicates
+     */
     public SysadminController(GenomizerModel model) {
         this.model = model;
     }
 
+    /**
+     * Creates a listener for the buttons in the sysadmin tab.
+     *
+     * @return a new AnnotationButtonsListener
+     */
     public ActionListener createAnnotationButtonListener() {
         return new AnnotationButtonsListener(sysTab);
     }
 
-    /* You need me */
+    /**
+     * Sets the tab which the controller is connected to
+     *
+     * @param sysTab
+     */
     public void setSysadminPanel(SysadminTab sysTab) {
 
         this.sysTab = sysTab;
 
     }
 
+    /**
+     * Sends a message to the model to make a new annotation.
+     */
     public void sendNewAnnotation() {
         AddAnnotationPopup popup = sysTab.getPop();
         try {
@@ -52,53 +72,16 @@ public class SysadminController {
         }
     }
 
-    public void editAnnotation() {
-        EditAnnotationPopup2 edPop = sysTab.getEditPopup(); // TODO: START
-                                                            // HERE!!!!!
-        AnnotationDataType oldAnnotation = edPop.getAnnotation();
-        AnnotationDataType newAnnotation = new AnnotationDataType(
-                edPop.getNewAnnotationName(),
-                edPop.getNewAnnotationCategories(),
-                edPop.getNewAnnotationForcedValue());
-
-        if (!(oldAnnotation.name.equals(newAnnotation.name))) {
-            System.out
-                    .println("Name has been changed! Calling renameAnnotationField!");
-            // model.renameAnnotationField(oldAnnotation.name,
-            // newAnnotation.name);
-        } else {
-            System.out.println("No changes were made in name!");
-        }
-
-        if (!(oldAnnotation.isForced() == newAnnotation.isForced())) {
-            System.out
-                    .println("Forced value changed! Calling changeAnnotationForced (?)");
-            // model.changeAnnotationForced(name);
-        } else {
-            System.out.println("Forced value not changed");
-        }
-        System.out.println("There are " + newAnnotation.getValues().length
-                + " new values");
-        System.out.println("There are " + oldAnnotation.getValues().length
-                + " old values");
-        if (newAnnotation.getValues().length > oldAnnotation.getValues().length) {
-            System.out.println("New value(s) added to " + oldAnnotation.name
-                    + "!");
-            // model.addAnnotationValue(name, valueName);
-        }
-
-        if (newAnnotation.getValues().length < oldAnnotation.getValues().length) {
-            System.out.println("Value removed from " + oldAnnotation.name);
-            // model.removeAnnotationValue(name, valueName);
-        }
-
-    }
-
+    /**
+     * @return the list of current annotations from the database
+     */
     public util.AnnotationDataType[] getAnnotations() {
         return model.getAnnotations();
     }
 
-
+    /**
+     * @return a string array with the values of the "species"-annotation.
+     */
     public String[] getSpecies() {
 
         AnnotationDataType[] annotations = model.getAnnotations();
@@ -107,7 +90,6 @@ public class SysadminController {
 
             if (a.getName().equals("Species")) {
 
-                System.out.println("FOUND SPECIES!");
                 return a.getValues();
             }
         }
@@ -115,7 +97,10 @@ public class SysadminController {
         return null;
     }
 
-
+    /**
+     * Removes the annotation currently highlighted in the annotation table. If
+     * no annotation is selected, an error message will be shown.
+     */
     public void deleteAnnotation() {
 
         if (sysTab.getAnnotationTable().getSelectedRow() != -1) {
@@ -130,7 +115,8 @@ public class SysadminController {
                         "Are you sure you want to delete the "
                                 + annotation.name + " annotation?",
                         "Remove annotation", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
-                    if (model.deleteAnnotation(annotation.name)) {
+                    try {
+                        model.deleteAnnotation(annotation.name);
                         JOptionPane.showMessageDialog(null, annotation.name
                                 + " has been removed!");
                         SwingUtilities.invokeLater(new Runnable() {
@@ -140,16 +126,16 @@ public class SysadminController {
                                 updateAnnotationTable();
                             }
                         });
-                    } else {
-                        JOptionPane.showMessageDialog(null,
-                                "Could not remove annotation");
+
+                    } catch (Exception e) {
+                        JOptionPane.showMessageDialog(null, e.getMessage());
                     }
                 }
             } catch (IllegalArgumentException e) {
                 JOptionPane.showMessageDialog(null, e.getMessage());
             }
         } else {
-            System.out.println("Please select an annotation to delete");
+            JOptionPane.showMessageDialog(null, "No annotation selected!");
         }
     }
 
@@ -159,6 +145,12 @@ public class SysadminController {
 
         try {
             grdarray = model.getGenomeReleases();
+            if (!(grdarray == null)) {
+                if (grdarray.length == 0) {
+                    JOptionPane.showMessageDialog(null,
+                            "Could not get genomereleases!");
+                }
+            }
 
         } catch (IllegalArgumentException e) {
             JOptionPane.showMessageDialog(null, e.getMessage());
@@ -175,6 +167,9 @@ public class SysadminController {
         }
     }
 
+    /**
+     * Updates the table model of the table containing the current annotations.
+     */
     public void updateAnnotationTable() {
         AnnotationTableModel tableModel = (AnnotationTableModel) sysTab
                 .getAnnotationsView().getTableModel();
@@ -189,11 +184,18 @@ public class SysadminController {
         tableModel.setGenomeReleases(getGenomeReleases());
     }
 
-    public void sendNewGenomeRelease() {
+    public void addGenomeRelease() {
         GenomeReleaseViewCreator gr = sysTab.getGenomeReleaseView();
-        model.uploadGenomeReleaseFile(gr.getFileText(), gr.getSpeciesText(),
-                gr.getVersionText());
-        setGenomeReleaseTable();
+        if (model.addGenomeReleaseFile(gr.getFilenames(), gr.getSpeciesText(),
+                gr.getVersionText())) {
+
+            setGenomeReleaseTable();
+            JOptionPane.showMessageDialog(null,
+                    "Added genom release " + gr.getSelectedVersion()
+                            + " for species " + gr.getSpeciesText());
+        } else {
+            JOptionPane.showMessageDialog(null, "Could not add genome release");
+        }
     }
 
     public void clearAddGenomeText() {
@@ -201,27 +203,93 @@ public class SysadminController {
         gr.clearTextFields();
     }
 
-    public void renameAnnotationField(String oldName, String newName) {
-        model.renameAnnotationField(oldName, newName);
-
+    /**
+     * Sends a message to the model to rename an annotation
+     *
+     * @param oldName
+     *            is the annotation to be renamed
+     * @param newName
+     *            is the new name
+     * @return true if successfully renamed, otherwise false
+     */
+    public boolean renameAnnotationField(String oldName, String newName) {
+        return (model.renameAnnotationField(oldName, newName));
     }
 
-    public void renameAnnotationValue(String name, String oldValue,
+    /**
+     * Sends a message to the model to rename an annotation value
+     *
+     * @param name
+     *            is the name of the annotation
+     * @param oldValue
+     *            is the name of the annotation value to be renamed
+     * @param newValue
+     *            is the new name for the value
+     * @return true if successfully renamed, otherwise false
+     */
+    public boolean renameAnnotationValue(String name, String oldValue,
             String newValue) {
-        model.renameAnnotationValue(name, oldValue, newValue);
+        return model.renameAnnotationValue(name, oldValue, newValue);
 
     }
 
-    public void removeAnnotationValue(String annotationName, String annotationValue) {
-        model.removeAnnotationValue(annotationName, annotationValue);
+    /**
+     * Sends a message to the model to remove an annotation value
+     *
+     * @param annotationName
+     *            is the name of the annotation containing the value
+     * @param annotationValue
+     *            is the value to be removed
+     * @return true if successfully removed, otherwise false
+     */
+    public boolean removeAnnotationValue(String annotationName,
+            String annotationValue) {
+        return model.removeAnnotationValue(annotationName, annotationValue);
 
     }
 
-    public void addAnnotationValue(String annotationName, String valueName) {
-        model.addNewAnnotationValue(annotationName, valueName);
+    /**
+     * Adds a value to an annotation
+     *
+     * @param annotationName
+     *            the name of the annotation
+     * @param valueName
+     *            the name of the new value
+     * @return true if successfully created, otherwise false
+     */
+    public boolean addAnnotationValue(String annotationName, String valueName) {
+        return model.addNewAnnotationValue(annotationName, valueName);
     }
-    
+
+    /**
+     * @return the SysadminTab connected to the controller
+     */
     public SysadminTab getSysTab() {
         return sysTab;
+    }
+
+    public boolean addGenomRelease() {
+        return model.addGenomeRelease();
+    }
+
+    public void uploadGenomeReleaseProgress() {
+        new Thread(new Runnable() {
+            private boolean running;
+
+            @Override
+            public void run() {
+                running = true;
+                while (running) {
+                    running = sysTab.getGenomeReleaseView()
+                            .updateUploadProgress(model.getOngoingUploads());
+                    try {
+                        Thread.sleep(100);
+                    } catch (InterruptedException e) {
+                        running = false;
+                    }
+                }
+            }
+        }).start();
+
     }
 }

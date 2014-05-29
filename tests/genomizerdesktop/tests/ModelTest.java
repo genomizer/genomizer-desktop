@@ -6,20 +6,17 @@ import model.Model;
 
 import org.junit.Before;
 import org.junit.Test;
-import util.AnnotationDataType;
 import util.AnnotationDataValue;
 import util.ExperimentData;
 
-import java.io.BufferedWriter;
 import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
 import java.util.ArrayList;
 
 public class ModelTest {
     
     Model m;
-    
+    String username = "desktoptest";
+    String password = "umea@2014";
     @Before
     public void setUp() throws Exception {
         m = new Model();
@@ -34,13 +31,13 @@ public class ModelTest {
     @Test
     public void shouldLogin() throws Exception {
         assertThat(m.getUserID()).isEmpty();
-        assertThat(m.loginUser("genomizer", "supersecretpass")).isTrue();
+        assertThat(m.loginUser(username, password)).isEqualToIgnoringCase("true");
         assertThat(m.getUserID()).isNotEmpty();
     }
 
     @Test
     public void shouldLogout() throws Exception {
-        assertThat(m.loginUser("genomizer", "supersecretpass")).isTrue();
+        assertThat(m.loginUser(username, password)).isEqualToIgnoringCase("true");
         assertThat(m.getUserID()).isNotEmpty();
         assertThat(m.logoutUser()).isTrue();
         assertThat(m.getUserID()).isEmpty();
@@ -50,12 +47,12 @@ public class ModelTest {
     public void shouldAddExperiment() throws Exception {
         AnnotationDataValue[] values = new AnnotationDataValue[1];
         values[0] = new AnnotationDataValue("test", "name", "val");
-        assertThat(m.addNewExperiment("testexp", "genomizer", values)).isTrue();
+        assertThat(m.addNewExperiment("testexp", values)).isTrue();
     }
 
     @Test
     public void shouldUploadFile() throws Exception {
-        assertThat(m.uploadFile("test", new File("test"), "type", "user", false, "rn5")).isTrue();
+        assertThat(m.uploadFile("test", new File("test"), "type", "user", false, "fb5")).isTrue();
     }
 
     @Test
@@ -72,41 +69,5 @@ public class ModelTest {
                         "path=/var/www/data/Exp1/raw/file1.fastq");
     }
 
-    /*@Test
-    public void shouldUploadExperimentAndRemove() {
-        String expid = "thisisatestexp95996";
-        String homeDir = System.getProperty("user.home");
-        File file = new File(homeDir + "/.testupload.txt");
-        BufferedWriter fout;
-        try {
-            fout = new BufferedWriter(new FileWriter(file));
-            fout.write("test");
-            fout.newLine();
-            fout.flush();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        Model m2 = new Model();
-        m2.setIp("http://scratchy.cs.umu.se:7000");
-        m2.loginUser("genomizer", "supersecretpass");
-        AnnotationDataType[] types = m2.getAnnotations();
-        AnnotationDataValue[] values = new AnnotationDataValue[types.length];
-        for(int i = 0; i < types.length; i++) {
-            if(types[i].getName().equalsIgnoreCase("ExpID")) {
-                continue;
-            }
-            if(!types[i].getValues()[0].equalsIgnoreCase("freetext")) {
-                values[i] = new AnnotationDataValue(Integer.toString(i), types[i].getName(), types[i].getValues()[0]);
-            } else {
-                values[i] = new AnnotationDataValue(Integer.toString(i), types[i].getName(), "test");
-            }
-        }
-        assertThat(m2.search(expid + "[ExpID]")).isNull();
-        assertThat(m2.addNewExperiment(expid, "genomizer", values)).isTrue();
-        assertThat(m2.uploadFile(expid, file, "Profile", "genomizer", false, "rn5")).isTrue();
-        // SEARCH IS WRONG SOMEHOW
-        assertThat(m2.search(expid + "[ExpID]")).isNotNull();
-        assertThat(m2.deleteExperimentFromDatabase(expid)).isTrue();
-        assertThat(m2.search(expid + "[ExpID]")).isNull();
-    }*/
+    
 }

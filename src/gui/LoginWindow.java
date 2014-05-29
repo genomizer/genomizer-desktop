@@ -1,47 +1,65 @@
 package gui;
 
-import java.awt.GridBagLayout;
+import java.awt.BorderLayout;
+import java.awt.FlowLayout;
+import java.awt.Image;
+import java.awt.Toolkit;
+import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.net.URL;
 
+import javax.swing.Box;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
-import javax.swing.UIManager;
+
+import util.IconFactory;
 
 /**
  * Class for loginwindow. Presents a window that prompts for a username,
  * password and server with port. User authorization
- * 
- * @author
- * 
  */
 public class LoginWindow extends JFrame {
     
+    private static final long serialVersionUID = -150623476066679412L;
     private JButton loginButton;
     private JTextField usernameField;
     private JPasswordField passwordField;
     private JTextField ipField;
     private JPanel mainPanel;
+    private JPanel bottomPanel;
+    private JPanel buttonPanel;
+    private JPanel logoPanel;
     private JLabel errorLabel;
     
     /**
      * Constructor creating the login window and adding listeners.
      */
     public LoginWindow(final GenomizerView parent) {
+        URL url = ClassLoader.getSystemResource("icons/logo.png");
+        Toolkit kit = Toolkit.getDefaultToolkit();
+        Image img = kit.createImage(url);
+        setIconImage(img);
         addWindowListener(new WindowAdapter() {
             @Override
             public void windowClosed(WindowEvent e) {
                 parent.getFrame().dispose();
             }
+            
+            @Override
+            public void windowActivated(WindowEvent e) {
+                passwordField.requestFocusInWindow();
+            }
         });
         setTitle("Genomizer Login");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setSize(270, 180);
+        setSize(270, 280);
         setResizable(false);
         this.setLocationRelativeTo(parent.getFrame());
         
@@ -52,42 +70,71 @@ public class LoginWindow extends JFrame {
      * Sets the layout and looks to the login window
      */
     private void placeComponents() {
-        mainPanel = new JPanel();
-        mainPanel.setLayout(new GridBagLayout());
+        mainPanel = new JPanel(new BorderLayout());
+        bottomPanel = new JPanel();
+        logoPanel = new JPanel(new BorderLayout());
+        buttonPanel = new JPanel(new FlowLayout());
         add(mainPanel);
-        mainPanel.setLayout(null);
+        mainPanel.add(bottomPanel, BorderLayout.CENTER);
+        mainPanel.add(logoPanel, BorderLayout.NORTH);
+        mainPanel.add(buttonPanel, BorderLayout.SOUTH);
+        ImageIcon icon = IconFactory.getLogoIcon(70, 70);
+        JLabel picLabel = new JLabel(icon);
+        logoPanel.add(picLabel, BorderLayout.CENTER);
+        logoPanel.add(Box.createVerticalStrut(10), BorderLayout.NORTH);
+        bottomPanel.setLayout(null);
         
         JLabel usernameLabel = new JLabel("Username");
-        usernameLabel.setBounds(10, 10, 80, 25);
-        mainPanel.add(usernameLabel);
+        usernameLabel.setBounds(10, 40, 80, 25);
+        bottomPanel.add(usernameLabel);
         
         usernameField = new JTextField(20);
-        usernameField.setBounds(100, 10, 160, 25);
-        usernameField.setText("Genome researcher 1");
-        mainPanel.add(usernameField);
+        usernameField.setBounds(90, 40, 170, 25);
+        usernameField.setText("desktop");
+        bottomPanel.add(usernameField);
         
         JLabel passwordLabel = new JLabel("Password");
-        passwordLabel.setBounds(10, 40, 80, 25);
-        mainPanel.add(passwordLabel);
+        passwordLabel.setBounds(10, 70, 80, 25);
+        bottomPanel.add(passwordLabel);
         
         passwordField = new JPasswordField(20);
-        passwordField.setBounds(100, 40, 160, 25);
-        passwordField.setText("superhemligt");
-        mainPanel.add(passwordField);
+        passwordField.setBounds(90, 70, 170, 25);
+        passwordField.setText("umea@2014");
+        bottomPanel.add(passwordField);
         
         JLabel ipLabel = new JLabel("IP");
-        ipLabel.setBounds(10, 70, 80, 25);
-        mainPanel.add(ipLabel);
+        ipLabel.setBounds(10, 100, 80, 25);
+        bottomPanel.add(ipLabel);
         
         ipField = new JTextField(20);
-        ipField.setBounds(100, 70, 160, 25);
+        ipField.setBounds(90, 100, 170, 25);
         ipField.setText("scratchy.cs.umu.se:7000");
-        mainPanel.add(ipField);
+        bottomPanel.add(ipField);
         
-        loginButton = new JButton("login");
-        loginButton.setBounds(10, 110, 80, 25);
-        mainPanel.add(loginButton);
+        loginButton = new JButton("Login");
+        buttonPanel.add(loginButton);
         
+        // Add listeners to the JTextFields for if enter/return is pressed.
+        usernameField.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent actionEvent) {
+                loginButton.doClick();
+            }
+        });
+        
+        passwordField.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent actionEvent) {
+                loginButton.doClick();
+            }
+        });
+        
+        ipField.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent actionEvent) {
+                loginButton.doClick();
+            }
+        });
     }
     
     /**
@@ -112,10 +159,10 @@ public class LoginWindow extends JFrame {
     /**
      * Method for getting the password
      * 
-     * @return the password entered buy the user
+     * @return the password entered by the user
      */
     public String getPasswordInput() {
-        return passwordField.getText();
+        return new String(passwordField.getPassword());
     }
     
     /**
@@ -132,17 +179,19 @@ public class LoginWindow extends JFrame {
     }
     
     public void paintErrorMessage(String message) {
+        removeErrorMessage();
+        message = message.replace(".", "");
         errorLabel = new JLabel("<html><b>" + message + "</b></html>");
-        errorLabel.setIcon(UIManager.getIcon("OptionPane.warningIcon"));
-        errorLabel.setBounds(120, 100, 150, 45);
-        mainPanel.add(errorLabel);
+        // errorLabel.setIcon(UIManager.getIcon("OptionPane.warningIcon"));
+        errorLabel.setBounds(73, 0, 150, 45);
+        bottomPanel.add(errorLabel);
         repaint();
         revalidate();
     }
     
     public void removeErrorMessage() {
         if (errorLabel != null) {
-            mainPanel.remove(errorLabel);
+            bottomPanel.remove(errorLabel);
             errorLabel = null;
             repaint();
             revalidate();

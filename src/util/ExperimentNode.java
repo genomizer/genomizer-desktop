@@ -12,7 +12,7 @@ public class ExperimentNode extends AbstractMutableTreeTableNode implements
     
     private ExperimentData experiment;
     private String[] fileHeaders = new String[] {
-            "<html><b>File Name</html></b>", "<html><b>Date Added</html></b>",
+            "<html><b>File Name</html></b>", "<html><b>Date</html></b>",
             "<html><b>Uploaded By</html></b>" };
     
     public ExperimentNode(ExperimentData experiment, ArrayList<String> headings) {

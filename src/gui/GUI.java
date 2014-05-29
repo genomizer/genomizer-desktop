@@ -6,38 +6,45 @@ import gui.sysadmin.SysadminTab;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Image;
+import java.awt.Toolkit;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.io.File;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.concurrent.CopyOnWriteArrayList;
 
+import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
 import javax.swing.UIManager;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 
+import util.ActiveSearchPanel;
 import util.AnnotationDataType;
 import util.AnnotationDataValue;
 import util.ExperimentData;
 import util.FileData;
 import util.GenomeReleaseData;
+import util.Process;
 import util.ProcessFeedbackData;
 
+import communication.DownloadHandler;
 import communication.HTTPURLUpload;
 
 public class GUI extends JFrame implements GenomizerView {
 
     private static final long serialVersionUID = 6659839768426124853L;
     private JPanel mainPanel;
-    private JPanel processPanel;
     private JTabbedPane tabbedPane;
-    private SearchTab searchTab;
-    // private LoginPanel loginPanel;
     private UserPanel userPanel;
     private UploadTab uploadTab;
-    private AnalyzeTab analyzeTab;
     private WorkspaceTab workspaceTab;
     private LoginWindow loginWindow;
     private ProcessTab processTab;
@@ -45,6 +52,7 @@ public class GUI extends JFrame implements GenomizerView {
     private QuerySearchTab querySearchTab;
     private DownloadWindow downloadWindow;
     private RatioCalcPopup ratioCalcPopup;
+    private Process process;
 
     /**
      * Initiates the main view of the program.
@@ -52,32 +60,59 @@ public class GUI extends JFrame implements GenomizerView {
     public GUI() {
 
         setLookAndFeel();
+
+        /*
+         * When the window is activated, set the focus to the search button.
+         * This prevents the user from accidentally pressing the log out button
+         * after logging in.
+         */
+        addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowActivated(WindowEvent e) {
+                querySearchTab.getSearchButton().requestFocusInWindow();
+            }
+        });
+
         this.setTitle("Genomizer");
-        setSize(1255, 768);
-        this.setMinimumSize(new Dimension(1255, 768));
+        setSize(1024, 768);
+        this.setMinimumSize(new Dimension(1024, 768));
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         BorderLayout bl = new BorderLayout();
         mainPanel = new JPanel(bl);
         userPanel = new UserPanel();
         loginWindow = new LoginWindow(this);
         ratioCalcPopup = new RatioCalcPopup(this);
+        process = new Process();
 
         add(mainPanel);
 
         tabbedPane = new JTabbedPane();
         tabbedPane.setFocusable(false);
         mainPanel.add(tabbedPane);
-        // URL url = ClassLoader.getSystemResource("icons/genomizer.png");
-        // Toolkit kit = Toolkit.getDefaultToolkit();
-        // Image img = kit.createImage(url);
-        // setIconImage(img);
+        URL url = ClassLoader.getSystemResource("icons/logo.png");
+        Toolkit kit = Toolkit.getDefaultToolkit();
+        Image img = kit.createImage(url);
+        setIconImage(img);
         mainPanel.add(userPanel, BorderLayout.NORTH);
         this.setLocationRelativeTo(null);
     }
 
+    public void addChangedTabListener(ChangeListener listener) {
+        tabbedPane.addChangeListener(listener);
+    }
+
+    public int getSelectedIndex() {
+        return tabbedPane.getSelectedIndex();
+    }
+
     @Override
-    public void addAnalyzeSelectedListener(ActionListener listener) {
-        workspaceTab.addAnalyzeSelectedListener(listener);
+    public void addUploadToListener(ActionListener listener) {
+        workspaceTab.addUploadToListener(listener);
+    }
+
+    @Override
+    public LoginWindow getLoginWindow() {
+        return loginWindow;
     }
 
     @Override
@@ -100,11 +135,6 @@ public class GUI extends JFrame implements GenomizerView {
     }
 
     @Override
-    public void addConvertFileListener(ActionListener listener) {
-        processTab.addConvertFileListener(listener);
-    }
-
-    @Override
     public void addRawToProfileDataListener(ActionListener listener) {
         processTab.addRawToProfileDataListener(listener);
     }
@@ -113,16 +143,6 @@ public class GUI extends JFrame implements GenomizerView {
      * @Override public void addAddPopupListener(ActionListener
      * addPopupListener) { sysadminTab.addAddPopupListener(addPopupListener); }
      */
-
-    @Override
-    public void addRawToRegionDataListener(ActionListener listener) {
-        processTab.addRawToRegionDataListener(listener);
-    }
-
-    @Override
-    public void addScheduleFileListener(ActionListener listener) {
-        processTab.addScheduleFileListener(listener);
-    }
 
     public void addSearchToWorkspaceListener(ActionListener listener) {
         querySearchTab.addAddToWorkspaceButtonListener(listener);
@@ -159,14 +179,14 @@ public class GUI extends JFrame implements GenomizerView {
     }
 
     public void addSelectFilesToUploadButtonListener(ActionListener listener) {
-        uploadTab.getUploadToExistingExpPanel()
-                .addSelectFilesToUploadButtonListener(listener);
+        uploadTab.getExistExpPanel().addSelectFilesToUploadButtonListener(
+                listener);
     }
 
     @Override
     public void addUploadToExperimentButtonListener(ActionListener listener) {
-        uploadTab.getUploadToExistingExpPanel()
-                .addUploadToExperimentButtonListener(listener);
+        uploadTab.getExistExpPanel().addUploadToExperimentButtonListener(
+                listener);
     }
 
     public void addDeleteFromDatabaseListener(ActionListener listener) {
@@ -225,27 +245,12 @@ public class GUI extends JFrame implements GenomizerView {
     }
 
     /**
-     * @return The marked file data from the process tab.
-     */
-    @Override
-    public ArrayList<FileData> getAllMarkedFileData() {
-        return processTab.getAllMarkedFileData();
-    }
-
-    /**
      * @return The marked files from the process tab.
      */
     @Override
     public ArrayList<FileData> getAllMarkedFiles() {
         return processTab.getAllMarkedFiles();
 
-    }
-
-    /**
-     * @return The search tab.
-     */
-    public JPanel getSearchPanel() {
-        return searchTab;
     }
 
     /**
@@ -334,7 +339,9 @@ public class GUI extends JFrame implements GenomizerView {
      */
     @Override
     public void updateLogout() {
+
         this.setVisible(false);
+
         loginWindow.setVisible(true);
     }
 
@@ -380,17 +387,6 @@ public class GUI extends JFrame implements GenomizerView {
     }
 
     /**
-     * Sets the searchTab of the GUI.
-     *
-     * @param searchTab
-     *            The SearchTab to set the attribute to.
-     */
-    public void setSearchTab(SearchTab searchTab) {
-        this.searchTab = searchTab;
-        // tabbedPane.add("SEARCH", searchTab);
-    }
-
-    /**
      * Sets the uploadTab of the GUI. Also sets the name of the tab in the
      * tabbedPane.
      *
@@ -415,19 +411,6 @@ public class GUI extends JFrame implements GenomizerView {
     }
 
     /**
-     * Sets the analyzeTab of the GUI. Also sets the name of the tab in the
-     * tabbedPane.
-     *
-     * @param analyzeTab
-     *            The AnalyzeTab to set the attribute to.
-     */
-    public void setAnalyzeTab(AnalyzeTab analyzeTab) {
-        this.analyzeTab = analyzeTab;
-        tabbedPane.addTab("ANALYZE", null, analyzeTab, "Analyze");
-        // tabbedPane.setEnabledAt(4, false);
-    }
-
-    /**
      * Sets the sysadminTab of the GUI. Also sets the name of the tab in the
      * tabbedPane.
      *
@@ -436,7 +419,7 @@ public class GUI extends JFrame implements GenomizerView {
      */
     public void setSysAdminTab(SysadminTab sat) {
         this.sysadminTab = sat;
-        tabbedPane.addTab("SYSTEM ADMINISTRATION", null, sysadminTab,
+        tabbedPane.addTab("ADMINISTRATION", null, sysadminTab,
                 "System Administration");
 
     }
@@ -486,29 +469,21 @@ public class GUI extends JFrame implements GenomizerView {
         // TESTING
         for (int i = 0; i < fileArray.size(); i++) {
 
-            System.out.println(fileArray.get(i).filename);
+            // System.out.println(fileArray.get(i).filename);
 
         }
         tabbedPane.setSelectedIndex(2);
-        processTab.setFileInfo(allFileData, getSelectedDataInWorkspace());
-        // processTab
+        processTab.setFileInfo(getSelectedDataInWorkspace());
 
     }
-
-    /*
-     * @Override public void closePopup() { sysadminTab.closePopup(); }
-     *
-     * @Override public void annotationPopup() { sysadminTab.popup(); }
-     */
 
     /**
      *
      * @param message
-     * @param color
      */
     @Override
-    public void printToConvertText(String message, String color) {
-        processTab.printToProfileText(message, color);
+    public void printToConsole(String message) {
+        processTab.printToConsole(message);
     }
 
     /**
@@ -540,29 +515,10 @@ public class GUI extends JFrame implements GenomizerView {
         loginWindow.setVisible(true);
     }
 
-    /*
-     * @Override public void addDeleteAnnotationListener(ActionListener
-     * listener) { sysadminTab.addDeleteAnnotationListener(listener); }
-     */
     @Override
     public void setSysadminController(SysadminController sysadminController) {
         sysadminTab.setController(sysadminController);
 
-    }
-
-    @Override
-    public void addNewExpButtonListener(ActionListener listener) {
-        uploadTab.addNewExpButtonListener(listener);
-    }
-
-    @Override
-    public void addSelectButtonListener(ActionListener listener) {
-        uploadTab.addSelectButtonListener(listener);
-    }
-
-    @Override
-    public void addUploadButtonListener(ActionListener listener) {
-        uploadTab.addUploadButtonListener(listener);
     }
 
     /**
@@ -573,59 +529,50 @@ public class GUI extends JFrame implements GenomizerView {
      */
     @Override
     public void createNewExp(AnnotationDataType[] annotations) {
-        uploadTab.createNewExp(annotations);
+        uploadTab.addNewExpPanel(annotations);
     }
 
     @Override
-    public void selectFilesToNewExp(File[] files) {
-        uploadTab.createUploadFileRow(files);
+    public void addNewExpButtonListener(ActionListener listener) {
+        uploadTab.addNewExpButtonListener(listener);
     }
 
     @Override
-    public void selectFilesToExistingExp(File[] files) {
-        uploadTab.getUploadToExistingExpPanel().createUploadFileRow(files);
-    }
-
-    /**
-     * @return The GUI's downloadWindow.
-     */
-    public DownloadWindow getDownloadWindow() {
-        return downloadWindow;
+    public void addSelectButtonListener(ActionListener listener) {
+        uploadTab.getNewExpPanel().addSelectButtonListener(listener);
     }
 
     @Override
-    public String[] getParameters() {
-        return processTab.getBowtieParameters();
+    public void addUploadButtonListener(ActionListener listener) {
+        uploadTab.getNewExpPanel().addUploadButtonListener(listener);
+    }
+
+    public void addUploadSelectedFilesListener(ActionListener listener) {
+        uploadTab.getNewExpPanel().addUploadSelectedFilesListener(listener);
     }
 
     @Override
     public ArrayList<File> getFilesToUpload() {
-        return uploadTab.getUploadFiles();
+        return uploadTab.getNewExpPanel().getUploadFiles();
+    }
+
+    public ArrayList<File> getSelectedFilesToUpload() {
+        return uploadTab.getNewExpPanel().getSelectedFilesToUpload();
     }
 
     @Override
     public AnnotationDataValue[] getUploadAnnotations() {
-        return uploadTab.getUploadAnnotations();
-    }
-
-    @Override
-    public void setBowtieParameters() {
-        processTab.setBowtieParameters();
-    }
-
-    @Override
-    public JList getfileList() {
-        return processTab.getFileList();
+        return uploadTab.getNewExpPanel().getUploadAnnotations();
     }
 
     @Override
     public String getNewExpName() {
-        return uploadTab.getNewExpID();
+        return uploadTab.getNewExpPanel().getNewExpID();
     }
 
     @Override
     public HashMap<String, String> getFilesToUploadTypes() {
-        return uploadTab.getTypes();
+        return uploadTab.getNewExpPanel().getTypes();
     }
 
     /**
@@ -638,16 +585,7 @@ public class GUI extends JFrame implements GenomizerView {
      *            disabled (false).
      */
     public void enableUploadButton(boolean b) {
-        uploadTab.enableUploadButton(b);
-    }
-
-    public String[] getRatioCalcParameters() {
-        return ratioCalcPopup.getRatioCalcParameters();
-    }
-
-    @Override
-    public String[] getOtherParameters() {
-        return processTab.getOtherParameters();
+        uploadTab.getNewExpPanel().enableUploadButton(b);
     }
 
     /**
@@ -658,7 +596,43 @@ public class GUI extends JFrame implements GenomizerView {
      */
     @Override
     public void deleteUploadFileRow(File f) {
-        uploadTab.deleteFileRow(f);
+        uploadTab.getNewExpPanel().deleteFileRow(f);
+    }
+
+    @Override
+    public void selectFilesToNewExp(File[] files) {
+        uploadTab.getNewExpPanel().createUploadFileRow(files);
+    }
+
+    @Override
+    public void selectFilesToExistingExp(File[] files) {
+        uploadTab.getExistExpPanel().createUploadFileRow(files);
+    }
+
+    /**
+     * @return The GUI's downloadWindow.
+     */
+    public DownloadWindow getDownloadWindow() {
+        return downloadWindow;
+    }
+
+    @Override
+    public String[] getParameters() {
+        return processTab.getRegularParameters();
+    }
+
+    @Override
+    public void setBowtieParameters() {
+        processTab.setRegularParameters();
+    }
+
+    @Override
+    public JList getfileList() {
+        return processTab.getFileList();
+    }
+
+    public String[] getRatioCalcParameters() {
+        return ratioCalcPopup.getRatioCalcParameters();
     }
 
     @Override
@@ -666,16 +640,12 @@ public class GUI extends JFrame implements GenomizerView {
         processTab.addRatioCalcListener(listener);
     }
 
-    public void addCancelListener(ActionListener listener) {
-        ratioCalcPopup.addCancelListener(listener);
-    }
-
+    // public void addCancelListener(ActionListener listener) {
+    // ratioCalcPopup.addCancelListener(listener);
+    // }
+    //
     public void addOkListener(ActionListener listener) {
         ratioCalcPopup.addOkListener(listener);
-    }
-
-    public void addUploadSelectedFilesListener(ActionListener listener) {
-        uploadTab.addUploadSelectedFiles(listener);
     }
 
     @Override
@@ -710,12 +680,8 @@ public class GUI extends JFrame implements GenomizerView {
         processTab.setGenomeFileList(genomeReleases);
     }
 
-    public ArrayList<File> getSelectedFilesToUpload() {
-        return uploadTab.getSelectedFilesToUpload();
-    }
-
     public void removeUploadExpName() {
-        uploadTab.removeExpName();
+        // uploadTab.removeExpName();
     }
 
     public void removeSelectedFromWorkspace() {
@@ -723,23 +689,105 @@ public class GUI extends JFrame implements GenomizerView {
     }
 
     public void disableSelectedRow(File f) {
-        uploadTab.disableRow(f);
+        // uploadTab.disableRow(f);
     }
 
     public boolean isCorrectToProcess() {
-        return processTab.isCorrectToProcess();
+        boolean sgrFormat = processTab.radioGroup
+                .isSelected(processTab.outputSGR.getModel());
+        return process.isCorrectToProcess(processTab.smoothWindowSize,
+                processTab.stepPosition, processTab.stepSize, sgrFormat,
+                processTab.useSmoothing, processTab.stepSizeBox);
     }
 
     public boolean isRatioCorrectToProcess() {
-        return ratioCalcPopup.isRatioCorrectToProcess();
+        return !processTab.useRatio()
+                || process.isRatioCorrectToProcess(
+                        ratioCalcPopup.ratioWindowSize,
+                        ratioCalcPopup.inputReads, ratioCalcPopup.chromosome,
+                        ratioCalcPopup.ratioStepPosition);
     }
 
-    public void setProfileButton(boolean bool){
-        processTab.setProfileButton(bool);
+    public void setProfileButton(boolean bool) {
+      //  processTab.setProfileButton(bool);
     }
 
     @Override
     public boolean useRatio() {
         return processTab.useRatio();
+    }
+
+    public ActiveSearchPanel getActiveSearchPanel() {
+        return querySearchTab.getActivePanel();
+    }
+
+    public JButton getBackButton() {
+        return querySearchTab.getBackButton();
+    }
+
+    public String getSelectedSpecies() {
+        return uploadTab.getNewExpPanel().getSelectedSpecies();
+    }
+
+    public void addSpeciesSelectedListener(ActionListener listener) {
+        uploadTab.getNewExpPanel().addSpeciesSelectedListener(listener);
+    }
+
+    public void setGenomeReleases(GenomeReleaseData[] grd) {
+        uploadTab.setGenomeReleases(grd);
+    }
+
+    public String getGenomeVersion(File f) {
+        return uploadTab.getGenomeVersion(f);
+    }
+
+    public void resetGUI() {
+        while (tabbedPane.getTabCount() > 0) {
+            tabbedPane.removeTabAt(0);
+        }
+        UploadTab ut = new UploadTab();
+        ProcessTab pt = new ProcessTab();
+        WorkspaceTab wt = new WorkspaceTab();
+        SysadminTab sat = new SysadminTab();
+        QuerySearchTab qst = new QuerySearchTab();
+        setQuerySearchTab(qst);
+        setUploadTab(ut);
+        setProcessTab(pt);
+        setWorkspaceTab(wt);
+        setSysAdminTab(sat);
+        repaint();
+        revalidate();
+    }
+
+    public JTabbedPane getTabbedPane() {
+        return tabbedPane;
+    }
+
+    public void addDeleteSelectedListener(ActionListener listener) {
+        processTab.addDeleteSelectedListener(listener);
+    }
+
+    public ArrayList<ExperimentData> getFileInfo() {
+        return processTab.getFileInfo();
+    }
+
+    @Override
+    public void setFileInfo(ArrayList<ExperimentData> fileInfo) {
+        processTab.setFileInfo(fileInfo);
+    }
+
+    @Override
+    public void setOngoingDownloads(
+            CopyOnWriteArrayList<DownloadHandler> ongoingDownloads) {
+        workspaceTab.setOngoingDownloads(ongoingDownloads);
+
+    }
+
+    public void changeTabInWorkspace(int tabIndex) {
+        workspaceTab.changeTab(tabIndex);
+    }
+
+    public void clearSearchSelection() {
+        querySearchTab.clearSearchSelection();
     }
 }

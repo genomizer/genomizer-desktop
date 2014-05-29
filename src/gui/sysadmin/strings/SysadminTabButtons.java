@@ -7,8 +7,8 @@ import java.util.HashMap;
  */
 public enum SysadminTabButtons {
     /*
-     * To add a new name for button, simple type in the name of the enum, and
-     * the name of the button within parenthesis.
+     * To add a new name for button, add the name to the SysStrings class first
+     * , and the add it as below with the name of the button within parenthesis.
      */
     ANNOTATIONS(SysStrings.ANNOTATIONS), USERS(SysStrings.USERS), GENOMES(
             SysStrings.GENOME);

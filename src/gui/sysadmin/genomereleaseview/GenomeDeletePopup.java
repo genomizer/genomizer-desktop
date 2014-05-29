@@ -3,13 +3,15 @@ package gui.sysadmin.genomereleaseview;
 import gui.sysadmin.SysadminTab;
 import gui.sysadmin.strings.SysStrings;
 
-import javax.swing.*;
-import java.awt.*;
+import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 
 /**
  * Created by dv12ilr on 2014-05-16.
  */
 public class GenomeDeletePopup extends JFrame {
+
+    /** The popup triggered when the user wants to delete a genome release. */
 
     private SysadminTab sysTab;
     private String specie;

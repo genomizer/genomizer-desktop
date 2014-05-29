@@ -8,9 +8,13 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.concurrent.CopyOnWriteArrayList;
 
+import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JList;
+import javax.swing.JTabbedPane;
+import javax.swing.event.ChangeListener;
 
+import util.ActiveSearchPanel;
 import util.AnnotationDataType;
 import util.AnnotationDataValue;
 import util.ExperimentData;
@@ -18,6 +22,7 @@ import util.FileData;
 import util.GenomeReleaseData;
 import util.ProcessFeedbackData;
 
+import communication.DownloadHandler;
 import communication.HTTPURLUpload;
 
 /**
@@ -34,13 +39,14 @@ public interface GenomizerView {
      * @param listener
      *            The listener
      */
-    public void addAnalyzeSelectedListener(ActionListener listener);
+
+    public void addUploadToListener(ActionListener listener);
 
     public void refreshSearch();
 
-    public void addLoginListener(ActionListener listener);
+    LoginWindow getLoginWindow();
 
-    public void addScheduleFileListener(ActionListener listener);
+    public void addLoginListener(ActionListener listener);
 
     public void addSearchToWorkspaceListener(ActionListener listener);
 
@@ -52,13 +58,9 @@ public interface GenomizerView {
 
     public void addDownloadFileListener(ActionListener listener);
 
-    public void addConvertFileListener(ActionListener listener);
-
     public void addQuerySearchListener(ActionListener listener);
 
     public void addRawToProfileDataListener(ActionListener listener);
-
-    public void addRawToRegionDataListener(ActionListener listener);
 
     public void addAddToExistingExpButtonListener(
             ActionListener addToExistingExpButtonListener);
@@ -105,21 +107,17 @@ public interface GenomizerView {
 
     public int getSelectedRowAtAnnotationTable();
 
-    public ArrayList<FileData> getAllMarkedFileData();
-
     public void updateLoginAccepted(String username, String pwd, String name);
 
     public void updateLoginNeglected(String errorMessage);
 
     public void updateLogout();
 
-    // public void updateQuerySearchResults(ExperimentData[] searchResults);
-
     public void setSearchAnnotationTypes(AnnotationDataType[] annotationTypes);
 
     public void setProcessFileList(ArrayList<FileData> arrayList);
 
-    public void printToConvertText(String message, String color);
+    public void printToConsole(String message);
 
     public void setSysadminController(SysadminController sysadminController);
 
@@ -153,8 +151,6 @@ public interface GenomizerView {
 
     public String[] getRatioCalcParameters();
 
-    public String[] getOtherParameters();
-
     public void deleteUploadFileRow(File f);
 
     public void addRatioCalcListener(ActionListener listener);
@@ -170,9 +166,10 @@ public interface GenomizerView {
     public void setOngoingUploads(
             CopyOnWriteArrayList<HTTPURLUpload> ongoingUploads);
 
-    public void addOkListener(ActionListener listener);
+    public void setOngoingDownloads(
+            CopyOnWriteArrayList<DownloadHandler> ongoingDownloads);
 
-    public void addCancelListener(ActionListener listener);
+    public void addOkListener(ActionListener listener);
 
     public RatioCalcPopup getRatioCalcPopup();
 
@@ -195,4 +192,34 @@ public interface GenomizerView {
     public void setProfileButton(boolean bool);
 
     public boolean useRatio();
+
+    public ActiveSearchPanel getActiveSearchPanel();
+
+    public JButton getBackButton();
+
+    public void resetGUI();
+
+    public void changeTabInWorkspace(int tabIndex);
+
+    public JTabbedPane getTabbedPane();
+
+    public String getSelectedSpecies();
+
+    public void addSpeciesSelectedListener(ActionListener listener);
+
+    public void setGenomeReleases(GenomeReleaseData[] grd);
+
+    public String getGenomeVersion(File f);
+
+    public void addDeleteSelectedListener(ActionListener listener);
+
+    public ArrayList<ExperimentData> getFileInfo();
+
+    public void setFileInfo(ArrayList<ExperimentData> fileInfo);
+
+    public void clearSearchSelection();
+
+    public int getSelectedIndex();
+
+    public void addChangedTabListener(ChangeListener listener);
 }

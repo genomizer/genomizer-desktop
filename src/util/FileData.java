@@ -13,10 +13,10 @@ public class FileData {
     public String date;
     public String path;
     public String url;
-
+    
     /**
      * Class representing files data
-     *
+     * 
      * @param fileId
      * @param experimentID
      * @param type
@@ -47,11 +47,11 @@ public class FileData {
         this.url = url;
         this.filename = fileName;
     }
-
+    
     public String getName() {
         return filename;
     }
-
+    
     public boolean equals(Object o) {
         return (((FileData) o)).id.equals(id);
     }

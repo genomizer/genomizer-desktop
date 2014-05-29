@@ -11,7 +11,6 @@ import com.google.gson.Gson;
 public class ExperimentData {
     
     public String name;
-    public String createdBy;
     public ArrayList<FileData> files;
     public ArrayList<AnnotationDataValue> annotations;
     
@@ -19,11 +18,9 @@ public class ExperimentData {
         
     }
     
-    public ExperimentData(String name, String createdBy,
-            ArrayList<FileData> files,
+    public ExperimentData(String name, ArrayList<FileData> files,
             ArrayList<AnnotationDataValue> annotations) {
         this.name = name;
-        this.createdBy = createdBy;
         this.files = files;
         this.annotations = annotations;
     }
@@ -40,8 +37,6 @@ public class ExperimentData {
      */
     public ArrayList<String> getAnnotationValueList(ArrayList<String> headings) {
         ArrayList<String> annotationList = new ArrayList<String>();
-        // annotationList.add(name);
-        // annotationList.add(createdBy);
         
         for (String heading : headings) {
             boolean hasValue = false;
@@ -52,13 +47,8 @@ public class ExperimentData {
                     annotationList.add(name);
                 }
                 hasValue = true;
-            } else if (heading.equals("Experiment Created By")) {
-                if (createdBy == null || createdBy.equals("")) {
-                    annotationList.add("-");
-                } else {
-                    annotationList.add(createdBy);
-                }
-                hasValue = true;
+            } else if (heading.equals("")) {
+                annotationList.add("-");
             } else {
                 for (AnnotationDataValue annotation : annotations) {
                     if (heading.equals(annotation.name)) {
@@ -134,13 +124,38 @@ public class ExperimentData {
                     .add(new AnnotationDataValue("2", "Annotationx", "x"));
             annotationData
                     .add(new AnnotationDataValue("2", "Annotationy", "y"));
-            searchResponses[i] = new ExperimentData("Experiment" + i,
-                    names[rand.nextInt(5)], fileData, annotationData);
+            searchResponses[i] = new ExperimentData("Experiment" + i, fileData,
+                    annotationData);
             
         }
         
         return searchResponses;
         
+    }
+    
+    public void convertToUTF8() {
+        if (this.name != null && !this.name.isEmpty()) {
+            this.name = UTF8Converter.convertFromUTF8(name);
+        }
+        for (AnnotationDataValue value : annotations) {
+            if (value.name != null && !value.name.isEmpty()) {
+                value.name = UTF8Converter.convertFromUTF8(value.name);
+            }
+            if (value.value != null && !value.value.isEmpty()) {
+                value.value = UTF8Converter.convertFromUTF8(value.value);
+            }
+        }
+        for (FileData data : files) {
+            if (data.filename != null && !data.filename.isEmpty()) {
+                data.filename = UTF8Converter.convertFromUTF8(data.filename);
+            }
+            if (data.author != null && !data.author.isEmpty()) {
+                data.author = UTF8Converter.convertFromUTF8(data.author);
+            }
+            if (data.uploader != null && !data.uploader.isEmpty()) {
+                data.uploader = UTF8Converter.convertFromUTF8(data.uploader);
+            }
+        }
     }
     
     public boolean equals(Object o) {

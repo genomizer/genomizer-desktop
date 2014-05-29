@@ -1,7 +1,5 @@
 package communication;
 
-import org.apache.commons.codec.binary.Base64;
-
 import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
@@ -9,31 +7,23 @@ import java.net.URL;
 
 /**
  * Created by Christoffer on 2014-04-30.
- *
  */
 public class DownloadHandler {
 
     private HttpURLConnection conn;
-    private String username;
-    private String password;
+    private String userID;
     private String fileName;
     private boolean finished;
     private int totalDownload;
     private int perSecond;
 
-    public DownloadHandler(String username, String password, String fileName) {
-        this.username = username;
-        this.password = password;
+    public DownloadHandler(String userID, String fileName) {
+        this.userID = userID;
         this.fileName = fileName;
     }
 
     public boolean download(String url, String localFilePath) {
         try {
-            // Use this url in the real version. vvv
-            /*
-             * URL targetUrl = new URL(
-             * "http://scratchy.cs.umu.se:8090/html/download.php?path=" + url);
-             */
             File file = new File(localFilePath);
             if (file.isFile()) {
                 fileName = file.getName();
@@ -41,21 +31,18 @@ public class DownloadHandler {
             url = url.replaceFirst("\\u003d", "=");
 
             URL targetUrl = new URL(url);
-            String authString = username + ":" + password;
+            /*String authString = userID;
             byte[] authEncBytes = Base64.encodeBase64(authString.getBytes());
-            String authStringEnc = new String(authEncBytes);
+            String authStringEnc = new String(authEncBytes);*/
             conn = (HttpURLConnection) targetUrl.openConnection();
             conn.setRequestMethod("GET");
             conn.setRequestProperty("Content-Type", "text/plain");
-            conn.setRequestProperty("Authorization", "Basic " + authStringEnc);
+            conn.setRequestProperty("Authorization", userID);
             int responseCode;
             responseCode = conn.getResponseCode();
             if (responseCode != 200) {
-                System.out
-                        .println("Error wrong response code: " + responseCode);
                 return false;
             }
-            System.out.println(responseCode);
             InputStream in = conn.getInputStream();
             String buffer;
             totalDownload = 0;
@@ -80,31 +67,23 @@ public class DownloadHandler {
                 writer.close();
                 reader.close();
             } else {
-                System.out.println(conn.getContentLength());
                 byte[] buff = new byte[conn.getContentLength() + 1];
-                int total = 0;
                 int count = in.read(buff, 0, conn.getContentLength());
-                total += count;
+                totalDownload += count;
                 fileOut.write(buff, 0, count);
                 while ((count = in.read(buff)) != -1 && !isFinished()) {
-                    total += count;
-                    System.out.println(count);
+                    totalDownload += count;
                     if (count > 0) {
                         fileOut.write(buff, 0, count);
                     }
                 }
-                System.out.println("SSize: " + total + " Expected: " + conn.getContentLength());
-
             }
             in.close();
             fileOut.close();
             finished = true;
-            System.out.println("Size: " + totalDownload + " Expected: "
-                    + conn.getContentLength());
             conn.disconnect();
 
         } catch (MalformedURLException e) {
-            System.out.println("ERROR: The url was not correct: " + url);
             return false;
         } catch (IOException e) {
             e.printStackTrace();

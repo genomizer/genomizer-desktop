@@ -1,58 +1,103 @@
 package gui;
 
 import java.awt.BorderLayout;
-import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
+import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
-import java.util.Collections;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JProgressBar;
+import javax.swing.JScrollPane;
+import javax.swing.JTabbedPane;
+import javax.swing.SwingUtilities;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 
 import util.ExperimentData;
 import util.TreeTable;
 
+import communication.DownloadHandler;
+
+/**
+ * A class representing a workspace tab in a view part of an application used by
+ * genome researchers. This class allows the user to delete files from the
+ * database, download files, upload files to current experiment, process
+ * experiment and remove files from the workspace.
+ * 
+ * @author
+ */
 public class WorkspaceTab extends JPanel {
     
     private static final long serialVersionUID = -7278768268151806081L;
     private TreeTable table;
-    private JPanel buttonPanel, filePanel;
+    private JPanel buttonPanel;
     private JButton deleteButton, removeButton, downloadButton;
-    private JButton analyzeButton, browseButton, processButton;
+    private JButton uploadToButton, processButton, ongoingDownloadsButton;
+    private JTabbedPane tabbedPane;
+    private JPanel ongoingDownloadsPanel;
+    private JPanel bottomPanel;
+    private JPanel filePanel;
+    private CopyOnWriteArrayList<DownloadHandler> ongoingDownloads;
+    private JScrollPane bottomScroll;
     
+    /**
+     * Constructor creating the workspace tab.
+     */
     public WorkspaceTab() {
         setLayout(new BorderLayout());
         buttonPanel = new JPanel();
         buttonPanel.setBorder(BorderFactory.createTitledBorder("Workspace"));
         filePanel = new JPanel(new BorderLayout());
-        add(buttonPanel, BorderLayout.NORTH);
-        add(filePanel, BorderLayout.CENTER);
-        
+        table = new TreeTable();
+        filePanel.add(table, BorderLayout.CENTER);
+        bottomPanel = new JPanel(new BorderLayout());
+        bottomScroll = new JScrollPane(bottomPanel);
+        bottomScroll.setBorder(BorderFactory.createEmptyBorder());
+        ongoingDownloadsPanel = new JPanel(new GridLayout(0, 1));
         buttonPanel.setLayout(new FlowLayout());
-        
-        // buttonPanel.setBackground(new Color(210, 210, 210));
-        filePanel.setBackground(Color.white);
-        
         createButtons();
         addToButtonPanel();
-        buttonPanel.setVisible(true);
-        table = new TreeTable();
-        // table.setContent(ExperimentData.getExample());
-        filePanel.add(table, BorderLayout.CENTER);
+        bottomPanel.add(ongoingDownloadsPanel, BorderLayout.NORTH);
+        add(buttonPanel, BorderLayout.NORTH);
+        setTabbedPane();
+        updateOngoingDownloadsPanel();
         setVisible(true);
     }
     
+    private void setTabbedPane() {
+        tabbedPane = new JTabbedPane(JTabbedPane.TOP);
+        tabbedPane.addTab("Workspace", filePanel);
+        tabbedPane.addTab("Downloads", bottomScroll);
+        tabbedPane.addChangeListener(new ChangeListener() {
+            public void stateChanged(ChangeEvent e) {
+                boolean b = false;
+                if (tabbedPane.getSelectedIndex() == 0) {
+                    b = true;
+                }
+                deleteButton.setEnabled(b);
+                removeButton.setEnabled(b);
+                processButton.setEnabled(b);
+                uploadToButton.setEnabled(b);
+                downloadButton.setEnabled(b);
+                
+            }
+        });
+        add(tabbedPane, BorderLayout.CENTER);
+    }
+    
+    /**
+     * A method creating the buttons of the workspace tab.
+     */
     private void createButtons() {
-        // removeButton = CustomButtonFactory.makeCustomButton(
-        // IconFactory.getClearIcon(50, 50),
-        // IconFactory.getClearHoverIcon(52, 52), 52, 52,
-        // "Remove selected data from workspace");
         deleteButton = new JButton("Delete from database");
         deleteButton.setPreferredSize(new Dimension(190, 40));
         removeButton = new JButton("Remove from workspace");
@@ -65,29 +110,26 @@ public class WorkspaceTab extends JPanel {
         });
         downloadButton = new JButton("Download");
         downloadButton.setPreferredSize(new Dimension(150, 40));
-        analyzeButton = new JButton("Analyze");
-        analyzeButton.setPreferredSize(new Dimension(150, 40));
-        analyzeButton.setEnabled(false);
+        uploadToButton = new JButton("Upload to");
+        uploadToButton.setPreferredSize(new Dimension(150, 40));
         processButton = new JButton("Process");
         processButton.setPreferredSize(new Dimension(150, 40));
-        // downloadButton = CustomButtonFactory.makeCustomButton(
-        // IconFactory.getDownloadIcon(45, 45),
-        // IconFactory.getDownloadHoverIcon(47, 47), 47, 47,
-        // "Download selected data");
-        //
-        // analyzeButton = CustomButtonFactory.makeCustomButton(
-        // IconFactory.getAnalyzeIcon(50, 50),
-        // IconFactory.getAnalyzeHoverIcon(52, 52), 52, 52,
-        // "Analyze selected data");
-        // analyzeButton.setEnabled(false);
-        //
-        // processButton = CustomButtonFactory.makeCustomButton(
-        // IconFactory.getProcessIcon(50, 50),
-        // IconFactory.getProcessHoverIcon(52, 52), 52, 52,
-        // "Process selected data");
-        // processButton.setEnabled(false);
     }
     
+    /**
+     * Method setting the ongoing downloads.
+     * 
+     * @param ongoingDownloads
+     *            An array with the current ongoing downloads.
+     */
+    public void setOngoingDownloads(
+            CopyOnWriteArrayList<DownloadHandler> ongoingDownloads) {
+        this.ongoingDownloads = ongoingDownloads;
+    }
+    
+    /**
+     * Method adding the buttons to the button panel.
+     */
     private void addToButtonPanel() {
         buttonPanel.add(deleteButton);
         
@@ -101,12 +143,99 @@ public class WorkspaceTab extends JPanel {
         
         buttonPanel.add(Box.createHorizontalStrut(50));
         
-        buttonPanel.add(analyzeButton);
+        buttonPanel.add(uploadToButton);
         
         buttonPanel.add(Box.createHorizontalStrut(50));
         
         buttonPanel.add(processButton);
         
+    }
+    
+    /**
+     * Method updating the current ongoing downloads.
+     */
+    private void updateOngoingDownloadsPanel() {
+        final CopyOnWriteArrayList<DownloadHandler> completedDownloads = new CopyOnWriteArrayList<DownloadHandler>();
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                boolean running = true;
+                while (running) {
+                    ongoingDownloadsPanel.removeAll();
+                    if (ongoingDownloads != null) {
+                        for (final DownloadHandler handler : ongoingDownloads) {
+                            if (!handler.isFinished()
+                                    && handler.getTotalSize() > 0) {
+                                JPanel downloadPanel = new JPanel(
+                                        new BorderLayout());
+                                double speed = handler.getCurrentSpeed() / 1024 / 2014;
+                                
+                                JProgressBar progress = new JProgressBar(0,
+                                        handler.getTotalSize());
+                                progress.setValue(handler.getCurrentProgress());
+                                progress.setStringPainted(true);
+                                JButton stopButton = new JButton("X");
+                                stopButton
+                                        .addActionListener(new ActionListener() {
+                                            @Override
+                                            public void actionPerformed(
+                                                    ActionEvent e) {
+                                                ongoingDownloads
+                                                        .remove(handler);
+                                            }
+                                        });
+                                downloadPanel
+                                        .add(progress, BorderLayout.CENTER);
+                                downloadPanel
+                                        .add(stopButton, BorderLayout.EAST);
+                                downloadPanel.add(
+                                        new JLabel(handler.getFileName() + " ("
+                                                + Math.round(speed * 100.0)
+                                                / 100.0 + "MiB/s)"),
+                                        BorderLayout.NORTH);
+                                ongoingDownloadsPanel.add(downloadPanel);
+                            } else {
+                                if (handler.isFinished()) {
+                                    completedDownloads.add(handler);
+                                }
+                                ongoingDownloads.remove(handler);
+                            }
+                        }
+                        
+                    }
+                    for (final DownloadHandler handler : completedDownloads) {
+                        JPanel completedDownloadPanel = new JPanel(
+                                new BorderLayout());
+                        JProgressBar progress = new JProgressBar(0, 100);
+                        progress.setValue(100);
+                        progress.setStringPainted(true);
+                        JButton stopButton = new JButton("X");
+                        stopButton.addActionListener(new ActionListener() {
+                            @Override
+                            public void actionPerformed(ActionEvent e) {
+                                completedDownloads.remove(handler);
+                            }
+                        });
+                        completedDownloadPanel.add(progress,
+                                BorderLayout.CENTER);
+                        completedDownloadPanel.add(stopButton,
+                                BorderLayout.EAST);
+                        completedDownloadPanel.add(
+                                new JLabel("<html><b>Completed: </b>"
+                                        + handler.getFileName() + "</html>"),
+                                BorderLayout.NORTH);
+                        ongoingDownloadsPanel.add(completedDownloadPanel);
+                    }
+                    ongoingDownloadsPanel.revalidate();
+                    ongoingDownloadsPanel.repaint();
+                    try {
+                        Thread.sleep(100);
+                    } catch (InterruptedException e) {
+                        running = false;
+                    }
+                }
+            }
+        }).start();
     }
     
     /**
@@ -122,32 +251,54 @@ public class WorkspaceTab extends JPanel {
         }
     }
     
+    /**
+     * Method adding a listener to the "downloadButton" button.
+     * 
+     * @param listener
+     *            The listener to start downloading files.
+     */
     public void addDownloadFileListener(ActionListener listener) {
         downloadButton.addActionListener(listener);
     }
     
+    /**
+     * Method adding a listener to the "processButton" button.
+     * 
+     * @param listener
+     *            The listener to start processing experiment.
+     */
     public void addProcessFileListener(ActionListener listener) {
         processButton.addActionListener(listener);
     }
     
-    public void addAnalyzeSelectedListener(ActionListener listener) {
-        analyzeButton.addActionListener(listener);
+    /**
+     * Method adding a listener to the "uploadButton" button.
+     * 
+     * @param listener
+     *            The listener to start uploading files to a current experiment.
+     */
+    public void addUploadToListener(ActionListener listener) {
+        uploadToButton.addActionListener(listener);
     }
     
+    /**
+     * Method adding a listener to the "deleteButton" button.
+     * 
+     * @param listener
+     *            The listener to delete an experiment from the database.
+     */
     public void addDeleteSelectedListener(ActionListener listener) {
         deleteButton.addActionListener(listener);
     }
     
-    private String[] concatArrays(String[] first, String[] second) {
-        ArrayList<String> both = new ArrayList<String>(first.length
-                + second.length);
-        Collections.addAll(both, first);
-        Collections.addAll(both, second);
-        return both.toArray(new String[both.size()]);
-    }
-    
+    /**
+     * Method adding experiments to the workspace tab.
+     * 
+     * @param newExperiments
+     *            An array with experiments to be added.
+     */
     public void addExperimentsToTable(ArrayList<ExperimentData> newExperiments) {
-        ArrayList<ExperimentData> expList = new ArrayList<ExperimentData>();
+        ArrayList<ExperimentData> expList = new ArrayList<>();
         if (table.getContent() != null) {
             expList.addAll(table.getContent());
         }
@@ -164,21 +315,46 @@ public class WorkspaceTab extends JPanel {
                 expList.add(newExperiment);
             }
         }
-        System.out.println("setting content");
+        
         table.setContent(expList);
-        table.repaint();
-        table.revalidate();
     }
     
+    /**
+     * Method returning the data of selected experiment(s).
+     * 
+     * @return an array with data of the current selected experiment(s).
+     */
     public ArrayList<ExperimentData> getSelectedData() {
         return table.getSelectedData();
     }
     
+    /**
+     * Method returning the selected experiment(s).
+     * 
+     * @return an array with the current selected experiment(s).
+     */
     public ArrayList<ExperimentData> getSelectedExperiments() {
         return table.getSelectedExperiments();
     }
     
+    /**
+     * Method removing the selected data.
+     */
     public synchronized void removeSelectedData() {
-        table.removeSelectedData();
+        SwingUtilities.invokeLater(new Runnable() {
+            public void run() {
+                table.removeSelectedData();
+            }
+        });
+    }
+    
+    /**
+     * Method changing the shown tab.
+     * 
+     * @param tabIndex
+     *            The index of the tab to be shown.
+     */
+    public void changeTab(int tabIndex) {
+        tabbedPane.setSelectedIndex(tabIndex);
     }
 }

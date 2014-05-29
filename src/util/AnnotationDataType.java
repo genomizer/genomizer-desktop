@@ -2,8 +2,8 @@ package util;
 
 public class AnnotationDataType extends AnnotationData {
 
-    private String[] values;
-    private boolean forced;
+    public String[] values;
+    public boolean forced;
 
     public AnnotationDataType(String name, String[] values, Boolean forced) {
         super(name);
@@ -36,5 +36,16 @@ public class AnnotationDataType extends AnnotationData {
         }
         return -1;
         
+    }
+    
+    public void addValue(String string){
+        String[] newValues = new String[values.length + 1];
+        int i = 0;
+        for (String s : values) {
+            newValues[i] = s;
+            i++;
+        }
+        newValues[i] = string;
+        values = newValues;
     }
 }

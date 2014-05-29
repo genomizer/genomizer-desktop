@@ -2,26 +2,26 @@ package gui;
 
 import java.awt.BorderLayout;
 import java.awt.GridLayout;
+import java.awt.Image;
+import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.concurrent.CopyOnWriteArrayList;
 
-import javax.swing.DefaultCellEditor;
-import javax.swing.ImageIcon;
 import javax.swing.JButton;
-import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JProgressBar;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 
 import util.FileData;
-import util.IconFactory;
 
 import communication.DownloadHandler;
 
@@ -29,14 +29,11 @@ public class DownloadWindow extends JFrame {
     
     private static final long serialVersionUID = -7647204230941649167L;
     private JPanel mainPanel;
-    private JPanel tablePanel;
     private JPanel ongoingPanel;
-    private JTable table;
     private JButton downloadButton;
     private ArrayList<FileData> files;
     private CopyOnWriteArrayList<DownloadHandler> ongoingDownloads;
     private boolean running;
-    private ImageIcon stopIcon;
     
     /**
      * Initiates a new DownloadWindow with the files it receives.
@@ -46,12 +43,16 @@ public class DownloadWindow extends JFrame {
      */
     public DownloadWindow(ArrayList<FileData> files,
             CopyOnWriteArrayList<DownloadHandler> ongoingDownloads) {
-        stopIcon = IconFactory.getStopIcon(25, 25);
+        
+        URL url = ClassLoader.getSystemResource("icons/logo.png");
+        Toolkit kit = Toolkit.getDefaultToolkit();
+        Image img = kit.createImage(url);
+        setIconImage(img);
         this.ongoingDownloads = ongoingDownloads;
         this.setLayout(new BorderLayout());
         this.files = files;
         // Gets the names of the files
-        ArrayList<String> fileNames = new ArrayList<String>();
+        ArrayList<String> fileNames = new ArrayList<>();
         for (int i = 0; i < files.size(); i++) {
             fileNames.add(files.get(i).getName());
         }
@@ -76,46 +77,33 @@ public class DownloadWindow extends JFrame {
      */
     private void setUpTablePanel(ArrayList<String> data) {
         
-        tablePanel = new JPanel(new BorderLayout(3, 3));
+        JPanel tablePanel = new JPanel(new BorderLayout(3, 3));
         mainPanel.add(tablePanel, BorderLayout.CENTER);
         tablePanel.add(new JLabel("test"), BorderLayout.SOUTH);
         
         // Set up the JTable
-        String[] headings = new String[] { "File Name", "Format Conversion" };
-        String[][] content = new String[data.size()][2];
+        String[] headings = new String[] { "File Name" };
+        String[][] content = new String[data.size()][1];
         for (int i = 0; i < data.size(); i++) {
             content[i][0] = data.get(i);
-            content[i][1] = "Click here to choose file format";
         }
-        table = new JTable(content, headings) {
-            @Override
-            public boolean isCellEditable(int row, int column) {
-                return column == 1 ? true : false;
-            }
-        };
+        JTable table = new JTable(content, headings);
         
         // Add comboboxes to each row in the table.
-        JComboBox<String> comboBox = new JComboBox<String>(new String[] {
-                "RAW", "WIG" });
-        DefaultCellEditor cellEditor = new DefaultCellEditor(comboBox);
-        table.getColumnModel().getColumn(1).setCellEditor(cellEditor);
         table.setRowHeight(30);
+        table.setEnabled(false);
+        table.getTableHeader().setReorderingAllowed(false);
         JScrollPane scrollPane = new JScrollPane(table);
         tablePanel.add(scrollPane, BorderLayout.CENTER);
         tablePanel.add(table.getTableHeader(), BorderLayout.NORTH);
         
-        // downloadButton = CustomButtonFactory.makeCustomButton(
-        // IconFactory.getDownloadIcon(50, 50),
-        // IconFactory.getDownloadHoverIcon(52, 52), 52, 52, "Download files");
         downloadButton = new JButton("Download");
         JPanel flowSouth = new JPanel();
         flowSouth.add(downloadButton);
         tablePanel.add(flowSouth, BorderLayout.SOUTH);
-        
         setTitle("Download Files");
         setSize(500, 500);
         setLocationRelativeTo(null);
-        setVisible(true);
     }
     
     private void setUpOngoingPanel() {
@@ -139,16 +127,14 @@ public class DownloadWindow extends JFrame {
                                 double speed = handler.getCurrentSpeed() / 1024 / 2014;
                                 north.add(new JLabel(handler.getFileName()
                                         + " (" + Math.round(speed * 100.0)
-                                        / 100.0 + "Mb/s)"), BorderLayout.CENTER);
+                                        / 100.0 + "MiB/s)"),
+                                        BorderLayout.CENTER);
                                 JProgressBar progress = new JProgressBar(0,
                                         handler.getTotalSize());
                                 progress.setValue(handler.getCurrentProgress());
                                 progress.setStringPainted(true);
                                 south.add(progress, BorderLayout.CENTER);
                                 JButton stopButton = new JButton("X");
-                                // JButton stopButton = CustomButtonFactory
-                                // .makeCustomButton(stopIcon, stopIcon,
-                                // 25, 25, "Stop download");
                                 stopButton
                                         .addActionListener(new ActionListener() {
                                             @Override
@@ -164,6 +150,8 @@ public class DownloadWindow extends JFrame {
                                 ongoingPanel.add(south);
                             } else {
                                 ongoingDownloads.remove(handler);
+                                JOptionPane.showMessageDialog(null,
+                                        "Download complete");
                             }
                         }
                         
@@ -188,6 +176,30 @@ public class DownloadWindow extends JFrame {
      */
     public void addDownloadFileListener(ActionListener listener) {
         downloadButton.addActionListener(listener);
+        
+        /*
+         * Automatically click the download button when the listener has been
+         * added to let the user choose where to save the files immediately. If
+         * no files were selected, show a message dialog and close the
+         * DownloadWindow. If downloads are ongoing, just display the progress
+         * bars and let the user choose himself if he wants to download more
+         * files.
+         */
+        setVisible(false);
+        if (ongoingDownloads.size() == 0) {
+            if (files.size() > 0) {
+                System.out.println("first alt");
+                downloadButton.doClick();
+                setVisible(true);
+            } else {
+                System.out.println("second alt");
+                JOptionPane.showMessageDialog(null, "No files were selected.");
+                dispose();
+            }
+        } else {
+            System.out.println("third alt");
+            setVisible(true);
+        }
     }
     
     /**

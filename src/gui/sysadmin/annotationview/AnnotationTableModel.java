@@ -1,32 +1,51 @@
 package gui.sysadmin.annotationview;
 
-import util.AnnotationDataType;
-
 import javax.swing.table.AbstractTableModel;
 
+import util.AnnotationDataType;
+
+
+
+
+/***
+ * This class is the Model for the search table
+ *
+ *
+ */
 public class AnnotationTableModel extends AbstractTableModel {
 
+    private final int numberOfColumns = 3;
     private static final long serialVersionUID = 1414328728572140752L;
 
     AnnotationDataType[] annotations = new AnnotationDataType[] {};
 
-    @Override
+    /***
+     * Get the number of rows.
+     */
     public int getRowCount() {
         return annotations.length;
     }
 
-    @Override
+    /***
+     * Get the number of columns.
+     */
     public int getColumnCount() {
-        // TODO Auto-generated method stub
-        return 3;
+        return numberOfColumns;
     }
 
-    @Override
+
+    /***
+     * Sets the different columns of the table.
+     */
     public Object getValueAt(int rowIndex, int columnIndex) {
 
         switch (columnIndex) {
+
+        /** The annotation name in the first column */
             case 0:
                 return annotations[rowIndex].getName();
+
+                /** The correspondning annotation values in the second column */
             case 1:
                 StringBuilder string = new StringBuilder("");
                 String[] values = annotations[rowIndex].getValues();
@@ -40,8 +59,11 @@ public class AnnotationTableModel extends AbstractTableModel {
                             + "].getValues() was null!");
                 }
                 return string;
+                /** If the annotation is forced or not. */
             case 2:
                 return annotations[rowIndex].isForced();
+
+                /** Nothing */
             case 3:
                 return annotations[rowIndex];
             default:
@@ -51,6 +73,14 @@ public class AnnotationTableModel extends AbstractTableModel {
         }
     }
 
+    /***
+     * Takes in a new array of the AnnotationDataType and sets this to be the
+     * current annotations. Then notifies the table to update.
+     * 
+     * @param annotations
+     *            the new array of annotations.
+     */
+
     public void setAnnotations(AnnotationDataType[] annotations) {
         synchronized (this.annotations) {
             this.annotations = annotations;
@@ -58,7 +88,15 @@ public class AnnotationTableModel extends AbstractTableModel {
         fireTableDataChanged();
     }
 
-    @Override
+    /***
+     * Takes the column index as parameter, returns the name of the
+     * corresponding column.
+     * 
+     * 
+     * @param column
+     *            a column index
+     * @return the name of the column corresponding to the index
+     */
     public String getColumnName(int column) {
         switch (column) {
             case 0:
@@ -73,6 +111,14 @@ public class AnnotationTableModel extends AbstractTableModel {
         return null;
 
     }
+
+    /***
+     * Gets a specific index of the annotations.
+     * 
+     * @param i
+     *            the index
+     * @return the annotation corresponding to the index.
+     */
 
     public AnnotationDataType getAnnotationData(int i) {
         return annotations[i];
