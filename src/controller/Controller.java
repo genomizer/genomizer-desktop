@@ -38,14 +38,14 @@ import util.ProcessFeedbackData;
 import communication.HTTPURLUpload;
 
 public class Controller {
-    
+
     private GenomizerView view;
     private GenomizerModel model;
     private final JFileChooser fileChooser = new JFileChooser();
     private SysadminController sysController;
     private boolean abortDeletion;
     private boolean deletedProcessFiles = false;
-    
+
     public Controller(GenomizerView view, GenomizerModel model) {
         abortDeletion = false;
         this.view = view;
@@ -55,7 +55,7 @@ public class Controller {
         view.addOkListener(new OkListener());
         updateView();
     }
-    
+
     private void updateView() {
         view.addRatioCalcListener(new RatioCalcListener());
         view.addSearchListener(new QuerySearchListener());
@@ -83,14 +83,14 @@ public class Controller {
         view.addDeleteSelectedListener(new DeleteSelectedListener());
         view.addChangedTabListener(new ChangedTabListener());
     }
-    
+
     class ChangedTabListener implements ChangeListener, Runnable {
-        
+
         @Override
         public void stateChanged(ChangeEvent e) {
             new Thread(this).start();
         }
-        
+
         @Override
         public void run() {
             AnnotationDataType[] a;
@@ -98,33 +98,31 @@ public class Controller {
                 if (((a = model.getAnnotations()) != null)
                         && view.getUploadTab().newExpStarted()) {
                     view.getUploadTab().getNewExpPanel().updateAnnotations(a);
-                    System.out.println("HEJ");
                 }
             } else if (view.getSelectedIndex() == 0) {
                 if ((a = model.getAnnotations()) != null) {
                     view.setSearchAnnotationTypes(a);
-                    System.out.println("HEJ");
                 }
             }
         }
     }
-    
+
     class ConvertFileListener implements ActionListener, Runnable {
         @Override
         public void actionPerformed(ActionEvent e) {
             new Thread(this).start();
         }
-        
+
         @Override
         public void run() {
-            
+
         }
     }
-    
+
     /**
      * The listener to create profile data, Sends a request to the server for
      * every RAW-file that the user wants to create profile data.
-     * 
+     *
      * @author c11ann
      */
     class RawToProfileDataListener implements ActionListener, Runnable {
@@ -132,38 +130,38 @@ public class Controller {
         public void actionPerformed(ActionEvent e) {
             new Thread(this).start();
         }
-        
+
         @Override
         public void run() {
-            
+
             view.setBowtieParameters();
             ArrayList<FileData> allMarked = view.getAllMarkedFiles();
             String message;
             Boolean isConverted;
             Boolean allRaw = false;
-            
+
             for (FileData raw : allMarked) {
                 allRaw = raw.type.equals("Raw");
             }
-            
+
             // DANIEL
             if (allRaw) {
                 if (view.isCorrectToProcess() && view.isRatioCorrectToProcess()) {
                     if (!allMarked.isEmpty()) {
-                        
+
                         for (FileData data : allMarked) {
-                            
+
                             String fileName = data.filename;
                             String author = view.getUsername();
                             String parameters[] = new String[8];
-                            
+
                             parameters[0] = view.getParameters()[0];
                             parameters[1] = "";
                             parameters[2] = view.getParameters()[2];
                             parameters[3] = view.getParameters()[3];
                             parameters[4] = view.getParameters()[4];
                             parameters[5] = view.getParameters()[5];
-                            
+
                             if (view.useRatio()) {
                                 parameters[6] = view.getRatioCalcParameters()[0]; // "single 4 0";
                                 parameters[7] = view.getRatioCalcParameters()[1]; // "150 1 7 0 0";
@@ -171,7 +169,7 @@ public class Controller {
                                 parameters[6] = "";
                                 parameters[7] = "";
                             }
-                            
+
                             String expid = data.expId;
                             String genomeVersion = view.getParameters()[1];
                             String metadata = parameters[0] + " "
@@ -179,19 +177,19 @@ public class Controller {
                                     + parameters[3] + " " + parameters[4] + " "
                                     + parameters[5] + " " + parameters[6] + " "
                                     + parameters[7];
-                            
+
                             // Sends a request to create profile data from raw
                             // files.
                             isConverted = model.rawToProfile(expid, parameters,
                                     metadata, genomeVersion, author);
-                            
+
                             if (isConverted) {
                                 message = "The server has started process on file: "
                                         + fileName
                                         + " from experiment: "
                                         + expid + "\n\n";
                                 view.printToConsole(message);
-                                
+
                             } else {
                                 message = "WARNING - The server couldn't start processing on file: "
                                         + fileName
@@ -206,14 +204,14 @@ public class Controller {
                 message = "One or more selected files are not raw files! \n\n";
                 view.printToConsole(message);
             }
-            
+
         }
-        
+
     }
-    
+
     /**
      * The listener to create region data,
-     * 
+     *
      * @author c11ann
      */
     class RawToRegionDataListener implements ActionListener, Runnable {
@@ -221,22 +219,22 @@ public class Controller {
         public void actionPerformed(ActionEvent e) {
             new Thread(this).start();
         }
-        
+
         @Override
         public void run() {
-            
+
             System.out.println("RAW TO REGION");
             System.out.println(view.getAllMarkedFiles());
-            
+
         }
     }
-    
+
     class ProcessFileListener implements ActionListener, Runnable {
         @Override
         public void actionPerformed(ActionEvent e) {
             new Thread(this).start();
         }
-        
+
         @Override
         public void run() {
             // TODO Skicka in filedata arrayen
@@ -253,13 +251,13 @@ public class Controller {
             view.setProcessFileList(selectedFiles);
         }
     }
-    
+
     class LoginListener implements ActionListener, Runnable {
         @Override
         public void actionPerformed(ActionEvent e) {
             new Thread(this).start();
         }
-        
+
         @Override
         public void run() {
             model.setGenomizerView(view);
@@ -275,24 +273,24 @@ public class Controller {
             }
         }
     }
-    
+
     class QuerySearchListener implements ActionListener, Runnable {
         public void actionPerformed(ActionEvent e) {
             new Thread(this).start();
         }
-        
+
         @Override
         public void run() {
             String pubmed = view.getQuerySearchString();
             ArrayList<ExperimentData> searchResults = model.search(pubmed);
             if (searchResults != null) {
                 view.updateQuerySearchResults(searchResults);
-                
+
                 // If search results are null and the active panel is search
             } else if (view.getActiveSearchPanel() == ActiveSearchPanel.SEARCH) {
                 JOptionPane.showMessageDialog(null, "No search results!",
                         "Search Warning", JOptionPane.WARNING_MESSAGE);
-                
+
                 // If search results are null and the active panel is table
             } else if (view.getActiveSearchPanel() == ActiveSearchPanel.TABLE) {
                 // Go back to the query search
@@ -300,19 +298,19 @@ public class Controller {
             }
         }
     }
-    
+
     class LogoutListener implements ActionListener, Runnable {
         @Override
         public void actionPerformed(ActionEvent e) {
             new Thread(this).start();
         }
-        
+
         @Override
         public void run() {
             int response = JOptionPane.showConfirmDialog(null,
                     "Are you sure you wish to log out?", "Log out",
                     JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
-            
+
             if (response == JOptionPane.YES_OPTION) {
                 model.logoutUser();
                 model.resetModel();
@@ -322,19 +320,19 @@ public class Controller {
             }
         }
     }
-    
+
     /**
      * Listener for when the download button in workspace is clicked. Opens a
      * DownloadWindow with the selected files.
      */
     class DownloadWindowListener implements ActionListener, Runnable {
-        
+
         @Override
         public void actionPerformed(ActionEvent actionEvent) {
-            
+
             new Thread(this).start();
         }
-        
+
         @Override
         public void run() {
             // Skicka med arraylist<FileData> för de filer som ska nerladdas
@@ -354,22 +352,22 @@ public class Controller {
             downloadWindow.setVisible(true);
         }
     }
-    
+
     /**
      * Listener for when the download button in the download window is clicked.
      * Opens a file chooser.
      */
     class DownloadFileListener implements ActionListener, Runnable {
-        
+
         @Override
         public void actionPerformed(ActionEvent actionEvent) {
-            
+
             new Thread(this).start();
         }
-        
+
         @Override
         public void run() {
-            
+
             // DownloadWindow downloadWindow = view.getDownloadWindow();
             ArrayList<ExperimentData> expData = view
                     .getSelectedDataInWorkspace();
@@ -394,7 +392,7 @@ public class Controller {
             } else {
                 return;
             }
-            
+
             for (FileData data : fileData) {
                 model.downloadFile(data.url, data.id, directoryName + "/"
                         + data.filename, data.filename);
@@ -402,15 +400,15 @@ public class Controller {
             view.changeTabInWorkspace(1);
         }
     }
-    
+
     class AddToExistingExpButtonListener implements ActionListener, Runnable {
-        
+
         @Override
         public void actionPerformed(ActionEvent actionEvent) {
-            
+
             new Thread(this).start();
         }
-        
+
         @Override
         public void run() {
             UploadTab uploadTab = view.getUploadTab();
@@ -425,7 +423,7 @@ public class Controller {
                             species = adv.getValue();
                             existingSpecies = true;
                         }
-                        
+
                     }
                     if (existingSpecies) {
                         uploadTab.addExistingExpPanel(ed);
@@ -449,14 +447,14 @@ public class Controller {
             }
         }
     }
-    
+
     class SelectFilesToUploadButtonListener implements ActionListener, Runnable {
         @Override
         public void actionPerformed(ActionEvent actionEvent) {
-            
+
             new Thread(this).start();
         }
-        
+
         @Override
         public void run() {
             fileChooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
@@ -468,7 +466,7 @@ public class Controller {
             } else {
                 return;
             }
-            
+
             UploadToExistingExpPanel uploadToExistingExpPanel = view
                     .getUploadTab().getExistExpPanel();
             uploadToExistingExpPanel.createUploadFileRow(files);
@@ -476,15 +474,15 @@ public class Controller {
             uploadToExistingExpPanel.addFileDrop();
         }
     }
-    
+
     class UploadToExperimentButtonListener implements ActionListener, Runnable {
-        
+
         @Override
         public void actionPerformed(ActionEvent actionEvent) {
-            
+
             new Thread(this).start();
         }
-        
+
         @Override
         public void run() {
             ArrayList<File> files = view.getUploadTab().getExistExpPanel()
@@ -493,10 +491,10 @@ public class Controller {
                     .getExistExpPanel().getTypes();
             // Should be genome release from uploadTab
             // String release = "wk1m";
-            
+
             ExperimentData ed = view.getUploadTab().getExistExpPanel()
                     .getExperiment();
-            
+
             for (File f : files) {
                 if (model.uploadFile(ed.getName(), f, types.get(f.getName()),
                         view.getUsername(), false, view.getGenomeVersion(f))) {
@@ -521,15 +519,15 @@ public class Controller {
             }
         }
     }
-    
+
     class updateSearchAnnotationsListener implements ActionListener, Runnable {
-        
+
         @Override
         public void actionPerformed(ActionEvent actionEvent) {
-            
+
             new Thread(this).start();
         }
-        
+
         @Override
         public void run() {
             AnnotationDataType[] annotations = model.getAnnotations();
@@ -538,15 +536,15 @@ public class Controller {
             }
         }
     }
-    
+
     class SearchToWorkspaceListener implements ActionListener, Runnable {
-        
+
         @Override
         public void actionPerformed(ActionEvent actionEvent) {
-            
+
             new Thread(this).start();
         }
-        
+
         @Override
         public void run() {
             ArrayList<ExperimentData> selectedData = view
@@ -557,31 +555,31 @@ public class Controller {
             }
             view.clearSearchSelection();
         }
-        
+
     }
-    
+
     class NewExpButtonListener implements ActionListener, Runnable {
-        
+
         @Override
         public void actionPerformed(ActionEvent actionEvent) {
-            
+
             new Thread(this).start();
         }
-        
+
         @Override
         public void run() {
             AnnotationDataType[] annotations = model.getAnnotations();
             view.createNewExp(annotations);
         }
     }
-    
+
     class SelectFilesToNewExpListener implements ActionListener, Runnable {
-        
+
         @Override
         public void actionPerformed(ActionEvent e) {
             new Thread(this).start();
         }
-        
+
         @Override
         public void run() {
             fileChooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
@@ -597,14 +595,14 @@ public class Controller {
             view.enableUploadButton(true);
         }
     }
-    
+
     class UploadNewExpListener implements ActionListener, Runnable {
-        
+
         @Override
         public void actionPerformed(ActionEvent e) {
             new Thread(this).start();
         }
-        
+
         @Override
         public void run() {
             String expName = view.getNewExpName();
@@ -645,14 +643,14 @@ public class Controller {
             }
         }
     }
-    
+
     class UploadToListener implements ActionListener, Runnable {
-        
+
         @Override
         public void actionPerformed(ActionEvent e) {
             new Thread(this).start();
         }
-        
+
         @Override
         public void run() {
             try {
@@ -669,24 +667,24 @@ public class Controller {
             }
         }
     }
-    
+
     private void fileListAddMouseListener(JList fileList) {
         fileList.addMouseListener(new MouseAdapter() {
             String species = "";
             int count = 0;
-            
+
             @Override
             public void mouseClicked(MouseEvent event) {
                 JList list = (JList) event.getSource();
-                
+
                 if (deletedProcessFiles) {
                     species = "";
                     count = 0;
                 }
-                
+
                 if (list.getModel().getSize() > 0) {
                     int index = list.locationToIndex(event.getPoint());
-                    
+
                     CheckListItem item = (CheckListItem) list.getModel()
                             .getElementAt(index);
                     if (count == 0) {
@@ -696,9 +694,9 @@ public class Controller {
                         species = item.getSpecie();
                     }
                     if (item.getSpecie().equals(species)) {
-                        
+
                         item.setSelected(!item.isSelected());
-                        
+
                         GenomeReleaseData[] genome = model
                                 .getSpeciesGenomeReleases(item.getSpecie());
                         if (view.getAllMarkedFiles().isEmpty()) {
@@ -706,7 +704,7 @@ public class Controller {
                         } else {
                             view.setGenomeFileList(genome);
                         }
-                        
+
                         if (item.isSelected()) {
                             count++;
                         } else {
@@ -719,26 +717,26 @@ public class Controller {
             }
         });
     }
-    
+
     class RatioCalcListener implements ActionListener, Runnable {
         @Override
         public void actionPerformed(ActionEvent e) {
             new Thread(this).start();
         }
-        
+
         @Override
         public void run() {
             System.out.println("RATIO CALC");
             view.showRatioPopup();
         }
     }
-    
+
     class ProcessFeedbackListener implements ActionListener, Runnable {
         @Override
         public void actionPerformed(ActionEvent e) {
             new Thread(this).start();
         }
-        
+
         @Override
         public void run() {
             ProcessFeedbackData[] processFeedbackData = model
@@ -748,13 +746,13 @@ public class Controller {
             }
         }
     }
-    
+
     class DeleteFromDatabaseListener implements ActionListener, Runnable {
         @Override
         public void actionPerformed(ActionEvent e) {
             new Thread(this).start();
         }
-        
+
         @Override
         public void run() {
             int i = -1;
@@ -810,27 +808,27 @@ public class Controller {
             }
         }
     }
-    
+
     class OkListener implements ActionListener, Runnable {
         @Override
         public void actionPerformed(ActionEvent e) {
             new Thread(this).start();
         }
-        
+
         @Override
         public void run() {
             view.getRatioCalcPopup().hideRatioWindow();
         }
-        
+
     }
-    
+
     class UploadSelectedFilesListener implements ActionListener, Runnable {
-        
+
         @Override
         public void actionPerformed(ActionEvent arg0) {
             new Thread(this).start();
         }
-        
+
         @Override
         public void run() {
             String expName = view.getNewExpName();
@@ -875,13 +873,13 @@ public class Controller {
             }
         }
     }
-    
+
     class SpeciesSelectedListener implements ActionListener, Runnable {
         @Override
         public void actionPerformed(ActionEvent e) {
             new Thread(this).start();
         }
-        
+
         @Override
         public void run() {
             String species = view.getSelectedSpecies();
@@ -889,22 +887,22 @@ public class Controller {
             view.setGenomeReleases(grd);
         }
     }
-    
+
     class DeleteSelectedListener implements ActionListener, Runnable {
         @Override
         public void actionPerformed(ActionEvent e) {
             new Thread(this).start();
         }
-        
+
         @Override
         public void run() {
-            
+
             System.out.println("Delete");
             ArrayList<FileData> markedFiles = view.getAllMarkedFiles();
             ArrayList<ExperimentData> exData = view.getFileInfo();
-            
+
             if (exData != null && markedFiles != null) {
-                
+
                 for (ExperimentData data : exData) {
                     data.files.removeAll(markedFiles);
                 }

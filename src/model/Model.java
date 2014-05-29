@@ -51,7 +51,7 @@ import communication.DownloadHandler;
 import communication.HTTPURLUpload;
 
 public class Model implements GenomizerModel {
-    
+
     private static final String TEXT_PLAIN = "text/plain";
     private static final String JSON = "application/json";
     private String userID = "";
@@ -176,7 +176,7 @@ public class Model implements GenomizerModel {
                 DownloadFileResponse.class);
         final DownloadHandler handler = new DownloadHandler(userID, fileName);
         ongoingDownloads.add(handler);
-        
+
         new Thread(new Runnable() {
             @Override
             public void run() {
@@ -522,7 +522,7 @@ public class Model implements GenomizerModel {
 
         GetGenomeSpecieReleasesRequest request = RequestFactory
                 .makeGetGenomeSpecieReleaseRequest(species);
-        
+
         Connection conn = connFactory.makeConnection();
         conn.sendRequest(request, userID, TEXT_PLAIN);
         if (conn.getResponseCode() == 200) {
