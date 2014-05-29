@@ -325,7 +325,7 @@ public class Model implements GenomizerModel {
             AnnotationDataType[] annotations = ResponseParser
                     .parseGetAnnotationResponse(conn.getResponseBody());
             return annotations;
-        } else {
+        } else if (userID != "") {
             JOptionPane.showMessageDialog(null, "Could not get annotations!");
         }
         return new AnnotationDataType[] {};
