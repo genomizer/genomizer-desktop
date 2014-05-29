@@ -54,7 +54,7 @@ public class LoginWindow extends JFrame {
             
             @Override
             public void windowActivated(WindowEvent e) {
-                passwordField.requestFocusInWindow();
+                usernameField.requestFocusInWindow();
             }
         });
         setTitle("Genomizer Login");
@@ -84,13 +84,13 @@ public class LoginWindow extends JFrame {
         logoPanel.add(Box.createVerticalStrut(10), BorderLayout.NORTH);
         bottomPanel.setLayout(null);
         
-        JLabel usernameLabel = new JLabel("Username");
+        JLabel usernameLabel = new JLabel("Name");
         usernameLabel.setBounds(10, 40, 80, 25);
         bottomPanel.add(usernameLabel);
         
         usernameField = new JTextField(20);
         usernameField.setBounds(90, 40, 170, 25);
-        usernameField.setText("desktop");
+//        usernameField.setText("desktop");
         bottomPanel.add(usernameField);
         
         JLabel passwordLabel = new JLabel("Password");
@@ -99,7 +99,7 @@ public class LoginWindow extends JFrame {
         
         passwordField = new JPasswordField(20);
         passwordField.setBounds(90, 70, 170, 25);
-        passwordField.setText("umea@2014");
+//        passwordField.setText("superhemligt");
         bottomPanel.add(passwordField);
         
         JLabel ipLabel = new JLabel("IP");
@@ -108,7 +108,7 @@ public class LoginWindow extends JFrame {
         
         ipField = new JTextField(20);
         ipField.setBounds(90, 100, 170, 25);
-        ipField.setText("scratchy.cs.umu.se:7000");
+        ipField.setText("itchy.cs.umu.se:7000");
         bottomPanel.add(ipField);
         
         loginButton = new JButton("Login");
