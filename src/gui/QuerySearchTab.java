@@ -139,6 +139,7 @@ public class QuerySearchTab extends JPanel {
         clearButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                
                 clearSearchFields();
             }
         });
@@ -265,11 +266,9 @@ public class QuerySearchTab extends JPanel {
         SwingUtilities.invokeLater(new Runnable() {
             public void run() {
                 updateAnnotationsButton.doClick();
-                rowList.clear();
+                rowList = new CopyOnWriteArrayList<QueryBuilderRow>();
                 addRow();
                 searchArea.setText("");
-                revalidate();
-                repaint();
             }
         });
     }
@@ -315,8 +314,6 @@ public class QuerySearchTab extends JPanel {
                     }
                     rowsPanel.add(row);
                 }
-                rowsPanel.revalidate();
-                rowsPanel.repaint();
                 updateSearchArea();
             }
         });
