@@ -51,7 +51,7 @@ import communication.DownloadHandler;
 import communication.HTTPURLUpload;
 
 public class Model implements GenomizerModel {
-
+    
     private static final String TEXT_PLAIN = "text/plain";
     private static final String JSON = "application/json";
     private String userID = "";
@@ -176,7 +176,7 @@ public class Model implements GenomizerModel {
                 DownloadFileResponse.class);
         final DownloadHandler handler = new DownloadHandler(userID, fileName);
         ongoingDownloads.add(handler);
-
+        
         new Thread(new Runnable() {
             @Override
             public void run() {
@@ -200,8 +200,7 @@ public class Model implements GenomizerModel {
                 for (int i = 0; i < searchResponses.length; i++) {
                     searchResponses[i].convertToUTF8();
                 }
-                return new ArrayList<>(
-                        Arrays.asList(searchResponses));
+                return new ArrayList<>(Arrays.asList(searchResponses));
             }
         }
         return null;
@@ -248,13 +247,14 @@ public class Model implements GenomizerModel {
         Connection conn = connFactory.makeConnection();
         conn.sendRequest(request, userID, JSON);
         if (conn.getResponseCode() == 201) {
-//            System.err.println("addAnnotation sent succesfully!");
+            // System.err.println("addAnnotation sent succesfully!");
             return true;
         } else {
             System.err
                     .println("addAnnotaion FAILURE, did not recive 201 response");
-//            System.out.println("Response code: " + conn.getResponseCode() + " "
-//                    + conn.getResponseBody());
+            // System.out.println("Response code: " + conn.getResponseCode() +
+            // " "
+            // + conn.getResponseBody());
             return false;
         }
     }
@@ -317,6 +317,9 @@ public class Model implements GenomizerModel {
     }
     
     public synchronized AnnotationDataType[] getAnnotations() {
+        if (connFactory.GetIP() == null) {
+            return new AnnotationDataType[] {};
+        }
         GetAnnotationRequest request = RequestFactory
                 .makeGetAnnotationRequest();
         Connection conn = connFactory.makeConnection();
@@ -437,7 +440,7 @@ public class Model implements GenomizerModel {
         Connection conn = connFactory.makeConnection();
         conn.sendRequest(request, userID, JSON);
         if (conn.getResponseCode() == 200) {
-//            System.err.println("Sent " + request.requestName + "success!");
+            // System.err.println("Sent " + request.requestName + "success!");
             return true;
         } else {
             return false;
@@ -451,7 +454,7 @@ public class Model implements GenomizerModel {
         Connection conn = connFactory.makeConnection();
         conn.sendRequest(request, userID, JSON);
         if (conn.getResponseCode() == 201 || conn.getResponseCode() == 200) {
-//            System.err.println("Sent " + request.requestName + " success!");
+            // System.err.println("Sent " + request.requestName + " success!");
             return true;
         }
         return false;
@@ -463,7 +466,7 @@ public class Model implements GenomizerModel {
         Connection conn = connFactory.makeConnection();
         conn.sendRequest(request, userID, JSON);
         if (conn.getResponseCode() == 200) {
-//            System.err.println("Sent " + request.requestName + " success!");
+            // System.err.println("Sent " + request.requestName + " success!");
             return true;
         }
         return false;
@@ -475,7 +478,7 @@ public class Model implements GenomizerModel {
         Connection conn = connFactory.makeConnection();
         conn.sendRequest(request, userID, JSON);
         if (conn.getResponseCode() == 201) {
-//            System.err.println("Sent " + request.requestName + " success!");
+            // System.err.println("Sent " + request.requestName + " success!");
             return true;
         }
         return false;
@@ -487,8 +490,8 @@ public class Model implements GenomizerModel {
         Connection conn = connFactory.makeConnection();
         conn.sendRequest(request, userID, TEXT_PLAIN);
         if (conn.getResponseCode() == 200) {
-            return ResponseParser
-                    .parseProcessFeedbackResponse(conn.getResponseBody());
+            return ResponseParser.parseProcessFeedbackResponse(conn
+                    .getResponseBody());
         } else {
             return null;
         }
@@ -502,7 +505,8 @@ public class Model implements GenomizerModel {
         Connection conn = connFactory.makeConnection();
         conn.sendRequest(request, userID, JSON);
         if (conn.getResponseCode() == 200) {
-            JOptionPane.showMessageDialog(null, "Succesfully removed " + version);
+            JOptionPane.showMessageDialog(null, "Succesfully removed "
+                    + version);
             return true;
         } else {
             JOptionPane.showMessageDialog(null, conn.getResponseBody());
@@ -518,18 +522,18 @@ public class Model implements GenomizerModel {
         
         GetGenomeSpecieReleasesRequest request = RequestFactory
                 .makeGetGenomeSpecieReleaseRequest(species);
-
+        
         Connection conn = connFactory.makeConnection();
         conn.sendRequest(request, userID, TEXT_PLAIN);
         if (conn.getResponseCode() == 200) {
             
-//            System.err.println("Sent getGenomeSpecieReleaseRequestSuccess!");
+            // System.err.println("Sent getGenomeSpecieReleaseRequestSuccess!");
             // for(int i = 0;i < genomeReleases.length ; i++){
             // System.out.println(genomeReleases[i].getVersion());
             // }
             System.out.println(conn.getResponseBody());
-            return ResponseParser
-                    .parseGetGenomeReleaseResponse(conn.getResponseBody());
+            return ResponseParser.parseGetGenomeReleaseResponse(conn
+                    .getResponseBody());
         } else {
             JOptionPane.showMessageDialog(null,
                     "Could not get genomespeciereleases!");
