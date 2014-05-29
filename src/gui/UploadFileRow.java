@@ -40,10 +40,13 @@ public class UploadFileRow extends JPanel {
     /**
      * A constructor creating the upload file row.
      *
-     * @param f      The file to be uploaded.
-     * @param parent The parent of this file row.
-     * @param newExp Boolean indicating if this file row is for a new experiment or
-     *               not.
+     * @param f
+     *            The file to be uploaded.
+     * @param parent
+     *            The parent of this file row.
+     * @param newExp
+     *            Boolean indicating if this file row is for a new experiment or
+     *            not.
      */
     public UploadFileRow(File f, ExperimentPanel parent, boolean newExp) {
         this.parent = parent;
@@ -57,8 +60,9 @@ public class UploadFileRow extends JPanel {
     /**
      * Method setting the content of this file row.
      *
-     * @param newExp Boolean indicating if this file row is for a new experiment or
-     *               not.
+     * @param newExp
+     *            Boolean indicating if this file row is for a new experiment or
+     *            not.
      */
     private void setContent(boolean newExp) {
         GridBagLayout gbl = new GridBagLayout();
@@ -96,12 +100,10 @@ public class UploadFileRow extends JPanel {
 
             @Override
             public void actionPerformed(ActionEvent arg0) {
-                if (genome.getItemCount() > 0) {
-                    genome.removeAllItems();
-                }
+                genome.removeAllItems();
                 if (typeBox.getSelectedItem().toString().equals("Profile")
                         || typeBox.getSelectedItem().toString()
-                        .equals("Region")) {
+                                .equals("Region")) {
                     ArrayList<String> gr = parent.getGenomeReleases();
                     for (String g : gr) {
                         genome.addItem(g);
@@ -132,9 +134,6 @@ public class UploadFileRow extends JPanel {
         filePanel.add(genome, gbc);
 
         closeButton = new JButton("X");
-        // closeButton = CustomButtonFactory.makeCustomButton(
-        // IconFactory.getStopIcon(30, 30),
-        // IconFactory.getStopHoverIcon(32, 32), 32, 32, "Stop upload");
         addCloseButtonListener(new closeButtonListener());
         GridBagConstraints gbc_btnX = new GridBagConstraints();
         gbc_btnX.gridx = 3;
@@ -142,10 +141,6 @@ public class UploadFileRow extends JPanel {
         filePanel.add(closeButton, gbc_btnX);
 
         if (newExp) {
-            // uploadButton = CustomButtonFactory.makeCustomButton(
-            // IconFactory.getUploadIcon(25,25),
-            // IconFactory.getUploadHoverIcon(28,28), 28, 28,
-            // "Upload file to current experiment");
             JPanel p = new JPanel(new FlowLayout());
             JLabel selectLabel = new JLabel(" Select:");
             gbc.insets = new Insets(0, 0, 0, 5);
@@ -165,7 +160,8 @@ public class UploadFileRow extends JPanel {
     /**
      * Method adding a listener to the close button.
      *
-     * @param listener The listener to be added.
+     * @param listener
+     *            The listener to be added.
      */
     public void addCloseButtonListener(ActionListener listener) {
         closeButton.addActionListener(listener);
@@ -192,7 +188,8 @@ public class UploadFileRow extends JPanel {
     /**
      * Method updating the progress bar of this file row.
      *
-     * @param progress The current progress.
+     * @param progress
+     *            The current progress.
      */
     public void updateProgressBar(float progress) {
         /* Progress is handled as % */
@@ -211,8 +208,7 @@ public class UploadFileRow extends JPanel {
     }
 
     /**
-     * Method returning the chosen genome release
-     * for the current file.
+     * Method returning the chosen genome release for the current file.
      *
      * @return String representing the genome release.
      */
@@ -245,8 +241,8 @@ public class UploadFileRow extends JPanel {
     }
 
     /**
-     * Method used to reset the type combobox,
-     * when a new species is chosen in the parent panel.
+     * Method used to reset the type combobox, when a new species is chosen in
+     * the parent panel.
      */
     public void resetType() {
         typeBox.setSelectedItem(typeBox.getSelectedItem());

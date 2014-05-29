@@ -49,10 +49,10 @@ public class UploadToNewExpPanel extends JPanel implements ExperimentPanel {
      */
     public UploadToNewExpPanel() {
         setLayout(new BorderLayout());
-        uploadFileRows = new HashMap<>();
-        annotationBoxes = new HashMap<>();
-        annotationFields = new HashMap<>();
-        annotationHeaders = new ArrayList<>();
+        uploadFileRows = new HashMap<File, UploadFileRow>();
+        annotationBoxes = new HashMap<String, JComboBox<String>>();
+        annotationFields = new HashMap<String, JTextField>();
+        annotationHeaders = new ArrayList<String>();
         uploadBackground = new JPanel(new BorderLayout());
         buttonsPanel = new JPanel(new FlowLayout());
         uploadFilesPanel = new JPanel(new GridLayout(0, 1));
@@ -68,7 +68,7 @@ public class UploadToNewExpPanel extends JPanel implements ExperimentPanel {
         expID = new JTextField();
         expID.setColumns(10);
         expID.getDocument().addDocumentListener(new FreetextListener());
-        species = new JComboBox<>();
+        species = new JComboBox<String>();
         species.setPreferredSize(new Dimension(120, 31));
         genome = new ArrayList<String>();
         currentAnnotations = new HashMap<String, JPanel>();
@@ -121,7 +121,11 @@ public class UploadToNewExpPanel extends JPanel implements ExperimentPanel {
      * @return a String representing the species.
      */
     public String getSelectedSpecies() {
-        return species.getSelectedItem().toString();
+        if (species != null) {
+            return species.getSelectedItem().toString();
+        } else {
+            return "";
+        }
     }
 
     /**
@@ -132,9 +136,7 @@ public class UploadToNewExpPanel extends JPanel implements ExperimentPanel {
      *            An array containing the current genome releases.
      */
     public void setGenomeReleases(GenomeReleaseData[] grd) {
-        if (genome.size() > 0) {
-            genome.clear();
-        }
+        genome.clear();
         if (grd.length > 0) {
             for (GenomeReleaseData g : grd) {
                 try {
@@ -143,11 +145,9 @@ public class UploadToNewExpPanel extends JPanel implements ExperimentPanel {
                     System.out.println("Couldn't find genome version.");
                 }
             }
-            if (genome.size() > 0) {
-                for (File f : uploadFileRows.keySet()) {
-                    uploadFileRows.get(f).resetType();
-                }
-            }
+        }
+        for (File f : uploadFileRows.keySet()) {
+            uploadFileRows.get(f).resetType();
         }
     }
 
@@ -217,7 +217,7 @@ public class UploadToNewExpPanel extends JPanel implements ExperimentPanel {
                     Double.MIN_VALUE };
             newExpPanel.setLayout(gbl_panel);
             add(newExpPanel, BorderLayout.NORTH);
-            addAnnotationsForExp();
+            updateAnnotations(annotations);
             uploadBackground.add(uploadFilesPanel, BorderLayout.NORTH);
             add(uploadBackground, BorderLayout.CENTER);
 
@@ -237,38 +237,22 @@ public class UploadToNewExpPanel extends JPanel implements ExperimentPanel {
     }
 
     /**
-     * A method dynamically adding annotations from the server. In order to
-     * customize the experiment, which the files should be uploaded to.
-     *
-     * @throws NullPointerException
-     *             if a annotation points at null value.
-     */
-    private void addAnnotationsForExp() throws NullPointerException {
-        annotationBoxes = new HashMap<String, JComboBox<String>>();
-        annotationFields = new HashMap<String, JTextField>();
-        annotationHeaders.clear();
-
-        JPanel exp = new JPanel(new BorderLayout());
-        expNameLabel.setText("<html><b>Experiment ID</b></html>");
-        expNameLabel.setToolTipText("Bold indicates a forced annotation");
-        exp.add(expNameLabel, BorderLayout.NORTH);
-        exp.add(expID, BorderLayout.CENTER);
-        annotationHeaders.add("UniqueExpID");
-        currentAnnotations.put("UniqueExpID", exp);
-        updateAnnotations(annotations);
-    }
-
-    /**
-     * Method updating current annotations.
+     * Method updating current annotations available at the server.
      */
     public void updateAnnotations(AnnotationDataType[] annotations) {
+        if (!annotationHeaders.contains("UniqueExpID")) {
+            JPanel exp = new JPanel(new BorderLayout());
+            expNameLabel.setText("<html><b>Experiment ID</b></html>");
+            expNameLabel.setToolTipText("Bold indicates a forced annotation");
+            exp.add(expNameLabel, BorderLayout.NORTH);
+            exp.add(expID, BorderLayout.CENTER);
+            annotationHeaders.add("UniqueExpID");
+            currentAnnotations.put("UniqueExpID", exp);
+        }
         ArrayList<String> exists = new ArrayList<String>();
         exists.add("UniqueExpID");
         for (AnnotationDataType a : annotations) {
-            if ((annotationHeaders.contains(a.getName()))
-                    && ((a.getValues()[0].equalsIgnoreCase("freetext") || a
-                            .getValues().length == annotationBoxes.get(
-                            a.getName()).getItemCount()))) {
+            if ((annotationHeaders.contains(a.getName())) && ((a.getValues()[0].equalsIgnoreCase("freetext")) || (a.getValues().length == annotationBoxes.get(a.getName()).getItemCount()))) {
                 exists.add(a.getName());
             } else {
                 JPanel p = new JPanel(new BorderLayout());
@@ -331,9 +315,6 @@ public class UploadToNewExpPanel extends JPanel implements ExperimentPanel {
                 currentAnnotations.put(a.getName(), p);
                 exists.add(a.getName());
             }
-        }
-        for(String s : exists) {
-            System.out.println(s);
         }
         String[] checkIt = new String[annotationHeaders.size()];
         for (int i = 0; i < annotationHeaders.size(); i++) {
@@ -479,13 +460,14 @@ public class UploadToNewExpPanel extends JPanel implements ExperimentPanel {
                 .size() - 1];
         int nrOfAdded = 0;
         for (int i = 0; i < annotationHeaders.size(); i++) {
-            if(!annotationHeaders.get(i).equals("UniqueExpID")) {
+            if (!annotationHeaders.get(i).equals("UniqueExpID")) {
                 if (annotationBoxes.containsKey(annotationHeaders.get(i))) {
                     a[nrOfAdded] = new AnnotationDataValue(Integer.toString(i),
                             annotationHeaders.get(i), annotationBoxes
-                            .get(annotationHeaders.get(i))
-                            .getSelectedItem().toString());
-                } else if (annotationFields.containsKey(annotationHeaders.get(i))) {
+                                    .get(annotationHeaders.get(i))
+                                    .getSelectedItem().toString());
+                } else if (annotationFields.containsKey(annotationHeaders
+                        .get(i))) {
                     a[nrOfAdded] = new AnnotationDataValue(Integer.toString(i),
                             annotationHeaders.get(i), annotationFields.get(
                                     annotationHeaders.get(i)).getText());

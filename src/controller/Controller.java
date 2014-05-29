@@ -884,12 +884,9 @@ public class Controller {
 
         @Override
         public void run() {
-            String species;
-            if ((species = view.getSelectedSpecies()) != null) {
-                GenomeReleaseData[] grd = model
-                        .getSpeciesGenomeReleases(species);
-                view.setGenomeReleases(grd);
-            }
+            String species = view.getSelectedSpecies();
+            GenomeReleaseData[] grd = model.getSpeciesGenomeReleases(species);
+            view.setGenomeReleases(grd);
         }
     }
 
