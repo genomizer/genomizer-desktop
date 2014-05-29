@@ -154,8 +154,8 @@ public class ProcessTab extends JPanel {
         JOptionPane
                 .showMessageDialog(
                         this,
-                        "Regular parameters\n\nFormat: \nBowtie flags: \nGenome release files: \nWindow size: \nSmooth type: \nStep position: \nStep size: \n"
-                                + "\nRatio calculation parameters\n\nSingle/Double: \nInput reads cut-off: \nChromosomes: \nWindow size: \nSmooth type: \nStep position: \nPrint zeros: \nPrint mean: \n",
+                        "Regular parameters\n\nFormat: SAM, GFF and SGR\nBowtie flags: Insert legitimate bowTie parameters\nGenome release files: A genome release file to be used by bowTie.\nWindow size: The size of the window to be used by smoothing.\nSmooth type: Type of smoothing to be used.\nStep position: Minimum values which smoothing will be run.\nStep size: Used to lower resolution of data. Higher value means lower resolution.\n"
+                                + "Print zeros: Print values with zeros.\nPrint mean: Print total mean of file.\n",
                         "Parameter information", JOptionPane.PLAIN_MESSAGE);
     }
 
