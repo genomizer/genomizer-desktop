@@ -6,7 +6,7 @@ Programvaruteknik, Umea University Spring 2014
 **Bugs and problems are to be reported to the dev team as soon as possible, either by GitHub Issues or by mail to genomizer@mailinator.com**
 *See User Manual for instructions on using functionality*
 
-##CHANGELOG V1.0.0 RELEASE DATE 14-05-28
+##CHANGELOG V1.0.0 RELEASE DATE 14-05-29
 
 - Nicer login screen
 - Added the genomizer logo and some nice icons
@@ -21,9 +21,10 @@ Programvaruteknik, Umea University Spring 2014
  
 
 ###NOTES
-- Please see Help box and User Manual for guides on using the process
+- Please see the Help box and User Manual for guides on using the process.
 - File download does not control preventing of writing over an existing file if they have the same file name.
-- You can now also press enter to login and to search(?)
+- You can now also press enter to login and to search.
+- Some problems may occur with annotations to a new experiment. It will be fixed very soon.
 - When adding really small genome release files not much happens.
 - It is possible to break add genome release uploads in many colorful ways by suppling *wrong* files and with bad names (not A-Z,0-9, non ascii etc)
 
