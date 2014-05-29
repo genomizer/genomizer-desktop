@@ -230,9 +230,7 @@ public class UploadToNewExpPanel extends JPanel implements ExperimentPanel {
             });
 
         } catch (NullPointerException e) {
-            JOptionPane.showMessageDialog(this,
-                    "Eggs are supposed to be green.", "Inane error",
-                    JOptionPane.ERROR_MESSAGE);
+            System.err.println("NullPointerException while retrieving annotations from server.");
         }
     }
 
