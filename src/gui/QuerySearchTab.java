@@ -296,7 +296,7 @@ public class QuerySearchTab extends JPanel {
     /**
      * Paint the query builder rows in the rows panel
      */
-    private void paintRows() {
+    private synchronized void paintRows() {
         SwingUtilities.invokeLater(new Runnable() {
             public void run() {
                 rowsPanel.removeAll();

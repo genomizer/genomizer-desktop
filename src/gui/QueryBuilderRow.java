@@ -9,12 +9,14 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 import javax.swing.Box;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
+import javax.swing.SwingUtilities;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 
@@ -23,11 +25,11 @@ import util.IconFactory;
 
 /**
  * Class the represents a row in the query builder
- *
+ * 
  * @author bDtKarlsson
  */
 public class QueryBuilderRow extends JPanel {
-
+    
     private static final long serialVersionUID = -7684513985741278158L;
     private JComboBox annotationBox;
     private JComboBox annotationAlternatives;
@@ -36,18 +38,18 @@ public class QueryBuilderRow extends JPanel {
     private JButton minusButton;
     private JComboBox logicBox;
     private QuerySearchTab parent;
-    private ArrayList<AnnotationDataType> annotationTypes;
+    private CopyOnWriteArrayList<AnnotationDataType> annotationTypes;
     private static final String[] logicOperators = { "AND", "NOT", "OR" };
     private boolean dropdown = false;
     private boolean firstRow = false;
     private boolean lastRow = false;
-
+    
     public QueryBuilderRow(QuerySearchTab parent,
             AnnotationDataType[] annotationTypes) {
         /* The Parent query search tab */
         this.parent = parent;
         /* The annotation information */
-        this.annotationTypes = new ArrayList<>();
+        this.annotationTypes = new CopyOnWriteArrayList<>();
         setLayout(new FlowLayout());
         /* Set up the components (fieldBox must be set last) */
         setPlusButton();
@@ -57,16 +59,16 @@ public class QueryBuilderRow extends JPanel {
         setAnnotationAlternatives(new String[0]);
         setAnnotationBox(annotationTypes);
     }
-
+    
     /**
      * Method for setting information about the row
-     *
+     * 
      * @param firstRow
      *            - if the row is the first row
      * @param lastRow
      *            - if the row is the last row
      */
-    public void setAs(Boolean firstRow, Boolean lastRow) {
+    public synchronized void setAs(Boolean firstRow, Boolean lastRow) {
         this.firstRow = firstRow;
         this.lastRow = lastRow;
         /* Remove all current components */
@@ -87,6 +89,9 @@ public class QueryBuilderRow extends JPanel {
             logicPanel.add(logicBox, BorderLayout.CENTER);
         }
         /* All rows should have a annotation field */
+        if (annotationBox == null) {
+            annotationBox = new JComboBox();
+        }
         annotationPanel.add(annotationBox, BorderLayout.CENTER);
         /*
          * If the selected annotation has predefinied values the row should have
@@ -112,9 +117,9 @@ public class QueryBuilderRow extends JPanel {
             } else {
                 secondButtonPanel.add(plusButton);
             }
-
+            
         }
-
+        
         add(logicPanel);
         add(Box.createHorizontalStrut(5));
         add(annotationPanel);
@@ -123,7 +128,7 @@ public class QueryBuilderRow extends JPanel {
         add(firstButtonPanel);
         add(secondButtonPanel);
     }
-
+    
     /**
      * Method for constructing the plus button
      */
@@ -140,7 +145,7 @@ public class QueryBuilderRow extends JPanel {
         });
         plusButton.setFocusable(false);
     }
-
+    
     /**
      * Method for constructing a minus button
      */
@@ -159,7 +164,7 @@ public class QueryBuilderRow extends JPanel {
         });
         minusButton.setFocusable(false);
     }
-
+    
     /**
      * Method for constructing the text field for free text input
      */
@@ -174,55 +179,54 @@ public class QueryBuilderRow extends JPanel {
             public void changedUpdate(DocumentEvent e) {
                 parent.updateSearchArea();
             }
-
+            
             @Override
             public void removeUpdate(DocumentEvent e) {
                 parent.updateSearchArea();
             }
-
+            
             @Override
             public void insertUpdate(DocumentEvent e) {
                 parent.updateSearchArea();
             }
         });
-        //TODO
+        // TODO
         setTextFieldOnEnterListener(textField);
     }
-
-    private void focusNextQuery(){
+    
+    private void focusNextQuery() {
         parent.getNextQuery(this).getTextField().requestFocus();
     }
-
-    public JTextField getTextField(){
+    
+    public JTextField getTextField() {
         return this.textField;
     }
-
-    private void onPressedEnter(){
+    
+    private void onPressedEnter() {
         parent.getSearchButton().doClick();
     }
-
-    private void setTextFieldOnEnterListener(JTextField textField){
-
+    
+    private void setTextFieldOnEnterListener(JTextField textField) {
+        
         final QueryBuilderRow queryRow = this;
-
+        
         textField.addKeyListener(new KeyAdapter() {
-            @Override public void keyPressed(KeyEvent event) {
-                if(event.getKeyCode() == event.VK_ENTER ) {
-                    if(parent.isLastQueryIndex(queryRow)){
+            @Override
+            public void keyPressed(KeyEvent event) {
+                if (event.getKeyCode() == event.VK_ENTER) {
+                    if (parent.isLastQueryIndex(queryRow)) {
                         onPressedEnter();
-                    }else{
+                    } else {
                         focusNextQuery();
                     }
                 }
             }
         });
     }
-
-
-
+    
     /**
      * Method for constructing the annotation alternatives combobox
-     *
+     * 
      * @param alternatives
      *            - the annotation alternatives
      */
@@ -240,9 +244,9 @@ public class QueryBuilderRow extends JPanel {
             }
         });
     }
-
-    private ArrayList<AnnotationDataType> getManuallyAddedAnnotations() {
-        ArrayList<AnnotationDataType> annotations = new ArrayList<>();
+    
+    private CopyOnWriteArrayList<AnnotationDataType> getManuallyAddedAnnotations() {
+        CopyOnWriteArrayList<AnnotationDataType> annotations = new CopyOnWriteArrayList<>();
         annotations.add(new AnnotationDataType("ExpID", null, true));
         annotations.add(new AnnotationDataType("FileName", null, true));
         annotations.add(new AnnotationDataType("FileType", new String[] {
@@ -252,71 +256,75 @@ public class QueryBuilderRow extends JPanel {
         annotations.add(new AnnotationDataType("Uploader", null, true));
         return annotations;
     }
-
+    
     /**
      * Method for creating the annotations combobox
-     *
+     * 
      * @param annotations
      *            - the annotations
      */
     public void setAnnotationBox(AnnotationDataType[] annotations) {
-        annotationTypes = new ArrayList<>();
+        annotationTypes = new CopyOnWriteArrayList<>();
         annotationTypes.addAll(getManuallyAddedAnnotations());
-        annotationTypes.addAll(new ArrayList<>(Arrays
-                .asList(annotations)));
+        annotationTypes.addAll(new ArrayList<>(Arrays.asList(annotations)));
         /* Get the annotation names */
-        ArrayList<String> annotationNames = new ArrayList<>();
+        final ArrayList<String> annotationNames = new ArrayList<>();
         for (AnnotationDataType dataType : annotationTypes) {
             annotationNames.add(dataType.getName());
         }
-        if (annotationNames.size() > 0) {
-            annotationBox = new JComboBox(
-                    annotationNames.toArray(new String[annotationNames.size()]));
-        } else {
-            annotationBox = new JComboBox();
-        }
-        // annotationBox.setPrototypeDisplayValue("AAAAAAAAAAAAAAAAAAAAAAA");
-        annotationBox.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                /*
-                 * When the selected item in the box is changed a check must be
-                 * made to know wether a free text field or a annotation
-                 * alternatives box should be displayed
-                 */
-                String annotation = (String) annotationBox.getSelectedItem();
-                dropdown = false;
-                for (AnnotationDataType dataType : annotationTypes) {
-                    if (annotation.equals(dataType.getName())) {
-                        String[] values = dataType.getValues();
-                        if (values != null) {
-                            if (!values[0].equals("freetext")) {
-                                /* Dropdown annotation alternatives box */
-                                dropdown = true;
-                                setAnnotationAlternatives(values);
-                            } else {
-                                /* Free text field */
-                                dropdown = false;
+        SwingUtilities.invokeLater(new Runnable() {
+            public void run() {
+                if (annotationNames.size() > 0) {
+                    annotationBox = new JComboBox(annotationNames
+                            .toArray(new String[annotationNames.size()]));
+                } else {
+                    annotationBox = new JComboBox();
+                }
+                // annotationBox.setPrototypeDisplayValue("AAAAAAAAAAAAAAAAAAAAAAA");
+                annotationBox.addActionListener(new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+                        /*
+                         * When the selected item in the box is changed a check
+                         * must be made to know wether a free text field or a
+                         * annotation alternatives box should be displayed
+                         */
+                        String annotation = (String) annotationBox
+                                .getSelectedItem();
+                        dropdown = false;
+                        for (AnnotationDataType dataType : annotationTypes) {
+                            if (annotation.equals(dataType.getName())) {
+                                String[] values = dataType.getValues();
+                                if (values != null) {
+                                    if (!values[0].equals("freetext")) {
+                                        /* Dropdown annotation alternatives box */
+                                        dropdown = true;
+                                        setAnnotationAlternatives(values);
+                                    } else {
+                                        /* Free text field */
+                                        dropdown = false;
+                                    }
+                                }
                             }
+                            /* Update row and parent search area */
+                            setAs(firstRow, lastRow);
+                            parent.updateSearchArea();
+                            repaint();
+                            revalidate();
                         }
                     }
-                    /* Update row and parent search area */
-                    setAs(firstRow, lastRow);
-                    parent.updateSearchArea();
-                    repaint();
-                    revalidate();
+                });
+                /*
+                 * Change selected item so the actionlistener will be called
+                 * upon starting the program
+                 */
+                if (annotationBox.getSelectedIndex() != -1) {
+                    annotationBox.setSelectedIndex(0);
                 }
             }
         });
-        /*
-         * Change selected item so the actionlistener will be called upon
-         * starting the program
-         */
-        if (annotationBox.getSelectedIndex() != -1) {
-            annotationBox.setSelectedIndex(0);
-        }
     }
-
+    
     /**
      * Method for creating the logic box
      */
@@ -333,11 +341,11 @@ public class QueryBuilderRow extends JPanel {
             }
         });
     }
-
+    
     /**
      * Get text either from the freetext field or the annotation alternatives
      * box
-     *
+     * 
      * @return
      */
     public String getText() {
@@ -347,25 +355,25 @@ public class QueryBuilderRow extends JPanel {
             return (String) annotationAlternatives.getSelectedItem();
         }
     }
-
+    
     /**
      * Get the selected logic operator
-     *
+     * 
      * @return logic operator
      */
     public String getLogic() {
         return (String) logicBox.getSelectedItem();
     }
-
+    
     /**
      * Get the selected annotation
-     *
+     * 
      * @return the annotation
      */
     public String getAnnotation() {
         return (String) annotationBox.getSelectedItem();
     }
-
+    
     public void setEnabled(boolean enabled) {
         annotationBox.setEnabled(enabled);
         annotationAlternatives.setEnabled(enabled);
