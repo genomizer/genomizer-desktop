@@ -223,8 +223,8 @@ public class Controller {
         @Override
         public void run() {
 
-            System.out.println("RAW TO REGION");
-            System.out.println(view.getAllMarkedFiles());
+//            System.out.println("RAW TO REGION");
+//            System.out.println(view.getAllMarkedFiles());
 
         }
     }
@@ -726,7 +726,6 @@ public class Controller {
 
         @Override
         public void run() {
-            System.out.println("RATIO CALC");
             view.showRatioPopup();
         }
     }
@@ -897,7 +896,6 @@ public class Controller {
         @Override
         public void run() {
 
-            System.out.println("Delete");
             ArrayList<FileData> markedFiles = view.getAllMarkedFiles();
             ArrayList<ExperimentData> exData = view.getFileInfo();
 

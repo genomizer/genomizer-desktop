@@ -100,7 +100,7 @@ public class Connection {
         responseBody = output.toString();
         if (responseCode >= 300) {
             // err response
-        System.err.println(request.getRequestName() + " response " + responseCode + " " + responseBody);
+//        System.err.println(request.getRequestName() + " response " + responseCode + " " + responseBody);
         }
     }
 

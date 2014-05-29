@@ -349,7 +349,7 @@ public class EditAnnotationPopup extends JPanel {
             categories = new ArrayList<>();
             for (JTextField field : valueTexts) {
                 if (!field.getText().isEmpty()) {
-                    System.out.println(field.getText());
+//                    System.out.println(field.getText());
                     categories.add(field.getText());
                 }
             }
@@ -382,7 +382,6 @@ public class EditAnnotationPopup extends JPanel {
 
     public void addEditAnnotationListener(ActionListener listener) {
 
-        System.out.println("Adding listnener to model");
         editAnnotationButtonModel.addActionListener(listener);
     }
 

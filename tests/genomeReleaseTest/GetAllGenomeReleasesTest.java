@@ -31,7 +31,7 @@ public class GetAllGenomeReleasesTest {
     @Test
     public void shouldGetFileNames(){
         GenomeReleaseData[] gr = controller.getGenomeReleases();
-        System.out.println("längd: " + gr.length + "första species: " + gr[0].getSpecies());
+//        System.out.println("längd: " + gr.length + "första species: " + gr[0].getSpecies());
         assertThat(gr[0].getFilenames()).isNotEmpty();
     }
 }

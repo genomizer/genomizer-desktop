@@ -557,7 +557,7 @@ public class TreeTable extends JPanel {
                 visibleHeadings.addAll(headings);
             }
         } catch (NullPointerException e) {
-            System.out.println("Couldn't update visible headings");
+//            System.out.println("Couldn't update visible headings");
         }
     }
     
