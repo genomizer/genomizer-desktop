@@ -315,8 +315,11 @@ public class QuerySearchTab extends JPanel {
                     rowsPanel.add(row);
                 }
                 updateSearchArea();
+                rowsPanel.revalidate();
+                rowsPanel.repaint();
             }
         });
+        
     }
     
     /**
