@@ -223,6 +223,7 @@ public class Controller {
         @Override
         public void run() {
 
+            //TODO: Raw To Region Data Listener doesn't do anything.
 //            System.out.println("RAW TO REGION");
 //            System.out.println(view.getAllMarkedFiles());
 
