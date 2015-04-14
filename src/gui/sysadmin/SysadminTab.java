@@ -25,6 +25,8 @@ import javax.swing.JTabbedPane;
 import javax.swing.JTable;
 import javax.swing.table.TableModel;
 
+//TODO: fixa varningar!
+
 public class SysadminTab extends JPanel {
 
     private JTabbedPane sysadminTabPane;
