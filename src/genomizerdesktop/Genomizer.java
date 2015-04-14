@@ -11,7 +11,7 @@ import javax.swing.SwingUtilities;
 
 import model.Model;
 import controller.Controller;
-
+// HEJSANSVEJSAN
 public class Genomizer {
 
     public static void main(String args[]) {
