@@ -1,3 +1,5 @@
+//TODO SORTERA SKITEN
+
 package controller;
 
 import gui.CheckListItem;
