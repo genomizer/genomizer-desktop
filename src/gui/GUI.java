@@ -460,6 +460,7 @@ public class GUI extends JFrame implements GenomizerView {
         querySearchTab.setAnnotationTypes(annotationTypes);
     }
 
+    // TODO: WTF Outcommented listeners, why not removed? OO
     /*
      * @Override public void setAnnotationTableData(AnnotationDataType[]
      * annotations) { sysadminTab.setAnnotationTableData(annotations); }
@@ -474,6 +475,7 @@ public class GUI extends JFrame implements GenomizerView {
 
         ArrayList<FileData> fileArray = allFileData;
 
+        // TODO: Old empty TODO, why a forloop that doesn't do anything?
         // TODO
         // TESTING
         for (int i = 0; i < fileArray.size(); i++) {
