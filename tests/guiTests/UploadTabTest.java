@@ -18,6 +18,7 @@ public class UploadTabTest {
     @Test
     public void shouldReturnTrueIfForcedAnnotationFieldsAreFilled() {
         //Fill fields
+        // TODO: Fill fields is not done. OO
 
         //Assert
         assertTrue(uploadTab.getNewExpPanel().forcedAnnotationCheck());

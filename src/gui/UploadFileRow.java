@@ -141,6 +141,7 @@ public class UploadFileRow extends JPanel {
         filePanel.add(closeButton, gbc_btnX);
 
         if (newExp) {
+            // TODO: WTF Why have they not fixed warnings, 'p' does nothing at all? OO
             JPanel p = new JPanel(new FlowLayout());
             JLabel selectLabel = new JLabel(" Select:");
             gbc.insets = new Insets(0, 0, 0, 5);

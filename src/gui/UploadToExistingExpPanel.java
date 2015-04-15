@@ -172,9 +172,13 @@ public class UploadToExistingExpPanel extends JPanel implements ExperimentPanel 
      * @param ed The experiment to be added, in the form of ExperimentData
      */
     public void addExistingExp(ExperimentData ed) {
+
         this.ed = ed;
+
         build();
+
         ArrayList<AnnotationDataValue> annot = ed.getAnnotations();
+
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.anchor = GridBagConstraints.WEST;
         gbc.insets = new Insets(5, 0, 5, 30);
@@ -182,6 +186,7 @@ public class UploadToExistingExpPanel extends JPanel implements ExperimentPanel 
         int y = 0;
         gbc.gridx = x;
         gbc.gridy = y;
+
         JPanel exp = new JPanel(new BorderLayout());
         JLabel expHeader = new JLabel("Experiment ID");
         Font font = expHeader.getFont();
@@ -195,7 +200,9 @@ public class UploadToExistingExpPanel extends JPanel implements ExperimentPanel 
         exp.add(expID, BorderLayout.CENTER);
         northPanel.add(exp, gbc);
         x++;
+
         for (AnnotationDataValue adv : annot) {
+
             if (x > 6) {
                 x = 0;
                 y++;
@@ -204,6 +211,7 @@ public class UploadToExistingExpPanel extends JPanel implements ExperimentPanel 
             gbc.insets = new Insets(5, 0, 5, 30);
             gbc.gridx = x;
             gbc.gridy = y;
+
             JPanel p = new JPanel(new BorderLayout());
             if (adv.getName().equalsIgnoreCase("species")) {
                 adv.getValue();
@@ -271,6 +279,7 @@ public class UploadToExistingExpPanel extends JPanel implements ExperimentPanel 
                 try {
                     genome.add(g.getVersion());
                 } catch (NullPointerException e) {
+                    // TODO: Catch NullpointerEx emtpy, looks very stupid... OO
 //                    System.out.println("Couldn't find genome version.");
                 }
             }
