@@ -651,6 +651,7 @@ public class GUI extends JFrame implements GenomizerView {
         processTab.addRatioCalcListener(listener);
     }
 
+    // TODO: WTF Outcommented listeners, why not removed? OO
     // public void addCancelListener(ActionListener listener) {
     // ratioCalcPopup.addCancelListener(listener);
     // }
@@ -691,6 +692,7 @@ public class GUI extends JFrame implements GenomizerView {
         processTab.setGenomeFileList(genomeReleases);
     }
 
+    // TODO: WTF Dead method, why? OO
     public void removeUploadExpName() {
         // uploadTab.removeExpName();
     }
@@ -699,6 +701,7 @@ public class GUI extends JFrame implements GenomizerView {
         workspaceTab.removeSelectedData();
     }
 
+    // TODO: WTF Dead method, why? OO
     public void disableSelectedRow(File f) {
         // uploadTab.disableRow(f);
     }
@@ -719,6 +722,7 @@ public class GUI extends JFrame implements GenomizerView {
                         ratioCalcPopup.ratioStepPosition);
     }
 
+    // TODO: WTF Dead method, why? OO
     public void setProfileButton(boolean bool) {
       //  processTab.setProfileButton(bool);
     }
