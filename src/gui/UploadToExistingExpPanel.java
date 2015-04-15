@@ -271,7 +271,7 @@ public class UploadToExistingExpPanel extends JPanel implements ExperimentPanel 
                 try {
                     genome.add(g.getVersion());
                 } catch (NullPointerException e) {
-                    System.out.println("Couldn't find genome version.");
+//                    System.out.println("Couldn't find genome version.");
                 }
             }
         }

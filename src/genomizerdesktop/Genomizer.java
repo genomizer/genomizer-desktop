@@ -11,15 +11,16 @@ import javax.swing.SwingUtilities;
 
 import model.Model;
 import controller.Controller;
-
+// HEJSANSVEJSAN
+//HALLO
 public class Genomizer {
 
     public static void main(String args[]) {
 
         final GUI gui = new GUI();
         UploadTab ut = new UploadTab();
-        ProcessTab pt = new ProcessTab();
         WorkspaceTab wt = new WorkspaceTab();
+        ProcessTab pt = new ProcessTab();
         // AnalyzeTab at = new AnalyzeTab();
         SysadminTab sat = new SysadminTab();
         QuerySearchTab qst = new QuerySearchTab();

@@ -63,7 +63,7 @@ public class ResponseParser {
             
         } catch (JsonParseException e) {
             
-            System.out.println("Could not parse json GR.");
+//            System.out.println("Could not parse json GR.");
             return null;
         }
         
@@ -75,7 +75,7 @@ public class ResponseParser {
         try {
             url = gson.fromJson(json, AddFileToExperimentResponse.class);
         } catch (JsonParseException e) {
-            System.out.println("parse error");
+//            System.out.println("parse error");
         }
         return url;
     }
@@ -89,8 +89,8 @@ public class ResponseParser {
             
         } catch (JsonParseException e) {
             
-            System.err
-                    .println("Could not parse url response for adding genome release.");
+//            System.err
+//                    .println("Could not parse url response for adding genome release.");
         }
         
         return urls;

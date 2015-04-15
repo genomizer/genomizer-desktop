@@ -103,7 +103,6 @@ public class RequestFactory {
     public static RemoveGenomeReleaseRequest makeRemoveGenomeReleaseRequest(
             String specie, String version) {
         
-        System.out.println("/genomeRelease/" + specie + "/" + version);
         return new RemoveGenomeReleaseRequest(specie, version);
     }
     

@@ -487,7 +487,7 @@ public class GenomeReleaseViewCreator {
         JTableHeader tableheader =grTable.getTableHeader();
         TableColumnModel tcm = tableheader.getColumnModel();
         int columnIndex = tcm.getColumnIndex(SysStrings.GENOME_TABLE_VERSION);
-        System.out.println(selectedRow + " " + columnIndex);
+//        System.out.println(selectedRow + " " + columnIndex);
         String str = (String) grTable.getValueAt(selectedRow, columnIndex);
         return str;
     }

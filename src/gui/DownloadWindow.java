@@ -188,16 +188,13 @@ public class DownloadWindow extends JFrame {
         setVisible(false);
         if (ongoingDownloads.size() == 0) {
             if (files.size() > 0) {
-                System.out.println("first alt");
                 downloadButton.doClick();
                 setVisible(true);
             } else {
-                System.out.println("second alt");
                 JOptionPane.showMessageDialog(null, "No files were selected.");
                 dispose();
             }
         } else {
-            System.out.println("third alt");
             setVisible(true);
         }
     }
