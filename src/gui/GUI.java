@@ -78,6 +78,7 @@ public class GUI extends JFrame implements GenomizerView {
         this.setMinimumSize(new Dimension(1024, 768));
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         BorderLayout bl = new BorderLayout();
+
         mainPanel = new JPanel(bl);
         userPanel = new UserPanel();
         loginWindow = new LoginWindow(this);
