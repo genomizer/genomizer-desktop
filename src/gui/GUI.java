@@ -52,7 +52,6 @@ public class GUI extends JFrame implements GenomizerView {
     private QuerySearchTab querySearchTab;
     private DownloadWindow downloadWindow;
     private RatioCalcPopup ratioCalcPopup;
-    private Process process;
 
     /**
      * Initiates the main view of the program.
@@ -83,8 +82,6 @@ public class GUI extends JFrame implements GenomizerView {
         userPanel = new UserPanel();
         loginWindow = new LoginWindow(this);
         ratioCalcPopup = new RatioCalcPopup(this);
-        process = new Process();
-
         add(mainPanel);
 
         tabbedPane = new JTabbedPane();
@@ -711,14 +708,14 @@ public class GUI extends JFrame implements GenomizerView {
     public boolean isCorrectToProcess() {
         boolean sgrFormat = processTab.radioGroup
                 .isSelected(processTab.outputSGR.getModel());
-        return process.isCorrectToProcess(processTab.smoothWindowSize,
+        return Process.isCorrectToProcess(processTab.smoothWindowSize,
                 processTab.stepPosition, processTab.stepSize, sgrFormat,
                 processTab.useSmoothing, processTab.stepSizeBox);
     }
 
     public boolean isRatioCorrectToProcess() {
         return !processTab.useRatio()
-                || process.isRatioCorrectToProcess(
+                || Process.isRatioCorrectToProcess(
                         ratioCalcPopup.ratioWindowSize,
                         ratioCalcPopup.inputReads, ratioCalcPopup.chromosome,
                         ratioCalcPopup.ratioStepPosition);
