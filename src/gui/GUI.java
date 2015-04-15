@@ -379,6 +379,7 @@ public class GUI extends JFrame implements GenomizerView {
      */
     private void setLookAndFeel() {
 
+        // TODO: Learn what this means, and if it neads to be changed, why some things removed, and why emtpy catch Exception e? OO
         try {
             UIManager
                     .setLookAndFeel("javax.swing.plaf.nimbus.NimbusLookAndFeel");
