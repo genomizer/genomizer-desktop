@@ -120,6 +120,7 @@ public class GUI extends JFrame implements GenomizerView {
         loginWindow.addLoginListener(listener);
     }
 
+    // TODO: WTF Outcommented listeners, why not removed? OO
     /*
      * @Override public void addAddAnnotationListener(ActionListener
      * addAnnotationListener) {
@@ -139,6 +140,8 @@ public class GUI extends JFrame implements GenomizerView {
         processTab.addRawToProfileDataListener(listener);
     }
 
+
+    // TODO: WTF Outcommented listeners, why not removed? OO
     /*
      * @Override public void addAddPopupListener(ActionListener
      * addPopupListener) { sysadminTab.addAddPopupListener(addPopupListener); }
@@ -160,6 +163,7 @@ public class GUI extends JFrame implements GenomizerView {
 
     @Override
     public void addSearchListener(ActionListener listener) {
+        // TODO: WTF agms what does it do? OO
         // TODO Auto-generated method stub
     }
 
