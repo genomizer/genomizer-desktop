@@ -9,35 +9,35 @@ import com.google.gson.Gson;
  * Class representing experiment data
  */
 public class ExperimentData {
-    
+
     public String name;
     public ArrayList<FileData> files;
     public ArrayList<AnnotationDataValue> annotations;
-    
+
     public ExperimentData() {
-        
+
     }
-    
+
     public ExperimentData(String name, ArrayList<FileData> files,
             ArrayList<AnnotationDataValue> annotations) {
         this.name = name;
         this.files = files;
         this.annotations = annotations;
     }
-    
+
     public String getName() {
         return name;
     }
-    
+
     /**
      * Returns the list of annotations associated with the project (including
      * experiment name and creator of experiment
-     * 
+     *
      * @return
      */
     public ArrayList<String> getAnnotationValueList(ArrayList<String> headings) {
         ArrayList<String> annotationList = new ArrayList<String>();
-        
+
         for (String heading : headings) {
             boolean hasValue = false;
             if (heading.equals("ExpID")) {
@@ -62,17 +62,17 @@ public class ExperimentData {
                     }
                 }
             }
-            
+
             if (!hasValue) {
                 annotationList.add("-");
             }
         }
         return annotationList;
     }
-    
+
     /**
      * Add new files to the experiment
-     * 
+     *
      * @param newFiles
      */
     public void addFiles(ArrayList<FileData> newFiles) {
@@ -82,18 +82,18 @@ public class ExperimentData {
             }
         }
     }
-    
+
     /**
      * Remove a files from the experiment
-     * 
+     *
      * @param fileData
      */
     public void removeFile(FileData fileData) {
         files.remove(fileData);
     }
-    
+
     public static ExperimentData[] getExample() {
-        
+
         String[] names = { "Kalle", "Pelle", "Anna", "Nils", "Olle" };
         String[] dates = { "2012-04-30", "2013-02-02", "2008-02-20",
                 "2014-12-24", "2012-12-12" };
@@ -103,7 +103,7 @@ public class ExperimentData {
         String[] sexTypes = { "Male", "Female", "Unknown" };
         Random rand = new Random();
         Gson gson = new Gson();
-        
+
         ExperimentData[] searchResponses = new ExperimentData[20];
         for (int i = 0; i < 20; i++) {
             ArrayList<FileData> fileData = new ArrayList<FileData>();
@@ -126,13 +126,13 @@ public class ExperimentData {
                     .add(new AnnotationDataValue("2", "Annotationy", "y"));
             searchResponses[i] = new ExperimentData("Experiment" + i, fileData,
                     annotationData);
-            
+
         }
-        
+
         return searchResponses;
-        
+
     }
-    
+
     public void convertToUTF8() {
         if (this.name != null && !this.name.isEmpty()) {
             this.name = UTF8Converter.convertFromUTF8(name);
@@ -157,11 +157,11 @@ public class ExperimentData {
             }
         }
     }
-    
+    // TODO Saknar override för hashCode CF
     public boolean equals(Object o) {
         return (((ExperimentData) o)).name.equals(name);
     }
-    
+
     public ArrayList<AnnotationDataValue> getAnnotations() {
         return annotations;
     }

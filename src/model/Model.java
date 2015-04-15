@@ -250,6 +250,7 @@ public class Model implements GenomizerModel {
             // System.err.println("addAnnotation sent succesfully!");
             return true;
         } else {
+            //TODO Ska det hända något här eller? CF
 //            System.err
 //                    .println("addAnnotaion FAILURE, did not recive 201 response");
             // System.out.println("Response code: " + conn.getResponseCode() +

@@ -42,7 +42,7 @@ import org.jdesktop.swingx.treetable.DefaultTreeTableModel;
  * Class the represents a treetable containing experiment and file data
  */
 public class TreeTable extends JPanel {
-    
+
     private static final long serialVersionUID = 6033511181052590303L;
     private JXTreeTable table;
     private ArrayList<String> headings;
@@ -51,7 +51,7 @@ public class TreeTable extends JPanel {
     private CopyOnWriteArrayList<String> hiddenHeadings;
     private ArrayList<String> visibleHeadings;
     private ArrayList<JCheckBox> columnCheckBoxes;
-    
+
     /**
      * Tree Table empty constructor
      */
@@ -59,10 +59,10 @@ public class TreeTable extends JPanel {
         this.setLayout(new BorderLayout());
         initiateJXTreeTable();
     }
-    
+
     /**
      * Tree Table constructor with input content
-     * 
+     *
      * @param experimentData
      *            - the tree table content
      */
@@ -71,14 +71,14 @@ public class TreeTable extends JPanel {
         initiateJXTreeTable();
         setContent(experimentData);
     }
-    
+
     /**
      * Method for initating the JXTreeTable
      */
     private void initiateJXTreeTable() {
         table = new JXTreeTable() {
             private static final long serialVersionUID = -5027164951558722985L;
-            
+
             public boolean getScrollableTracksViewportWidth() {
                 return getPreferredSize().width < getParent().getWidth();
             }
@@ -90,19 +90,19 @@ public class TreeTable extends JPanel {
         /* Custom column control for hiding columns */
         ColumnControlButton controlButton = new ColumnControlButton(table) {
             private static final long serialVersionUID = 1022478445883845370L;
-            
+
             @Override
             protected ColumnControlPopup createColumnControlPopup() {
                 return (new NFColumnControlPopup());
             }
-            
+
             class NFColumnControlPopup extends DefaultColumnControlPopup {
                 @Override
                 public synchronized void addVisibilityActionItems(
                         List<? extends AbstractActionExt> actions) {
                     if (!actions.isEmpty()) {
                         JPopupMenu popupMenu = getPopupMenu();
-                        
+
                         /* Hide all columns button */
                         JButton deselectButton = new JButton(
                                 "Hide all annotations");
@@ -130,23 +130,23 @@ public class TreeTable extends JPanel {
                                 }
                             }
                         });
-                        
+
                         popupMenu.add(selectButton);
                         popupMenu.add(deselectButton);
-                        
+
                         // Add some space between the checkboxes and the
                         // buttons.
                         popupMenu.add(new JLabel("\n"));
-                        
+
                         /* Add hide column checkboxes */
                         for (JCheckBox checkBox : columnCheckBoxes) {
                             getPopupMenu().add(checkBox);
                         }
-                        
+
                         // Add some space between the checkboxes and the
                         // buttons.
                         popupMenu.add(new JLabel("\n"));
-                        
+
                         // Add expand all button with listener.
                         JButton expandAllButton = new JButton("Expand all");
                         expandAllButton.addActionListener(new ActionListener() {
@@ -156,7 +156,7 @@ public class TreeTable extends JPanel {
                             }
                         });
                         popupMenu.add(expandAllButton);
-                        
+
                         // Add collapse all button with listener.
                         JButton collapseAllButton = new JButton("Collapse all");
                         collapseAllButton
@@ -168,12 +168,12 @@ public class TreeTable extends JPanel {
                                     }
                                 });
                         popupMenu.add(collapseAllButton);
-                        
+
                         popupMenu.repaint();
                         popupMenu.revalidate();
                     }
                 }
-                
+
                 public synchronized void addAdditionalActionItems(
                         List<? extends Action> actions) {
                     /*
@@ -182,7 +182,7 @@ public class TreeTable extends JPanel {
                      */
                 }
             }
-            
+
         };
         table.setColumnControl(controlButton);
         table.setColumnControlVisible(true);
@@ -207,15 +207,15 @@ public class TreeTable extends JPanel {
         scrollPane.getViewport().setScrollMode(JViewport.SIMPLE_SCROLL_MODE);
         add(scrollPane, BorderLayout.CENTER);
     }
-    
+
     /**
      * set new content for the tree table
-     * 
+     *
      * @param experimentData
      *            - new content
      */
     public synchronized void setContent(ArrayList<ExperimentData> experimentData) {
-        
+
         /* Initiate the column sorting orders */
         sortingOrders = new HashMap<>();
         /* If the input experiment data is not null or empty */
@@ -237,7 +237,7 @@ public class TreeTable extends JPanel {
             for (int i = 0; i < nrOfColumns; i++) {
                 sortingOrders.put(headings.get(i), true);
             }
-            
+
         }
         columnCheckBoxes = new ArrayList<>();
         for (final String heading : headings) {
@@ -259,15 +259,15 @@ public class TreeTable extends JPanel {
             });
             columnCheckBoxes.add(checkBox);
         }
-        
+
         /* Create the tree structure */
         hiddenHeadings = new CopyOnWriteArrayList<>();
         createTreeStructure();
     }
-    
+
     /**
      * Sort the treetable data by column index
-     * 
+     *
      * @param sortByColumn
      *            - column index
      */
@@ -285,7 +285,7 @@ public class TreeTable extends JPanel {
         if (heading.equals("")) {
             return;
         }
-        
+
         Collections.sort(experiments, new Comparator<ExperimentData>() {
             public synchronized int compare(ExperimentData a, ExperimentData b) {
                 final Pattern PATTERN = Pattern.compile("(\\D*)(\\d*)");
@@ -334,7 +334,7 @@ public class TreeTable extends JPanel {
                     if (0 != nonDigitCompare) {
                         return nonDigitCompare;
                     }
-                    
+
                     /*
                      * matcher.group(2) fetches any digits captured by the
                      * second parentheses in PATTERN.
@@ -344,7 +344,7 @@ public class TreeTable extends JPanel {
                     } else if (m2.group(2).isEmpty()) {
                         return +1;
                     }
-                    
+
                     BigInteger n1 = new BigInteger(m1.group(2));
                     BigInteger n2 = new BigInteger(m2.group(2));
                     int numberCompare;
@@ -357,21 +357,21 @@ public class TreeTable extends JPanel {
                         return numberCompare;
                     }
                 }
-                
+
                 /*
                  * Handle if one string is a prefix of the other. Nothing comes
                  * before something.
                  */
                 return m1.hitEnd() && m2.hitEnd() ? 0 : m1.hitEnd() ? -1 : +1;
             }
-            
+
         });
-        
+
     }
-    
+
     /**
      * Return the selected data in the tree table
-     * 
+     *
      * @return
      */
     public synchronized ArrayList<ExperimentData> getSelectedData() {
@@ -415,7 +415,7 @@ public class TreeTable extends JPanel {
                                 newFile, tempExp.annotations);
                         selectedExperiments.add(exp);
                     }
-                    
+
                 }
             } else {
                 /*
@@ -458,7 +458,7 @@ public class TreeTable extends JPanel {
         }
         return selectedExperiments;
     }
-    
+
     public synchronized ArrayList<ExperimentData> getSelectedExperiments() {
         /* Get the data that are selected in the table */
         int[] rows = table.getSelectedRows();
@@ -484,7 +484,7 @@ public class TreeTable extends JPanel {
         }
         return selectedExperiments;
     }
-    
+
     /**
      * remove the currently selected files
      */
@@ -519,20 +519,20 @@ public class TreeTable extends JPanel {
         }
         createTreeStructure();
     }
-    
+
     /**
      * Get the tree table content
-     * 
+     *
      * @return
      */
     public ArrayList<ExperimentData> getContent() {
         return experiments;
     }
-    
+
     public void deselectTreeTable() {
         table.clearSelection();
     }
-    
+
     /**
      * Update the visible headings in the table (with column order intact)
      */
@@ -552,15 +552,16 @@ public class TreeTable extends JPanel {
                     }
                 }
                 visibleHeadings.removeAll(hiddenHeadings);
-                
+
             } else {
                 visibleHeadings.addAll(headings);
             }
         } catch (NullPointerException e) {
+            // TODO Hantera exception CF
 //            System.out.println("Couldn't update visible headings");
         }
     }
-    
+
     /**
      * Create the tree structure of the tree table
      */
@@ -592,9 +593,9 @@ public class TreeTable extends JPanel {
                     table.packAll();
                 }
             });
-            
+
         } catch (NullPointerException e) {
-            
+            // TODO Hantera exception CF
         }
     }
 }

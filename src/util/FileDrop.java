@@ -50,6 +50,7 @@ import java.io.*;
  * @version 1.0.1
  */
 public class FileDrop {
+  //TODO Inte serialized, behöver inte transient CF
     private transient javax.swing.border.Border normalBorder;
     private transient java.awt.dnd.DropTargetListener dropListener;
 
@@ -597,7 +598,7 @@ public class FileDrop {
         else
             return false;
     } // end remove
-    
+
     /* ******** I N N E R I N T E R F A C E L I S T E N E R ******** */
 
     /**
@@ -625,7 +626,7 @@ public class FileDrop {
         public abstract void filesDropped(java.io.File[] files);
 
     } // end inner-interface Listener
-    
+
     /* ******** I N N E R C L A S S ******** */
 
     /**
@@ -670,7 +671,7 @@ public class FileDrop {
         } // end getFiles
 
     } // end inner class Event
-    
+
     /* ******** I N N E R C L A S S ******** */
 
     /**
@@ -809,7 +810,7 @@ public class FileDrop {
         public java.awt.datatransfer.DataFlavor getCustomDataFlavor() {
             return customFlavor;
         } // end getCustomDataFlavor
-        
+
         /* ******** T R A N S F E R A B L E M E T H O D S ******** */
 
         /**
@@ -884,7 +885,7 @@ public class FileDrop {
             // We can't do anything else
             return false;
         } // end isDataFlavorSupported
-        
+
         /* ******** I N N E R I N T E R F A C E F E T C H E R ******** */
 
         /**

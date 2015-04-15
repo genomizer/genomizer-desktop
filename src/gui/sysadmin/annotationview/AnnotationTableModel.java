@@ -52,7 +52,7 @@ public class AnnotationTableModel extends AbstractTableModel {
                 if (values != null) {
                     string = new StringBuilder(values[0]);
                     for (int i = 1; i < values.length; i++) {
-                        string.append(",").append(values[i]);
+                        string.append(',').append(values[i]);
                     }
                 } else {
                     System.err.println("Annotation[" + rowIndex
@@ -76,7 +76,7 @@ public class AnnotationTableModel extends AbstractTableModel {
     /***
      * Takes in a new array of the AnnotationDataType and sets this to be the
      * current annotations. Then notifies the table to update.
-     * 
+     *
      * @param annotations
      *            the new array of annotations.
      */
@@ -91,8 +91,8 @@ public class AnnotationTableModel extends AbstractTableModel {
     /***
      * Takes the column index as parameter, returns the name of the
      * corresponding column.
-     * 
-     * 
+     *
+     *
      * @param column
      *            a column index
      * @return the name of the column corresponding to the index
@@ -114,7 +114,7 @@ public class AnnotationTableModel extends AbstractTableModel {
 
     /***
      * Gets a specific index of the annotations.
-     * 
+     *
      * @param i
      *            the index
      * @return the annotation corresponding to the index.

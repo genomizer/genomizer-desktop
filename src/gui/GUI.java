@@ -23,7 +23,6 @@ import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
 import javax.swing.UIManager;
-import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
 import util.ActiveSearchPanel;
@@ -381,6 +380,7 @@ public class GUI extends JFrame implements GenomizerView {
             UIManager.put("info", Color.white);
             // UIManager.put("nimbusLightBackground", new Color(197,210,220));
         } catch (Exception e) {
+            // TODO Här har dom lämnat tomt CF
             // If Nimbus is not available, you can set the GUI to another look
             // and feel.
         }
@@ -465,7 +465,7 @@ public class GUI extends JFrame implements GenomizerView {
 
         ArrayList<FileData> fileArray = allFileData;
 
-        // TODO
+        // TODO Vad ska hända här? CF
         // TESTING
         for (int i = 0; i < fileArray.size(); i++) {
 
