@@ -28,6 +28,8 @@ public class DownloadHandler {
             if (file.isFile()) {
                 fileName = file.getName();
             }
+
+            // TODO: JSON encoded '=' may need to be escaped (OO)
             url = url.replaceFirst("\\u003d", "=");
 
             URL targetUrl = new URL(url);

@@ -376,6 +376,7 @@ public class GUI extends JFrame implements GenomizerView {
 
     /**
      * Sets the look and feel of the view.
+     *
      */
     private void setLookAndFeel() {
 
