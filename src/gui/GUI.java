@@ -220,6 +220,7 @@ public class GUI extends JFrame implements GenomizerView {
         return querySearchTab.getSelectedData();
     }
 
+    // TODO: WTF Outcommented listeners, why not removed? OO
     /*
      * @Override public String getNewAnnotationName() { return
      * sysadminTab.getNewAnnotationName(); }
@@ -232,6 +233,7 @@ public class GUI extends JFrame implements GenomizerView {
         return uploadTab;
     }
 
+    // TODO: WTF Outcommented listeners, why not removed? OO
     /*
      * @Override public String[] getNewAnnotionCategories() { return
      * sysadminTab.getNewAnnotationCategories(); }
@@ -281,6 +283,7 @@ public class GUI extends JFrame implements GenomizerView {
         return loginWindow.getIPInput();
     }
 
+    // TODO: WTF Outcommented listeners, why not removed? OO
     /*
      * @Override public AnnotationDataType
      * getSelectedAnnoationAtAnnotationTable() { // TODO Auto-generated method
@@ -288,6 +291,7 @@ public class GUI extends JFrame implements GenomizerView {
      */
     @Override
     public int getSelectedRowAtAnnotationTable() {
+        // TODO: WTF agms is this implemented? OO
         // TODO Auto-generated method stub
         return 0;
     }
