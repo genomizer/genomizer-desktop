@@ -32,7 +32,7 @@ import communication.HTTPURLUpload;
  * @author
  */
 
-// TODO: Huge uncommented interface... OO
+// TODO: Huge uncommented interface... Seems to fill literally no purpose whatsoever. OO
 
 public interface GenomizerView {
     /**
