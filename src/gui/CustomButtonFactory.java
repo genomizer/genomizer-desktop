@@ -16,7 +16,7 @@ import javax.swing.JButton;
 public class CustomButtonFactory {
 
     /**
-     * Get a custom button with given properties.
+     * Get a custom button with given properties. (OO comment)
      * @param icon ImageIcon to place on the button
      * @param hoverIcon ImageIcon to use when hovering over the button
      * @param x Dimension width of buttonsize
