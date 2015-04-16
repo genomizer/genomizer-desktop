@@ -10,24 +10,24 @@ import org.junit.Test;
 import util.GenomeReleaseData;
 
 public class GetAllGenomeReleasesTest {
-    
+
     public Model model;
     private SysadminController controller;
-    
+
     @Before
     public void setUp() throws Exception {
         model = new Model();
-        model.setIp("http://scratchy.cs.umu.se:7000");
-        model.loginUser("SysadminGRTests", "umea@2014");
+        model.setIp("dumbledore.cs.umu.se:7000");
+        model.loginUser("SysadminGRTests", "baguette");
         controller = new SysadminController(model);
     }
-    
+
     @Test
     public void shouldGetAllSpecies(){
-        System.out.println(controller.getGenomeReleases()[0].getFilenames());
+        //System.out.println(controller.getGenomeReleases()[0].getFilenames());
         assertThat(controller.getGenomeReleases()).isNotEmpty();
     }
-    
+
     @Test
     public void shouldGetFileNames(){
         GenomeReleaseData[] gr = controller.getGenomeReleases();

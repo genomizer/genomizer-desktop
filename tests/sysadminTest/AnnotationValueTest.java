@@ -11,18 +11,18 @@ import org.junit.Test;
 import util.AnnotationDataType;
 
 public class AnnotationValueTest {
-    
+
     public Model model;
     public SysadminTab sysadminTab;
-    
+
     @Before
     public void setUp() throws Exception {
         model = new Model();
-        model.setIp("http://scratchy.cs.umu.se:7000");
+        model.setIp("dumbledore.cs.umu.se:7000");
         model.loginUser("SysadminTests", "baguette");
         sysadminTab = new SysadminTab();
     }
-    
+
     @Test
     public void shouldChangeNameOfAnnotationValues() {
         String nameOfAnnotation = "SpeciesTEST";
@@ -33,7 +33,7 @@ public class AnnotationValueTest {
         AnnotationDataType actual = getSpecificAnnotationType(nameOfAnnotation);
         assertThat(actual.getValues()[0]).isEqualTo(newValue);
     }
-    
+
     @Test
     public void shouldAddAnnotationValue() {
         String annotationName = "SpeciesTEST";
@@ -50,7 +50,7 @@ public class AnnotationValueTest {
             }
         }
     }
-    
+
     @Test
     public void shouldRemoveAnnotationValue() {
         // TODO: use AnnotationDataType.indexOf(String valueToBeremoved) and
@@ -70,7 +70,7 @@ public class AnnotationValueTest {
         }
         fail("Not implemented yet!");
     }
-    
+
     protected AnnotationDataType getSpecificAnnotationType(String name) {
         AnnotationDataType[] annotations = model.getAnnotations();
         AnnotationDataType specificAnnotation = null;

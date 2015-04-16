@@ -13,17 +13,17 @@ import util.AnnotationDataType;
 public class RemoveAnnotationTest {
     public Model model;
     public SysadminTab sysadminTab;
-    
+
     @Before
     public void setUp() throws Exception {
         // con = new Connection("genomizer.apiary-mock.com:80");
         // con = new Connection("http://hagrid.cs.umu.se:7000");
         model = new Model();
-        model.setIp("http://scratchy.cs.umu.se:7000");
-        model.loginUser("SysadminTests", "qwerty");
+        model.setIp("dumbledore.cs.umu.se:7000");
+        model.loginUser("SysadminTests", "baguette");
         sysadminTab = new SysadminTab();
     }
-    
+
     @Test
     public void shouldDeleteAnnotation() { // TODO: how do you delete data???
         String name = "FREE TEXTTEST";
@@ -44,7 +44,7 @@ public class RemoveAnnotationTest {
             fail("did not find toberemoved annotation");
         }
     }
-    
+
     protected AnnotationDataType getSpecificAnnotationType(String name) {
         AnnotationDataType[] annotations = model.getAnnotations();
         AnnotationDataType specificAnnotation = null;

@@ -26,7 +26,7 @@ public class ModelRealTest {
 
     @Before
     public void setUp() {
-        m.setIp("http://scratchy.cs.umu.se:7000");
+        m.setIp("dumbledore.cs.umu.se:7000");
         m.loginUser(username, password);
     }
 
