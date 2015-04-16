@@ -306,8 +306,6 @@ public class Model implements GenomizerModel {
         Connection conn = connFactory.makeConnection();
         conn.sendRequest(request, userID, JSON);
         if (conn.getResponseCode() == 200) {
-//            System.err.println("Annotation named " + deleteAnnoationData
-//                    + " deleted succesfully");
             return true;
         } else {
 //            System.err.println("Could not delete annotation name "

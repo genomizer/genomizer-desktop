@@ -1,13 +1,17 @@
 package guiTests;
 
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 import gui.UploadTab;
+import model.Model;
+
 import org.junit.Before;
 import org.junit.Test;
-import static org.junit.Assert.*;
 
 public class UploadTabTest {
 
     private UploadTab uploadTab;
+    private Model model;
 
     @Before
     public void setUp() {

@@ -5,6 +5,7 @@ import static org.fest.assertions.api.Assertions.fail;
 import gui.sysadmin.SysadminTab;
 import model.Model;
 
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -13,36 +14,41 @@ import util.AnnotationDataType;
 public class RemoveAnnotationTest {
     public Model model;
     public SysadminTab sysadminTab;
+    public String name;
+    public AnnotationDataType toBeRemoved;
 
     @Before
     public void setUp() throws Exception {
-        // con = new Connection("genomizer.apiary-mock.com:80");
-        // con = new Connection("http://hagrid.cs.umu.se:7000");
         model = new Model();
         model.setIp("dumbledore.cs.umu.se:7000");
         model.loginUser("SysadminTests", "baguette");
         sysadminTab = new SysadminTab();
+        name = "REMOVEANNOTATIONTEST";
+        if ((toBeRemoved = getSpecificAnnotationType(name)) == null) {
+            model.addNewAnnotation(name, null, false);
+        }
+    }
+
+    @After
+    public void tearDown() throws Exception {
+        if ((toBeRemoved = getSpecificAnnotationType(name)) != null) {
+            model.deleteAnnotation(name);
+        }
     }
 
     @Test
-    public void shouldDeleteAnnotation() { // TODO: how do you delete data???
-        String name = "FREE TEXTTEST";
-        AnnotationDataType toBeRemoved = getSpecificAnnotationType(name);
-        if (toBeRemoved != null) {
-            try {
-                if (model.deleteAnnotation(toBeRemoved.name)) {
-                    AnnotationDataType newAnnotation = getSpecificAnnotationType(name);
-                    assertThat(newAnnotation).isNull();
-                } else {
-                    fail("could not do model.deleteAnnotation()");
-                }
-            } catch (Exception e) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
+    public void shouldDeleteAnnotation() {
+        try {
+            if (model.deleteAnnotation("REMOVEANNOTATIONTEST")) {
+                AnnotationDataType newAnnotation = getSpecificAnnotationType("REMOVEANNOTATIONTEST");
+                assertThat(newAnnotation).isNull();
+            } else {
+                fail("could not do model.deleteAnnotation()");
             }
-        } else {
-            fail("did not find toberemoved annotation");
+        } catch (Exception e) {
+            e.printStackTrace();
         }
+
     }
 
     protected AnnotationDataType getSpecificAnnotationType(String name) {

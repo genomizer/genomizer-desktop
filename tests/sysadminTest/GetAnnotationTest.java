@@ -6,6 +6,8 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
+import util.AnnotationDataType;
+
 import gui.sysadmin.SysadminTab;
 import model.Model;
 
@@ -33,15 +35,25 @@ public class GetAnnotationTest {
 
     @Test
     public void shouldGetGetAnnotationTestAnnotation() {
-        assertThat(model.getAnnotations()[0].toString()).isEqualTo(
-                "GetAnnotationTest");
+        assertThat(getSpecificAnnotationType("GetAnnotationTest")).isNotNull();
     }
 
     @Test
     public void shouldGetSpeciesValues() {
-        String[] actual = model.getAnnotations()[0].getValues();
+        String[] actual = getSpecificAnnotationType("GetAnnotationTest").values;
         String[] expected = new String[] { "yes", "no" };
         assertThat(actual).isEqualTo(expected);
+    }
+    
+    protected AnnotationDataType getSpecificAnnotationType(String name) {
+        AnnotationDataType[] annotations = model.getAnnotations();
+        AnnotationDataType specificAnnotation = null;
+        for (int i = 0; i < annotations.length; i++) {
+            if (annotations[i].name.equals(name)) {
+                specificAnnotation = annotations[i];
+            }
+        }
+        return specificAnnotation;
     }
 
 }
