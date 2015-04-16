@@ -23,7 +23,7 @@ import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
 import javax.swing.UIManager;
-import javax.swing.event.ChangeEvent;
+
 import javax.swing.event.ChangeListener;
 
 import util.ActiveSearchPanel;

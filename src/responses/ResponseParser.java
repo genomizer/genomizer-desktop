@@ -103,6 +103,7 @@ public class ResponseParser {
             processFeedbackData = gson.fromJson(json,
                     ProcessFeedbackData[].class);
         } catch (JsonParseException e) {
+            // TODO: StackTrace ;/
             e.printStackTrace();
             return null;
         }
@@ -115,6 +116,7 @@ public class ResponseParser {
         try {
             response = gson.fromJson(json, ErrorResponse.class);
         } catch (JsonParseException e) {
+            // TODO: StackTrace ;/
             e.printStackTrace();
             return null;
         }

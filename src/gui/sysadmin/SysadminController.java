@@ -11,6 +11,7 @@ import java.awt.event.ActionListener;
 import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
 
+import model.DeleteAnnotationException;
 import model.GenomizerModel;
 import util.AnnotationDataType;
 import util.GenomeReleaseData;
@@ -127,7 +128,7 @@ public class SysadminController {
                             }
                         });
 
-                    } catch (Exception e) {
+                    } catch (DeleteAnnotationException e) {
                         JOptionPane.showMessageDialog(null, e.getMessage());
                     }
                 }

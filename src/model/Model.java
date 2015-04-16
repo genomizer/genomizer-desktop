@@ -89,11 +89,7 @@ public class Model implements GenomizerModel {
                         genomeRelease, author);
         Connection conn = connFactory.makeConnection();
         conn.sendRequest(rawToProfilerequest, userID, JSON);
-        if (conn.getResponseCode() == 200) {
-            return true;
-        } else {
-            return false;
-        }
+        return conn.getResponseCode() == 200;
     }
 
     @Override
@@ -268,9 +264,11 @@ public class Model implements GenomizerModel {
 //                    .println("Name has been changed! Calling renameAnnotationField!");
             renameAnnotationField(oldAnnotation.name, name);
         } else {
+            // TODO: This if part looks messy (OO)
 //            System.out.println("No changes were made in name!");
         }
 
+        // TODO: This part looks very broken ! (OO)
         if (!(oldAnnotation.isForced() == forced)) {
 //            System.out
 //                    .println("Forced value changed! Calling changeAnnotationForced (?)");
@@ -278,6 +276,8 @@ public class Model implements GenomizerModel {
         } else {
 //            System.out.println("Forced value not changed");
         }
+
+        // TODO: This part looks very broken ! (OO)
 
         // TODO: If an annotation value has been added, call
         // addAnnotationValue(name, valueName)
@@ -299,7 +299,7 @@ public class Model implements GenomizerModel {
 
     @Override
     public boolean deleteAnnotation(String deleteAnnoationData)
-            throws Exception {
+            throws DeleteAnnotationException {
 
         RemoveAnnotationFieldRequest request = RequestFactory
                 .makeDeleteAnnotationRequest(deleteAnnoationData);
@@ -312,7 +312,7 @@ public class Model implements GenomizerModel {
         } else {
 //            System.err.println("Could not delete annotation name "
 //                    + deleteAnnoationData + "!");
-            throw new Exception(conn.getResponseBody());
+            throw new DeleteAnnotationException(conn.getResponseBody());
             // return false;
         }
     }
@@ -329,7 +329,7 @@ public class Model implements GenomizerModel {
             AnnotationDataType[] annotations = ResponseParser
                     .parseGetAnnotationResponse(conn.getResponseBody());
             return annotations;
-        } else if (userID != "") {
+        } else if (!userID.equals("")) {
             JOptionPane.showMessageDialog(null, "Could not get annotations!");
         }
         return new AnnotationDataType[] {};
@@ -376,6 +376,7 @@ public class Model implements GenomizerModel {
 
                 if (upload.sendFile(userID)) {
 
+                    // TODO: This if part looks like a mess! (OO)
 //                    System.out
 //                            .println("Succefully added genome release file named "
 //                                    + files[i].getName() + ".");
@@ -440,12 +441,7 @@ public class Model implements GenomizerModel {
                 .makeRenameAnnotationFieldRequest(oldname, newname);
         Connection conn = connFactory.makeConnection();
         conn.sendRequest(request, userID, JSON);
-        if (conn.getResponseCode() == 200) {
-            // System.err.println("Sent " + request.requestName + "success!");
-            return true;
-        } else {
-            return false;
-        }
+        return conn.getResponseCode() == 200;
     }
 
     public boolean renameAnnotationValue(String name, String oldValue,
@@ -528,6 +524,7 @@ public class Model implements GenomizerModel {
         conn.sendRequest(request, userID, TEXT_PLAIN);
         if (conn.getResponseCode() == 200) {
 
+            // TODO: Remove the println !? (OO)
             // System.err.println("Sent getGenomeSpecieReleaseRequestSuccess!");
             // for(int i = 0;i < genomeReleases.length ; i++){
             // System.out.println(genomeReleases[i].getVersion());
@@ -540,7 +537,6 @@ public class Model implements GenomizerModel {
                     "Could not get genomespeciereleases!");
         }
 
-        //
         return new GenomeReleaseData[] {};
 
     }

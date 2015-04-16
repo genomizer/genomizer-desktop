@@ -753,7 +753,7 @@ public class ProcessTab extends JPanel {
         ArrayList<FileData> arr = new ArrayList<FileData>();
 
         for (int i = 0; i < fileList.getModel().getSize(); i++) {
-            CheckListItem checkItem = (CheckListItem) fileList.getModel()
+            CheckListItem checkItem = fileList.getModel()
                     .getElementAt(i);
             checkItemIsSelected(arr, checkItem);
         }

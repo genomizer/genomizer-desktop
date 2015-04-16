@@ -1,12 +1,12 @@
 package gui.sysadmin.annotationview;
 
 import javax.swing.*;
-import javax.swing.text.*;
+
 
 import java.awt.*;
 import java.awt.event.*;
-import java.util.ArrayList;
-import java.util.List;
+
+
 
 /**
  * Author: Isak Dunér Lundberg Date: 2014-04-07

@@ -58,25 +58,17 @@ public final class Process {
     public static boolean isRatioCorrectToProcess(JTextField ratioWindowSize,
             JTextField inputReads, JTextField chromosome,
             JTextField ratioStepPosition) {
-        if (aboveZero(ratioWindowSize.getText().trim())
+        return aboveZero(ratioWindowSize.getText().trim())
                 && zeroOrAbove(inputReads.getText().trim())
                 && zeroOrAbove(chromosome.getText().trim())
-                && zeroOrAbove(ratioStepPosition.getText().trim())) {
-            return true;
-        } else {
-            return false;
-        }
+                && zeroOrAbove(ratioStepPosition.getText().trim());
     }
 
     private static boolean aboveZero(String string) {
 
         try {
             int value = Integer.parseInt(string);
-            if (value > 0) {
-                return true;
-            } else {
-                return false;
-            }
+            return value > 0;
         } catch (NumberFormatException e) {
             return false;
         }
@@ -86,11 +78,7 @@ public final class Process {
 
         try {
             int value = Integer.parseInt(string);
-            if (value >= 0) {
-                return true;
-            } else {
-                return false;
-            }
+            return value >= 0;
         } catch (NumberFormatException e) {
             return false;
         }

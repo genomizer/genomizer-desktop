@@ -557,6 +557,7 @@ public class TreeTable extends JPanel {
                 visibleHeadings.addAll(headings);
             }
         } catch (NullPointerException e) {
+            // TODO: Where does the Null come from ? (OO)
             // TODO Hantera exception CF
 //            System.out.println("Couldn't update visible headings");
         }
@@ -595,6 +596,7 @@ public class TreeTable extends JPanel {
             });
 
         } catch (NullPointerException e) {
+            // TODO: Where does the Null come from ? (OO)
             // TODO Hantera exception CF
         }
     }
