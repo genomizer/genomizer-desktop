@@ -12,14 +12,42 @@ import java.net.URL;
 
 import requests.Request;
 
+/**
+ * Class representing a connection to a server (fast egentligen inte), and the communication between
+ * server-client
+ *
+ * @author
+ *
+ */
 public class Connection {
+
+    // TODO: varför view? gör oberoende?
     private final GenomizerView view;
+
+    /** The IP-adress to the Server */
     private String ip;
+
+    // TODO: skapa konstanter för response/status-code?
+    /** HTML status code */
     private int responseCode;
+
+    /** The response message of a request */
     private String responseBody;
+
     private HttpURLConnection connection;
+
+    // TODO: används inte. ta bort?
     private Request request;
 
+    /**
+     * Constructs a new Connection object to a server with a given IP address,
+     * and a given GenomizerView
+     *
+     * @param ip
+     *            the IP address
+     * @param view
+     *            the GenomizerView
+     */
     public Connection(String ip, GenomizerView view) {
         this.ip = ip;
         this.view = view;
@@ -27,18 +55,32 @@ public class Connection {
         responseCode = 0;
     }
 
+    // TODO: returnera ett Response-objekt eller response code istället för
+    // boolean, om det behövs.
+    /**
+     * Sends a REST-request to the connected server and processes the response.
+     *
+     * @param request
+     *            the request to be sent
+     * @param token
+     *            a unique identifier of the user
+     * @param type
+     *            the type of request (JSON or PLAIN_TEXT)
+     * @return true if successful
+     */
     public boolean sendRequest(Request request, String token, String type) {
+        // TODO: onödig
         this.request = request;
 
         if (ip.startsWith("http://")) {
             ip = ip.substring(7);
         }
         try {
+            // Connect
             String targetUrl = "http://" + ip + request.url;
-//            System.out.println(targetUrl);
-//            System.out.println("the request.toJson(): " + request.toJson());
             URL url = new URL(targetUrl);
             connection = (HttpURLConnection) url.openConnection();
+
             if (type.equals("application/json")) {
                 connection.setDoOutput(true);
             }
@@ -65,6 +107,7 @@ public class Connection {
             responseCode = connection.getResponseCode();
             fetchResponse(connection.getInputStream());
             if (responseCode == 401 && !token.isEmpty()) {
+                // TODO:wtf
                 view.updateLogout();
                 return false;
             }
@@ -89,6 +132,14 @@ public class Connection {
         return true;
     }
 
+    /**
+     * Builds a response body from the connection input stream
+     *
+     * @param inputStream
+     *            the connection input stream
+     * @throws IOException
+     *             If an I/O error occurs
+     */
     private void fetchResponse(InputStream inputStream) throws IOException {
         BufferedReader in = new BufferedReader(new InputStreamReader(
                 inputStream));
@@ -98,20 +149,33 @@ public class Connection {
             output.append(buffer);
         }
         responseBody = output.toString();
+        // TODO: Onödig if-sats?
         if (responseCode >= 300) {
             // err response
-//        System.err.println(request.getRequestName() + " response " + responseCode + " " + responseBody);
+            // System.err.println(request.getRequestName() + " response " +
+            // responseCode + " " + responseBody);
         }
     }
 
+    /**
+     * Returns the response code of a request
+     *
+     * @return the response code
+     */
     public int getResponseCode() {
         return responseCode;
     }
 
+    /**
+     * Returns the response body of a request
+     *
+     * @return the response body
+     */
     public String getResponseBody() {
         return responseBody;
     }
 
+    // TODO: unused? ta bort?
     public void checkType(String output) {
 
     }

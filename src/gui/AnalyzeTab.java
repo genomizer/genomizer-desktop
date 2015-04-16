@@ -1,6 +1,7 @@
 package gui;
 
 import javax.swing.*;
+
 import java.awt.*;
 
 public class AnalyzeTab extends JPanel {
@@ -11,6 +12,10 @@ public class AnalyzeTab extends JPanel {
     private JPanel southWestPanel, southEastPanel;
     private JLabel filesLabel, overlapLabel, regionAnalysisLabel;
     private JLabel profileAnalysisLabel;
+
+    private final JScrollPane scrollAnalList = new JScrollPane();
+
+   // private JList list;;
   //  private JCheckBoxList list;
 
     // TODO: WTF What is all these outcommented list-things? OO
@@ -32,21 +37,22 @@ public class AnalyzeTab extends JPanel {
         southPanel.add(southEastPanel, BorderLayout.EAST);
 
         createLabels();
-
+        
         DefaultListModel listModel = new DefaultListModel();
 
-     //   list = new JCheckBoxList();
+   //     list = new JList(listModel);
     //    list.setModel(listModel);
-    //    list.setPreferredSize(new Dimension(300, 400));
+    //   list.setPreferredSize(new Dimension(300, 400));
 
         int numberOfJobs;
 
         for (numberOfJobs = 0; numberOfJobs < 12; numberOfJobs++) {
-            listModel
-                    .add(numberOfJobs, new JCheckBox("Protein223_A5_2014.WIG"));
+            listModel.add(numberOfJobs, new JCheckBox("Protein223_A5_2014.WIG"));
 
         }
+//        JScrollPane scrollPane = new JScrollPane(list);
 
+        
       //  JScrollPane scrollPane = new JScrollPane(list);
 
         northWestPanel.add(filesLabel, BorderLayout.NORTH);
