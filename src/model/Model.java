@@ -89,11 +89,7 @@ public class Model implements GenomizerModel {
                         genomeRelease, author);
         Connection conn = connFactory.makeConnection();
         conn.sendRequest(rawToProfilerequest, userID, JSON);
-        if (conn.getResponseCode() == 200) {
-            return true;
-        } else {
-            return false;
-        }
+        return conn.getResponseCode() == 200;
     }
 
     @Override
@@ -329,7 +325,7 @@ public class Model implements GenomizerModel {
             AnnotationDataType[] annotations = ResponseParser
                     .parseGetAnnotationResponse(conn.getResponseBody());
             return annotations;
-        } else if (userID != "") {
+        } else if (!userID.equals("")) {
             JOptionPane.showMessageDialog(null, "Could not get annotations!");
         }
         return new AnnotationDataType[] {};
@@ -440,12 +436,7 @@ public class Model implements GenomizerModel {
                 .makeRenameAnnotationFieldRequest(oldname, newname);
         Connection conn = connFactory.makeConnection();
         conn.sendRequest(request, userID, JSON);
-        if (conn.getResponseCode() == 200) {
-            // System.err.println("Sent " + request.requestName + "success!");
-            return true;
-        } else {
-            return false;
-        }
+        return conn.getResponseCode() == 200;
     }
 
     public boolean renameAnnotationValue(String name, String oldValue,

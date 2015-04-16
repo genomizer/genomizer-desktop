@@ -255,7 +255,7 @@ public class AddAnnotationPopup extends JPanel {
      * not
      */
     protected void switchForced() {
-        forced = (forced == true) ? false : true; // BLAME c12jvr
+        forced = !(forced);
     }
 
     /**

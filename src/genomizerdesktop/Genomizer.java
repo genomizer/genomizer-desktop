@@ -1,6 +1,6 @@
 package genomizerdesktop;
 
-import gui.AnalyzeTab;
+
 import gui.GUI;
 import gui.ProcessTab;
 import gui.QuerySearchTab;
