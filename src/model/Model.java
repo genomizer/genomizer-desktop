@@ -299,7 +299,7 @@ public class Model implements GenomizerModel {
 
     @Override
     public boolean deleteAnnotation(String deleteAnnoationData)
-            throws Exception {
+            throws DeleteAnnotationException {
 
         RemoveAnnotationFieldRequest request = RequestFactory
                 .makeDeleteAnnotationRequest(deleteAnnoationData);
@@ -312,7 +312,7 @@ public class Model implements GenomizerModel {
         } else {
 //            System.err.println("Could not delete annotation name "
 //                    + deleteAnnoationData + "!");
-            throw new Exception(conn.getResponseBody());
+            throw new DeleteAnnotationException(conn.getResponseBody());
             // return false;
         }
     }
