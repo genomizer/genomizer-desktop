@@ -14,6 +14,7 @@ import model.Model;
 import controller.Controller;
 // HEJSANSVEJSAN
 //HALLO
+//test
 public class Genomizer {
 
     public static void main(String args[]) {
