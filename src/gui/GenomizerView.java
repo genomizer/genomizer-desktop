@@ -199,6 +199,9 @@ public interface GenomizerView {
 
     public JButton getBackButton();
 
+    /**
+     * Remove and re-add each tab in the GUI.
+     */
     public void resetGUI();
 
     public void changeTabInWorkspace(int tabIndex);

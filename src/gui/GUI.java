@@ -23,6 +23,7 @@ import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
 import javax.swing.UIManager;
+import javax.swing.UnsupportedLookAndFeelException;
 
 import javax.swing.event.ChangeListener;
 
@@ -52,8 +53,7 @@ public class GUI extends JFrame implements GenomizerView {
     private QuerySearchTab querySearchTab;
     private DownloadWindow downloadWindow;
     private RatioCalcPopup ratioCalcPopup;
-    //private AnalyzeTab at;
-    private Process process;
+    // private AnalyzeTab at;
 
     /**
      * Initiates the main view of the program.
@@ -83,7 +83,6 @@ public class GUI extends JFrame implements GenomizerView {
         userPanel = new UserPanel();
         loginWindow = new LoginWindow(this);
         ratioCalcPopup = new RatioCalcPopup(this);
-        process = new Process();
 
         add(mainPanel);
 
@@ -378,16 +377,20 @@ public class GUI extends JFrame implements GenomizerView {
         try {
             UIManager
                     .setLookAndFeel("javax.swing.plaf.nimbus.NimbusLookAndFeel");
+
             // UIManager.put("nimbusBase", Color.WHITE);
             // UIManager.put("nimbusBlueGrey", Color.WHITE);
             // UIManager.put("control", new Color(223, 235, 242));
             UIManager.put("nimbusOrange", new Color(81, 142, 183));
             UIManager.put("info", Color.white);
             // UIManager.put("nimbusLightBackground", new Color(197,210,220));
-        } catch (Exception e) {
+
+        } catch (ClassNotFoundException | InstantiationException
+                | IllegalAccessException | UnsupportedLookAndFeelException e) {
             // TODO Här har dom lämnat tomt CF
             // If Nimbus is not available, you can set the GUI to another look
             // and feel.
+
         }
     }
 
@@ -403,12 +406,12 @@ public class GUI extends JFrame implements GenomizerView {
         tabbedPane.addTab("UPLOAD", null, uploadTab, "Upload");
     }
 
-
-  //  public void setAnalyzeTab(AnalyzeTab at) {
-  //      this.at = at;
-  //      tabbedPane.addTab("at", null, at, "at");
-  //
-  //  }
+    // TODO: Setup Analyze tab (OO)
+    // public void setAnalyzeTab(AnalyzeTab at) {
+    // this.at = at;
+    // tabbedPane.addTab("at", null, at, "at");
+    //
+    // }
 
     /**
      * Sets the workspaceTab of the GUI. Also sets the name of the tab in the
@@ -463,6 +466,7 @@ public class GUI extends JFrame implements GenomizerView {
         querySearchTab.setAnnotationTypes(annotationTypes);
     }
 
+    // TODO: Setup Analyze tab (OO)
     /*
      * @Override public void setAnnotationTableData(AnnotationDataType[]
      * annotations) { sysadminTab.setAnnotationTableData(annotations); }
@@ -652,10 +656,12 @@ public class GUI extends JFrame implements GenomizerView {
         processTab.addRatioCalcListener(listener);
     }
 
+    // TODO: They removed Cancle button from RatioCalcPopup, but left half of it (OO)
     // public void addCancelListener(ActionListener listener) {
     // ratioCalcPopup.addCancelListener(listener);
     // }
-    //
+
+
     public void addOkListener(ActionListener listener) {
         ratioCalcPopup.addOkListener(listener);
     }
@@ -693,6 +699,7 @@ public class GUI extends JFrame implements GenomizerView {
     }
 
     public void removeUploadExpName() {
+        // TODO: Doesn't do anything (OO)
         // uploadTab.removeExpName();
     }
 
@@ -701,26 +708,30 @@ public class GUI extends JFrame implements GenomizerView {
     }
 
     public void disableSelectedRow(File f) {
+        // TODO: Doesn't do anything (OO)
         // uploadTab.disableRow(f);
     }
 
     public boolean isCorrectToProcess() {
         boolean sgrFormat = processTab.radioGroup
                 .isSelected(processTab.outputSGR.getModel());
-        return process.isCorrectToProcess(processTab.smoothWindowSize,
+        return Process.isCorrectToProcess(processTab.smoothWindowSize,
                 processTab.stepPosition, processTab.stepSize, sgrFormat,
                 processTab.useSmoothing, processTab.stepSizeBox);
     }
 
     public boolean isRatioCorrectToProcess() {
-        return !processTab.useRatio() || process.isRatioCorrectToProcess(
+        return !processTab.useRatio()
+                || Process.isRatioCorrectToProcess(
                         ratioCalcPopup.ratioWindowSize,
                         ratioCalcPopup.inputReads, ratioCalcPopup.chromosome,
                         ratioCalcPopup.ratioStepPosition);
     }
 
     public void setProfileButton(boolean bool) {
-      //  processTab.setProfileButton(bool);
+
+        // TODO: Doesn't do anything (OO)
+        // processTab.setProfileButton(bool);
     }
 
     @Override
@@ -752,22 +763,27 @@ public class GUI extends JFrame implements GenomizerView {
         return uploadTab.getGenomeVersion(f);
     }
 
+
+    @Override
     public void resetGUI() {
+
         while (tabbedPane.getTabCount() > 0) {
             tabbedPane.removeTabAt(0);
         }
+
         UploadTab ut = new UploadTab();
         ProcessTab pt = new ProcessTab();
         WorkspaceTab wt = new WorkspaceTab();
         SysadminTab sat = new SysadminTab();
         QuerySearchTab qst = new QuerySearchTab();
+        // TODO: Maybe analyse too (OO)
+
         setQuerySearchTab(qst);
         setUploadTab(ut);
         setProcessTab(pt);
         setWorkspaceTab(wt);
         setSysAdminTab(sat);
-
-
+        // Maybe analyse too (OO)
 
         repaint();
         revalidate();
@@ -804,6 +820,5 @@ public class GUI extends JFrame implements GenomizerView {
     public void clearSearchSelection() {
         querySearchTab.clearSearchSelection();
     }
-
 
 }
