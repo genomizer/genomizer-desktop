@@ -3,6 +3,7 @@ package requests;
 import com.google.gson.Gson;
 
 public class Request {
+    //TODO Inte serialized, behöver inte transient CF
     public transient String requestName;
     public transient String url;
     public transient String type;

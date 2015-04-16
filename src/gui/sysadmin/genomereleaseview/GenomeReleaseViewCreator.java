@@ -215,7 +215,7 @@ public class GenomeReleaseViewCreator {
         /***
      * Uses the array of filenames to create progress bars for each file
      * uploading.
-     * 
+     *
      */
     private void setFilesForProgresspanel() {
         if (filenames != null) {
@@ -237,7 +237,7 @@ public class GenomeReleaseViewCreator {
     }
     /***
      * Uses the current uploads to
-     * 
+     *
      * @param uploads
      * @return
      */
@@ -530,11 +530,7 @@ public class GenomeReleaseViewCreator {
     }
 
     public boolean isGeneSelected() {
-        if (this.grTable.getSelectedRow() < 0) {
-            return false;
-        } else {
-            return true;
-        }
+        return !(this.grTable.getSelectedRow() < 0);
     }
 
     public void setSpeciesDDList(String[] listItems) {

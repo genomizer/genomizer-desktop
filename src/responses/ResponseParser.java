@@ -75,6 +75,7 @@ public class ResponseParser {
         try {
             url = gson.fromJson(json, AddFileToExperimentResponse.class);
         } catch (JsonParseException e) {
+            // TODO hantera exception CF
 //            System.out.println("parse error");
         }
         return url;
@@ -88,7 +89,7 @@ public class ResponseParser {
             urls = gson.fromJson(json, AddGenomeReleaseResponse[].class);
 
         } catch (JsonParseException e) {
-
+            // TODO Hantera exception CF
 //            System.err
 //                    .println("Could not parse url response for adding genome release.");
         }

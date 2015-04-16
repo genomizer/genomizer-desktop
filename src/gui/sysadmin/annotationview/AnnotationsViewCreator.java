@@ -268,6 +268,7 @@ public class AnnotationsViewCreator {
                     newFilter(rowSorter, filterText);
                 }
             } catch (BadLocationException e1) {
+                // TODO Bättre sätt att hantera detta? CF
                 // Do nothing, exception should not happen and even if it does
                 // nothing dangerous will occur
             }
