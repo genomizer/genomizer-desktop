@@ -1,5 +1,5 @@
 //TODO SORTERA SKITEN
-//TODO Testa GIT
+//TODO WHY IS CONTROLLER EVEN A CLASS TO USE
 
 package controller;
 

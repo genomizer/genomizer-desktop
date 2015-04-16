@@ -13,10 +13,7 @@ import javax.swing.SwingUtilities;
 import model.Model;
 import controller.Controller;
 
-/**
- * Main Genomizer desktop startup class
- *
- */
+
 public class Genomizer {
 
     public static void main(String args[]) {
@@ -28,7 +25,11 @@ public class Genomizer {
         UploadTab ut = new UploadTab();
         WorkspaceTab wt = new WorkspaceTab();
         ProcessTab pt = new ProcessTab();
+<<<<<<< HEAD
         // AnalyzeTab at = new AnalyzeTab(); // TODO: Analyze tab not used (OO)
+=======
+        AnalyzeTab at = new AnalyzeTab();
+>>>>>>> 3d4fc98ced453fab13d365048f20bf6f0bbccd02
         SysadminTab sat = new SysadminTab();
         QuerySearchTab qst = new QuerySearchTab();
 
@@ -37,7 +38,12 @@ public class Genomizer {
         gui.setUploadTab(ut);
         gui.setProcessTab(pt);
         gui.setWorkspaceTab(wt);
+<<<<<<< HEAD
         // gui.setAnalyzeTab(at); // TODO: Analyze tab not used (OO)
+=======
+   //     gui.setAnalyzeTab(at);
+
+>>>>>>> 3d4fc98ced453fab13d365048f20bf6f0bbccd02
         gui.setSysAdminTab(sat);
 
         // Create model and controller

@@ -47,19 +47,25 @@ public class UploadTab extends JPanel {
      * Constructor creating a upload tab.
      */
     public UploadTab() {
+
         activePanel = ActivePanel.NONE;
         setLayout(new BorderLayout());
+
         uploadToExistingExpPanel = new UploadToExistingExpPanel();
         uploadToNewExpPanel = new UploadToNewExpPanel();
+
         northPanel = new JPanel();
         expNamePanel = new JPanel();
         add(northPanel, BorderLayout.NORTH);
+
         northPanel.add(new JLabel("Experiment name: "));
         experimentNameField = new JTextField();
         experimentNameField.setColumns(30);
         expNamePanel.add(experimentNameField);
+
         northPanel.add(expNamePanel);
         northPanel.setBorder(BorderFactory.createTitledBorder("Upload"));
+
         existingExpButton = new JButton("Search for existing experiment");
         newExpButton = new JButton("Create new experiment");
         experimentNameField.addActionListener(new ActionListener() {
@@ -75,6 +81,7 @@ public class UploadTab extends JPanel {
         boldTextLabel = new JLabel(
                 "<html><b>Bold text indicates a forced annotation.</b></html>");
         boldTextLabel.setOpaque(true);
+
         updateProgress();
     }
 

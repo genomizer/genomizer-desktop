@@ -16,6 +16,20 @@ import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JTextField;
 
+/**
+ * "If the user wants to perform a ratio
+ * calculation while processing a file
+ * the user has the option to press the Use ratio
+ * calculation button. When pressed a popup window
+ * appears and the user gets the option to write in
+ * several ratio calculation parameters. These
+ * parameters consists of eight parameters Ratio calculation,
+ * Input reads cut-off, Chromosomes, Window size , Smooth type,
+ * Step position, print mean and print zeros."
+ * - From technical documentation '4.1.4 Process'
+ * @author (of comment) c12oor
+ *
+ */
 public class RatioCalcPopup extends JFrame {
 
     private static final long serialVersionUID = 5949688340459992769L;
@@ -38,17 +52,24 @@ public class RatioCalcPopup extends JFrame {
     public ArrayList<String> ratioSmooth = new ArrayList<String>();
     public ArrayList<String> comboSingle = new ArrayList<String>();
 
+    /**
+     * Create a new RatioCalcPopup
+     * @param parent
+     */
     public RatioCalcPopup(final GenomizerView parent) {
+
         URL url = ClassLoader.getSystemResource("icons/logo.png");
         Toolkit kit = Toolkit.getDefaultToolkit();
         Image img = kit.createImage(url);
         setIconImage(img);
+
         addWindowListener(new WindowAdapter() {
             @Override
             public void windowClosed(WindowEvent e) {
                 parent.getFrame().dispose();
             }
         });
+
         setTitle("Ratio calculation parameters");
         setResizable(false);
         setSize(new Dimension(480, 325));
@@ -158,6 +179,13 @@ public class RatioCalcPopup extends JFrame {
         this.setVisible(false);
     }
 
+    /**
+     * Read the popup entry fields and put together a parameter string[2].
+     * The first string containing space separated 'Single' 'Input Reads' 'Chromosomes'.
+     * The second string containing space separated 'Window size',
+     * 'Smooth Type', 'Step Position', 'Print Type(mean)', and 'Print Type(zeros)'.
+     * @return
+     */
     public String[] getRatioCalcParameters() {
         String[] s = new String[2];
 

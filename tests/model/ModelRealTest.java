@@ -21,7 +21,7 @@ import static org.fest.assertions.api.Assertions.assertThat;
 public class ModelRealTest {
 
     String username = "desktoptest";
-    String password = "umea@2014";
+    String password = "baguette";
     Model m = new Model();
 
     @Before

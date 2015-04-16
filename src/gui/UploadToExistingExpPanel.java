@@ -25,11 +25,11 @@ public class UploadToExistingExpPanel extends JPanel implements ExperimentPanel 
     private HashMap<File, UploadFileRow> uploadFileRows;
     private ExperimentData ed;
     private ArrayList<String> genome;
+
     /**
      * Initiates an uploadToExistingExpPanel with its standard buttons and
      * panels. Calls the method build() to build it further.
      */
-
     public UploadToExistingExpPanel() {
         selectFilesToUploadButton = new JButton("Browse for files");
         uploadFilesToExperimentButton = new JButton("Upload files");

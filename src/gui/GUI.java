@@ -52,6 +52,7 @@ public class GUI extends JFrame implements GenomizerView {
     private QuerySearchTab querySearchTab;
     private DownloadWindow downloadWindow;
     private RatioCalcPopup ratioCalcPopup;
+    //private AnalyzeTab at;
     private Process process;
 
     /**
@@ -89,11 +90,14 @@ public class GUI extends JFrame implements GenomizerView {
         tabbedPane = new JTabbedPane();
         tabbedPane.setFocusable(false);
         mainPanel.add(tabbedPane);
+
         URL url = ClassLoader.getSystemResource("icons/logo.png");
         Toolkit kit = Toolkit.getDefaultToolkit();
         Image img = kit.createImage(url);
         setIconImage(img);
+
         mainPanel.add(userPanel, BorderLayout.NORTH);
+
         this.setLocationRelativeTo(null);
     }
 
@@ -120,7 +124,6 @@ public class GUI extends JFrame implements GenomizerView {
         loginWindow.addLoginListener(listener);
     }
 
-    // TODO: WTF Outcommented listeners, why not removed? OO
     /*
      * @Override public void addAddAnnotationListener(ActionListener
      * addAnnotationListener) {
@@ -140,8 +143,6 @@ public class GUI extends JFrame implements GenomizerView {
         processTab.addRawToProfileDataListener(listener);
     }
 
-
-    // TODO: WTF Outcommented listeners, why not removed? OO
     /*
      * @Override public void addAddPopupListener(ActionListener
      * addPopupListener) { sysadminTab.addAddPopupListener(addPopupListener); }
@@ -163,7 +164,6 @@ public class GUI extends JFrame implements GenomizerView {
 
     @Override
     public void addSearchListener(ActionListener listener) {
-        // TODO: WTF agms what does it do? OO
         // TODO Auto-generated method stub
     }
 
@@ -220,7 +220,6 @@ public class GUI extends JFrame implements GenomizerView {
         return querySearchTab.getSelectedData();
     }
 
-    // TODO: WTF Outcommented listeners, why not removed? OO
     /*
      * @Override public String getNewAnnotationName() { return
      * sysadminTab.getNewAnnotationName(); }
@@ -233,7 +232,6 @@ public class GUI extends JFrame implements GenomizerView {
         return uploadTab;
     }
 
-    // TODO: WTF Outcommented listeners, why not removed? OO
     /*
      * @Override public String[] getNewAnnotionCategories() { return
      * sysadminTab.getNewAnnotationCategories(); }
@@ -283,7 +281,6 @@ public class GUI extends JFrame implements GenomizerView {
         return loginWindow.getIPInput();
     }
 
-    // TODO: WTF Outcommented listeners, why not removed? OO
     /*
      * @Override public AnnotationDataType
      * getSelectedAnnoationAtAnnotationTable() { // TODO Auto-generated method
@@ -291,7 +288,6 @@ public class GUI extends JFrame implements GenomizerView {
      */
     @Override
     public int getSelectedRowAtAnnotationTable() {
-        // TODO: WTF agms is this implemented? OO
         // TODO Auto-generated method stub
         return 0;
     }
@@ -379,7 +375,6 @@ public class GUI extends JFrame implements GenomizerView {
      */
     private void setLookAndFeel() {
 
-        // TODO: Learn what this means, and if it neads to be changed, why some things removed, and why emtpy catch Exception e? OO
         try {
             UIManager
                     .setLookAndFeel("javax.swing.plaf.nimbus.NimbusLookAndFeel");
@@ -407,6 +402,13 @@ public class GUI extends JFrame implements GenomizerView {
         this.uploadTab = uploadTab;
         tabbedPane.addTab("UPLOAD", null, uploadTab, "Upload");
     }
+
+
+  //  public void setAnalyzeTab(AnalyzeTab at) {
+  //      this.at = at;
+  //      tabbedPane.addTab("at", null, at, "at");
+  //
+  //  }
 
     /**
      * Sets the workspaceTab of the GUI. Also sets the name of the tab in the
@@ -461,7 +463,6 @@ public class GUI extends JFrame implements GenomizerView {
         querySearchTab.setAnnotationTypes(annotationTypes);
     }
 
-    // TODO: WTF Outcommented listeners, why not removed? OO
     /*
      * @Override public void setAnnotationTableData(AnnotationDataType[]
      * annotations) { sysadminTab.setAnnotationTableData(annotations); }
@@ -476,7 +477,6 @@ public class GUI extends JFrame implements GenomizerView {
 
         ArrayList<FileData> fileArray = allFileData;
 
-        // TODO: Old empty TODO, why a forloop that doesn't do anything?
         // TODO Vad ska hända här? CF
         // TESTING
         for (int i = 0; i < fileArray.size(); i++) {
@@ -652,7 +652,6 @@ public class GUI extends JFrame implements GenomizerView {
         processTab.addRatioCalcListener(listener);
     }
 
-    // TODO: WTF Outcommented listeners, why not removed? OO
     // public void addCancelListener(ActionListener listener) {
     // ratioCalcPopup.addCancelListener(listener);
     // }
@@ -693,7 +692,6 @@ public class GUI extends JFrame implements GenomizerView {
         processTab.setGenomeFileList(genomeReleases);
     }
 
-    // TODO: WTF Dead method, why? OO
     public void removeUploadExpName() {
         // uploadTab.removeExpName();
     }
@@ -702,7 +700,6 @@ public class GUI extends JFrame implements GenomizerView {
         workspaceTab.removeSelectedData();
     }
 
-    // TODO: WTF Dead method, why? OO
     public void disableSelectedRow(File f) {
         // uploadTab.disableRow(f);
     }
@@ -716,14 +713,12 @@ public class GUI extends JFrame implements GenomizerView {
     }
 
     public boolean isRatioCorrectToProcess() {
-        return !processTab.useRatio()
-                || process.isRatioCorrectToProcess(
+        return !processTab.useRatio() || process.isRatioCorrectToProcess(
                         ratioCalcPopup.ratioWindowSize,
                         ratioCalcPopup.inputReads, ratioCalcPopup.chromosome,
                         ratioCalcPopup.ratioStepPosition);
     }
 
-    // TODO: WTF Dead method, why? OO
     public void setProfileButton(boolean bool) {
       //  processTab.setProfileButton(bool);
     }
@@ -771,6 +766,9 @@ public class GUI extends JFrame implements GenomizerView {
         setProcessTab(pt);
         setWorkspaceTab(wt);
         setSysAdminTab(sat);
+
+
+
         repaint();
         revalidate();
     }
@@ -806,4 +804,6 @@ public class GUI extends JFrame implements GenomizerView {
     public void clearSearchSelection() {
         querySearchTab.clearSearchSelection();
     }
+
+
 }
