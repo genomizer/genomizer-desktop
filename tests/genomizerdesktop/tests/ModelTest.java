@@ -20,7 +20,7 @@ public class ModelTest {
     @Before
     public void setUp() throws Exception {
         m = new Model();
-        m.setIp("http://genomizer.apiary-mock.com");
+        m.setIp("http://private-anon-1ade64f50-genomizer.apiary-mock.com");
     }
     
     @Test

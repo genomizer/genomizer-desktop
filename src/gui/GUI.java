@@ -52,7 +52,6 @@ public class GUI extends JFrame implements GenomizerView {
     private QuerySearchTab querySearchTab;
     private DownloadWindow downloadWindow;
     private RatioCalcPopup ratioCalcPopup;
-    private Process process;
 
     /**
      * Initiates the main view of the program.
@@ -78,12 +77,11 @@ public class GUI extends JFrame implements GenomizerView {
         this.setMinimumSize(new Dimension(1024, 768));
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         BorderLayout bl = new BorderLayout();
+
         mainPanel = new JPanel(bl);
         userPanel = new UserPanel();
         loginWindow = new LoginWindow(this);
         ratioCalcPopup = new RatioCalcPopup(this);
-        process = new Process();
-
         add(mainPanel);
 
         tabbedPane = new JTabbedPane();
@@ -120,6 +118,7 @@ public class GUI extends JFrame implements GenomizerView {
         loginWindow.addLoginListener(listener);
     }
 
+    // TODO: WTF Outcommented listeners, why not removed? OO
     /*
      * @Override public void addAddAnnotationListener(ActionListener
      * addAnnotationListener) {
@@ -139,6 +138,8 @@ public class GUI extends JFrame implements GenomizerView {
         processTab.addRawToProfileDataListener(listener);
     }
 
+
+    // TODO: WTF Outcommented listeners, why not removed? OO
     /*
      * @Override public void addAddPopupListener(ActionListener
      * addPopupListener) { sysadminTab.addAddPopupListener(addPopupListener); }
@@ -160,6 +161,7 @@ public class GUI extends JFrame implements GenomizerView {
 
     @Override
     public void addSearchListener(ActionListener listener) {
+        // TODO: WTF agms what does it do? OO
         // TODO Auto-generated method stub
     }
 
@@ -216,6 +218,7 @@ public class GUI extends JFrame implements GenomizerView {
         return querySearchTab.getSelectedData();
     }
 
+    // TODO: WTF Outcommented listeners, why not removed? OO
     /*
      * @Override public String getNewAnnotationName() { return
      * sysadminTab.getNewAnnotationName(); }
@@ -228,6 +231,7 @@ public class GUI extends JFrame implements GenomizerView {
         return uploadTab;
     }
 
+    // TODO: WTF Outcommented listeners, why not removed? OO
     /*
      * @Override public String[] getNewAnnotionCategories() { return
      * sysadminTab.getNewAnnotationCategories(); }
@@ -277,6 +281,7 @@ public class GUI extends JFrame implements GenomizerView {
         return loginWindow.getIPInput();
     }
 
+    // TODO: WTF Outcommented listeners, why not removed? OO
     /*
      * @Override public AnnotationDataType
      * getSelectedAnnoationAtAnnotationTable() { // TODO Auto-generated method
@@ -284,6 +289,7 @@ public class GUI extends JFrame implements GenomizerView {
      */
     @Override
     public int getSelectedRowAtAnnotationTable() {
+        // TODO: WTF agms is this implemented? OO
         // TODO Auto-generated method stub
         return 0;
     }
@@ -368,9 +374,11 @@ public class GUI extends JFrame implements GenomizerView {
 
     /**
      * Sets the look and feel of the view.
+     *
      */
     private void setLookAndFeel() {
 
+        // TODO: Learn what this means, and if it neads to be changed, why some things removed, and why emtpy catch Exception e? OO
         try {
             UIManager
                     .setLookAndFeel("javax.swing.plaf.nimbus.NimbusLookAndFeel");
@@ -451,6 +459,7 @@ public class GUI extends JFrame implements GenomizerView {
         querySearchTab.setAnnotationTypes(annotationTypes);
     }
 
+    // TODO: WTF Outcommented listeners, why not removed? OO
     /*
      * @Override public void setAnnotationTableData(AnnotationDataType[]
      * annotations) { sysadminTab.setAnnotationTableData(annotations); }
@@ -465,6 +474,7 @@ public class GUI extends JFrame implements GenomizerView {
 
         ArrayList<FileData> fileArray = allFileData;
 
+        // TODO: Old empty TODO, why a forloop that doesn't do anything?
         // TODO
         // TESTING
         for (int i = 0; i < fileArray.size(); i++) {
@@ -640,6 +650,7 @@ public class GUI extends JFrame implements GenomizerView {
         processTab.addRatioCalcListener(listener);
     }
 
+    // TODO: WTF Outcommented listeners, why not removed? OO
     // public void addCancelListener(ActionListener listener) {
     // ratioCalcPopup.addCancelListener(listener);
     // }
@@ -680,6 +691,7 @@ public class GUI extends JFrame implements GenomizerView {
         processTab.setGenomeFileList(genomeReleases);
     }
 
+    // TODO: WTF Dead method, why? OO
     public void removeUploadExpName() {
         // uploadTab.removeExpName();
     }
@@ -688,6 +700,7 @@ public class GUI extends JFrame implements GenomizerView {
         workspaceTab.removeSelectedData();
     }
 
+    // TODO: WTF Dead method, why? OO
     public void disableSelectedRow(File f) {
         // uploadTab.disableRow(f);
     }
@@ -695,19 +708,20 @@ public class GUI extends JFrame implements GenomizerView {
     public boolean isCorrectToProcess() {
         boolean sgrFormat = processTab.radioGroup
                 .isSelected(processTab.outputSGR.getModel());
-        return process.isCorrectToProcess(processTab.smoothWindowSize,
+        return Process.isCorrectToProcess(processTab.smoothWindowSize,
                 processTab.stepPosition, processTab.stepSize, sgrFormat,
                 processTab.useSmoothing, processTab.stepSizeBox);
     }
 
     public boolean isRatioCorrectToProcess() {
         return !processTab.useRatio()
-                || process.isRatioCorrectToProcess(
+                || Process.isRatioCorrectToProcess(
                         ratioCalcPopup.ratioWindowSize,
                         ratioCalcPopup.inputReads, ratioCalcPopup.chromosome,
                         ratioCalcPopup.ratioStepPosition);
     }
 
+    // TODO: WTF Dead method, why? OO
     public void setProfileButton(boolean bool) {
       //  processTab.setProfileButton(bool);
     }
