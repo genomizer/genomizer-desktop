@@ -15,7 +15,7 @@ public class GetAnnotationTest {
     public void setUp() throws Exception {
         model = new Model();
         model.setIp("http://scratchy.cs.umu.se:7000");
-        model.loginUser("SysadminTests", "qwerty");
+        model.loginUser("SysadminTests", "baguette");
         new SysadminTab();
     }
     

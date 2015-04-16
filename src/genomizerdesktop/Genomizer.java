@@ -1,5 +1,6 @@
 package genomizerdesktop;
 
+import gui.AnalyzeTab;
 import gui.GUI;
 import gui.ProcessTab;
 import gui.QuerySearchTab;
@@ -21,14 +22,14 @@ public class Genomizer {
         UploadTab ut = new UploadTab();
         WorkspaceTab wt = new WorkspaceTab();
         ProcessTab pt = new ProcessTab();
-        // AnalyzeTab at = new AnalyzeTab();
+        AnalyzeTab at = new AnalyzeTab();
         SysadminTab sat = new SysadminTab();
         QuerySearchTab qst = new QuerySearchTab();
         gui.setQuerySearchTab(qst);
         gui.setUploadTab(ut);
         gui.setProcessTab(pt);
         gui.setWorkspaceTab(wt);
-        // gui.setAnalyzeTab(at);
+   //     gui.setAnalyzeTab(at);
 
         gui.setSysAdminTab(sat);
         Model model = new Model();

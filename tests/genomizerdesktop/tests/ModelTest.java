@@ -16,11 +16,11 @@ public class ModelTest {
     
     Model m;
     String username = "desktoptest";
-    String password = "umea@2014";
+    String password = "baguette";
     @Before
     public void setUp() throws Exception {
         m = new Model();
-        m.setIp("http://genomizer.apiary-mock.com");
+        m.setIp("http://private-anon-b586d8d28-genomizer.apiary-mock.com");
     }
     
     @Test

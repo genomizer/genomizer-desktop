@@ -53,6 +53,7 @@ public class GUI extends JFrame implements GenomizerView {
     private DownloadWindow downloadWindow;
     private RatioCalcPopup ratioCalcPopup;
     private Process process;
+    private AnalyzeTab at;
 
     /**
      * Initiates the main view of the program.
@@ -396,6 +397,13 @@ public class GUI extends JFrame implements GenomizerView {
     public void setUploadTab(UploadTab uploadTab) {
         this.uploadTab = uploadTab;
         tabbedPane.addTab("UPLOAD", null, uploadTab, "Upload");
+    }
+    
+    
+    public void setAnalyzeTab(AnalyzeTab at) {
+        this.at = at;
+        tabbedPane.addTab("at", null, at, "at");
+        
     }
 
     /**
@@ -755,6 +763,9 @@ public class GUI extends JFrame implements GenomizerView {
         setProcessTab(pt);
         setWorkspaceTab(wt);
         setSysAdminTab(sat);
+        
+
+        
         repaint();
         revalidate();
     }
@@ -790,4 +801,6 @@ public class GUI extends JFrame implements GenomizerView {
     public void clearSearchSelection() {
         querySearchTab.clearSearchSelection();
     }
+
+
 }

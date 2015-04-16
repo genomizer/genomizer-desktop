@@ -90,7 +90,7 @@ public class LoginWindow extends JFrame {
         
         usernameField = new JTextField(20);
         usernameField.setBounds(90, 40, 170, 25);
-//        usernameField.setText("desktop");
+        usernameField.setText("namn");
         bottomPanel.add(usernameField);
         
         JLabel passwordLabel = new JLabel("Password");
@@ -99,7 +99,7 @@ public class LoginWindow extends JFrame {
         
         passwordField = new JPasswordField(20);
         passwordField.setBounds(90, 70, 170, 25);
-//        passwordField.setText("superhemligt");
+        passwordField.setText("baguette");
         bottomPanel.add(passwordField);
         
         JLabel ipLabel = new JLabel("IP");
@@ -108,7 +108,7 @@ public class LoginWindow extends JFrame {
         
         ipField = new JTextField(20);
         ipField.setBounds(90, 100, 170, 25);
-        ipField.setText("itchy.cs.umu.se:7000");
+        ipField.setText("scratchy.cs.umu.se:7000");
         bottomPanel.add(ipField);
         
         loginButton = new JButton("Login");
