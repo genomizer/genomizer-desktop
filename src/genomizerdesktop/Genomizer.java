@@ -38,7 +38,7 @@ public class Genomizer {
         gui.setProcessTab(pt);
         gui.setWorkspaceTab(wt);
         // gui.setAnalyzeTab(at); // TODO: Analyze tab not used (OO)
-        // TODO: SysadminTab not used
+        gui.setSysAdminTab(sat);
 
         // Create model and controller
         Model model = new Model();
