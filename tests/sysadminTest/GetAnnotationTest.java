@@ -2,6 +2,7 @@ package sysadminTest;
 
 import static org.fest.assertions.api.Assertions.assertThat;
 
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -17,6 +18,12 @@ public class GetAnnotationTest {
         model.setIp("dumbledore.cs.umu.se:7000");
         model.loginUser("SysadminTests", "baguette");
         new SysadminTab();
+        model.addNewAnnotation("GetAnnotationTest", new String[] { "yes", "no" }, false);
+    }
+
+    @After
+    public void tearDown() throws Exception {
+        model.deleteAnnotation("GetAnnotationTest");
     }
 
     @Test
@@ -25,9 +32,9 @@ public class GetAnnotationTest {
     }
 
     @Test
-    public void shouldCellLineAnnotation() {
+    public void shouldGetGetAnnotationTestAnnotation() {
         assertThat(model.getAnnotations()[0].toString()).isEqualTo(
-                "Cell Line");
+                "GetAnnotationTest");
     }
 
     @Test

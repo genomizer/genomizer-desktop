@@ -27,18 +27,18 @@ public class AnnotationDataType extends AnnotationData {
     public boolean isForced() {
         return forced;
     }
-    
+
     public int indexOf(String value) {
         for (int i = 0; i < values.length; i++) {
-            if (values[i].equals(value)){
+            if (values[i].equals(value)) {
                 return i;
             }
         }
         return -1;
-        
+
     }
-    
-    public void addValue(String string){
+
+    public void addValue(String string) {
         String[] newValues = new String[values.length + 1];
         int i = 0;
         for (String s : values) {
@@ -48,4 +48,5 @@ public class AnnotationDataType extends AnnotationData {
         newValues[i] = string;
         values = newValues;
     }
+
 }
