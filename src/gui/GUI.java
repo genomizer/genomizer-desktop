@@ -398,13 +398,13 @@ public class GUI extends JFrame implements GenomizerView {
         this.uploadTab = uploadTab;
         tabbedPane.addTab("UPLOAD", null, uploadTab, "Upload");
     }
-    
-    
-    public void setAnalyzeTab(AnalyzeTab at) {
-        this.at = at;
-        tabbedPane.addTab("at", null, at, "at");
-        
-    }
+
+
+  //  public void setAnalyzeTab(AnalyzeTab at) {
+  //      this.at = at;
+  //      tabbedPane.addTab("at", null, at, "at");
+  //
+  //  }
 
     /**
      * Sets the workspaceTab of the GUI. Also sets the name of the tab in the
@@ -762,9 +762,9 @@ public class GUI extends JFrame implements GenomizerView {
         setProcessTab(pt);
         setWorkspaceTab(wt);
         setSysAdminTab(sat);
-        
 
-        
+
+
         repaint();
         revalidate();
     }
