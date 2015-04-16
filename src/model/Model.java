@@ -264,9 +264,11 @@ public class Model implements GenomizerModel {
 //                    .println("Name has been changed! Calling renameAnnotationField!");
             renameAnnotationField(oldAnnotation.name, name);
         } else {
+            // TODO: This if part looks messy (OO)
 //            System.out.println("No changes were made in name!");
         }
 
+        // TODO: This part looks very broken ! (OO)
         if (!(oldAnnotation.isForced() == forced)) {
 //            System.out
 //                    .println("Forced value changed! Calling changeAnnotationForced (?)");
@@ -274,6 +276,8 @@ public class Model implements GenomizerModel {
         } else {
 //            System.out.println("Forced value not changed");
         }
+
+        // TODO: This part looks very broken ! (OO)
 
         // TODO: If an annotation value has been added, call
         // addAnnotationValue(name, valueName)
@@ -372,6 +376,7 @@ public class Model implements GenomizerModel {
 
                 if (upload.sendFile(userID)) {
 
+                    // TODO: This if part looks like a mess! (OO)
 //                    System.out
 //                            .println("Succefully added genome release file named "
 //                                    + files[i].getName() + ".");
@@ -532,7 +537,6 @@ public class Model implements GenomizerModel {
                     "Could not get genomespeciereleases!");
         }
 
-        //
         return new GenomeReleaseData[] {};
 
     }
