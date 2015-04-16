@@ -12,7 +12,10 @@ public class ProcessViewCreator {
 
     }
 
+    // TODO: Not done (OO)
     public JPanel buildProcessView() {
+
+
         JPanel mainPanel = new JPanel(new BorderLayout(0, 0));
         JPanel mainContent = new JPanel(new BorderLayout());
         JPanel sideBar = new JPanel(new BorderLayout());

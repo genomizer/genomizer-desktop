@@ -86,16 +86,18 @@ public class GUI extends JFrame implements GenomizerView {
 
         add(mainPanel);
 
+
+        mainPanel.add(userPanel, BorderLayout.NORTH);
+
         tabbedPane = new JTabbedPane();
         tabbedPane.setFocusable(false);
-        mainPanel.add(tabbedPane);
+        mainPanel.add(tabbedPane, BorderLayout.CENTER);
 
         URL url = ClassLoader.getSystemResource("icons/logo.png");
         Toolkit kit = Toolkit.getDefaultToolkit();
         Image img = kit.createImage(url);
         setIconImage(img);
 
-        mainPanel.add(userPanel, BorderLayout.NORTH);
 
         this.setLocationRelativeTo(null);
     }
@@ -767,10 +769,12 @@ public class GUI extends JFrame implements GenomizerView {
     @Override
     public void resetGUI() {
 
+        // Remove tabs
         while (tabbedPane.getTabCount() > 0) {
             tabbedPane.removeTabAt(0);
         }
 
+        // Recreate tabs
         UploadTab ut = new UploadTab();
         ProcessTab pt = new ProcessTab();
         WorkspaceTab wt = new WorkspaceTab();
@@ -778,6 +782,7 @@ public class GUI extends JFrame implements GenomizerView {
         QuerySearchTab qst = new QuerySearchTab();
         // TODO: Maybe analyse too (OO)
 
+        // Set tabs
         setQuerySearchTab(qst);
         setUploadTab(ut);
         setProcessTab(pt);

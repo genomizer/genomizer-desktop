@@ -39,6 +39,7 @@ public class FileNode extends AbstractMutableTreeTableNode implements
         if (node.getFile().equals(file)) {
             return 0;
         }
+        // TODO: sgn(x.compareTo(y)) == -sgn(y.compareTo(x)) does not fulfill contract !? (OO)
         return -1;
     }
 

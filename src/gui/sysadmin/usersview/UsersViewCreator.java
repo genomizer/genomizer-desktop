@@ -25,13 +25,13 @@ public class UsersViewCreator {
 
     private JScrollPane buildUsersList() {
 
-
+        // TODO: Read the data from somwhere instead? (OO)
         /** Example data only */
         Object[] testers = { "Eric Cartman", "Kyle Broflovski",
                 "Kenny McCormick", "Stan Marsh", "Butters Stotch" };
 
 
-        JList usersList = new JList(testers);
+        JList usersList = new JList<Object>(testers);
         usersList
                 .setSelectionMode(ListSelectionModel.SINGLE_INTERVAL_SELECTION);
         usersList.setLayoutOrientation(JList.VERTICAL);
@@ -45,6 +45,7 @@ public class UsersViewCreator {
 
     private JPanel buildSearchBar() {
 
+        // TODO: Search panel not implemented (OO)
         JPanel searchPanel = new JPanel();
         return searchPanel;
     }

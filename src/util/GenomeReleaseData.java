@@ -24,6 +24,7 @@ public class GenomeReleaseData {
     }
 
     public String[] getFilenames() {
+        // TODO: The files are never set!? (OO)
         return files;
     }
 

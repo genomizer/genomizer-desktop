@@ -3,7 +3,6 @@ package util;
 import javax.swing.JCheckBox;
 import javax.swing.JTextField;
 
-// TODO: Make this class static - why not ? - I DID IT!!! OO
 /**
  * Helper class that can check if some details of whether a process
  * is ready to be processed.
