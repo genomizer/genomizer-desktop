@@ -3,7 +3,7 @@ package communication;
 import gui.GenomizerView;
 
 //TODO: Helt onödig och fel. Följer inte pattern. Ta bort?
-
+//ehh, test
 /**
  *
  * Created by c11dkn on 2014-05-16.
