@@ -18,6 +18,7 @@ public class AnalyzeTab extends JPanel {
    // private JList list;;
   //  private JCheckBoxList list;
 
+    // TODO: WTF What is all these outcommented list-things? OO
     public AnalyzeTab() {
 
         setLayout(new BorderLayout());

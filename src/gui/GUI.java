@@ -52,7 +52,6 @@ public class GUI extends JFrame implements GenomizerView {
     private QuerySearchTab querySearchTab;
     private DownloadWindow downloadWindow;
     private RatioCalcPopup ratioCalcPopup;
-    private Process process;
     private AnalyzeTab at;
 
     /**

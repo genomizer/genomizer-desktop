@@ -13,7 +13,7 @@ import java.io.File;
 import java.util.ArrayList;
 
 public class ModelTest {
-    
+
     Model m;
     String username = "desktoptest";
     String password = "baguette";
@@ -21,8 +21,9 @@ public class ModelTest {
     public void setUp() throws Exception {
         m = new Model();
         m.setIp("http://private-anon-b586d8d28-genomizer.apiary-mock.com");
+
     }
-    
+
     @Test
     public void shouldImplementGenomizerView() throws Exception {
         assertThat(m).isInstanceOf(GenomizerModel.class);
@@ -69,5 +70,5 @@ public class ModelTest {
                         "path=/var/www/data/Exp1/raw/file1.fastq");
     }
 
-    
+
 }

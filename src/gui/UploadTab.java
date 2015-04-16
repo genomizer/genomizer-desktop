@@ -38,6 +38,7 @@ public class UploadTab extends JPanel {
     private JTextField experimentNameField;
     private JScrollPane uploadScroll;
 
+    // TODO: WTF What doues 'Test purpose' mean. OO
     // Test purpose
     private ArrayList<UploadToNewExpPanel> newExps = new ArrayList<UploadToNewExpPanel>();
     private UploadToNewExpPanel uploadToNewExpPanel;

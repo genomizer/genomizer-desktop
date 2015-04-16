@@ -103,7 +103,7 @@ public class AddAnnotationPopup extends JPanel {
     /**
      * Builds everything contained in the mid panel of the first tab of the
      * popup
-     * 
+     *
      * @return the JPanel with the contents
      */
     private JPanel buildMidPanelInFirstTab() {
@@ -133,7 +133,7 @@ public class AddAnnotationPopup extends JPanel {
     /**
      * Creates the panel where the values of the new annotation will be filled
      * in
-     * 
+     *
      * @param addCategoriesPanel
      * @return the JPanel with a field and a button
      */
@@ -191,7 +191,7 @@ public class AddAnnotationPopup extends JPanel {
 
     /**
      * Creates a button for removing values from the annotation to be created
-     * 
+     *
      * @param categoryPanel
      *            is the panel holding the button
      */
@@ -228,7 +228,7 @@ public class AddAnnotationPopup extends JPanel {
     /**
      * Builds the bottom panel of the first tab, containing a checkbox and a
      * label
-     * 
+     *
      * @return the JPanel containing the "forced" checkbox and label
      */
     private JPanel buildBotPanelInFirstTab() {
@@ -255,13 +255,13 @@ public class AddAnnotationPopup extends JPanel {
      * not
      */
     protected void switchForced() {
-        forced = (forced == true) ? false : true;
+        forced = (forced == true) ? false : true; // BLAME c12jvr
     }
 
     /**
      * Creates the button the user will press when he/she wants to create the
      * annotation as specified
-     * 
+     *
      * @param botPanelInFirstTab
      *            the panel containing the button
      */
@@ -286,7 +286,7 @@ public class AddAnnotationPopup extends JPanel {
     /**
      * Builds the top panel in the first tab, where the textfield is located
      * which will hold the name of the new annotation
-     * 
+     *
      * @return the top JPanel
      */
     private JPanel buildTopPanelInFirstTab() {
@@ -338,7 +338,7 @@ public class AddAnnotationPopup extends JPanel {
     /**
      * Creates a new panel for a new value of the annotation which is to be
      * created
-     * 
+     *
      * @param categoryHolderPanel
      *            is the panel which will hold the panel
      * @param annotationTextField
@@ -383,7 +383,7 @@ public class AddAnnotationPopup extends JPanel {
     /**
      * Goes through the textfields and gets all the values of the new
      * annotations
-     * 
+     *
      * @return an array of the values as Strings
      */
     public String[] getNewAnnotationCategories() {
@@ -416,7 +416,7 @@ public class AddAnnotationPopup extends JPanel {
 
     /**
      * Checks if the categories field is empty
-     * 
+     *
      * @param categories
      *            is the arraylist of Strings containing the categories
      * @return true if empty, otherwise false
@@ -442,7 +442,7 @@ public class AddAnnotationPopup extends JPanel {
 
     /**
      * Adds an ActionListener to new annotation button model
-     * 
+     *
      * @param listener
      *            is the listener to be added
      */
