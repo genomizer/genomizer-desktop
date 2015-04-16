@@ -35,6 +35,7 @@ public class SupportNode extends AbstractMutableTreeTableNode implements
             return 0;
         }
         return -1;
+        // TODO: Does not fulfill contract ? sgn(x.compareTo(y)) == -sgn(y.compareTo(x)) ! (OO)
     }
 
 }

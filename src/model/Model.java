@@ -527,6 +527,7 @@ public class Model implements GenomizerModel {
         conn.sendRequest(request, userID, TEXT_PLAIN);
         if (conn.getResponseCode() == 200) {
 
+            // TODO: Remove the println !? (OO)
             // System.err.println("Sent getGenomeSpecieReleaseRequestSuccess!");
             // for(int i = 0;i < genomeReleases.length ; i++){
             // System.out.println(genomeReleases[i].getVersion());
