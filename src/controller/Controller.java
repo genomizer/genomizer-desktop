@@ -1,4 +1,5 @@
 //TODO SORTERA SKITEN
+//TODO WHY IS CONTROLLER EVEN A CLASS TO USE
 
 package controller;
 

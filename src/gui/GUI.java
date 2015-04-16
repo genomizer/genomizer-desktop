@@ -87,11 +87,14 @@ public class GUI extends JFrame implements GenomizerView {
         tabbedPane = new JTabbedPane();
         tabbedPane.setFocusable(false);
         mainPanel.add(tabbedPane);
+
         URL url = ClassLoader.getSystemResource("icons/logo.png");
         Toolkit kit = Toolkit.getDefaultToolkit();
         Image img = kit.createImage(url);
         setIconImage(img);
+
         mainPanel.add(userPanel, BorderLayout.NORTH);
+
         this.setLocationRelativeTo(null);
     }
 
