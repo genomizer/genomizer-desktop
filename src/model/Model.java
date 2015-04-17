@@ -246,9 +246,9 @@ public class Model implements GenomizerModel {
             // System.err.println("addAnnotation sent succesfully!");
             return true;
         } else {
-            //TODO Ska det hända något här eller? CF
-//            System.err
-//                    .println("addAnnotaion FAILURE, did not recive 201 response");
+            // TODO Ska det hända något här eller? CF
+            // System.err
+            // .println("addAnnotaion FAILURE, did not recive 201 response");
             // System.out.println("Response code: " + conn.getResponseCode() +
             // " "
             // + conn.getResponseBody());
@@ -260,21 +260,21 @@ public class Model implements GenomizerModel {
     public boolean editAnnotation(String name, String[] categories,
             boolean forced, AnnotationDataType oldAnnotation) {
         if (!(oldAnnotation.getName().equals(name))) {
-//            System.out
-//                    .println("Name has been changed! Calling renameAnnotationField!");
+            // System.out
+            // .println("Name has been changed! Calling renameAnnotationField!");
             renameAnnotationField(oldAnnotation.name, name);
         } else {
             // TODO: This if part looks messy (OO)
-//            System.out.println("No changes were made in name!");
+            // System.out.println("No changes were made in name!");
         }
 
         // TODO: This part looks very broken ! (OO)
         if (!(oldAnnotation.isForced() == forced)) {
-//            System.out
-//                    .println("Forced value changed! Calling changeAnnotationForced (?)");
+            // System.out
+            // .println("Forced value changed! Calling changeAnnotationForced (?)");
             // changeAnnotationForced(name);
         } else {
-//            System.out.println("Forced value not changed");
+            // System.out.println("Forced value not changed");
         }
 
         // TODO: This part looks very broken ! (OO)
@@ -287,8 +287,8 @@ public class Model implements GenomizerModel {
 
         for (int i = 0; i < categories.length; i++) {
             if (!(categories[i].equals(oldAnnotation.getValues()[i]))) {
-//                System.out
-//                        .println("A change was made in annotation value! Calling renameAnnotationValue");
+                // System.out
+                // .println("A change was made in annotation value! Calling renameAnnotationValue");
                 renameAnnotationValue(name, oldAnnotation.getValues()[i],
                         categories[i]);
             }
@@ -308,8 +308,8 @@ public class Model implements GenomizerModel {
         if (conn.getResponseCode() == 200) {
             return true;
         } else {
-//            System.err.println("Could not delete annotation name "
-//                    + deleteAnnoationData + "!");
+            // System.err.println("Could not delete annotation name "
+            // + deleteAnnoationData + "!");
             throw new DeleteAnnotationException(conn.getResponseBody());
             // return false;
         }
@@ -375,14 +375,14 @@ public class Model implements GenomizerModel {
                 if (upload.sendFile(userID)) {
 
                     // TODO: This if part looks like a mess! (OO)
-//                    System.out
-//                            .println("Succefully added genome release file named "
-//                                    + files[i].getName() + ".");
+                    // System.out
+                    // .println("Succefully added genome release file named "
+                    // + files[i].getName() + ".");
 
                 } else {
-//                    System.err
-//                            .println("Could not add genome release file named "
-//                                    + files[i].getName() + "!");
+                    // System.err
+                    // .println("Could not add genome release file named "
+                    // + files[i].getName() + "!");
                     return false;
                 }
 
@@ -391,11 +391,11 @@ public class Model implements GenomizerModel {
 
         } else {
             JOptionPane.showMessageDialog(null, conn.getResponseBody());
-//            System.out
-//                    .println("Something went wrong, could not add genome release: "
-//                            + conn.getResponseCode()
-//                            + "\n"
-//                            + conn.getResponseBody());
+            // System.out
+            // .println("Something went wrong, could not add genome release: "
+            // + conn.getResponseCode()
+            // + "\n"
+            // + conn.getResponseBody());
         }
 
         return false;
@@ -505,9 +505,9 @@ public class Model implements GenomizerModel {
             return true;
         } else {
             JOptionPane.showMessageDialog(null, conn.getResponseBody());
-//            System.err.println("Could not remove genome release: " + version
-//                    + " species: " + specie);
-//            System.err.println(conn.getResponseBody());
+            // System.err.println("Could not remove genome release: " + version
+            // + " species: " + specie);
+            // System.err.println(conn.getResponseBody());
 
         }
         return false;
@@ -564,6 +564,7 @@ public class Model implements GenomizerModel {
         ongoingUploads = new CopyOnWriteArrayList<>();
     }
 
+    // TODO: Not working (JH)
     @Override
     public boolean addGenomeRelease() {
         return false;

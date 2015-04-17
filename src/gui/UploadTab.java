@@ -43,6 +43,10 @@ public class UploadTab extends JPanel {
     private ArrayList<UploadToNewExpPanel> newExps = new ArrayList<UploadToNewExpPanel>();
     private UploadToNewExpPanel uploadToNewExpPanel;
 
+    public UploadToNewExpPanel getUploadToNewExpPanel() {
+        return uploadToNewExpPanel;
+    }
+
     /**
      * Constructor creating a upload tab.
      */

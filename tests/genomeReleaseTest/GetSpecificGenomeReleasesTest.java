@@ -19,7 +19,7 @@ public class GetSpecificGenomeReleasesTest {
         model.loginUser("SysadminGRTests", "baguette");
         controller = new SysadminController(model);
     }
-
+    // TODO: Not implemented (JH)
     @Test
     public void shouldAddGenomeRelease(){
         assertThat(controller.addGenomRelease()).isTrue();
