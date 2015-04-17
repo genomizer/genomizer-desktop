@@ -53,38 +53,129 @@ public class Controller {
         abortDeletion = false;
         this.view = view;
         this.model = model;
-        view.addLoginListener(new LoginListener());
-        view.addLogoutListener(new LogoutListener());
-        view.addOkListener(new OkListener());
+        this.sysController = new SysadminController(model);
         updateView();
     }
 
+    /**
+     * Update **ALL** the actionlisteners in the whole wide gui.
+     */
     private void updateView() {
-        view.addRatioCalcListener(new RatioCalcListener());
-        view.addSearchListener(new QuerySearchListener());
-        view.addQuerySearchListener(new QuerySearchListener());
-        view.addRawToProfileDataListener(new RawToProfileDataListener());
-        view.addDownloadFileListener(new DownloadFileListener());
+
+        loginWindowUpdate();
+
+        userPanelUpdate();
+
+        ratioCalcUpdate();
+
+        updateTabs();
+
+        tabbedPaneUpdate();
+
+        unimplementedUpdate();
+    }
+
+    /**
+     * Update all the actionlisteners in the tabs.
+     */
+    public void updateTabs() {
+
+        querySearchTabUpdate();
+        processTabUpdate();
+        workspaceTabUpdate();
+        uploadTabUpdate();
+        sysadminTabUpdate();
+
+    }
+
+    /**
+     * Update the tabbed-pane listeners
+     */
+    private void tabbedPaneUpdate() {
+        view.addChangedTabListener(new ChangedTabListener());
+    }
+
+    /**
+     * Update sysadminTab listeners and controller
+     */
+    private void sysadminTabUpdate() {
+        view.setSysadminController(sysController);
+    }
+
+    /**
+     * update uploadTab listeners
+     */
+    private void uploadTabUpdate() {
         view.addSelectFilesToUploadButtonListener(new SelectFilesToUploadButtonListener());
-        view.setSysadminController(sysController = new SysadminController(model));
         view.addAddToExistingExpButtonListener(new AddToExistingExpButtonListener());
         view.addUploadToExperimentButtonListener(new UploadToExperimentButtonListener());
-        view.addUpdateSearchAnnotationsListener(new updateSearchAnnotationsListener());
-        view.addProcessFileListener(new ProcessFileListener());
-        view.addSearchToWorkspaceListener(new SearchToWorkspaceListener());
         view.addNewExpButtonListener(new NewExpButtonListener());
         view.addSelectButtonListener(new SelectFilesToNewExpListener());
         view.addUploadButtonListener(new UploadNewExpListener());
-        view.addUploadToListener(new UploadToListener());
-        fileListAddMouseListener(view.getfileList());
-        view.addProcessFeedbackListener(new ProcessFeedbackListener());
-        view.addDeleteFromDatabaseListener(new DeleteFromDatabaseListener());
         view.setOngoingUploads(model.getOngoingUploads());
-        view.setOngoingDownloads(model.getOngoingDownloads());
         view.addUploadSelectedFilesListener(new UploadSelectedFilesListener());
         view.addSpeciesSelectedListener(new SpeciesSelectedListener());
+    }
+
+    /**
+     * Update worksoaceTab listeners
+     */
+    private void workspaceTabUpdate() {
+        view.addDownloadFileListener(new DownloadFileListener());
+        view.addProcessFileListener(new ProcessFileListener());
+        view.addUploadToListener(new UploadToListener());
+        view.addDeleteFromDatabaseListener(new DeleteFromDatabaseListener());
+        view.setOngoingDownloads(model.getOngoingDownloads());
+    }
+
+    /**
+     * Update ProcessTab listeners
+     */
+    private void processTabUpdate() {
+        view.addRawToProfileDataListener(new RawToProfileDataListener());
+        fileListAddMouseListener(view.getfileList());
+        view.addProcessFeedbackListener(new ProcessFeedbackListener());
         view.addDeleteSelectedListener(new DeleteSelectedListener());
-        view.addChangedTabListener(new ChangedTabListener());
+    }
+
+    /**
+     * Update querySearchTab listeners
+     */
+    private void querySearchTabUpdate() {
+        view.addQuerySearchListener(new QuerySearchListener());
+        view.addUpdateSearchAnnotationsListener(new updateSearchAnnotationsListener());
+        view.addSearchToWorkspaceListener(new SearchToWorkspaceListener());
+
+    }
+
+    /**
+     * Update the loginWindow listeners
+     */
+    private void loginWindowUpdate() {
+        view.addLoginListener(new LoginListener());
+    }
+
+    /**
+     * Update the userPanel listeners
+     */
+    private void userPanelUpdate() {
+        view.addLogoutListener(new LogoutListener());
+    }
+
+    /**
+     * Update unkown/unimplemented parts of the gui with listeners
+     * TODO seriously needs some doing
+     */
+    private void unimplementedUpdate() {
+        view.addSearchListener(new QuerySearchListener());
+    }
+
+    /**
+     * Update the ratioCalcWindow listeners
+     */
+    private void ratioCalcUpdate() {
+        view.addOkListener(new OkListener());
+        view.addRatioCalcListener(new RatioCalcListener());
     }
 
     class ChangedTabListener implements ChangeListener, Runnable {
@@ -320,7 +411,8 @@ public class Controller {
                 model.resetModel();
                 view.updateLogout();
                 view.resetGUI();
-                updateView();
+                // If only tabs are updated then only these methods will be needed.
+                updateTabs();
             }
         }
     }

@@ -201,6 +201,8 @@ public interface GenomizerView {
 
     /**
      * Remove and re-add each tab in the GUI.
+     * For now **ONLY TABS** are reset: If this changes
+     * some other methods will need updating (logoutlistener)
      */
     public void resetGUI();
 
