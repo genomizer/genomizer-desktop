@@ -604,4 +604,13 @@ public class UploadToNewExpPanel extends JPanel implements ExperimentPanel {
             enableUploadButton(true);
         }
     }
+    /**
+     * c12jhn 16/4-15
+     * Getter to get all of the annotationfields of the panel.
+     * Used only in testing
+     * @return
+     */
+    public HashMap<String, JTextField> getAnnotationFields() {
+        return this.annotationFields;
+    }
 }
