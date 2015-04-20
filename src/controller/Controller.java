@@ -85,8 +85,12 @@ public class Controller {
         ProcessTabController processTabController = 
                 new ProcessTabController(view, model);
         //processTabUpdate();
-        workspaceTabUpdate();
-        uploadTabUpdate();
+        WorkspaceTabController workspaceTabController = 
+                new WorkspaceTabController(view, model,fileChooser);
+        //workspaceTabUpdate();
+        UploadTabController uploadTabController = 
+                new UploadTabController(view,model,fileChooser);
+        //uploadTabUpdate();
         sysadminTabUpdate();
 
     }
