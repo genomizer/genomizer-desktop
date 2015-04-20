@@ -19,7 +19,11 @@ import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
+import javax.swing.JTextField;
 import javax.swing.SwingUtilities;
+import javax.swing.border.Border;
+import javax.swing.border.EtchedBorder;
+import javax.swing.border.TitledBorder;
 
 import util.ActiveSearchPanel;
 import util.AnnotationDataType;
@@ -144,6 +148,11 @@ public class QuerySearchTab extends JPanel {
             }
         });
         searchArea = new JTextArea("");
+        
+        
+JTextField apa = new JTextField();
+        searchArea.setBorder( apa.getBorder() );
+
         searchArea.setLineWrap(true);
         searchArea.setSize(850, 20);
         searchArea.setEditable(false);

@@ -12,8 +12,8 @@ public class ExperimentNode extends AbstractMutableTreeTableNode implements
 
     private ExperimentData experiment;
     private String[] fileHeaders = new String[] {
-            "<html><b>File Name</html></b>", "<html><b>Date</html></b>",
-            "<html><b>Uploaded By</html></b>" };
+            "<html> <font color= \"white\"><b>File Name</html></b></font>", "<html><font color= \"white\"><b>Date</html></b></font>",
+            "<html><font color= \"white\"><b>Uploaded By</html></b></font>" };
 
     public ExperimentNode(ExperimentData experiment, ArrayList<String> headings) {
 

@@ -81,6 +81,8 @@ public class HTTPURLUpload {
             e.printStackTrace();
         }
 
+        
+        System.out.println(uploadPath);
         HttpPost httpPost = new HttpPost(uploadPath);
 
         httpPost.addHeader("Authorization", userID);
@@ -109,6 +111,7 @@ public class HTTPURLUpload {
         try {
             HttpResponse response;
             // execute HTTP post request
+            System.out.println(httpPost.toString());
             response = httpClient.execute(httpPost, localContext);
             HttpEntity resEntity = response.getEntity();
             responseCode = response.getStatusLine().getStatusCode();
@@ -117,7 +120,7 @@ public class HTTPURLUpload {
             }
             if (resEntity != null) {
 
-                //TODO: Används ej
+                //TODO: Anvï¿½nds ej
                 String responseStr = EntityUtils.toString(resEntity).trim();
             }
         } catch (ClientProtocolException e) {
@@ -130,7 +133,7 @@ public class HTTPURLUpload {
         return true;
     }
 
-    //TODO: Används ej.
+    //TODO: Anvï¿½nds ej.
     private String getFileNameFromUrl(String url) {
         String[] urlSplit = url.split("/");
         return urlSplit[urlSplit.length - 1];

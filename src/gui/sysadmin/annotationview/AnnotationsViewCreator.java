@@ -161,6 +161,7 @@ public class AnnotationsViewCreator {
     private JTextField buildSearchField() {
         Dimension searchDim = new Dimension(500, 30);
         final JTextField searchField = new SearchTextField(searchBoxHint);
+        searchField.setForeground(new Color(155,155,155));
 
         searchField.getDocument().addDocumentListener(
                 new SearchDocumentListener(rowSorter, searchField));
@@ -268,7 +269,7 @@ public class AnnotationsViewCreator {
                     newFilter(rowSorter, filterText);
                 }
             } catch (BadLocationException e1) {
-                // TODO Bättre sätt att hantera detta? CF
+                // TODO Bï¿½ttre sï¿½tt att hantera detta? CF
                 // Do nothing, exception should not happen and even if it does
                 // nothing dangerous will occur
             }

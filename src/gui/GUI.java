@@ -377,24 +377,59 @@ public class GUI extends JFrame implements GenomizerView {
     private void setLookAndFeel() {
 
         try {
-            UIManager
-                    .setLookAndFeel("javax.swing.plaf.nimbus.NimbusLookAndFeel");
 
-            // UIManager.put("nimbusBase", Color.WHITE);
-            // UIManager.put("nimbusBlueGrey", Color.WHITE);
-            // UIManager.put("control", new Color(223, 235, 242));
-            UIManager.put("nimbusOrange", new Color(81, 142, 183));
-            UIManager.put("info", Color.white);
-            // UIManager.put("nimbusLightBackground", new Color(197,210,220));
+             UIManager.setLookAndFeel("javax.swing.plaf.nimbus.NimbusLookAndFeel");
+             UIManager.put("nimbusBase", new Color(30, 30, 30));
+             UIManager.put("control", new Color(81, 81, 81));
+             UIManager.put("text", new Color(255,255,255));
+             UIManager.put("nimbusSelectionBackground", new Color(255, 255, 255));
+             UIManager.put("nimbusLightBackground", new Color(70,70,70));
+
 
         } catch (ClassNotFoundException | InstantiationException
                 | IllegalAccessException | UnsupportedLookAndFeelException e) {
-            // TODO Här har dom lämnat tomt CF
+            // TODO Hï¿½r har dom lï¿½mnat tomt CF
             // If Nimbus is not available, you can set the GUI to another look
             // and feel.
 
         }
     }
+
+//    /**
+//     * Sets the look and feel of the view.
+//     */
+//    private void setLookAndFeel() {
+//
+//        try {
+//
+//            UIManager.setLookAndFeel("javax.swing.plaf.nimbus.NimbusLookAndFeel");
+//
+//             UIManager.put("nimbusBase", new Color(66, 68, 86));
+//             UIManager.put("nimbusBlueGrey", new Color(30, 30, 30));
+//
+//             UIManager.put("FormattedTextField[Enabled].borderPainter", Color.WHITE);
+//            // background
+//             UIManager.put("control", new Color(76, 78, 86));
+//
+//             UIManager.put("text", new Color(255,255,255));
+//             UIManager.put("nimbusBorder", new Color(30,30,30));
+//
+//               UIManager.put("nimbusSelectionBackground", new Color(255, 255, 255));
+//
+//             UIManager.put("Button.background", new Color(55,55,55));
+//             UIManager.put("nimbusLightBackground", new Color(56, 58, 66));
+//
+//
+//
+//
+//        } catch (ClassNotFoundException | InstantiationException
+//                | IllegalAccessException | UnsupportedLookAndFeelException e) {
+//            // TODO Hï¿½r har dom lï¿½mnat tomt CF
+//            // If Nimbus is not available, you can set the GUI to another look
+//            // and feel.
+//
+//        }
+//    }
 
     /**
      * Sets the uploadTab of the GUI. Also sets the name of the tab in the
@@ -483,7 +518,7 @@ public class GUI extends JFrame implements GenomizerView {
 
         ArrayList<FileData> fileArray = allFileData;
 
-        // TODO Vad ska hända här? CF
+        // TODO Vad ska hï¿½nda hï¿½r? CF
         // TESTING
         for (int i = 0; i < fileArray.size(); i++) {
 
