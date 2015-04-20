@@ -527,7 +527,7 @@ public class Model implements GenomizerModel {
             // for(int i = 0;i < genomeReleases.length ; i++){
             // System.out.println(genomeReleases[i].getVersion());
             // }
-            System.out.println(conn.getResponseBody());
+            //System.out.println(conn.getResponseBody());
             return ResponseParser.parseGetGenomeReleaseResponse(conn
                     .getResponseBody());
         } else {
