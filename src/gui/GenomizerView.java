@@ -1,6 +1,7 @@
 package gui;
 
 import gui.sysadmin.SysadminController;
+import gui.sysadmin.SysadminTab;
 
 import java.awt.event.ActionListener;
 import java.io.File;
@@ -106,7 +107,13 @@ public interface GenomizerView {
     public ArrayList<ExperimentData> getSelectedDataInSearch();
 
     public UploadTab getUploadTab();
+    
+    public QuerySearchTab getQuerySearchTab();
+    
+    public SysadminTab getSysAdminTab();
 
+    public WorkspaceTab getWorkSpaceTab();
+    
     public int getSelectedRowAtAnnotationTable();
 
     public void updateLoginAccepted(String username, String pwd, String name);
