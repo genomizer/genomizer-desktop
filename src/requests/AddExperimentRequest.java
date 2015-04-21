@@ -31,6 +31,20 @@ public class AddExperimentRequest extends Request {
             AnnotationDataValue[] annotations) {
         super("addexperiment", "/experiment", "POST");
         this.name = experimentName;
-        this.annotations = annotations;
+        //this.annotations = annotations;
+        int i = 0;
+        for(AnnotationDataValue a: annotations) {
+            if(a.value.isEmpty()) {
+                i++;
+            }
+        }
+        int j = 0;
+        this.annotations = new AnnotationDataValue[annotations.length-i];
+        for(AnnotationDataValue a: annotations) {
+            if(!a.value.isEmpty()) {
+                this.annotations[j] = a;
+                j++;
+            }
+        }
     }
 }
