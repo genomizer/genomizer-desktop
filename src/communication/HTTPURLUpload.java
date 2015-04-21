@@ -3,6 +3,8 @@ package communication;
 import java.io.*;
 import java.net.URLEncoder;
 
+import model.ErrorLogger;
+
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.ClientProtocolException;
@@ -84,6 +86,7 @@ public class HTTPURLUpload {
             uploadPath = uploadPath.replaceFirst(file.getName(),
                     encodedFileName);
         } catch (UnsupportedEncodingException e) {
+            ErrorLogger.log(e);
             e.printStackTrace();
         }
 
@@ -120,7 +123,7 @@ public class HTTPURLUpload {
             response = httpClient.execute(httpPost, localContext);
             HttpEntity resEntity = response.getEntity();
             responseCode = response.getStatusLine().getStatusCode();
-            if (responseCode != 200) {
+            if (responseCode != 201) {
                 return false;
             }
             if (resEntity != null) {

@@ -13,43 +13,44 @@ import javax.swing.JOptionPane;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
+import model.ErrorLogger;
 import model.GenomizerModel;
 import util.AnnotationDataType;
 import util.ExperimentData;
 import util.FileData;
 
 public class Controller {
-    
+
     private GenomizerView view;
     private GenomizerModel model;
     private final JFileChooser fileChooser = new JFileChooser();
     private SysadminController sysController;
-    
+
     public Controller(GenomizerView view, GenomizerModel model) {
         this.view = view;
         this.model = model;
         this.sysController = new SysadminController(model);
         updateView();
     }
-    
+
     /**
      * Update **ALL** the actionlisteners in the whole wide gui.
      */
     private void updateView() {
-        
+
         loginWindowUpdate();
-        
+
         userPanelUpdate();
-        
+
         ratioCalcUpdate();
-        
+
         updateTabs();
-        
+
         tabbedPaneUpdate();
-        
+
         // unimplementedUpdate();
     }
-    
+
     /**
      * Update all the actionlisteners in the tabs.
      */
@@ -63,37 +64,37 @@ public class Controller {
         UploadTabController uploadTabController = new UploadTabController(view,
                 model, fileChooser);
         sysadminTabUpdate();
-        
+
     }
-    
+
     /**
      * Update the tabbed-pane listeners
      */
     private void tabbedPaneUpdate() {
         view.addChangedTabListener(new ChangedTabListener());
     }
-    
+
     /**
      * Update sysadminTab listeners and controller
      */
     private void sysadminTabUpdate() {
         view.setSysadminController(sysController);
     }
-    
+
     /**
      * Update the loginWindow listeners
      */
     private void loginWindowUpdate() {
         view.addLoginListener(new LoginListener());
     }
-    
+
     /**
      * Update the userPanel listeners
      */
     private void userPanelUpdate() {
         view.addLogoutListener(new LogoutListener());
     }
-    
+
     /**
      * Update unkown/unimplemented parts of the gui with listeners
      * QuerySearchListener has been moved to QuerySearchTabController - VB TODO
@@ -102,7 +103,7 @@ public class Controller {
     // private void unimplementedUpdate() {
     // view.addSearchListener(new QuerySearchListener());
     // }
-    
+
     /**
      * Update the ratioCalcWindow listeners
      */
@@ -110,14 +111,14 @@ public class Controller {
         view.addOkListener(new OkListener());
         view.addRatioCalcListener(new RatioCalcListener());
     }
-    
+
     class ChangedTabListener implements ChangeListener, Runnable {
-        
+
         @Override
         public void stateChanged(ChangeEvent e) {
             new Thread(this).start();
         }
-        
+
         @Override
         public void run() {
             AnnotationDataType[] a;
@@ -133,22 +134,22 @@ public class Controller {
             }
         }
     }
-    
+
     class ConvertFileListener implements ActionListener, Runnable {
         @Override
         public void actionPerformed(ActionEvent e) {
             new Thread(this).start();
         }
-        
+
         @Override
         public void run() {
             // TODO ConvertFile-listener doesn't do anything
         }
     }
-    
+
     /**
      * The listener to create region data,
-     * 
+     *
      * @author c11ann
      */
     class RawToRegionDataListener implements ActionListener, Runnable {
@@ -156,23 +157,23 @@ public class Controller {
         public void actionPerformed(ActionEvent e) {
             new Thread(this).start();
         }
-        
+
         @Override
         public void run() {
-            
+
             // TODO: Raw To Region Data Listener doesn't do anything.
             // System.out.println("RAW TO REGION");
             // System.out.println(view.getAllMarkedFiles());
-            
+
         }
     }
-    
+
     class LoginListener implements ActionListener, Runnable {
         @Override
         public void actionPerformed(ActionEvent e) {
             new Thread(this).start();
         }
-        
+
         @Override
         public void run() {
             model.setGenomizerView(view);
@@ -183,24 +184,26 @@ public class Controller {
             if (response.equals("true")) {
                 view.updateLoginAccepted(username, pwd, "Desktop User");
                 sysController.updateAnnotationTable();
+                ErrorLogger.log("Login",username+" logged in");
             } else {
                 view.updateLoginNeglected(response);
+                ErrorLogger.log(response);
             }
         }
     }
-    
+
     class LogoutListener implements ActionListener, Runnable {
         @Override
         public void actionPerformed(ActionEvent e) {
             new Thread(this).start();
         }
-        
+
         @Override
         public void run() {
             int response = JOptionPane.showConfirmDialog(null,
                     "Are you sure you wish to log out?", "Log out",
                     JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
-            
+
             if (response == JOptionPane.YES_OPTION) {
                 model.logoutUser();
                 model.resetModel();
@@ -209,22 +212,23 @@ public class Controller {
                 // If only tabs are updated then only these methods will be
                 // needed.
                 updateTabs();
+                ErrorLogger.log("Logout","User logged out");
             }
         }
     }
-    
+
     /**
      * Listener for when the download button in workspace is clicked. Opens a
      * DownloadWindow with the selected files.
      */
     class DownloadWindowListener implements ActionListener, Runnable {
-        
+
         @Override
         public void actionPerformed(ActionEvent actionEvent) {
-            
+
             new Thread(this).start();
         }
-        
+
         @Override
         public void run() {
             // Skicka med arraylist<FileData> för de filer som ska nerladdas
@@ -244,29 +248,29 @@ public class Controller {
             downloadWindow.setVisible(true);
         }
     }
-    
+
     class RatioCalcListener implements ActionListener, Runnable {
         @Override
         public void actionPerformed(ActionEvent e) {
             new Thread(this).start();
         }
-        
+
         @Override
         public void run() {
             view.showRatioPopup();
         }
     }
-    
+
     class OkListener implements ActionListener, Runnable {
         @Override
         public void actionPerformed(ActionEvent e) {
             new Thread(this).start();
         }
-        
+
         @Override
         public void run() {
             view.getRatioCalcPopup().hideRatioWindow();
         }
-        
+
     }
 }

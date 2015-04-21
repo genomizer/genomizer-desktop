@@ -21,7 +21,9 @@ import util.GenomeReleaseData;
 import gui.GenomizerView;
 import gui.UploadTab;
 import gui.UploadToExistingExpPanel;
+import model.ErrorLogger;
 import model.GenomizerModel;
+import model.Model;
 
 public class UploadTabController {
     GenomizerView view;
@@ -230,6 +232,7 @@ public class UploadTabController {
                             JOptionPane.showMessageDialog(null,
                                     "Couldn't upload " + f.getName() + ".",
                                     "Error", JOptionPane.ERROR_MESSAGE);
+                            ErrorLogger.log("Hallå", "12");
                         }
                     }
                 } else {
@@ -276,6 +279,7 @@ public class UploadTabController {
                             JOptionPane.showMessageDialog(null,
                                     "Couldn't upload " + f.getName() + ".",
                                     "Error", JOptionPane.ERROR_MESSAGE);
+                            ErrorLogger.log("Couldn't upload", "Upload");
                         }
                     }
                     // Shown when all files have been uploaded to experiment.

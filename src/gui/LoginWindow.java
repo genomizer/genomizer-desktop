@@ -19,6 +19,8 @@ import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 
+import model.ErrorLogger;
+
 import util.IconFactory;
 
 /**
@@ -189,6 +191,7 @@ public class LoginWindow extends JFrame {
         // errorLabel.setIcon(UIManager.getIcon("OptionPane.warningIcon"));
         errorLabel.setBounds(73, 0, 150, 45);
         bottomPanel.add(errorLabel);
+        ErrorLogger.log(message);
         repaint();
         revalidate();
     }

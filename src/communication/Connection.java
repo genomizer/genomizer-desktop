@@ -10,6 +10,8 @@ import java.io.PrintWriter;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
+import model.ErrorLogger;
+
 import requests.Request;
 
 /**
@@ -116,13 +118,14 @@ public class Connection {
             }
             connection.disconnect();
         } catch (IOException e) {
+            ErrorLogger.log(e);
             try {
                 InputStream is = connection.getErrorStream();
                 if (is != null) {
                     fetchResponse(connection.getErrorStream());
                 }
             } catch (IOException e1) {
-                // e1.printStackTrace();
+                ErrorLogger.log(e1);
                 connection.disconnect();
                 return false;
             }

@@ -5,6 +5,8 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 
+import model.ErrorLogger;
+
 // TODO: Borde denna klass vara en runnable?
 /**
  * Class for handling file downloads.
@@ -115,9 +117,10 @@ public class DownloadHandler {
             conn.disconnect();
 
         } catch (MalformedURLException e) {
+            ErrorLogger.log(e);
             return false;
         } catch (IOException e) {
-            e.printStackTrace();
+            ErrorLogger.log(e);
             return false;
         }
         return true;

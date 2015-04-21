@@ -10,6 +10,7 @@ import gui.sysadmin.SysadminTab;
 
 import javax.swing.SwingUtilities;
 
+import model.ErrorLogger;
 import model.Model;
 import controller.Controller;
 
@@ -24,6 +25,7 @@ public class Genomizer {
         // Create GUI
         final GUI gui = new GUI();
 
+        try{
         // Create Tabs
         UploadTab ut = new UploadTab();
         WorkspaceTab wt = new WorkspaceTab();
@@ -51,6 +53,9 @@ public class Genomizer {
                 gui.pack();
             }
         });
+        } catch(Exception e){
+            ErrorLogger.log(e);
+        }
 
 
     }
