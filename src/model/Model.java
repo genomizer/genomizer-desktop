@@ -138,14 +138,14 @@ public class Model implements GenomizerModel {
             String username, boolean isPrivate, String release) {
 
         System.out.println("ska uploada fil: " + f.getName());
-        
+
         AddFileToExperiment request = RequestFactory.makeAddFile(expName,
                 f.getName(), type, "metameta", username, username, isPrivate,
                 release);
-        
-        
+
+
         Connection conn = connFactory.makeConnection();
-        
+
         conn.sendRequest(request, userID, JSON);
         System.out.println("request " + request + " userID " + userID + " JSON " + JSON);
         int responseCode = conn.getResponseCode();
@@ -156,7 +156,7 @@ public class Model implements GenomizerModel {
                     .parseUploadResponse(conn.getResponseBody());
             HTTPURLUpload upload = new HTTPURLUpload(aFTER.URLupload,
                     f.getAbsolutePath(), f.getName());
-          
+
             /* FOR MOCK SERVER */
             if (aFTER.URLupload.equalsIgnoreCase("url")) {
                 return true;
@@ -419,14 +419,15 @@ public class Model implements GenomizerModel {
             AnnotationDataValue[] annotations) {
         AddExperimentRequest aER = RequestFactory.makeAddExperimentRequest(
                 expName, annotations);
-        
+
         Connection conn = connFactory.makeConnection();
-        
+
         conn.sendRequest(aER, getUserID(), JSON);
         System.out.println(aER.toJson().toString());
         System.out.println("USEEEER ID = " + getUserID());
         int responseCode = conn.getResponseCode();
         System.out.println("addnewExp " + responseCode);
+        System.out.println(conn.getResponseBody());
         return (responseCode == 201);
     }
 
