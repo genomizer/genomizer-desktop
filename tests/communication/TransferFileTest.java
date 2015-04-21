@@ -36,7 +36,7 @@ public class TransferFileTest {
         fout.write("test");
         fout.newLine();
         fout.flush();
-        HTTPURLUpload upload = new HTTPURLUpload("http://" + ip + ":7000/upload.php?path=/var/www/data/test.txt",
+        HTTPURLUpload upload = new HTTPURLUpload("http://private-anon-1ade64f50-genomizer.apiary-mock.com/file/.testupload.txt",
                 homeDir + "/.testupload.txt", ".testupload.txt");
         upload.sendFile(m.getUserID());
         assertThat(upload.getResponseCode()).isEqualTo(201);

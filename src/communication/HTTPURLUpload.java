@@ -15,8 +15,8 @@ import org.apache.http.impl.client.HttpClientBuilder;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.util.EntityUtils;
 
-//TODO: byt till vettigt namn.
-//TODO: not thread safe?
+// TODO: byt till vettigt namn.
+// TODO: not thread safe?
 /**
  * Class for handling file uploads.
  *
@@ -31,9 +31,13 @@ public class HTTPURLUpload {
 
     /**
      * Constructs a new HTTPURLUpload object
-     * @param uploadPath the target location
-     * @param filePath the source location
-     * @param fileName the filename
+     *
+     * @param uploadPath
+     *            the target location
+     * @param filePath
+     *            the source location
+     * @param fileName
+     *            the filename
      */
     public HTTPURLUpload(String uploadPath, String filePath, String fileName) {
         this.fileName = fileName;
@@ -44,6 +48,7 @@ public class HTTPURLUpload {
 
     /**
      * Uploads a file to
+     *
      * @param userID
      * @return
      * @throws IllegalArgumentException
@@ -120,7 +125,7 @@ public class HTTPURLUpload {
             }
             if (resEntity != null) {
 
-                //TODO: Anv�nds ej
+                // TODO: Anv�nds ej
                 String responseStr = EntityUtils.toString(resEntity).trim();
             }
         } catch (ClientProtocolException e) {
@@ -133,14 +138,14 @@ public class HTTPURLUpload {
         return true;
     }
 
-    //TODO: Anv�nds ej.
+    // TODO: Anv�nds ej.
     private String getFileNameFromUrl(String url) {
         String[] urlSplit = url.split("/");
         return urlSplit[urlSplit.length - 1];
 
     }
 
-    //TODO: vad i helvete? ta bort?
+    // TODO: vad i helvete? ta bort?
     public static void main(String args[]) {
         HTTPURLUpload upload = new HTTPURLUpload(
                 "http://scratchy.cs.umu.se:8000/upload.php?path=/var/www/test_hack.php",
@@ -150,6 +155,7 @@ public class HTTPURLUpload {
 
     /**
      * Returns the filename of the file to upload
+     *
      * @return the filename
      */
     public String getFileName() {
@@ -158,6 +164,7 @@ public class HTTPURLUpload {
 
     /**
      * Return the current progress of the file upload
+     *
      * @return the current progress
      */
     public float getCurrentProgress() {
@@ -166,6 +173,7 @@ public class HTTPURLUpload {
 
     /**
      * Returns the response code of the upload request
+     *
      * @return the response code of the upload request
      */
     public int getResponseCode() {

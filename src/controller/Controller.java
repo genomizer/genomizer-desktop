@@ -79,11 +79,18 @@ public class Controller {
      * Update all the actionlisteners in the tabs.
      */
     public void updateTabs() {
-
-        querySearchTabUpdate();
-        processTabUpdate();
-        workspaceTabUpdate();
-        uploadTabUpdate();
+        QuerySearchTabController querySearchTabController = 
+                new QuerySearchTabController(view, model);
+        //querySearchTabUpdate();
+        ProcessTabController processTabController = 
+                new ProcessTabController(view, model);
+        //processTabUpdate();
+        WorkspaceTabController workspaceTabController = 
+                new WorkspaceTabController(view, model,fileChooser);
+        //workspaceTabUpdate();
+        UploadTabController uploadTabController = 
+                new UploadTabController(view,model,fileChooser);
+        //uploadTabUpdate();
         sysadminTabUpdate();
 
     }

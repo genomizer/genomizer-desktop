@@ -461,6 +461,14 @@ public class GUI extends JFrame implements GenomizerView {
         this.workspaceTab = workspaceTab;
         tabbedPane.addTab("WORKSPACE", null, workspaceTab, "Workspace");
     }
+    /**
+     * Returns the WorkspaceTab, used by controller
+     * @return workspaceTab
+     *          The WorkspaceTab
+     */
+    public WorkspaceTab getWorkSpaceTab(){
+        return workspaceTab;
+    }
 
     /**
      * Sets the sysadminTab of the GUI. Also sets the name of the tab in the
@@ -475,6 +483,15 @@ public class GUI extends JFrame implements GenomizerView {
                 "System Administration");
 
     }
+    /**
+     * Returns the SysadminTab, used by controller
+     * 
+     * @return sysadminTab
+     *          The SysadminTab
+     */
+    public SysadminTab getSysAdminTab(){
+        return sysadminTab;
+    }
 
     /**
      * Sets the querySearchTab of the GUI. Also sets the name of the tab in the
@@ -488,6 +505,15 @@ public class GUI extends JFrame implements GenomizerView {
         tabbedPane.addTab("SEARCH", null, querySearchTab, "Search");
     }
 
+    /**
+     * Returns the querySearchTab, used by controller
+     * 
+     * @return querySearchTab
+     *          the querySearchTab
+     */
+    public QuerySearchTab getQuerySearchTab(){
+        return querySearchTab;
+    }
     public void refreshSearch() {
         querySearchTab.refresh();
     }
