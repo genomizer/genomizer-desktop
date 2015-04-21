@@ -536,6 +536,8 @@ public class UploadToNewExpPanel extends JPanel implements ExperimentPanel {
         JTextField annotationField;
         JComboBox<String> annotationBox;
 
+
+        
         for (int i = 0; i < annotations.length; i++) {
             if (annotations[i].isForced()) {
                 annotationName = annotations[i].getName();
@@ -587,21 +589,28 @@ public class UploadToNewExpPanel extends JPanel implements ExperimentPanel {
     private class FreetextListener implements DocumentListener {
         @Override
         public void insertUpdate(DocumentEvent documentEvent) {
-            react();
+            react(documentEvent);
         }
 
         @Override
         public void removeUpdate(DocumentEvent documentEvent) {
-            react();
+            react(documentEvent);
         }
 
         @Override
         public void changedUpdate(DocumentEvent documentEvent) {
-            react();
+            react(documentEvent);
         }
 
-        public void react() {
-            enableUploadButton(true);
+        public void react(DocumentEvent documentEvent) {
+            if(forcedAnnotationCheck()){
+                
+             
+                enableUploadButton(true);
+            } else {
+                enableUploadButton(false);
+            }
+            
         }
     }
     /**

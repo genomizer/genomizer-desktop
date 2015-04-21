@@ -19,7 +19,8 @@ public class AddExperimentRequest extends Request {
     public AnnotationDataValue[] annotations;
 
     /**
-     * Constructor creating the request.
+     * Constructor creating the request. Removes the annotations without
+     * any value
      *
      * @param experimentName
      *            String representing the name of the experiment.
