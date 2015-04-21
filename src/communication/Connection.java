@@ -21,13 +21,13 @@ import requests.Request;
  */
 public class Connection {
 
-    // TODO: varför view? gör oberoende?
+    // TODO: varfï¿½r view? gï¿½r oberoende?
     private final GenomizerView view;
 
     /** The IP-adress to the Server */
     private String ip;
 
-    // TODO: skapa konstanter för response/status-code?
+    // TODO: skapa konstanter fï¿½r response/status-code?
     /** HTML status code */
     private int responseCode;
 
@@ -36,7 +36,7 @@ public class Connection {
 
     private HttpURLConnection connection;
 
-    // TODO: används inte. ta bort?
+    // TODO: anvï¿½nds inte. ta bort?
     private Request request;
 
     /**
@@ -55,8 +55,8 @@ public class Connection {
         responseCode = 0;
     }
 
-    // TODO: returnera ett Response-objekt eller response code istället för
-    // boolean, om det behövs.
+    // TODO: returnera ett Response-objekt eller response code istï¿½llet fï¿½r
+    // boolean, om det behï¿½vs.
     /**
      * Sends a REST-request to the connected server and processes the response.
      *
@@ -69,7 +69,7 @@ public class Connection {
      * @return true if successful
      */
     public boolean sendRequest(Request request, String token, String type) {
-        // TODO: onödig
+        // TODO: onï¿½dig
         this.request = request;
 
         if (ip.startsWith("http://")) {
@@ -149,7 +149,7 @@ public class Connection {
             output.append(buffer);
         }
         responseBody = output.toString();
-        // TODO: Onödig if-sats?
+        // TODO: Onï¿½dig if-sats?
         if (responseCode >= 300) {
             // err response
             // System.err.println(request.getRequestName() + " response " +

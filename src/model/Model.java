@@ -136,22 +136,35 @@ public class Model implements GenomizerModel {
     @Override
     public boolean uploadFile(String expName, File f, String type,
             String username, boolean isPrivate, String release) {
+
+        System.out.println("ska uploada fil: " + f.getName());
+        
         AddFileToExperiment request = RequestFactory.makeAddFile(expName,
                 f.getName(), type, "metameta", username, username, isPrivate,
                 release);
+        
+        
         Connection conn = connFactory.makeConnection();
+        
         conn.sendRequest(request, userID, JSON);
-        if (conn.getResponseCode() == 200) {
+        System.out.println("request " + request + " userID " + userID + " JSON " + JSON);
+        int responseCode = conn.getResponseCode();
+        System.out.println(conn.getResponseBody());
+        System.out.println("respcode " + responseCode);
+        if (responseCode == 200) {
             AddFileToExperimentResponse aFTER = ResponseParser
                     .parseUploadResponse(conn.getResponseBody());
             HTTPURLUpload upload = new HTTPURLUpload(aFTER.URLupload,
                     f.getAbsolutePath(), f.getName());
+          
             /* FOR MOCK SERVER */
             if (aFTER.URLupload.equalsIgnoreCase("url")) {
                 return true;
             }
             ongoingUploads.add(upload);
-            if (upload.sendFile(userID)) {
+            boolean ok = upload.sendFile(userID);
+            System.out.println(upload.getResponseCode());
+            if (ok) {
                 return true;
             }
         }
@@ -246,7 +259,7 @@ public class Model implements GenomizerModel {
             // System.err.println("addAnnotation sent succesfully!");
             return true;
         } else {
-            // TODO Ska det hända något här eller? CF
+            // TODO Ska det hï¿½nda nï¿½got hï¿½r eller? CF
             // System.err
             // .println("addAnnotaion FAILURE, did not recive 201 response");
             // System.out.println("Response code: " + conn.getResponseCode() +
@@ -406,9 +419,13 @@ public class Model implements GenomizerModel {
             AnnotationDataValue[] annotations) {
         AddExperimentRequest aER = RequestFactory.makeAddExperimentRequest(
                 expName, annotations);
+        System.out.println(aER.name  +"#"+ aER.requestName  +"#"+ aER.type +"#"+ aER.url  +"#");
         Connection conn = connFactory.makeConnection();
+        
         conn.sendRequest(aER, getUserID(), JSON);
-        return (conn.getResponseCode() == 201);
+        int responseCode = conn.getResponseCode();
+        System.out.println("addnewExp " + responseCode);
+        return (responseCode == 201);
     }
 
     public CopyOnWriteArrayList<DownloadHandler> getOngoingDownloads() {
