@@ -419,10 +419,12 @@ public class Model implements GenomizerModel {
             AnnotationDataValue[] annotations) {
         AddExperimentRequest aER = RequestFactory.makeAddExperimentRequest(
                 expName, annotations);
-        System.out.println(aER.name  +"#"+ aER.requestName  +"#"+ aER.type +"#"+ aER.url  +"#");
+        
         Connection conn = connFactory.makeConnection();
         
         conn.sendRequest(aER, getUserID(), JSON);
+        System.out.println(aER.toJson().toString());
+        System.out.println("USEEEER ID = " + getUserID());
         int responseCode = conn.getResponseCode();
         System.out.println("addnewExp " + responseCode);
         return (responseCode == 201);
