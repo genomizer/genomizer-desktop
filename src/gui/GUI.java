@@ -1,6 +1,5 @@
 package gui;
 
-import gui.sysadmin.SysadminController;
 import gui.sysadmin.SysadminTab;
 
 import java.awt.BorderLayout;
@@ -38,6 +37,7 @@ import util.ProcessFeedbackData;
 
 import communication.DownloadHandler;
 import communication.HTTPURLUpload;
+import controller.SysadminController;
 
 public class GUI extends JFrame implements GenomizerView {
 

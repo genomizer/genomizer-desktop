@@ -1,12 +1,13 @@
 package genomeReleaseTest;
 
 import static org.fest.assertions.api.Assertions.assertThat;
-import gui.sysadmin.SysadminController;
 import model.Model;
 
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+
+import controller.SysadminController;
 
 public class AddGenomeReleaseTest {
 

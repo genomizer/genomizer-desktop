@@ -1,5 +1,6 @@
-package gui.sysadmin;
+package controller;
 
+import gui.sysadmin.SysadminTab;
 import gui.sysadmin.annotationview.AddAnnotationPopup;
 import gui.sysadmin.annotationview.AnnotationButtonsListener;
 import gui.sysadmin.annotationview.AnnotationTableModel;

@@ -1,10 +1,11 @@
-package gui.sysadmin;
+package controller;
 
 import gui.sysadmin.strings.SysStrings;
 
 import javax.swing.JTabbedPane;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
+
 
 /**
  * @author oi11ahn

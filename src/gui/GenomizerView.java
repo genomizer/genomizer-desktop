@@ -1,6 +1,5 @@
 package gui;
 
-import gui.sysadmin.SysadminController;
 import gui.sysadmin.SysadminTab;
 
 import java.awt.event.ActionListener;
@@ -25,6 +24,7 @@ import util.ProcessFeedbackData;
 
 import communication.DownloadHandler;
 import communication.HTTPURLUpload;
+import controller.SysadminController;
 
 /**
  * A interface for the view part of an application used by genome researcher to

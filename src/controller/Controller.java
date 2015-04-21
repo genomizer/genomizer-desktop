@@ -9,7 +9,6 @@ import gui.DownloadWindow;
 import gui.GenomizerView;
 import gui.UploadTab;
 import gui.UploadToExistingExpPanel;
-import gui.sysadmin.SysadminController;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;

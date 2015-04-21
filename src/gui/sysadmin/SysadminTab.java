@@ -25,6 +25,9 @@ import javax.swing.JTabbedPane;
 import javax.swing.JTable;
 import javax.swing.table.TableModel;
 
+import controller.SysadminController;
+import controller.SysadminTabChangeListener;
+
 //TODO: fixa varningar!
 
 public class SysadminTab extends JPanel {

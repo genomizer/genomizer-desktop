@@ -1,6 +1,5 @@
 package gui.sysadmin.annotationview;
 
-import gui.sysadmin.SysadminController;
 import gui.sysadmin.SysadminTab;
 import gui.sysadmin.strings.SysStrings;
 
@@ -11,6 +10,8 @@ import javax.swing.JButton;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
+
+import controller.SysadminController;
 
 public class EditAnnotationPopupListener implements ActionListener {
 

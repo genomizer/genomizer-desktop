@@ -1,11 +1,12 @@
 package gui.sysadmin.annotationview;
 
-import gui.sysadmin.SysadminController;
 import gui.sysadmin.SysadminTab;
 import gui.sysadmin.strings.SysStrings;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+
+import controller.SysadminController;
 
 /**
  * The Listener that listens to the popup for creating new annotations.
