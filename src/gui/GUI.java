@@ -379,11 +379,11 @@ public class GUI extends JFrame implements GenomizerView {
         try {
 
              UIManager.setLookAndFeel("javax.swing.plaf.nimbus.NimbusLookAndFeel");
-             UIManager.put("nimbusBase", new Color(30, 30, 30));
-             UIManager.put("control", new Color(81, 81, 81));
-             UIManager.put("text", new Color(255,255,255));
-             UIManager.put("nimbusSelectionBackground", new Color(255, 255, 255));
-             UIManager.put("nimbusLightBackground", new Color(70,70,70));
+//             UIManager.put("nimbusBase", new Color(30, 30, 30));
+//             UIManager.put("control", new Color(81, 81, 81));
+//             UIManager.put("text", new Color(255,255,255));
+//             UIManager.put("nimbusSelectionBackground", new Color(255, 255, 255));
+//             UIManager.put("nimbusLightBackground", new Color(70,70,70));
 
 
         } catch (ClassNotFoundException | InstantiationException
