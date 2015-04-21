@@ -46,26 +46,30 @@ public class SysadminTabChangeListener implements ChangeListener {
         switch (tabName) {
 
             case SysStrings.GENOME:
-
-                sysContoller.getGenomeReleases();
-
-                javax.swing.SwingUtilities.invokeLater(new Runnable() {
+                new Thread() {
                     public void run() {
+                        sysContoller.getGenomeReleases();
 
-                        sysContoller.setGenomeReleaseTable();
+                        javax.swing.SwingUtilities.invokeLater(new Runnable() {
+                            public void run() {
 
+                                sysContoller.setGenomeReleaseTable();
+
+                            }
+                        });
+
+                        javax.swing.SwingUtilities.invokeLater(new Runnable() {
+                            public void run() {
+
+                                sysContoller.getSysTab().getGenomeReleaseView()
+                                        .setSpeciesDDList(sysContoller.getSpecies());
+                            }
+                        });
+
+                        lastTab = SysStrings.GENOME;
                     }
-                });
+                }.start();
 
-                javax.swing.SwingUtilities.invokeLater(new Runnable() {
-                    public void run() {
-
-                        sysContoller.getSysTab().getGenomeReleaseView()
-                                .setSpeciesDDList(sysContoller.getSpecies());
-                    }
-                });
-
-                lastTab = SysStrings.GENOME;
 
                 break;
             case SysStrings.ANNOTATIONS:
