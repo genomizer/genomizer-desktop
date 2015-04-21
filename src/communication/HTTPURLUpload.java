@@ -120,7 +120,7 @@ public class HTTPURLUpload {
             response = httpClient.execute(httpPost, localContext);
             HttpEntity resEntity = response.getEntity();
             responseCode = response.getStatusLine().getStatusCode();
-            if (responseCode != 201) {
+            if (responseCode != 200) {
                 return false;
             }
             if (resEntity != null) {
