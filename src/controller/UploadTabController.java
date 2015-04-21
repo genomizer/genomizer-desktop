@@ -17,14 +17,7 @@ import util.AnnotationDataValue;
 import util.ExperimentData;
 import util.GenomeReleaseData;
 
-import controller.Controller.AddToExistingExpButtonListener;
-import controller.Controller.NewExpButtonListener;
-import controller.Controller.SelectFilesToNewExpListener;
-import controller.Controller.SelectFilesToUploadButtonListener;
-import controller.Controller.SpeciesSelectedListener;
-import controller.Controller.UploadNewExpListener;
-import controller.Controller.UploadSelectedFilesListener;
-import controller.Controller.UploadToExperimentButtonListener;
+
 import gui.GenomizerView;
 import gui.UploadTab;
 import gui.UploadToExistingExpPanel;

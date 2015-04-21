@@ -20,6 +20,7 @@ public class QuerySearchTabController {
         view.addUpdateSearchAnnotationsListener(new updateSearchAnnotationsListener());
         view.addSearchToWorkspaceListener(new SearchToWorkspaceListener());
     }
+    
     class QuerySearchListener implements ActionListener, Runnable {
         public void actionPerformed(ActionEvent e) {
             new Thread(this).start();
