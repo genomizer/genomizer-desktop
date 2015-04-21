@@ -112,7 +112,7 @@ public class LoginWindow extends JFrame {
         // TODO: Hard coded IP stuff should at least be updated. OO
         ipField = new JTextField(20);
         ipField.setBounds(90, 100, 170, 25);
-        ipField.setText("dumbledore.cs.umu.se:7000");
+        ipField.setText("severus.cs.umu.se:7000");
         bottomPanel.add(ipField);
 
         loginButton = new JButton("Login");

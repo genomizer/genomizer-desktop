@@ -39,6 +39,7 @@ public class HTTPURLUpload {
         this.fileName = fileName;
         this.filePath = filePath;
         this.uploadPath = uploadPath;
+
     }
 
     /**
@@ -81,8 +82,7 @@ public class HTTPURLUpload {
             e.printStackTrace();
         }
 
-        
-        System.out.println(uploadPath);
+
         HttpPost httpPost = new HttpPost(uploadPath);
 
         httpPost.addHeader("Authorization", userID);
@@ -111,7 +111,7 @@ public class HTTPURLUpload {
         try {
             HttpResponse response;
             // execute HTTP post request
-            System.out.println(httpPost.toString());
+            //System.out.println(httpPost.toString());
             response = httpClient.execute(httpPost, localContext);
             HttpEntity resEntity = response.getEntity();
             responseCode = response.getStatusLine().getStatusCode();

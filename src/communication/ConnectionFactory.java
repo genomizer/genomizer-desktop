@@ -2,7 +2,7 @@ package communication;
 
 import gui.GenomizerView;
 
-//TODO: Helt onödig och fel. Följer inte pattern. Ta bort?
+//TODO: Helt onï¿½dig och fel. Fï¿½ljer inte pattern. Ta bort?
 //ehh, test
 /**
  *
