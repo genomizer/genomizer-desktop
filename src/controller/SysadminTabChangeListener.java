@@ -6,7 +6,6 @@ import javax.swing.JTabbedPane;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
-
 /**
  * @author oi11ahn
  * @author dv12ilr
@@ -18,16 +17,16 @@ import javax.swing.event.ChangeListener;
  */
 
 public class SysadminTabChangeListener implements ChangeListener {
-
-    private SysadminController sysContoller;
+    
+    private SysadminController sysController;
     private String lastTab;
-
+    
     public SysadminTabChangeListener(SysadminController sysContoller) {
-
-        this.sysContoller = sysContoller;
+        
+        this.sysController = sysContoller;
         lastTab = SysStrings.ANNOTATIONS;
     }
-
+    
     /**
      * The listener responding the when a new tab i chosen in the Sysadmin view
      * in the GUI.
@@ -35,62 +34,57 @@ public class SysadminTabChangeListener implements ChangeListener {
      * @param e
      *            The ChangeEvent that triggered the listner.
      * */
-
+    
     public void stateChanged(ChangeEvent e) {
-
+        
         /** Get the source and the name of the tab. */
-
+        
         JTabbedPane tab = (JTabbedPane) e.getSource();
         String tabName = tab.getTitleAt(tab.getSelectedIndex());
-
+        
         switch (tabName) {
-
+        
             case SysStrings.GENOME:
                 new Thread() {
                     public void run() {
-                        sysContoller.getGenomeReleases();
-
+                        // sysContoller.getGenomeReleases();
+                        
+                        sysController.setGenomeReleaseTable();
+                        
+                        final String[] species = sysController.getSpecies();
                         javax.swing.SwingUtilities.invokeLater(new Runnable() {
                             public void run() {
-
-                                sysContoller.setGenomeReleaseTable();
-
+                                
+                                sysController.getSysTab()
+                                        .getGenomeReleaseView()
+                                        .setSpeciesDDList(species);
                             }
                         });
-
-                        javax.swing.SwingUtilities.invokeLater(new Runnable() {
-                            public void run() {
-
-                                sysContoller.getSysTab().getGenomeReleaseView()
-                                        .setSpeciesDDList(sysContoller.getSpecies());
-                            }
-                        });
-
+                        
                         lastTab = SysStrings.GENOME;
                     }
                 }.start();
-
-
+                
                 break;
             case SysStrings.ANNOTATIONS:
                 if (lastTab.equals(SysStrings.ANNOTATIONS)) {
-
+                    
                 } else {
-
-                    sysContoller.updateAnnotationTable();
-
+                    
+                    sysController.updateAnnotationTable();
+                    
                     /** TODO PLEASE REMOVE ME, ONLY FOR TEST */
-
+                    
                 }
-
+                
                 /**
                  * TODO Make sure the annotations are fetched here instead of
                  * the main Controller.
                  */
                 break;
-
+        
         }
-
+        
     }
-
+    
 }
