@@ -19,6 +19,11 @@ import util.AnnotationDataType;
 import util.ExperimentData;
 import util.FileData;
 
+/**
+ * Controller class responsible for setting the correct actions
+ * to the listening buttons and other component.
+ * This will drive the actions started via the GUI.
+ */
 public class Controller {
 
     private GenomizerView view;
@@ -112,6 +117,12 @@ public class Controller {
         view.addRatioCalcListener(new RatioCalcListener());
     }
 
+    /**
+     * Listener for when tabs are changed.
+     * Will for some tabs perform automatic updates.
+     *
+     * TODO: separate view from Thread
+     */
     class ChangedTabListener implements ChangeListener, Runnable {
 
         @Override
@@ -135,6 +146,11 @@ public class Controller {
         }
     }
 
+    /**
+     * Listener to convert files.
+     * Should convert files between different formats.
+     * TODO: Not completed.
+     */
     class ConvertFileListener implements ActionListener, Runnable {
         @Override
         public void actionPerformed(ActionEvent e) {
@@ -149,7 +165,7 @@ public class Controller {
 
     /**
      * The listener to create region data,
-     *
+     * TODO: Not completed at all
      * @author c11ann
      */
     class RawToRegionDataListener implements ActionListener, Runnable {
@@ -168,6 +184,12 @@ public class Controller {
         }
     }
 
+    /**
+     * Listen to the login button.
+     * Will send the entered name and password, and if accepted update
+     * view.
+     * TODO: Move view bits from Thread
+     */
     class LoginListener implements ActionListener, Runnable {
         @Override
         public void actionPerformed(ActionEvent e) {
@@ -192,6 +214,13 @@ public class Controller {
         }
     }
 
+    /**
+     * Listen to the logout button.
+     * Will call logout and reset methods of the model, and
+     * also update and reset view. (Because of this also reset
+     * relevant parts of the controller.)
+     * TODO: Separate view part of Thread.
+     */
     class LogoutListener implements ActionListener, Runnable {
         @Override
         public void actionPerformed(ActionEvent e) {
@@ -220,6 +249,8 @@ public class Controller {
     /**
      * Listener for when the download button in workspace is clicked. Opens a
      * DownloadWindow with the selected files.
+     *
+     * TODO: separate view parts from Thread. Move to correct tab controller?
      */
     class DownloadWindowListener implements ActionListener, Runnable {
 
@@ -249,6 +280,10 @@ public class Controller {
         }
     }
 
+    /**
+     * Show the ratioCalc popup.
+     * TODO: Remove Thread
+     */
     class RatioCalcListener implements ActionListener, Runnable {
         @Override
         public void actionPerformed(ActionEvent e) {
@@ -261,6 +296,11 @@ public class Controller {
         }
     }
 
+    /**
+     * Listen to the OK button in the ratioCalc popup.
+     * Will hide the window.
+     * TODO: Remove the Thread, should OK do something more?
+     */
     class OkListener implements ActionListener, Runnable {
         @Override
         public void actionPerformed(ActionEvent e) {
