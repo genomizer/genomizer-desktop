@@ -114,6 +114,7 @@ public class Connection {
                 return false;
             }
             if (responseCode >= 300) {
+                ErrorLogger.log(responseBody);
                 return false;
             }
             connection.disconnect();
