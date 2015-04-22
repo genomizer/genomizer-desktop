@@ -233,7 +233,7 @@ public class UploadTabController {
                             JOptionPane.showMessageDialog(null,
                                     "Couldn't upload " + f.getName() + ".",
                                     "Error", JOptionPane.ERROR_MESSAGE);
-                            ErrorLogger.log("Hallå", "12");
+
                         }
                     }
                 } else {

@@ -137,7 +137,7 @@ public class Model implements GenomizerModel {
     public boolean uploadFile(String expName, File f, String type,
             String username, boolean isPrivate, String release) {
 
-        //TODO cleanup System.out.println("ska uploada fil: " + f.getName());
+        System.out.println("ska uploada fil: " + f.getName());
 
         AddFileToExperiment request = RequestFactory.makeAddFile(expName,
                 f.getName(), type, "metameta", username, username, isPrivate,
@@ -147,10 +147,9 @@ public class Model implements GenomizerModel {
         Connection conn = connFactory.makeConnection();
 
         conn.sendRequest(request, userID, JSON);
-        //TODO cleanup  System.out.println("request " + request + " userID " + userID + " JSON " + JSON);
+
         int responseCode = conn.getResponseCode();
-        //TODO cleanup  System.out.println(conn.getResponseBody());
-        //TODO cleanup  System.out.println("respcode " + responseCode);
+
         if (responseCode == 200) {
             AddFileToExperimentResponse aFTER = ResponseParser
                     .parseUploadResponse(conn.getResponseBody());
@@ -163,7 +162,7 @@ public class Model implements GenomizerModel {
             }
             ongoingUploads.add(upload);
             boolean ok = upload.sendFile(userID);
-            //TODO cleanup System.out.println(upload.getResponseCode());
+
             if (ok) {
                 return true;
             }
@@ -423,11 +422,11 @@ public class Model implements GenomizerModel {
         Connection conn = connFactory.makeConnection();
 
         conn.sendRequest(aER, getUserID(), JSON);
-        //TODO cleanup System.out.println(aER.toJson().toString());
-        //TODO cleanup System.out.println("USEEEER ID = " + getUserID());
+        System.out.println(aER.toJson().toString());
+        System.out.println("USEEEER ID = " + getUserID());
         int responseCode = conn.getResponseCode();
-        //TODO cleanup System.out.println("addnewExp " + responseCode);
-        //TODO cleanup System.out.println(conn.getResponseBody());
+        System.out.println("addnewExp " + responseCode);
+        System.out.println(conn.getResponseBody());
         return (responseCode == 201);
     }
 
