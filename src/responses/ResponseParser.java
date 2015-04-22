@@ -1,5 +1,6 @@
 package responses;
 
+import model.ErrorLogger;
 import responses.sysadmin.AddGenomeReleaseResponse;
 import util.AnnotationDataType;
 import util.ExperimentData;
@@ -18,6 +19,7 @@ public class ResponseParser {
         try {
             loginResponse = gson.fromJson(json, LoginResponse.class);
         } catch (JsonParseException e) {
+            ErrorLogger.log(e);
             return null;
         }
         return loginResponse;
@@ -28,6 +30,7 @@ public class ResponseParser {
         try {
             retrieveExpResponse = gson.fromJson(json, ExperimentData.class);
         } catch (JsonParseException e) {
+            ErrorLogger.log(e);
             return null;
         }
         return retrieveExpResponse;
@@ -38,6 +41,7 @@ public class ResponseParser {
         try {
             searchResponses = gson.fromJson(json, ExperimentData[].class);
         } catch (JsonParseException e) {
+            ErrorLogger.log(e);
             return null;
         }
         return searchResponses;
@@ -49,6 +53,7 @@ public class ResponseParser {
             annotationResponses = gson.fromJson(json,
                     AnnotationDataType[].class);
         } catch (JsonParseException e) {
+            ErrorLogger.log(e);
             return null;
         }
         return annotationResponses;
@@ -62,7 +67,7 @@ public class ResponseParser {
                     GenomeReleaseData[].class);
 
         } catch (JsonParseException e) {
-
+            ErrorLogger.log(e);
 //            System.out.println("Could not parse json GR.");
             return null;
         }
@@ -75,6 +80,7 @@ public class ResponseParser {
         try {
             url = gson.fromJson(json, AddFileToExperimentResponse.class);
         } catch (JsonParseException e) {
+            ErrorLogger.log(e);
             // TODO hantera exception CF
 //            System.out.println("parse error");
         }
@@ -89,6 +95,7 @@ public class ResponseParser {
             urls = gson.fromJson(json, AddGenomeReleaseResponse[].class);
 
         } catch (JsonParseException e) {
+            ErrorLogger.log(e);
             // TODO Hantera exception CF
 //            System.err
 //                    .println("Could not parse url response for adding genome release.");
@@ -103,6 +110,7 @@ public class ResponseParser {
             processFeedbackData = gson.fromJson(json,
                     ProcessFeedbackData[].class);
         } catch (JsonParseException e) {
+            ErrorLogger.log(e);
             // TODO: StackTrace ;/
             e.printStackTrace();
             return null;
@@ -116,6 +124,7 @@ public class ResponseParser {
         try {
             response = gson.fromJson(json, ErrorResponse.class);
         } catch (JsonParseException e) {
+            ErrorLogger.log(e);
             // TODO: StackTrace ;/
             e.printStackTrace();
             return null;

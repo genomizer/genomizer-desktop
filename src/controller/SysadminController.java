@@ -13,6 +13,7 @@ import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
 
 import model.DeleteAnnotationException;
+import model.ErrorLogger;
 import model.GenomizerModel;
 import util.AnnotationDataType;
 import util.GenomeReleaseData;
@@ -70,6 +71,7 @@ public class SysadminController {
                     popup.getNewAnnotationForcedValue());
             updateAnnotationTable();
         } catch (IllegalArgumentException e) {
+            ErrorLogger.log(e);
             JOptionPane.showMessageDialog(null, e.getMessage());
         }
     }
@@ -130,10 +132,12 @@ public class SysadminController {
                         });
 
                     } catch (DeleteAnnotationException e) {
+                        ErrorLogger.log(e);
                         JOptionPane.showMessageDialog(null, e.getMessage());
                     }
                 }
             } catch (IllegalArgumentException e) {
+                ErrorLogger.log(e);
                 JOptionPane.showMessageDialog(null, e.getMessage());
             }
         } else {
@@ -155,6 +159,7 @@ public class SysadminController {
             }
 
         } catch (IllegalArgumentException e) {
+            ErrorLogger.log(e);
             JOptionPane.showMessageDialog(null, e.getMessage());
         }
 
@@ -287,6 +292,7 @@ public class SysadminController {
                     try {
                         Thread.sleep(100);
                     } catch (InterruptedException e) {
+                        ErrorLogger.log(e);
                         running = false;
                     }
                 }

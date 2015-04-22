@@ -21,12 +21,14 @@ import javax.swing.JProgressBar;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 
+import model.ErrorLogger;
+
 import util.FileData;
 
 import communication.DownloadHandler;
 
 public class DownloadWindow extends JFrame {
-    
+
     private static final long serialVersionUID = -7647204230941649167L;
     private JPanel mainPanel;
     private JPanel ongoingPanel;
@@ -34,16 +36,16 @@ public class DownloadWindow extends JFrame {
     private ArrayList<FileData> files;
     private CopyOnWriteArrayList<DownloadHandler> ongoingDownloads;
     private boolean running;
-    
+
     /**
      * Initiates a new DownloadWindow with the files it receives.
-     * 
+     *
      * @param files
      *            An ArrayList containing the FileData of the chosen files.
      */
     public DownloadWindow(ArrayList<FileData> files,
             CopyOnWriteArrayList<DownloadHandler> ongoingDownloads) {
-        
+
         URL url = ClassLoader.getSystemResource("icons/logo.png");
         Toolkit kit = Toolkit.getDefaultToolkit();
         Image img = kit.createImage(url);
@@ -68,19 +70,19 @@ public class DownloadWindow extends JFrame {
         add(mainPanel, BorderLayout.CENTER);
         updateProgress();
     }
-    
+
     /**
      * Private method that sets up the DownloadWindow.
-     * 
+     *
      * @param data
      *            An ArrayList containing the Strings to set up the window with.
      */
     private void setUpTablePanel(ArrayList<String> data) {
-        
+
         JPanel tablePanel = new JPanel(new BorderLayout(3, 3));
         mainPanel.add(tablePanel, BorderLayout.CENTER);
         tablePanel.add(new JLabel("test"), BorderLayout.SOUTH);
-        
+
         // Set up the JTable
         String[] headings = new String[] { "File Name" };
         String[][] content = new String[data.size()][1];
@@ -88,7 +90,7 @@ public class DownloadWindow extends JFrame {
             content[i][0] = data.get(i);
         }
         JTable table = new JTable(content, headings);
-        
+
         // Add comboboxes to each row in the table.
         table.setRowHeight(30);
         table.setEnabled(false);
@@ -96,7 +98,7 @@ public class DownloadWindow extends JFrame {
         JScrollPane scrollPane = new JScrollPane(table);
         tablePanel.add(scrollPane, BorderLayout.CENTER);
         tablePanel.add(table.getTableHeader(), BorderLayout.NORTH);
-        
+
         downloadButton = new JButton("Download");
         JPanel flowSouth = new JPanel();
         flowSouth.add(downloadButton);
@@ -105,12 +107,12 @@ public class DownloadWindow extends JFrame {
         setSize(500, 500);
         setLocationRelativeTo(null);
     }
-    
+
     private void setUpOngoingPanel() {
         ongoingPanel = new JPanel(new GridLayout(0, 1));
         mainPanel.add(ongoingPanel, BorderLayout.NORTH);
     }
-    
+
     private void updateProgress() {
         new Thread(new Runnable() {
             @Override
@@ -154,29 +156,30 @@ public class DownloadWindow extends JFrame {
                                         "Download complete");
                             }
                         }
-                        
+
                     }
                     revalidate();
                     repaint();
                     try {
                         Thread.sleep(100);
                     } catch (InterruptedException e) {
+                        ErrorLogger.log(e);
                         running = false;
                     }
                 }
             }
         }).start();
     }
-    
+
     /**
      * Adds a listener for pressing the download button.
-     * 
+     *
      * @param listener
      *            The listener to be added.
      */
     public void addDownloadFileListener(ActionListener listener) {
         downloadButton.addActionListener(listener);
-        
+
         /*
          * Automatically click the download button when the listener has been
          * added to let the user choose where to save the files immediately. If
@@ -198,7 +201,7 @@ public class DownloadWindow extends JFrame {
             setVisible(true);
         }
     }
-    
+
     /**
      * @return files An ArrayList containing the FileData representing the
      *         files.

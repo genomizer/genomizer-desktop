@@ -21,6 +21,8 @@ import javax.swing.JTextField;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 
+import model.ErrorLogger;
+
 import util.AnnotationDataType;
 import util.AnnotationDataValue;
 import util.FileDrop;
@@ -142,6 +144,7 @@ public class UploadToNewExpPanel extends JPanel implements ExperimentPanel {
                 try {
                     genome.add(g.getVersion());
                 } catch (NullPointerException e) {
+                    ErrorLogger.log(e);
                     System.out.println("Couldn't find genome version.");
                 }
             }
@@ -230,6 +233,7 @@ public class UploadToNewExpPanel extends JPanel implements ExperimentPanel {
             });
 
         } catch (NullPointerException e) {
+            ErrorLogger.log(e);
             System.err.println("NullPointerException while retrieving annotations from server.");
         }
     }
@@ -537,7 +541,7 @@ public class UploadToNewExpPanel extends JPanel implements ExperimentPanel {
         JComboBox<String> annotationBox;
 
 
-        
+
         for (int i = 0; i < annotations.length; i++) {
             if (annotations[i].isForced()) {
                 annotationName = annotations[i].getName();
@@ -604,13 +608,13 @@ public class UploadToNewExpPanel extends JPanel implements ExperimentPanel {
 
         public void react(DocumentEvent documentEvent) {
             if(forcedAnnotationCheck()){
-                
-             
+
+
                 enableUploadButton(true);
             } else {
                 enableUploadButton(false);
             }
-            
+
         }
     }
     /**

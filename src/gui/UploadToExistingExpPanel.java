@@ -12,6 +12,8 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
+import model.ErrorLogger;
+
 import util.AnnotationDataValue;
 import util.ExperimentData;
 import util.FileDrop;
@@ -279,6 +281,7 @@ public class UploadToExistingExpPanel extends JPanel implements ExperimentPanel 
                 try {
                     genome.add(g.getVersion());
                 } catch (NullPointerException e) {
+                    ErrorLogger.log(e);
                     // TODO: Catch NullpointerEx emtpy, looks very stupid... OO
 //                    System.out.println("Couldn't find genome version.");
                 }

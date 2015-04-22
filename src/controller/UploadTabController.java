@@ -104,6 +104,7 @@ public class UploadTabController {
                                 JOptionPane.ERROR_MESSAGE);
                     }
                 } catch (NullPointerException e) {
+                    ErrorLogger.log(e);
                     JOptionPane.showMessageDialog(null,
                             "Couldn't find or retrieve experiment.", "ERROR",
                             JOptionPane.ERROR_MESSAGE);

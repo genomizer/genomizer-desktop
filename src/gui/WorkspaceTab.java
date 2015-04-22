@@ -22,6 +22,8 @@ import javax.swing.SwingUtilities;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
+import model.ErrorLogger;
+
 import util.ExperimentData;
 import util.TreeTable;
 
@@ -32,11 +34,11 @@ import communication.DownloadHandler;
  * genome researchers. This class allows the user to delete files from the
  * database, download files, upload files to current experiment, process
  * experiment and remove files from the workspace.
- * 
+ *
  * @author
  */
 public class WorkspaceTab extends JPanel {
-    
+
     private static final long serialVersionUID = -7278768268151806081L;
     private TreeTable table;
     private JPanel buttonPanel;
@@ -48,7 +50,7 @@ public class WorkspaceTab extends JPanel {
     private JPanel filePanel;
     private CopyOnWriteArrayList<DownloadHandler> ongoingDownloads;
     private JScrollPane bottomScroll;
-    
+
     /**
      * Constructor creating the workspace tab.
      */
@@ -72,7 +74,7 @@ public class WorkspaceTab extends JPanel {
         updateOngoingDownloadsPanel();
         setVisible(true);
     }
-    
+
     private void setTabbedPane() {
         tabbedPane = new JTabbedPane(JTabbedPane.TOP);
         tabbedPane.addTab("Workspace", filePanel);
@@ -88,12 +90,12 @@ public class WorkspaceTab extends JPanel {
                 processButton.setEnabled(b);
                 uploadToButton.setEnabled(b);
                 downloadButton.setEnabled(b);
-                
+
             }
         });
         add(tabbedPane, BorderLayout.CENTER);
     }
-    
+
     /**
      * A method creating the buttons of the workspace tab.
      */
@@ -115,10 +117,10 @@ public class WorkspaceTab extends JPanel {
         processButton = new JButton("Process");
         processButton.setPreferredSize(new Dimension(150, 40));
     }
-    
+
     /**
      * Method setting the ongoing downloads.
-     * 
+     *
      * @param ongoingDownloads
      *            An array with the current ongoing downloads.
      */
@@ -126,31 +128,31 @@ public class WorkspaceTab extends JPanel {
             CopyOnWriteArrayList<DownloadHandler> ongoingDownloads) {
         this.ongoingDownloads = ongoingDownloads;
     }
-    
+
     /**
      * Method adding the buttons to the button panel.
      */
     private void addToButtonPanel() {
         buttonPanel.add(deleteButton);
-        
+
         buttonPanel.add(Box.createHorizontalStrut(50));
-        
+
         buttonPanel.add(removeButton);
-        
+
         buttonPanel.add(Box.createHorizontalStrut(50));
-        
+
         buttonPanel.add(downloadButton);
-        
+
         buttonPanel.add(Box.createHorizontalStrut(50));
-        
+
         buttonPanel.add(uploadToButton);
-        
+
         buttonPanel.add(Box.createHorizontalStrut(50));
-        
+
         buttonPanel.add(processButton);
-        
+
     }
-    
+
     /**
      * Method updating the current ongoing downloads.
      */
@@ -169,7 +171,7 @@ public class WorkspaceTab extends JPanel {
                                 JPanel downloadPanel = new JPanel(
                                         new BorderLayout());
                                 double speed = handler.getCurrentSpeed() / 1024 / 2014;
-                                
+
                                 JProgressBar progress = new JProgressBar(0,
                                         handler.getTotalSize());
                                 progress.setValue(handler.getCurrentProgress());
@@ -201,7 +203,7 @@ public class WorkspaceTab extends JPanel {
                                 ongoingDownloads.remove(handler);
                             }
                         }
-                        
+
                     }
                     for (final DownloadHandler handler : completedDownloads) {
                         JPanel completedDownloadPanel = new JPanel(
@@ -231,13 +233,14 @@ public class WorkspaceTab extends JPanel {
                     try {
                         Thread.sleep(100);
                     } catch (InterruptedException e) {
+                        ErrorLogger.log(e);
                         running = false;
                     }
                 }
             }
         }).start();
     }
-    
+
     /**
      * Returns an ImageIcon, or null if the path was invalid.
      */
@@ -250,50 +253,50 @@ public class WorkspaceTab extends JPanel {
             return null;
         }
     }
-    
+
     /**
      * Method adding a listener to the "downloadButton" button.
-     * 
+     *
      * @param listener
      *            The listener to start downloading files.
      */
     public void addDownloadFileListener(ActionListener listener) {
         downloadButton.addActionListener(listener);
     }
-    
+
     /**
      * Method adding a listener to the "processButton" button.
-     * 
+     *
      * @param listener
      *            The listener to start processing experiment.
      */
     public void addProcessFileListener(ActionListener listener) {
         processButton.addActionListener(listener);
     }
-    
+
     /**
      * Method adding a listener to the "uploadButton" button.
-     * 
+     *
      * @param listener
      *            The listener to start uploading files to a current experiment.
      */
     public void addUploadToListener(ActionListener listener) {
         uploadToButton.addActionListener(listener);
     }
-    
+
     /**
      * Method adding a listener to the "deleteButton" button.
-     * 
+     *
      * @param listener
      *            The listener to delete an experiment from the database.
      */
     public void addDeleteSelectedListener(ActionListener listener) {
         deleteButton.addActionListener(listener);
     }
-    
+
     /**
      * Method adding experiments to the workspace tab.
-     * 
+     *
      * @param newExperiments
      *            An array with experiments to be added.
      */
@@ -315,28 +318,28 @@ public class WorkspaceTab extends JPanel {
                 expList.add(newExperiment);
             }
         }
-        
+
         table.setContent(expList);
     }
-    
+
     /**
      * Method returning the data of selected experiment(s).
-     * 
+     *
      * @return an array with data of the current selected experiment(s).
      */
     public ArrayList<ExperimentData> getSelectedData() {
         return table.getSelectedData();
     }
-    
+
     /**
      * Method returning the selected experiment(s).
-     * 
+     *
      * @return an array with the current selected experiment(s).
      */
     public ArrayList<ExperimentData> getSelectedExperiments() {
         return table.getSelectedExperiments();
     }
-    
+
     /**
      * Method removing the selected data.
      */
@@ -347,10 +350,10 @@ public class WorkspaceTab extends JPanel {
             }
         });
     }
-    
+
     /**
      * Method changing the shown tab.
-     * 
+     *
      * @param tabIndex
      *            The index of the tab to be shown.
      */

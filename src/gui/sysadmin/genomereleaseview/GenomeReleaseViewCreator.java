@@ -33,6 +33,8 @@ import javax.swing.table.TableColumnModel;
 import javax.swing.table.TableModel;
 import javax.swing.table.TableRowSorter;
 
+import model.ErrorLogger;
+
 import communication.HTTPURLUpload;
 
 /***
@@ -519,6 +521,7 @@ public class GenomeReleaseViewCreator {
                 }
 
             } catch (IOException e) {
+                ErrorLogger.log(e);
                 e.printStackTrace();
             }
             fileText.setText(directoryName);

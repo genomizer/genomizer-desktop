@@ -26,6 +26,8 @@ import javax.swing.UnsupportedLookAndFeelException;
 
 import javax.swing.event.ChangeListener;
 
+import model.ErrorLogger;
+
 import util.ActiveSearchPanel;
 import util.AnnotationDataType;
 import util.AnnotationDataValue;
@@ -388,6 +390,7 @@ public class GUI extends JFrame implements GenomizerView {
 
         } catch (ClassNotFoundException | InstantiationException
                 | IllegalAccessException | UnsupportedLookAndFeelException e) {
+            ErrorLogger.log(e);
             // TODO H�r har dom l�mnat tomt CF
             // If Nimbus is not available, you can set the GUI to another look
             // and feel.
@@ -485,7 +488,7 @@ public class GUI extends JFrame implements GenomizerView {
     }
     /**
      * Returns the SysadminTab, used by controller
-     * 
+     *
      * @return sysadminTab
      *          The SysadminTab
      */
@@ -507,7 +510,7 @@ public class GUI extends JFrame implements GenomizerView {
 
     /**
      * Returns the querySearchTab, used by controller
-     * 
+     *
      * @return querySearchTab
      *          the querySearchTab
      */

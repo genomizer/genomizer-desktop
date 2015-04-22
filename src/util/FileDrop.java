@@ -1,6 +1,9 @@
 package util;
 
 import javax.swing.*;
+
+import model.ErrorLogger;
+
 import java.awt.datatransfer.DataFlavor;
 import java.io.*;
 
@@ -552,7 +555,7 @@ public class FileDrop {
         // message
         // if
         // requested
-        if (out != null) out.println(message);
+        if (out != null) ErrorLogger.log(message);
     } // end log
 
     /**

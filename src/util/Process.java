@@ -3,6 +3,8 @@ package util;
 import javax.swing.JCheckBox;
 import javax.swing.JTextField;
 
+import model.ErrorLogger;
+
 /**
  * Helper class that can check if some details of whether a process
  * is ready to be processed.
@@ -69,6 +71,7 @@ public final class Process {
             int value = Integer.parseInt(string);
             return value > 0;
         } catch (NumberFormatException e) {
+            ErrorLogger.log(e);
             return false;
         }
     }
@@ -79,6 +82,7 @@ public final class Process {
             int value = Integer.parseInt(string);
             return value >= 0;
         } catch (NumberFormatException e) {
+            ErrorLogger.log(e);
             return false;
         }
     }

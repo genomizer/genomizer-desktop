@@ -14,6 +14,8 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 
+import model.ErrorLogger;
+
 import util.ActivePanel;
 import util.AnnotationDataType;
 import util.ExperimentData;
@@ -265,6 +267,7 @@ public class UploadTab extends JPanel {
                     try {
                         Thread.sleep(100);
                     } catch (InterruptedException e) {
+                        ErrorLogger.log(e);
                         running = false;
                     }
                 }

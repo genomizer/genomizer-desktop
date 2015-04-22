@@ -32,6 +32,8 @@ import javax.swing.SwingUtilities;
 import javax.swing.table.TableColumnModel;
 import javax.swing.tree.TreePath;
 
+import model.ErrorLogger;
+
 import org.jdesktop.swingx.JXTreeTable;
 import org.jdesktop.swingx.action.AbstractActionExt;
 import org.jdesktop.swingx.table.ColumnControlButton;
@@ -513,8 +515,10 @@ public class TreeTable extends JPanel {
                 Thread.sleep(10);
             }
         } catch (NullPointerException e) {
+            ErrorLogger.log(e);
             JOptionPane.showMessageDialog(null, "No files to remove.");
         } catch (InterruptedException e) {
+            ErrorLogger.log(e);
             e.printStackTrace();
         }
         createTreeStructure();
@@ -557,6 +561,7 @@ public class TreeTable extends JPanel {
                 visibleHeadings.addAll(headings);
             }
         } catch (NullPointerException e) {
+            ErrorLogger.log(e);
             // TODO: Where does the Null come from ? (OO)
             // TODO Hantera exception CF
 //            System.out.println("Couldn't update visible headings");
@@ -596,6 +601,7 @@ public class TreeTable extends JPanel {
             });
 
         } catch (NullPointerException e) {
+            ErrorLogger.log(e);
             // TODO: Where does the Null come from ? (OO)
             // TODO Hantera exception CF
         }

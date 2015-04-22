@@ -17,6 +17,7 @@ import util.FileData;
 import gui.DeleteDataWindow;
 import gui.GenomizerView;
 import gui.UploadTab;
+import model.ErrorLogger;
 import model.GenomizerModel;
 
 public class WorkspaceTabController {
@@ -24,7 +25,7 @@ public class WorkspaceTabController {
     GenomizerModel model;
     private final JFileChooser fileChooser;
     private boolean abortDeletion;
-    
+
     public WorkspaceTabController(GenomizerView view, GenomizerModel model, JFileChooser fileChooser) {
         this.view = view;
         this.model = model;
@@ -35,22 +36,22 @@ public class WorkspaceTabController {
         view.addDeleteFromDatabaseListener(new DeleteFromDatabaseListener());
         view.setOngoingDownloads(model.getOngoingDownloads());
     }
-    
+
     /**
      * Listener for when the download button in the download window is clicked.
      * Opens a file chooser.
      */
     class DownloadFileListener implements ActionListener, Runnable {
-        
+
         @Override
         public void actionPerformed(ActionEvent actionEvent) {
-            
+
             new Thread(this).start();
         }
-        
+
         @Override
         public void run() {
-            
+
             // DownloadWindow downloadWindow = view.getDownloadWindow();
             ArrayList<ExperimentData> expData = view
                     .getSelectedDataInWorkspace();
@@ -70,12 +71,13 @@ public class WorkspaceTabController {
                     directoryName = fileChooser.getSelectedFile()
                             .getCanonicalPath();
                 } catch (IOException e) {
+                    ErrorLogger.log(e);
                     e.printStackTrace();
                 }
             } else {
                 return;
             }
-            
+
             for (FileData data : fileData) {
                 model.downloadFile(data.url, data.id, directoryName + "/"
                         + data.filename, data.filename);
@@ -83,13 +85,13 @@ public class WorkspaceTabController {
             view.changeTabInWorkspace(1);
         }
     }
-    
+
     class ProcessFileListener implements ActionListener, Runnable {
         @Override
         public void actionPerformed(ActionEvent e) {
             new Thread(this).start();
         }
-        
+
         @Override
         public void run() {
             // TODO Skicka in filedata arrayen
@@ -106,14 +108,14 @@ public class WorkspaceTabController {
             view.setProcessFileList(selectedFiles);
         }
     }
-    
+
     class UploadToListener implements ActionListener, Runnable {
-        
+
         @Override
         public void actionPerformed(ActionEvent e) {
             new Thread(this).start();
         }
-        
+
         @Override
         public void run() {
             try {
@@ -125,18 +127,19 @@ public class WorkspaceTabController {
                         firstChosenExperiment.getName());
                 ut.getExistingExpButton().doClick();
             } catch (IndexOutOfBoundsException e) {
+                ErrorLogger.log(e);
                 JOptionPane.showMessageDialog(null,
                         "No experiment was selected.");
             }
         }
     }
-    
+
     class DeleteFromDatabaseListener implements ActionListener, Runnable {
         @Override
         public void actionPerformed(ActionEvent e) {
             new Thread(this).start();
         }
-        
+
         @Override
         public void run() {
             int i = -1;

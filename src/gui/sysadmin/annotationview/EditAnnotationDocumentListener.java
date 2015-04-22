@@ -7,6 +7,8 @@ import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import javax.swing.text.BadLocationException;
 
+import model.ErrorLogger;
+
 public class EditAnnotationDocumentListener implements DocumentListener {
 
     private String oldString;
@@ -77,6 +79,7 @@ public class EditAnnotationDocumentListener implements DocumentListener {
                 edPop.deactivateUpdateButton(button);
             }
         } catch (BadLocationException e) {
+            ErrorLogger.log(e);
             e.printStackTrace();
         }
     }

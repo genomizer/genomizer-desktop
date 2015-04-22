@@ -132,10 +132,13 @@ public class HTTPURLUpload {
                 String responseStr = EntityUtils.toString(resEntity).trim();
             }
         } catch (ClientProtocolException e) {
+            ErrorLogger.log(e);
             e.printStackTrace();
         } catch (FileNotFoundException e) {
+            ErrorLogger.log(e);
             return false;
         } catch (IOException e) {
+            ErrorLogger.log(e);
             e.printStackTrace();
         }
         return true;

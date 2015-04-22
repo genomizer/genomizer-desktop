@@ -24,6 +24,8 @@ import javax.swing.table.TableModel;
 import javax.swing.table.TableRowSorter;
 import javax.swing.text.BadLocationException;
 
+import model.ErrorLogger;
+
 /**
  * This class builds the view shown when the "Annotations" tab is chosen.
  *
@@ -204,6 +206,7 @@ public class AnnotationsViewCreator {
         try {
             rf = RowFilter.regexFilter(filterText.getText(), 0);
         } catch (java.util.regex.PatternSyntaxException e) {
+            ErrorLogger.log(e);
             return;
         }
         rowSorter.setRowFilter(rf);
@@ -269,6 +272,7 @@ public class AnnotationsViewCreator {
                     newFilter(rowSorter, filterText);
                 }
             } catch (BadLocationException e1) {
+                ErrorLogger.log(e1);
                 // TODO B�ttre s�tt att hantera detta? CF
                 // Do nothing, exception should not happen and even if it does
                 // nothing dangerous will occur
