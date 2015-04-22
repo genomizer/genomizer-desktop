@@ -203,6 +203,8 @@ public class Controller {
             String username = view.getUsername();
             String pwd = view.getPassword();
             String response = model.loginUser(username, pwd);
+
+            // TODO: extract stupid .equals true to a domain object boolean thingy
             if (response.equals("true")) {
                 view.updateLoginAccepted(username, pwd, "Desktop User");
                 sysController.updateAnnotationTable();
