@@ -6,6 +6,8 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
+import exampleData.ExampleExperimentData;
+
 import util.AnnotationDataType;
 
 import gui.sysadmin.SysadminTab;
@@ -17,8 +19,8 @@ public class GetAnnotationTest {
     @Before
     public void setUp() throws Exception {
         model = new Model();
-        model.setIp("dumbledore.cs.umu.se:7000");
-        model.loginUser("SysadminTests", "baguette");
+        model.setIp(ExampleExperimentData.getTestServerIP());
+        model.loginUser(ExampleExperimentData.getTestUsername(), ExampleExperimentData.getTestPassword());
         new SysadminTab();
         model.addNewAnnotation("GetAnnotationTest", new String[] { "yes", "no" }, false);
     }
@@ -44,7 +46,7 @@ public class GetAnnotationTest {
         String[] expected = new String[] { "yes", "no" };
         assertThat(actual).isEqualTo(expected);
     }
-    
+
     protected AnnotationDataType getSpecificAnnotationType(String name) {
         AnnotationDataType[] annotations = model.getAnnotations();
         AnnotationDataType specificAnnotation = null;

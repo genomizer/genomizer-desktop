@@ -2,6 +2,7 @@ package sysadminTest;
 
 import static org.fest.assertions.api.Assertions.assertThat;
 import static org.fest.assertions.api.Assertions.fail;
+import exampleData.ExampleExperimentData;
 import gui.sysadmin.SysadminTab;
 import model.Model;
 
@@ -19,8 +20,8 @@ public class AnnotationFieldTest {
     public void setUp() throws Exception {
 
         model = new Model();
-        model.setIp("dumbledore.cs.umu.se:7000");
-        model.loginUser("SysadminTests", "baguette");
+        model.setIp(ExampleExperimentData.getTestServerIP());
+        model.loginUser(ExampleExperimentData.getTestUsername(), ExampleExperimentData.getTestPassword());
         sysadminTab = new SysadminTab();
     }
 

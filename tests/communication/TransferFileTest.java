@@ -4,6 +4,8 @@ import model.Model;
 import org.junit.Before;
 import org.junit.Test;
 
+import exampleData.ExampleExperimentData;
+
 import java.io.*;
 
 import static org.fest.assertions.api.Assertions.assertThat;
@@ -13,13 +15,13 @@ import static org.fest.assertions.api.Assertions.assertThat;
  *
  */
 public class TransferFileTest {
-    String ip = "dumbledore.cs.umu.se";
+    String ip = ExampleExperimentData.getTestServerIP();
     Model m = new Model();
 
     @Before
     public void setUp() throws Exception {
-        m.setIp("http://" + ip + ":7000");
-        m.loginUser("desktoptest", "baguette");
+        m.setIp("http://" + ip);
+        m.loginUser(ExampleExperimentData.getTestUsername(), ExampleExperimentData.getTestPassword());
     }
     @Test
     public void testDownloadIs200() throws Exception {
@@ -51,12 +53,12 @@ public class TransferFileTest {
         fout.write("test");
         fout.newLine();
         fout.flush();
-        HTTPURLUpload upload = new HTTPURLUpload("http://" + ip + ":7000/upload.php?path=/var/www/data/testup.txt",
+        HTTPURLUpload upload = new HTTPURLUpload("http://" + ip + "/upload.php?path=/var/www/data/testup.txt",
                 homeDir + "/.testupload.txt", ".testupload.txt");
         upload.sendFile(m.getUserID());
 
         DownloadHandler handler = new DownloadHandler(m.getUserID(), "test.txt");
-        handler.download("http://" + ip + ":7000/download.php?path=/var/www/data/testup.txt",
+        handler.download("http://" + ip + "/download.php?path=/var/www/data/testup.txt",
                 homeDir + "/.testtransferdown.txt");
         File file2 = new File(homeDir + "/.testtransferdown.txt");
         BufferedReader fin = new BufferedReader(new FileReader(file2));

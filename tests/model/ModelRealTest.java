@@ -2,6 +2,8 @@ package model;
 
 import org.junit.Before;
 import org.junit.Test;
+
+import exampleData.ExampleExperimentData;
 import util.AnnotationDataType;
 import util.AnnotationDataValue;
 import util.ExperimentData;
@@ -20,13 +22,13 @@ import static org.fest.assertions.api.Assertions.assertThat;
  */
 public class ModelRealTest {
 
-    String username = "desktoptest";
-    String password = "baguette";
+    String username = ExampleExperimentData.getTestUsername();
+    String password = ExampleExperimentData.getTestPassword();
     Model m = new Model();
 
     @Before
     public void setUp() {
-        m.setIp("dumbledore.cs.umu.se:7000");
+        m.setIp(ExampleExperimentData.getTestServerIP());
         m.loginUser(username, password);
     }
 
