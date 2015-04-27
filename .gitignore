@@ -2,3 +2,4 @@ bin/
 .classpath
 /.gitignore
 /.idea
+/ErrorLog.txt
