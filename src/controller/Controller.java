@@ -62,6 +62,7 @@ public class Controller {
     public void updateTabs() {
 
         QuerySearchTabController querySearchTabController = new QuerySearchTabController(view, model);
+        view.getQuerySearchTab().setController(querySearchTabController);
         ProcessTabController processTabController = new ProcessTabController(view, model);
         WorkspaceTabController workspaceTabController = new WorkspaceTabController(view, model, fileChooser);
         UploadTabController uploadTabController = new UploadTabController(view, model, fileChooser);

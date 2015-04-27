@@ -216,9 +216,13 @@ public class QuerySearchTab extends JPanel {
         addToWorkspaceButton = new JButton("Add to workspace");
         addToUploadButton = new JButton("Upload to experiment");
 
+        
+        
+
         JPanel eastPanel = new JPanel();
         eastPanel.add(addToWorkspaceButton);
         eastPanel.add(addToUploadButton);
+        eastPanel.add(backButton);
 
         downloadButton = new JButton("Download Selected Files");
         // resultsHeaderPanel.add(downloadButton, BorderLayout.EAST);
