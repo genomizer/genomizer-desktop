@@ -25,6 +25,8 @@ import javax.swing.border.Border;
 import javax.swing.border.EtchedBorder;
 import javax.swing.border.TitledBorder;
 
+import controller.QuerySearchTabController;
+
 import util.ActiveSearchPanel;
 import util.AnnotationDataType;
 import util.ExperimentData;
@@ -49,12 +51,16 @@ public class QuerySearchTab extends JPanel {
     private JButton addToWorkspaceButton;
     private JButton searchButton;
     private JButton downloadButton;
+    private JButton clearButton;
     private JTextArea searchArea;
     private CopyOnWriteArrayList<QueryBuilderRow> rowList;
     private TreeTable resultsTable;
     private AnnotationDataType[] annotationTypes;
+    private QuerySearchTabController querySearchTabController;
     private ActiveSearchPanel activePanel;
-
+    private JRadioButton queryBuilderButton;
+    private JRadioButton manualEditButton;
+    
     /**
      * Create a query search tab
      */
@@ -68,7 +74,7 @@ public class QuerySearchTab extends JPanel {
         clearSearchFields();
         activePanel = ActiveSearchPanel.SEARCH;
     }
-
+    
     /**
      * Show the search view of the tab
      */
@@ -86,7 +92,7 @@ public class QuerySearchTab extends JPanel {
         repaint();
         revalidate();
     }
-
+    
     /**
      * Show the results view of the tab
      */
@@ -102,7 +108,7 @@ public class QuerySearchTab extends JPanel {
         repaint();
         revalidate();
     }
-
+    
     /**
      * Set up the query search tab foundation
      */
@@ -116,47 +122,47 @@ public class QuerySearchTab extends JPanel {
         topPanel.setBorder(BorderFactory
                 .createTitledBorder("Genomizer Advanced Search Builder"));
     }
-
+    
     /**
      * Set up the results tree table
      */
     private void setUpResultsTable() {
         resultsTable = new TreeTable();
     }
-
+    
     /**
      * Set up the search view header
      */
     private void setUpSearchHeader() {
         searchPanel = new JPanel(new FlowLayout());
-
+        
         // searchButton = new JButton("Search");
         searchButton = CustomButtonFactory.makeCustomButton(
                 IconFactory.getSearchIcon(30, 30),
                 IconFactory.getSearchIcon(32, 32), 32, 32, "Search for data");
-
-        JButton clearButton = CustomButtonFactory
+        
+        clearButton = CustomButtonFactory
                 .makeCustomButton(IconFactory.getClearIcon(30, 30),
                         IconFactory.getClearIcon(32, 32), 32, 32,
                         "Clear search fields");
         // JButton clearButton = new JButton("Clear");
-        clearButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-
-                clearSearchFields();
-            }
-        });
+        // clearButton.addActionListener(querySearchTabController.createClearButtonListener());
+        // clearButton.addActionListener(new ActionListener() {
+        // @Override
+        // public void actionPerformed(ActionEvent e) {
+        //
+        // clearSearchFields();
+        // }
+        // });
         searchArea = new JTextArea("");
         
+        JTextField apa = new JTextField();
+        searchArea.setBorder(apa.getBorder());
         
-JTextField apa = new JTextField();
-        searchArea.setBorder( apa.getBorder() );
-
         searchArea.setLineWrap(true);
         searchArea.setSize(850, 20);
         searchArea.setEditable(false);
-
+        
         /*
          * Click the search button if the enter key is pressed while the text
          * field has focus. (only if it's not editable)
@@ -170,32 +176,13 @@ JTextField apa = new JTextField();
                 }
             }
         });
-
+        
         JScrollPane searchScroll = new JScrollPane(searchArea);
         searchScroll.setPreferredSize(new Dimension(800, 35));
-        JRadioButton queryBuilderButton = new JRadioButton("Query Builder");
-        JRadioButton manualEditButton = new JRadioButton("Manual edit");
+        queryBuilderButton = new JRadioButton("Query Builder");
+        manualEditButton = new JRadioButton("Manual edit");
         ButtonGroup buttonGroup = new ButtonGroup();
-        manualEditButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                searchArea.setEditable(true);
 
-                for (QueryBuilderRow row : rowList) {
-                    row.setEnabled(false);
-                }
-            }
-        });
-        queryBuilderButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                searchArea.setEditable(false);
-
-                for (QueryBuilderRow row : rowList) {
-                    row.setEnabled(true);
-                }
-            }
-        });
         buttonGroup.add(queryBuilderButton);
         buttonGroup.add(manualEditButton);
         buttonGroup.setSelected(queryBuilderButton.getModel(), true);
@@ -207,7 +194,7 @@ JTextField apa = new JTextField();
         searchPanel.add(clearButton);
         searchPanel.add(Box.createHorizontalStrut(50));
     }
-
+    
     /**
      * Set up the results view header
      */
@@ -223,7 +210,7 @@ JTextField apa = new JTextField();
                 showSearchView();
             }
         });
-
+        
         // TODO: WTF look why the buttons are not removed completely. OO
         // addToWorkspaceButton = CustomButtonFactory.makeCustomButton(
         // IconFactory.getAddToWorkspaceIcon(50, 34),
@@ -235,23 +222,23 @@ JTextField apa = new JTextField();
         resultsHeaderPanel.add(addToWorkspaceButton, BorderLayout.EAST);
         resultsHeaderPanel.add(backButton, BorderLayout.WEST);
     }
-
+    
     public void refresh() {
         if (activePanel == ActiveSearchPanel.TABLE) {
             searchButton.doClick();
         }
     }
-
+    
     /**
      * Set up the rows panel (containing query builder rows
      */
     private void setUpRowsPanel() {
         rowsPanel = new JPanel(new GridLayout(0, 1));
     }
-
+    
     /**
      * Update the search results and switch to results view
-     *
+     * 
      * @param searchResults
      */
     public void updateSearchResults(
@@ -265,9 +252,9 @@ JTextField apa = new JTextField();
                 showResultsView();
             }
         });
-
+        
     }
-
+    
     /**
      * Clear the search fields of the tab (including all query builder rows and
      * the search text area
@@ -282,7 +269,7 @@ JTextField apa = new JTextField();
             }
         });
     }
-
+    
     /**
      * Add a new row to the query builder
      */
@@ -290,10 +277,10 @@ JTextField apa = new JTextField();
         rowList.add(new QueryBuilderRow(this, annotationTypes));
         paintRows();
     }
-
+    
     /**
      * Remove a row from the query builder
-     *
+     * 
      * @param row
      */
     public void removeRow(QueryBuilderRow row) {
@@ -302,7 +289,7 @@ JTextField apa = new JTextField();
         }
         paintRows();
     }
-
+    
     /**
      * Paint the query builder rows in the rows panel
      */
@@ -310,7 +297,7 @@ JTextField apa = new JTextField();
         SwingUtilities.invokeLater(new Runnable() {
             public void run() {
                 rowsPanel.removeAll();
-
+                
                 for (int i = 0; i < rowList.size(); i++) {
                     QueryBuilderRow row = rowList.get(i);
                     if (i == 0 && i == (rowList.size() - 1)) {
@@ -329,9 +316,9 @@ JTextField apa = new JTextField();
                 rowsPanel.repaint();
             }
         });
-
+        
     }
-
+    
     /**
      * Update all query builder rows with annotation information
      */
@@ -340,7 +327,7 @@ JTextField apa = new JTextField();
             rowList.get(i).setAnnotationBox(annotationTypes);
         }
     }
-
+    
     public synchronized void updateSearchArea() {
         String searchString = "";
         int i = 0;
@@ -368,86 +355,118 @@ JTextField apa = new JTextField();
             searchArea.setText(searchString);
         }
     }
-
+    
     public void addSearchButtonListener(ActionListener listener) {
         searchButton.addActionListener(listener);
     }
-
+    
     public void addAddToWorkspaceButtonListener(ActionListener listener) {
         addToWorkspaceButton.addActionListener(listener);
     }
-
+    
     public void addDownloadButtonListener(ActionListener listener) {
         downloadButton.addActionListener(listener);
     }
-
+    
     public void addUpdateAnnotationsListener(ActionListener listener) {
         updateAnnotationsButton.addActionListener(listener);
     }
-
+    
     public void clickUpdateAnnotations() {
         updateAnnotationsButton.doClick();
     }
-
+    
     public void setAnnotationTypes(AnnotationDataType[] annotationTypes) {
         this.annotationTypes = annotationTypes;
         updateRows();
         paintRows();
     }
-
+    
+    public void setController(QuerySearchTabController querySearchTabController) {
+        this.querySearchTabController = querySearchTabController;
+        clearButton.addActionListener(querySearchTabController
+                .createClearButtonListener());
+        manualEditButton.addActionListener(querySearchTabController.createManualEditButtonListener());
+//        manualEditButton.addActionListener(new ActionListener() {
+//            @Override
+//            public void actionPerformed(ActionEvent e) {
+//                searchArea.setEditable(true);
+//                
+//                for (QueryBuilderRow row : rowList) {
+//                    row.setEnabled(false);
+//                }
+//            }
+//        });
+        queryBuilderButton.addActionListener(this.querySearchTabController.createQueryBuilderButtonListener());
+//        queryBuilderButton.addActionListener(new ActionListener() {
+//            @Override
+//            public void actionPerformed(ActionEvent e) {
+//                searchArea.setEditable(false);
+//                
+//                for (QueryBuilderRow row : rowList) {
+//                    row.setEnabled(true);
+//                }
+//            }
+//        });
+    }
+    
     public ArrayList<ExperimentData> getSelectedData() {
         return resultsTable.getSelectedData();
-
+        
     }
-
+    
     public String getSearchString() {
         return searchArea.getText();
     }
-
+    
     public ActiveSearchPanel getActivePanel() {
         return activePanel;
     }
-
+    
     public JButton getBackButton() {
         return backButton;
     }
-
+    
     public JButton getSearchButton() {
         return searchButton;
+    }
+    
+    public JTextArea getSearchArea() {
+        return searchArea;
     }
 
     public void clearSearchSelection() {
         resultsTable.deselectTreeTable();
     }
-
+    
     public CopyOnWriteArrayList<QueryBuilderRow> getRowList() {
         return rowList;
-
+        
     }
-
+    
     /**
      * Get the QueryBuilderRow's next position in QueryBuilderRow list.
      */
     public int getNextQueryPosition(QueryBuilderRow queryRow) {
-
+        
         int thisIndex = rowList.indexOf(queryRow);
         int nextIndex = thisIndex + 1;
-
+        
         return nextIndex;
     }
-
+    
     protected QueryBuilderRow getNextQuery(QueryBuilderRow queryRow) {
-
+        
         int next = getNextQueryPosition(queryRow);
-
+        
         return rowList.get(next);
     }
-
+    
     public boolean isLastQueryIndex(QueryBuilderRow queryRow) {
-
+        
         int size = rowList.size();
-
+        
         return (rowList.indexOf(queryRow) == (size - 1));
     }
-
+    
 }

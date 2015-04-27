@@ -9,18 +9,56 @@ import util.ActiveSearchPanel;
 import util.AnnotationDataType;
 import util.ExperimentData;
 import gui.GenomizerView;
+import gui.QueryBuilderRow;
+import gui.QuerySearchTab;
+import gui.sysadmin.annotationview.AnnotationButtonsListener;
 
 public class QuerySearchTabController {
     GenomizerView view;
     GenomizerModel model;
+    private QuerySearchTab querySearchTab;
     public QuerySearchTabController(GenomizerView view, GenomizerModel model){
         this.view = view;
+        this.querySearchTab = view.getQuerySearchTab();
         this.model = model;
         view.addQuerySearchListener(new QuerySearchListener());
         view.addUpdateSearchAnnotationsListener(new updateSearchAnnotationsListener());
         view.addSearchToWorkspaceListener(new SearchToWorkspaceListener());
     }
+    public ActionListener createClearButtonListener() {
+        return new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+                querySearchTab.clearSearchFields();
+            }
+        };
+    }
+    public ActionListener createManualEditButtonListener() {
+       return new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                querySearchTab.getSearchArea().setEditable(true);
+                
+                for (QueryBuilderRow row : querySearchTab.getRowList()) {
+                    row.setEnabled(false);
+                }
+            }
+        };
+    }
     
+    public ActionListener createQueryBuilderButtonListener() {
+        return new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                querySearchTab.getSearchArea().setEditable(false);
+                
+                for (QueryBuilderRow row : querySearchTab.getRowList()) {
+                    row.setEnabled(true);
+                }
+            }
+        };
+     }
     class QuerySearchListener implements ActionListener, Runnable {
         public void actionPerformed(ActionEvent e) {
             new Thread(this).start();
