@@ -24,6 +24,7 @@ public class QuerySearchTabController {
         view.addQuerySearchListener(new QuerySearchListener());
         view.addUpdateSearchAnnotationsListener(new updateSearchAnnotationsListener());
         view.addSearchToWorkspaceListener(new SearchToWorkspaceListener());
+        
     }
     public ActionListener createClearButtonListener() {
         return new ActionListener() {
@@ -56,6 +57,14 @@ public class QuerySearchTabController {
                 for (QueryBuilderRow row : querySearchTab.getRowList()) {
                     row.setEnabled(true);
                 }
+            }
+        };
+     }
+    public ActionListener createBackButtonListener() {
+        return new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                querySearchTab.showSearchView();
             }
         };
      }
