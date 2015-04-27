@@ -116,14 +116,14 @@ public class GUI extends JFrame implements GenomizerView {
     public void addUploadToListener(ActionListener listener) {
         workspaceTab.addUploadToListener(listener);
     }
-    
-    
+
+
     @Override
     public void addUploadToListenerSearchTab(ActionListener listener) {
         querySearchTab.addUploadToListener(listener);
     }
-    
-    
+
+
     @Override
     public LoginWindow getLoginWindow() {
         return loginWindow;
@@ -191,12 +191,12 @@ public class GUI extends JFrame implements GenomizerView {
     public void addAddToExistingExpButtonListener(ActionListener listener) {
         uploadTab.addAddToExistingExpButtonListener(listener);
     }
-    
+
     @Override
     public void addAddToExistingExpButtonListenerInSearch(ActionListener listener) {
         uploadTab.addAddToExistingExpButtonListener(listener);
     }
-    
+
 
 
     public void addSelectFilesToUploadButtonListener(ActionListener listener) {
@@ -617,12 +617,7 @@ public class GUI extends JFrame implements GenomizerView {
 
     }
 
-    /**
-     * Creates a new experiment to upload to using the provided annotations.
-     *
-     * @param annotations
-     *            The annotations of the new experiment.
-     */
+
     @Override
     public void createNewExp(AnnotationDataType[] annotations) {
         uploadTab.addNewExpPanel(annotations);
@@ -671,25 +666,12 @@ public class GUI extends JFrame implements GenomizerView {
         return uploadTab.getNewExpPanel().getTypes();
     }
 
-    /**
-     * Calls the uploadPanel's enableUploadButton method to try to either make
-     * the upload button enabled or disabled. If all of the required annotation
-     * fields are NOT filled, this method won't set it to true.
-     *
-     * @param b
-     *            Whether it should try to make the button enabled (true) or
-     *            disabled (false).
-     */
+   @Override
     public void enableUploadButton(boolean b) {
         uploadTab.getNewExpPanel().enableUploadButton(b);
     }
 
-    /**
-     * Deletes a file row.
-     *
-     * @param f
-     *            Used to identify which fileRow to be deleted.
-     */
+
     @Override
     public void deleteUploadFileRow(File f) {
         uploadTab.getNewExpPanel().deleteFileRow(f);

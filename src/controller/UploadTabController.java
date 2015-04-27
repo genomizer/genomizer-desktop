@@ -17,7 +17,6 @@ import util.AnnotationDataValue;
 import util.ExperimentData;
 import util.GenomeReleaseData;
 
-
 import gui.GenomizerView;
 import gui.UploadTab;
 import gui.UploadToExistingExpPanel;
@@ -29,7 +28,9 @@ public class UploadTabController {
     GenomizerView view;
     GenomizerModel model;
     private final JFileChooser fileChooser;
-    public UploadTabController(GenomizerView view, GenomizerModel model, JFileChooser fileChooser){
+
+    public UploadTabController(GenomizerView view, GenomizerModel model,
+            JFileChooser fileChooser) {
         this.view = view;
         this.model = model;
         this.fileChooser = fileChooser;
@@ -43,15 +44,16 @@ public class UploadTabController {
         view.addUploadSelectedFilesListener(new UploadSelectedFilesListener());
         view.addSpeciesSelectedListener(new SpeciesSelectedListener());
     }
-    class SelectFilesToUploadButtonListener implements ActionListener, Runnable {
+
+    /**
+     * Display a fileChooser, and let the user enter the files to upload.
+     * Used for existingExp.
+     *
+     */
+    class SelectFilesToUploadButtonListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent actionEvent) {
 
-            new Thread(this).start();
-        }
-
-        @Override
-        public void run() {
             fileChooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
             fileChooser.setMultiSelectionEnabled(true);
             int ret = fileChooser.showOpenDialog(new JPanel());
@@ -69,6 +71,31 @@ public class UploadTabController {
             uploadToExistingExpPanel.addFileDrop();
         }
     }
+
+    /**
+     * Display a fileChooser, and let the user enter the files to upload.
+     * Used for NewExp.
+     * TODO: Same code as for oldexp?
+     */
+    class SelectFilesToNewExpListener implements ActionListener {
+
+        @Override
+        public void actionPerformed(ActionEvent e) {
+
+            fileChooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
+            fileChooser.setMultiSelectionEnabled(true);
+            int ret = fileChooser.showOpenDialog(new JPanel());
+            File[] files;
+            if (ret == JFileChooser.APPROVE_OPTION) {
+                files = fileChooser.getSelectedFiles();
+            } else {
+                return;
+            }
+            view.selectFilesToNewExp(files);
+            view.enableUploadButton(true);
+        }
+    }
+
     class AddToExistingExpButtonListener implements ActionListener, Runnable {
 
         @Override
@@ -116,6 +143,7 @@ public class UploadTabController {
             }
         }
     }
+
     class UploadToExperimentButtonListener implements ActionListener, Runnable {
 
         @Override
@@ -160,6 +188,12 @@ public class UploadTabController {
             }
         }
     }
+
+    /**
+     * Get the annotations and create a new NewExp Panel with them.
+     *
+     * TODO: Threads, creates new panel from non-EDT.
+     */
     class NewExpButtonListener implements ActionListener, Runnable {
 
         @Override
@@ -174,28 +208,9 @@ public class UploadTabController {
             view.createNewExp(annotations);
         }
     }
-    class SelectFilesToNewExpListener implements ActionListener, Runnable {
 
-        @Override
-        public void actionPerformed(ActionEvent e) {
-            new Thread(this).start();
-        }
 
-        @Override
-        public void run() {
-            fileChooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
-            fileChooser.setMultiSelectionEnabled(true);
-            int ret = fileChooser.showOpenDialog(new JPanel());
-            File[] files;
-            if (ret == JFileChooser.APPROVE_OPTION) {
-                files = fileChooser.getSelectedFiles();
-            } else {
-                return;
-            }
-            view.selectFilesToNewExp(files);
-            view.enableUploadButton(true);
-        }
-    }
+
     class UploadNewExpListener implements ActionListener, Runnable {
 
         @Override
@@ -244,6 +259,7 @@ public class UploadTabController {
             }
         }
     }
+
     class UploadSelectedFilesListener implements ActionListener, Runnable {
 
         @Override
@@ -296,6 +312,7 @@ public class UploadTabController {
             }
         }
     }
+
     class SpeciesSelectedListener implements ActionListener, Runnable {
         @Override
         public void actionPerformed(ActionEvent e) {
@@ -305,7 +322,10 @@ public class UploadTabController {
         @Override
         public void run() {
             String species = view.getSelectedSpecies();
+
+            // TODO: Thread, although connection here, should not below.
             GenomeReleaseData[] grd = model.getSpeciesGenomeReleases(species);
+
             view.setGenomeReleases(grd);
         }
     }

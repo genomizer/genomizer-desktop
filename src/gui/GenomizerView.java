@@ -107,13 +107,13 @@ public interface GenomizerView {
     public ArrayList<ExperimentData> getSelectedDataInSearch();
 
     public UploadTab getUploadTab();
-    
+
     public QuerySearchTab getQuerySearchTab();
-    
+
     public SysadminTab getSysAdminTab();
 
     public WorkspaceTab getWorkSpaceTab();
-    
+
     public int getSelectedRowAtAnnotationTable();
 
     public void updateLoginAccepted(String username, String pwd, String name);
@@ -134,10 +134,20 @@ public interface GenomizerView {
 
     public ArrayList<ExperimentData> getSelectedExperimentsInWorkspace();
 
+    /**
+     * Creates a new experiment to upload to using the provided annotations.
+     *
+     * @param annotations
+     *            The annotations of the new experiment.
+     */
     public void createNewExp(AnnotationDataType[] annotations);
 
     public String[] getParameters();
 
+    /**
+     * Add the selected files as UploadFileRow to the NewExp Panel.
+     * @param files [] for each to add
+     */
     public void selectFilesToNewExp(File[] files);
 
     public void selectFilesToExistingExp(File[] files);
@@ -156,10 +166,25 @@ public interface GenomizerView {
 
     public void updateQuerySearchResults(ArrayList<ExperimentData> searchResults);
 
+    /**
+     * Calls the uploadPanel's enableUploadButton method to try to either make
+     * the upload button enabled or disabled. If all of the required annotation
+     * fields are NOT filled, this method won't set it to true.
+     *
+     * @param b
+     *            Whether it should try to make the button enabled (true) or
+     *            disabled (false).
+     */
     public void enableUploadButton(boolean b);
 
     public String[] getRatioCalcParameters();
 
+    /**
+     * Deletes a file row.
+     *
+     * @param f
+     *            Used to identify which fileRow to be deleted.
+     */
     public void deleteUploadFileRow(File f);
 
     public void addRatioCalcListener(ActionListener listener);
