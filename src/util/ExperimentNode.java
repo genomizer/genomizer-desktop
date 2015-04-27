@@ -12,13 +12,20 @@ public class ExperimentNode extends AbstractMutableTreeTableNode implements
 
     private ExperimentData experiment;
     private String[] fileHeaders = new String[] {
-            "<html> <font color= \"black\"><b>File Name</html></b></font>", "<html><font color= \"black\"><b>Date</html></b></font>",
-            "<html><font color= \"black\"><b>Uploaded By</html></b></font>" };
+            "<html> <font color= \"black\"><b>File Name</html></b></font>","<html><font color= \"black\"><b>File Size</html></b></font>",
+            "<html><font color= \"black\"><b>Date</html></b></font>",
+            "<html><font color= \"black\"><b>Uploaded By</html></b></font>"};
 
     public ExperimentNode(ExperimentData experiment, ArrayList<String> headings) {
 
         super(experiment.getAnnotationValueList(headings).toArray());
         this.experiment = experiment;
+        
+        //Testning av utskrift av filstorlek
+        //Metod sätter konstant filstorlek på alla filer
+        //TODO: Filstorlek ska hämtas automagiskt från parserskiten (ResponseParser)
+ 
+        experiment.testFileSioze();
         ArrayList<FileData> files = experiment.files;
         SupportNode rawNode = new SupportNode(new Object[] { "Raw Files" });
         rawNode.add(new SupportNode(fileHeaders));

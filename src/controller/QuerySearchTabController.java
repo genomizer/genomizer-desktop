@@ -59,14 +59,14 @@ public class QuerySearchTabController {
         };
     }
 
+
     // En uploadlistener som körs när upload knappen trycks i search-taben
     class SearchUploadToListener implements ActionListener {
 
         @Override
         public void actionPerformed(ActionEvent e) {
             try {
-                ExperimentData firstChosenExperiment = view
-                        .getSelectedDataInSearch().get(0);
+                ExperimentData firstChosenExperiment = view.getSelectedDataInSearch().get(0);
                 UploadTab ut = view.getUploadTab();
                 view.getTabbedPane().setSelectedComponent(ut);
                 ut.getExperimentNameField().setText(
@@ -79,6 +79,7 @@ public class QuerySearchTabController {
             }
         }
     }
+
 
     public ActionListener createQueryBuilderButtonListener() {
         return new ActionListener() {
@@ -164,5 +165,7 @@ public class QuerySearchTabController {
         }
 
     }
+
+
 
 }

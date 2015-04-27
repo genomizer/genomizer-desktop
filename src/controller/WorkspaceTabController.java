@@ -113,8 +113,8 @@ public class WorkspaceTabController {
 
         @Override
         public void actionPerformed(ActionEvent e) {
-
-            try {
+      
+            try{
                 ExperimentData firstChosenExperiment = view
                         .getSelectedExperimentsInWorkspace().get(0);
                 UploadTab ut = view.getUploadTab();

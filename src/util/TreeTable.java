@@ -579,7 +579,9 @@ public class TreeTable extends JPanel {
             while (visibleHeadings.contains("")) {
                 visibleHeadings.remove("");
             }
-            while (visibleHeadings.size() < 3) {
+
+            /* 4 står för antal kolumner som visas för en fil */
+            while (visibleHeadings.size() < 4) {
                 visibleHeadings.add("");
             }
             for (ExperimentData experiment : experiments) {

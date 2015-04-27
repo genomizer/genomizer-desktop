@@ -13,7 +13,6 @@ public class ExperimentData {
     public String name;
     public ArrayList<FileData> files;
     public ArrayList<AnnotationDataValue> annotations;
-
     public ExperimentData() {
 
     }
@@ -23,6 +22,7 @@ public class ExperimentData {
         this.name = name;
         this.files = files;
         this.annotations = annotations;
+        testFileSioze();
     }
 
     public String getName() {
@@ -124,6 +124,14 @@ public class ExperimentData {
     @Override
     public boolean equals(Object o) {
         return (((ExperimentData) o)).name.equals(name);
+    }
+
+    //TODO: Testmetod som skall tas bort när filstorlek kan hämtas från json
+
+    public void testFileSioze() {
+        for (int i = 0; i < files.size(); i++) {
+            files.get(i).fileSize = FileSizeFormatter.convertByteToString(547);
+        }
     }
 
     /**

@@ -13,6 +13,7 @@ public class FileData {
     public String date;
     public String path;
     public String url;
+    public String fileSize;
 
     /**
      * Class representing files data
@@ -30,6 +31,7 @@ public class FileData {
      * @param url
      * @param fileName
      */
+    //TODO: Konstruktorn kommer att behöva ta in fileSize !!
     public FileData(String fileId, String experimentID, String type,
             String metaData, String author, String uploader, boolean isPrivate,
             String grVersion, String date, String path, String url,
@@ -46,14 +48,25 @@ public class FileData {
         this.path = path;
         this.url = url;
         this.filename = fileName;
+        this.fileSize = fileSize;
     }
 
-    public String getName() {
-        return filename;
+
+
+    public void setFileSize(String fileSize) {
+        this.fileSize = fileSize;
     }
+
 
     //TODO Saknar override för hashCode CF
     public boolean equals(Object o) {
         return (((FileData) o)).id.equals(id);
+    }
+
+
+
+    public String getName() {
+        // TODO Auto-generated method stub
+        return filename;
     }
 }
