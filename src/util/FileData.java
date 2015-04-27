@@ -31,10 +31,11 @@ public class FileData {
      * @param url
      * @param fileName
      */
+    //TODO: Konstruktorn kommer att behöva ta in fileSize !!
     public FileData(String fileId, String experimentID, String type,
             String metaData, String author, String uploader, boolean isPrivate,
             String grVersion, String date, String path, String url,
-            String fileName, String fileSize) {
+            String fileName) {
         this.id = fileId;
         this.expId = experimentID;
         this.type = type;
@@ -60,5 +61,12 @@ public class FileData {
     //TODO Saknar override för hashCode CF
     public boolean equals(Object o) {
         return (((FileData) o)).id.equals(id);
+    }
+
+
+
+    public String getName() {
+        // TODO Auto-generated method stub
+        return filename;
     }
 }
