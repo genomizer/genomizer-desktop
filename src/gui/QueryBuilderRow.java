@@ -20,6 +20,8 @@ import javax.swing.SwingUtilities;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 
+import controller.QueryRowController;
+
 import util.AnnotationDataType;
 import util.IconFactory;
 
@@ -43,13 +45,15 @@ public class QueryBuilderRow extends JPanel {
     private boolean dropdown = false;
     private boolean firstRow = false;
     private boolean lastRow = false;
+    private QueryRowController queryRowController;
 
     public QueryBuilderRow(QuerySearchTab parent,
-            AnnotationDataType[] annotationTypes) {
+            AnnotationDataType[] annotationTypes, QueryRowController queryRowController) {
         /* The Parent query search tab */
         this.parent = parent;
         /* The annotation information */
         this.annotationTypes = new CopyOnWriteArrayList<>();
+        this.queryRowController = queryRowController;
         setLayout(new FlowLayout());
         /* Set up the components (fieldBox must be set last) */
         setPlusButton();

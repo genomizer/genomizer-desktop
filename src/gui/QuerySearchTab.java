@@ -25,6 +25,7 @@ import javax.swing.border.Border;
 import javax.swing.border.EtchedBorder;
 import javax.swing.border.TitledBorder;
 
+import controller.QueryRowController;
 import controller.QuerySearchTabController;
 
 import util.ActiveSearchPanel;
@@ -60,11 +61,13 @@ public class QuerySearchTab extends JPanel {
     private ActiveSearchPanel activePanel;
     private JRadioButton queryBuilderButton;
     private JRadioButton manualEditButton;
+    private QueryRowController queryRowController;
     
     /**
      * Create a query search tab
      */
     public QuerySearchTab() {
+        setQueryRowController(new QueryRowController(this));
         setUpQuerySearchTab();
         setUpSearchHeader();
         setUpRowsPanel();
@@ -75,6 +78,10 @@ public class QuerySearchTab extends JPanel {
         activePanel = ActiveSearchPanel.SEARCH;
     }
     
+    private void setQueryRowController(QueryRowController queryRowController) {
+        this.queryRowController = queryRowController;
+    }
+
     /**
      * Show the search view of the tab
      */
@@ -284,7 +291,7 @@ public class QuerySearchTab extends JPanel {
      * Add a new row to the query builder
      */
     public void addRow() {
-        rowList.add(new QueryBuilderRow(this, annotationTypes));
+        rowList.add(new QueryBuilderRow(this, annotationTypes, queryRowController));
         paintRows();
     }
     
