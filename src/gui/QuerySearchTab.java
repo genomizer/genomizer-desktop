@@ -47,6 +47,7 @@ public class QuerySearchTab extends JPanel {
     private JButton backButton;
     private JButton updateAnnotationsButton;
     private JButton addToWorkspaceButton;
+    private JButton addToUploadButton;
     private JButton searchButton;
     private JButton downloadButton;
     private JTextArea searchArea;
@@ -148,8 +149,8 @@ public class QuerySearchTab extends JPanel {
             }
         });
         searchArea = new JTextArea("");
-        
-        
+
+
 JTextField apa = new JTextField();
         searchArea.setBorder( apa.getBorder() );
 
@@ -230,9 +231,18 @@ JTextField apa = new JTextField();
         // IconFactory.getAddToWorkspaceHoverIcon(52, 36), 52, 36,
         // "Add selected to workspace");
         addToWorkspaceButton = new JButton("Add to workspace");
+        addToUploadButton = new JButton("Upload to experiment");
+
+        JPanel eastPanel = new JPanel();
+        eastPanel.add(addToWorkspaceButton);
+        eastPanel.add(addToUploadButton);
+
         downloadButton = new JButton("Download Selected Files");
         // resultsHeaderPanel.add(downloadButton, BorderLayout.EAST);
-        resultsHeaderPanel.add(addToWorkspaceButton, BorderLayout.EAST);
+
+
+
+        resultsHeaderPanel.add(eastPanel, BorderLayout.EAST);
         resultsHeaderPanel.add(backButton, BorderLayout.WEST);
     }
 
