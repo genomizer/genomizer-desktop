@@ -1,11 +1,14 @@
 package responses;
 
+import com.google.gson.annotations.Expose;
+
 public class AddFileToExperimentResponse extends Response {
-    public String URLupload;
+    @Expose
+    public String UrlUpload;
 
     public AddFileToExperimentResponse(String responseName, String uploadUrl) {
         super(responseName);
-        this.URLupload = uploadUrl;
+        this.UrlUpload = uploadUrl;
     }
 
 }

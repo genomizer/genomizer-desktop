@@ -291,8 +291,21 @@ public class UploadToNewExpPanel extends JPanel implements ExperimentPanel {
                         p.add(species, BorderLayout.CENTER);
                         species.setSelectedIndex(0);
                     } else {
-                        final JComboBox<String> comboBox = new JComboBox<String>(
-                                a.getValues());
+                        final JComboBox<String> comboBox;
+                        if(!a.forced) {
+                            String[] aCopy = new String[a.getValues().length+1];
+                            aCopy[0] = "";
+                            for(int i = 1;i <= a.getValues().length;i++) {
+                                aCopy[i] = a.getValues()[i-1];
+                            }
+                            comboBox = new JComboBox<String>(
+                                    aCopy);
+                        } else {
+                            comboBox = new JComboBox<String>(
+                                    a.getValues());
+                        }
+
+
                         comboBox.setPreferredSize(new Dimension(120, 31));
                         /*
                          *

@@ -158,6 +158,7 @@ public class Connection {
             // err response
             // System.err.println(request.getRequestName() + " response " +
             // responseCode + " " + responseBody);
+            ErrorLogger.log(responseBody);
         }
     }
 
