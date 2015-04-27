@@ -277,6 +277,7 @@ public class UploadTab extends JPanel {
                         ErrorLogger.log(e);
                         running = false;
                     }
+                    // TODO: THIS IS BROKEN, more is created on each logout-in !!! System.err.println(this.toString());
                 }
             }
         }).start();

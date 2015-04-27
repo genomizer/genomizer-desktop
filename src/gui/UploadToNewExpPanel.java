@@ -84,6 +84,8 @@ public class UploadToNewExpPanel extends JPanel implements ExperimentPanel {
     public void build() {
         createNewExp();
         repaintSelectedFiles();
+
+        enableUploadButton(forcedAnnotationCheck());
     }
 
     /**
@@ -236,7 +238,8 @@ public class UploadToNewExpPanel extends JPanel implements ExperimentPanel {
 
         } catch (NullPointerException e) {
             ErrorLogger.log(e);
-            System.err.println("NullPointerException while retrieving annotations from server.");
+            System.err
+                    .println("NullPointerException while retrieving annotations from server.");
         }
     }
 
@@ -256,7 +259,10 @@ public class UploadToNewExpPanel extends JPanel implements ExperimentPanel {
         ArrayList<String> exists = new ArrayList<String>();
         exists.add("UniqueExpID");
         for (AnnotationDataType a : annotations) {
-            if ((annotationHeaders.contains(a.getName())) && ((a.getValues()[0].equalsIgnoreCase("freetext")) || (a.getValues().length == annotationBoxes.get(a.getName()).getItemCount()))) {
+            if ((annotationHeaders.contains(a.getName()))
+                    && ((a.getValues()[0].equalsIgnoreCase("freetext")) || (a
+                            .getValues().length == annotationBoxes.get(
+                            a.getName()).getItemCount()))) {
                 exists.add(a.getName());
             } else {
                 JPanel p = new JPanel(new BorderLayout());
@@ -282,52 +288,32 @@ public class UploadToNewExpPanel extends JPanel implements ExperimentPanel {
                     annotationFields.put(a.getName(), textField);
                     p.add(textField, BorderLayout.CENTER);
                 } else {
-                    if (a.getName().equalsIgnoreCase("species")) {
-                        if (species.getItemCount() > 0) {
-                            species.removeAllItems();
-                        }
-                        for (String s : a.getValues()) {
-                            species.addItem(s);
-                        }
-                        annotationBoxes.put(a.getName(), species);
-                        p.add(species, BorderLayout.CENTER);
-                        species.setSelectedIndex(0);
-                    } else {
-                        final JComboBox<String> comboBox;
-                        if(!a.forced) {
-                            String[] aCopy = new String[a.getValues().length+1];
-                            aCopy[0] = "";
-                            for(int i = 1;i <= a.getValues().length;i++) {
-                                aCopy[i] = a.getValues()[i-1];
-                            }
-                            comboBox = new JComboBox<String>(
-                                    aCopy);
-                        } else {
-                            comboBox = new JComboBox<String>(
-                                    a.getValues());
-                        }
 
-
-                        comboBox.setPreferredSize(new Dimension(120, 31));
-                        /*
-                         *
-                         * Listener for when the user chooses something in the
-                         * combobox.
-                         */
-                        comboBox.addActionListener(new ActionListener() {
-                            @Override
-                            public void actionPerformed(ActionEvent actionEvent) {
-                                String text = (String) comboBox
-                                        .getSelectedItem();
-                                if (!text.equals("") && text != null) {
-                                    enableUploadButton(true);
-                                }
-                            }
-                        });
-
-                        annotationBoxes.put(a.getName(), comboBox);
-                        p.add(comboBox, BorderLayout.CENTER);
+                    final JComboBox<String> comboBox;
+                    String[] aCopy = new String[a.getValues().length + 1];
+                    aCopy[0] = "";
+                    for (int i = 1; i <= a.getValues().length; i++) {
+                        aCopy[i] = a.getValues()[i - 1];
                     }
+                    comboBox = new JComboBox<String>(aCopy);
+
+                    comboBox.setPreferredSize(new Dimension(120, 31));
+                    /*
+                     *
+                     * Listener for when the user chooses something in the
+                     * combobox.
+                     */
+                    comboBox.addActionListener(new ActionListener() {
+                        @Override
+                        public void actionPerformed(ActionEvent actionEvent) {
+                            String text = (String) comboBox.getSelectedItem();
+                            enableUploadButton(forcedAnnotationCheck());
+                        }
+                    });
+
+                    annotationBoxes.put(a.getName(), comboBox);
+                    p.add(comboBox, BorderLayout.CENTER);
+
                 }
                 currentAnnotations.put(a.getName(), p);
                 exists.add(a.getName());
@@ -555,8 +541,6 @@ public class UploadToNewExpPanel extends JPanel implements ExperimentPanel {
         JTextField annotationField;
         JComboBox<String> annotationBox;
 
-
-
         for (int i = 0; i < annotations.length; i++) {
             if (annotations[i].isForced()) {
                 annotationName = annotations[i].getName();
@@ -622,8 +606,7 @@ public class UploadToNewExpPanel extends JPanel implements ExperimentPanel {
         }
 
         public void react(DocumentEvent documentEvent) {
-            if(forcedAnnotationCheck()){
-
+            if (forcedAnnotationCheck()) {
 
                 enableUploadButton(true);
             } else {
@@ -632,10 +615,11 @@ public class UploadToNewExpPanel extends JPanel implements ExperimentPanel {
 
         }
     }
+
     /**
-     * c12jhn 16/4-15
-     * Getter to get all of the annotationfields of the panel.
+     * c12jhn 16/4-15 Getter to get all of the annotationfields of the panel.
      * Used only in testing
+     *
      * @return
      */
     public HashMap<String, JTextField> getAnnotationFields() {
