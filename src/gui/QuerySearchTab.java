@@ -391,6 +391,10 @@ JTextField apa = new JTextField();
         downloadButton.addActionListener(listener);
     }
 
+    public void addUploadToListener(ActionListener listener) {
+        addToUploadButton.addActionListener(listener);
+    }
+
     public void addUpdateAnnotationsListener(ActionListener listener) {
         updateAnnotationsButton.addActionListener(listener);
     }

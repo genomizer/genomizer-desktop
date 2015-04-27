@@ -65,6 +65,7 @@ public class Controller {
         WorkspaceTabController workspaceTabController = new WorkspaceTabController(view, model, fileChooser);
         UploadTabController uploadTabController = new UploadTabController(view, model, fileChooser);
         sysadminTabUpdate();
+        
 
     }
 

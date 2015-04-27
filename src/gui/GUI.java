@@ -116,7 +116,14 @@ public class GUI extends JFrame implements GenomizerView {
     public void addUploadToListener(ActionListener listener) {
         workspaceTab.addUploadToListener(listener);
     }
-
+    
+    
+    @Override
+    public void addUploadToListenerSearchTab(ActionListener listener) {
+        querySearchTab.addUploadToListener(listener);
+    }
+    
+    
     @Override
     public LoginWindow getLoginWindow() {
         return loginWindow;
@@ -184,6 +191,13 @@ public class GUI extends JFrame implements GenomizerView {
     public void addAddToExistingExpButtonListener(ActionListener listener) {
         uploadTab.addAddToExistingExpButtonListener(listener);
     }
+    
+    @Override
+    public void addAddToExistingExpButtonListenerInSearch(ActionListener listener) {
+        uploadTab.addAddToExistingExpButtonListener(listener);
+    }
+    
+
 
     public void addSelectFilesToUploadButtonListener(ActionListener listener) {
         uploadTab.getExistExpPanel().addSelectFilesToUploadButtonListener(

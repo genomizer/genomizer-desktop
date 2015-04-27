@@ -4,11 +4,18 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import javax.swing.JOptionPane;
+
+import controller.UploadTabController.AddToExistingExpButtonListener;
+import controller.WorkspaceTabController.UploadToListener;
+import model.ErrorLogger;
 import model.GenomizerModel;
 import util.ActiveSearchPanel;
 import util.AnnotationDataType;
+import util.AnnotationDataValue;
 import util.ExperimentData;
+import util.GenomeReleaseData;
 import gui.GenomizerView;
+import gui.UploadTab;
 
 public class QuerySearchTabController {
     GenomizerView view;
@@ -19,7 +26,36 @@ public class QuerySearchTabController {
         view.addQuerySearchListener(new QuerySearchListener());
         view.addUpdateSearchAnnotationsListener(new updateSearchAnnotationsListener());
         view.addSearchToWorkspaceListener(new SearchToWorkspaceListener());
+        view.addUploadToListenerSearchTab(new SearchUploadToListener());
+
     }
+    
+    
+    // En uploadlistener som körs när upload knappen trycks i search-taben
+    class SearchUploadToListener implements ActionListener, Runnable {
+
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            new Thread(this).start();
+        }
+
+        @Override
+        public void run() {
+            try {
+                ExperimentData firstChosenExperiment = view.getSelectedDataInSearch().get(0);  
+                UploadTab ut = view.getUploadTab();
+                view.getTabbedPane().setSelectedComponent(ut);
+                ut.getExperimentNameField().setText(
+                        firstChosenExperiment.getName());
+                ut.getExistingExpButton().doClick();
+            } catch (IndexOutOfBoundsException e) {
+                ErrorLogger.log(e);
+                JOptionPane.showMessageDialog(null,
+                        "No experiment was selected.");
+            }
+        }
+    }
+   
     
     class QuerySearchListener implements ActionListener, Runnable {
         public void actionPerformed(ActionEvent e) {
@@ -82,4 +118,7 @@ public class QuerySearchTabController {
         }
 
     }
+    
+    
+    
 }
