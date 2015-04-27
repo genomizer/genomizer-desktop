@@ -236,4 +236,8 @@ public interface GenomizerView {
     public int getSelectedIndex();
 
     public void addChangedTabListener(ChangeListener listener);
+
+    public void addAddToExistingExpButtonListenerInSearch(ActionListener listener);
+
+    public void addUploadToListenerSearchTab(ActionListener listener);
 }

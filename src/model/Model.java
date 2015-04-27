@@ -254,16 +254,17 @@ public class Model implements GenomizerModel {
                 name, categories, forced);
         Connection conn = connFactory.makeConnection();
         conn.sendRequest(request, userID, JSON);
+        System.err.println(request.toJson());
         if (conn.getResponseCode() == 201) {
             // System.err.println("addAnnotation sent succesfully!");
             return true;
         } else {
             // TODO Ska det h�nda n�got h�r eller? CF
-            // System.err
-            // .println("addAnnotaion FAILURE, did not recive 201 response");
-            // System.out.println("Response code: " + conn.getResponseCode() +
-            // " "
-            // + conn.getResponseBody());
+             System.err
+             .println("addAnnotaion FAILURE, did not recive 201 response");
+             System.out.println("Response code: " + conn.getResponseCode() +
+             " "
+             + conn.getResponseBody());
             return false;
         }
     }

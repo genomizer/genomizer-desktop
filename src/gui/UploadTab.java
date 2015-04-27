@@ -72,7 +72,14 @@ public class UploadTab extends JPanel {
         northPanel.add(expNamePanel);
         northPanel.setBorder(BorderFactory.createTitledBorder("Upload"));
 
+
         existingExpButton = new JButton("Search for existing experiment");
+
+        // TODO: Ta bort knappen och textfältet sen om det inte kommer behövas senare!
+        existingExpButton.setVisible(false);
+        experimentNameField.setVisible(false);
+
+
         newExpButton = new JButton("Create new experiment");
         experimentNameField.addActionListener(new ActionListener() {
             @Override public void actionPerformed(ActionEvent actionEvent) {

@@ -4,11 +4,18 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import javax.swing.JOptionPane;
+
+import controller.UploadTabController.AddToExistingExpButtonListener;
+import controller.WorkspaceTabController.UploadToListener;
+import model.ErrorLogger;
 import model.GenomizerModel;
 import util.ActiveSearchPanel;
 import util.AnnotationDataType;
+import util.AnnotationDataValue;
 import util.ExperimentData;
+import util.GenomeReleaseData;
 import gui.GenomizerView;
+import gui.UploadTab;
 import gui.QueryBuilderRow;
 import gui.QuerySearchTab;
 import gui.sysadmin.annotationview.AnnotationButtonsListener;
@@ -24,6 +31,9 @@ public class QuerySearchTabController {
         view.addQuerySearchListener(new QuerySearchListener());
         view.addUpdateSearchAnnotationsListener(new updateSearchAnnotationsListener());
         view.addSearchToWorkspaceListener(new SearchToWorkspaceListener());
+        view.addUploadToListenerSearchTab(new SearchUploadToListener());
+
+
     }
     public ActionListener createClearButtonListener() {
         return new ActionListener() {
@@ -39,23 +49,53 @@ public class QuerySearchTabController {
             @Override
             public void actionPerformed(ActionEvent e) {
                 querySearchTab.getSearchArea().setEditable(true);
-                
+
                 for (QueryBuilderRow row : querySearchTab.getRowList()) {
                     row.setEnabled(false);
                 }
             }
         };
     }
-    
+
+
+    // En uploadlistener som körs när upload knappen trycks i search-taben
+    class SearchUploadToListener implements ActionListener {
+
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            try {
+                ExperimentData firstChosenExperiment = view.getSelectedDataInSearch().get(0);
+                UploadTab ut = view.getUploadTab();
+                view.getTabbedPane().setSelectedComponent(ut);
+                ut.getExperimentNameField().setText(
+                        firstChosenExperiment.getName());
+                ut.getExistingExpButton().doClick();
+            } catch (IndexOutOfBoundsException ee) {
+                ErrorLogger.log(ee);
+                JOptionPane.showMessageDialog(null,
+                        "No experiment was selected.");
+            }
+        }
+    }
+
+
     public ActionListener createQueryBuilderButtonListener() {
         return new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 querySearchTab.getSearchArea().setEditable(false);
-                
+
                 for (QueryBuilderRow row : querySearchTab.getRowList()) {
                     row.setEnabled(true);
                 }
+            }
+        };
+     }
+    public ActionListener createBackButtonListener() {
+        return new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                querySearchTab.showSearchView();
             }
         };
      }
@@ -120,4 +160,7 @@ public class QuerySearchTabController {
         }
 
     }
+
+
+
 }
