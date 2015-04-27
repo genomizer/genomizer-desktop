@@ -98,6 +98,7 @@ public class UploadToExistingExpPanel extends JPanel implements ExperimentPanel 
      *
      * @param f This is used to identify which uploadFileRow to be deleted.
      */
+    @Override
     public void deleteFileRow(File f) {
         if (uploadFileRows.containsKey(f)) {
             uploadFileRows.remove(f);
@@ -289,6 +290,7 @@ public class UploadToExistingExpPanel extends JPanel implements ExperimentPanel 
         }
     }
 
+    @Override
     public ArrayList<String> getGenomeReleases() {
         return genome;
     }

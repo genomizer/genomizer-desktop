@@ -96,6 +96,8 @@ public class UploadFileRow extends JPanel {
         genome.setPreferredSize(new Dimension(120, 31));
         genome.addItem("No GR");
         genome.setEnabled(false);
+
+        // Add actionlistener which sets the GR-box correctly.
         typeBox.addActionListener(new ActionListener() {
 
             @Override
@@ -134,15 +136,22 @@ public class UploadFileRow extends JPanel {
         filePanel.add(genome, gbc);
 
         closeButton = new JButton("X");
-        addCloseButtonListener(new closeButtonListener());
+
+        // Listener closing this file row when a user presses the close button.
+        addCloseButtonListener(new ActionListener(){
+            @Override
+            public void actionPerformed(ActionEvent arg0) {
+                parent.deleteFileRow(file);
+
+            }
+        });
+
         GridBagConstraints gbc_btnX = new GridBagConstraints();
         gbc_btnX.gridx = 3;
         gbc_btnX.gridy = 1;
         filePanel.add(closeButton, gbc_btnX);
 
         if (newExp) {
-            // TODO: WTF Why have they not fixed warnings, 'p' does nothing at all? OO
-            JPanel p = new JPanel(new FlowLayout());
             JLabel selectLabel = new JLabel(" Select:");
             gbc.insets = new Insets(0, 0, 0, 5);
             gbc.anchor = GridBagConstraints.EAST;
@@ -224,21 +233,6 @@ public class UploadFileRow extends JPanel {
         typeBox.setEnabled(false);
         closeButton.setEnabled(false);
         uploadBox.setEnabled(false);
-    }
-
-    /**
-     * Listener closing this file row when a user presses the close button.
-     */
-    class closeButtonListener implements ActionListener, Runnable {
-        @Override
-        public void actionPerformed(ActionEvent e) {
-            new Thread(this).start();
-        }
-
-        @Override
-        public void run() {
-            parent.deleteFileRow(file);
-        }
     }
 
     /**
