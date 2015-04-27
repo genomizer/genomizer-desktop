@@ -144,19 +144,11 @@ public class HTTPURLUpload {
         return true;
     }
 
-    // TODO: Anvï¿½nds ej.
+    // TODO: Används ej.
     private String getFileNameFromUrl(String url) {
         String[] urlSplit = url.split("/");
         return urlSplit[urlSplit.length - 1];
 
-    }
-
-    // TODO: vad i helvete? ta bort?
-    public static void main(String args[]) {
-        HTTPURLUpload upload = new HTTPURLUpload(
-                "http://scratchy.cs.umu.se:8000/upload.php?path=/var/www/test_hack.php",
-                "/home/dv12/dv12csr/test_hack.php", "test_hack.php");
-        upload.sendFile("test");
     }
 
     /**
