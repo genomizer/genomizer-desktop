@@ -333,3 +333,7 @@ Caused by: java.io.IOException: Server returned HTTP response code: 400 for URL:
 
 2015-04-27 15:17 : Login | testuser logged in
 
+2015-04-27 15:24 : Login | testuser logged in
+
+2015-04-27 15:24 : Login | testuser logged in
+
