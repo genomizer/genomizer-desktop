@@ -148,10 +148,10 @@ public class Model implements GenomizerModel {
         if (conn.getResponseCode() == 200) {
             AddFileToExperimentResponse aFTER = ResponseParser
                     .parseUploadResponse(conn.getResponseBody());
-            HTTPURLUpload upload = new HTTPURLUpload(aFTER.URLupload,
+            HTTPURLUpload upload = new HTTPURLUpload(aFTER.UrlUpload,
                     f.getAbsolutePath(), f.getName());
             /* FOR MOCK SERVER */
-            if (aFTER.URLupload.equalsIgnoreCase("url")) {
+            if (aFTER.UrlUpload.equalsIgnoreCase("url")) {
                 return true;
             }
             ongoingUploads.add(upload);
