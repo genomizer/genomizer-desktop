@@ -210,6 +210,8 @@ public class UploadToNewExpPanel extends JPanel implements ExperimentPanel {
      * to it.
      */
     public void createNewExp() {
+
+        // TODO: Fix this try NPTR
         try {
             GridBagLayout gbl_panel = new GridBagLayout();
             gbl_panel.columnWidths = new int[] { 0, 0, 0, 0, 0, 0, 0 };
