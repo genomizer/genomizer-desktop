@@ -33,7 +33,7 @@ public class QuerySearchTabController {
         view.addSearchToWorkspaceListener(new SearchToWorkspaceListener());
         view.addUploadToListenerSearchTab(new SearchUploadToListener());
 
-        
+
     }
     public ActionListener createClearButtonListener() {
         return new ActionListener() {
@@ -49,47 +49,42 @@ public class QuerySearchTabController {
             @Override
             public void actionPerformed(ActionEvent e) {
                 querySearchTab.getSearchArea().setEditable(true);
-                
+
                 for (QueryBuilderRow row : querySearchTab.getRowList()) {
                     row.setEnabled(false);
                 }
             }
         };
     }
-    
-    
+
+
     // En uploadlistener som körs när upload knappen trycks i search-taben
-    class SearchUploadToListener implements ActionListener, Runnable {
+    class SearchUploadToListener implements ActionListener {
 
         @Override
         public void actionPerformed(ActionEvent e) {
-            new Thread(this).start();
-        }
-
-        @Override
-        public void run() {
             try {
-                ExperimentData firstChosenExperiment = view.getSelectedDataInSearch().get(0);  
+                ExperimentData firstChosenExperiment = view.getSelectedDataInSearch().get(0);
                 UploadTab ut = view.getUploadTab();
                 view.getTabbedPane().setSelectedComponent(ut);
                 ut.getExperimentNameField().setText(
                         firstChosenExperiment.getName());
                 ut.getExistingExpButton().doClick();
-            } catch (IndexOutOfBoundsException e) {
-                ErrorLogger.log(e);
+            } catch (IndexOutOfBoundsException ee) {
+                ErrorLogger.log(ee);
                 JOptionPane.showMessageDialog(null,
                         "No experiment was selected.");
             }
         }
     }
-   
-    
+
+
     public ActionListener createQueryBuilderButtonListener() {
         return new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 querySearchTab.getSearchArea().setEditable(false);
-                
+
                 for (QueryBuilderRow row : querySearchTab.getRowList()) {
                     row.setEnabled(true);
                 }
@@ -165,7 +160,7 @@ public class QuerySearchTabController {
         }
 
     }
-    
-    
-    
+
+
+
 }

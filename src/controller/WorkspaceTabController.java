@@ -109,16 +109,12 @@ public class WorkspaceTabController {
         }
     }
 
-    class UploadToListener implements ActionListener, Runnable {
+    class UploadToListener implements ActionListener {
 
         @Override
         public void actionPerformed(ActionEvent e) {
-            new Thread(this).start();
-        }
-
-        @Override
-        public void run() {
-            try {
+      
+            try{
                 ExperimentData firstChosenExperiment = view
                         .getSelectedExperimentsInWorkspace().get(0);
                 UploadTab ut = view.getUploadTab();
@@ -126,8 +122,8 @@ public class WorkspaceTabController {
                 ut.getExperimentNameField().setText(
                         firstChosenExperiment.getName());
                 ut.getExistingExpButton().doClick();
-            } catch (IndexOutOfBoundsException e) {
-                ErrorLogger.log(e);
+            } catch (IndexOutOfBoundsException ee) {
+                ErrorLogger.log(ee);
                 JOptionPane.showMessageDialog(null,
                         "No experiment was selected.");
             }
