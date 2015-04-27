@@ -26,7 +26,7 @@ public class SysStrings {
     public final static String GENOME_TEXT_GR_VERSION = "Genome release version:";
     public final static String GENOME_TEXT_SPECIES    = "Species:";
     public final static String GENOME_TEXT_GFILE      = "Genome files:";
-    public final static String GENOME_BUTTON_ADD      = "Upload";
+    public final static String GENOME_BUTTON_UPLOAD      = "Upload";
     public final static String GENOME_BUTTON_DELETE   = "Delete genome release";
     public final static String GENOME_BUTTON_CLEAR    = "Clear";
     public final static String GENOME_BUTTON_FILE     = "Browse files...";

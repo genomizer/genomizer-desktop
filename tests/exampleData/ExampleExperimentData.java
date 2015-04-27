@@ -57,5 +57,14 @@ public final class ExampleExperimentData {
         return searchResponses;
 
     }
+    public static String getTestServerIP() {
+        return "dunbledore.cs.umu.se:7000";
+    }
+    public static String getTestUsername() {
+        return "testuser";
+    }
+    public static String getTestPassword() {
+        return "baguette";
+    }
 
 }

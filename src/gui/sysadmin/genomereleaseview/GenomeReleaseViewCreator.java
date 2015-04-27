@@ -379,7 +379,7 @@ public class GenomeReleaseViewCreator {
         JProgressBar fileUploadProgress = new JProgressBar(0, 100);
 
         /* buttons */
-        addButton = new JButton(SysStrings.GENOME_BUTTON_ADD);
+        addButton = new JButton(SysStrings.GENOME_BUTTON_UPLOAD);
         addButton.addActionListener(buttonListener);
         addButton.setEnabled(false);
 

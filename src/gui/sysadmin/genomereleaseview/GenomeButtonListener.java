@@ -26,7 +26,7 @@ public class GenomeButtonListener implements ActionListener {
      */
     public void actionPerformed(ActionEvent actionEvent) {
         switch (actionEvent.getActionCommand()) {
-            case SysStrings.GENOME_BUTTON_ADD:
+            case SysStrings.GENOME_BUTTON_UPLOAD:
                 new Thread(new Runnable() {
 
                     @Override

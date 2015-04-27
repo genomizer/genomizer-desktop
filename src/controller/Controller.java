@@ -60,15 +60,14 @@ public class Controller {
      * Update all the actionlisteners in the tabs.
      */
     public void updateTabs() {
-        QuerySearchTabController querySearchTabController = new QuerySearchTabController(
-                view, model);
-        ProcessTabController processTabController = new ProcessTabController(
-                view, model);
-        WorkspaceTabController workspaceTabController = new WorkspaceTabController(
-                view, model, fileChooser);
-        UploadTabController uploadTabController = new UploadTabController(view,
-                model, fileChooser);
+
+        QuerySearchTabController querySearchTabController = new QuerySearchTabController(view, model);
+        view.getQuerySearchTab().setController(querySearchTabController); 
+        ProcessTabController processTabController = new ProcessTabController(view, model);
+        WorkspaceTabController workspaceTabController = new WorkspaceTabController(view, model, fileChooser);
+        UploadTabController uploadTabController = new UploadTabController(view, model, fileChooser);
         sysadminTabUpdate();
+
 
     }
 

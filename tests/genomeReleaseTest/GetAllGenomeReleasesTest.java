@@ -7,6 +7,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import controller.SysadminController;
+import exampleData.ExampleExperimentData;
 
 import util.GenomeReleaseData;
 
@@ -18,8 +19,8 @@ public class GetAllGenomeReleasesTest {
     @Before
     public void setUp() throws Exception {
         model = new Model();
-        model.setIp("dumbledore.cs.umu.se:7000");
-        model.loginUser("SysadminGRTests", "baguette");
+        model.setIp(ExampleExperimentData.getTestServerIP());
+        model.loginUser(ExampleExperimentData.getTestUsername(), ExampleExperimentData.getTestPassword());
         controller = new SysadminController(model);
     }
 

@@ -21,6 +21,7 @@ import javax.swing.JTextField;
 
 import model.ErrorLogger;
 
+import util.Constants;
 import util.IconFactory;
 
 /**
@@ -95,7 +96,7 @@ public class LoginWindow extends JFrame {
 
         usernameField = new JTextField(20);
         usernameField.setBounds(90, 40, 170, 25);
-        usernameField.setText("namn");
+        usernameField.setText(Constants.userName);
         bottomPanel.add(usernameField);
 
         JLabel passwordLabel = new JLabel("Password");
@@ -104,7 +105,7 @@ public class LoginWindow extends JFrame {
 
         passwordField = new JPasswordField(20);
         passwordField.setBounds(90, 70, 170, 25);
-        passwordField.setText("baguette");
+        passwordField.setText(Constants.password);
         bottomPanel.add(passwordField);
 
         JLabel ipLabel = new JLabel("IP");
@@ -114,7 +115,7 @@ public class LoginWindow extends JFrame {
         // TODO: Hard coded IP stuff should at least be updated. OO
         ipField = new JTextField(20);
         ipField.setBounds(90, 100, 170, 25);
-        ipField.setText("130.239.192.110:7000");
+        ipField.setText(Constants.serverAddress);
         bottomPanel.add(ipField);
 
         loginButton = new JButton("Login");

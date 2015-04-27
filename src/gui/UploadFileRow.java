@@ -18,6 +18,8 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JProgressBar;
 
+import util.FileSizeFormatter;
+
 /**
  * A class representing a row for each browsed files to be uploaded. Each row
  * contains the filename, a progressbar, a dropdown menu for choosing type of
@@ -72,7 +74,8 @@ public class UploadFileRow extends JPanel {
         gbl.rowWeights = new double[] { 0.0, Double.MIN_VALUE };
         filePanel.setLayout(gbl);
 
-        fileLabel = new JLabel(file.getName());
+        String fileSize = " ("+FileSizeFormatter.convertByteToString(file.length())+")";
+        fileLabel = new JLabel(file.getName() + fileSize);
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.anchor = GridBagConstraints.WEST;
         gbc.insets = new Insets(0, 0, 5, 5);
