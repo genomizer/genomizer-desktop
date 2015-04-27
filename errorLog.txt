@@ -333,3 +333,431 @@ Caused by: java.io.IOException: Server returned HTTP response code: 400 for URL:
 
 2015-04-27 15:17 : Login | testuser logged in
 
+2015-04-27 15:39 : Login | testuser logged in
+
+2015-04-27 15:44 : communication.Connection:sendRequest(l:122) | java.io.IOException: Server returned HTTP response code: 401 for URL: http://dumbledore:7000/annotation
+	at sun.reflect.NativeConstructorAccessorImpl.newInstance0(Native Method)
+	at sun.reflect.NativeConstructorAccessorImpl.newInstance(NativeConstructorAccessorImpl.java:57)
+	at sun.reflect.DelegatingConstructorAccessorImpl.newInstance(DelegatingConstructorAccessorImpl.java:45)
+	at java.lang.reflect.Constructor.newInstance(Constructor.java:526)
+	at sun.net.www.protocol.http.HttpURLConnection$6.run(HttpURLConnection.java:1676)
+	at sun.net.www.protocol.http.HttpURLConnection$6.run(HttpURLConnection.java:1674)
+	at java.security.AccessController.doPrivileged(Native Method)
+	at sun.net.www.protocol.http.HttpURLConnection.getChainedException(HttpURLConnection.java:1672)
+	at sun.net.www.protocol.http.HttpURLConnection.getInputStream(HttpURLConnection.java:1245)
+	at communication.Connection.sendRequest(Connection.java:110)
+	at model.Model.getAnnotations(Model.java:338)
+	at controller.Controller$ChangedTabListener.run(Controller.java:141)
+	at java.lang.Thread.run(Thread.java:745)
+Caused by: java.io.IOException: Server returned HTTP response code: 401 for URL: http://dumbledore:7000/annotation
+	at sun.net.www.protocol.http.HttpURLConnection.getInputStream(HttpURLConnection.java:1627)
+	at java.net.HttpURLConnection.getResponseCode(HttpURLConnection.java:468)
+	at communication.Connection.sendRequest(Connection.java:109)
+	... 3 more
+
+
+2015-04-27 15:44 : communication.Connection:fetchResponse(l:161) | {}
+
+2015-04-27 15:44 : communication.Connection:sendRequest(l:122) | java.io.IOException: Server returned HTTP response code: 401 for URL: http://dumbledore:7000/annotation
+	at sun.reflect.NativeConstructorAccessorImpl.newInstance0(Native Method)
+	at sun.reflect.NativeConstructorAccessorImpl.newInstance(NativeConstructorAccessorImpl.java:57)
+	at sun.reflect.DelegatingConstructorAccessorImpl.newInstance(DelegatingConstructorAccessorImpl.java:45)
+	at java.lang.reflect.Constructor.newInstance(Constructor.java:526)
+	at sun.net.www.protocol.http.HttpURLConnection$6.run(HttpURLConnection.java:1676)
+	at sun.net.www.protocol.http.HttpURLConnection$6.run(HttpURLConnection.java:1674)
+	at java.security.AccessController.doPrivileged(Native Method)
+	at sun.net.www.protocol.http.HttpURLConnection.getChainedException(HttpURLConnection.java:1672)
+	at sun.net.www.protocol.http.HttpURLConnection.getInputStream(HttpURLConnection.java:1245)
+	at communication.Connection.sendRequest(Connection.java:110)
+	at model.Model.getAnnotations(Model.java:338)
+	at controller.Controller$ChangedTabListener.run(Controller.java:136)
+	at java.lang.Thread.run(Thread.java:745)
+Caused by: java.io.IOException: Server returned HTTP response code: 401 for URL: http://dumbledore:7000/annotation
+	at sun.net.www.protocol.http.HttpURLConnection.getInputStream(HttpURLConnection.java:1627)
+	at java.net.HttpURLConnection.getResponseCode(HttpURLConnection.java:468)
+	at communication.Connection.sendRequest(Connection.java:109)
+	... 3 more
+
+
+2015-04-27 15:44 : communication.Connection:fetchResponse(l:161) | {}
+
+2015-04-27 15:44 : communication.Connection:sendRequest(l:122) | java.io.IOException: Server returned HTTP response code: 401 for URL: http://dumbledore:7000/experiment/Exp10
+	at sun.reflect.NativeConstructorAccessorImpl.newInstance0(Native Method)
+	at sun.reflect.NativeConstructorAccessorImpl.newInstance(NativeConstructorAccessorImpl.java:57)
+	at sun.reflect.DelegatingConstructorAccessorImpl.newInstance(DelegatingConstructorAccessorImpl.java:45)
+	at java.lang.reflect.Constructor.newInstance(Constructor.java:526)
+	at sun.net.www.protocol.http.HttpURLConnection$6.run(HttpURLConnection.java:1676)
+	at sun.net.www.protocol.http.HttpURLConnection$6.run(HttpURLConnection.java:1674)
+	at java.security.AccessController.doPrivileged(Native Method)
+	at sun.net.www.protocol.http.HttpURLConnection.getChainedException(HttpURLConnection.java:1672)
+	at sun.net.www.protocol.http.HttpURLConnection.getInputStream(HttpURLConnection.java:1245)
+	at communication.Connection.sendRequest(Connection.java:110)
+	at model.Model.retrieveExperiment(Model.java:442)
+	at controller.UploadTabController$AddToExistingExpButtonListener.run(UploadTabController.java:86)
+	at java.lang.Thread.run(Thread.java:745)
+Caused by: java.io.IOException: Server returned HTTP response code: 401 for URL: http://dumbledore:7000/experiment/Exp10
+	at sun.net.www.protocol.http.HttpURLConnection.getInputStream(HttpURLConnection.java:1627)
+	at java.net.HttpURLConnection.getResponseCode(HttpURLConnection.java:468)
+	at communication.Connection.sendRequest(Connection.java:109)
+	... 3 more
+
+
+2015-04-27 15:44 : communication.Connection:fetchResponse(l:161) | {}
+
+2015-04-27 15:44 : controller.UploadTabController$AddToExistingExpButtonListener:run(l:107) | java.lang.NullPointerException
+	at controller.UploadTabController$AddToExistingExpButtonListener.run(UploadTabController.java:89)
+	at java.lang.Thread.run(Thread.java:745)
+
+
+2015-04-27 15:44 : communication.Connection:sendRequest(l:122) | java.io.IOException: Server returned HTTP response code: 401 for URL: http://dumbledore:7000/annotation
+	at sun.reflect.NativeConstructorAccessorImpl.newInstance0(Native Method)
+	at sun.reflect.NativeConstructorAccessorImpl.newInstance(NativeConstructorAccessorImpl.java:57)
+	at sun.reflect.DelegatingConstructorAccessorImpl.newInstance(DelegatingConstructorAccessorImpl.java:45)
+	at java.lang.reflect.Constructor.newInstance(Constructor.java:526)
+	at sun.net.www.protocol.http.HttpURLConnection$6.run(HttpURLConnection.java:1676)
+	at sun.net.www.protocol.http.HttpURLConnection$6.run(HttpURLConnection.java:1674)
+	at java.security.AccessController.doPrivileged(Native Method)
+	at sun.net.www.protocol.http.HttpURLConnection.getChainedException(HttpURLConnection.java:1672)
+	at sun.net.www.protocol.http.HttpURLConnection.getInputStream(HttpURLConnection.java:1245)
+	at communication.Connection.sendRequest(Connection.java:110)
+	at model.Model.getAnnotations(Model.java:338)
+	at controller.Controller$ChangedTabListener.run(Controller.java:141)
+	at java.lang.Thread.run(Thread.java:745)
+Caused by: java.io.IOException: Server returned HTTP response code: 401 for URL: http://dumbledore:7000/annotation
+	at sun.net.www.protocol.http.HttpURLConnection.getInputStream(HttpURLConnection.java:1627)
+	at java.net.HttpURLConnection.getResponseCode(HttpURLConnection.java:468)
+	at communication.Connection.sendRequest(Connection.java:109)
+	... 3 more
+
+
+2015-04-27 15:44 : communication.Connection:fetchResponse(l:161) | {}
+
+2015-04-27 15:45 : communication.Connection:sendRequest(l:122) | java.io.IOException: Server returned HTTP response code: 401 for URL: http://dumbledore:7000/annotation
+	at sun.reflect.NativeConstructorAccessorImpl.newInstance0(Native Method)
+	at sun.reflect.NativeConstructorAccessorImpl.newInstance(NativeConstructorAccessorImpl.java:57)
+	at sun.reflect.DelegatingConstructorAccessorImpl.newInstance(DelegatingConstructorAccessorImpl.java:45)
+	at java.lang.reflect.Constructor.newInstance(Constructor.java:526)
+	at sun.net.www.protocol.http.HttpURLConnection$6.run(HttpURLConnection.java:1676)
+	at sun.net.www.protocol.http.HttpURLConnection$6.run(HttpURLConnection.java:1674)
+	at java.security.AccessController.doPrivileged(Native Method)
+	at sun.net.www.protocol.http.HttpURLConnection.getChainedException(HttpURLConnection.java:1672)
+	at sun.net.www.protocol.http.HttpURLConnection.getInputStream(HttpURLConnection.java:1245)
+	at communication.Connection.sendRequest(Connection.java:110)
+	at model.Model.getAnnotations(Model.java:338)
+	at controller.Controller$ChangedTabListener.run(Controller.java:136)
+	at java.lang.Thread.run(Thread.java:745)
+Caused by: java.io.IOException: Server returned HTTP response code: 401 for URL: http://dumbledore:7000/annotation
+	at sun.net.www.protocol.http.HttpURLConnection.getInputStream(HttpURLConnection.java:1627)
+	at java.net.HttpURLConnection.getResponseCode(HttpURLConnection.java:468)
+	at communication.Connection.sendRequest(Connection.java:109)
+	... 3 more
+
+
+2015-04-27 15:45 : communication.Connection:fetchResponse(l:161) | {}
+
+2015-04-27 15:45 : communication.Connection:sendRequest(l:122) | java.io.IOException: Server returned HTTP response code: 401 for URL: http://dumbledore:7000/annotation
+	at sun.reflect.NativeConstructorAccessorImpl.newInstance0(Native Method)
+	at sun.reflect.NativeConstructorAccessorImpl.newInstance(NativeConstructorAccessorImpl.java:57)
+	at sun.reflect.DelegatingConstructorAccessorImpl.newInstance(DelegatingConstructorAccessorImpl.java:45)
+	at java.lang.reflect.Constructor.newInstance(Constructor.java:526)
+	at sun.net.www.protocol.http.HttpURLConnection$6.run(HttpURLConnection.java:1676)
+	at sun.net.www.protocol.http.HttpURLConnection$6.run(HttpURLConnection.java:1674)
+	at java.security.AccessController.doPrivileged(Native Method)
+	at sun.net.www.protocol.http.HttpURLConnection.getChainedException(HttpURLConnection.java:1672)
+	at sun.net.www.protocol.http.HttpURLConnection.getInputStream(HttpURLConnection.java:1245)
+	at communication.Connection.sendRequest(Connection.java:110)
+	at model.Model.getAnnotations(Model.java:338)
+	at controller.Controller$ChangedTabListener.run(Controller.java:141)
+	at java.lang.Thread.run(Thread.java:745)
+Caused by: java.io.IOException: Server returned HTTP response code: 401 for URL: http://dumbledore:7000/annotation
+	at sun.net.www.protocol.http.HttpURLConnection.getInputStream(HttpURLConnection.java:1627)
+	at java.net.HttpURLConnection.getResponseCode(HttpURLConnection.java:468)
+	at communication.Connection.sendRequest(Connection.java:109)
+	... 3 more
+
+
+2015-04-27 15:45 : communication.Connection:fetchResponse(l:161) | {}
+
+2015-04-27 15:45 : communication.Connection:sendRequest(l:122) | java.io.IOException: Server returned HTTP response code: 401 for URL: http://dumbledore:7000/annotation
+	at sun.reflect.NativeConstructorAccessorImpl.newInstance0(Native Method)
+	at sun.reflect.NativeConstructorAccessorImpl.newInstance(NativeConstructorAccessorImpl.java:57)
+	at sun.reflect.DelegatingConstructorAccessorImpl.newInstance(DelegatingConstructorAccessorImpl.java:45)
+	at java.lang.reflect.Constructor.newInstance(Constructor.java:526)
+	at sun.net.www.protocol.http.HttpURLConnection$6.run(HttpURLConnection.java:1676)
+	at sun.net.www.protocol.http.HttpURLConnection$6.run(HttpURLConnection.java:1674)
+	at java.security.AccessController.doPrivileged(Native Method)
+	at sun.net.www.protocol.http.HttpURLConnection.getChainedException(HttpURLConnection.java:1672)
+	at sun.net.www.protocol.http.HttpURLConnection.getInputStream(HttpURLConnection.java:1245)
+	at communication.Connection.sendRequest(Connection.java:110)
+	at model.Model.getAnnotations(Model.java:338)
+	at controller.Controller$ChangedTabListener.run(Controller.java:136)
+	at java.lang.Thread.run(Thread.java:745)
+Caused by: java.io.IOException: Server returned HTTP response code: 401 for URL: http://dumbledore:7000/annotation
+	at sun.net.www.protocol.http.HttpURLConnection.getInputStream(HttpURLConnection.java:1627)
+	at java.net.HttpURLConnection.getResponseCode(HttpURLConnection.java:468)
+	at communication.Connection.sendRequest(Connection.java:109)
+	... 3 more
+
+
+2015-04-27 15:45 : communication.Connection:fetchResponse(l:161) | {}
+
+2015-04-27 15:45 : communication.Connection:sendRequest(l:122) | java.io.IOException: Server returned HTTP response code: 401 for URL: http://dumbledore:7000/annotation
+	at sun.reflect.NativeConstructorAccessorImpl.newInstance0(Native Method)
+	at sun.reflect.NativeConstructorAccessorImpl.newInstance(NativeConstructorAccessorImpl.java:57)
+	at sun.reflect.DelegatingConstructorAccessorImpl.newInstance(DelegatingConstructorAccessorImpl.java:45)
+	at java.lang.reflect.Constructor.newInstance(Constructor.java:526)
+	at sun.net.www.protocol.http.HttpURLConnection$6.run(HttpURLConnection.java:1676)
+	at sun.net.www.protocol.http.HttpURLConnection$6.run(HttpURLConnection.java:1674)
+	at java.security.AccessController.doPrivileged(Native Method)
+	at sun.net.www.protocol.http.HttpURLConnection.getChainedException(HttpURLConnection.java:1672)
+	at sun.net.www.protocol.http.HttpURLConnection.getInputStream(HttpURLConnection.java:1245)
+	at communication.Connection.sendRequest(Connection.java:110)
+	at model.Model.getAnnotations(Model.java:338)
+	at controller.Controller$ChangedTabListener.run(Controller.java:141)
+	at java.lang.Thread.run(Thread.java:745)
+Caused by: java.io.IOException: Server returned HTTP response code: 401 for URL: http://dumbledore:7000/annotation
+	at sun.net.www.protocol.http.HttpURLConnection.getInputStream(HttpURLConnection.java:1627)
+	at java.net.HttpURLConnection.getResponseCode(HttpURLConnection.java:468)
+	at communication.Connection.sendRequest(Connection.java:109)
+	... 3 more
+
+
+2015-04-27 15:45 : communication.Connection:fetchResponse(l:161) | {}
+
+2015-04-27 15:45 : communication.Connection:sendRequest(l:122) | java.io.IOException: Server returned HTTP response code: 401 for URL: http://dumbledore:7000/annotation
+	at sun.reflect.GeneratedConstructorAccessor6.newInstance(Unknown Source)
+	at sun.reflect.DelegatingConstructorAccessorImpl.newInstance(DelegatingConstructorAccessorImpl.java:45)
+	at java.lang.reflect.Constructor.newInstance(Constructor.java:526)
+	at sun.net.www.protocol.http.HttpURLConnection$6.run(HttpURLConnection.java:1676)
+	at sun.net.www.protocol.http.HttpURLConnection$6.run(HttpURLConnection.java:1674)
+	at java.security.AccessController.doPrivileged(Native Method)
+	at sun.net.www.protocol.http.HttpURLConnection.getChainedException(HttpURLConnection.java:1672)
+	at sun.net.www.protocol.http.HttpURLConnection.getInputStream(HttpURLConnection.java:1245)
+	at communication.Connection.sendRequest(Connection.java:110)
+	at model.Model.getAnnotations(Model.java:338)
+	at controller.Controller$ChangedTabListener.run(Controller.java:136)
+	at java.lang.Thread.run(Thread.java:745)
+Caused by: java.io.IOException: Server returned HTTP response code: 401 for URL: http://dumbledore:7000/annotation
+	at sun.net.www.protocol.http.HttpURLConnection.getInputStream(HttpURLConnection.java:1627)
+	at java.net.HttpURLConnection.getResponseCode(HttpURLConnection.java:468)
+	at communication.Connection.sendRequest(Connection.java:109)
+	... 3 more
+
+
+2015-04-27 15:45 : communication.Connection:fetchResponse(l:161) | {}
+
+2015-04-27 15:48 : communication.Connection:sendRequest(l:122) | java.io.IOException: Server returned HTTP response code: 401 for URL: http://dumbledore:7000/login
+	at sun.reflect.NativeConstructorAccessorImpl.newInstance0(Native Method)
+	at sun.reflect.NativeConstructorAccessorImpl.newInstance(NativeConstructorAccessorImpl.java:57)
+	at sun.reflect.DelegatingConstructorAccessorImpl.newInstance(DelegatingConstructorAccessorImpl.java:45)
+	at java.lang.reflect.Constructor.newInstance(Constructor.java:526)
+	at sun.net.www.protocol.http.HttpURLConnection$6.run(HttpURLConnection.java:1676)
+	at sun.net.www.protocol.http.HttpURLConnection$6.run(HttpURLConnection.java:1674)
+	at java.security.AccessController.doPrivileged(Native Method)
+	at sun.net.www.protocol.http.HttpURLConnection.getChainedException(HttpURLConnection.java:1672)
+	at sun.net.www.protocol.http.HttpURLConnection.getInputStream(HttpURLConnection.java:1245)
+	at communication.Connection.sendRequest(Connection.java:110)
+	at model.Model.loginUser(Model.java:101)
+	at controller.Controller$LoginListener.run(Controller.java:204)
+	at java.lang.Thread.run(Thread.java:745)
+Caused by: java.io.IOException: Server returned HTTP response code: 401 for URL: http://dumbledore:7000/login
+	at sun.net.www.protocol.http.HttpURLConnection.getInputStream(HttpURLConnection.java:1627)
+	at java.net.HttpURLConnection.getResponseCode(HttpURLConnection.java:468)
+	at communication.Connection.sendRequest(Connection.java:109)
+	... 3 more
+
+
+2015-04-27 15:48 : communication.Connection:fetchResponse(l:161) | {"message":"Incorrect user name"}
+
+2015-04-27 15:48 : gui.LoginWindow:paintErrorMessage(l:195) | Incorrect user name
+
+2015-04-27 15:48 : controller.Controller$LoginListener:run(l:213) | Incorrect user name
+
+2015-04-27 15:48 : Login | testuser logged in
+
+2015-04-27 15:49 : communication.Connection:sendRequest(l:122) | java.io.IOException: Server returned HTTP response code: 503 for URL: http://dumbledore:7000/file
+	at sun.reflect.NativeConstructorAccessorImpl.newInstance0(Native Method)
+	at sun.reflect.NativeConstructorAccessorImpl.newInstance(NativeConstructorAccessorImpl.java:57)
+	at sun.reflect.DelegatingConstructorAccessorImpl.newInstance(DelegatingConstructorAccessorImpl.java:45)
+	at java.lang.reflect.Constructor.newInstance(Constructor.java:526)
+	at sun.net.www.protocol.http.HttpURLConnection$6.run(HttpURLConnection.java:1676)
+	at sun.net.www.protocol.http.HttpURLConnection$6.run(HttpURLConnection.java:1674)
+	at java.security.AccessController.doPrivileged(Native Method)
+	at sun.net.www.protocol.http.HttpURLConnection.getChainedException(HttpURLConnection.java:1672)
+	at sun.net.www.protocol.http.HttpURLConnection.getInputStream(HttpURLConnection.java:1245)
+	at communication.Connection.sendRequest(Connection.java:110)
+	at model.Model.uploadFile(Model.java:149)
+	at controller.UploadTabController$UploadToExperimentButtonListener.run(UploadTabController.java:140)
+	at java.lang.Thread.run(Thread.java:745)
+Caused by: java.io.IOException: Server returned HTTP response code: 503 for URL: http://dumbledore:7000/file
+	at sun.net.www.protocol.http.HttpURLConnection.getInputStream(HttpURLConnection.java:1627)
+	at java.net.HttpURLConnection.getResponseCode(HttpURLConnection.java:468)
+	at communication.Connection.sendRequest(Connection.java:109)
+	... 3 more
+
+
+2015-04-27 15:49 : communication.Connection:fetchResponse(l:161) | {"message":"There are already two raw files for this experiment!"}
+
+2015-04-27 15:54 : communication.Connection:sendRequest(l:122) | java.io.IOException: Server returned HTTP response code: 401 for URL: http://dumbledore:7000/annotation
+	at sun.reflect.NativeConstructorAccessorImpl.newInstance0(Native Method)
+	at sun.reflect.NativeConstructorAccessorImpl.newInstance(NativeConstructorAccessorImpl.java:57)
+	at sun.reflect.DelegatingConstructorAccessorImpl.newInstance(DelegatingConstructorAccessorImpl.java:45)
+	at java.lang.reflect.Constructor.newInstance(Constructor.java:526)
+	at sun.net.www.protocol.http.HttpURLConnection$6.run(HttpURLConnection.java:1676)
+	at sun.net.www.protocol.http.HttpURLConnection$6.run(HttpURLConnection.java:1674)
+	at java.security.AccessController.doPrivileged(Native Method)
+	at sun.net.www.protocol.http.HttpURLConnection.getChainedException(HttpURLConnection.java:1672)
+	at sun.net.www.protocol.http.HttpURLConnection.getInputStream(HttpURLConnection.java:1245)
+	at communication.Connection.sendRequest(Connection.java:110)
+	at model.Model.getAnnotations(Model.java:338)
+	at controller.Controller$ChangedTabListener.run(Controller.java:136)
+	at java.lang.Thread.run(Thread.java:745)
+Caused by: java.io.IOException: Server returned HTTP response code: 401 for URL: http://dumbledore:7000/annotation
+	at sun.net.www.protocol.http.HttpURLConnection.getInputStream(HttpURLConnection.java:1627)
+	at java.net.HttpURLConnection.getResponseCode(HttpURLConnection.java:468)
+	at communication.Connection.sendRequest(Connection.java:109)
+	... 3 more
+
+
+2015-04-27 15:54 : communication.Connection:fetchResponse(l:161) | {}
+
+2015-04-27 15:57 : communication.Connection:sendRequest(l:122) | java.io.IOException: Server returned HTTP response code: 401 for URL: http://dumbledore:7000/annotation
+	at sun.reflect.NativeConstructorAccessorImpl.newInstance0(Native Method)
+	at sun.reflect.NativeConstructorAccessorImpl.newInstance(NativeConstructorAccessorImpl.java:57)
+	at sun.reflect.DelegatingConstructorAccessorImpl.newInstance(DelegatingConstructorAccessorImpl.java:45)
+	at java.lang.reflect.Constructor.newInstance(Constructor.java:526)
+	at sun.net.www.protocol.http.HttpURLConnection$6.run(HttpURLConnection.java:1676)
+	at sun.net.www.protocol.http.HttpURLConnection$6.run(HttpURLConnection.java:1674)
+	at java.security.AccessController.doPrivileged(Native Method)
+	at sun.net.www.protocol.http.HttpURLConnection.getChainedException(HttpURLConnection.java:1672)
+	at sun.net.www.protocol.http.HttpURLConnection.getInputStream(HttpURLConnection.java:1245)
+	at communication.Connection.sendRequest(Connection.java:110)
+	at model.Model.getAnnotations(Model.java:338)
+	at controller.Controller$ChangedTabListener.run(Controller.java:141)
+	at java.lang.Thread.run(Thread.java:745)
+Caused by: java.io.IOException: Server returned HTTP response code: 401 for URL: http://dumbledore:7000/annotation
+	at sun.net.www.protocol.http.HttpURLConnection.getInputStream(HttpURLConnection.java:1627)
+	at java.net.HttpURLConnection.getResponseCode(HttpURLConnection.java:468)
+	at communication.Connection.sendRequest(Connection.java:109)
+	... 3 more
+
+
+2015-04-27 15:57 : communication.Connection:fetchResponse(l:161) | {}
+
+2015-04-27 15:57 : communication.Connection:sendRequest(l:122) | java.io.IOException: Server returned HTTP response code: 401 for URL: http://dumbledore:7000/search/?annotations=e%5BExpID%5D
+	at sun.reflect.NativeConstructorAccessorImpl.newInstance0(Native Method)
+	at sun.reflect.NativeConstructorAccessorImpl.newInstance(NativeConstructorAccessorImpl.java:57)
+	at sun.reflect.DelegatingConstructorAccessorImpl.newInstance(DelegatingConstructorAccessorImpl.java:45)
+	at java.lang.reflect.Constructor.newInstance(Constructor.java:526)
+	at sun.net.www.protocol.http.HttpURLConnection$6.run(HttpURLConnection.java:1676)
+	at sun.net.www.protocol.http.HttpURLConnection$6.run(HttpURLConnection.java:1674)
+	at java.security.AccessController.doPrivileged(Native Method)
+	at sun.net.www.protocol.http.HttpURLConnection.getChainedException(HttpURLConnection.java:1672)
+	at sun.net.www.protocol.http.HttpURLConnection.getInputStream(HttpURLConnection.java:1245)
+	at communication.Connection.sendRequest(Connection.java:110)
+	at model.Model.search(Model.java:203)
+	at controller.QuerySearchTabController$QuerySearchListener.run(QuerySearchTabController.java:115)
+	at java.lang.Thread.run(Thread.java:745)
+Caused by: java.io.IOException: Server returned HTTP response code: 401 for URL: http://dumbledore:7000/search/?annotations=e%5BExpID%5D
+	at sun.net.www.protocol.http.HttpURLConnection.getInputStream(HttpURLConnection.java:1627)
+	at java.net.HttpURLConnection.getResponseCode(HttpURLConnection.java:468)
+	at communication.Connection.sendRequest(Connection.java:109)
+	... 3 more
+
+
+2015-04-27 15:57 : communication.Connection:fetchResponse(l:161) | {}
+
+2015-04-27 15:57 : Login | testuser logged in
+
+2015-04-27 16:31 : communication.Connection:sendRequest(l:122) | java.io.IOException: Server returned HTTP response code: 401 for URL: http://dumbledore:7000/annotation
+	at sun.reflect.NativeConstructorAccessorImpl.newInstance0(Native Method)
+	at sun.reflect.NativeConstructorAccessorImpl.newInstance(NativeConstructorAccessorImpl.java:57)
+	at sun.reflect.DelegatingConstructorAccessorImpl.newInstance(DelegatingConstructorAccessorImpl.java:45)
+	at java.lang.reflect.Constructor.newInstance(Constructor.java:526)
+	at sun.net.www.protocol.http.HttpURLConnection$6.run(HttpURLConnection.java:1676)
+	at sun.net.www.protocol.http.HttpURLConnection$6.run(HttpURLConnection.java:1674)
+	at java.security.AccessController.doPrivileged(Native Method)
+	at sun.net.www.protocol.http.HttpURLConnection.getChainedException(HttpURLConnection.java:1672)
+	at sun.net.www.protocol.http.HttpURLConnection.getInputStream(HttpURLConnection.java:1245)
+	at communication.Connection.sendRequest(Connection.java:110)
+	at model.Model.getAnnotations(Model.java:338)
+	at controller.Controller$ChangedTabListener.run(Controller.java:136)
+	at java.lang.Thread.run(Thread.java:745)
+Caused by: java.io.IOException: Server returned HTTP response code: 401 for URL: http://dumbledore:7000/annotation
+	at sun.net.www.protocol.http.HttpURLConnection.getInputStream(HttpURLConnection.java:1627)
+	at java.net.HttpURLConnection.getResponseCode(HttpURLConnection.java:468)
+	at communication.Connection.sendRequest(Connection.java:109)
+	... 3 more
+
+
+2015-04-27 16:31 : communication.Connection:fetchResponse(l:161) | {}
+
+2015-04-27 16:31 : communication.Connection:sendRequest(l:122) | java.io.IOException: Server returned HTTP response code: 401 for URL: http://dumbledore:7000/annotation
+	at sun.reflect.NativeConstructorAccessorImpl.newInstance0(Native Method)
+	at sun.reflect.NativeConstructorAccessorImpl.newInstance(NativeConstructorAccessorImpl.java:57)
+	at sun.reflect.DelegatingConstructorAccessorImpl.newInstance(DelegatingConstructorAccessorImpl.java:45)
+	at java.lang.reflect.Constructor.newInstance(Constructor.java:526)
+	at sun.net.www.protocol.http.HttpURLConnection$6.run(HttpURLConnection.java:1676)
+	at sun.net.www.protocol.http.HttpURLConnection$6.run(HttpURLConnection.java:1674)
+	at java.security.AccessController.doPrivileged(Native Method)
+	at sun.net.www.protocol.http.HttpURLConnection.getChainedException(HttpURLConnection.java:1672)
+	at sun.net.www.protocol.http.HttpURLConnection.getInputStream(HttpURLConnection.java:1245)
+	at communication.Connection.sendRequest(Connection.java:110)
+	at model.Model.getAnnotations(Model.java:338)
+	at controller.Controller$ChangedTabListener.run(Controller.java:136)
+	at java.lang.Thread.run(Thread.java:745)
+Caused by: java.io.IOException: Server returned HTTP response code: 401 for URL: http://dumbledore:7000/annotation
+	at sun.net.www.protocol.http.HttpURLConnection.getInputStream(HttpURLConnection.java:1627)
+	at java.net.HttpURLConnection.getResponseCode(HttpURLConnection.java:468)
+	at communication.Connection.sendRequest(Connection.java:109)
+	... 3 more
+
+
+2015-04-27 16:31 : communication.Connection:fetchResponse(l:161) | {}
+
+2015-04-27 16:31 : communication.Connection:sendRequest(l:122) | java.io.IOException: Server returned HTTP response code: 401 for URL: http://dumbledore:7000/annotation
+	at sun.reflect.NativeConstructorAccessorImpl.newInstance0(Native Method)
+	at sun.reflect.NativeConstructorAccessorImpl.newInstance(NativeConstructorAccessorImpl.java:57)
+	at sun.reflect.DelegatingConstructorAccessorImpl.newInstance(DelegatingConstructorAccessorImpl.java:45)
+	at java.lang.reflect.Constructor.newInstance(Constructor.java:526)
+	at sun.net.www.protocol.http.HttpURLConnection$6.run(HttpURLConnection.java:1676)
+	at sun.net.www.protocol.http.HttpURLConnection$6.run(HttpURLConnection.java:1674)
+	at java.security.AccessController.doPrivileged(Native Method)
+	at sun.net.www.protocol.http.HttpURLConnection.getChainedException(HttpURLConnection.java:1672)
+	at sun.net.www.protocol.http.HttpURLConnection.getInputStream(HttpURLConnection.java:1245)
+	at communication.Connection.sendRequest(Connection.java:110)
+	at model.Model.getAnnotations(Model.java:338)
+	at controller.Controller$ChangedTabListener.run(Controller.java:136)
+	at java.lang.Thread.run(Thread.java:745)
+Caused by: java.io.IOException: Server returned HTTP response code: 401 for URL: http://dumbledore:7000/annotation
+	at sun.net.www.protocol.http.HttpURLConnection.getInputStream(HttpURLConnection.java:1627)
+	at java.net.HttpURLConnection.getResponseCode(HttpURLConnection.java:468)
+	at communication.Connection.sendRequest(Connection.java:109)
+	... 3 more
+
+
+2015-04-27 16:31 : communication.Connection:fetchResponse(l:161) | {}
+
+2015-04-27 16:31 : communication.Connection:sendRequest(l:122) | java.io.IOException: Server returned HTTP response code: 401 for URL: http://dumbledore:7000/annotation
+	at sun.reflect.NativeConstructorAccessorImpl.newInstance0(Native Method)
+	at sun.reflect.NativeConstructorAccessorImpl.newInstance(NativeConstructorAccessorImpl.java:57)
+	at sun.reflect.DelegatingConstructorAccessorImpl.newInstance(DelegatingConstructorAccessorImpl.java:45)
+	at java.lang.reflect.Constructor.newInstance(Constructor.java:526)
+	at sun.net.www.protocol.http.HttpURLConnection$6.run(HttpURLConnection.java:1676)
+	at sun.net.www.protocol.http.HttpURLConnection$6.run(HttpURLConnection.java:1674)
+	at java.security.AccessController.doPrivileged(Native Method)
+	at sun.net.www.protocol.http.HttpURLConnection.getChainedException(HttpURLConnection.java:1672)
+	at sun.net.www.protocol.http.HttpURLConnection.getInputStream(HttpURLConnection.java:1245)
+	at communication.Connection.sendRequest(Connection.java:110)
+	at model.Model.getAnnotations(Model.java:338)
+	at controller.Controller$ChangedTabListener.run(Controller.java:136)
+	at java.lang.Thread.run(Thread.java:745)
+Caused by: java.io.IOException: Server returned HTTP response code: 401 for URL: http://dumbledore:7000/annotation
+	at sun.net.www.protocol.http.HttpURLConnection.getInputStream(HttpURLConnection.java:1627)
+	at java.net.HttpURLConnection.getResponseCode(HttpURLConnection.java:468)
+	at communication.Connection.sendRequest(Connection.java:109)
+	... 3 more
+
+
+2015-04-27 16:31 : communication.Connection:fetchResponse(l:161) | {}
+
