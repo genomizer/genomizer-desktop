@@ -11,7 +11,7 @@ public class Constants {
     /**
      * default username
      */
-    public static final String userName = "Username";
+    public static final String userName = "testuser";
     /**
      * default password
      */
@@ -19,7 +19,7 @@ public class Constants {
     /**
      * default server address
      */
-    public static final String serverAddress ="130.239.192.110:7000";
+    public static final String serverAddress ="dumbledore:7000";
 
 
 
