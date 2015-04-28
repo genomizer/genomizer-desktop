@@ -259,4 +259,9 @@ public class SysadminTab extends JPanel {
     public AddAnnotationPopup getPop() {
         return pop;
     }
+
+    public SysadminController getController() {
+        return sysController;
+        
+    }
 }

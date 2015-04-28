@@ -19,7 +19,7 @@ public class Constants {
     /**
      * default server address
      */
-    public static final String serverAddress ="dumbledore:7000";
+    public static final String serverAddress ="dumbledore.cs.umu.se:7000";
 
 
 

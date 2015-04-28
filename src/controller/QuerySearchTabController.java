@@ -5,8 +5,7 @@ import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import javax.swing.JOptionPane;
 
-import controller.UploadTabController.AddToExistingExpButtonListener;
-import controller.WorkspaceTabController.UploadToListener;
+
 import model.ErrorLogger;
 import model.GenomizerModel;
 import util.ActiveSearchPanel;
@@ -29,10 +28,10 @@ public class QuerySearchTabController {
         this.view = view;
         this.querySearchTab = view.getQuerySearchTab();
         this.model = model;
-        view.addQuerySearchListener(new QuerySearchListener());
-        view.addUpdateSearchAnnotationsListener(new updateSearchAnnotationsListener());
-        view.addSearchToWorkspaceListener(new SearchToWorkspaceListener());
-        view.addUploadToListenerSearchTab(new SearchUploadToListener());
+        view.addQuerySearchListener( QuerySearchListener());
+        view.addUpdateSearchAnnotationsListener( updateSearchAnnotationsListener());
+        view.addSearchToWorkspaceListener( SearchToWorkspaceListener());
+        view.addUploadToListenerSearchTab( SearchUploadToListener());
 
     }
 
@@ -61,11 +60,10 @@ public class QuerySearchTabController {
 
 
     // En uploadlistener som körs när upload knappen trycks i search-taben
-    class SearchUploadToListener implements ActionListener {
-
-        @Override
-        public void actionPerformed(ActionEvent e) {
-            try {
+    public ActionListener SearchUploadToListener() {
+        return new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {            try {
                 ExperimentData firstChosenExperiment = view.getSelectedDataInSearch().get(0);
                 UploadTab ut = view.getUploadTab();
                 view.getTabbedPane().setSelectedComponent(ut);
@@ -76,8 +74,8 @@ public class QuerySearchTabController {
                 ErrorLogger.log(ee);
                 JOptionPane.showMessageDialog(null,
                         "No experiment was selected.");
-            }
-        }
+            }}
+        };
     }
 
 
@@ -102,69 +100,72 @@ public class QuerySearchTabController {
             }
         };
     }
-
-    class QuerySearchListener implements ActionListener, Runnable {
+public ActionListener QuerySearchListener() {
+    return new ActionListener() {
+        @Override
         public void actionPerformed(ActionEvent e) {
-            new Thread(this).start();
-        }
+            new Thread() {
+                @Override
+                public void run() {
+                    String pubmed = view.getQuerySearchString();
+                    ArrayList<ExperimentData> searchResults = model.search(pubmed);
+                    if (searchResults != null) {
+                        view.updateQuerySearchResults(searchResults);
 
+                        // If search results are null and the active panel is search
+                    } else if (view.getActiveSearchPanel() == ActiveSearchPanel.SEARCH) {
+                        JOptionPane.showMessageDialog(null, "No search results!",
+                                "Search Warning", JOptionPane.WARNING_MESSAGE);
+
+                        // If search results are null and the active panel is table
+                    } else if (view.getActiveSearchPanel() == ActiveSearchPanel.TABLE) {
+                        // Go back to the query search
+                        view.getBackButton().doClick();
+                    }
+                };
+            }.start();
+        }
+    };
+}
+
+public ActionListener updateSearchAnnotationsListener() {
+    return new ActionListener() {
         @Override
-        public void run() {
-            String pubmed = view.getQuerySearchString();
-            ArrayList<ExperimentData> searchResults = model.search(pubmed);
-            if (searchResults != null) {
-                view.updateQuerySearchResults(searchResults);
-
-                // If search results are null and the active panel is search
-            } else if (view.getActiveSearchPanel() == ActiveSearchPanel.SEARCH) {
-                JOptionPane.showMessageDialog(null, "No search results!",
-                        "Search Warning", JOptionPane.WARNING_MESSAGE);
-
-                // If search results are null and the active panel is table
-            } else if (view.getActiveSearchPanel() == ActiveSearchPanel.TABLE) {
-                // Go back to the query search
-                view.getBackButton().doClick();
-            }
+        public void actionPerformed(ActionEvent e) {
+            new Thread() {
+                @Override
+                public void run() {
+                    AnnotationDataType[] annotations = model.getAnnotations();
+                    if (annotations != null && annotations.length > 0) {
+                        view.setSearchAnnotationTypes(annotations);
+                    }
+                
+                };
+            }.start();
         }
-    }
+    };
+}
 
-    class updateSearchAnnotationsListener implements ActionListener, Runnable {
-
+public ActionListener SearchToWorkspaceListener() {
+    return new ActionListener() {
         @Override
-        public void actionPerformed(ActionEvent actionEvent) {
-
-            new Thread(this).start();
+        public void actionPerformed(ActionEvent e) {
+            new Thread() {
+                @Override
+                public void run() {
+                    ArrayList<ExperimentData> selectedData = view
+                            .getSelectedDataInSearch();
+                    if (selectedData != null && selectedData.size() > 0) {
+                        view.addToWorkspace(view.getSelectedDataInSearch());
+                        view.changeTabInWorkspace(0);
+                    }
+                    view.clearSearchSelection();
+                };
+            }.start();
         }
+    };
+}
 
-        @Override
-        public void run() {
-            AnnotationDataType[] annotations = model.getAnnotations();
-            if (annotations != null && annotations.length > 0) {
-                view.setSearchAnnotationTypes(annotations);
-            }
-        }
-    }
-
-    class SearchToWorkspaceListener implements ActionListener, Runnable {
-
-        @Override
-        public void actionPerformed(ActionEvent actionEvent) {
-
-            new Thread(this).start();
-        }
-
-        @Override
-        public void run() {
-            ArrayList<ExperimentData> selectedData = view
-                    .getSelectedDataInSearch();
-            if (selectedData != null && selectedData.size() > 0) {
-                view.addToWorkspace(view.getSelectedDataInSearch());
-                view.changeTabInWorkspace(0);
-            }
-            view.clearSearchSelection();
-        }
-
-    }
 
 
 

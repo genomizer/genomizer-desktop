@@ -886,4 +886,10 @@ public class GUI extends JFrame implements GenomizerView {
         querySearchTab.clearSearchSelection();
     }
 
+    @Override
+    public ProcessTab getProcessTab() {
+        // TODO Auto-generated method stub
+        return processTab;
+    }
+
 }
