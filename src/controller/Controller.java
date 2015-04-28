@@ -24,42 +24,42 @@ import util.FileData;
  * buttons and other component. This will drive the actions started via the GUI.
  */
 public class Controller {
-    
+
     private GenomizerView view;
     private GenomizerModel model;
     private final JFileChooser fileChooser = new JFileChooser();
     private SysadminController sysController;
-    
+
     public Controller(GenomizerView view, GenomizerModel model) {
         this.view = view;
         this.model = model;
         this.sysController = new SysadminController(model);
         updateView();
     }
-    
+
     /**
      * Update **ALL** the actionlisteners in the whole wide gui.
      */
     private void updateView() {
-        
+
         loginWindowUpdate();
-        
+
         userPanelUpdate();
-        
+
         ratioCalcUpdate();
-        
+
         updateTabs();
-        
+
         tabbedPaneUpdate();
-        
+
         // unimplementedUpdate();
     }
-    
+
     /**
      * Update all the actionlisteners in the tabs.
      */
     public void updateTabs() {
-        
+
         QuerySearchTabController querySearchTabController = new QuerySearchTabController(
                 view, model);
         view.getQuerySearchTab().setController(querySearchTabController);
@@ -73,30 +73,30 @@ public class Controller {
                 model, fileChooser);
         view.getUploadTab().setController(uploadTabController);
         view.setSysadminController(sysController);
-        
+
     }
-    
+
     /**
      * Update the tabbed-pane listeners
      */
     private void tabbedPaneUpdate() {
         view.addChangedTabListener(new ChangedTabListener());
     }
-    
+
     /**
      * Update the loginWindow listeners
      */
     private void loginWindowUpdate() {
         view.addLoginListener(new LoginListener());
     }
-    
+
     /**
      * Update the userPanel listeners
      */
     private void userPanelUpdate() {
         view.addLogoutListener(new LogoutListener());
     }
-    
+
     /**
      * Update unkown/unimplemented parts of the gui with listeners
      * QuerySearchListener has been moved to QuerySearchTabController - VB TODO
@@ -105,7 +105,7 @@ public class Controller {
     // private void unimplementedUpdate() {
     // view.addSearchListener(new QuerySearchListener());
     // }
-    
+
     /**
      * Update the ratioCalcWindow listeners
      */
@@ -113,20 +113,20 @@ public class Controller {
         view.addOkListener(new OkListener());
         view.addRatioCalcListener(new RatioCalcListener());
     }
-    
+
     /**
      * Listener for when tabs are changed. Will for some tabs perform automatic
      * updates.
-     * 
+     *
      * TODO: separate view from Thread
      */
     class ChangedTabListener implements ChangeListener, Runnable {
-        
+
         @Override
         public void stateChanged(ChangeEvent e) {
             new Thread(this).start();
         }
-        
+
         @Override
         public void run() {
             AnnotationDataType[] a;
@@ -142,7 +142,7 @@ public class Controller {
             }
         }
     }
-    
+
     /**
      * Listener to convert files. Should convert files between different
      * formats. TODO: Not completed.
@@ -152,16 +152,16 @@ public class Controller {
         public void actionPerformed(ActionEvent e) {
             new Thread(this).start();
         }
-        
+
         @Override
         public void run() {
             // TODO ConvertFile-listener doesn't do anything
         }
     }
-    
+
     /**
      * The listener to create region data, TODO: Not completed at all
-     * 
+     *
      * @author c11ann
      */
     class RawToRegionDataListener implements ActionListener, Runnable {
@@ -169,17 +169,17 @@ public class Controller {
         public void actionPerformed(ActionEvent e) {
             new Thread(this).start();
         }
-        
+
         @Override
         public void run() {
-            
+
             // TODO: Raw To Region Data Listener doesn't do anything.
             // System.out.println("RAW TO REGION");
             // System.out.println(view.getAllMarkedFiles());
-            
+
         }
     }
-    
+
     /**
      * Listen to the login button. Will send the entered name and password, and
      * if accepted update view. TODO: Move view bits from Thread
@@ -189,7 +189,7 @@ public class Controller {
         public void actionPerformed(ActionEvent e) {
             new Thread(this).start();
         }
-        
+
         @Override
         public void run() {
             model.setGenomizerView(view);
@@ -197,7 +197,7 @@ public class Controller {
             String username = view.getUsername();
             String pwd = view.getPassword();
             String response = model.loginUser(username, pwd);
-            
+
             // TODO: extract stupid .equals true to a domain object boolean
             // thingy
             if (response.equals("true")) {
@@ -210,7 +210,7 @@ public class Controller {
             }
         }
     }
-    
+
     /**
      * Listen to the logout button. Will call logout and reset methods of the
      * model, and also update and reset view. (Because of this also reset
@@ -221,18 +221,19 @@ public class Controller {
         public void actionPerformed(ActionEvent e) {
             new Thread(this).start();
         }
-        
+
         @Override
         public void run() {
             int response = JOptionPane.showConfirmDialog(null,
                     "Are you sure you wish to log out?", "Log out",
                     JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
-            
+
             if (response == JOptionPane.YES_OPTION) {
                 model.logoutUser();
                 model.resetModel();
                 view.updateLogout();
                 view.resetGUI();
+                view.setStatusPanel("");
                 // If only tabs are updated then only these methods will be
                 // needed.
                 updateTabs();
@@ -240,21 +241,21 @@ public class Controller {
             }
         }
     }
-    
+
     /**
      * Listener for when the download button in workspace is clicked. Opens a
      * DownloadWindow with the selected files.
-     * 
+     *
      * TODO: separate view parts from Thread. Move to correct tab controller?
      */
     class DownloadWindowListener implements ActionListener, Runnable {
-        
+
         @Override
         public void actionPerformed(ActionEvent actionEvent) {
-            
+
             new Thread(this).start();
         }
-        
+
         @Override
         public void run() {
             // Skicka med arraylist<FileData> för de filer som ska nerladdas
@@ -274,7 +275,7 @@ public class Controller {
             downloadWindow.setVisible(true);
         }
     }
-    
+
     /**
      * Show the ratioCalc popup. TODO: Remove Thread
      */
@@ -283,13 +284,13 @@ public class Controller {
         public void actionPerformed(ActionEvent e) {
             new Thread(this).start();
         }
-        
+
         @Override
         public void run() {
             view.showRatioPopup();
         }
     }
-    
+
     /**
      * Listen to the OK button in the ratioCalc popup. Will hide the window.
      * TODO: Remove the Thread, should OK do something more?
@@ -299,11 +300,11 @@ public class Controller {
         public void actionPerformed(ActionEvent e) {
             new Thread(this).start();
         }
-        
+
         @Override
         public void run() {
             view.getRatioCalcPopup().hideRatioWindow();
         }
-        
+
     }
 }
