@@ -1,6 +1,7 @@
 package gui;
 
 import java.awt.BorderLayout;
+import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
@@ -28,6 +29,8 @@ public class ErrorDialog extends JOptionPane {
     private static final long serialVersionUID = 1L;
     private static final int SCROLL_PANE_WIDTH = 300;
     private static final int SCROLL_PANE_HEIGHT = 150;
+
+    private static Component parentComponent = null;
 
     private String title;
     private String simpleMessage;
@@ -122,10 +125,14 @@ public class ErrorDialog extends JOptionPane {
 
         dialog.setDefaultCloseOperation(JDialog.DO_NOTHING_ON_CLOSE);
         dialog.pack();
-        dialog.setLocationRelativeTo(null);
+        dialog.setLocationRelativeTo(parentComponent);
 
         dialog.setVisible(true);
 
+    }
+
+    public static void setParentComponent(Component parentComponent) {
+        ErrorDialog.parentComponent = parentComponent;
     }
 
     private class OkButtonListener implements ActionListener {
