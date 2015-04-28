@@ -21,21 +21,21 @@ import gui.sysadmin.annotationview.AnnotationButtonsListener;
 public class QuerySearchTabController {
     GenomizerView view;
     GenomizerModel model;
-    private QuerySearchTab qst;
+    private QuerySearchTab querySearchTab;
     
     public QuerySearchTabController(GenomizerView view, GenomizerModel model) {
         this.view = view;
-        this.qst = view.getQuerySearchTab();
+        this.querySearchTab = view.getQuerySearchTab();
         this.model = model;
         // querySearchTab.addDownloadButtonListener(listener)
-        // qst.addSearchButtonListener(SearchButtonListener());
+        // querySearchTab.addSearchButtonListener(SearchButtonListener());
         // view.addQuerySearchListener( QuerySearchListener());
-        qst.addUpdateAnnotationsListener(updateSearchAnnotationsListener());
+        querySearchTab.addUpdateAnnotationsListener(updateSearchAnnotationsListener());
         // view.addUpdateSearchAnnotationsListener(
         // updateSearchAnnotationsListener());
-        qst.addAddToWorkspaceButtonListener(SearchToWorkspaceListener());
+        querySearchTab.addAddToWorkspaceButtonListener(SearchToWorkspaceListener());
         // view.addSearchToWorkspaceListener( SearchToWorkspaceListener());
-        qst.addUploadToListener(SearchUploadToListener());
+        querySearchTab.addUploadToListener(SearchUploadToListener());
         // view.addUploadToListenerSearchTab( SearchUploadToListener());
         
     }
@@ -45,7 +45,7 @@ public class QuerySearchTabController {
             @Override
             public void actionPerformed(ActionEvent e) {
                 
-                qst.clearSearchFields();
+                querySearchTab.clearSearchFields();
             }
         };
     }
@@ -54,9 +54,9 @@ public class QuerySearchTabController {
         return new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                qst.getSearchArea().setEditable(true);
+                querySearchTab.getSearchArea().setEditable(true);
                 
-                for (QueryBuilderRow row : qst.getRowList()) {
+                for (QueryBuilderRow row : querySearchTab.getRowList()) {
                     row.setEnabled(false);
                 }
             }
@@ -89,9 +89,9 @@ public class QuerySearchTabController {
         return new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                qst.getSearchArea().setEditable(false);
+                querySearchTab.getSearchArea().setEditable(false);
                 
-                for (QueryBuilderRow row : qst.getRowList()) {
+                for (QueryBuilderRow row : querySearchTab.getRowList()) {
                     row.setEnabled(true);
                 }
             }
@@ -102,7 +102,7 @@ public class QuerySearchTabController {
         return new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                qst.showSearchView();
+                querySearchTab.showSearchView();
             }
         };
     }
