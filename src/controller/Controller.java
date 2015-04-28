@@ -74,6 +74,7 @@ public class Controller {
         SysadminController sysadminController = new SysadminController(model);
         view.setSysadminController(sysadminController);
         sysadminController.updateAnnotationTable();
+        sysadminController.updateGenomeReleaseTab();
     }
     
     /**
@@ -199,6 +200,7 @@ public class Controller {
                     runonce = false;
                 } else{
                     view.getSysAdminTab().getController().updateAnnotationTable();
+                    view.getSysAdminTab().getController().updateGenomeReleaseTab();
                 }
                 
                 ErrorLogger.log("Login", username + " logged in");
