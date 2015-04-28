@@ -5,8 +5,6 @@ import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import javax.swing.JOptionPane;
 
-import controller.UploadTabController.AddToExistingExpButtonListener;
-import controller.WorkspaceTabController.UploadToListener;
 import model.ErrorLogger;
 import model.GenomizerModel;
 import util.ActiveSearchPanel;
