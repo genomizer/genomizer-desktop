@@ -120,6 +120,7 @@ public class GUI extends JFrame implements GenomizerView {
         JLabel statusLabel = new JLabel(status);
         statusLabel.setHorizontalAlignment(SwingConstants.LEFT);
         statusPanel.add(statusLabel);
+        mainPanel.repaint();
         mainPanel.revalidate();
     }
 
