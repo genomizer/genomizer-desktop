@@ -15,7 +15,9 @@ import util.FileData;
 import util.GenomeReleaseData;
 import util.ProcessFeedbackData;
 import gui.CheckListItem;
+import gui.GUI;
 import gui.GenomizerView;
+import gui.ProcessTab;
 
 public class ProcessTabController {
     GenomizerView view;
@@ -25,10 +27,18 @@ public class ProcessTabController {
     public ProcessTabController(GenomizerView view, GenomizerModel model) {
         this.view = view;
         this.model = model;
-        view.addRawToProfileDataListener(RawToProfileDataListener());
+        GUI gui = (GUI) view;
+        ProcessTab processTab = gui.getProcessTab();
+        processTab.addRawToProfileDataListener(RawToProfileDataListener());
+        // gui.addRawToProfileDataListener(RawToProfileDataListener());
+        // view.addRawToProfileDataListener(RawToProfileDataListener());
         fileListAddMouseListener(view.getfileList());
-        view.addProcessFeedbackListener(ProcessFeedbackListener());
-        view.addDeleteSelectedListener(DeleteSelectedListener());
+        processTab.addProcessFeedbackListener(ProcessFeedbackListener());
+        // gui.addProcessFeedbackListener(ProcessFeedbackListener());
+        // view.addProcessFeedbackListener(ProcessFeedbackListener());
+        processTab.addDeleteSelectedListener(DeleteSelectedListener());
+        // gui.addDeleteSelectedListener(DeleteSelectedListener());
+        // view.addDeleteSelectedListener(DeleteSelectedListener());
     }
     
     private void fileListAddMouseListener(JList fileList) {
