@@ -6,6 +6,7 @@ import gui.sysadmin.annotationview.AnnotationButtonsListener;
 import gui.sysadmin.annotationview.AnnotationTableModel;
 import gui.sysadmin.genomereleaseview.GenomeReleaseViewCreator;
 import gui.sysadmin.genomereleaseview.GenomereleaseTableModel;
+import gui.sysadmin.strings.SysStrings;
 
 import java.awt.event.ActionListener;
 
@@ -170,7 +171,7 @@ public class SysadminController {
     public void deleteGenomeRelease(String version, String specie) {
         
         if (model.deleteGenomeRelease(specie, version)) {
-            setGenomeReleaseTable();
+            updateGenomeReleaseTable();
         }
     }
     
@@ -192,7 +193,7 @@ public class SysadminController {
         }.start();
     }
     
-    public void setGenomeReleaseTable() {
+    public void updateGenomeReleaseTable() {
         
         new Thread() {
             public void run() {
@@ -209,13 +210,33 @@ public class SysadminController {
             }
         }.start();
     }
-    
+    public void updateGenomeReleaseTab(){
+        new Thread() {
+            public void run() {
+                // sysController.getGenomeReleases();
+                
+                updateGenomeReleaseTable();
+                
+                final String[] species = getSpecies();
+                javax.swing.SwingUtilities.invokeLater(new Runnable() {
+                    public void run() {
+                        
+                        getSysTab()
+                                .getGenomeReleaseView()
+                                .setSpeciesDDList(species);
+                    }
+                });
+                
+                
+            }
+        }.start();
+    }
     public void addGenomeRelease() {
         GenomeReleaseViewCreator gr = sysTab.getGenomeReleaseView();
         if (model.addGenomeReleaseFile(gr.getFilenames(), gr.getSpeciesText(),
                 gr.getVersionText())) {
             
-            setGenomeReleaseTable();
+            updateGenomeReleaseTable();
             JOptionPane.showMessageDialog(null,
                     "Added genom release " + gr.getSelectedVersion()
                             + " for species " + gr.getSpeciesText());
