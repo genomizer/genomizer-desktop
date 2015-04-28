@@ -16,14 +16,18 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.concurrent.CopyOnWriteArrayList;
 
+import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
+import javax.swing.SwingConstants;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 
+import javax.swing.border.BevelBorder;
 import javax.swing.event.ChangeListener;
 
 import model.ErrorLogger;
@@ -56,6 +60,8 @@ public class GUI extends JFrame implements GenomizerView {
     private DownloadWindow downloadWindow;
     private RatioCalcPopup ratioCalcPopup;
     // private AnalyzeTab at;
+
+    private JPanel statusPanel;
 
     /**
      * Initiates the main view of the program.
@@ -100,8 +106,21 @@ public class GUI extends JFrame implements GenomizerView {
         Image img = kit.createImage(url);
         setIconImage(img);
 
+        statusPanel = new JPanel();
+        statusPanel.setBorder(new BevelBorder(BevelBorder.LOWERED));
+        mainPanel.add(statusPanel,BorderLayout.SOUTH);
+        statusPanel.setPreferredSize(new Dimension(mainPanel.getWidth(),16));
+        statusPanel.setLayout(new BoxLayout(statusPanel, BoxLayout.X_AXIS));
 
         this.setLocationRelativeTo(null);
+    }
+
+    public void setStatusPanel(String status) {
+        statusPanel.removeAll();
+        JLabel statusLabel = new JLabel(status);
+        statusLabel.setHorizontalAlignment(SwingConstants.LEFT);
+        statusPanel.add(statusLabel);
+        
     }
 
     public void addChangedTabListener(ChangeListener listener) {
