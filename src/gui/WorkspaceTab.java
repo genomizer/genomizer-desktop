@@ -28,6 +28,7 @@ import util.ExperimentData;
 import util.TreeTable;
 
 import communication.DownloadHandler;
+import controller.WorkspaceTabController;
 
 /**
  * A class representing a workspace tab in a view part of an application used by
@@ -50,6 +51,7 @@ public class WorkspaceTab extends JPanel {
     private JPanel filePanel;
     private CopyOnWriteArrayList<DownloadHandler> ongoingDownloads;
     private JScrollPane bottomScroll;
+    private WorkspaceTabController workspaceTabController;
 
     /**
      * Constructor creating the workspace tab.
@@ -359,5 +361,9 @@ public class WorkspaceTab extends JPanel {
      */
     public void changeTab(int tabIndex) {
         tabbedPane.setSelectedIndex(tabIndex);
+    }
+
+    public void setController(WorkspaceTabController workspaceTabController) {
+        this.workspaceTabController = workspaceTabController;
     }
 }

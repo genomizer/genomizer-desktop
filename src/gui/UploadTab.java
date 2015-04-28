@@ -22,6 +22,7 @@ import util.ExperimentData;
 import util.GenomeReleaseData;
 
 import communication.HTTPURLUpload;
+import controller.UploadTabController;
 
 /**
  * A class representing a upload view in an application for genome research.
@@ -44,6 +45,7 @@ public class UploadTab extends JPanel {
     // Test purpose
     private ArrayList<UploadToNewExpPanel> newExps = new ArrayList<UploadToNewExpPanel>();
     private UploadToNewExpPanel uploadToNewExpPanel;
+    private UploadTabController uploadTabController;
 
     public UploadToNewExpPanel getUploadToNewExpPanel() {
         return uploadToNewExpPanel;
@@ -281,5 +283,9 @@ public class UploadTab extends JPanel {
                 }
             }
         }).start();
+    }
+
+    public void setController(UploadTabController uploadTabController) {
+        this.uploadTabController = uploadTabController;
     }
 }
