@@ -4,11 +4,11 @@ import com.google.gson.annotations.Expose;
 
 public class AddFileToExperimentResponse extends Response {
     @Expose
-    public String UrlUpload;
+    public String URLupload;
 
     public AddFileToExperimentResponse(String responseName, String uploadUrl) {
         super(responseName);
-        this.UrlUpload = uploadUrl;
+        this.URLupload = uploadUrl;
     }
 
 }
