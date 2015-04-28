@@ -71,10 +71,10 @@ public class Controller {
                 model, fileChooser);
         view.getUploadTab().setController(uploadTabController);
 
-        SysadminController sysadminController = new SysadminController(model);
-        view.setSysadminController(sysadminController);
-        sysadminController.updateAnnotationTable();
-        sysadminController.updateGenomeReleaseTab();
+        SysadminController sysadminTabController = new SysadminController(model);
+        view.setSysadminController(sysadminTabController);
+        sysadminTabController.updateAnnotationTable();
+        sysadminTabController.updateGenomeReleaseTab();
     }
 
     /**
