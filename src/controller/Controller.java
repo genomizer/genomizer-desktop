@@ -28,13 +28,13 @@ public class Controller {
     private GenomizerView view;
     private GenomizerModel model;
     private final JFileChooser fileChooser = new JFileChooser();
-    private SysadminController sysController;
+    private boolean runonce;
     
     public Controller(GenomizerView view, GenomizerModel model) {
         this.view = view;
         this.model = model;
-        this.sysController = new SysadminController(model);
         updateView();
+        runonce = true;
     }
     
     /**
@@ -47,8 +47,6 @@ public class Controller {
         userPanelUpdate();
         
         ratioCalcUpdate();
-        
-        updateTabs();
         
         tabbedPaneUpdate();
         
@@ -72,8 +70,10 @@ public class Controller {
         UploadTabController uploadTabController = new UploadTabController(view,
                 model, fileChooser);
         view.getUploadTab().setController(uploadTabController);
-        view.setSysadminController(sysController);
         
+        SysadminController sysadminController = new SysadminController(model);
+        view.setSysadminController(sysadminController);
+        sysadminController.updateAnnotationTable();
     }
     
     /**
@@ -96,15 +96,6 @@ public class Controller {
     private void userPanelUpdate() {
         view.addLogoutListener(new LogoutListener());
     }
-    
-    /**
-     * Update unkown/unimplemented parts of the gui with listeners
-     * QuerySearchListener has been moved to QuerySearchTabController - VB TODO
-     * seriously needs some doing
-     */
-    // private void unimplementedUpdate() {
-    // view.addSearchListener(new QuerySearchListener());
-    // }
     
     /**
      * Update the ratioCalcWindow listeners
@@ -202,7 +193,14 @@ public class Controller {
             // thingy
             if (response.equals("true")) {
                 view.updateLoginAccepted(username, pwd, "Desktop User");
-                sysController.updateAnnotationTable();
+                
+                if (runonce) {
+                    updateTabs();
+                    runonce = false;
+                } else{
+                    view.getSysAdminTab().getController().updateAnnotationTable();
+                }
+                
                 ErrorLogger.log("Login", username + " logged in");
             } else {
                 view.updateLoginNeglected(response);
