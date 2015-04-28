@@ -64,6 +64,7 @@ public class Controller {
         QuerySearchTabController querySearchTabController = new QuerySearchTabController(view, model);
         view.getQuerySearchTab().setController(querySearchTabController); 
         ProcessTabController processTabController = new ProcessTabController(view, model);
+        view.getProcessTab().setController(processTabController);
         WorkspaceTabController workspaceTabController = new WorkspaceTabController(view, model, fileChooser);
         UploadTabController uploadTabController = new UploadTabController(view, model, fileChooser);
         view.setSysadminController(sysController);
