@@ -66,7 +66,7 @@ public class Controller {
         ProcessTabController processTabController = new ProcessTabController(view, model);
         WorkspaceTabController workspaceTabController = new WorkspaceTabController(view, model, fileChooser);
         UploadTabController uploadTabController = new UploadTabController(view, model, fileChooser);
-        sysadminTabUpdate();
+        view.setSysadminController(sysController);
 
 
     }
@@ -76,13 +76,6 @@ public class Controller {
      */
     private void tabbedPaneUpdate() {
         view.addChangedTabListener(new ChangedTabListener());
-    }
-
-    /**
-     * Update sysadminTab listeners and controller
-     */
-    private void sysadminTabUpdate() {
-        view.setSysadminController(sysController);
     }
 
     /**
