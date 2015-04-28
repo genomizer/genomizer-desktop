@@ -63,6 +63,7 @@ public class ResponseParser {
 
         GenomeReleaseData[] genomeReleaseResponses;
         try {
+
             genomeReleaseResponses = gson.fromJson(json,
                     GenomeReleaseData[].class);
 
@@ -78,6 +79,7 @@ public class ResponseParser {
     public static AddFileToExperimentResponse parseUploadResponse(String json) {
         AddFileToExperimentResponse url = null;
         try {
+
             url = gson.fromJson(json, AddFileToExperimentResponse.class);
         } catch (JsonParseException e) {
             ErrorLogger.log(e);
