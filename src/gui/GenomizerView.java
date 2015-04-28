@@ -29,7 +29,7 @@ import controller.SysadminController;
 /**
  * A interface for the view part of an application used by genome researcher to
  * make their daily job easier.
- * 
+ *
  * @author
  */
 
@@ -38,12 +38,20 @@ import controller.SysadminController;
 
 public interface GenomizerView {
     /**
+     * Set a new statusmessage
+     * @param status
+     *              New status
+     * @author JH
+     */
+    public void setStatusPanel(String status);
+    /**
      * Method adding a listener to the analyze selected button.
      * 
      * @param listener
      *            The listener
      */
-    
+
+
     public void addUploadToListener(ActionListener listener);
     
     public void refreshSearch();
