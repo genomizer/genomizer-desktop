@@ -50,8 +50,7 @@ public class WorkspaceTabController {
                     @Override
                     public void run() {
                         
-                        // DownloadWindow downloadWindow =
-                        // view.getDownloadWindow();
+
                         ArrayList<ExperimentData> expData = view
                                 .getSelectedDataInWorkspace();
                         ArrayList<FileData> fileData = new ArrayList<>();

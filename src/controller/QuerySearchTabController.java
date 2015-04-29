@@ -22,47 +22,40 @@ public class QuerySearchTabController {
     GenomizerView view;
     GenomizerModel model;
     private QuerySearchTab querySearchTab;
-    
+
     public QuerySearchTabController(GenomizerView view, GenomizerModel model) {
         this.view = view;
         this.querySearchTab = view.getQuerySearchTab();
         this.model = model;
-        // querySearchTab.addDownloadButtonListener(listener)
-        // querySearchTab.addSearchButtonListener(SearchButtonListener());
-        // view.addQuerySearchListener( QuerySearchListener());
         querySearchTab.addUpdateAnnotationsListener(updateSearchAnnotationsListener());
-        // view.addUpdateSearchAnnotationsListener(
-        // updateSearchAnnotationsListener());
         querySearchTab.addAddToWorkspaceButtonListener(SearchToWorkspaceListener());
-        // view.addSearchToWorkspaceListener( SearchToWorkspaceListener());
         querySearchTab.addUploadToListener(SearchUploadToListener());
-        // view.addUploadToListenerSearchTab( SearchUploadToListener());
-        
+
     }
-    
+
     public ActionListener createClearButtonListener() {
         return new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                
+
                 querySearchTab.clearSearchFields();
             }
         };
     }
-    
+
     public ActionListener createManualEditButtonListener() {
         return new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 querySearchTab.getSearchArea().setEditable(true);
-                
+
                 for (QueryBuilderRow row : querySearchTab.getRowList()) {
                     row.setEnabled(false);
                 }
             }
         };
     }
-    
+
     // En uploadlistener som körs när upload knappen trycks i search-taben
     public ActionListener SearchUploadToListener() {
         return new ActionListener() {
@@ -84,20 +77,20 @@ public class QuerySearchTabController {
             }
         };
     }
-    
+
     public ActionListener createQueryBuilderButtonListener() {
         return new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 querySearchTab.getSearchArea().setEditable(false);
-                
+
                 for (QueryBuilderRow row : querySearchTab.getRowList()) {
                     row.setEnabled(true);
                 }
             }
         };
     }
-    
+
     public ActionListener createBackButtonListener() {
         return new ActionListener() {
             @Override
@@ -106,7 +99,7 @@ public class QuerySearchTabController {
             }
         };
     }
-    
+
     public ActionListener SearchButtonListener() {
         return new ActionListener() {
             @Override
@@ -119,14 +112,14 @@ public class QuerySearchTabController {
                                 .search(pubmed);
                         if (searchResults != null) {
                             view.updateQuerySearchResults(searchResults);
-                            
+
                             // If search results are null and the active panel
                             // is search
                         } else if (view.getActiveSearchPanel() == ActiveSearchPanel.SEARCH) {
                             JOptionPane.showMessageDialog(null,
                                     "No search results!", "Search Warning",
                                     JOptionPane.WARNING_MESSAGE);
-                            
+
                             // If search results are null and the active panel
                             // is table
                         } else if (view.getActiveSearchPanel() == ActiveSearchPanel.TABLE) {
@@ -138,7 +131,7 @@ public class QuerySearchTabController {
             }
         };
     }
-    
+
     public ActionListener updateSearchAnnotationsListener() {
         return new ActionListener() {
             @Override
@@ -151,13 +144,13 @@ public class QuerySearchTabController {
                         if (annotations != null && annotations.length > 0) {
                             view.setSearchAnnotationTypes(annotations);
                         }
-                        
+
                     };
                 }.start();
             }
         };
     }
-    
+
     public ActionListener SearchToWorkspaceListener() {
         return new ActionListener() {
             @Override
@@ -177,5 +170,5 @@ public class QuerySearchTabController {
             }
         };
     }
-    
+
 }
