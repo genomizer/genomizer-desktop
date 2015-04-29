@@ -8,13 +8,6 @@ public class User {
 
     private User() { }
 
-    public void login() {
-
-    }
-
-    public void logout() {
-
-    }
 
     public static User getInstance() {
         return instance;
