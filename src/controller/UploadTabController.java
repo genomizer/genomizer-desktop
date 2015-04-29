@@ -127,7 +127,7 @@ public class UploadTabController {
                                     uploadTab.addExistingExpPanel(ed);
                                     GenomeReleaseData[] grd = model
                                             .getSpeciesGenomeReleases(species);
-                                    view.setGenomeReleases(grd);
+                                    view.getUploadTab().setGenomeReleases(grd);
                                 } else {
                                     JOptionPane.showMessageDialog(null,
                                             "Missing species in experiment.",
@@ -176,7 +176,7 @@ public class UploadTabController {
                         for (File f : files) {
                             if (model.uploadFile(ed.getName(), f,
                                     types.get(f.getName()), view.getLoginWindow().getUsernameInput(),
-                                    false, view.getGenomeVersion(f))) {
+                                    false, view.getUploadTab().getGenomeVersion(f))) {
                                 view.getUploadTab().getExistExpPanel()
                                         .deleteFileRow(f);
                                 if (view.getUploadTab().getExistExpPanel()
@@ -256,7 +256,7 @@ public class UploadTabController {
                                     if (model.uploadFile(expName, f,
                                             types.get(f.getName()),
                                             view.getLoginWindow().getUsernameInput(), false,
-                                            view.getGenomeVersion(f))) {
+                                            view.getUploadTab().getGenomeVersion(f))) {
                                         view.getUploadTab().getNewExpPanel().deleteFileRow(f);
                                         for (HTTPURLUpload upload : model
                                                 .getOngoingUploads()) {
@@ -297,7 +297,7 @@ public class UploadTabController {
                     public void run() {
                         String expName = view.getUploadTab().getNewExpPanel().getNewExpID();
                         AnnotationDataValue[] annotations = view.getUploadTab().getNewExpPanel().getUploadAnnotations();
-                        ArrayList<File> files = view.getSelectedFilesToUpload();
+                        ArrayList<File> files = view.getUploadTab().getNewExpPanel().getSelectedFilesToUpload();
                         if (files != null && files.size() > 0
                                 && annotations != null && expName != null) {
                             HashMap<String, String> types = view.getUploadTab().getNewExpPanel().getTypes();
@@ -312,7 +312,7 @@ public class UploadTabController {
                                     if (model.uploadFile(expName, f,
                                             types.get(f.getName()),
                                             view.getLoginWindow().getUsernameInput(), false,
-                                            view.getGenomeVersion(f))) {
+                                            view.getUploadTab().getGenomeVersion(f))) {
                                         view.getUploadTab().getNewExpPanel().deleteFileRow(f);
                                         for (HTTPURLUpload upload : model
                                                 .getOngoingUploads()) {
@@ -362,14 +362,14 @@ public class UploadTabController {
                 new Thread() {
                     @Override
                     public void run() {
-                        String species = view.getSelectedSpecies();
+                        String species =  view.getUploadTab().getNewExpPanel().getSelectedSpecies();
 
                         // TODO: Thread, although connection here, should not
                         // below.
                         GenomeReleaseData[] grd = model
                                 .getSpeciesGenomeReleases(species);
 
-                        view.setGenomeReleases(grd);
+                        view.getUploadTab().setGenomeReleases(grd);
                     };
                 }.start();
             }

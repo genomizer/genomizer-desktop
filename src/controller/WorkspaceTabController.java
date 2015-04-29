@@ -38,7 +38,7 @@ public class WorkspaceTabController {
         workspaceTab.addUploadToListener(UploadToListener());
         // view.addUploadToListener( UploadToListener());
         workspaceTab.addDeleteSelectedListener(DeleteFromDatabaseListener());
-        view.setOngoingDownloads(model.getOngoingDownloads());
+        view.getWorkSpaceTab().setOngoingDownloads(model.getOngoingDownloads());
     }
 
     /**
@@ -84,7 +84,7 @@ public class WorkspaceTabController {
                             model.downloadFile(data.url, data.id, directoryName
                                     + "/" + data.type + "/" + data.filename, data.filename);
                         }
-                        view.changeTabInWorkspace(1);
+                        view.getWorkSpaceTab().changeTab(1);
                     };
                 }.start();
             }
@@ -198,7 +198,7 @@ public class WorkspaceTabController {
                                     "Selected data was removed from database",
                                     "Delete success",
                                     JOptionPane.INFORMATION_MESSAGE);
-                            view.removeSelectedFromWorkspace();
+                            view.getWorkSpaceTab().removeSelectedData();
                             view.getQuerySearchTab().refresh();
                         }
 

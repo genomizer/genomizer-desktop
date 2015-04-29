@@ -71,7 +71,7 @@ public class ProcessTabController {
                         GenomeReleaseData[] genome = model
                                 .getSpeciesGenomeReleases(item.getSpecie());
                         if (view.getAllMarkedFiles().isEmpty()) {
-                            view.setGenomeFileList(null);
+                            view.getProcessTab().setGenomeFileList(null);
                         } else {
                             view.setGenomeFileList(genome);
                         }
@@ -134,7 +134,7 @@ public class ProcessTabController {
                                         parameters[4] = processParameters[4];
                                         parameters[5] = processParameters[5];
                                         
-                                        if (view.useRatio()) {
+                                        if (view.getProcessTab().useRatio()) {
                                             String[] ratioParameters = view.getRatioCalcPopup().getRatioCalcParameters();
                                             parameters[6] = ratioParameters[0]; // "single 4 0";
                                             parameters[7] = ratioParameters[1]; // "150 1 7 0 0";
@@ -220,14 +220,14 @@ public class ProcessTabController {
                         
                         ArrayList<FileData> markedFiles = view
                                 .getAllMarkedFiles();
-                        ArrayList<ExperimentData> exData = view.getFileInfo();
+                        ArrayList<ExperimentData> exData = view.getProcessTab().getFileInfo();;
                         
                         if (exData != null && markedFiles != null) {
                             
                             for (ExperimentData data : exData) {
                                 data.files.removeAll(markedFiles);
                             }
-                            view.setFileInfo(exData);
+                            view.getProcessTab().setFileInfo(exData);
                             deletedProcessFiles = true;
                         }
                         

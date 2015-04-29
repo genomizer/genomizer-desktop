@@ -29,7 +29,7 @@ import controller.SysadminController;
 /**
  * A interface for the view part of an application used by genome researcher to
  * make their daily job easier.
- *
+ * 
  * @author
  */
 
@@ -39,22 +39,23 @@ import controller.SysadminController;
 public interface GenomizerView {
     /**
      * Set a new statusmessage
+     * 
      * @param status
-     *              New status
+     *            New status
      * @author JH
      */
     public void setStatusPanel(String status); // used~ish, can't be delegated
+    
     /**
      * Method adding a listener to the analyze selected button.
      * 
      * @param listener
      *            The listener
      */
-
-
+    
     public void addUploadToListener(ActionListener listener); // unused
     
-    public void refreshSearch(); //unused
+    public void refreshSearch(); // unused
     
     LoginWindow getLoginWindow(); // unused
     
@@ -79,7 +80,7 @@ public interface GenomizerView {
     
     public void addUploadToExperimentButtonListener(ActionListener listener); // unused
     
-    //TODO unimplemented listener
+    // TODO unimplemented listener
     public void addSearchResultsDownloadListener(ActionListener listener); // unused
     
     public void addSelectFilesToUploadButtonListener(ActionListener listener); // unused
@@ -106,9 +107,9 @@ public interface GenomizerView {
     
     public JFrame getFrame();
     
-    public void setDownloadWindow(DownloadWindow downloadWindow); //used
+    public void setDownloadWindow(DownloadWindow downloadWindow); // used
     
-    public DownloadWindow getDownloadWindow(); //used
+    public DownloadWindow getDownloadWindow(); // used
     
     public String getQuerySearchString(); // unused
     
@@ -116,27 +117,27 @@ public interface GenomizerView {
     
     public ArrayList<ExperimentData> getSelectedDataInSearch(); // unused
     
-    public UploadTab getUploadTab(); //used
+    public UploadTab getUploadTab(); // used
     
-    public QuerySearchTab getQuerySearchTab(); //used
+    public QuerySearchTab getQuerySearchTab(); // used
     
-    public SysadminTab getSysAdminTab(); //used
-     
-    public WorkspaceTab getWorkSpaceTab(); //used
+    public SysadminTab getSysAdminTab(); // used
     
-    public ProcessTab getProcessTab(); //used
+    public WorkspaceTab getWorkSpaceTab(); // used
+    
+    public ProcessTab getProcessTab(); // used
     
     public int getSelectedRowAtAnnotationTable(); // unused
     
-    public void updateLoginAccepted(String username, String pwd, String name); //used
+    public void updateLoginAccepted(String username, String pwd, String name); // used
     
     public void updateLoginNeglected(String errorMessage); // unused
     
-    public void updateLogout(); //used
+    public void updateLogout(); // used
     
     public void setSearchAnnotationTypes(AnnotationDataType[] annotationTypes); // unused
     
-    public void setProcessFileList(ArrayList<FileData> arrayList); //used
+    public void setProcessFileList(ArrayList<FileData> arrayList); // used
     
     public void printToConsole(String message); // unused
     
@@ -215,61 +216,62 @@ public interface GenomizerView {
             CopyOnWriteArrayList<HTTPURLUpload> ongoingUploads); // unused
     
     public void setOngoingDownloads(
-            CopyOnWriteArrayList<DownloadHandler> ongoingDownloads);
+            CopyOnWriteArrayList<DownloadHandler> ongoingDownloads); // unused
     
-    public void addOkListener(ActionListener listener);
+    public void addOkListener(ActionListener listener); // unused
     
-    public RatioCalcPopup getRatioCalcPopup();
+    public RatioCalcPopup getRatioCalcPopup(); // used
     
-    public void setGenomeFileList(GenomeReleaseData[] genome);
+    public void setGenomeFileList(GenomeReleaseData[] genome); // unused
     
-    public ArrayList<File> getSelectedFilesToUpload();
+    public ArrayList<File> getSelectedFilesToUpload(); // unused
     
-    public void addUploadSelectedFilesListener(ActionListener listener);
+    public void addUploadSelectedFilesListener(ActionListener listener); // unused
     
-    public void removeUploadExpName();
+    public void removeUploadExpName(); // unused
     
-    public void removeSelectedFromWorkspace();
+    public void removeSelectedFromWorkspace(); // unused
     
-    public void disableSelectedRow(File f);
+    public void disableSelectedRow(File f); // unused, and doesn't do anything,
+                                            // at all
     
-    public boolean isCorrectToProcess();
+    public boolean isCorrectToProcess(); // used
     
-    public boolean isRatioCorrectToProcess();
+    public boolean isRatioCorrectToProcess(); // used
     
-    public void setProfileButton(boolean bool);
+    public void setProfileButton(boolean bool); // unused
     
-    public boolean useRatio();
+    public boolean useRatio(); // unused
     
-    public ActiveSearchPanel getActiveSearchPanel();
+    public ActiveSearchPanel getActiveSearchPanel(); // unused
     
-    public JButton getBackButton();
+    public JButton getBackButton(); // used
     
     /**
      * Remove and re-add each tab in the GUI. For now **ONLY TABS** are reset:
      * If this changes some other methods will need updating (logoutlistener)
      */
-    public void resetGUI();
+    public void resetGUI(); // used
     
-    public void changeTabInWorkspace(int tabIndex);
+    public void changeTabInWorkspace(int tabIndex); // unused
     
-    public JTabbedPane getTabbedPane();
+    public JTabbedPane getTabbedPane(); // used
     
-    public String getSelectedSpecies();
+    public String getSelectedSpecies(); // unused
     
-    public void addSpeciesSelectedListener(ActionListener listener);
+    public void addSpeciesSelectedListener(ActionListener listener); // unused
     
-    public void setGenomeReleases(GenomeReleaseData[] grd);
+    public void setGenomeReleases(GenomeReleaseData[] grd); // unused
     
-    public String getGenomeVersion(File f);
+    public String getGenomeVersion(File f); // unused
     
-    public void addDeleteSelectedListener(ActionListener listener);
+    public void addDeleteSelectedListener(ActionListener listener); // unused
     
-    public ArrayList<ExperimentData> getFileInfo();
+    public ArrayList<ExperimentData> getFileInfo(); // unused
     
-    public void setFileInfo(ArrayList<ExperimentData> fileInfo);
+    public void setFileInfo(ArrayList<ExperimentData> fileInfo); // unused
     
-    public void clearSearchSelection();
+    public void clearSearchSelection(); // unused
     
     public int getSelectedIndex();
     

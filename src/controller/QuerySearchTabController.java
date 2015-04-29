@@ -121,14 +121,14 @@ public class QuerySearchTabController {
                             view.getQuerySearchTab().updateSearchResults(searchResults);
                             // If search results are null and the active panel
                             // is search
-                        } else if (view.getActiveSearchPanel() == ActiveSearchPanel.SEARCH) {
+                        } else if (view.getQuerySearchTab().getActivePanel() == ActiveSearchPanel.SEARCH) {
                             JOptionPane.showMessageDialog(null,
                                     "No search results!", "Search Warning",
                                     JOptionPane.WARNING_MESSAGE);
 
                             // If search results are null and the active panel
                             // is table
-                        } else if (view.getActiveSearchPanel() == ActiveSearchPanel.TABLE) {
+                        } else if (view.getQuerySearchTab().getActivePanel() == ActiveSearchPanel.TABLE) {
                             // Go back to the query search
                             view.getBackButton().doClick();
                         }
@@ -170,7 +170,7 @@ public class QuerySearchTabController {
                             view.getWorkSpaceTab().addExperimentsToTable(view.getQuerySearchTab().getSelectedData());
                             view.getWorkSpaceTab().changeTab(0);
                         }
-                        view.clearSearchSelection();
+                        view.getQuerySearchTab().clearSearchSelection();
                     };
                 }.start();
 
