@@ -201,19 +201,19 @@ public interface GenomizerView {
      */
     public void deleteUploadFileRow(File f); // unused
     
-    public void addRatioCalcListener(ActionListener listener);
-
-    public void setDefaultRatioPar();
-
-    public void setUnusedRatioPar();
-
-    public void showRatioPopup();
-
-    public void showProcessFeedback(ProcessFeedbackData[] processFeedbackData);
-
+    public void addRatioCalcListener(ActionListener listener); // unused
+    
+    public void setDefaultRatioPar(); // unused
+    
+    public void setUnusedRatioPar(); // unused
+    
+    public void showRatioPopup(); // unused
+    
+    public void showProcessFeedback(ProcessFeedbackData[] processFeedbackData); // unused
+    
     public void setOngoingUploads(
-            CopyOnWriteArrayList<HTTPURLUpload> ongoingUploads);
-
+            CopyOnWriteArrayList<HTTPURLUpload> ongoingUploads); // unused
+    
     public void setOngoingDownloads(
             CopyOnWriteArrayList<DownloadHandler> ongoingDownloads);
 
