@@ -5,9 +5,13 @@ import gui.ErrorDialog;
 import java.io.File;
 import java.util.concurrent.CopyOnWriteArrayList;
 
+import com.google.gson.Gson;
+
 import requests.AddFileToExperiment;
+import requests.DownloadFileRequest;
 import requests.RequestFactory;
 import responses.AddFileToExperimentResponse;
+import responses.DownloadFileResponse;
 import responses.ResponseParser;
 import util.RequestException;
 
@@ -96,5 +100,34 @@ public class UpdaterModel {
     public CopyOnWriteArrayList<HTTPURLUpload> getOngoingUploads() {
 
         return ongoingUploads;
+    }
+
+    public boolean downloadFile(final String url, String fileID, final String path,
+            String fileName) {
+     // TODO: Use this until search works on the server
+        DownloadFileRequest request = RequestFactory.makeDownloadFileRequest(
+                fileID, ".wig");
+
+        Connection conn = connFactory.makeConnection();
+        try {
+            conn.sendRequest(request, userID, TEXT_PLAIN);
+            Gson gson = new Gson();
+            DownloadFileResponse response = gson.fromJson(
+                    conn.getResponseBody(), DownloadFileResponse.class);
+            final DownloadHandler handler = new DownloadHandler(userID,
+                    fileName);
+            addDownload(handler);
+
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    handler.download(url, path);
+                }
+            }).start();
+        } catch (RequestException e) {
+            ErrorDialog.showRequestErrorDialog("Couldn't download file", e);
+        }
+
+        return true;
     }
 }

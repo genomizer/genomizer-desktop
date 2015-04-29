@@ -162,31 +162,20 @@ public class Model implements GenomizerModel {
     @Override
     public boolean downloadFile(final String url, String fileID,
             final String path, String fileName) {
-        // TODO: Use this until search works on the server
-        DownloadFileRequest request = RequestFactory.makeDownloadFileRequest(
-                fileID, ".wig");
+        // TODO: Remove indirection when ready
+        return updateTabModel.downloadFile(url,fileID,path,fileName);
+    }
 
-        Connection conn = connFactory.makeConnection();
-        try {
-            conn.sendRequest(request, userID, TEXT_PLAIN);
-            Gson gson = new Gson();
-            DownloadFileResponse response = gson.fromJson(
-                    conn.getResponseBody(), DownloadFileResponse.class);
-            final DownloadHandler handler = new DownloadHandler(userID,
-                    fileName);
-            updateTabModel.addDownload(handler);
 
-            new Thread(new Runnable() {
-                @Override
-                public void run() {
-                    handler.download(url, path);
-                }
-            }).start();
-        } catch (RequestException e) {
-            ErrorDialog.showRequestErrorDialog("Couldn't download file", e);
-        }
 
-        return true;
+    public CopyOnWriteArrayList<DownloadHandler> getOngoingDownloads() {
+        // TODO: Move to tabmodel when ready
+        return updateTabModel.getOngoingDownloads();
+    }
+
+    public CopyOnWriteArrayList<HTTPURLUpload> getOngoingUploads() {
+        // TODO: Move to tabmodel when ready
+        return updateTabModel.getOngoingUploads();
     }
 
     @Override
@@ -204,16 +193,6 @@ public class Model implements GenomizerModel {
         }
         int responseCode = conn.getResponseCode();
         return (responseCode == 201);
-    }
-
-    public CopyOnWriteArrayList<DownloadHandler> getOngoingDownloads() {
-        // TODO: Move to tabmodel when ready
-        return updateTabModel.getOngoingDownloads();
-    }
-
-    public CopyOnWriteArrayList<HTTPURLUpload> getOngoingUploads() {
-        // TODO: Move to tabmodel when ready
-        return updateTabModel.getOngoingUploads();
     }
 
     @Override

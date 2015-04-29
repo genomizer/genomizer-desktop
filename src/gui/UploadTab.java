@@ -291,7 +291,7 @@ public class UploadTab extends JPanel {
                     }
                     // TODO: THIS IS BROKEN, more is created on each logout-in
                     // !!!
-                    System.err.println(this.toString());
+//                    System.err.println(this.toString());
                 }
             }
         }).start();
