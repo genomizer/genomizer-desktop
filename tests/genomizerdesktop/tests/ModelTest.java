@@ -15,12 +15,12 @@ import java.util.ArrayList;
 public class ModelTest {
 
     Model m;
-    String username = "desktoptest";
-    String password = "baguette";
+    String username = exampleData.ExampleExperimentData.getTestUsername();
+    String password = exampleData.ExampleExperimentData.getTestPassword();
     @Before
     public void setUp() throws Exception {
         m = new Model();
-        m.setIp("http://private-anon-b586d8d28-genomizer.apiary-mock.com");
+        m.setIp(exampleData.ExampleExperimentData.getTestServerIP());
 
     }
 
