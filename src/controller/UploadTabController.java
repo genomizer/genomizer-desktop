@@ -160,50 +160,7 @@ public class UploadTabController {
         };
     }
 
-    // /**
-    // * Method updating the progress of ongoing uploads.
-    // */
-    // private void updateProgress() {
-    // new Thread(new Runnable() {
-    // private boolean running;
-    //
-    // @Override
-    // public void run() {
-    // running = true;
-    // while (running) {
-    // for (File key : uploadToNewExpPanel.getFileRows().keySet()) {
-    // UploadFileRow row = uploadToNewExpPanel.getFileRows()
-    // .get(key);
-    // for (HTTPURLUpload upload : ongoingUploads) {
-    // if (upload.getFileName().equals(row.getFileName())) {
-    // row.updateProgressBar(upload
-    // .getCurrentProgress());
-    // }
-    // }
-    // }
-    // for (File key : uploadToExistingExpPanel.getFileRows()
-    // .keySet()) {
-    // UploadFileRow row = uploadToExistingExpPanel
-    // .getFileRows().get(key);
-    // for (HTTPURLUpload upload : ongoingUploads) {
-    // if (upload.getFileName().equals(row.getFileName())) {
-    // row.updateProgressBar(upload
-    // .getCurrentProgress());
-    // }
-    // }
-    // }
-    // try {
-    // Thread.sleep(100);
-    // } catch (InterruptedException e) {
-    // ErrorLogger.log(e);
-    // running = false;
-    // }
-    // // TODO: THIS IS BROKEN, more is created on each logout-in !!!
-    // System.err.println(this.toString());
-    // }
-    // }
-    // }).start();
-    // }
+
 
     public ActionListener UploadToExperimentButtonListener() {
         return new ActionListener() {

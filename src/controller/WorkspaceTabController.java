@@ -38,7 +38,7 @@ public class WorkspaceTabController {
         workspaceTab.addUploadToListener(UploadToListener());
         // view.addUploadToListener( UploadToListener());
         workspaceTab.addDeleteSelectedListener(DeleteFromDatabaseListener());
-        view.setOngoingDownloads(model.getOngoingDownloads());
+        workspaceTab.setOngoingDownloads(model.getOngoingDownloads());
     }
 
     /**

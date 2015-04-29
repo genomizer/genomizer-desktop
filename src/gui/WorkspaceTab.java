@@ -160,6 +160,8 @@ public class WorkspaceTab extends JPanel {
      */
     private void updateOngoingDownloadsPanel() {
         final CopyOnWriteArrayList<DownloadHandler> completedDownloads = new CopyOnWriteArrayList<DownloadHandler>();
+
+        // TODO: When is this thread stopped? also wrong thread
         new Thread(new Runnable() {
             @Override
             public void run() {
@@ -279,7 +281,7 @@ public class WorkspaceTab extends JPanel {
      * Method adding a listener to the "uploadButton" button.
      * OR
      * Method adding a listener to the analyze selected button.
-     * 
+     *
      * @param listener
      *            The listener to start uploading files to a current experiment.
      *            OR

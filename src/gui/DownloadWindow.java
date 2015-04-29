@@ -114,6 +114,7 @@ public class DownloadWindow extends JFrame {
     }
 
     private void updateProgress() {
+        // TODO: is this ever closed aswell?
         new Thread(new Runnable() {
             @Override
             public void run() {
