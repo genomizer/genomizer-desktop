@@ -1,6 +1,7 @@
 package genomizerdesktop;
 
 
+import gui.ConvertTab;
 import gui.ErrorDialog;
 import gui.GUI;
 import gui.ProcessTab;
@@ -35,6 +36,7 @@ public class Genomizer {
         // AnalyzeTab at = new AnalyzeTab(); // TODO: Analyze tab not used (OO)
         SysadminTab sat = new SysadminTab();
         QuerySearchTab qst = new QuerySearchTab();
+        ConvertTab ct = new ConvertTab();
 
         // Set tabs in GUI
         gui.setQuerySearchTab(qst);
@@ -43,6 +45,7 @@ public class Genomizer {
         gui.setWorkspaceTab(wt);
         // gui.setAnalyzeTab(at); // TODO: Analyze tab not used (OO)
         gui.setSysAdminTab(sat);
+        gui.setConvertTab(ct);
 
         // Create model and controller
         Model model = new Model();
