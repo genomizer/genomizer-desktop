@@ -133,7 +133,7 @@ public class UploadTab extends JPanel {
     }
     //the gui's interface had one javadoc, and here's a different one
     /**
-     * Displays a panel for creating a new experiment. 
+     * Displays a panel for creating a new experiment.
      * OR
      * Creates a new experiment to upload to using the provided annotations.
      *
@@ -241,5 +241,10 @@ public class UploadTab extends JPanel {
 
     public void setController(UploadTabController uploadTabController) {
         this.uploadTabController = uploadTabController;
+    }
+
+    public void disableSelectedRow(File f) {
+        // TODO Auto-generated method stub
+        // Doesn't do anything!
     }
 }

@@ -53,99 +53,99 @@ public interface GenomizerView {
 
 
     public void addUploadToListener(ActionListener listener);
-    
+
     public void refreshSearch(); //unused
-    
+
     LoginWindow getLoginWindow(); // unused
-    
+
     public void addLoginListener(ActionListener listener); // unused
-    
+
     public void addSearchToWorkspaceListener(ActionListener listener); // unused
-    
+
     public void addLogoutListener(ActionListener listener); // used
-    
+
     public void addSearchListener(ActionListener listener); // unused
-    
+
     public void addProcessFileListener(ActionListener listener); // unused
-    
+
     public void addDownloadFileListener(ActionListener listener); // unused
-    
+
     public void addQuerySearchListener(ActionListener listener); // unused
-    
+
     public void addRawToProfileDataListener(ActionListener listener); // unused
-    
+
     public void addAddToExistingExpButtonListener(
             ActionListener addToExistingExpButtonListener); // unused
-    
+
     public void addUploadToExperimentButtonListener(ActionListener listener); // unused
-    
+
     //TODO unimplemented listener
     public void addSearchResultsDownloadListener(ActionListener listener); // unused
-    
+
     public void addSelectFilesToUploadButtonListener(ActionListener listener); // unused
-    
+
     public void addUpdateSearchAnnotationsListener(ActionListener listener); // unused
-    
+
     public void addNewExpButtonListener(ActionListener listener); // unused
-    
+
     public void addSelectButtonListener(ActionListener listener); // unused
-    
+
     public void addDeleteFromDatabaseListener(ActionListener listener); // unused
-    
+
     public void addProcessFeedbackListener(ActionListener listener); // unused
-    
+
     public void addUploadButtonListener(ActionListener listener); // unused
-    
+
     public void addToWorkspace(ArrayList<ExperimentData> experiments); // unused
-    
+
     public ArrayList<FileData> getAllMarkedFiles();
-    
+
     public String getPassword(); // unused
-    
+
     public String getUsername(); // unused
-    
+
     public JFrame getFrame();
-    
+
     public void setDownloadWindow(DownloadWindow downloadWindow); //used
-    
+
     public DownloadWindow getDownloadWindow(); //used
-    
+
     public String getQuerySearchString(); // unused
-    
+
     public String getIp(); // unused
-    
+
     public ArrayList<ExperimentData> getSelectedDataInSearch(); // unused
-    
+
     public UploadTab getUploadTab(); //used
-    
+
     public QuerySearchTab getQuerySearchTab(); //used
-    
+
     public SysadminTab getSysAdminTab(); //used
-     
+
     public WorkspaceTab getWorkSpaceTab(); //used
-    
+
     public ProcessTab getProcessTab(); //used
-    
+
     public int getSelectedRowAtAnnotationTable(); // unused
-    
+
     public void updateLoginAccepted(String username, String pwd, String name); //used
-    
+
     public void updateLoginNeglected(String errorMessage); // unused
-    
+
     public void updateLogout(); //used
-    
+
     public void setSearchAnnotationTypes(AnnotationDataType[] annotationTypes); // unused
-    
+
     public void setProcessFileList(ArrayList<FileData> arrayList); //used
-    
+
     public void printToConsole(String message); // unused
-    
+
     public void setSysadminController(SysadminController sysadminController); // unused
-    
+
     public ArrayList<ExperimentData> getSelectedDataInWorkspace(); // unused
-    
+
     public ArrayList<ExperimentData> getSelectedExperimentsInWorkspace(); // unused
-    
+
     /**
      * Creates a new experiment to upload to using the provided annotations.
      *
@@ -153,9 +153,9 @@ public interface GenomizerView {
      *            The annotations of the new experiment.
      */
     public void createNewExp(AnnotationDataType[] annotations); // unused
-    
+
     public String[] getParameters(); // unused
-    
+
     /**
      * Add the selected files as UploadFileRow to the NewExp Panel.
      *
@@ -163,20 +163,20 @@ public interface GenomizerView {
      *            [] for each to add
      */
     public void selectFilesToNewExp(File[] files); // unused
-    
+
     public void selectFilesToExistingExp(File[] files); // unused
-    
+
     public ArrayList<File> getFilesToUpload(); // unused
-    
+
     public AnnotationDataValue[] getUploadAnnotations(); // unused
-    
+
     public void setBowtieParameters(); // unused
-    
+
     public JList getfileList();
 
-    public String getNewExpName();
+    public String getNewExpName(); // Unused
 
-    public HashMap<String, String> getFilesToUploadTypes();
+    public HashMap<String, String> getFilesToUploadTypes(); // Unused
 
     public void updateQuerySearchResults(ArrayList<ExperimentData> searchResults);
 
@@ -189,7 +189,7 @@ public interface GenomizerView {
      *            Whether it should try to make the button enabled (true) or
      *            disabled (false).
      */
-    public void enableUploadButton(boolean b);
+    public void enableUploadButton(boolean b); // Unused
 
     public String[] getRatioCalcParameters();
 
@@ -199,7 +199,7 @@ public interface GenomizerView {
      * @param f
      *            Used to identify which fileRow to be deleted.
      */
-    public void deleteUploadFileRow(File f);
+    public void deleteUploadFileRow(File f); // Unused
 
     public void addRatioCalcListener(ActionListener listener);
 
@@ -223,7 +223,7 @@ public interface GenomizerView {
 
     public void setGenomeFileList(GenomeReleaseData[] genome);
 
-    public ArrayList<File> getSelectedFilesToUpload();
+    public ArrayList<File> getSelectedFilesToUpload(); // Unused
 
     public void addUploadSelectedFilesListener(ActionListener listener);
 
@@ -231,7 +231,7 @@ public interface GenomizerView {
 
     public void removeSelectedFromWorkspace();
 
-    public void disableSelectedRow(File f);
+    public void disableSelectedRow(File f); // Unused
 
     public boolean isCorrectToProcess();
 
@@ -255,13 +255,13 @@ public interface GenomizerView {
 
     public JTabbedPane getTabbedPane();
 
-    public String getSelectedSpecies();
+    public String getSelectedSpecies(); // Unused
 
     public void addSpeciesSelectedListener(ActionListener listener);
 
-    public void setGenomeReleases(GenomeReleaseData[] grd);
+    public void setGenomeReleases(GenomeReleaseData[] grd); // Unused
 
-    public String getGenomeVersion(File f);
+    public String getGenomeVersion(File f); // Unused
 
     public void addDeleteSelectedListener(ActionListener listener);
 

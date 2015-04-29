@@ -27,14 +27,14 @@ import model.GenomizerModel;
 import model.Model;
 
 public class UploadTabController {
-    GenomizerView view;
+     GenomizerView view;
     private final GenomizerModel model;
     private final UploadTab uploadTab;
     private final JFileChooser fileChooser;
 
     public UploadTabController(GenomizerView view, GenomizerModel model,
             JFileChooser fileChooser) {
-         this.view = view;
+        this.view = view;
         this.model = model;
         this.fileChooser = fileChooser;
         uploadTab = view.getUploadTab();
@@ -76,8 +76,8 @@ public class UploadTabController {
                     return;
                 }
 
-                UploadToExistingExpPanel uploadToExistingExpPanel = view
-                        .getUploadTab().getExistExpPanel();
+                UploadToExistingExpPanel uploadToExistingExpPanel = uploadTab
+                        .getExistExpPanel();
                 uploadToExistingExpPanel.createUploadFileRow(files);
                 uploadToExistingExpPanel.enableUploadButton();
                 uploadToExistingExpPanel.addFileDrop();
@@ -104,7 +104,7 @@ public class UploadTabController {
                     return;
                 }
                 uploadTab.getNewExpPanel().createUploadFileRow(files);
-                view.enableUploadButton(true);
+                uploadTab.getNewExpPanel().enableUploadButton(true);
             }
         };
     }
@@ -136,7 +136,7 @@ public class UploadTabController {
                                     uploadTab.addExistingExpPanel(ed);
                                     GenomeReleaseData[] grd = model
                                             .getSpeciesGenomeReleases(species);
-                                    view.setGenomeReleases(grd);
+                                    uploadTab.setGenomeReleases(grd);
                                 } else {
                                     JOptionPane.showMessageDialog(null,
                                             "Missing species in experiment.",
@@ -227,7 +227,7 @@ public class UploadTabController {
                         for (File f : files) {
                             if (model.uploadFile(ed.getName(), f, types.get(f
                                     .getName()), view.getLoginWindow()
-                                    .getUsernameInput(), false, view
+                                    .getUsernameInput(), false, uploadTab
                                     .getGenomeVersion(f))) {
                                 uploadTab.getExistExpPanel().deleteFileRow(f);
                                 if (uploadTab.getExistExpPanel().getFileRows()
@@ -290,17 +290,18 @@ public class UploadTabController {
                 new Thread() {
                     @Override
                     public void run() {
-                        String expName = view.getNewExpName();
+                        String expName = uploadTab.getNewExpPanel()
+                                .getNewExpID();
                         AnnotationDataValue[] annotations = uploadTab
                                 .getNewExpPanel().getUploadAnnotations();
 
-                        ArrayList<File> files = view.getUploadTab()
-                                .getNewExpPanel().getUploadFiles();
+                        ArrayList<File> files = uploadTab.getNewExpPanel()
+                                .getUploadFiles();
 
                         if (files != null && files.size() > 0
                                 && annotations != null && expName != null) {
-                            HashMap<String, String> types = view
-                                    .getFilesToUploadTypes();
+                            HashMap<String, String> types = uploadTab
+                                    .getNewExpPanel().getTypes();
                             // Should be genome release from uploadTab
                             // String release = "wk1m";
                             // Test purpose
@@ -308,13 +309,13 @@ public class UploadTabController {
                                     annotations);
                             if (created) {
                                 for (File f : files) {
-                                    view.disableSelectedRow(f);
+                                    uploadTab.disableSelectedRow(f);
                                     if (model.uploadFile(expName, f, types
                                             .get(f.getName()), view
                                             .getLoginWindow()
-                                            .getUsernameInput(), false, view
+                                            .getUsernameInput(), false, uploadTab
                                             .getGenomeVersion(f))) {
-                                        view.deleteUploadFileRow(f);
+                                        uploadTab.getNewExpPanel().deleteFileRow(f);
                                         for (HTTPURLUpload upload : model
                                                 .getOngoingUploads()) {
                                             if (f.getName().equals(
@@ -357,14 +358,13 @@ public class UploadTabController {
                 new Thread() {
                     @Override
                     public void run() {
-                        String expName = view.getNewExpName();
+                        String expName = uploadTab.getNewExpPanel().getNewExpID();
                         AnnotationDataValue[] annotations = uploadTab
                                 .getNewExpPanel().getUploadAnnotations();
-                        ArrayList<File> files = view.getSelectedFilesToUpload();
+                        ArrayList<File> files = uploadTab.getNewExpPanel().getSelectedFilesToUpload();
                         if (files != null && files.size() > 0
                                 && annotations != null && expName != null) {
-                            HashMap<String, String> types = view
-                                    .getFilesToUploadTypes();
+                            HashMap<String, String> types = uploadTab.getNewExpPanel().getTypes();
                             // Should be genome release from uploadTab
                             // String release = "wk1m";
                             // Test purpose
@@ -372,13 +372,13 @@ public class UploadTabController {
                                     annotations);
                             if (created) {
                                 for (File f : files) {
-                                    view.disableSelectedRow(f);
+                                    uploadTab.disableSelectedRow(f);
                                     if (model.uploadFile(expName, f, types
                                             .get(f.getName()), view
                                             .getLoginWindow()
-                                            .getUsernameInput(), false, view
+                                            .getUsernameInput(), false, uploadTab
                                             .getGenomeVersion(f))) {
-                                        view.deleteUploadFileRow(f);
+                                        uploadTab.getNewExpPanel().deleteFileRow(f);
                                         for (HTTPURLUpload upload : model
                                                 .getOngoingUploads()) {
                                             if (f.getName().equals(
@@ -427,14 +427,15 @@ public class UploadTabController {
                 new Thread() {
                     @Override
                     public void run() {
-                        String species = view.getSelectedSpecies();
+                        String species = uploadTab.getNewExpPanel()
+                                .getSelectedSpecies();
 
                         // TODO: Thread, although connection here, should not
                         // below.
                         GenomeReleaseData[] grd = model
                                 .getSpeciesGenomeReleases(species);
 
-                        view.setGenomeReleases(grd);
+                        uploadTab.setGenomeReleases(grd);
                     };
                 }.start();
             }
