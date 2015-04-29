@@ -69,8 +69,8 @@ public class QuerySearchTabController {
             @Override
             public void actionPerformed(ActionEvent e) {
                 try {
-                    ExperimentData firstChosenExperiment = view
-                            .getSelectedDataInSearch().get(0);
+                    ExperimentData firstChosenExperiment = view.getQuerySearchTab().getSelectedData().get(0);
+                    
                     UploadTab ut = view.getUploadTab();
                     view.getTabbedPane().setSelectedComponent(ut);
                     ut.getExperimentNameField().setText(
@@ -114,7 +114,7 @@ public class QuerySearchTabController {
                 new Thread() {
                     @Override
                     public void run() {
-                        String pubmed = view.getQuerySearchString();
+                        String pubmed = view.getQuerySearchTab().getSearchString();
                         ArrayList<ExperimentData> searchResults = model
                                 .search(pubmed);
                         if (searchResults != null) {
@@ -149,7 +149,7 @@ public class QuerySearchTabController {
                         AnnotationDataType[] annotations = model
                                 .getAnnotations();
                         if (annotations != null && annotations.length > 0) {
-                            view.setSearchAnnotationTypes(annotations);
+                            view.getQuerySearchTab().setAnnotationTypes(annotations);
                         }
                         
                     };
@@ -165,10 +165,9 @@ public class QuerySearchTabController {
                 new Thread() {
                     @Override
                     public void run() {
-                        ArrayList<ExperimentData> selectedData = view
-                                .getSelectedDataInSearch();
+                        ArrayList<ExperimentData> selectedData = view.getQuerySearchTab().getSelectedData();
                         if (selectedData != null && selectedData.size() > 0) {
-                            view.getWorkSpaceTab().addExperimentsToTable(view.getSelectedDataInSearch());
+                            view.getWorkSpaceTab().addExperimentsToTable(view.getQuerySearchTab().getSelectedData());
                             view.getWorkSpaceTab().changeTab(0);
                         }
                         view.clearSearchSelection();
