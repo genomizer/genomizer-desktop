@@ -17,6 +17,7 @@ import util.AnnotationDataValue;
 import util.ExperimentData;
 import util.GenomeReleaseData;
 
+import gui.ErrorDialog;
 import gui.GenomizerView;
 import gui.UploadTab;
 import gui.UploadToExistingExpPanel;
@@ -28,7 +29,7 @@ public class UploadTabController {
     GenomizerView view;
     GenomizerModel model;
     private final JFileChooser fileChooser;
-    
+
     public UploadTabController(GenomizerView view, GenomizerModel model,
             JFileChooser fileChooser) {
         this.view = view;
@@ -46,11 +47,11 @@ public class UploadTabController {
         uploadTab.getNewExpPanel().addSpeciesSelectedListener(SpeciesSelectedListener());
         
     }
-    
+
     /**
      * Display a fileChooser, and let the user enter the files to upload. Used
      * for existingExp.
-     * 
+     *
      */
     public ActionListener SelectFilesToUploadButtonListener() {
         return new ActionListener() {
@@ -65,7 +66,7 @@ public class UploadTabController {
                 } else {
                     return;
                 }
-                
+
                 UploadToExistingExpPanel uploadToExistingExpPanel = view
                         .getUploadTab().getExistExpPanel();
                 uploadToExistingExpPanel.createUploadFileRow(files);
@@ -74,7 +75,7 @@ public class UploadTabController {
             }
         };
     }
-    
+
     /**
      * Display a fileChooser, and let the user enter the files to upload. Used
      * for NewExp. TODO: Same code as for oldexp?
@@ -83,7 +84,7 @@ public class UploadTabController {
         return new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                
+
                 fileChooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
                 fileChooser.setMultiSelectionEnabled(true);
                 int ret = fileChooser.showOpenDialog(new JPanel());
@@ -98,7 +99,7 @@ public class UploadTabController {
             }
         };
     }
-    
+
     public ActionListener AddToExistingExpButtonListener() {
         return new ActionListener() {
             @Override
@@ -121,7 +122,7 @@ public class UploadTabController {
                                         species = adv.getValue();
                                         existingSpecies = true;
                                     }
-                                    
+
                                 }
                                 if (existingSpecies) {
                                     uploadTab.addExistingExpPanel(ed);
@@ -143,17 +144,19 @@ public class UploadTabController {
                                                 JOptionPane.ERROR_MESSAGE);
                             }
                         } else {
+
+
                             JOptionPane.showMessageDialog(null,
                                     "Please fill in experiment name.", "ERROR",
                                     JOptionPane.ERROR_MESSAGE);
                         }
-                        
+
                     };
                 }.start();
             }
         };
     }
-    
+
     public ActionListener UploadToExperimentButtonListener() {
         return new ActionListener() {
             @Override
@@ -167,10 +170,10 @@ public class UploadTabController {
                                 .getExistExpPanel().getTypes();
                         // Should be genome release from uploadTab
                         // String release = "wk1m";
-                        
+
                         ExperimentData ed = view.getUploadTab()
                                 .getExistExpPanel().getExperiment();
-                        
+
                         for (File f : files) {
                             if (model.uploadFile(ed.getName(), f,
                                     types.get(f.getName()), view.getUsername(),
@@ -202,16 +205,16 @@ public class UploadTabController {
                                                 JOptionPane.ERROR_MESSAGE);
                             }
                         }
-                        
+
                     };
                 }.start();
             }
         };
     }
-    
+
     /**
      * Get the annotations and create a new NewExp Panel with them.
-     * 
+     *
      * TODO: Threads, creates new panel from non-EDT.
      */
     public ActionListener NewExpButtonListener() {
@@ -224,13 +227,13 @@ public class UploadTabController {
                         AnnotationDataType[] annotations = model
                                 .getAnnotations();
                         view.createNewExp(annotations);
-                        
+
                     };
                 }.start();
             }
         };
     }
-    
+
     public ActionListener UploadNewExpListener() {
         return new ActionListener() {
             @Override
@@ -269,20 +272,20 @@ public class UploadTabController {
                                         }
                                         view.getQuerySearchTab().refresh();
                                     } else {
+
                                         JOptionPane.showMessageDialog(
                                                 null,
                                                 "Couldn't upload "
                                                         + f.getName() + ".",
                                                 "Error",
                                                 JOptionPane.ERROR_MESSAGE);
-                                        
+
                                     }
                                 }
                             } else {
-                                JOptionPane.showMessageDialog(null,
-                                        "Couldn't create experiment " + expName
-                                                + ".", "Error",
-                                        JOptionPane.ERROR_MESSAGE);
+
+                                new ErrorDialog("Couldn't create experiment", "The experiment " + expName + " could not be created.", "singdudeldej").showDialog();
+                                
                             }
                         }
                     };
@@ -290,7 +293,7 @@ public class UploadTabController {
             }
         };
     }
-    
+
     public ActionListener UploadSelectedFilesListener() {
         return new ActionListener() {
             @Override
@@ -353,13 +356,13 @@ public class UploadTabController {
                             JOptionPane.showMessageDialog(null,
                                     "No files selected.");
                         }
-                        
+
                     };
                 }.start();
             }
         };
     }
-    
+
     public ActionListener SpeciesSelectedListener() {
         return new ActionListener() {
             @Override
@@ -368,17 +371,17 @@ public class UploadTabController {
                     @Override
                     public void run() {
                         String species = view.getSelectedSpecies();
-                        
+
                         // TODO: Thread, although connection here, should not
                         // below.
                         GenomeReleaseData[] grd = model
                                 .getSpeciesGenomeReleases(species);
-                        
+
                         view.setGenomeReleases(grd);
                     };
                 }.start();
             }
         };
     }
-    
+
 }

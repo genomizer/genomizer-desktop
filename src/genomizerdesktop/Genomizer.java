@@ -1,6 +1,7 @@
 package genomizerdesktop;
 
 
+import gui.ErrorDialog;
 import gui.GUI;
 import gui.ProcessTab;
 import gui.QuerySearchTab;
@@ -24,6 +25,7 @@ public class Genomizer {
 
         // Create GUI
         final GUI gui = new GUI();
+        ErrorDialog.setParentComponent(gui);
 
         try{
         // Create Tabs
