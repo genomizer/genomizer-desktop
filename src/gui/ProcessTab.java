@@ -93,6 +93,7 @@ public class ProcessTab extends JPanel {
     private final JButton processFeedbackButton = new JButton(
             "Get process feedback");
     private final JButton deleteButton = new JButton("Delete selected");
+    private final JButton abortProcessButton = new JButton("Abort Process");
     private JButton infoButton;
     
     private final JCheckBox printMean = new JCheckBox("Print mean");
@@ -335,6 +336,7 @@ public class ProcessTab extends JPanel {
                 scrollProcessList.setViewportView(tree);
                 procInfoSouthPanel.add(Box.createHorizontalStrut(35));
                 procInfoSouthPanel.add(processFeedbackButton);
+                procInfoSouthPanel.add(abortProcessButton);
                 procInfoSouthPanel.add(Box.createHorizontalStrut(35));
             }
         });
@@ -820,6 +822,15 @@ public class ProcessTab extends JPanel {
      * @param listener
      */
     public void addDeleteSelectedListener(ActionListener listener) {
+        deleteButton.addActionListener(listener);
+    }
+    
+    /**
+     * Adds button listener to deleteButton.
+     * 
+     * @param listener
+     */
+    public void addAbortSelectedProcessListener(ActionListener listener) {
         deleteButton.addActionListener(listener);
     }
     

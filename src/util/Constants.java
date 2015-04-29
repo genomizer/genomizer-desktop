@@ -20,6 +20,7 @@ public class Constants {
      * default server address
      */
     public static final String serverAddress ="dumbledore.cs.umu.se:7000";
+    //Alternative: testuser: test: 213.21.81.248:7000
 
 
 
