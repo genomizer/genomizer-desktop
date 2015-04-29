@@ -197,7 +197,11 @@ public class UploadTab extends JPanel {
             return uploadToNewExpPanel.getGenomeVersion(f);
         }
     }
-
+    
+    /**Ummm
+     * No idea, wrong sprint anyway, TODO
+     * @param grd
+     */
     public void setGenomeReleases(GenomeReleaseData[] grd) {
         if (activePanel == ActivePanel.EXISTING) {
             uploadToExistingExpPanel.setGenomeReleases(grd);

@@ -44,7 +44,8 @@ public class UploadTabController {
         uploadTab.getNewExpPanel().addUploadButtonListener(UploadNewExpListener());
         uploadTab.setOngoingUploads(model.getOngoingUploads());
         uploadTab.getNewExpPanel().addUploadSelectedFilesListener(UploadSelectedFilesListener());
-        uploadTab.getNewExpPanel().addSpeciesSelectedListener(SpeciesSelectedListener());
+        uploadTab.getNewExpPanel().addSpeciesSelectedListener(
+                SpeciesSelectedListener());
     }
 
     /**
