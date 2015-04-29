@@ -22,7 +22,7 @@ public class TransferFileTest {
     User u;
     @Before
     public void setUp() throws Exception {
-        m.setIp("http://" + ip);
+        m.setIP("http://" + ip);
         m.loginUser(ExampleExperimentData.getTestUsername(), ExampleExperimentData.getTestPassword());
         User user = User.getInstance();
     }
