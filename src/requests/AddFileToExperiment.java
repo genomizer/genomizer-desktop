@@ -22,6 +22,7 @@ public class AddFileToExperiment extends Request {
     public String uploader;
     public boolean isPrivate;
     public String grVersion;
+    public String checkSumMD5;
 
     /**
      * Constructor creating the experiment.
@@ -45,7 +46,7 @@ public class AddFileToExperiment extends Request {
      */
     public AddFileToExperiment(String experimentId, String fileName,
             String type, String metaData, String author, String uploader,
-            boolean isPrivate, String grVersion) {
+            boolean isPrivate, String grVersion, String checkSumMD5) {
         super("addfile", "/file", "POST");
         this.experimentID = experimentId;
         this.fileName = fileName;
@@ -55,6 +56,7 @@ public class AddFileToExperiment extends Request {
         this.uploader = uploader;
         this.isPrivate = isPrivate;
         this.grVersion = grVersion;
+        this.checkSumMD5 = checkSumMD5;
     }
 
 }

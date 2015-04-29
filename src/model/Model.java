@@ -3,12 +3,15 @@ package model;
 import gui.GenomizerView;
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 import javax.swing.JOptionPane;
 
+import org.apache.commons.codec.digest.DigestUtils;
 import requests.AddAnnotationRequest;
 import requests.AddExperimentRequest;
 import requests.AddFileToExperiment;
@@ -140,9 +143,18 @@ public class Model implements GenomizerModel {
     @Override
     public boolean uploadFile(String expName, File f, String type,
             String username, boolean isPrivate, String release) {
+        String checkSumMD5 = null;
+        try {
+            try (InputStream is = new FileInputStream(f)) {
+                checkSumMD5 = DigestUtils.md5Hex(is);
+            }
+        }
+        catch (Exception e) {
+            System.err.println("Could not calculate MD5 for file " + f.toString());
+        }
         AddFileToExperiment request = RequestFactory.makeAddFile(expName,
                 f.getName(), type, "metameta", username, username, isPrivate,
-                release);
+                release, checkSumMD5);
         Connection conn = connFactory.makeConnection();
         conn.sendRequest(request, userID, JSON);
         if (conn.getResponseCode() == 200) {

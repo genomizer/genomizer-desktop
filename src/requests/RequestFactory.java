@@ -19,9 +19,10 @@ public class RequestFactory {
     
     public static AddFileToExperiment makeAddFile(String experimentID,
             String fileName, String type, String metaData, String author,
-            String uploader, boolean isPrivate, String grVersion) {
+            String uploader, boolean isPrivate, String grVersion,
+            String checkSumMD5) {
         return new AddFileToExperiment(experimentID, fileName, type, metaData,
-                author, uploader, isPrivate, grVersion);
+                author, uploader, isPrivate, grVersion, checkSumMD5);
     }
     
     public static LogoutRequest makeLogoutRequest() {
