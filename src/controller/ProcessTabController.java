@@ -216,7 +216,7 @@ public class ProcessTabController {
                     @Override
                     public void run() {
 
-                        //TODO
+                        //TODO send abort process request to the server
 
                     };
                 }.start();
