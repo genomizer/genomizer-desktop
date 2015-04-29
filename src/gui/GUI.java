@@ -114,6 +114,12 @@ public class GUI extends JFrame implements GenomizerView {
         this.setLocationRelativeTo(null);
     }
     
+    /**
+     * Set a new statusmessage
+     * @param status
+     *              New status
+     * @author JH
+     */
     public void setStatusPanel(String status) {
         statusPanel.removeAll();
         JLabel statusLabel = new JLabel(status);
@@ -225,12 +231,6 @@ public class GUI extends JFrame implements GenomizerView {
         querySearchTab.addDownloadButtonListener(listener);
     }
     
-    /**
-     * Adds the provided ExperimentDatas to the workspaceTab.
-     * 
-     * @param experiments
-     *            The ArrayList of ExperimentData to be added.
-     */
     public void addToWorkspace(ArrayList<ExperimentData> experiments) {
         workspaceTab.addExperimentsToTable(experiments);
     }
@@ -300,8 +300,8 @@ public class GUI extends JFrame implements GenomizerView {
         return 0;
     }
     
-    /**
-     * @return The JFrame, which is this object.
+    /**Returns the GUI
+     * @return The GUI
      */
     @Override
     public JFrame getFrame() {

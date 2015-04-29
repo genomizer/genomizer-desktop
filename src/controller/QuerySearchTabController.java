@@ -22,7 +22,7 @@ public class QuerySearchTabController {
     GenomizerView view;
     GenomizerModel model;
     private QuerySearchTab querySearchTab;
-    
+
     public QuerySearchTabController(GenomizerView view, GenomizerModel model) {
         this.view = view;
         this.querySearchTab = view.getQuerySearchTab();
@@ -30,39 +30,39 @@ public class QuerySearchTabController {
         // querySearchTab.addDownloadButtonListener(listener)
          querySearchTab.addSearchButtonListener(SearchButtonListener());
         // view.addQuerySearchListener( QuerySearchListener());
-        querySearchTab.addUpdateAnnotationsListener(updateSearchAnnotationsListener());
+        querySearchTab.addUpdateAnnotationsListener(updateAnnotationsListener());
         // view.addUpdateSearchAnnotationsListener(
         // updateSearchAnnotationsListener());
         querySearchTab.addAddToWorkspaceButtonListener(SearchToWorkspaceListener());
         // view.addSearchToWorkspaceListener( SearchToWorkspaceListener());
         querySearchTab.addUploadToListener(SearchUploadToListener());
         // view.addUploadToListenerSearchTab( SearchUploadToListener());
-        
+
     }
-    
+
     public ActionListener createClearButtonListener() {
         return new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                
+
                 querySearchTab.clearSearchFields();
             }
         };
     }
-    
+
     public ActionListener createManualEditButtonListener() {
         return new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 querySearchTab.getSearchArea().setEditable(true);
-                
+
                 for (QueryBuilderRow row : querySearchTab.getRowList()) {
                     row.setEnabled(false);
                 }
             }
         };
     }
-    
+
     // En uploadlistener som körs när upload knappen trycks i search-taben
     public ActionListener SearchUploadToListener() {
         return new ActionListener() {
@@ -70,7 +70,7 @@ public class QuerySearchTabController {
             public void actionPerformed(ActionEvent e) {
                 try {
                     ExperimentData firstChosenExperiment = view.getQuerySearchTab().getSelectedData().get(0);
-                    
+
                     UploadTab ut = view.getUploadTab();
                     view.getTabbedPane().setSelectedComponent(ut);
                     ut.getExperimentNameField().setText(
@@ -84,20 +84,20 @@ public class QuerySearchTabController {
             }
         };
     }
-    
+
     public ActionListener createQueryBuilderButtonListener() {
         return new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 querySearchTab.getSearchArea().setEditable(false);
-                
+
                 for (QueryBuilderRow row : querySearchTab.getRowList()) {
                     row.setEnabled(true);
                 }
             }
         };
     }
-    
+
     public ActionListener createBackButtonListener() {
         return new ActionListener() {
             @Override
@@ -106,7 +106,7 @@ public class QuerySearchTabController {
             }
         };
     }
-    
+
     public ActionListener SearchButtonListener() {
         return new ActionListener() {
             @Override
@@ -118,18 +118,17 @@ public class QuerySearchTabController {
                         ArrayList<ExperimentData> searchResults = model
                                 .search(pubmed);
                         if (searchResults != null) {
-                            view.updateQuerySearchResults(searchResults);
-                            
+                            view.getQuerySearchTab().updateSearchResults(searchResults);
                             // If search results are null and the active panel
                             // is search
-                        } else if (view.getActiveSearchPanel() == ActiveSearchPanel.SEARCH) {
+                        } else if (view.getQuerySearchTab().getActivePanel() == ActiveSearchPanel.SEARCH) {
                             JOptionPane.showMessageDialog(null,
                                     "No search results!", "Search Warning",
                                     JOptionPane.WARNING_MESSAGE);
-                            
+
                             // If search results are null and the active panel
                             // is table
-                        } else if (view.getActiveSearchPanel() == ActiveSearchPanel.TABLE) {
+                        } else if (view.getQuerySearchTab().getActivePanel() == ActiveSearchPanel.TABLE) {
                             // Go back to the query search
                             view.getBackButton().doClick();
                         }
@@ -138,8 +137,8 @@ public class QuerySearchTabController {
             }
         };
     }
-    
-    public ActionListener updateSearchAnnotationsListener() {
+
+    public ActionListener updateAnnotationsListener() {
         return new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -151,13 +150,13 @@ public class QuerySearchTabController {
                         if (annotations != null && annotations.length > 0) {
                             view.getQuerySearchTab().setAnnotationTypes(annotations);
                         }
-                        
+
                     };
                 }.start();
             }
         };
     }
-    
+
     public ActionListener SearchToWorkspaceListener() {
         return new ActionListener() {
             @Override
@@ -166,15 +165,17 @@ public class QuerySearchTabController {
                     @Override
                     public void run() {
                         ArrayList<ExperimentData> selectedData = view.getQuerySearchTab().getSelectedData();
+                        view.setStatusPanel(selectedData.get(0).name + " was added to the workspace.");
                         if (selectedData != null && selectedData.size() > 0) {
                             view.getWorkSpaceTab().addExperimentsToTable(view.getQuerySearchTab().getSelectedData());
                             view.getWorkSpaceTab().changeTab(0);
                         }
-                        view.clearSearchSelection();
+                        view.getQuerySearchTab().clearSearchSelection();
                     };
                 }.start();
+
             }
         };
     }
-    
+
 }

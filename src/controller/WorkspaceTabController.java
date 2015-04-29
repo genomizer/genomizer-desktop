@@ -26,7 +26,7 @@ public class WorkspaceTabController {
     GenomizerModel model;
     private final JFileChooser fileChooser;
     private boolean abortDeletion;
-    
+
     public WorkspaceTabController(GenomizerView view, GenomizerModel model,
             JFileChooser fileChooser) {
         this.view = view;
@@ -36,11 +36,11 @@ public class WorkspaceTabController {
         workspaceTab.addDownloadFileListener(DownloadFileListener());
         workspaceTab.addProcessFileListener(ProcessFileListener());
         workspaceTab.addUploadToListener(UploadToListener());
-        //view.addUploadToListener( UploadToListener());
+        // view.addUploadToListener( UploadToListener());
         workspaceTab.addDeleteSelectedListener(DeleteFromDatabaseListener());
-        view.setOngoingDownloads(model.getOngoingDownloads());
+        view.getWorkSpaceTab().setOngoingDownloads(model.getOngoingDownloads());
     }
-    
+
     /**
      * Listener for when the download button in the download window is clicked.
      * Opens a file chooser.
@@ -52,9 +52,9 @@ public class WorkspaceTabController {
                 new Thread() {
                     @Override
                     public void run() {
-                        
 
-                        ArrayList<ExperimentData> expData = view.getWorkSpaceTab().getSelectedData();
+                        ArrayList<ExperimentData> expData = view
+                                .getWorkSpaceTab().getSelectedData();
                         ArrayList<FileData> fileData = new ArrayList<>();
                         for (ExperimentData data : expData) {
                             fileData.addAll(data.files);
@@ -79,18 +79,18 @@ public class WorkspaceTabController {
                         } else {
                             return;
                         }
-                        
+
                         for (FileData data : fileData) {
                             model.downloadFile(data.url, data.id, directoryName
-                                    + "/" + data.filename, data.filename);
+                                    + "/" + data.type + "/" + data.filename, data.filename);
                         }
-                        view.changeTabInWorkspace(1);
+                        view.getWorkSpaceTab().changeTab(1);
                     };
                 }.start();
             }
         };
     }
-    
+
     public ActionListener ProcessFileListener() {
         return new ActionListener() {
             @Override
@@ -99,7 +99,8 @@ public class WorkspaceTabController {
                     @Override
                     public void run() {
                         // TODO Skicka in filedata arrayen
-                        ArrayList<ExperimentData> selectedData = view.getWorkSpaceTab().getSelectedData();
+                        ArrayList<ExperimentData> selectedData = view
+                                .getWorkSpaceTab().getSelectedData();
                         ArrayList<FileData> selectedFiles = new ArrayList<>();
                         for (ExperimentData experiment : selectedData) {
                             for (FileData file : experiment.files) {
@@ -114,12 +115,12 @@ public class WorkspaceTabController {
             }
         };
     }
-    
+
     public ActionListener UploadToListener() {
         return new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                
+
                 try {
                     ExperimentData firstChosenExperiment = view
                             .getWorkSpaceTab().getSelectedExperiments().get(0);
@@ -136,7 +137,7 @@ public class WorkspaceTabController {
             }
         };
     }
-    
+
     public ActionListener DeleteFromDatabaseListener() {
         return new ActionListener() {
             @Override
@@ -160,9 +161,10 @@ public class WorkspaceTabController {
                                 }
                             });
                             i = 0;
-                            ArrayList<ExperimentData> selectedExps = view.
-                                    getWorkSpaceTab().getSelectedExperiments();
-                            ArrayList<ExperimentData> selectedData = view.getWorkSpaceTab().getSelectedData();
+                            ArrayList<ExperimentData> selectedExps = view
+                                    .getWorkSpaceTab().getSelectedExperiments();
+                            ArrayList<ExperimentData> selectedData = view
+                                    .getWorkSpaceTab().getSelectedData();
                             int size = selectedData.size()
                                     + selectedExps.size();
                             int progress = 0;
@@ -196,16 +198,16 @@ public class WorkspaceTabController {
                                     "Selected data was removed from database",
                                     "Delete success",
                                     JOptionPane.INFORMATION_MESSAGE);
-                            view.removeSelectedFromWorkspace();
+                            view.getWorkSpaceTab().removeSelectedData();
                             view.getQuerySearchTab().refresh();
                         }
-                        
+
                     };
                 }.start();
             }
         };
     }
-    
+
     public ActionListener SelectFilesToNewExpListener() {
         return new ActionListener() {
             @Override
@@ -223,13 +225,14 @@ public class WorkspaceTabController {
                         } else {
                             return;
                         }
-                        view.getUploadTab().getNewExpPanel().createUploadFileRow(files);
-
-                        view.enableUploadButton(true);
+                        view.getUploadTab().getNewExpPanel()
+                                .createUploadFileRow(files);
+                        view.getUploadTab().getNewExpPanel()
+                                .enableUploadButton(true);
                     };
                 }.start();
             }
         };
     }
-    
+
 }

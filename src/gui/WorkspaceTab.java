@@ -257,7 +257,7 @@ public class WorkspaceTab extends JPanel {
 
     /**
      * Method adding a listener to the "downloadButton" button.
-     *
+     * @see controller.WorkspaceTabController#DownloadFileListener()
      * @param listener
      *            The listener to start downloading files.
      */
@@ -267,7 +267,7 @@ public class WorkspaceTab extends JPanel {
 
     /**
      * Method adding a listener to the "processButton" button.
-     *
+     * @see controller.WorkspaceTabController#ProcessFileListener()
      * @param listener
      *            The listener to start processing experiment.
      */
@@ -277,9 +277,13 @@ public class WorkspaceTab extends JPanel {
 
     /**
      * Method adding a listener to the "uploadButton" button.
-     *
+     * OR
+     * Method adding a listener to the analyze selected button.
+     * 
      * @param listener
      *            The listener to start uploading files to a current experiment.
+     *            OR
+     *            The listener
      */
     public void addUploadToListener(ActionListener listener) {
         uploadToButton.addActionListener(listener);
@@ -287,7 +291,7 @@ public class WorkspaceTab extends JPanel {
 
     /**
      * Method adding a listener to the "deleteButton" button.
-     *
+     * @see controller.WorkspaceTabController#DeleteFromDatabaseListener()
      * @param listener
      *            The listener to delete an experiment from the database.
      */
@@ -296,10 +300,13 @@ public class WorkspaceTab extends JPanel {
     }
 
     /**
-     * Method adding experiments to the workspace tab.
-     *
+     * Method adding experiments to the workspace tab.<br>
+     * OR <br>
+     * Adds the provided ExperimentDatas to the workspaceTab.
      * @param newExperiments
-     *            An array with experiments to be added.
+     *            An array with experiments to be added.<br>
+     *            OR.<br>
+     *            The ArrayList of ExperimentData to be added.
      */
     public void addExperimentsToTable(ArrayList<ExperimentData> newExperiments) {
         ArrayList<ExperimentData> expList = new ArrayList<>();
