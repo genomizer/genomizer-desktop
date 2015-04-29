@@ -365,14 +365,18 @@ public class UploadToNewExpPanel extends JPanel implements ExperimentPanel {
         newExpPanel.revalidate();
         repaintSelectedFiles();
     }
-
+    //Combined two javadocs
     /**
      * Creates an uploadFileRow from the provided files. Checks if the files are
      * already in an uploadFileRow so there won't be duplicates. Displays an
      * error message if it was selected and added previously.
+     * OR
+     * Add the selected files as UploadFileRow to the NewExp Panel.
      *
      * @param files
      *            The files to make an uploadFileRow out of.
+     *            OR
+     *            [] for each to add
      */
     public void createUploadFileRow(File[] files) {
         for (File f : files) {

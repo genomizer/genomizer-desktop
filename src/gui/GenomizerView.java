@@ -100,51 +100,51 @@ public interface GenomizerView {
     
     public ArrayList<FileData> getAllMarkedFiles();
     
-    public String getPassword();
+    public String getPassword(); // unused
     
-    public String getUsername();
+    public String getUsername(); // unused
     
     public JFrame getFrame();
     
-    public void setDownloadWindow(DownloadWindow downloadWindow);
+    public void setDownloadWindow(DownloadWindow downloadWindow); //used
     
-    public DownloadWindow getDownloadWindow();
+    public DownloadWindow getDownloadWindow(); //used
     
-    public String getQuerySearchString();
+    public String getQuerySearchString(); // unused
     
-    public String getIp();
+    public String getIp(); // unused
     
-    public ArrayList<ExperimentData> getSelectedDataInSearch();
+    public ArrayList<ExperimentData> getSelectedDataInSearch(); // unused
     
-    public UploadTab getUploadTab();
+    public UploadTab getUploadTab(); //used
     
-    public QuerySearchTab getQuerySearchTab();
+    public QuerySearchTab getQuerySearchTab(); //used
     
-    public SysadminTab getSysAdminTab();
+    public SysadminTab getSysAdminTab(); //used
+     
+    public WorkspaceTab getWorkSpaceTab(); //used
     
-    public WorkspaceTab getWorkSpaceTab();
+    public ProcessTab getProcessTab(); //used
     
-    public ProcessTab getProcessTab();
+    public int getSelectedRowAtAnnotationTable(); // unused
     
-    public int getSelectedRowAtAnnotationTable();
+    public void updateLoginAccepted(String username, String pwd, String name); //used
     
-    public void updateLoginAccepted(String username, String pwd, String name);
+    public void updateLoginNeglected(String errorMessage); // unused
     
-    public void updateLoginNeglected(String errorMessage);
+    public void updateLogout(); //used
     
-    public void updateLogout();
+    public void setSearchAnnotationTypes(AnnotationDataType[] annotationTypes); // unused
     
-    public void setSearchAnnotationTypes(AnnotationDataType[] annotationTypes);
+    public void setProcessFileList(ArrayList<FileData> arrayList); //used
     
-    public void setProcessFileList(ArrayList<FileData> arrayList);
+    public void printToConsole(String message); // unused
     
-    public void printToConsole(String message);
+    public void setSysadminController(SysadminController sysadminController); // unused
     
-    public void setSysadminController(SysadminController sysadminController);
+    public ArrayList<ExperimentData> getSelectedDataInWorkspace(); // unused
     
-    public ArrayList<ExperimentData> getSelectedDataInWorkspace();
-    
-    public ArrayList<ExperimentData> getSelectedExperimentsInWorkspace();
+    public ArrayList<ExperimentData> getSelectedExperimentsInWorkspace(); // unused
     
     /**
      * Creates a new experiment to upload to using the provided annotations.
@@ -152,9 +152,9 @@ public interface GenomizerView {
      * @param annotations
      *            The annotations of the new experiment.
      */
-    public void createNewExp(AnnotationDataType[] annotations);
+    public void createNewExp(AnnotationDataType[] annotations); // unused
     
-    public String[] getParameters();
+    public String[] getParameters(); // unused
     
     /**
      * Add the selected files as UploadFileRow to the NewExp Panel.
@@ -162,15 +162,15 @@ public interface GenomizerView {
      * @param files
      *            [] for each to add
      */
-    public void selectFilesToNewExp(File[] files);
+    public void selectFilesToNewExp(File[] files); // unused
     
-    public void selectFilesToExistingExp(File[] files);
+    public void selectFilesToExistingExp(File[] files); // unused
     
-    public ArrayList<File> getFilesToUpload();
+    public ArrayList<File> getFilesToUpload(); // unused
     
-    public AnnotationDataValue[] getUploadAnnotations();
+    public AnnotationDataValue[] getUploadAnnotations(); // unused
     
-    public void setBowtieParameters();
+    public void setBowtieParameters(); // unused
     
     public JList getfileList();
     

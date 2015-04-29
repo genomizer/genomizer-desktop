@@ -94,7 +94,7 @@ public class UploadTabController {
                 } else {
                     return;
                 }
-                view.selectFilesToNewExp(files);
+                view.getUploadTab().getNewExpPanel().createUploadFileRow(files);
                 view.enableUploadButton(true);
             }
         };
@@ -176,7 +176,7 @@ public class UploadTabController {
 
                         for (File f : files) {
                             if (model.uploadFile(ed.getName(), f,
-                                    types.get(f.getName()), view.getUsername(),
+                                    types.get(f.getName()), view.getLoginWindow().getUsernameInput(),
                                     false, view.getGenomeVersion(f))) {
                                 view.getUploadTab().getExistExpPanel()
                                         .deleteFileRow(f);
@@ -226,8 +226,7 @@ public class UploadTabController {
                     public void run() {
                         AnnotationDataType[] annotations = model
                                 .getAnnotations();
-                        view.createNewExp(annotations);
-
+                        view.getUploadTab().addNewExpPanel(annotations);
                     };
                 }.start();
             }
@@ -242,9 +241,10 @@ public class UploadTabController {
                     @Override
                     public void run() {
                         String expName = view.getNewExpName();
-                        AnnotationDataValue[] annotations = view
-                                .getUploadAnnotations();
-                        ArrayList<File> files = view.getFilesToUpload();
+                        AnnotationDataValue[] annotations = view.getUploadTab().getNewExpPanel().getUploadAnnotations();
+                        
+                        ArrayList<File> files = view.getUploadTab().getNewExpPanel().getUploadFiles();
+                        
                         if (files != null && files.size() > 0
                                 && annotations != null && expName != null) {
                             HashMap<String, String> types = view
@@ -259,7 +259,7 @@ public class UploadTabController {
                                     view.disableSelectedRow(f);
                                     if (model.uploadFile(expName, f,
                                             types.get(f.getName()),
-                                            view.getUsername(), false,
+                                            view.getLoginWindow().getUsernameInput(), false,
                                             view.getGenomeVersion(f))) {
                                         view.deleteUploadFileRow(f);
                                         for (HTTPURLUpload upload : model
@@ -302,8 +302,7 @@ public class UploadTabController {
                     @Override
                     public void run() {
                         String expName = view.getNewExpName();
-                        AnnotationDataValue[] annotations = view
-                                .getUploadAnnotations();
+                        AnnotationDataValue[] annotations = view.getUploadTab().getNewExpPanel().getUploadAnnotations();
                         ArrayList<File> files = view.getSelectedFilesToUpload();
                         if (files != null && files.size() > 0
                                 && annotations != null && expName != null) {
@@ -319,7 +318,7 @@ public class UploadTabController {
                                     view.disableSelectedRow(f);
                                     if (model.uploadFile(expName, f,
                                             types.get(f.getName()),
-                                            view.getUsername(), false,
+                                            view.getLoginWindow().getUsernameInput(), false,
                                             view.getGenomeVersion(f))) {
                                         view.deleteUploadFileRow(f);
                                         for (HTTPURLUpload upload : model

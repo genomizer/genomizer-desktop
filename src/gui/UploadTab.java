@@ -135,13 +135,16 @@ public class UploadTab extends JPanel {
         repaint();
         revalidate();
     }
-
+    //the gui's interface had one javadoc, and here's a different one
     /**
-     * Displays a panel for creating a new experiment.
+     * Displays a panel for creating a new experiment. 
+     * OR
+     * Creates a new experiment to upload to using the provided annotations.
      *
      * @param annotations
      *            The available annotations at the server.
-     *
+     *            OR
+     *            The annotations of the new experiment.
      */
     public void addNewExpPanel(AnnotationDataType[] annotations) {
         killContentsOfUploadPanel();
