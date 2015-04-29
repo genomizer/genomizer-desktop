@@ -231,12 +231,6 @@ public class GUI extends JFrame implements GenomizerView {
         querySearchTab.addDownloadButtonListener(listener);
     }
     
-    /**
-     * Adds the provided ExperimentDatas to the workspaceTab.
-     * 
-     * @param experiments
-     *            The ArrayList of ExperimentData to be added.
-     */
     public void addToWorkspace(ArrayList<ExperimentData> experiments) {
         workspaceTab.addExperimentsToTable(experiments);
     }
@@ -306,8 +300,8 @@ public class GUI extends JFrame implements GenomizerView {
         return 0;
     }
     
-    /**
-     * @return The JFrame, which is this object.
+    /**Returns the GUI
+     * @return The GUI
      */
     @Override
     public JFrame getFrame() {

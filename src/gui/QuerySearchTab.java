@@ -405,6 +405,10 @@ public class QuerySearchTab extends JPanel {
         addToUploadButton.addActionListener(listener);
     }
 
+    /**adds a listener to updateAnnotationsButton
+     * @see controller.QuerySearchTabController#updateAnnotationsListener()
+     * @param listener the listener to be added
+     */
     public void addUpdateAnnotationsListener(ActionListener listener) {
         updateAnnotationsButton.addActionListener(listener);
     }

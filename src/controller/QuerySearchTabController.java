@@ -30,7 +30,7 @@ public class QuerySearchTabController {
         // querySearchTab.addDownloadButtonListener(listener)
          querySearchTab.addSearchButtonListener(SearchButtonListener());
         // view.addQuerySearchListener( QuerySearchListener());
-        querySearchTab.addUpdateAnnotationsListener(updateSearchAnnotationsListener());
+        querySearchTab.addUpdateAnnotationsListener(updateAnnotationsListener());
         // view.addUpdateSearchAnnotationsListener(
         // updateSearchAnnotationsListener());
         querySearchTab.addAddToWorkspaceButtonListener(SearchToWorkspaceListener());
@@ -138,7 +138,7 @@ public class QuerySearchTabController {
         };
     }
 
-    public ActionListener updateSearchAnnotationsListener() {
+    public ActionListener updateAnnotationsListener() {
         return new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {

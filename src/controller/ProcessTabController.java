@@ -70,7 +70,7 @@ public class ProcessTabController {
                         
                         GenomeReleaseData[] genome = model
                                 .getSpeciesGenomeReleases(item.getSpecie());
-                        if (view.getAllMarkedFiles().isEmpty()) {
+                        if (view.getProcessTab().getAllMarkedFiles().isEmpty()) {
                             view.getProcessTab().setGenomeFileList(null);
                         } else {
                             view.setGenomeFileList(genome);
@@ -105,8 +105,7 @@ public class ProcessTabController {
                     public void run() {
                         
                         view.getProcessTab().setRegularParameters();
-                        ArrayList<FileData> allMarked = view
-                                .getAllMarkedFiles();
+                        ArrayList<FileData> allMarked = view.getProcessTab().getAllMarkedFiles();
                         String message;
                         Boolean isConverted;
                         Boolean allRaw = false;
@@ -218,9 +217,8 @@ public class ProcessTabController {
                     @Override
                     public void run() {
                         
-                        ArrayList<FileData> markedFiles = view
-                                .getAllMarkedFiles();
-                        ArrayList<ExperimentData> exData = view.getProcessTab().getFileInfo();;
+                        ArrayList<FileData> markedFiles = view.getProcessTab().getAllMarkedFiles();
+                        ArrayList<ExperimentData> exData = view.getProcessTab().getFileInfo();
                         
                         if (exData != null && markedFiles != null) {
                             
