@@ -17,6 +17,7 @@ import util.FileData;
 import gui.DeleteDataWindow;
 import gui.GenomizerView;
 import gui.UploadTab;
+import gui.WorkspaceTab;
 import model.ErrorLogger;
 import model.GenomizerModel;
 
@@ -31,10 +32,12 @@ public class WorkspaceTabController {
         this.view = view;
         this.model = model;
         this.fileChooser = fileChooser;
-        view.addDownloadFileListener( DownloadFileListener());
-        view.addProcessFileListener( ProcessFileListener());
-        view.addUploadToListener( UploadToListener());
-        view.addDeleteFromDatabaseListener( DeleteFromDatabaseListener());
+        WorkspaceTab workspaceTab = view.getWorkSpaceTab();
+        workspaceTab.addDownloadFileListener(DownloadFileListener());
+        workspaceTab.addProcessFileListener(ProcessFileListener());
+        workspaceTab.addUploadToListener(UploadToListener());
+        //view.addUploadToListener( UploadToListener());
+        workspaceTab.addDeleteSelectedListener(DeleteFromDatabaseListener());
         view.setOngoingDownloads(model.getOngoingDownloads());
     }
     
@@ -198,7 +201,7 @@ public class WorkspaceTabController {
                                     "Delete success",
                                     JOptionPane.INFORMATION_MESSAGE);
                             view.removeSelectedFromWorkspace();
-                            view.refreshSearch();
+                            view.getQuerySearchTab().refresh();
                         }
                         
                     };

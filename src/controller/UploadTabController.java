@@ -34,15 +34,17 @@ public class UploadTabController {
         this.view = view;
         this.model = model;
         this.fileChooser = fileChooser;
-        view.addSelectFilesToUploadButtonListener(SelectFilesToUploadButtonListener());
-        view.addAddToExistingExpButtonListener(AddToExistingExpButtonListener());
-        view.addUploadToExperimentButtonListener(UploadToExperimentButtonListener());
-        view.addNewExpButtonListener(NewExpButtonListener());
-        view.addSelectButtonListener(SelectFilesToNewExpListener());
-        view.addUploadButtonListener(UploadNewExpListener());
-        view.setOngoingUploads(model.getOngoingUploads());
-        view.addUploadSelectedFilesListener(UploadSelectedFilesListener());
-        view.addSpeciesSelectedListener(SpeciesSelectedListener());
+        UploadTab uploadTab = view.getUploadTab();
+        uploadTab.getExistExpPanel().addSelectFilesToUploadButtonListener(SelectFilesToUploadButtonListener());
+        uploadTab.addAddToExistingExpButtonListener(AddToExistingExpButtonListener());
+        uploadTab.getExistExpPanel().addUploadToExperimentButtonListener(UploadToExperimentButtonListener());
+        uploadTab.addNewExpButtonListener(NewExpButtonListener());
+        uploadTab.getNewExpPanel().addSelectButtonListener(SelectFilesToNewExpListener());
+        uploadTab.getNewExpPanel().addUploadButtonListener(UploadNewExpListener());
+        uploadTab.setOngoingUploads(model.getOngoingUploads());
+        uploadTab.getNewExpPanel().addUploadSelectedFilesListener(UploadSelectedFilesListener());
+        uploadTab.getNewExpPanel().addSpeciesSelectedListener(SpeciesSelectedListener());
+        
     }
     
     /**
@@ -182,7 +184,7 @@ public class UploadTabController {
                                             "Upload to experiment \""
                                                     + ed.getName()
                                                     + "\" complete.");
-                                    view.refreshSearch();
+                                    view.getQuerySearchTab().refresh();
                                 }
                                 for (HTTPURLUpload upload : model
                                         .getOngoingUploads()) {
@@ -265,7 +267,7 @@ public class UploadTabController {
                                                         .remove(upload);
                                             }
                                         }
-                                        view.refreshSearch();
+                                        view.getQuerySearchTab().refresh();
                                     } else {
                                         JOptionPane.showMessageDialog(
                                                 null,

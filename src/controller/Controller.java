@@ -88,7 +88,7 @@ public class Controller {
      * Update the loginWindow listeners
      */
     private void loginWindowUpdate() {
-        view.addLoginListener(new LoginListener());
+        view.getLoginWindow().addLoginListener(new LoginListener());
     }
 
     /**

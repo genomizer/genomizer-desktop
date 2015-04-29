@@ -148,7 +148,7 @@ public class GUI extends JFrame implements GenomizerView {
     public LoginWindow getLoginWindow() {
         return loginWindow;
     }
-
+    
     @Override
     public void addLoginListener(ActionListener listener) {
         loginWindow.addLoginListener(listener);
