@@ -14,12 +14,22 @@ import communication.ConnectionFactory;
 
 public class SessionHandler {
 
-    private static final String JSON = "application/json";
 
     private ConnectionFactory connFactory = new ConnectionFactory();
+    private static SessionHandler instance = new SessionHandler();
 
-    public void setIp(String ip) {
+    private SessionHandler() { }
+
+    public static SessionHandler getInstance() {
+        return instance;
+    }
+
+    public void setIP(String ip) {
         connFactory.setIP(ip);
+    }
+
+    public String getIP() {
+        return connFactory.getIP();
     }
 
     public String loginUser(String username, String password) {
@@ -28,7 +38,7 @@ public class SessionHandler {
             LoginRequest request = RequestFactory.makeLoginRequest(username, password);
             Connection conn = connFactory.makeConnection();
             try {
-                conn.sendRequest(request, "", JSON);
+                conn.sendRequest(request, "", Constants.JSON);
 
             } catch (RequestException e) {
                 // new ErrorDialog("Couldn't add new experiment", "fel",

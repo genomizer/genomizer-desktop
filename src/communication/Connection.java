@@ -119,7 +119,6 @@ public class Connection {
                 throw new RequestException(responseCode, responseBody);
             }
             connection.disconnect();
-            throw new RequestException(responseCode, responseBody);
         }
     }
 
@@ -127,7 +126,6 @@ public class Connection {
             throws MalformedURLException, IOException, ProtocolException {
 
         String targetUrl;
-
         if (ip.startsWith("http://")) {
             targetUrl = ip;
         } else {
