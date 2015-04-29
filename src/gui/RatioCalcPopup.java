@@ -39,7 +39,6 @@ public class RatioCalcPopup extends JFrame {
     private JPanel topPanel;
     private JPanel centerPanel;
     private JPanel bottomPanel;
-    // public JButton cancelButton = new JButton("Cancel");
     public JButton okButton = new JButton("Ok");
     public final JTextField inputReads = new JTextField();
     public final JTextField chromosome = new JTextField();
@@ -108,7 +107,6 @@ public class RatioCalcPopup extends JFrame {
         centerPanel.add(ratioStepPosition);
         bottomPanel.add(ratioPrintZeros);
         bottomPanel.add(ratioPrintMean);
-        // buttonPanel.add(cancelButton);
         buttonPanel.add(okButton);
         bottomPanel.add(buttonPanel);
 
@@ -170,10 +168,6 @@ public class RatioCalcPopup extends JFrame {
         okButton.addActionListener(listener);
     }
 
-    // TODO: WTF outcommented listener? (seems they half-removed the cancel button) OO
-    // public void addCancelListener(ActionListener listener) {
-    // cancelButton.addActionListener(listener);
-    // }
 
     public void hideRatioWindow() {
         this.setVisible(false);

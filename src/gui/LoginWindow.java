@@ -189,7 +189,6 @@ public class LoginWindow extends JFrame {
         removeErrorMessage();
         message = message.replace(".", "");
         errorLabel = new JLabel("<html><b>" + message + "</b></html>");
-        // errorLabel.setIcon(UIManager.getIcon("OptionPane.warningIcon"));
         errorLabel.setBounds(73, 0, 150, 45);
         bottomPanel.add(errorLabel);
         ErrorLogger.log(message);

@@ -95,8 +95,7 @@ public class Model implements GenomizerModel {
         try {
             conn.sendRequest(rawToProfilerequest, userID, JSON);
         } catch (RequestException e) {
-            new ErrorDialog("Data process failed", "fel", e.getResponseCode()
-                    + ":\n" + e.getResponseBody()).showDialog();
+            showErrorDialog("Data process failed", e);
 
         }
         return conn.getResponseCode() == 200;
@@ -110,7 +109,7 @@ public class Model implements GenomizerModel {
             Connection conn = connFactory.makeConnection();
             try {
                 conn.sendRequest(request, userID, JSON);
-                
+
             } catch (RequestException e) {
                 // new ErrorDialog("Couldn't add new experiment", "fel",
                 // e.getResponseCode() + ":\n" +
@@ -170,8 +169,7 @@ public class Model implements GenomizerModel {
         try {
             conn.sendRequest(request, userID, JSON);
         } catch (RequestException e) {
-            new ErrorDialog("Couldn't upload file", "fel", e.getResponseCode()
-                    + ":\n" + e.getResponseBody()).showDialog();
+            showErrorDialog("Couldn't upload file", e);
         }
 
         int responseCode = conn.getResponseCode();
@@ -220,9 +218,7 @@ public class Model implements GenomizerModel {
                 }
             }).start();
         } catch (RequestException e) {
-            new ErrorDialog("Couldn't download file", "fel",
-                    e.getResponseCode() + ":\n" + e.getResponseBody())
-                    .showDialog();
+            showErrorDialog("Couldn't download file", e);
         }
 
         return true;
@@ -246,8 +242,7 @@ public class Model implements GenomizerModel {
                 }
             }
         } catch (RequestException e) {
-            new ErrorDialog("Search failed", "fel", e.getResponseCode() + ":\n"
-                    + e.getResponseBody()).showDialog();
+            showErrorDialog("Search failed", e);
 
         }
         return null;
@@ -305,9 +300,7 @@ public class Model implements GenomizerModel {
                 return false;
             }
         } catch (RequestException e) {
-            new ErrorDialog("Couldn't add annotation", "fel",
-                    e.getResponseCode() + ":\n" + e.getResponseBody())
-                    .showDialog();
+            showErrorDialog("Couldn't add annotation", e);
 
         }
         return false;
@@ -364,9 +357,7 @@ public class Model implements GenomizerModel {
         try {
             conn.sendRequest(request, userID, JSON);
         } catch (RequestException e) {
-            new ErrorDialog("Couldn't delete annotation", "fel",
-                    e.getResponseCode() + ":\n" + e.getResponseBody())
-                    .showDialog();
+            showErrorDialog("Couldn't delete annotation", e);
 
         }
         if (conn.getResponseCode() == 200) {
@@ -389,9 +380,7 @@ public class Model implements GenomizerModel {
         try {
             conn.sendRequest(request, userID, TEXT_PLAIN);
         } catch (RequestException e) {
-            new ErrorDialog("Couldn't get annotations", "fel",
-                    e.getResponseCode() + ":\n" + e.getResponseBody())
-                    .showDialog();
+            showErrorDialog("Couldn't get annotations", e);
 
         }
         if (conn.getResponseCode() == 200) {
@@ -411,7 +400,7 @@ public class Model implements GenomizerModel {
         try {
             conn.sendRequest(request, userID, TEXT_PLAIN);
         } catch (RequestException e) {
-            new ErrorDialog("Couldn't get genome releases", "fel", e.getResponseCode() + ":\n" + e.getResponseBody()).showDialog();
+            showErrorDialog("Couldn't get genome releases", e);
 
         }
         if (conn.getResponseCode() == 200) {
@@ -438,45 +427,37 @@ public class Model implements GenomizerModel {
         Connection conn = connFactory.makeConnection();
         try {
             conn.sendRequest(request, userID, JSON);
-        } catch (RequestException e) {
-            new ErrorDialog("Couldn't add genome releases", "fel", e.getResponseCode() + ":\n" + e.getResponseBody()).showDialog();
+            if (conn.getResponseCode() == 201) {
 
-        }
-        if (conn.getResponseCode() == 201) {
+                AddGenomeReleaseResponse[] aGRR = ResponseParser
+                        .parseGenomeUploadResponse(conn.getResponseBody());
 
-            AddGenomeReleaseResponse[] aGRR = ResponseParser
-                    .parseGenomeUploadResponse(conn.getResponseBody());
+                for (int i = 0; i < files.length; i++) {
+                    HTTPURLUpload upload = new HTTPURLUpload(aGRR[i].URLupload,
+                            files[i].getAbsolutePath(), files[i].getName());
 
-            for (int i = 0; i < files.length; i++) {
-                HTTPURLUpload upload = new HTTPURLUpload(aGRR[i].URLupload,
-                        files[i].getAbsolutePath(), files[i].getName());
+                    ongoingUploads.add(upload);
 
-                ongoingUploads.add(upload);
+                    if (upload.sendFile(userID)) {
 
-                if (upload.sendFile(userID)) {
+                        // TODO: This if part looks like a mess! (OO)
+                        // System.out
+                        // .println("Succefully added genome release file named "
+                        // + files[i].getName() + ".");
 
-                    // TODO: This if part looks like a mess! (OO)
-                    // System.out
-                    // .println("Succefully added genome release file named "
-                    // + files[i].getName() + ".");
+                    } else {
+                        // System.err
+                        // .println("Could not add genome release file named "
+                        // + files[i].getName() + "!");
+                        return false;
+                    }
 
-                } else {
-                    // System.err
-                    // .println("Could not add genome release file named "
-                    // + files[i].getName() + "!");
-                    return false;
                 }
+                return true;
 
             }
-            return true;
-
-        } else {
-            JOptionPane.showMessageDialog(null, conn.getResponseBody());
-            // System.out
-            // .println("Something went wrong, could not add genome release: "
-            // + conn.getResponseCode()
-            // + "\n"
-            // + conn.getResponseBody());
+        } catch (RequestException e) {
+            showErrorDialog("Couldn't get genome releases", e);
         }
 
         return false;
@@ -493,9 +474,7 @@ public class Model implements GenomizerModel {
         try {
             conn.sendRequest(aER, getUserID(), JSON);
         } catch (RequestException e) {
-            new ErrorDialog("Couldn't add new experiment", "fel",
-                    e.getResponseCode() + ":\n" + e.getResponseBody())
-                    .showDialog();
+            showErrorDialog("Couldn't add new experiment", e);
         }
         int responseCode = conn.getResponseCode();
         return (responseCode == 201);
@@ -512,10 +491,7 @@ public class Model implements GenomizerModel {
         try {
             conn.sendRequest(rER, getUserID(), "plain/text");
         } catch (RequestException e) {
-            new ErrorDialog("Couldn't retrieve experiment", "fel",
-                    e.getResponseCode() + ":\n" + e.getResponseBody())
-                    .showDialog();
-
+            showErrorDialog("Couldn't retrieve experiment", e);
         }
         if (conn.getResponseCode() == 200) {
             return ResponseParser.parseRetrieveExp(conn.getResponseBody());
@@ -538,9 +514,7 @@ public class Model implements GenomizerModel {
         try {
             conn.sendRequest(request, userID, JSON);
         } catch (RequestException e) {
-            new ErrorDialog("Couldn't rename annotation field", "fel",
-                    e.getResponseCode() + ":\n" + e.getResponseBody())
-                    .showDialog();
+            showErrorDialog("Couldn't rename annotation field", e);
         }
         return conn.getResponseCode() == 200;
     }
@@ -553,12 +527,9 @@ public class Model implements GenomizerModel {
         try {
             conn.sendRequest(request, userID, JSON);
         } catch (RequestException e) {
-            new ErrorDialog("Couldn't rename annotation value", "fel",
-                    e.getResponseCode() + ":\n" + e.getResponseBody())
-                    .showDialog();
+            showErrorDialog("Couldn't rename annotation value", e);
         }
         if (conn.getResponseCode() == 201 || conn.getResponseCode() == 200) {
-            // System.err.println("Sent " + request.requestName + " success!");
             return true;
         }
         return false;
@@ -571,12 +542,9 @@ public class Model implements GenomizerModel {
         try {
             conn.sendRequest(request, userID, JSON);
         } catch (RequestException e) {
-            new ErrorDialog("Couldn't remove annotation value", "fel",
-                    e.getResponseCode() + ":\n" + e.getResponseBody())
-                    .showDialog();
+            showErrorDialog("Couldn't remove annotation value", e);
         }
         if (conn.getResponseCode() == 200) {
-            // System.err.println("Sent " + request.requestName + " success!");
             return true;
         }
         return false;
@@ -589,12 +557,9 @@ public class Model implements GenomizerModel {
         try {
             conn.sendRequest(request, userID, JSON);
         } catch (RequestException e) {
-            new ErrorDialog("Couldn't add new annotation value", "fel",
-                    e.getResponseCode() + ":\n" + e.getResponseBody())
-                    .showDialog();
+            showErrorDialog("Couldn't add new annotation value", e);
         }
         if (conn.getResponseCode() == 201) {
-            // System.err.println("Sent " + request.requestName + " success!");
             return true;
         }
         return false;
@@ -607,9 +572,7 @@ public class Model implements GenomizerModel {
         try {
             conn.sendRequest(request, userID, TEXT_PLAIN);
         } catch (RequestException e) {
-            new ErrorDialog("Couldn't get process feedback", "fel",
-                    e.getResponseCode() + ":\n" + e.getResponseBody())
-                    .showDialog();
+            showErrorDialog("Couldn't get process feedback", e);
         }
         if (conn.getResponseCode() == 200) {
             return ResponseParser.parseProcessFeedbackResponse(conn
@@ -626,21 +589,13 @@ public class Model implements GenomizerModel {
                 .makeRemoveGenomeReleaseRequest(specie, version);
         Connection conn = connFactory.makeConnection();
         try {
-            conn.sendRequest(request, userID, JSON);
-        } catch (RequestException e) {
-            new ErrorDialog("Couldn't delete genome release", "fel",
-                    e.getResponseCode() + ":\n" + e.getResponseBody())
-                    .showDialog();
-        }
-        if (conn.getResponseCode() == 200) {
-            JOptionPane.showMessageDialog(null, "Succesfully removed "
+            conn.sendRequest(request, userID, JSON);JOptionPane.showMessageDialog(null, "Succesfully removed "
                     + version);
             return true;
-        } else {
-            JOptionPane.showMessageDialog(null, conn.getResponseBody());
-
+        } catch (RequestException e) {
+            showErrorDialog("Couldn't delete genome release", e);
+            return false;
         }
-        return false;
     }
 
     public GenomeReleaseData[] getSpeciesGenomeReleases(String species) {
@@ -651,23 +606,12 @@ public class Model implements GenomizerModel {
         Connection conn = connFactory.makeConnection();
         try {
             conn.sendRequest(request, userID, TEXT_PLAIN);
-        } catch (RequestException e) {
-            new ErrorDialog("Couldn't get genome species releases? ", "fel",
-                    e.getResponseCode() + ":\n" + e.getResponseBody())
-                    .showDialog();
-        }
-        if (conn.getResponseCode() == 200) {
-
-
             return ResponseParser.parseGetGenomeReleaseResponse(conn
                     .getResponseBody());
-        } else {
-            JOptionPane.showMessageDialog(null,
-                    "Could not get genomespeciereleases!");
+        } catch (RequestException e) {
+            showErrorDialog("Couldn't get genome releases", e);
+            return new GenomeReleaseData[] {};
         }
-
-        return new GenomeReleaseData[] {};
-
     }
 
     @Override
@@ -677,12 +621,11 @@ public class Model implements GenomizerModel {
         Connection conn = connFactory.makeConnection();
         try {
             conn.sendRequest(request, userID, TEXT_PLAIN);
+            return true;
         } catch (RequestException e) {
-            new ErrorDialog("Couldn't delete file from experiment", "fel",
-                    e.getResponseCode() + ":\n" + e.getResponseBody())
-                    .showDialog();
+            showErrorDialog("Couldn't delete file from experiment", e);
+            return false;
         }
-        return (conn.getResponseCode() == 200);
     }
 
     @Override
@@ -692,12 +635,11 @@ public class Model implements GenomizerModel {
         Connection conn = connFactory.makeConnection();
         try {
             conn.sendRequest(request, userID, TEXT_PLAIN);
+            return true;
         } catch (RequestException e) {
-            new ErrorDialog("Couldn't delete experiment", "fel",
-                    e.getResponseCode() + ":\n" + e.getResponseBody())
-                    .showDialog();
+            showErrorDialog("Couldn't delete experiment", e);
+            return false;
         }
-        return (conn.getResponseCode() == 200);
     }
 
     public void resetModel() {
@@ -711,6 +653,14 @@ public class Model implements GenomizerModel {
     @Override
     public boolean addGenomeRelease() {
         return false;
+    }
+
+    private void showErrorDialog(String title, RequestException e) {
+        String responseBody = e.getResponseBody();
+        String message = ResponseParser.parseErrorResponse(responseBody).message;
+        String extendedMessage = e.getResponseCode() + ":\n" + responseBody;
+        ErrorDialog errorDialog = new ErrorDialog(title, message, extendedMessage);
+        errorDialog.showDialog();
     }
 
 }

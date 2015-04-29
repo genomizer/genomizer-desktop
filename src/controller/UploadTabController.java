@@ -45,7 +45,6 @@ public class UploadTabController {
         uploadTab.setOngoingUploads(model.getOngoingUploads());
         uploadTab.getNewExpPanel().addUploadSelectedFilesListener(UploadSelectedFilesListener());
         uploadTab.getNewExpPanel().addSpeciesSelectedListener(SpeciesSelectedListener());
-        
     }
 
     /**
@@ -285,7 +284,7 @@ public class UploadTabController {
                             } else {
 
                                 new ErrorDialog("Couldn't create experiment", "The experiment " + expName + " could not be created.", "singdudeldej").showDialog();
-                                
+
                             }
                         }
                     };
