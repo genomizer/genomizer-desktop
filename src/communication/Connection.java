@@ -96,6 +96,7 @@ public class Connection {
             }
             responseCode = connection.getResponseCode();
             fetchResponse(connection.getInputStream());
+
             if (responseCode == 401 && !token.isEmpty()) {
                 // TODO:wtf
                 view.updateLogout();
@@ -107,11 +108,15 @@ public class Connection {
             }
             connection.disconnect();
         } catch (IOException e) {
+
             ErrorLogger.log(e);
             try {
                 InputStream is = connection.getErrorStream();
                 if (is != null) {
                     fetchResponse(connection.getErrorStream());
+                    if(responseCode==400){
+                        throw new RequestException(responseCode, responseBody);
+                    }
                 }
             } catch (IOException e1) {
                 ErrorLogger.log(e1);

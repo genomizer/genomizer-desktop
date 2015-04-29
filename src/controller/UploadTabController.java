@@ -276,10 +276,6 @@ public class UploadTabController {
                                                 JOptionPane.ERROR_MESSAGE);
                                     }
                                 }
-                            } else {
-
-                                new ErrorDialog("Couldn't create experiment", "The experiment " + expName + " could not be created.", "singdudeldej").showDialog();
-
                             }
                         }
                     };
