@@ -21,34 +21,34 @@ import util.RequestException;
 /**
  * Class representing a connection to a server (fast egentligen inte), and the
  * communication between server-client
- * 
+ *
  * @author
- * 
+ *
  */
 public class Connection {
-    
+
     // TODO: varf�r view? g�r oberoende?
     private final GenomizerView view;
-    
+
     /** The IP-adress to the Server */
     private String ip;
-    
+
     // TODO: skapa konstanter f�r response/status-code?
     /** HTML status code */
     private int responseCode;
-    
+
     /** The response message of a request */
     private String responseBody;
-    
+
     private HttpURLConnection connection;
-    
+
     // TODO: anv�nds inte. ta bort?
     private Request request;
-    
+
     /**
      * Constructs a new Connection object to a server with a given IP address,
      * and a given GenomizerView
-     * 
+     *
      * @param ip
      *            the IP address
      * @param view
@@ -60,12 +60,12 @@ public class Connection {
         responseBody = "";
         responseCode = 0;
     }
-    
+
     // TODO: returnera ett Response-objekt eller response code ist�llet f�r
     // boolean, om det beh�vs.
     /**
      * Sends a REST-request to the connected server and processes the response.
-     * 
+     *
      * @param request
      *            the request to be sent
      * @param token
@@ -81,7 +81,7 @@ public class Connection {
         this.request = request;
         try {
             connect(request, token, type);
-            
+
             if (request.type.equals("DELETE")) {
                 responseCode = connection.getResponseCode();
                 fetchResponse(connection.getInputStream());
@@ -89,7 +89,7 @@ public class Connection {
                     throw new RequestException(responseCode, responseBody);
                 }
             }
-            
+
             if (type.equals("application/json")) {
                 PrintWriter outputStream = new PrintWriter(
                         connection.getOutputStream(), true);
@@ -126,24 +126,23 @@ public class Connection {
                 throw new RequestException(responseCode, responseBody);
             }
             connection.disconnect();
-            throw new RequestException(responseCode, responseBody);
         }
     }
-    
+
     private void connect(Request request, String token, String type)
             throws MalformedURLException, IOException, ProtocolException {
-        
+
         String targetUrl;
-        
+
         if (ip.startsWith("http://")) {
             targetUrl = ip;
         } else {
             targetUrl = "http://" + ip + request.url;
         }
-        
+
         URL url = new URL(targetUrl);
         connection = (HttpURLConnection) url.openConnection();
-        
+
         if (type.equals("application/json")) {
             connection.setDoOutput(true);
         }
@@ -154,10 +153,10 @@ public class Connection {
             connection.setRequestProperty("Authorization", token);
         }
     }
-    
+
     /**
      * Builds a response body from the connection input stream
-     * 
+     *
      * @param inputStream
      *            the connection input stream
      * @throws IOException
@@ -177,28 +176,28 @@ public class Connection {
             ErrorLogger.log(responseBody);
         }
     }
-    
+
     /**
      * Returns the response code of a request
-     * 
+     *
      * @return the response code
      */
     public int getResponseCode() {
         return responseCode;
     }
-    
+
     /**
      * Returns the response body of a request
-     * 
+     *
      * @return the response body
      */
     public String getResponseBody() {
         return responseBody;
     }
-    
+
     // TODO: unused? ta bort?
     public void checkType(String output) {
-        
+
     }
-    
+
 }
