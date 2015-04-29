@@ -58,11 +58,7 @@ public class DownloadHandler {
             url = url.replaceFirst("\\u003d", "=");
 
             URL targetUrl = new URL(url);
-            /*
-             * String authString = userID; byte[] authEncBytes =
-             * Base64.encodeBase64(authString.getBytes()); String authStringEnc
-             * = new String(authEncBytes);
-             */
+            
             conn = (HttpURLConnection) targetUrl.openConnection();
             conn.setRequestMethod("GET");
             conn.setRequestProperty("Content-Type", "text/plain");

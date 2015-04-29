@@ -15,8 +15,7 @@ public class AnalyzeTab extends JPanel {
 
     private final JScrollPane scrollAnalList = new JScrollPane();
 
-   // private JList list;;
-  //  private JCheckBoxList list;
+
 
     // TODO: WTF What is all these outcommented list-things? OO
     public AnalyzeTab() {
@@ -40,9 +39,6 @@ public class AnalyzeTab extends JPanel {
         
         DefaultListModel listModel = new DefaultListModel();
 
-   //     list = new JList(listModel);
-    //    list.setModel(listModel);
-    //   list.setPreferredSize(new Dimension(300, 400));
 
         int numberOfJobs;
 
@@ -50,13 +46,9 @@ public class AnalyzeTab extends JPanel {
             listModel.add(numberOfJobs, new JCheckBox("Protein223_A5_2014.WIG"));
 
         }
-//        JScrollPane scrollPane = new JScrollPane(list);
 
-        
-      //  JScrollPane scrollPane = new JScrollPane(list);
-
+      
         northWestPanel.add(filesLabel, BorderLayout.NORTH);
-     //   northWestPanel.add(scrollPane, BorderLayout.SOUTH);
         northEastPanel.add(overlapLabel, BorderLayout.NORTH);
         southWestPanel.add(regionAnalysisLabel, BorderLayout.NORTH);
         southEastPanel.add(profileAnalysisLabel, BorderLayout.NORTH);

@@ -251,7 +251,6 @@ public class WorkspaceTab extends JPanel {
         if (imgURL != null) {
             return new ImageIcon(imgURL, description);
         } else {
-//            System.err.println("Couldn't find file: " + path);
             return null;
         }
     }

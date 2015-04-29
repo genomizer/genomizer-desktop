@@ -53,125 +53,125 @@ public interface GenomizerView {
 
 
     public void addUploadToListener(ActionListener listener);
-
-    public void refreshSearch();
-
-    LoginWindow getLoginWindow();
-
-    public void addLoginListener(ActionListener listener);
-
-    public void addSearchToWorkspaceListener(ActionListener listener);
-
-    public void addLogoutListener(ActionListener listener);
-
-    public void addSearchListener(ActionListener listener);
-
-    public void addProcessFileListener(ActionListener listener);
-
-    public void addDownloadFileListener(ActionListener listener);
-
-    public void addQuerySearchListener(ActionListener listener);
-
-    public void addRawToProfileDataListener(ActionListener listener);
-
+    
+    public void refreshSearch(); //unused
+    
+    LoginWindow getLoginWindow(); // unused
+    
+    public void addLoginListener(ActionListener listener); // unused
+    
+    public void addSearchToWorkspaceListener(ActionListener listener); // unused
+    
+    public void addLogoutListener(ActionListener listener); // used
+    
+    public void addSearchListener(ActionListener listener); // unused
+    
+    public void addProcessFileListener(ActionListener listener); // unused
+    
+    public void addDownloadFileListener(ActionListener listener); // unused
+    
+    public void addQuerySearchListener(ActionListener listener); // unused
+    
+    public void addRawToProfileDataListener(ActionListener listener); // unused
+    
     public void addAddToExistingExpButtonListener(
-            ActionListener addToExistingExpButtonListener);
-
-    public void addUploadToExperimentButtonListener(ActionListener listener);
-
+            ActionListener addToExistingExpButtonListener); // unused
+    
+    public void addUploadToExperimentButtonListener(ActionListener listener); // unused
+    
     //TODO unimplemented listener
-    public void addSearchResultsDownloadListener(ActionListener listener);
-
-    public void addSelectFilesToUploadButtonListener(ActionListener listener);
-
-    public void addUpdateSearchAnnotationsListener(ActionListener listener);
-
-    public void addNewExpButtonListener(ActionListener listener);
-
-    public void addSelectButtonListener(ActionListener listener);
-
-    public void addDeleteFromDatabaseListener(ActionListener listener);
-
-    public void addProcessFeedbackListener(ActionListener listener);
-
-    public void addUploadButtonListener(ActionListener listener);
-
-    public void addToWorkspace(ArrayList<ExperimentData> experiments);
-
+    public void addSearchResultsDownloadListener(ActionListener listener); // unused
+    
+    public void addSelectFilesToUploadButtonListener(ActionListener listener); // unused
+    
+    public void addUpdateSearchAnnotationsListener(ActionListener listener); // unused
+    
+    public void addNewExpButtonListener(ActionListener listener); // unused
+    
+    public void addSelectButtonListener(ActionListener listener); // unused
+    
+    public void addDeleteFromDatabaseListener(ActionListener listener); // unused
+    
+    public void addProcessFeedbackListener(ActionListener listener); // unused
+    
+    public void addUploadButtonListener(ActionListener listener); // unused
+    
+    public void addToWorkspace(ArrayList<ExperimentData> experiments); // unused
+    
     public ArrayList<FileData> getAllMarkedFiles();
-
-    public String getPassword();
-
-    public String getUsername();
-
+    
+    public String getPassword(); // unused
+    
+    public String getUsername(); // unused
+    
     public JFrame getFrame();
-
-    public void setDownloadWindow(DownloadWindow downloadWindow);
-
-    public DownloadWindow getDownloadWindow();
-
-    public String getQuerySearchString();
-
-    public String getIp();
-
-    public ArrayList<ExperimentData> getSelectedDataInSearch();
-
-    public UploadTab getUploadTab();
-
-    public QuerySearchTab getQuerySearchTab();
-
-    public SysadminTab getSysAdminTab();
-
-    public WorkspaceTab getWorkSpaceTab();
-
-    public ProcessTab getProcessTab();
-
-    public int getSelectedRowAtAnnotationTable();
-
-    public void updateLoginAccepted(String username, String pwd, String name);
-
-    public void updateLoginNeglected(String errorMessage);
-
-    public void updateLogout();
-
-    public void setSearchAnnotationTypes(AnnotationDataType[] annotationTypes);
-
-    public void setProcessFileList(ArrayList<FileData> arrayList);
-
-    public void printToConsole(String message);
-
-    public void setSysadminController(SysadminController sysadminController);
-
-    public ArrayList<ExperimentData> getSelectedDataInWorkspace();
-
-    public ArrayList<ExperimentData> getSelectedExperimentsInWorkspace();
-
+    
+    public void setDownloadWindow(DownloadWindow downloadWindow); //used
+    
+    public DownloadWindow getDownloadWindow(); //used
+    
+    public String getQuerySearchString(); // unused
+    
+    public String getIp(); // unused
+    
+    public ArrayList<ExperimentData> getSelectedDataInSearch(); // unused
+    
+    public UploadTab getUploadTab(); //used
+    
+    public QuerySearchTab getQuerySearchTab(); //used
+    
+    public SysadminTab getSysAdminTab(); //used
+     
+    public WorkspaceTab getWorkSpaceTab(); //used
+    
+    public ProcessTab getProcessTab(); //used
+    
+    public int getSelectedRowAtAnnotationTable(); // unused
+    
+    public void updateLoginAccepted(String username, String pwd, String name); //used
+    
+    public void updateLoginNeglected(String errorMessage); // unused
+    
+    public void updateLogout(); //used
+    
+    public void setSearchAnnotationTypes(AnnotationDataType[] annotationTypes); // unused
+    
+    public void setProcessFileList(ArrayList<FileData> arrayList); //used
+    
+    public void printToConsole(String message); // unused
+    
+    public void setSysadminController(SysadminController sysadminController); // unused
+    
+    public ArrayList<ExperimentData> getSelectedDataInWorkspace(); // unused
+    
+    public ArrayList<ExperimentData> getSelectedExperimentsInWorkspace(); // unused
+    
     /**
      * Creates a new experiment to upload to using the provided annotations.
      *
      * @param annotations
      *            The annotations of the new experiment.
      */
-    public void createNewExp(AnnotationDataType[] annotations);
-
-    public String[] getParameters();
-
+    public void createNewExp(AnnotationDataType[] annotations); // unused
+    
+    public String[] getParameters(); // unused
+    
     /**
      * Add the selected files as UploadFileRow to the NewExp Panel.
      *
      * @param files
      *            [] for each to add
      */
-    public void selectFilesToNewExp(File[] files);
-
-    public void selectFilesToExistingExp(File[] files);
-
-    public ArrayList<File> getFilesToUpload();
-
-    public AnnotationDataValue[] getUploadAnnotations();
-
-    public void setBowtieParameters();
-
+    public void selectFilesToNewExp(File[] files); // unused
+    
+    public void selectFilesToExistingExp(File[] files); // unused
+    
+    public ArrayList<File> getFilesToUpload(); // unused
+    
+    public AnnotationDataValue[] getUploadAnnotations(); // unused
+    
+    public void setBowtieParameters(); // unused
+    
     public JList getfileList();
 
     public String getNewExpName();

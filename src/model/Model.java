@@ -1,5 +1,6 @@
 package model;
 
+import gui.ErrorDialog;
 import gui.GenomizerView;
 
 import java.io.File;
@@ -43,12 +44,15 @@ import util.AnnotationDataValue;
 import util.ExperimentData;
 import util.GenomeReleaseData;
 import util.ProcessFeedbackData;
+import util.RequestException;
 
 import com.google.gson.Gson;
 import communication.Connection;
 import communication.ConnectionFactory;
 import communication.DownloadHandler;
 import communication.HTTPURLUpload;
+
+// TODO Ge feedback till status bar i alla try-catch?
 
 public class Model implements GenomizerModel {
 
@@ -88,7 +92,12 @@ public class Model implements GenomizerModel {
                 .makeRawToProfileRequest(expid, parameters, metadata,
                         genomeRelease, author);
         Connection conn = connFactory.makeConnection();
-        conn.sendRequest(rawToProfilerequest, userID, JSON);
+        try {
+            conn.sendRequest(rawToProfilerequest, userID, JSON);
+        } catch (RequestException e) {
+            showErrorDialog("Data process failed", e);
+
+        }
         return conn.getResponseCode() == 200;
     }
 
@@ -98,7 +107,15 @@ public class Model implements GenomizerModel {
             LoginRequest request = RequestFactory.makeLoginRequest(username,
                     password);
             Connection conn = connFactory.makeConnection();
-            conn.sendRequest(request, userID, JSON);
+            try {
+                conn.sendRequest(request, userID, JSON);
+
+            } catch (RequestException e) {
+                // new ErrorDialog("Couldn't add new experiment", "fel",
+                // e.getResponseCode() + ":\n" +
+                // e.getResponseBody()).showDialog();
+
+            }
             if (conn.getResponseCode() == 200) {
                 LoginResponse loginResponse = ResponseParser
                         .parseLoginResponse(conn.getResponseBody());
@@ -124,7 +141,11 @@ public class Model implements GenomizerModel {
     public boolean logoutUser() {
         LogoutRequest request = RequestFactory.makeLogoutRequest();
         Connection conn = connFactory.makeConnection();
-        conn.sendRequest(request, userID, TEXT_PLAIN);
+        try {
+            conn.sendRequest(request, userID, TEXT_PLAIN);
+        } catch (RequestException e) {
+
+        }
         if (conn.getResponseCode() == 200) {
             userID = "";
             return true;
@@ -144,10 +165,13 @@ public class Model implements GenomizerModel {
                 f.getName(), type, "metameta", username, username, isPrivate,
                 release);
 
-
         Connection conn = connFactory.makeConnection();
 
-        conn.sendRequest(request, userID, JSON);
+        try {
+            conn.sendRequest(request, userID, JSON);
+        } catch (RequestException e) {
+            showErrorDialog("Couldn't upload file", e);
+        }
 
         int responseCode = conn.getResponseCode();
 
@@ -175,19 +199,24 @@ public class Model implements GenomizerModel {
                 fileID, ".wig");
 
         Connection conn = connFactory.makeConnection();
-        conn.sendRequest(request, userID, TEXT_PLAIN);
-        Gson gson = new Gson();
-        DownloadFileResponse response = gson.fromJson(conn.getResponseBody(),
-                DownloadFileResponse.class);
-        final DownloadHandler handler = new DownloadHandler(userID, fileName);
-        ongoingDownloads.add(handler);
+        try {
+            conn.sendRequest(request, userID, TEXT_PLAIN);
+            Gson gson = new Gson();
+            DownloadFileResponse response = gson.fromJson(
+                    conn.getResponseBody(), DownloadFileResponse.class);
+            final DownloadHandler handler = new DownloadHandler(userID,
+                    fileName);
+            ongoingDownloads.add(handler);
 
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                handler.download(url, path);
-            }
-        }).start();
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    handler.download(url, path);
+                }
+            }).start();
+        } catch (RequestException e) {
+            showErrorDialog("Couldn't download file", e);
+        }
 
         return true;
     }
@@ -197,16 +226,21 @@ public class Model implements GenomizerModel {
         searchHistory.add(pubmedString);
         SearchRequest request = RequestFactory.makeSearchRequest(pubmedString);
         Connection conn = connFactory.makeConnection();
-        conn.sendRequest(request, userID, TEXT_PLAIN);
-        if (conn.getResponseCode() == 200) {
-            ExperimentData[] searchResponses = ResponseParser
-                    .parseSearchResponse(conn.getResponseBody());
-            if (searchResponses != null && searchResponses.length > 0) {
-                for (int i = 0; i < searchResponses.length; i++) {
-                    searchResponses[i].convertToUTF8();
+        try {
+            conn.sendRequest(request, userID, TEXT_PLAIN);
+            if (conn.getResponseCode() == 200) {
+                ExperimentData[] searchResponses = ResponseParser
+                        .parseSearchResponse(conn.getResponseBody());
+                if (searchResponses != null && searchResponses.length > 0) {
+                    for (int i = 0; i < searchResponses.length; i++) {
+                        searchResponses[i].convertToUTF8();
+                    }
+                    return new ArrayList<>(Arrays.asList(searchResponses));
                 }
-                return new ArrayList<>(Arrays.asList(searchResponses));
             }
+        } catch (RequestException e) {
+            showErrorDialog("Search failed", e);
+
         }
         return null;
     }
@@ -250,20 +284,23 @@ public class Model implements GenomizerModel {
         AddAnnotationRequest request = RequestFactory.makeAddAnnotationRequest(
                 name, categories, forced);
         Connection conn = connFactory.makeConnection();
-        conn.sendRequest(request, userID, JSON);
-        System.err.println(request.toJson());
-        if (conn.getResponseCode() == 201) {
-            // System.err.println("addAnnotation sent succesfully!");
-            return true;
-        } else {
-            // TODO Ska det h�nda n�got h�r eller? CF
-             System.err
-             .println("addAnnotaion FAILURE, did not recive 201 response");
-             System.out.println("Response code: " + conn.getResponseCode() +
-             " "
-             + conn.getResponseBody());
-            return false;
+        try {
+            conn.sendRequest(request, userID, JSON);
+            if (conn.getResponseCode() == 201) {
+                return true;
+            } else {
+                // TODO Ska det h�nda n�got h�r eller? CF
+                System.err
+                        .println("addAnnotaion FAILURE, did not recive 201 response");
+                System.out.println("Response code: " + conn.getResponseCode()
+                        + " " + conn.getResponseBody());
+                return false;
+            }
+        } catch (RequestException e) {
+            showErrorDialog("Couldn't add annotation", e);
+
         }
+        return false;
     }
 
     @Override
@@ -314,7 +351,12 @@ public class Model implements GenomizerModel {
         RemoveAnnotationFieldRequest request = RequestFactory
                 .makeDeleteAnnotationRequest(deleteAnnoationData);
         Connection conn = connFactory.makeConnection();
-        conn.sendRequest(request, userID, JSON);
+        try {
+            conn.sendRequest(request, userID, JSON);
+        } catch (RequestException e) {
+            showErrorDialog("Couldn't delete annotation", e);
+
+        }
         if (conn.getResponseCode() == 200) {
             return true;
         } else {
@@ -332,7 +374,12 @@ public class Model implements GenomizerModel {
         GetAnnotationRequest request = RequestFactory
                 .makeGetAnnotationRequest();
         Connection conn = connFactory.makeConnection();
-        conn.sendRequest(request, userID, TEXT_PLAIN);
+        try {
+            conn.sendRequest(request, userID, TEXT_PLAIN);
+        } catch (RequestException e) {
+            showErrorDialog("Couldn't get annotations", e);
+
+        }
         if (conn.getResponseCode() == 200) {
             AnnotationDataType[] annotations = ResponseParser
                     .parseGetAnnotationResponse(conn.getResponseBody());
@@ -347,7 +394,12 @@ public class Model implements GenomizerModel {
         GetGenomeReleasesRequest request = RequestFactory
                 .makeGetGenomeReleaseRequest();
         Connection conn = connFactory.makeConnection();
-        conn.sendRequest(request, userID, TEXT_PLAIN);
+        try {
+            conn.sendRequest(request, userID, TEXT_PLAIN);
+        } catch (RequestException e) {
+            showErrorDialog("Couldn't get genome releases", e);
+
+        }
         if (conn.getResponseCode() == 200) {
             GenomeReleaseData[] genomeReleases = ResponseParser
                     .parseGetGenomeReleaseResponse(conn.getResponseBody());
@@ -370,42 +422,39 @@ public class Model implements GenomizerModel {
         AddGenomeReleaseRequest request = RequestFactory.makeAddGenomeRelease(
                 names, species, version);
         Connection conn = connFactory.makeConnection();
-        conn.sendRequest(request, userID, JSON);
-        if (conn.getResponseCode() == 201) {
+        try {
+            conn.sendRequest(request, userID, JSON);
+            if (conn.getResponseCode() == 201) {
 
-            AddGenomeReleaseResponse[] aGRR = ResponseParser
-                    .parseGenomeUploadResponse(conn.getResponseBody());
+                AddGenomeReleaseResponse[] aGRR = ResponseParser
+                        .parseGenomeUploadResponse(conn.getResponseBody());
 
-            for (int i = 0; i < files.length; i++) {
-                HTTPURLUpload upload = new HTTPURLUpload(aGRR[i].URLupload,
-                        files[i].getAbsolutePath(), files[i].getName());
+                for (int i = 0; i < files.length; i++) {
+                    HTTPURLUpload upload = new HTTPURLUpload(aGRR[i].URLupload,
+                            files[i].getAbsolutePath(), files[i].getName());
 
-                ongoingUploads.add(upload);
+                    ongoingUploads.add(upload);
 
-                if (upload.sendFile(userID)) {
+                    if (upload.sendFile(userID)) {
 
-                    // TODO: This if part looks like a mess! (OO)
-                    // System.out
-                    // .println("Succefully added genome release file named "
-                    // + files[i].getName() + ".");
+                        // TODO: This if part looks like a mess! (OO)
+                        // System.out
+                        // .println("Succefully added genome release file named "
+                        // + files[i].getName() + ".");
 
-                } else {
-                    // System.err
-                    // .println("Could not add genome release file named "
-                    // + files[i].getName() + "!");
-                    return false;
+                    } else {
+                        // System.err
+                        // .println("Could not add genome release file named "
+                        // + files[i].getName() + "!");
+                        return false;
+                    }
+
                 }
+                return true;
 
             }
-            return true;
-
-        } else {
-            JOptionPane.showMessageDialog(null, conn.getResponseBody());
-            // System.out
-            // .println("Something went wrong, could not add genome release: "
-            // + conn.getResponseCode()
-            // + "\n"
-            // + conn.getResponseBody());
+        } catch (RequestException e) {
+            showErrorDialog("Couldn't get genome releases", e);
         }
 
         return false;
@@ -419,14 +468,12 @@ public class Model implements GenomizerModel {
 
         Connection conn = connFactory.makeConnection();
 
-        conn.sendRequest(aER, getUserID(), JSON);
-
-        // TODO: Trace comments
-        System.out.println(aER.toJson().toString());
-        System.out.println("USEEEER ID = " + getUserID());
+        try {
+            conn.sendRequest(aER, getUserID(), JSON);
+        } catch (RequestException e) {
+            showErrorDialog("Couldn't add new experiment", e);
+        }
         int responseCode = conn.getResponseCode();
-        System.out.println("addnewExp " + responseCode);
-        System.out.println(conn.getResponseBody());
         return (responseCode == 201);
     }
 
@@ -438,7 +485,11 @@ public class Model implements GenomizerModel {
         RetrieveExperimentRequest rER = RequestFactory
                 .makeRetrieveExperimentRequest(expID);
         Connection conn = connFactory.makeConnection();
-        conn.sendRequest(rER, getUserID(), "plain/text");
+        try {
+            conn.sendRequest(rER, getUserID(), "plain/text");
+        } catch (RequestException e) {
+            showErrorDialog("Couldn't retrieve experiment", e);
+        }
         if (conn.getResponseCode() == 200) {
             return ResponseParser.parseRetrieveExp(conn.getResponseBody());
         } else {
@@ -457,7 +508,11 @@ public class Model implements GenomizerModel {
         RenameAnnotationFieldRequest request = RequestFactory
                 .makeRenameAnnotationFieldRequest(oldname, newname);
         Connection conn = connFactory.makeConnection();
-        conn.sendRequest(request, userID, JSON);
+        try {
+            conn.sendRequest(request, userID, JSON);
+        } catch (RequestException e) {
+            showErrorDialog("Couldn't rename annotation field", e);
+        }
         return conn.getResponseCode() == 200;
     }
 
@@ -466,9 +521,12 @@ public class Model implements GenomizerModel {
         RenameAnnotationValueRequest request = RequestFactory
                 .makeRenameAnnotationValueRequest(name, oldValue, newValue);
         Connection conn = connFactory.makeConnection();
-        conn.sendRequest(request, userID, JSON);
+        try {
+            conn.sendRequest(request, userID, JSON);
+        } catch (RequestException e) {
+            showErrorDialog("Couldn't rename annotation value", e);
+        }
         if (conn.getResponseCode() == 201 || conn.getResponseCode() == 200) {
-            // System.err.println("Sent " + request.requestName + " success!");
             return true;
         }
         return false;
@@ -478,9 +536,12 @@ public class Model implements GenomizerModel {
         RemoveAnnotationValueRequest request = RequestFactory
                 .makeRemoveAnnotationValueRequest(annotationName, valueName);
         Connection conn = connFactory.makeConnection();
-        conn.sendRequest(request, userID, JSON);
+        try {
+            conn.sendRequest(request, userID, JSON);
+        } catch (RequestException e) {
+            showErrorDialog("Couldn't remove annotation value", e);
+        }
         if (conn.getResponseCode() == 200) {
-            // System.err.println("Sent " + request.requestName + " success!");
             return true;
         }
         return false;
@@ -490,9 +551,12 @@ public class Model implements GenomizerModel {
         AddNewAnnotationValueRequest request = RequestFactory
                 .makeAddNewAnnotationValueRequest(annotationName, valueName);
         Connection conn = connFactory.makeConnection();
-        conn.sendRequest(request, userID, JSON);
+        try {
+            conn.sendRequest(request, userID, JSON);
+        } catch (RequestException e) {
+            showErrorDialog("Couldn't add new annotation value", e);
+        }
         if (conn.getResponseCode() == 201) {
-            // System.err.println("Sent " + request.requestName + " success!");
             return true;
         }
         return false;
@@ -502,7 +566,11 @@ public class Model implements GenomizerModel {
         ProcessFeedbackRequest request = RequestFactory
                 .makeProcessFeedbackRequest();
         Connection conn = connFactory.makeConnection();
-        conn.sendRequest(request, userID, TEXT_PLAIN);
+        try {
+            conn.sendRequest(request, userID, TEXT_PLAIN);
+        } catch (RequestException e) {
+            showErrorDialog("Couldn't get process feedback", e);
+        }
         if (conn.getResponseCode() == 200) {
             return ResponseParser.parseProcessFeedbackResponse(conn
                     .getResponseBody());
@@ -517,19 +585,14 @@ public class Model implements GenomizerModel {
         RemoveGenomeReleaseRequest request = RequestFactory
                 .makeRemoveGenomeReleaseRequest(specie, version);
         Connection conn = connFactory.makeConnection();
-        conn.sendRequest(request, userID, JSON);
-        if (conn.getResponseCode() == 200) {
-            JOptionPane.showMessageDialog(null, "Succesfully removed "
+        try {
+            conn.sendRequest(request, userID, JSON);JOptionPane.showMessageDialog(null, "Succesfully removed "
                     + version);
             return true;
-        } else {
-            JOptionPane.showMessageDialog(null, conn.getResponseBody());
-            // System.err.println("Could not remove genome release: " + version
-            // + " species: " + specie);
-            // System.err.println(conn.getResponseBody());
-
+        } catch (RequestException e) {
+            showErrorDialog("Couldn't delete genome release", e);
+            return false;
         }
-        return false;
     }
 
     public GenomeReleaseData[] getSpeciesGenomeReleases(String species) {
@@ -538,24 +601,14 @@ public class Model implements GenomizerModel {
                 .makeGetGenomeSpecieReleaseRequest(species);
 
         Connection conn = connFactory.makeConnection();
-        conn.sendRequest(request, userID, TEXT_PLAIN);
-        if (conn.getResponseCode() == 200) {
-
-            // TODO: Remove the println !? (OO)
-            // System.err.println("Sent getGenomeSpecieReleaseRequestSuccess!");
-            // for(int i = 0;i < genomeReleases.length ; i++){
-            // System.out.println(genomeReleases[i].getVersion());
-            // }
-            //System.out.println(conn.getResponseBody());
+        try {
+            conn.sendRequest(request, userID, TEXT_PLAIN);
             return ResponseParser.parseGetGenomeReleaseResponse(conn
                     .getResponseBody());
-        } else {
-            JOptionPane.showMessageDialog(null,
-                    "Could not get genomespeciereleases!");
+        } catch (RequestException e) {
+            showErrorDialog("Couldn't get genome releases", e);
+            return new GenomeReleaseData[] {};
         }
-
-        return new GenomeReleaseData[] {};
-
     }
 
     @Override
@@ -563,8 +616,13 @@ public class Model implements GenomizerModel {
         RemoveFileFromExperimentRequest request = RequestFactory
                 .makeRemoveFileFromExperimentRequest(id);
         Connection conn = connFactory.makeConnection();
-        conn.sendRequest(request, userID, TEXT_PLAIN);
-        return (conn.getResponseCode() == 200);
+        try {
+            conn.sendRequest(request, userID, TEXT_PLAIN);
+            return true;
+        } catch (RequestException e) {
+            showErrorDialog("Couldn't delete file from experiment", e);
+            return false;
+        }
     }
 
     @Override
@@ -572,8 +630,13 @@ public class Model implements GenomizerModel {
         RemoveExperimentRequest request = RequestFactory
                 .makeRemoveExperimentRequest(name);
         Connection conn = connFactory.makeConnection();
-        conn.sendRequest(request, userID, TEXT_PLAIN);
-        return (conn.getResponseCode() == 200);
+        try {
+            conn.sendRequest(request, userID, TEXT_PLAIN);
+            return true;
+        } catch (RequestException e) {
+            showErrorDialog("Couldn't delete experiment", e);
+            return false;
+        }
     }
 
     public void resetModel() {
@@ -587,6 +650,14 @@ public class Model implements GenomizerModel {
     @Override
     public boolean addGenomeRelease() {
         return false;
+    }
+
+    private void showErrorDialog(String title, RequestException e) {
+        String responseBody = e.getResponseBody();
+        String message = ResponseParser.parseErrorResponse(responseBody).message;
+        String extendedMessage = e.getResponseCode() + ":\n" + responseBody;
+        ErrorDialog errorDialog = new ErrorDialog(title, message, extendedMessage);
+        errorDialog.showDialog();
     }
 
 }

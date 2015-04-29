@@ -17,6 +17,7 @@ import util.AnnotationDataValue;
 import util.ExperimentData;
 import util.GenomeReleaseData;
 
+import gui.ErrorDialog;
 import gui.GenomizerView;
 import gui.UploadFileRow;
 import gui.UploadTab;
@@ -35,15 +36,16 @@ public class UploadTabController {
         this.view = view;
         this.model = model;
         this.fileChooser = fileChooser;
-        view.addSelectFilesToUploadButtonListener(SelectFilesToUploadButtonListener());
-        view.addAddToExistingExpButtonListener(AddToExistingExpButtonListener());
-        view.addUploadToExperimentButtonListener(UploadToExperimentButtonListener());
-        view.addNewExpButtonListener(NewExpButtonListener());
-        view.addSelectButtonListener(SelectFilesToNewExpListener());
-        view.addUploadButtonListener(UploadNewExpListener());
-        view.setOngoingUploads(model.getOngoingUploads());
-        view.addUploadSelectedFilesListener(UploadSelectedFilesListener());
-        view.addSpeciesSelectedListener(SpeciesSelectedListener());
+        UploadTab uploadTab = view.getUploadTab();
+        uploadTab.getExistExpPanel().addSelectFilesToUploadButtonListener(SelectFilesToUploadButtonListener());
+        uploadTab.addAddToExistingExpButtonListener(AddToExistingExpButtonListener());
+        uploadTab.getExistExpPanel().addUploadToExperimentButtonListener(UploadToExperimentButtonListener());
+        uploadTab.addNewExpButtonListener(NewExpButtonListener());
+        uploadTab.getNewExpPanel().addSelectButtonListener(SelectFilesToNewExpListener());
+        uploadTab.getNewExpPanel().addUploadButtonListener(UploadNewExpListener());
+        uploadTab.setOngoingUploads(model.getOngoingUploads());
+        uploadTab.getNewExpPanel().addUploadSelectedFilesListener(UploadSelectedFilesListener());
+        uploadTab.getNewExpPanel().addSpeciesSelectedListener(SpeciesSelectedListener());
     }
 
     /**
@@ -92,7 +94,7 @@ public class UploadTabController {
                 } else {
                     return;
                 }
-                view.selectFilesToNewExp(files);
+                view.getUploadTab().getNewExpPanel().createUploadFileRow(files);
                 view.enableUploadButton(true);
             }
         };
@@ -142,6 +144,8 @@ public class UploadTabController {
                                                 JOptionPane.ERROR_MESSAGE);
                             }
                         } else {
+
+
                             JOptionPane.showMessageDialog(null,
                                     "Please fill in experiment name.", "ERROR",
                                     JOptionPane.ERROR_MESSAGE);
@@ -170,7 +174,7 @@ public class UploadTabController {
 
                         for (File f : files) {
                             if (model.uploadFile(ed.getName(), f,
-                                    types.get(f.getName()), view.getUsername(),
+                                    types.get(f.getName()), view.getLoginWindow().getUsernameInput(),
                                     false, view.getGenomeVersion(f))) {
                                 view.getUploadTab().getExistExpPanel()
                                         .deleteFileRow(f);
@@ -181,7 +185,7 @@ public class UploadTabController {
                                             "Upload to experiment \""
                                                     + ed.getName()
                                                     + "\" complete.");
-                                    view.refreshSearch();
+                                    view.getQuerySearchTab().refresh();
                                 }
                                 for (HTTPURLUpload upload : model
                                         .getOngoingUploads()) {
@@ -206,52 +210,6 @@ public class UploadTabController {
         };
     }
 
-
-//    /**
-//     * Method updating the progress of ongoing uploads.
-//     */
-//    private void updateProgress() {
-//        new Thread(new Runnable() {
-//            private boolean running;
-//
-//            @Override
-//            public void run() {
-//                running = true;
-//                while (running) {
-//                    for (File key : uploadToNewExpPanel.getFileRows().keySet()) {
-//                        UploadFileRow row = uploadToNewExpPanel.getFileRows()
-//                                .get(key);
-//                        for (HTTPURLUpload upload : ongoingUploads) {
-//                            if (upload.getFileName().equals(row.getFileName())) {
-//                                row.updateProgressBar(upload
-//                                        .getCurrentProgress());
-//                            }
-//                        }
-//                    }
-//                    for (File key : uploadToExistingExpPanel.getFileRows()
-//                            .keySet()) {
-//                        UploadFileRow row = uploadToExistingExpPanel
-//                                .getFileRows().get(key);
-//                        for (HTTPURLUpload upload : ongoingUploads) {
-//                            if (upload.getFileName().equals(row.getFileName())) {
-//                                row.updateProgressBar(upload
-//                                        .getCurrentProgress());
-//                            }
-//                        }
-//                    }
-//                    try {
-//                        Thread.sleep(100);
-//                    } catch (InterruptedException e) {
-//                        ErrorLogger.log(e);
-//                        running = false;
-//                    }
-//                    // TODO: THIS IS BROKEN, more is created on each logout-in !!! System.err.println(this.toString());
-//                }
-//            }
-//        }).start();
-//    }
-
-
     /**
      * Get the annotations and create a new NewExp Panel with them.
      *
@@ -266,8 +224,7 @@ public class UploadTabController {
                     public void run() {
                         AnnotationDataType[] annotations = model
                                 .getAnnotations();
-                        view.createNewExp(annotations);
-
+                        view.getUploadTab().addNewExpPanel(annotations);
                     };
                 }.start();
             }
@@ -282,9 +239,10 @@ public class UploadTabController {
                     @Override
                     public void run() {
                         String expName = view.getNewExpName();
-                        AnnotationDataValue[] annotations = view
-                                .getUploadAnnotations();
-                        ArrayList<File> files = view.getFilesToUpload();
+                        AnnotationDataValue[] annotations = view.getUploadTab().getNewExpPanel().getUploadAnnotations();
+                        
+                        ArrayList<File> files = view.getUploadTab().getNewExpPanel().getUploadFiles();
+                        
                         if (files != null && files.size() > 0
                                 && annotations != null && expName != null) {
                             HashMap<String, String> types = view
@@ -299,7 +257,7 @@ public class UploadTabController {
                                     view.disableSelectedRow(f);
                                     if (model.uploadFile(expName, f,
                                             types.get(f.getName()),
-                                            view.getUsername(), false,
+                                            view.getLoginWindow().getUsernameInput(), false,
                                             view.getGenomeVersion(f))) {
                                         view.deleteUploadFileRow(f);
                                         for (HTTPURLUpload upload : model
@@ -310,8 +268,9 @@ public class UploadTabController {
                                                         .remove(upload);
                                             }
                                         }
-                                        view.refreshSearch();
+                                        view.getQuerySearchTab().refresh();
                                     } else {
+
                                         JOptionPane.showMessageDialog(
                                                 null,
                                                 "Couldn't upload "
@@ -322,10 +281,9 @@ public class UploadTabController {
                                     }
                                 }
                             } else {
-                                JOptionPane.showMessageDialog(null,
-                                        "Couldn't create experiment " + expName
-                                                + ".", "Error",
-                                        JOptionPane.ERROR_MESSAGE);
+
+                                new ErrorDialog("Couldn't create experiment", "The experiment " + expName + " could not be created.", "singdudeldej").showDialog();
+
                             }
                         }
                     };
@@ -342,8 +300,7 @@ public class UploadTabController {
                     @Override
                     public void run() {
                         String expName = view.getNewExpName();
-                        AnnotationDataValue[] annotations = view
-                                .getUploadAnnotations();
+                        AnnotationDataValue[] annotations = view.getUploadTab().getNewExpPanel().getUploadAnnotations();
                         ArrayList<File> files = view.getSelectedFilesToUpload();
                         if (files != null && files.size() > 0
                                 && annotations != null && expName != null) {
@@ -359,7 +316,7 @@ public class UploadTabController {
                                     view.disableSelectedRow(f);
                                     if (model.uploadFile(expName, f,
                                             types.get(f.getName()),
-                                            view.getUsername(), false,
+                                            view.getLoginWindow().getUsernameInput(), false,
                                             view.getGenomeVersion(f))) {
                                         view.deleteUploadFileRow(f);
                                         for (HTTPURLUpload upload : model

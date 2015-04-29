@@ -48,7 +48,7 @@ class ProgressHttpEntityWrapper extends HttpEntityWrapper {
 
         @Override
         public void write(final byte[] b, final int off, final int len) throws IOException {
-            //super.write(byte b[], int off, int len) calls write(int b)
+
             out.write(b, off, len);
             this.transferred += len;
             if (System.currentTimeMillis() - lastCheck > 1000) {

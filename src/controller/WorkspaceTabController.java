@@ -17,6 +17,7 @@ import util.FileData;
 import gui.DeleteDataWindow;
 import gui.GenomizerView;
 import gui.UploadTab;
+import gui.WorkspaceTab;
 import model.ErrorLogger;
 import model.GenomizerModel;
 
@@ -31,10 +32,12 @@ public class WorkspaceTabController {
         this.view = view;
         this.model = model;
         this.fileChooser = fileChooser;
-        view.addDownloadFileListener( DownloadFileListener());
-        view.addProcessFileListener( ProcessFileListener());
-        view.addUploadToListener( UploadToListener());
-        view.addDeleteFromDatabaseListener( DeleteFromDatabaseListener());
+        WorkspaceTab workspaceTab = view.getWorkSpaceTab();
+        workspaceTab.addDownloadFileListener(DownloadFileListener());
+        workspaceTab.addProcessFileListener(ProcessFileListener());
+        workspaceTab.addUploadToListener(UploadToListener());
+        //view.addUploadToListener( UploadToListener());
+        workspaceTab.addDeleteSelectedListener(DeleteFromDatabaseListener());
         view.setOngoingDownloads(model.getOngoingDownloads());
     }
     
@@ -50,10 +53,8 @@ public class WorkspaceTabController {
                     @Override
                     public void run() {
                         
-                        // DownloadWindow downloadWindow =
-                        // view.getDownloadWindow();
-                        ArrayList<ExperimentData> expData = view
-                                .getSelectedDataInWorkspace();
+
+                        ArrayList<ExperimentData> expData = view.getWorkSpaceTab().getSelectedData();
                         ArrayList<FileData> fileData = new ArrayList<>();
                         for (ExperimentData data : expData) {
                             fileData.addAll(data.files);
@@ -98,8 +99,7 @@ public class WorkspaceTabController {
                     @Override
                     public void run() {
                         // TODO Skicka in filedata arrayen
-                        ArrayList<ExperimentData> selectedData = view
-                                .getSelectedDataInWorkspace();
+                        ArrayList<ExperimentData> selectedData = view.getWorkSpaceTab().getSelectedData();
                         ArrayList<FileData> selectedFiles = new ArrayList<>();
                         for (ExperimentData experiment : selectedData) {
                             for (FileData file : experiment.files) {
@@ -122,7 +122,7 @@ public class WorkspaceTabController {
                 
                 try {
                     ExperimentData firstChosenExperiment = view
-                            .getSelectedExperimentsInWorkspace().get(0);
+                            .getWorkSpaceTab().getSelectedExperiments().get(0);
                     UploadTab ut = view.getUploadTab();
                     view.getTabbedPane().setSelectedComponent(ut);
                     ut.getExperimentNameField().setText(
@@ -160,10 +160,9 @@ public class WorkspaceTabController {
                                 }
                             });
                             i = 0;
-                            ArrayList<ExperimentData> selectedExps = view
-                                    .getSelectedExperimentsInWorkspace();
-                            ArrayList<ExperimentData> selectedData = view
-                                    .getSelectedDataInWorkspace();
+                            ArrayList<ExperimentData> selectedExps = view.
+                                    getWorkSpaceTab().getSelectedExperiments();
+                            ArrayList<ExperimentData> selectedData = view.getWorkSpaceTab().getSelectedData();
                             int size = selectedData.size()
                                     + selectedExps.size();
                             int progress = 0;
@@ -198,7 +197,7 @@ public class WorkspaceTabController {
                                     "Delete success",
                                     JOptionPane.INFORMATION_MESSAGE);
                             view.removeSelectedFromWorkspace();
-                            view.refreshSearch();
+                            view.getQuerySearchTab().refresh();
                         }
                         
                     };
@@ -224,7 +223,8 @@ public class WorkspaceTabController {
                         } else {
                             return;
                         }
-                        view.selectFilesToNewExp(files);
+                        view.getUploadTab().getNewExpPanel().createUploadFileRow(files);
+
                         view.enableUploadButton(true);
                     };
                 }.start();
