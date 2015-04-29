@@ -116,8 +116,9 @@ public class GUI extends JFrame implements GenomizerView {
     
     /**
      * Set a new statusmessage
+     * 
      * @param status
-     *              New status
+     *            New status
      * @author JH
      */
     public void setStatusPanel(String status) {
@@ -129,10 +130,20 @@ public class GUI extends JFrame implements GenomizerView {
         mainPanel.revalidate();
     }
     
+    /**
+     * adds a ChangeListener to the tabbedPane not used...? TODO unuseds
+     * 
+     * @see gui.GenomizerView#addChangedTabListener(javax.swing.event.ChangeListener)
+     */
     public void addChangedTabListener(ChangeListener listener) {
         tabbedPane.addChangeListener(listener);
     }
     
+    /**
+     * returns the index of the currently select item in the tabbed pane
+     * 
+     * @see gui.GenomizerView#getSelectedIndex()
+     */
     public int getSelectedIndex() {
         return tabbedPane.getSelectedIndex();
     }
@@ -242,7 +253,6 @@ public class GUI extends JFrame implements GenomizerView {
     public ArrayList<ExperimentData> getSelectedDataInSearch() {
         return querySearchTab.getSelectedData();
     }
-
     
     /**
      * @return The uploadTab.
@@ -250,7 +260,6 @@ public class GUI extends JFrame implements GenomizerView {
     public UploadTab getUploadTab() {
         return uploadTab;
     }
-    
     
     /**
      * @return The querySearchTab's searchString.
@@ -293,14 +302,15 @@ public class GUI extends JFrame implements GenomizerView {
         return loginWindow.getIPInput();
     }
     
-
     @Override
     public int getSelectedRowAtAnnotationTable() {
         // TODO Auto-generated method stub
         return 0;
     }
     
-    /**Returns the GUI
+    /**
+     * Returns the GUI
+     * 
      * @return The GUI
      */
     @Override
@@ -321,10 +331,16 @@ public class GUI extends JFrame implements GenomizerView {
     }
     
     /**
+     * Is run when the user has logged in, makes the GUI visible, hides the
+     * loginWindow
      * 
+     * @see controller.Controller#LoginListener()
      * @param username
+     *            the username the user logged in with
      * @param pwd
+     *            the password he user used, unused...? //TODO pwd unused
      * @param name
+     *            the name of the user //TODO static
      */
     @Override
     public void updateLoginAccepted(String username, String pwd, String name) {
@@ -347,7 +363,7 @@ public class GUI extends JFrame implements GenomizerView {
     }
     
     /**
-     *
+     * Makes GUI invisible, shows the loginWindow
      */
     @Override
     public void updateLogout() {
@@ -388,7 +404,6 @@ public class GUI extends JFrame implements GenomizerView {
             UIManager
                     .setLookAndFeel("javax.swing.plaf.nimbus.NimbusLookAndFeel");
             
-            
         } catch (ClassNotFoundException | InstantiationException
                 | IllegalAccessException | UnsupportedLookAndFeelException e) {
             ErrorLogger.log(e);
@@ -398,7 +413,6 @@ public class GUI extends JFrame implements GenomizerView {
             
         }
     }
-    
     
     /**
      * Sets the uploadTab of the GUI. Also sets the name of the tab in the
@@ -478,7 +492,7 @@ public class GUI extends JFrame implements GenomizerView {
     /**
      * Returns the querySearchTab, used by controller
      * 
-     * @return querySearchTab the querySearchTab
+     * @return the querySearchTab
      */
     public QuerySearchTab getQuerySearchTab() {
         return querySearchTab;
@@ -506,6 +520,7 @@ public class GUI extends JFrame implements GenomizerView {
      */
     
     /**
+     * TODO unfinished
      * 
      * @param allFileData
      */
@@ -513,7 +528,6 @@ public class GUI extends JFrame implements GenomizerView {
     public void setProcessFileList(ArrayList<FileData> allFileData) {
         
         ArrayList<FileData> fileArray = allFileData;
-        
         
         tabbedPane.setSelectedIndex(2);
         processTab.setFileInfo(workspaceTab.getSelectedData());
@@ -683,6 +697,11 @@ public class GUI extends JFrame implements GenomizerView {
         ratioCalcPopup.setUnusedRatioPar();
     }
     
+    /**
+     * displays the ratio popup
+     * 
+     * @see gui.GenomizerView#showRatioPopup()
+     */
     @Override
     public void showRatioPopup() {
         ratioCalcPopup.setVisible(true);
@@ -697,6 +716,11 @@ public class GUI extends JFrame implements GenomizerView {
         uploadTab.setOngoingUploads(ongoingUploads);
     }
     
+    /**
+     * returns the RatioCalcPopup
+     * 
+     * @see gui.GenomizerView#getRatioCalcPopup()
+     */
     public RatioCalcPopup getRatioCalcPopup() {
         return this.ratioCalcPopup;
     }
@@ -719,6 +743,11 @@ public class GUI extends JFrame implements GenomizerView {
         // uploadTab.disableRow(f);
     }
     
+    /**
+     * TODO understand
+     * 
+     * @see gui.GenomizerView#isCorrectToProcess()
+     */
     public boolean isCorrectToProcess() {
         boolean sgrFormat = processTab.radioGroup
                 .isSelected(processTab.outputSGR.getModel());
@@ -727,6 +756,11 @@ public class GUI extends JFrame implements GenomizerView {
                 processTab.useSmoothing, processTab.stepSizeBox);
     }
     
+    /**
+     * TODO understand
+     * 
+     * @see gui.GenomizerView#isRatioCorrectToProcess()
+     */
     public boolean isRatioCorrectToProcess() {
         return !processTab.useRatio()
                 || Process.isRatioCorrectToProcess(
@@ -770,6 +804,10 @@ public class GUI extends JFrame implements GenomizerView {
         return uploadTab.getGenomeVersion(f);
     }
     
+    /**
+     * Remove and re-add each tab in the GUI. For now **ONLY TABS** are reset:
+     * If this changes some other methods will need updating (logoutlistener)
+     */
     @Override
     public void resetGUI() {
         
@@ -798,6 +836,11 @@ public class GUI extends JFrame implements GenomizerView {
         revalidate();
     }
     
+    /**
+     * returns the tabbedPane
+     * 
+     * @see gui.GenomizerView#getTabbedPane()
+     */
     public JTabbedPane getTabbedPane() {
         return tabbedPane;
     }
@@ -830,6 +873,11 @@ public class GUI extends JFrame implements GenomizerView {
         querySearchTab.clearSearchSelection();
     }
     
+    /**
+     * Returns the processTab
+     * 
+     * @return the processTab
+     */
     @Override
     public ProcessTab getProcessTab() {
         // TODO Auto-generated method stub

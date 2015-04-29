@@ -46,7 +46,7 @@ public class SysadminTabChangeListener implements ChangeListener {
         
             case SysStrings.GENOME:
                 sysController.updateGenomeReleaseTab();
-
+                
                 lastTab = SysStrings.GENOME;
                 break;
             case SysStrings.ANNOTATIONS:

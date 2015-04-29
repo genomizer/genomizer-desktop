@@ -111,43 +111,44 @@ public interface GenomizerView {
     
     public void setDownloadWindow(DownloadWindow downloadWindow); // used commented
     
-    public DownloadWindow getDownloadWindow(); // used
+    public DownloadWindow getDownloadWindow(); // used commented
     
-    public String getQuerySearchString(); // unused
+    public String getQuerySearchString(); // unused commented
     
-    public String getIp(); // unused
+    public String getIp(); // unused commented-collision
     
-    public ArrayList<ExperimentData> getSelectedDataInSearch(); // unused
+    public ArrayList<ExperimentData> getSelectedDataInSearch(); // unused commented
     
-    public UploadTab getUploadTab(); // used
+    public UploadTab getUploadTab(); // used commented
     
-    public QuerySearchTab getQuerySearchTab(); // used
+    public QuerySearchTab getQuerySearchTab(); // used commented
     
-    public SysadminTab getSysAdminTab(); // used
+    public SysadminTab getSysAdminTab(); // used commented
     
-    public WorkspaceTab getWorkSpaceTab(); // used
+    public WorkspaceTab getWorkSpaceTab(); // used commented
     
-    public ProcessTab getProcessTab(); // used
+    public ProcessTab getProcessTab(); // used commented
     
-    public int getSelectedRowAtAnnotationTable(); // unused
+    //TODO unimplemented getter of...?
+    public int getSelectedRowAtAnnotationTable(); // unused N/A
     
-    public void updateLoginAccepted(String username, String pwd, String name); // used
+    public void updateLoginAccepted(String username, String pwd, String name); // used commented
     
-    public void updateLoginNeglected(String errorMessage); // unused
+    public void updateLoginNeglected(String errorMessage); // unused commented
     
-    public void updateLogout(); // used
+    public void updateLogout(); // used commented
     
-    public void setSearchAnnotationTypes(AnnotationDataType[] annotationTypes); // unused
+    public void setSearchAnnotationTypes(AnnotationDataType[] annotationTypes); // unused commented
     
-    public void setProcessFileList(ArrayList<FileData> arrayList); // used
+    public void setProcessFileList(ArrayList<FileData> arrayList); // used TODO unfinished
     
-    public void printToConsole(String message); // unused
+    public void printToConsole(String message); // unused commented
     
-    public void setSysadminController(SysadminController sysadminController); // unused
+    public void setSysadminController(SysadminController sysadminController); // unused commented
     
-    public ArrayList<ExperimentData> getSelectedDataInWorkspace(); // unused
+    public ArrayList<ExperimentData> getSelectedDataInWorkspace(); // unused commented-collision
     
-    public ArrayList<ExperimentData> getSelectedExperimentsInWorkspace(); // unused
+    public ArrayList<ExperimentData> getSelectedExperimentsInWorkspace(); // unused commented
     
     /**
      * Creates a new experiment to upload to using the provided annotations.
@@ -155,9 +156,9 @@ public interface GenomizerView {
      * @param annotations
      *            The annotations of the new experiment.
      */
-    public void createNewExp(AnnotationDataType[] annotations); // unused
+    public void createNewExp(AnnotationDataType[] annotations); // unused commented-collision
     
-    public String[] getParameters(); // unused
+    public String[] getParameters(); // unused commented
     
     /**
      * Add the selected files as UploadFileRow to the NewExp Panel.
@@ -165,23 +166,23 @@ public interface GenomizerView {
      * @param files
      *            [] for each to add
      */
-    public void selectFilesToNewExp(File[] files); // unused
+    public void selectFilesToNewExp(File[] files); // unused commented-collision
     
-    public void selectFilesToExistingExp(File[] files); // unused
+    public void selectFilesToExistingExp(File[] files); // unused commented
     
-    public ArrayList<File> getFilesToUpload(); // unused
+    public ArrayList<File> getFilesToUpload(); // unused commented
     
-    public AnnotationDataValue[] getUploadAnnotations(); // unused
+    public AnnotationDataValue[] getUploadAnnotations(); // unused commented
     
-    public void setBowtieParameters(); // unused
+    public void setBowtieParameters(); // unused commented
     
-    public JList getfileList(); // unused
+    public JList getfileList(); // unused commented~
     
-    public String getNewExpName(); // unused
+    public String getNewExpName(); // unused commented
     
-    public HashMap<String, String> getFilesToUploadTypes(); // unused
+    public HashMap<String, String> getFilesToUploadTypes(); // unused commented
     
-    public void updateQuerySearchResults(ArrayList<ExperimentData> searchResults); // unused
+    public void updateQuerySearchResults(ArrayList<ExperimentData> searchResults); // unused commented
     
     /**
      * Calls the uploadPanel's enableUploadButton method to try to either make
@@ -192,9 +193,9 @@ public interface GenomizerView {
      *            Whether it should try to make the button enabled (true) or
      *            disabled (false).
      */
-    public void enableUploadButton(boolean b); // unused
+    public void enableUploadButton(boolean b); // unused commented-collision
     
-    public String[] getRatioCalcParameters(); // unused
+    public String[] getRatioCalcParameters(); // unused commented
     
     /**
      * Deletes a file row.
@@ -202,85 +203,85 @@ public interface GenomizerView {
      * @param f
      *            Used to identify which fileRow to be deleted.
      */
-    public void deleteUploadFileRow(File f); // unused
+    public void deleteUploadFileRow(File f); // unused commented-collision
     
-    public void addRatioCalcListener(ActionListener listener); // unused
+    public void addRatioCalcListener(ActionListener listener); // unused commented
     
-    public void setDefaultRatioPar(); // unused
+    public void setDefaultRatioPar(); // unused not commented
     
-    public void setUnusedRatioPar(); // unused
+    public void setUnusedRatioPar(); // unused not commented
     
-    public void showRatioPopup(); // unused
+    public void showRatioPopup(); // unused commented
     
-    public void showProcessFeedback(ProcessFeedbackData[] processFeedbackData); // unused
+    public void showProcessFeedback(ProcessFeedbackData[] processFeedbackData); // unused commented~
     
     public void setOngoingUploads(
-            CopyOnWriteArrayList<HTTPURLUpload> ongoingUploads); // unused
+            CopyOnWriteArrayList<HTTPURLUpload> ongoingUploads); // unused commented
     
     public void setOngoingDownloads(
-            CopyOnWriteArrayList<DownloadHandler> ongoingDownloads); // unused
+            CopyOnWriteArrayList<DownloadHandler> ongoingDownloads); // unused commented
     
-    public void addOkListener(ActionListener listener); // unused
+    public void addOkListener(ActionListener listener); // unused commented
     
-    public RatioCalcPopup getRatioCalcPopup(); // used
+    public RatioCalcPopup getRatioCalcPopup(); // used commented
     
-    public void setGenomeFileList(GenomeReleaseData[] genome); // unused
+    public void setGenomeFileList(GenomeReleaseData[] genome); // unused commented
     
-    public ArrayList<File> getSelectedFilesToUpload(); // unused
+    public ArrayList<File> getSelectedFilesToUpload(); // unused commented~
     
-    public void addUploadSelectedFilesListener(ActionListener listener); // unused
+    public void addUploadSelectedFilesListener(ActionListener listener); // unused commented
     
     public void removeUploadExpName(); // unused
     
     public void removeSelectedFromWorkspace(); // unused
     
-    public void disableSelectedRow(File f); // unused, and doesn't do anything,
+    public void disableSelectedRow(File f); // used? HOW TODO why is this now used?, and doesn't do anything,
                                             // at all
     
-    public boolean isCorrectToProcess(); // used
+    public boolean isCorrectToProcess(); // used not commented
     
-    public boolean isRatioCorrectToProcess(); // used
+    public boolean isRatioCorrectToProcess(); // used not commented
     
-    public void setProfileButton(boolean bool); // unused
+    public void setProfileButton(boolean bool); // unused doesn't do anything
     
-    public boolean useRatio(); // unused
+    public boolean useRatio(); // unused commented
     
-    public ActiveSearchPanel getActiveSearchPanel(); // unused
+    public ActiveSearchPanel getActiveSearchPanel(); // unused not commented
     
-    public JButton getBackButton(); // used
+    public JButton getBackButton(); // used commented
     
     /**
      * Remove and re-add each tab in the GUI. For now **ONLY TABS** are reset:
      * If this changes some other methods will need updating (logoutlistener)
      */
-    public void resetGUI(); // used
+    public void resetGUI(); // used commented
     
-    public void changeTabInWorkspace(int tabIndex); // unused
+    public void changeTabInWorkspace(int tabIndex); // unused commented
     
-    public JTabbedPane getTabbedPane(); // used
+    public JTabbedPane getTabbedPane(); // used commented~
     
-    public String getSelectedSpecies(); // unused
+    public String getSelectedSpecies(); // unused commented
     
-    public void addSpeciesSelectedListener(ActionListener listener); // unused
+    public void addSpeciesSelectedListener(ActionListener listener); // unused commented
     
-    public void setGenomeReleases(GenomeReleaseData[] grd); // unused
+    public void setGenomeReleases(GenomeReleaseData[] grd); // unused not commented
     
-    public String getGenomeVersion(File f); // unused
+    public String getGenomeVersion(File f); // unused not commented
     
-    public void addDeleteSelectedListener(ActionListener listener); // unused
+    public void addDeleteSelectedListener(ActionListener listener); // unused commented
     
-    public ArrayList<ExperimentData> getFileInfo(); // unused
+    public ArrayList<ExperimentData> getFileInfo(); // unused commented~
     
-    public void setFileInfo(ArrayList<ExperimentData> fileInfo); // unused
+    public void setFileInfo(ArrayList<ExperimentData> fileInfo); // unused commented~
     
-    public void clearSearchSelection(); // unused
+    public void clearSearchSelection(); // unused not commented
     
-    public int getSelectedIndex(); // unused
+    public int getSelectedIndex(); // unused commented~
     
-    public void addChangedTabListener(ChangeListener listener); // unused
+    public void addChangedTabListener(ChangeListener listener); // unused N/A
     
     public void addAddToExistingExpButtonListenerInSearch( 
-            ActionListener listener); // unused
+            ActionListener listener); // unused commented
     
-    public void addUploadToListenerSearchTab(ActionListener listener); // unused
+    public void addUploadToListenerSearchTab(ActionListener listener); // unused commented
 }

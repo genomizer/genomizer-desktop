@@ -168,6 +168,7 @@ public class UploadToNewExpPanel extends JPanel implements ExperimentPanel {
     
     /**
      * Method adding a listener to the "selectButton" button.
+     * 
      * @see controller.UploadTabController#SelectFilesToNewExpListener()
      * @param listener
      *            The listener to select files.
@@ -178,6 +179,7 @@ public class UploadToNewExpPanel extends JPanel implements ExperimentPanel {
     
     /**
      * Method adding a listener to the "uploadButton" button.
+     * 
      * @see controller.UploadTabController#UploadNewExpListener
      * @param listener
      *            The listener to start uploading all files.
@@ -200,6 +202,7 @@ public class UploadToNewExpPanel extends JPanel implements ExperimentPanel {
     /**
      * Method adding a listener to the "species" combobox.
      * 
+     * @see controller.UploadTabController#SpeciesSelectedListener()
      * @param listener
      *            The listener for the species combobox.
      */
@@ -442,7 +445,7 @@ public class UploadToNewExpPanel extends JPanel implements ExperimentPanel {
     /**
      * Method returning the ExpID for a new experiment.
      * 
-     * @return a String with the ID of a experiment.
+     * @return the ID of a experiment.
      */
     public String getNewExpID() {
         return expID.getText();
@@ -465,7 +468,7 @@ public class UploadToNewExpPanel extends JPanel implements ExperimentPanel {
     /**
      * Method returning the chosen annotations for the new experiment.
      * 
-     * @return a AnnotationDataValue array with all the annotations.
+     * @return an AnnotationDataValue array with all the annotations.
      */
     public AnnotationDataValue[] getUploadAnnotations() {
         AnnotationDataValue[] a = new AnnotationDataValue[annotationHeaders
@@ -491,9 +494,9 @@ public class UploadToNewExpPanel extends JPanel implements ExperimentPanel {
     }
     
     /**
-     * Method returning the files to be uploaded.
+     * Method getting the files to be uploaded.
      * 
-     * @return a array with the files.
+     * @return an array with the files.
      */
     public ArrayList<File> getUploadFiles() {
         ArrayList<File> files = new ArrayList<>();
@@ -591,6 +594,7 @@ public class UploadToNewExpPanel extends JPanel implements ExperimentPanel {
      *            Whether it should try to make the button enabled (true) or
      *            disabled (false).
      */
+    
     public void enableUploadButton(boolean b) {
         if (b) {
             if (!uploadFileRows.isEmpty() && forcedAnnotationCheck()) {

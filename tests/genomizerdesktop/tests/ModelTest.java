@@ -3,9 +3,12 @@ package genomizerdesktop.tests;
 import static org.fest.assertions.api.Assertions.assertThat;
 import model.GenomizerModel;
 import model.Model;
+import model.User;
 
 import org.junit.Before;
 import org.junit.Test;
+
+import exampleData.ExampleExperimentData;
 import util.AnnotationDataValue;
 import util.ExperimentData;
 
@@ -15,12 +18,11 @@ import java.util.ArrayList;
 public class ModelTest {
 
     Model m;
-    String username = "desktoptest";
-    String password = "baguette";
+    User u = User.getInstance();
     @Before
     public void setUp() throws Exception {
         m = new Model();
-        m.setIp("http://private-anon-b586d8d28-genomizer.apiary-mock.com");
+        m.setIp("http://");
 
     }
 
@@ -31,17 +33,17 @@ public class ModelTest {
 
     @Test
     public void shouldLogin() throws Exception {
-        assertThat(m.getUserID()).isEmpty();
-        assertThat(m.loginUser(username, password)).isEqualToIgnoringCase("true");
-        assertThat(m.getUserID()).isNotEmpty();
+        assertThat(u.getName()).isEmpty();
+        assertThat(m.loginUser(ExampleExperimentData.getTestUsername(), ExampleExperimentData.getTestPassword())).isEqualToIgnoringCase("true");
+        assertThat(u.getName()).isNotEmpty();
     }
 
     @Test
     public void shouldLogout() throws Exception {
-        assertThat(m.loginUser(username, password)).isEqualToIgnoringCase("true");
-        assertThat(m.getUserID()).isNotEmpty();
+        assertThat(m.loginUser(ExampleExperimentData.getTestUsername(), ExampleExperimentData.getTestPassword())).isEqualToIgnoringCase("true");
+        assertThat(u.getName()).isNotEmpty();
         assertThat(m.logoutUser()).isTrue();
-        assertThat(m.getUserID()).isEmpty();
+        assertThat(u.getName()).isEmpty();
     }
 
     @Test
