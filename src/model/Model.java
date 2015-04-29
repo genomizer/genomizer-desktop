@@ -41,6 +41,7 @@ import responses.ResponseParser;
 import responses.sysadmin.AddGenomeReleaseResponse;
 import util.AnnotationDataType;
 import util.AnnotationDataValue;
+import util.ErrorMessageGenerator;
 import util.ExperimentData;
 import util.GenomeReleaseData;
 import util.ProcessFeedbackData;
@@ -658,7 +659,7 @@ public class Model implements GenomizerModel {
     private void showErrorDialog(String title, RequestException e) {
         String responseBody = e.getResponseBody();
         String message = ResponseParser.parseErrorResponse(responseBody).message;
-        String extendedMessage = e.getResponseCode() + ":\n" + responseBody;
+        String extendedMessage = ErrorMessageGenerator.generateMessage(e.getResponseCode());
         ErrorDialog errorDialog = new ErrorDialog(title, message, extendedMessage);
         errorDialog.showDialog();
     }
