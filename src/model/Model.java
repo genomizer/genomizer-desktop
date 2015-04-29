@@ -110,6 +110,7 @@ public class Model implements GenomizerModel {
             Connection conn = connFactory.makeConnection();
             try {
                 conn.sendRequest(request, userID, JSON);
+                
             } catch (RequestException e) {
                 // new ErrorDialog("Couldn't add new experiment", "fel",
                 // e.getResponseCode() + ":\n" +
