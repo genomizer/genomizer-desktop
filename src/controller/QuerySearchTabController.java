@@ -118,8 +118,7 @@ public class QuerySearchTabController {
                         ArrayList<ExperimentData> searchResults = model
                                 .search(pubmed);
                         if (searchResults != null) {
-                            view.updateQuerySearchResults(searchResults);
-                            
+                            view.getQuerySearchTab().updateSearchResults(searchResults);
                             // If search results are null and the active panel
                             // is search
                         } else if (view.getActiveSearchPanel() == ActiveSearchPanel.SEARCH) {

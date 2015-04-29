@@ -36,7 +36,7 @@ public class WorkspaceTabController {
         workspaceTab.addDownloadFileListener(DownloadFileListener());
         workspaceTab.addProcessFileListener(ProcessFileListener());
         workspaceTab.addUploadToListener(UploadToListener());
-        //view.addUploadToListener( UploadToListener());
+        // view.addUploadToListener( UploadToListener());
         workspaceTab.addDeleteSelectedListener(DeleteFromDatabaseListener());
         view.setOngoingDownloads(model.getOngoingDownloads());
     }
@@ -53,8 +53,8 @@ public class WorkspaceTabController {
                     @Override
                     public void run() {
                         
-
-                        ArrayList<ExperimentData> expData = view.getWorkSpaceTab().getSelectedData();
+                        ArrayList<ExperimentData> expData = view
+                                .getWorkSpaceTab().getSelectedData();
                         ArrayList<FileData> fileData = new ArrayList<>();
                         for (ExperimentData data : expData) {
                             fileData.addAll(data.files);
@@ -99,7 +99,8 @@ public class WorkspaceTabController {
                     @Override
                     public void run() {
                         // TODO Skicka in filedata arrayen
-                        ArrayList<ExperimentData> selectedData = view.getWorkSpaceTab().getSelectedData();
+                        ArrayList<ExperimentData> selectedData = view
+                                .getWorkSpaceTab().getSelectedData();
                         ArrayList<FileData> selectedFiles = new ArrayList<>();
                         for (ExperimentData experiment : selectedData) {
                             for (FileData file : experiment.files) {
@@ -160,9 +161,10 @@ public class WorkspaceTabController {
                                 }
                             });
                             i = 0;
-                            ArrayList<ExperimentData> selectedExps = view.
-                                    getWorkSpaceTab().getSelectedExperiments();
-                            ArrayList<ExperimentData> selectedData = view.getWorkSpaceTab().getSelectedData();
+                            ArrayList<ExperimentData> selectedExps = view
+                                    .getWorkSpaceTab().getSelectedExperiments();
+                            ArrayList<ExperimentData> selectedData = view
+                                    .getWorkSpaceTab().getSelectedData();
                             int size = selectedData.size()
                                     + selectedExps.size();
                             int progress = 0;
@@ -223,9 +225,10 @@ public class WorkspaceTabController {
                         } else {
                             return;
                         }
-                        view.getUploadTab().getNewExpPanel().createUploadFileRow(files);
-
-                        view.enableUploadButton(true);
+                        view.getUploadTab().getNewExpPanel()
+                                .createUploadFileRow(files);
+                        view.getUploadTab().getNewExpPanel()
+                                .enableUploadButton(true);
                     };
                 }.start();
             }

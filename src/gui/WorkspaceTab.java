@@ -277,9 +277,13 @@ public class WorkspaceTab extends JPanel {
 
     /**
      * Method adding a listener to the "uploadButton" button.
-     *
+     * OR
+     * Method adding a listener to the analyze selected button.
+     * 
      * @param listener
      *            The listener to start uploading files to a current experiment.
+     *            OR
+     *            The listener
      */
     public void addUploadToListener(ActionListener listener) {
         uploadToButton.addActionListener(listener);

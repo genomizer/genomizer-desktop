@@ -31,7 +31,8 @@ public class ProcessTabController {
         ProcessTab processTab = gui.getProcessTab();
         processTab.addRawToProfileDataListener(RawToProfileDataListener());
 
-        fileListAddMouseListener(view.getfileList());
+        fileListAddMouseListener(view.getProcessTab().getFileList());
+        
         processTab.addProcessFeedbackListener(ProcessFeedbackListener());
 
         processTab.addDeleteSelectedListener(DeleteSelectedListener());
@@ -134,10 +135,9 @@ public class ProcessTabController {
                                         parameters[5] = processParameters[5];
                                         
                                         if (view.useRatio()) {
-                                            parameters[6] = view
-                                                    .getRatioCalcParameters()[0]; // "single 4 0";
-                                            parameters[7] = view
-                                                    .getRatioCalcParameters()[1]; // "150 1 7 0 0";
+                                            String[] ratioParameters = view.getRatioCalcPopup().getRatioCalcParameters();
+                                            parameters[6] = ratioParameters[0]; // "single 4 0";
+                                            parameters[7] = ratioParameters[1]; // "150 1 7 0 0";
                                         } else {
                                             parameters[6] = "";
                                             parameters[7] = "";
