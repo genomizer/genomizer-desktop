@@ -603,7 +603,8 @@ public class Model implements GenomizerModel {
     private void showErrorDialog(String title, RequestException e) {
         String responseBody = e.getResponseBody();
         String message = ResponseParser.parseErrorResponse(responseBody).message;
-        String extendedMessage = ErrorMessageGenerator.generateMessage(e.getResponseCode());
+        String extendedMessage = ErrorMessageGenerator.generateMessage(e
+                .getResponseCode());
         ErrorDialog errorDialog = new ErrorDialog(title, message, extendedMessage);
         errorDialog.showDialog();
     }
