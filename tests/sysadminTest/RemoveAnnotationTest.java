@@ -20,7 +20,7 @@ public class RemoveAnnotationTest {
     @Before
     public void setUp() throws Exception {
         model = new Model();
-        model.setIp("dumbledore.cs.umu.se:7000");
+        model.setIP("dumbledore.cs.umu.se:7000");
         model.loginUser("SysadminTests", "baguette");
         sysadminTab = new SysadminTab();
         name = "REMOVEANNOTATIONTEST";

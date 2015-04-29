@@ -20,7 +20,7 @@ public class AnnotationFieldTest {
     public void setUp() throws Exception {
 
         model = new Model();
-        model.setIp(ExampleExperimentData.getTestServerIP());
+        model.setIP(ExampleExperimentData.getTestServerIP());
         model.loginUser(ExampleExperimentData.getTestUsername(), ExampleExperimentData.getTestPassword());
         sysadminTab = new SysadminTab();
     }
