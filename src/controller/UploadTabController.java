@@ -142,12 +142,6 @@ public class UploadTabController {
                                                 "ERROR",
                                                 JOptionPane.ERROR_MESSAGE);
                             }
-                        } else {
-
-
-                            JOptionPane.showMessageDialog(null,
-                                    "Please fill in experiment name.", "ERROR",
-                                    JOptionPane.ERROR_MESSAGE);
                         }
 
                     };
@@ -196,12 +190,6 @@ public class UploadTabController {
                                                 .remove(upload);
                                     }
                                 }
-                            } else {
-                                JOptionPane
-                                        .showMessageDialog(null, "Upload of "
-                                                + f.getName() + " failed.",
-                                                "Error",
-                                                JOptionPane.ERROR_MESSAGE);
                             }
                         }
 
@@ -270,21 +258,8 @@ public class UploadTabController {
                                             }
                                         }
                                         view.getQuerySearchTab().refresh();
-                                    } else {
-
-                                        JOptionPane.showMessageDialog(
-                                                null,
-                                                "Couldn't upload "
-                                                        + f.getName() + ".",
-                                                "Error",
-                                                JOptionPane.ERROR_MESSAGE);
-
-                                    }
+                                    } 
                                 }
-                            } else {
-
-                                new ErrorDialog("Couldn't create experiment", "The experiment " + expName + " could not be created.", "singdudeldej").showDialog();
-
                             }
                         }
                     };
@@ -330,12 +305,6 @@ public class UploadTabController {
                                             }
                                         }
                                     } else {
-                                        JOptionPane.showMessageDialog(
-                                                null,
-                                                "Couldn't upload "
-                                                        + f.getName() + ".",
-                                                "Error",
-                                                JOptionPane.ERROR_MESSAGE);
                                         ErrorLogger.log("Couldn't upload",
                                                 "Upload");
                                     }
@@ -345,12 +314,7 @@ public class UploadTabController {
                                 JOptionPane.showMessageDialog(null,
                                         "Upload to the new " + "experiment \""
                                                 + expName + "\" complete");
-                            } else {
-                                JOptionPane.showMessageDialog(null,
-                                        "Couldn't create new experiment "
-                                                + expName + ".", "Error",
-                                        JOptionPane.ERROR_MESSAGE);
-                            }
+                            } 
                         } else {
                             JOptionPane.showMessageDialog(null,
                                     "No files selected.");
