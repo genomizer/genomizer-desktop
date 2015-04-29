@@ -22,7 +22,7 @@ public class ModelTest {
     @Before
     public void setUp() throws Exception {
         m = new Model();
-        m.setIP("http://");
+        m.setIp("http://");
 
     }
 

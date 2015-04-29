@@ -21,7 +21,7 @@ public class AnnotationValueTest {
     @Before
     public void setUp() throws Exception {
         model = new Model();
-        model.setIP(ExampleExperimentData.getTestServerIP());
+        model.setIp(ExampleExperimentData.getTestServerIP());
         model.loginUser(ExampleExperimentData.getTestUsername(), ExampleExperimentData.getTestPassword());
         sysadminTab = new SysadminTab();
         nameOfAnnotation = "AnnotationValueTest";
