@@ -798,7 +798,7 @@ public class ProcessTab extends JPanel {
     
     /**
      * Adds button listener to profileButton.
-     * 
+     * @see controller.ProcessTabController#RawToProfileDataListener()
      * @param listener
      */
     public void addRawToProfileDataListener(ActionListener listener) {

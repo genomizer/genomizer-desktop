@@ -81,7 +81,7 @@ public class Controller {
      * Update the tabbed-pane listeners
      */
     private void tabbedPaneUpdate() {
-        view.addChangedTabListener( ChangedTabListener());
+        view.getTabbedPane().addChangeListener(ChangedTabListener());
     }
     
     /**
