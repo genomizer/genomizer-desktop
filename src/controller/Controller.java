@@ -102,7 +102,7 @@ public class Controller {
      * Update the ratioCalcWindow listeners
      */
     private void ratioCalcUpdate() {
-        view.addOkListener(OkListener());
+        view.getRatioCalcPopup().addOkListener(OkListener());
         view.getProcessTab().addRatioCalcListener(RatioCalcListener());
     }
     
@@ -120,12 +120,13 @@ public class Controller {
                     @Override
                     public void run() {
                         AnnotationDataType[] a;
-                        if (view.getSelectedIndex() == 1) {
+                        int index = view.getTabbedPane().getSelectedIndex();
+                        if (index == 1) {
                             if (((a = model.getAnnotations()) != null)
                                     && view.getUploadTab().newExpStarted()) {
                                 view.getUploadTab().getNewExpPanel().updateAnnotations(a);
                             }
-                        } else if (view.getSelectedIndex() == 0) {
+                        } else if (index == 0) {
                             if ((a = model.getAnnotations()) != null) {
                                 view.getQuerySearchTab().setAnnotationTypes(a);
                             }
