@@ -43,7 +43,7 @@ public interface GenomizerView {
      *              New status
      * @author JH
      */
-    public void setStatusPanel(String status);
+    public void setStatusPanel(String status); // used~ish, can't be delegated
     /**
      * Method adding a listener to the analyze selected button.
      *
@@ -52,8 +52,8 @@ public interface GenomizerView {
      */
 
 
-    public void addUploadToListener(ActionListener listener);
-
+    public void addUploadToListener(ActionListener listener); // unused
+    
     public void refreshSearch(); //unused
 
     LoginWindow getLoginWindow(); // unused
@@ -171,15 +171,15 @@ public interface GenomizerView {
     public AnnotationDataValue[] getUploadAnnotations(); // unused
 
     public void setBowtieParameters(); // unused
-
-    public JList getfileList();
-
-    public String getNewExpName(); // Unused
-
-    public HashMap<String, String> getFilesToUploadTypes(); // Unused
-
-    public void updateQuerySearchResults(ArrayList<ExperimentData> searchResults);
-
+    
+    public JList getfileList(); // unused
+    
+    public String getNewExpName(); // unused
+    
+    public HashMap<String, String> getFilesToUploadTypes(); // unused
+    
+    public void updateQuerySearchResults(ArrayList<ExperimentData> searchResults); // unused
+    
     /**
      * Calls the uploadPanel's enableUploadButton method to try to either make
      * the upload button enabled or disabled. If all of the required annotation
@@ -189,18 +189,18 @@ public interface GenomizerView {
      *            Whether it should try to make the button enabled (true) or
      *            disabled (false).
      */
-    public void enableUploadButton(boolean b); // Unused
-
-    public String[] getRatioCalcParameters();
-
+    public void enableUploadButton(boolean b); // unused
+    
+    public String[] getRatioCalcParameters(); // unused
+    
     /**
      * Deletes a file row.
      *
      * @param f
      *            Used to identify which fileRow to be deleted.
      */
-    public void deleteUploadFileRow(File f); // Unused
-
+    public void deleteUploadFileRow(File f); // unused
+    
     public void addRatioCalcListener(ActionListener listener);
 
     public void setDefaultRatioPar();

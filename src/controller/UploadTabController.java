@@ -19,7 +19,6 @@ import util.GenomeReleaseData;
 
 import gui.ErrorDialog;
 import gui.GenomizerView;
-import gui.UploadFileRow;
 import gui.UploadTab;
 import gui.UploadToExistingExpPanel;
 import model.ErrorLogger;
@@ -27,9 +26,8 @@ import model.GenomizerModel;
 import model.Model;
 
 public class UploadTabController {
-     GenomizerView view;
-    private final GenomizerModel model;
-    private final UploadTab uploadTab;
+    GenomizerView view;
+    GenomizerModel model;
     private final JFileChooser fileChooser;
 
     public UploadTabController(GenomizerView view, GenomizerModel model,
@@ -37,24 +35,16 @@ public class UploadTabController {
         this.view = view;
         this.model = model;
         this.fileChooser = fileChooser;
-        uploadTab = view.getUploadTab();
-
-        uploadTab.getExistExpPanel().addSelectFilesToUploadButtonListener(
-                SelectFilesToUploadButtonListener());
-        uploadTab
-                .addAddToExistingExpButtonListener(AddToExistingExpButtonListener());
-        uploadTab.getExistExpPanel().addUploadToExperimentButtonListener(
-                UploadToExperimentButtonListener());
+        UploadTab uploadTab = view.getUploadTab();
+        uploadTab.getExistExpPanel().addSelectFilesToUploadButtonListener(SelectFilesToUploadButtonListener());
+        uploadTab.addAddToExistingExpButtonListener(AddToExistingExpButtonListener());
+        uploadTab.getExistExpPanel().addUploadToExperimentButtonListener(UploadToExperimentButtonListener());
         uploadTab.addNewExpButtonListener(NewExpButtonListener());
-        uploadTab.getNewExpPanel().addSelectButtonListener(
-                SelectFilesToNewExpListener());
-        uploadTab.getNewExpPanel().addUploadButtonListener(
-                UploadNewExpListener());
+        uploadTab.getNewExpPanel().addSelectButtonListener(SelectFilesToNewExpListener());
+        uploadTab.getNewExpPanel().addUploadButtonListener(UploadNewExpListener());
         uploadTab.setOngoingUploads(model.getOngoingUploads());
-        uploadTab.getNewExpPanel().addUploadSelectedFilesListener(
-                UploadSelectedFilesListener());
-        uploadTab.getNewExpPanel().addSpeciesSelectedListener(
-                SpeciesSelectedListener());
+        uploadTab.getNewExpPanel().addUploadSelectedFilesListener(UploadSelectedFilesListener());
+        uploadTab.getNewExpPanel().addSpeciesSelectedListener(SpeciesSelectedListener());
     }
 
     /**
@@ -76,8 +66,8 @@ public class UploadTabController {
                     return;
                 }
 
-                UploadToExistingExpPanel uploadToExistingExpPanel = uploadTab
-                        .getExistExpPanel();
+                UploadToExistingExpPanel uploadToExistingExpPanel = view
+                        .getUploadTab().getExistExpPanel();
                 uploadToExistingExpPanel.createUploadFileRow(files);
                 uploadToExistingExpPanel.enableUploadButton();
                 uploadToExistingExpPanel.addFileDrop();
@@ -103,8 +93,8 @@ public class UploadTabController {
                 } else {
                     return;
                 }
-                uploadTab.getNewExpPanel().createUploadFileRow(files);
-                uploadTab.getNewExpPanel().enableUploadButton(true);
+                view.getUploadTab().getNewExpPanel().createUploadFileRow(files);
+                view.getUploadTab().getNewExpPanel().enableUploadButton(true);
             }
         };
     }
@@ -116,6 +106,7 @@ public class UploadTabController {
                 new Thread() {
                     @Override
                     public void run() {
+                        UploadTab uploadTab = view.getUploadTab();
                         String expID = uploadTab.getSearchText();
                         if (expID.length() > 0) {
                             try {
@@ -136,7 +127,7 @@ public class UploadTabController {
                                     uploadTab.addExistingExpPanel(ed);
                                     GenomeReleaseData[] grd = model
                                             .getSpeciesGenomeReleases(species);
-                                    uploadTab.setGenomeReleases(grd);
+                                    view.setGenomeReleases(grd);
                                 } else {
                                     JOptionPane.showMessageDialog(null,
                                             "Missing species in experiment.",
@@ -153,6 +144,7 @@ public class UploadTabController {
                             }
                         } else {
 
+
                             JOptionPane.showMessageDialog(null,
                                     "Please fill in experiment name.", "ERROR",
                                     JOptionPane.ERROR_MESSAGE);
@@ -164,51 +156,6 @@ public class UploadTabController {
         };
     }
 
-    // /**
-    // * Method updating the progress of ongoing uploads.
-    // */
-    // private void updateProgress() {
-    // new Thread(new Runnable() {
-    // private boolean running;
-    //
-    // @Override
-    // public void run() {
-    // running = true;
-    // while (running) {
-    // for (File key : uploadToNewExpPanel.getFileRows().keySet()) {
-    // UploadFileRow row = uploadToNewExpPanel.getFileRows()
-    // .get(key);
-    // for (HTTPURLUpload upload : ongoingUploads) {
-    // if (upload.getFileName().equals(row.getFileName())) {
-    // row.updateProgressBar(upload
-    // .getCurrentProgress());
-    // }
-    // }
-    // }
-    // for (File key : uploadToExistingExpPanel.getFileRows()
-    // .keySet()) {
-    // UploadFileRow row = uploadToExistingExpPanel
-    // .getFileRows().get(key);
-    // for (HTTPURLUpload upload : ongoingUploads) {
-    // if (upload.getFileName().equals(row.getFileName())) {
-    // row.updateProgressBar(upload
-    // .getCurrentProgress());
-    // }
-    // }
-    // }
-    // try {
-    // Thread.sleep(100);
-    // } catch (InterruptedException e) {
-    // ErrorLogger.log(e);
-    // running = false;
-    // }
-    // // TODO: THIS IS BROKEN, more is created on each logout-in !!!
-    // System.err.println(this.toString());
-    // }
-    // }
-    // }).start();
-    // }
-
     public ActionListener UploadToExperimentButtonListener() {
         return new ActionListener() {
             @Override
@@ -216,22 +163,24 @@ public class UploadTabController {
                 new Thread() {
                     @Override
                     public void run() {
-                        ArrayList<File> files = uploadTab.getExistExpPanel()
-                                .getFilesToUpload();
-                        HashMap<String, String> types = uploadTab
+                        ArrayList<File> files = view.getUploadTab()
+                                .getExistExpPanel().getFilesToUpload();
+                        HashMap<String, String> types = view.getUploadTab()
                                 .getExistExpPanel().getTypes();
+                        // Should be genome release from uploadTab
+                        // String release = "wk1m";
 
-                        ExperimentData ed = uploadTab.getExistExpPanel()
-                                .getExperiment();
+                        ExperimentData ed = view.getUploadTab()
+                                .getExistExpPanel().getExperiment();
 
                         for (File f : files) {
-                            if (model.uploadFile(ed.getName(), f, types.get(f
-                                    .getName()), view.getLoginWindow()
-                                    .getUsernameInput(), false, uploadTab
-                                    .getGenomeVersion(f))) {
-                                uploadTab.getExistExpPanel().deleteFileRow(f);
-                                if (uploadTab.getExistExpPanel().getFileRows()
-                                        .size() == 0) {
+                            if (model.uploadFile(ed.getName(), f,
+                                    types.get(f.getName()), view.getLoginWindow().getUsernameInput(),
+                                    false, view.getGenomeVersion(f))) {
+                                view.getUploadTab().getExistExpPanel()
+                                        .deleteFileRow(f);
+                                if (view.getUploadTab().getExistExpPanel()
+                                        .getFileRows().size() == 0) {
                                     JOptionPane.showMessageDialog(
                                             null,
                                             "Upload to experiment \""
@@ -276,7 +225,7 @@ public class UploadTabController {
                     public void run() {
                         AnnotationDataType[] annotations = model
                                 .getAnnotations();
-                        uploadTab.addNewExpPanel(annotations);
+                        view.getUploadTab().addNewExpPanel(annotations);
                     };
                 }.start();
             }
@@ -290,18 +239,12 @@ public class UploadTabController {
                 new Thread() {
                     @Override
                     public void run() {
-                        String expName = uploadTab.getNewExpPanel()
-                                .getNewExpID();
-                        AnnotationDataValue[] annotations = uploadTab
-                                .getNewExpPanel().getUploadAnnotations();
-
-                        ArrayList<File> files = uploadTab.getNewExpPanel()
-                                .getUploadFiles();
-
+                        String expName = view.getUploadTab().getNewExpPanel().getNewExpID();
+                        AnnotationDataValue[] annotations = view.getUploadTab().getNewExpPanel().getUploadAnnotations();
+                        ArrayList<File> files = view.getUploadTab().getNewExpPanel().getUploadFiles();
                         if (files != null && files.size() > 0
                                 && annotations != null && expName != null) {
-                            HashMap<String, String> types = uploadTab
-                                    .getNewExpPanel().getTypes();
+                            HashMap<String, String> types = view.getUploadTab().getNewExpPanel().getTypes();
                             // Should be genome release from uploadTab
                             // String release = "wk1m";
                             // Test purpose
@@ -309,13 +252,12 @@ public class UploadTabController {
                                     annotations);
                             if (created) {
                                 for (File f : files) {
-                                    uploadTab.disableSelectedRow(f);
-                                    if (model.uploadFile(expName, f, types
-                                            .get(f.getName()), view
-                                            .getLoginWindow()
-                                            .getUsernameInput(), false, uploadTab
-                                            .getGenomeVersion(f))) {
-                                        uploadTab.getNewExpPanel().deleteFileRow(f);
+                                    view.disableSelectedRow(f);
+                                    if (model.uploadFile(expName, f,
+                                            types.get(f.getName()),
+                                            view.getLoginWindow().getUsernameInput(), false,
+                                            view.getGenomeVersion(f))) {
+                                        view.getUploadTab().getNewExpPanel().deleteFileRow(f);
                                         for (HTTPURLUpload upload : model
                                                 .getOngoingUploads()) {
                                             if (f.getName().equals(
@@ -326,22 +268,17 @@ public class UploadTabController {
                                         }
                                         view.getQuerySearchTab().refresh();
                                     } else {
-
                                         JOptionPane.showMessageDialog(
                                                 null,
                                                 "Couldn't upload "
                                                         + f.getName() + ".",
                                                 "Error",
                                                 JOptionPane.ERROR_MESSAGE);
-
                                     }
                                 }
                             } else {
 
-                                new ErrorDialog("Couldn't create experiment",
-                                        "The experiment " + expName
-                                                + " could not be created.",
-                                        "singdudeldej").showDialog();
+                                new ErrorDialog("Couldn't create experiment", "The experiment " + expName + " could not be created.", "singdudeldej").showDialog();
 
                             }
                         }
@@ -358,13 +295,12 @@ public class UploadTabController {
                 new Thread() {
                     @Override
                     public void run() {
-                        String expName = uploadTab.getNewExpPanel().getNewExpID();
-                        AnnotationDataValue[] annotations = uploadTab
-                                .getNewExpPanel().getUploadAnnotations();
-                        ArrayList<File> files = uploadTab.getNewExpPanel().getSelectedFilesToUpload();
+                        String expName = view.getUploadTab().getNewExpPanel().getNewExpID();
+                        AnnotationDataValue[] annotations = view.getUploadTab().getNewExpPanel().getUploadAnnotations();
+                        ArrayList<File> files = view.getSelectedFilesToUpload();
                         if (files != null && files.size() > 0
                                 && annotations != null && expName != null) {
-                            HashMap<String, String> types = uploadTab.getNewExpPanel().getTypes();
+                            HashMap<String, String> types = view.getUploadTab().getNewExpPanel().getTypes();
                             // Should be genome release from uploadTab
                             // String release = "wk1m";
                             // Test purpose
@@ -372,13 +308,12 @@ public class UploadTabController {
                                     annotations);
                             if (created) {
                                 for (File f : files) {
-                                    uploadTab.disableSelectedRow(f);
-                                    if (model.uploadFile(expName, f, types
-                                            .get(f.getName()), view
-                                            .getLoginWindow()
-                                            .getUsernameInput(), false, uploadTab
-                                            .getGenomeVersion(f))) {
-                                        uploadTab.getNewExpPanel().deleteFileRow(f);
+                                    view.disableSelectedRow(f);
+                                    if (model.uploadFile(expName, f,
+                                            types.get(f.getName()),
+                                            view.getLoginWindow().getUsernameInput(), false,
+                                            view.getGenomeVersion(f))) {
+                                        view.getUploadTab().getNewExpPanel().deleteFileRow(f);
                                         for (HTTPURLUpload upload : model
                                                 .getOngoingUploads()) {
                                             if (f.getName().equals(
@@ -427,15 +362,14 @@ public class UploadTabController {
                 new Thread() {
                     @Override
                     public void run() {
-                        String species = uploadTab.getNewExpPanel()
-                                .getSelectedSpecies();
+                        String species = view.getSelectedSpecies();
 
                         // TODO: Thread, although connection here, should not
                         // below.
                         GenomeReleaseData[] grd = model
                                 .getSpeciesGenomeReleases(species);
 
-                        uploadTab.setGenomeReleases(grd);
+                        view.setGenomeReleases(grd);
                     };
                 }.start();
             }

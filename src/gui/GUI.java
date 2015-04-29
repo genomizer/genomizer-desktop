@@ -114,6 +114,12 @@ public class GUI extends JFrame implements GenomizerView {
         this.setLocationRelativeTo(null);
     }
     
+    /**
+     * Set a new statusmessage
+     * @param status
+     *              New status
+     * @author JH
+     */
     public void setStatusPanel(String status) {
         statusPanel.removeAll();
         JLabel statusLabel = new JLabel(status);
