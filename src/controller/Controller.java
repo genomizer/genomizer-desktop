@@ -81,29 +81,29 @@ public class Controller {
      * Update the tabbed-pane listeners
      */
     private void tabbedPaneUpdate() {
-        view.addChangedTabListener(new ChangedTabListener());
+        view.addChangedTabListener( ChangedTabListener());
     }
     
     /**
      * Update the loginWindow listeners
      */
     private void loginWindowUpdate() {
-        view.getLoginWindow().addLoginListener(new LoginListener());
+        view.getLoginWindow().addLoginListener( LoginListener());
     }
     
     /**
      * Update the userPanel listeners
      */
     private void userPanelUpdate() {
-        view.addLogoutListener(new LogoutListener());
+        view.addLogoutListener(LogoutListener());
     }
     
     /**
      * Update the ratioCalcWindow listeners
      */
     private void ratioCalcUpdate() {
-        view.addOkListener(new OkListener());
-        view.addRatioCalcListener(new RatioCalcListener());
+        view.addOkListener(OkListener());
+        view.getProcessTab().addRatioCalcListener(RatioCalcListener());
     }
     
     /**
@@ -112,103 +112,113 @@ public class Controller {
      * 
      * TODO: separate view from Thread
      */
-    class ChangedTabListener implements ChangeListener, Runnable {
-        
-        @Override
-        public void stateChanged(ChangeEvent e) {
-            new Thread(this).start();
-        }
-        
-        @Override
-        public void run() {
-            AnnotationDataType[] a;
-            if (view.getSelectedIndex() == 1) {
-                if (((a = model.getAnnotations()) != null)
-                        && view.getUploadTab().newExpStarted()) {
-                    view.getUploadTab().getNewExpPanel().updateAnnotations(a);
-                }
-            } else if (view.getSelectedIndex() == 0) {
-                if ((a = model.getAnnotations()) != null) {
-                    view.getQuerySearchTab().setAnnotationTypes(a);
-                }
+    public ChangeListener ChangedTabListener () {
+        return new ChangeListener() {
+            @Override
+            public void stateChanged(ChangeEvent e) {
+                new Thread() {
+                    @Override
+                    public void run() {
+                        AnnotationDataType[] a;
+                        if (view.getSelectedIndex() == 1) {
+                            if (((a = model.getAnnotations()) != null)
+                                    && view.getUploadTab().newExpStarted()) {
+                                view.getUploadTab().getNewExpPanel().updateAnnotations(a);
+                            }
+                        } else if (view.getSelectedIndex() == 0) {
+                            if ((a = model.getAnnotations()) != null) {
+                                view.getQuerySearchTab().setAnnotationTypes(a);
+                            }
+                        }
+                    };
+                }.start();
             }
-        }
+        };
     }
+
     
     /**
      * Listener to convert files. Should convert files between different
      * formats. TODO: Not completed.
      */
-    class ConvertFileListener implements ActionListener, Runnable {
-        @Override
-        public void actionPerformed(ActionEvent e) {
-            new Thread(this).start();
-        }
-        
-        @Override
-        public void run() {
-            // TODO ConvertFile-listener doesn't do anything
-        }
+    public ActionListener ConvertFileListener() {
+        return new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                new Thread() {
+                    @Override
+                    public void run() {
+                     // TODO ConvertFile-listener doesn't do anything
+
+                    };
+                }.start();
+            }
+        };
     }
+
     
     /**
      * The listener to create region data, TODO: Not completed at all
      * 
      * @author c11ann
      */
-    class RawToRegionDataListener implements ActionListener, Runnable {
-        @Override
-        public void actionPerformed(ActionEvent e) {
-            new Thread(this).start();
-        }
-        
-        @Override
-        public void run() {
-            
-            // TODO: Raw To Region Data Listener doesn't do anything.
-            
-        }
+    public ActionListener RawToRegionDataListener() {
+        return new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                new Thread() {
+                    @Override
+                    public void run() {
+                     // TODO: Raw To Region Data Listener doesn't do anything.
+                    };
+                }.start();
+            }
+        };
     }
     
     /**
      * Listen to the login button. Will send the entered name and password, and
      * if accepted update view. TODO: Move view bits from Thread
      */
-    class LoginListener implements ActionListener, Runnable {
-        @Override
-        public void actionPerformed(ActionEvent e) {
-            new Thread(this).start();
-        }
-        
-        @Override
-        public void run() {
-            model.setGenomizerView(view);
-            model.setIp(view.getLoginWindow().getIPInput());
-            String username = view.getLoginWindow().getUsernameInput();
-            String pwd = view.getLoginWindow().getPasswordInput();
-            String response = model.loginUser(username, pwd);
-            
-            // TODO: extract stupid .equals true to a domain object boolean
-            // thingy
-            if (response.equals("true")) {
-                view.updateLoginAccepted(username, pwd, "Desktop User");
-                
-                if (runonce) {
-                    updateTabs();
-                    runonce = false;
-                } else {
-                    view.getSysAdminTab().getController()
-                            .updateAnnotationTable();
-                    view.getSysAdminTab().getController()
-                            .updateGenomeReleaseTab();
-                }
-                
-                ErrorLogger.log("Login", username + " logged in");
-            } else {
-                view.getLoginWindow().updateLoginFailed(response);
-                ErrorLogger.log(response);
+    public ActionListener LoginListener() {
+        return new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                new Thread() {
+                    @Override
+                    public void run() {
+
+                        model.setGenomizerView(view);
+                        model.setIp(view.getLoginWindow().getIPInput());
+                        String username = view.getLoginWindow().getUsernameInput();
+                        String pwd = view.getLoginWindow().getPasswordInput();
+                        String response = model.loginUser(username, pwd);
+                        
+                        // TODO: extract stupid .equals true to a domain object boolean
+                        // thingy
+                        if (response.equals("true")) {
+                            view.updateLoginAccepted(username, pwd, "Desktop User");
+                            
+                            if (runonce) {
+                                updateTabs();
+                                runonce = false;
+                            } else {
+                                view.getSysAdminTab().getController()
+                                        .updateAnnotationTable();
+                                view.getSysAdminTab().getController()
+                                        .updateGenomeReleaseTab();
+                            }
+                            
+                            ErrorLogger.log("Login", username + " logged in");
+                        } else {
+                            view.getLoginWindow().updateLoginFailed(response);
+                            ErrorLogger.log(response);
+                        }
+                    
+                    };
+                }.start();
             }
-        }
+        };
     }
     
     /**
@@ -216,29 +226,33 @@ public class Controller {
      * model, and also update and reset view. (Because of this also reset
      * relevant parts of the controller.) TODO: Separate view part of Thread.
      */
-    class LogoutListener implements ActionListener, Runnable {
-        @Override
-        public void actionPerformed(ActionEvent e) {
-            new Thread(this).start();
-        }
-        
-        @Override
-        public void run() {
-            int response = JOptionPane.showConfirmDialog(null,
-                    "Are you sure you wish to log out?", "Log out",
-                    JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
-            
-            if (response == JOptionPane.YES_OPTION) {
-                model.logoutUser();
-                model.resetModel();
-                view.updateLogout();
-                view.resetGUI();
-                // If only tabs are updated then only these methods will be
-                // needed.
-                updateTabs();
-                ErrorLogger.log("Logout", "User logged out");
+    public ActionListener LogoutListener() {
+        return new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                new Thread() {
+                    @Override
+                    public void run() {
+                        int response = JOptionPane.showConfirmDialog(null,
+                                "Are you sure you wish to log out?", "Log out",
+                                JOptionPane.YES_NO_OPTION,
+                                JOptionPane.QUESTION_MESSAGE);
+                        
+                        if (response == JOptionPane.YES_OPTION) {
+                            model.logoutUser();
+                            model.resetModel();
+                            view.updateLogout();
+                            view.resetGUI();
+                            // If only tabs are updated then only these methods
+                            // will be
+                            // needed.
+                            updateTabs();
+                            ErrorLogger.log("Logout", "User logged out");
+                        }
+                    };
+                }.start();
             }
-        }
+        };
     }
     
     /**
@@ -247,63 +261,69 @@ public class Controller {
      * 
      * TODO: separate view parts from Thread. Move to correct tab controller?
      */
-    class DownloadWindowListener implements ActionListener, Runnable {
-        
-        @Override
-        public void actionPerformed(ActionEvent actionEvent) {
-            
-            new Thread(this).start();
-        }
-        
-        @Override
-        public void run() {
-            // Skicka med arraylist<FileData> för de filer som ska nerladdas
-            ArrayList<ExperimentData> selectedData = view.getWorkSpaceTab().getSelectedData();
-            
-            ArrayList<FileData> selectedFiles = new ArrayList<>();
-            for (ExperimentData experiment : selectedData) {
-                for (FileData file : experiment.files) {
-                    if (!selectedFiles.contains(file)) {
-                        selectedFiles.add(file);
-                    }
-                }
+    public ActionListener DownloadWindowListener() {
+        return new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                new Thread() {
+                    @Override
+                    public void run() {
+                        // Skicka med arraylist<FileData> för de filer som ska
+                        // nerladdas
+                        ArrayList<ExperimentData> selectedData = view
+                                .getWorkSpaceTab().getSelectedData();
+                        
+                        ArrayList<FileData> selectedFiles = new ArrayList<>();
+                        for (ExperimentData experiment : selectedData) {
+                            for (FileData file : experiment.files) {
+                                if (!selectedFiles.contains(file)) {
+                                    selectedFiles.add(file);
+                                }
+                            }
+                        }
+                        DownloadWindow downloadWindow = new DownloadWindow(
+                                selectedFiles, model.getOngoingDownloads());
+                        view.setDownloadWindow(downloadWindow);
+                        downloadWindow.setVisible(true);
+                    };
+                }.start();
             }
-            DownloadWindow downloadWindow = new DownloadWindow(selectedFiles,
-                    model.getOngoingDownloads());
-            view.setDownloadWindow(downloadWindow);
-            downloadWindow.setVisible(true);
-        }
+        };
     }
     
     /**
      * Show the ratioCalc popup. TODO: Remove Thread
      */
-    class RatioCalcListener implements ActionListener, Runnable {
-        @Override
-        public void actionPerformed(ActionEvent e) {
-            new Thread(this).start();
-        }
-        
-        @Override
-        public void run() {
-            view.showRatioPopup();
-        }
+    public ActionListener RatioCalcListener() {
+        return new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                new Thread() {
+                    @Override
+                    public void run() {
+                        view.getRatioCalcPopup().setVisible(true);
+                    };
+                }.start();
+            }
+        };
     }
-    
+
     /**
      * Listen to the OK button in the ratioCalc popup. Will hide the window.
      * TODO: Remove the Thread, should OK do something more?
      */
-    class OkListener implements ActionListener, Runnable {
-        @Override
-        public void actionPerformed(ActionEvent e) {
-            new Thread(this).start();
-        }
-        
-        @Override
-        public void run() {
-            view.getRatioCalcPopup().hideRatioWindow();
-        }
-        
+    public ActionListener OkListener() {
+        return new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                new Thread() {
+                    @Override
+                    public void run() {
+                        view.getRatioCalcPopup().hideRatioWindow();
+                    };
+                }.start();
+            }
+        };
     }
+    
 }

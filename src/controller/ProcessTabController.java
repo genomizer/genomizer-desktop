@@ -201,7 +201,7 @@ public class ProcessTabController {
                                 .getProcessFeedback();
                         if (processFeedbackData != null
                                 && processFeedbackData.length > 0) {
-                            view.showProcessFeedback(processFeedbackData);
+                            view.getProcessTab().showProcessFeedback(processFeedbackData);
                         }
                         
                     };
