@@ -167,9 +167,6 @@ public class Connection {
         responseBody = output.toString();
         // TODO: On�dig if-sats?
         if (responseCode >= 300) {
-            // err response
-            // System.err.println(request.getRequestName() + " response " +
-            // responseCode + " " + responseBody);
             ErrorLogger.log(responseBody);
         }
     }
