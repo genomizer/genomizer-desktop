@@ -156,10 +156,14 @@ public class Model implements GenomizerModel {
 
     @Override
     public boolean uploadFile(String expName, File f, String type,
-            String username, boolean isPrivate, String release) {
+            boolean isPrivate, String release) {
 
         // TODO: Trace comments. also "metameta"
         System.out.println("ska uploada fil: " + f.getName());
+
+        // TODO: SHOULD ACTUALLY BE getLoginWindow().getUsernameInput()
+        // USERNAME! Change for user-username later and fix
+        String username = getUserID().substring(0,30);
 
         AddFileToExperiment request = RequestFactory.makeAddFile(expName,
                 f.getName(), type, "metameta", username, username, isPrivate,
@@ -586,7 +590,8 @@ public class Model implements GenomizerModel {
                 .makeRemoveGenomeReleaseRequest(specie, version);
         Connection conn = connFactory.makeConnection();
         try {
-            conn.sendRequest(request, userID, JSON);JOptionPane.showMessageDialog(null, "Succesfully removed "
+            conn.sendRequest(request, userID, JSON);
+            JOptionPane.showMessageDialog(null, "Succesfully removed "
                     + version);
             return true;
         } catch (RequestException e) {
@@ -656,7 +661,8 @@ public class Model implements GenomizerModel {
         String responseBody = e.getResponseBody();
         String message = ResponseParser.parseErrorResponse(responseBody).message;
         String extendedMessage = e.getResponseCode() + ":\n" + responseBody;
-        ErrorDialog errorDialog = new ErrorDialog(title, message, extendedMessage);
+        ErrorDialog errorDialog = new ErrorDialog(title, message,
+                extendedMessage);
         errorDialog.showDialog();
     }
 

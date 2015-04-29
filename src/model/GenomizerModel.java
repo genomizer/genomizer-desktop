@@ -32,8 +32,7 @@ public interface GenomizerModel {
      * @param release
      * @return true if started without error.
      */
-    public boolean uploadFile(String expName, File f, String type,
-            String username, boolean isPrivate, String release);
+    public boolean uploadFile(String expName, File f, String type, boolean isPrivate, String release);
 
     public ArrayList<ExperimentData> search(String pubmedString);
 
