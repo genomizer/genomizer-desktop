@@ -476,12 +476,7 @@ public class GenomeReleaseViewCreator {
     }
 
     public String getSelectedVersion() {
-        /*
-        String str = (String) grTable.getValueAt(
-                grTable.getSelectedRow(),
-                grTable.getTableHeader().getColumnModel()
-                        .getColumnIndex(SysStrings.GENOME_TABLE_VERSION));
-        */
+
         int selectedRow = grTable.getSelectedRow();
         if (selectedRow == -1) {
             selectedRow = 0;
@@ -489,7 +484,7 @@ public class GenomeReleaseViewCreator {
         JTableHeader tableheader =grTable.getTableHeader();
         TableColumnModel tcm = tableheader.getColumnModel();
         int columnIndex = tcm.getColumnIndex(SysStrings.GENOME_TABLE_VERSION);
-//        System.out.println(selectedRow + " " + columnIndex);
+
         String str = (String) grTable.getValueAt(selectedRow, columnIndex);
         return str;
     }

@@ -67,8 +67,6 @@ public class SysadminTab extends JPanel {
                 sysController));
 
         sysadminTabPane.setTabPlacement(JTabbedPane.LEFT);
-        // SysStrings bNames = new SysStrings();
-        // String[] buttonNameStrings = bNames.getButtonNames();
         // TODO: Does this warning mean it does not work ? (OO)
         for (SysadminTabButtons button : SysadminTabButtons.values()) {
             switch (button) {
@@ -262,6 +260,6 @@ public class SysadminTab extends JPanel {
 
     public SysadminController getController() {
         return sysController;
-        
+
     }
 }
