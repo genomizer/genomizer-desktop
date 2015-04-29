@@ -15,6 +15,7 @@ import javax.swing.event.ChangeListener;
 
 import model.ErrorLogger;
 import model.GenomizerModel;
+import model.SessionHandler;
 import util.AnnotationDataType;
 import util.ExperimentData;
 import util.FileData;
@@ -191,10 +192,12 @@ public class Controller {
                     public void run() {
 
                         model.setGenomizerView(view);
-                        model.setIp(view.getLoginWindow().getIPInput());
+                        String ipInput = view.getLoginWindow().getIPInput();
+                        model.setIP(ipInput);
+                        SessionHandler.getInstance().setIP(ipInput);
                         String username = view.getLoginWindow().getUsernameInput();
                         String pwd = view.getLoginWindow().getPasswordInput();
-                        String response = model.loginUser(username, pwd);
+                        String response = SessionHandler.getInstance().loginUser(username, pwd);
 
                         // TODO: extract stupid .equals true to a domain object boolean
                         // thingy
@@ -241,7 +244,7 @@ public class Controller {
                                 JOptionPane.QUESTION_MESSAGE);
 
                         if (response == JOptionPane.YES_OPTION) {
-                            model.logoutUser();
+                            SessionHandler.getInstance().logoutUser();
                             model.resetModel();
                             view.updateLogout();
                             view.resetGUI();
