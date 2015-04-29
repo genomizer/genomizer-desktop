@@ -269,21 +269,8 @@ public class UploadTabController {
                                             }
                                         }
                                         view.refreshSearch();
-                                    } else {
-
-                                        JOptionPane.showMessageDialog(
-                                                null,
-                                                "Couldn't upload "
-                                                        + f.getName() + ".",
-                                                "Error",
-                                                JOptionPane.ERROR_MESSAGE);
-
                                     }
                                 }
-                            } else {
-
-                                new ErrorDialog("Couldn't create experiment", "The experiment " + expName + " could not be created.", "singdudeldej").showDialog();
-                                
                             }
                         }
                     };
@@ -328,15 +315,6 @@ public class UploadTabController {
                                                         .remove(upload);
                                             }
                                         }
-                                    } else {
-                                        JOptionPane.showMessageDialog(
-                                                null,
-                                                "Couldn't upload "
-                                                        + f.getName() + ".",
-                                                "Error",
-                                                JOptionPane.ERROR_MESSAGE);
-                                        ErrorLogger.log("Couldn't upload",
-                                                "Upload");
                                     }
                                 }
                                 // Shown when all files have been uploaded to
@@ -344,11 +322,6 @@ public class UploadTabController {
                                 JOptionPane.showMessageDialog(null,
                                         "Upload to the new " + "experiment \""
                                                 + expName + "\" complete");
-                            } else {
-                                JOptionPane.showMessageDialog(null,
-                                        "Couldn't create new experiment "
-                                                + expName + ".", "Error",
-                                        JOptionPane.ERROR_MESSAGE);
                             }
                         } else {
                             JOptionPane.showMessageDialog(null,
