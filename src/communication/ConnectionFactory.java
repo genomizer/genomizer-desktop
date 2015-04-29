@@ -29,7 +29,7 @@ public class ConnectionFactory {
         this.view = view;
     }
 
-    public String GetIP() {
+    public String getIP() {
         return ip;
     }
 

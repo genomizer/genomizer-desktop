@@ -24,40 +24,40 @@ import util.FileData;
  * buttons and other component. This will drive the actions started via the GUI.
  */
 public class Controller {
-    
+
     private GenomizerView view;
     private GenomizerModel model;
     private final JFileChooser fileChooser = new JFileChooser();
     private boolean runonce;
-    
+
     public Controller(GenomizerView view, GenomizerModel model) {
         this.view = view;
         this.model = model;
         updateView();
         runonce = true;
     }
-    
+
     /**
      * Update **ALL** the actionlisteners in the whole wide gui.
      */
     private void updateView() {
-        
+
         loginWindowUpdate();
-        
+
         userPanelUpdate();
-        
+
         ratioCalcUpdate();
-        
+
         tabbedPaneUpdate();
-        
+
         // unimplementedUpdate();
     }
-    
+
     /**
      * Update all the actionlisteners in the tabs.
      */
     public void updateTabs() {
-        
+
         QuerySearchTabController querySearchTabController = new QuerySearchTabController(
                 view, model);
         view.getQuerySearchTab().setController(querySearchTabController);
@@ -70,20 +70,20 @@ public class Controller {
         UploadTabController uploadTabController = new UploadTabController(view,
                 model, fileChooser);
         view.getUploadTab().setController(uploadTabController);
-        
+
         SysadminController sysadminTabController = new SysadminController(model);
         view.getSysAdminTab().setController(sysadminTabController);
         sysadminTabController.updateAnnotationTable();
         sysadminTabController.updateGenomeReleaseTab();
     }
-    
+
     /**
      * Update the tabbed-pane listeners
      */
     private void tabbedPaneUpdate() {
         view.getTabbedPane().addChangeListener(ChangedTabListener());
     }
-    
+
     /**
      * Update the loginWindow listeners
      * @see #updateView()
@@ -91,14 +91,14 @@ public class Controller {
     private void loginWindowUpdate() {
         view.getLoginWindow().addLoginListener( LoginListener());
     }
-    
+
     /**
      * Update the userPanel listeners
      */
     private void userPanelUpdate() {
         view.addLogoutListener(LogoutListener());
     }
-    
+
     /**
      * Update the ratioCalcWindow listeners
      */
@@ -106,11 +106,11 @@ public class Controller {
         view.getRatioCalcPopup().addOkListener(OkListener());
         view.getProcessTab().addRatioCalcListener(RatioCalcListener());
     }
-    
+
     /**
      * Listener for when tabs are changed. Will for some tabs perform automatic
      * updates.
-     * 
+     *
      * TODO: separate view from Thread
      */
     public ChangeListener ChangedTabListener () {
@@ -138,7 +138,7 @@ public class Controller {
         };
     }
 
-    
+
     /**
      * Listener to convert files. Should convert files between different
      * formats. TODO: Not completed.
@@ -158,10 +158,10 @@ public class Controller {
         };
     }
 
-    
+
     /**
      * The listener to create region data, TODO: Not completed at all
-     * 
+     *
      * @author c11ann
      */
     public ActionListener RawToRegionDataListener() {
@@ -177,7 +177,7 @@ public class Controller {
             }
         };
     }
-    
+
     /**
      * Listen to the login button. Will send the entered name and password, and
      * if accepted update view. TODO: Move view bits from Thread
@@ -195,12 +195,12 @@ public class Controller {
                         String username = view.getLoginWindow().getUsernameInput();
                         String pwd = view.getLoginWindow().getPasswordInput();
                         String response = model.loginUser(username, pwd);
-                        
+
                         // TODO: extract stupid .equals true to a domain object boolean
                         // thingy
                         if (response.equals("true")) {
                             view.updateLoginAccepted(username, pwd, "Desktop User");
-                            
+
                             if (runonce) {
                                 updateTabs();
                                 runonce = false;
@@ -210,19 +210,19 @@ public class Controller {
                                 view.getSysAdminTab().getController()
                                         .updateGenomeReleaseTab();
                             }
-                            
+
                             ErrorLogger.log("Login", username + " logged in");
                         } else {
                             view.getLoginWindow().updateLoginFailed(response);
                             ErrorLogger.log(response);
                         }
-                    
+
                     };
                 }.start();
             }
         };
     }
-    
+
     /**
      * Listen to the logout button. Will call logout and reset methods of the
      * model, and also update and reset view. (Because of this also reset
@@ -239,7 +239,7 @@ public class Controller {
                                 "Are you sure you wish to log out?", "Log out",
                                 JOptionPane.YES_NO_OPTION,
                                 JOptionPane.QUESTION_MESSAGE);
-                        
+
                         if (response == JOptionPane.YES_OPTION) {
                             model.logoutUser();
                             model.resetModel();
@@ -256,11 +256,11 @@ public class Controller {
             }
         };
     }
-    
+
     /**
      * Listener for when the download button in workspace is clicked. Opens a
      * DownloadWindow with the selected files.
-     * 
+     *
      * TODO: separate view parts from Thread. Move to correct tab controller?
      */
     public ActionListener DownloadWindowListener() {
@@ -274,7 +274,7 @@ public class Controller {
                         // nerladdas
                         ArrayList<ExperimentData> selectedData = view
                                 .getWorkSpaceTab().getSelectedData();
-                        
+
                         ArrayList<FileData> selectedFiles = new ArrayList<>();
                         for (ExperimentData experiment : selectedData) {
                             for (FileData file : experiment.files) {
@@ -292,7 +292,7 @@ public class Controller {
             }
         };
     }
-    
+
     /**
      * Show the ratioCalc popup. TODO: Remove Thread
      */
@@ -327,5 +327,5 @@ public class Controller {
             }
         };
     }
-    
+
 }
