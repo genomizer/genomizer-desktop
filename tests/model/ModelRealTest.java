@@ -28,7 +28,7 @@ public class ModelRealTest {
 
     @Before
     public void setUp() {
-        m.setIp(ExampleExperimentData.getTestServerIP());
+        m.setIP(ExampleExperimentData.getTestServerIP());
         m.loginUser(username, password);
     }
 
