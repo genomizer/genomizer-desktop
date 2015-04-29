@@ -69,15 +69,9 @@ public class HTTPURLUpload {
 
         CloseableHttpClient httpClient = hcBuilder.build();
 
-        // Authentication information
-        /*
-         * CredentialsProvider credentialsProvider = new
-         * BasicCredentialsProvider();
-         * credentialsProvider.setCredentials(AuthScope.ANY, new
-         * UsernamePasswordCredentials(username + ":" + password));
-         */
+        
         HttpClientContext localContext = HttpClientContext.create();
-        // localContext.setCredentialsProvider(credentialsProvider);
+        
 
         // post header
         File file = new File(filePath);
@@ -119,7 +113,7 @@ public class HTTPURLUpload {
         try {
             HttpResponse response;
             // execute HTTP post request
-            //System.out.println(httpPost.toString());
+            
             response = httpClient.execute(httpPost, localContext);
             HttpEntity resEntity = response.getEntity();
             responseCode = response.getStatusLine().getStatusCode();

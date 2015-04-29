@@ -28,7 +28,7 @@ public class QuerySearchTabController {
         this.querySearchTab = view.getQuerySearchTab();
         this.model = model;
         // querySearchTab.addDownloadButtonListener(listener)
-        // querySearchTab.addSearchButtonListener(SearchButtonListener());
+         querySearchTab.addSearchButtonListener(SearchButtonListener());
         // view.addQuerySearchListener( QuerySearchListener());
         querySearchTab.addUpdateAnnotationsListener(updateSearchAnnotationsListener());
         // view.addUpdateSearchAnnotationsListener(
@@ -168,8 +168,8 @@ public class QuerySearchTabController {
                         ArrayList<ExperimentData> selectedData = view
                                 .getSelectedDataInSearch();
                         if (selectedData != null && selectedData.size() > 0) {
-                            view.addToWorkspace(view.getSelectedDataInSearch());
-                            view.changeTabInWorkspace(0);
+                            view.getWorkSpaceTab().addExperimentsToTable(view.getSelectedDataInSearch());
+                            view.getWorkSpaceTab().changeTab(0);
                         }
                         view.clearSearchSelection();
                     };

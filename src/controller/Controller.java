@@ -88,7 +88,7 @@ public class Controller {
      * Update the loginWindow listeners
      */
     private void loginWindowUpdate() {
-        view.addLoginListener(new LoginListener());
+        view.getLoginWindow().addLoginListener(new LoginListener());
     }
 
     /**
@@ -166,8 +166,7 @@ public class Controller {
         public void run() {
 
             // TODO: Raw To Region Data Listener doesn't do anything.
-            // System.out.println("RAW TO REGION");
-            // System.out.println(view.getAllMarkedFiles());
+
 
         }
     }

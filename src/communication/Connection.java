@@ -8,6 +8,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.HttpURLConnection;
+import javax.net.ssl.HttpsURLConnection;
 import java.net.MalformedURLException;
 import java.net.ProtocolException;
 import java.net.URL;
@@ -166,9 +167,6 @@ public class Connection {
         responseBody = output.toString();
         // TODO: On�dig if-sats?
         if (responseCode >= 300) {
-            // err response
-            // System.err.println(request.getRequestName() + " response " +
-            // responseCode + " " + responseBody);
             ErrorLogger.log(responseBody);
         }
     }

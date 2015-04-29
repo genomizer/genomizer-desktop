@@ -54,49 +54,49 @@ public interface GenomizerView {
 
     public void addUploadToListener(ActionListener listener);
     
-    public void refreshSearch();
+    public void refreshSearch(); //unused
     
-    LoginWindow getLoginWindow();
+    LoginWindow getLoginWindow(); // unused
     
-    public void addLoginListener(ActionListener listener);
+    public void addLoginListener(ActionListener listener); // unused
     
-    public void addSearchToWorkspaceListener(ActionListener listener);
+    public void addSearchToWorkspaceListener(ActionListener listener); // unused
     
-    public void addLogoutListener(ActionListener listener);
+    public void addLogoutListener(ActionListener listener); // used
     
-    public void addSearchListener(ActionListener listener);
+    public void addSearchListener(ActionListener listener); // unused
     
-    public void addProcessFileListener(ActionListener listener);
+    public void addProcessFileListener(ActionListener listener); // unused
     
-    public void addDownloadFileListener(ActionListener listener);
+    public void addDownloadFileListener(ActionListener listener); // unused
     
-    public void addQuerySearchListener(ActionListener listener);
+    public void addQuerySearchListener(ActionListener listener); // unused
     
-    public void addRawToProfileDataListener(ActionListener listener);
+    public void addRawToProfileDataListener(ActionListener listener); // unused
     
     public void addAddToExistingExpButtonListener(
-            ActionListener addToExistingExpButtonListener);
+            ActionListener addToExistingExpButtonListener); // unused
     
-    public void addUploadToExperimentButtonListener(ActionListener listener);
+    public void addUploadToExperimentButtonListener(ActionListener listener); // unused
     
     //TODO unimplemented listener
-    public void addSearchResultsDownloadListener(ActionListener listener);
+    public void addSearchResultsDownloadListener(ActionListener listener); // unused
     
-    public void addSelectFilesToUploadButtonListener(ActionListener listener);
+    public void addSelectFilesToUploadButtonListener(ActionListener listener); // unused
     
-    public void addUpdateSearchAnnotationsListener(ActionListener listener);
+    public void addUpdateSearchAnnotationsListener(ActionListener listener); // unused
     
-    public void addNewExpButtonListener(ActionListener listener);
+    public void addNewExpButtonListener(ActionListener listener); // unused
     
-    public void addSelectButtonListener(ActionListener listener);
+    public void addSelectButtonListener(ActionListener listener); // unused
     
-    public void addDeleteFromDatabaseListener(ActionListener listener);
+    public void addDeleteFromDatabaseListener(ActionListener listener); // unused
     
-    public void addProcessFeedbackListener(ActionListener listener);
+    public void addProcessFeedbackListener(ActionListener listener); // unused
     
-    public void addUploadButtonListener(ActionListener listener);
+    public void addUploadButtonListener(ActionListener listener); // unused
     
-    public void addToWorkspace(ArrayList<ExperimentData> experiments);
+    public void addToWorkspace(ArrayList<ExperimentData> experiments); // unused
     
     public ArrayList<FileData> getAllMarkedFiles();
     

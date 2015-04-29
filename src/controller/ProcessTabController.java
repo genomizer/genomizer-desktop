@@ -30,15 +30,12 @@ public class ProcessTabController {
         GUI gui = (GUI) view;
         ProcessTab processTab = gui.getProcessTab();
         processTab.addRawToProfileDataListener(RawToProfileDataListener());
-        // gui.addRawToProfileDataListener(RawToProfileDataListener());
-        // view.addRawToProfileDataListener(RawToProfileDataListener());
+
         fileListAddMouseListener(view.getfileList());
         processTab.addProcessFeedbackListener(ProcessFeedbackListener());
-        // gui.addProcessFeedbackListener(ProcessFeedbackListener());
-        // view.addProcessFeedbackListener(ProcessFeedbackListener());
+
         processTab.addDeleteSelectedListener(DeleteSelectedListener());
-        // gui.addDeleteSelectedListener(DeleteSelectedListener());
-        // view.addDeleteSelectedListener(DeleteSelectedListener());
+
     }
     
     private void fileListAddMouseListener(JList fileList) {
