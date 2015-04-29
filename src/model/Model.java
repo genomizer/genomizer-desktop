@@ -14,6 +14,7 @@ import requests.AddExperimentRequest;
 import requests.AddFileToExperiment;
 import requests.AddGenomeReleaseRequest;
 import requests.AddNewAnnotationValueRequest;
+import requests.ChangeExperimentRequest;
 import requests.DownloadFileRequest;
 import requests.GetAnnotationRequest;
 import requests.GetGenomeReleasesRequest;
@@ -153,11 +154,12 @@ public class Model implements GenomizerModel {
         if (responseCode == 200) {
             AddFileToExperimentResponse aFTER = ResponseParser
                     .parseUploadResponse(conn.getResponseBody());
-            HTTPURLUpload upload = new HTTPURLUpload(aFTER.UrlUpload,
+            System.out.println("url: "+aFTER.URLupload);
+            HTTPURLUpload upload = new HTTPURLUpload(aFTER.URLupload,
                     f.getAbsolutePath(), f.getName());
 
             /* FOR MOCK SERVER */
-            if (aFTER.UrlUpload.equalsIgnoreCase("url")) {
+            if (aFTER.URLupload.equalsIgnoreCase("url")) {
                 return true;
             }
             ongoingUploads.add(upload);
@@ -428,6 +430,18 @@ public class Model implements GenomizerModel {
         int responseCode = conn.getResponseCode();
         System.out.println("addnewExp " + responseCode);
         System.out.println(conn.getResponseBody());
+        return (responseCode == 201);
+    }
+
+    public boolean changeExperiment(String expName,
+            AnnotationDataValue[] annotations) {
+        ChangeExperimentRequest cER = RequestFactory.makeChangeExperimentRequest(
+                expName, annotations);
+
+        Connection conn = connFactory.makeConnection();
+
+        conn.sendRequest(cER, getUserID(), JSON);
+        int responseCode = conn.getResponseCode();
         return (responseCode == 201);
     }
 

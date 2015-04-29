@@ -221,7 +221,7 @@ public class QuerySearchTab extends JPanel {
         // IconFactory.getAddToWorkspaceHoverIcon(52, 36), 52, 36,
         // "Add selected to workspace");
         addToWorkspaceButton = new JButton("Add to workspace");
-        addToUploadButton = new JButton("Upload to experiment");
+        addToUploadButton = new JButton("Edit experiment");
 
         JPanel eastPanel = new JPanel();
         eastPanel.add(addToWorkspaceButton);

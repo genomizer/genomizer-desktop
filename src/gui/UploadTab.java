@@ -34,6 +34,7 @@ public class UploadTab extends JPanel {
     private JButton existingExpButton, newExpButton;
     private JPanel northPanel, expNamePanel, uploadPanel;
     private UploadToExistingExpPanel uploadToExistingExpPanel;
+    private UploadToNewExpPanel uploadToNewExpPanel;
     private CopyOnWriteArrayList<HTTPURLUpload> ongoingUploads;
     private ActivePanel activePanel;
     private JLabel boldTextLabel;
@@ -43,7 +44,7 @@ public class UploadTab extends JPanel {
     // TODO: WTF What doues 'Test purpose' mean. newExps does not seem to do anythnig atall? OO
     // Test purpose
     private ArrayList<UploadToNewExpPanel> newExps = new ArrayList<UploadToNewExpPanel>();
-    private UploadToNewExpPanel uploadToNewExpPanel;
+
 
     public UploadToNewExpPanel getUploadToNewExpPanel() {
         return uploadToNewExpPanel;
@@ -124,12 +125,16 @@ public class UploadTab extends JPanel {
      * @param ed
      *            The experiment data for the existing experiment.
      */
-    public void addExistingExpPanel(ExperimentData ed) {
+    public void addExistingExpPanel(ExperimentData ed, AnnotationDataType[] annot) {
         killContentsOfUploadPanel();
-        activePanel = ActivePanel.EXISTING;
-        uploadToExistingExpPanel.build();
-        uploadToExistingExpPanel.addExistingExp(ed);
-        uploadPanel.add(uploadToExistingExpPanel, BorderLayout.CENTER);
+//        activePanel = ActivePanel.EXISTING;
+//        uploadToExistingExpPanel.build();
+//        uploadToExistingExpPanel.addExistingExp(ed);
+//        uploadPanel.add(uploadToExistingExpPanel, BorderLayout.CENTER);
+        uploadToNewExpPanel.createNewExpPanel(annot, false);
+        uploadToNewExpPanel.setExistingExp(ed);
+        uploadPanel.add(uploadToNewExpPanel, BorderLayout.CENTER);
+        activePanel = ActivePanel.NEW;
         repaint();
         revalidate();
     }
@@ -143,10 +148,9 @@ public class UploadTab extends JPanel {
      */
     public void addNewExpPanel(AnnotationDataType[] annotations) {
         killContentsOfUploadPanel();
-        activePanel = ActivePanel.NEW;
-        uploadToNewExpPanel.createNewExpPanel(annotations);
+        uploadToNewExpPanel.createNewExpPanel(annotations, true);
         uploadPanel.add(uploadToNewExpPanel, BorderLayout.CENTER);
-        newExps.add(uploadToNewExpPanel);
+        activePanel = ActivePanel.NEW;
         repaint();
         revalidate();
     }

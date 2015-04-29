@@ -51,6 +51,11 @@ public class RequestFactory {
         return new AddExperimentRequest(experimentName, annotations);
     }
 
+    public static ChangeExperimentRequest makeChangeExperimentRequest(
+            String experimentName, AnnotationDataValue[] annotations) {
+        return new ChangeExperimentRequest(experimentName, annotations);
+    }
+
     public static RetrieveExperimentRequest makeRetrieveExperimentRequest(
             String experimentID) {
         String urlExperimentID = decodeToURL(experimentID);

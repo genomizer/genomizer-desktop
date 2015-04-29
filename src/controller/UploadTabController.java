@@ -17,7 +17,6 @@ import util.AnnotationDataValue;
 import util.ExperimentData;
 import util.GenomeReleaseData;
 
-
 import gui.GenomizerView;
 import gui.UploadTab;
 import gui.UploadToExistingExpPanel;
@@ -29,7 +28,9 @@ public class UploadTabController {
     GenomizerView view;
     GenomizerModel model;
     private final JFileChooser fileChooser;
-    public UploadTabController(GenomizerView view, GenomizerModel model, JFileChooser fileChooser){
+
+    public UploadTabController(GenomizerView view, GenomizerModel model,
+            JFileChooser fileChooser) {
         this.view = view;
         this.model = model;
         this.fileChooser = fileChooser;
@@ -43,6 +44,7 @@ public class UploadTabController {
         view.addUploadSelectedFilesListener(new UploadSelectedFilesListener());
         view.addSpeciesSelectedListener(new SpeciesSelectedListener());
     }
+
     class SelectFilesToUploadButtonListener implements ActionListener, Runnable {
         @Override
         public void actionPerformed(ActionEvent actionEvent) {
@@ -69,6 +71,7 @@ public class UploadTabController {
             uploadToExistingExpPanel.addFileDrop();
         }
     }
+
     class AddToExistingExpButtonListener implements ActionListener, Runnable {
 
         @Override
@@ -94,7 +97,8 @@ public class UploadTabController {
 
                     }
                     if (existingSpecies) {
-                        uploadTab.addExistingExpPanel(ed);
+                        uploadTab.addExistingExpPanel(ed,
+                                model.getAnnotations());
                         GenomeReleaseData[] grd = model
                                 .getSpeciesGenomeReleases(species);
                         view.setGenomeReleases(grd);
@@ -116,6 +120,7 @@ public class UploadTabController {
             }
         }
     }
+
     class UploadToExperimentButtonListener implements ActionListener, Runnable {
 
         @Override
@@ -126,12 +131,16 @@ public class UploadTabController {
 
         @Override
         public void run() {
+            String expName = view.getNewExpName();
+            AnnotationDataValue[] annotations = view.getUploadAnnotations();
             ArrayList<File> files = view.getUploadTab().getExistExpPanel()
                     .getFilesToUpload();
             HashMap<String, String> types = view.getUploadTab()
                     .getExistExpPanel().getTypes();
             // Should be genome release from uploadTab
             // String release = "wk1m";
+
+            System.out.println(model.changeExperiment(expName, annotations));
 
             ExperimentData ed = view.getUploadTab().getExistExpPanel()
                     .getExperiment();
@@ -160,6 +169,7 @@ public class UploadTabController {
             }
         }
     }
+
     class NewExpButtonListener implements ActionListener, Runnable {
 
         @Override
@@ -174,6 +184,7 @@ public class UploadTabController {
             view.createNewExp(annotations);
         }
     }
+
     class SelectFilesToNewExpListener implements ActionListener, Runnable {
 
         @Override
@@ -196,6 +207,7 @@ public class UploadTabController {
             view.enableUploadButton(true);
         }
     }
+
     class UploadNewExpListener implements ActionListener, Runnable {
 
         @Override
@@ -205,45 +217,50 @@ public class UploadTabController {
 
         @Override
         public void run() {
+            boolean expCreated;
             String expName = view.getNewExpName();
             AnnotationDataValue[] annotations = view.getUploadAnnotations();
             ArrayList<File> files = view.getFilesToUpload();
-            if (files != null && files.size() > 0 && annotations != null
-                    && expName != null) {
-                HashMap<String, String> types = view.getFilesToUploadTypes();
-                // Should be genome release from uploadTab
-                // String release = "wk1m";
-                // Test purpose
-                boolean created = model.addNewExperiment(expName, annotations);
-                if (created) {
-                    for (File f : files) {
-                        view.disableSelectedRow(f);
-                        if (model.uploadFile(expName, f,
-                                types.get(f.getName()), view.getUsername(),
-                                false, view.getGenomeVersion(f))) {
-                            view.deleteUploadFileRow(f);
-                            for (HTTPURLUpload upload : model
-                                    .getOngoingUploads()) {
-                                if (f.getName().equals(upload.getFileName())) {
-                                    model.getOngoingUploads().remove(upload);
-                                }
-                            }
-                            view.refreshSearch();
-                        } else {
-                            JOptionPane.showMessageDialog(null,
-                                    "Couldn't upload " + f.getName() + ".",
-                                    "Error", JOptionPane.ERROR_MESSAGE);
 
+            HashMap<String, String> types = view.getFilesToUploadTypes();
+            // Should be genome release from uploadTab
+            // String release = "wk1m";
+            // Test purpose
+            if (view.getIsNewExp()) {
+                expCreated = model.addNewExperiment(expName, annotations);
+            } else {
+                expCreated = model.changeExperiment(expName, annotations);
+                System.err.println("Ändrad " + expCreated);
+                expCreated = true;
+            }
+            if (expCreated) {
+                for (File f : files) {
+                    view.disableSelectedRow(f);
+                    if (model
+                            .uploadFile(expName, f, types.get(f.getName()),
+                                    view.getUsername(), false,
+                                    view.getGenomeVersion(f))) {
+                        view.deleteUploadFileRow(f);
+                        for (HTTPURLUpload upload : model.getOngoingUploads()) {
+                            if (f.getName().equals(upload.getFileName())) {
+                                model.getOngoingUploads().remove(upload);
+                            }
                         }
+                        view.refreshSearch();
+                    } else {
+                        JOptionPane.showMessageDialog(null, "Couldn't upload "
+                                + f.getName() + ".", "Error",
+                                JOptionPane.ERROR_MESSAGE);
                     }
-                } else {
-                    JOptionPane.showMessageDialog(null,
-                            "Couldn't create experiment " + expName + ".",
-                            "Error", JOptionPane.ERROR_MESSAGE);
                 }
+            } else {
+                JOptionPane.showMessageDialog(null,
+                        "Couldn't create experiment " + expName + ".", "Error",
+                        JOptionPane.ERROR_MESSAGE);
             }
         }
     }
+
     class UploadSelectedFilesListener implements ActionListener, Runnable {
 
         @Override
@@ -296,6 +313,7 @@ public class UploadTabController {
             }
         }
     }
+
     class SpeciesSelectedListener implements ActionListener, Runnable {
         @Override
         public void actionPerformed(ActionEvent e) {

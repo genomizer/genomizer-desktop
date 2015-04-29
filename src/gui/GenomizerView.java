@@ -107,13 +107,13 @@ public interface GenomizerView {
     public ArrayList<ExperimentData> getSelectedDataInSearch();
 
     public UploadTab getUploadTab();
-    
+
     public QuerySearchTab getQuerySearchTab();
-    
+
     public SysadminTab getSysAdminTab();
 
     public WorkspaceTab getWorkSpaceTab();
-    
+
     public int getSelectedRowAtAnnotationTable();
 
     public void updateLoginAccepted(String username, String pwd, String name);
@@ -151,6 +151,8 @@ public interface GenomizerView {
     public JList getfileList();
 
     public String getNewExpName();
+
+    public boolean getIsNewExp();
 
     public HashMap<String, String> getFilesToUploadTypes();
 

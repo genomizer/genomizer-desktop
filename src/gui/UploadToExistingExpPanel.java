@@ -183,7 +183,7 @@ public class UploadToExistingExpPanel extends JPanel implements ExperimentPanel 
 
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.anchor = GridBagConstraints.WEST;
-        gbc.insets = new Insets(5, 0, 5, 30);
+        gbc.insets = new Insets(5, 10, 5, 30);
         int x = 0;
         int y = 0;
         gbc.gridx = x;
@@ -210,7 +210,7 @@ public class UploadToExistingExpPanel extends JPanel implements ExperimentPanel 
                 y++;
             }
             gbc.anchor = GridBagConstraints.WEST;
-            gbc.insets = new Insets(5, 0, 5, 30);
+            gbc.insets = new Insets(5, 10, 5, 30);
             gbc.gridx = x;
             gbc.gridy = y;
 
@@ -223,7 +223,7 @@ public class UploadToExistingExpPanel extends JPanel implements ExperimentPanel 
             boldFont = new Font(font.getFontName(), Font.BOLD, font.getSize());
             annotationHeader.setFont(boldFont);
             JTextField annotationValue = new JTextField(adv.getValue());
-            annotationValue.setEnabled(false);
+            annotationValue.setEnabled(true);
             annotationValue.setOpaque(true);
             annotationValue.setDisabledTextColor(Color.BLACK);
             p.add(annotationHeader, BorderLayout.NORTH);
