@@ -19,6 +19,8 @@ import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 
+import controller.Controller;
+
 import model.ErrorLogger;
 
 import util.Constants;
@@ -146,7 +148,7 @@ public class LoginWindow extends JFrame {
 
     /**
      * Adds listener to the loginbutton
-     *
+     * @see controller.Controller#LoginListener()
      * @param listener
      *            The listener to login to the server
      */

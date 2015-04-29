@@ -28,7 +28,9 @@ import controller.SysadminController;
 
 /**
  * A interface for the view part of an application used by genome researcher to
- * make their daily job easier.
+ * make their daily job easier.<br>
+ * ahaha, what does that even mean<br>
+ * how could an interface even help the client?
  * 
  * @author
  */
@@ -53,47 +55,47 @@ public interface GenomizerView {
      *            The listener
      */
     
-    public void addUploadToListener(ActionListener listener); // unused
+    public void addUploadToListener(ActionListener listener); // unused commented
     
-    public void refreshSearch(); // unused
+    public void refreshSearch(); // unused commented
     
-    LoginWindow getLoginWindow(); // unused
+    LoginWindow getLoginWindow(); // used N/A
     
-    public void addLoginListener(ActionListener listener); // unused
+    public void addLoginListener(ActionListener listener); // unused commented
     
-    public void addSearchToWorkspaceListener(ActionListener listener); // unused
+    public void addSearchToWorkspaceListener(ActionListener listener); // unused commented
     
-    public void addLogoutListener(ActionListener listener); // used
+    public void addLogoutListener(ActionListener listener); // used N/A
     
-    public void addSearchListener(ActionListener listener); // unused
+    public void addSearchListener(ActionListener listener); // unimplemented unused N/A
     
-    public void addProcessFileListener(ActionListener listener); // unused
+    public void addProcessFileListener(ActionListener listener); // unused commented
     
-    public void addDownloadFileListener(ActionListener listener); // unused
+    public void addDownloadFileListener(ActionListener listener); // unused commented
     
-    public void addQuerySearchListener(ActionListener listener); // unused
+    public void addQuerySearchListener(ActionListener listener); // unused commented
     
-    public void addRawToProfileDataListener(ActionListener listener); // unused
+    public void addRawToProfileDataListener(ActionListener listener); // unused good enough
     
     public void addAddToExistingExpButtonListener(
-            ActionListener addToExistingExpButtonListener); // unused
+            ActionListener addToExistingExpButtonListener); // unused commented
     
-    public void addUploadToExperimentButtonListener(ActionListener listener); // unused
+    public void addUploadToExperimentButtonListener(ActionListener listener); // unused commented
     
-    // TODO unimplemented listener
-    public void addSearchResultsDownloadListener(ActionListener listener); // unused
+    // TODO unimplemented listener-assigning method
+    public void addSearchResultsDownloadListener(ActionListener listener); // unused N/A? sort of
     
-    public void addSelectFilesToUploadButtonListener(ActionListener listener); // unused
+    public void addSelectFilesToUploadButtonListener(ActionListener listener); // unused commented
     
-    public void addUpdateSearchAnnotationsListener(ActionListener listener); // unused
+    public void addUpdateSearchAnnotationsListener(ActionListener listener); // unused commented
     
-    public void addNewExpButtonListener(ActionListener listener); // unused
+    public void addNewExpButtonListener(ActionListener listener); // unused commented
     
-    public void addSelectButtonListener(ActionListener listener); // unused
+    public void addSelectButtonListener(ActionListener listener); // unused commented
     
-    public void addDeleteFromDatabaseListener(ActionListener listener); // unused
+    public void addDeleteFromDatabaseListener(ActionListener listener); // unused commented
     
-    public void addProcessFeedbackListener(ActionListener listener); // unused
+    public void addProcessFeedbackListener(ActionListener listener); // unused commented
     
     public void addUploadButtonListener(ActionListener listener); // unused
     
@@ -273,12 +275,12 @@ public interface GenomizerView {
     
     public void clearSearchSelection(); // unused
     
-    public int getSelectedIndex();
+    public int getSelectedIndex(); // unused
     
-    public void addChangedTabListener(ChangeListener listener);
+    public void addChangedTabListener(ChangeListener listener); // unused
     
-    public void addAddToExistingExpButtonListenerInSearch(
-            ActionListener listener);
+    public void addAddToExistingExpButtonListenerInSearch( 
+            ActionListener listener); // unused
     
-    public void addUploadToListenerSearchTab(ActionListener listener);
+    public void addUploadToListenerSearchTab(ActionListener listener); // unused
 }

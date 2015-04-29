@@ -168,7 +168,7 @@ public class UploadToNewExpPanel extends JPanel implements ExperimentPanel {
     
     /**
      * Method adding a listener to the "selectButton" button.
-     * 
+     * @see controller.UploadTabController#SelectFilesToNewExpListener()
      * @param listener
      *            The listener to select files.
      */

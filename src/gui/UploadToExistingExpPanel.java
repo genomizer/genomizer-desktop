@@ -113,7 +113,7 @@ public class UploadToExistingExpPanel extends JPanel implements ExperimentPanel 
 
     /**
      * Adds a listener for the "Select files" button.
-     *
+     * @see controller.UploadTabController#SelectFilesToUploadButtonListener()
      * @param listener The listener to be added.
      */
     public void addSelectFilesToUploadButtonListener(ActionListener listener) {
@@ -122,7 +122,7 @@ public class UploadToExistingExpPanel extends JPanel implements ExperimentPanel 
 
     /**
      * Adds a listener to the upload button.
-     *
+     * @see controller.UploadTabController#UploadToExperimentButtonListener()
      * @param listener The listener to be added.
      */
     public void addUploadToExperimentButtonListener(ActionListener listener) {

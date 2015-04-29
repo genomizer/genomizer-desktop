@@ -81,11 +81,12 @@ public class Controller {
      * Update the tabbed-pane listeners
      */
     private void tabbedPaneUpdate() {
-        view.addChangedTabListener( ChangedTabListener());
+        view.getTabbedPane().addChangeListener(ChangedTabListener());
     }
     
     /**
      * Update the loginWindow listeners
+     * @see #updateView()
      */
     private void loginWindowUpdate() {
         view.getLoginWindow().addLoginListener( LoginListener());

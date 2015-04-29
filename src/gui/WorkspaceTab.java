@@ -257,7 +257,7 @@ public class WorkspaceTab extends JPanel {
 
     /**
      * Method adding a listener to the "downloadButton" button.
-     *
+     * @see controller.WorkspaceTabController#DownloadFileListener()
      * @param listener
      *            The listener to start downloading files.
      */
@@ -267,7 +267,7 @@ public class WorkspaceTab extends JPanel {
 
     /**
      * Method adding a listener to the "processButton" button.
-     *
+     * @see controller.WorkspaceTabController#ProcessFileListener()
      * @param listener
      *            The listener to start processing experiment.
      */
@@ -291,7 +291,7 @@ public class WorkspaceTab extends JPanel {
 
     /**
      * Method adding a listener to the "deleteButton" button.
-     *
+     * @see controller.WorkspaceTabController#DeleteFromDatabaseListener()
      * @param listener
      *            The listener to delete an experiment from the database.
      */

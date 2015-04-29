@@ -25,6 +25,8 @@ import javax.swing.border.Border;
 import javax.swing.border.EtchedBorder;
 import javax.swing.border.TitledBorder;
 
+import org.apache.http.conn.ssl.AllowAllHostnameVerifier;
+
 import controller.QueryRowController;
 import controller.QuerySearchTabController;
 
@@ -36,6 +38,18 @@ import util.TreeTable;
 
 /**
  * Class representing the search tab of the gui
+ */
+/**
+ * @author Viktor
+ *
+ */
+/**
+ * @author Viktor
+ *
+ */
+/**
+ * @author Viktor
+ *
  */
 public class QuerySearchTab extends JPanel {
     /**
@@ -226,6 +240,10 @@ public class QuerySearchTab extends JPanel {
         resultsHeaderPanel.add(backButton, BorderLayout.WEST);
     }
 
+    
+    /**
+     * @see controller.QuerySearchTabController#SearchButtonListener()
+     */
     public void refresh() {
         if (activePanel == ActiveSearchPanel.TABLE) {
             searchButton.doClick();
@@ -361,11 +379,20 @@ public class QuerySearchTab extends JPanel {
             searchArea.setText(searchString);
         }
     }
-
+    /**Controller can't access button, hence this <br>
+     * @see controller.QuerySearchTabController#SearchButtonListener()
+     * @param listener
+     *          The ActionListener
+     */
     public void addSearchButtonListener(ActionListener listener) {
         searchButton.addActionListener(listener);
     }
 
+    /**Controller can't access button, hence this <br>
+     * @see controller.QuerySearchTabController#SearchToWorkspaceListener()
+     * @param listener
+     *          The ActionListener
+     */
     public void addAddToWorkspaceButtonListener(ActionListener listener) {
         addToWorkspaceButton.addActionListener(listener);
     }
@@ -378,6 +405,10 @@ public class QuerySearchTab extends JPanel {
         addToUploadButton.addActionListener(listener);
     }
 
+    /**adds a listener to updateAnnotationsButton
+     * @see controller.QuerySearchTabController#updateAnnotationsListener()
+     * @param listener the listener to be added
+     */
     public void addUpdateAnnotationsListener(ActionListener listener) {
         updateAnnotationsButton.addActionListener(listener);
     }
