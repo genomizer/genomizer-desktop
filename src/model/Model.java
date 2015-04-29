@@ -137,6 +137,7 @@ public class Model implements GenomizerModel {
     public boolean uploadFile(String expName, File f, String type,
             String username, boolean isPrivate, String release) {
 
+        // TODO: Trace comments. also "metameta"
         System.out.println("ska uploada fil: " + f.getName());
 
         AddFileToExperiment request = RequestFactory.makeAddFile(expName,
@@ -156,10 +157,6 @@ public class Model implements GenomizerModel {
             HTTPURLUpload upload = new HTTPURLUpload(aFTER.URLupload,
                     f.getAbsolutePath(), f.getName());
 
-            /* FOR MOCK SERVER */
-            if (aFTER.URLupload.equalsIgnoreCase("url")) {
-                return true;
-            }
             ongoingUploads.add(upload);
             boolean ok = upload.sendFile(userID);
 
@@ -423,6 +420,8 @@ public class Model implements GenomizerModel {
         Connection conn = connFactory.makeConnection();
 
         conn.sendRequest(aER, getUserID(), JSON);
+
+        // TODO: Trace comments
         System.out.println(aER.toJson().toString());
         System.out.println("USEEEER ID = " + getUserID());
         int responseCode = conn.getResponseCode();

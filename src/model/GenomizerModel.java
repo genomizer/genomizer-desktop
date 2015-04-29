@@ -21,6 +21,17 @@ public interface GenomizerModel {
 
     public boolean logoutUser();
 
+    /**
+     * Try to upload a file, sending a normal Connection first with
+     * the passed data, and then a HTTPURLUpload with the response url.
+     * @param expName
+     * @param f
+     * @param type
+     * @param username
+     * @param isPrivate
+     * @param release
+     * @return true if started without error.
+     */
     public boolean uploadFile(String expName, File f, String type,
             String username, boolean isPrivate, String release);
 
