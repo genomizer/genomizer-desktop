@@ -19,6 +19,8 @@ import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 
+import controller.Controller;
+
 import model.ErrorLogger;
 
 import util.Constants;
@@ -146,7 +148,7 @@ public class LoginWindow extends JFrame {
 
     /**
      * Adds listener to the loginbutton
-     *
+     * @see controller.Controller#LoginListener()
      * @param listener
      *            The listener to login to the server
      */
@@ -157,7 +159,7 @@ public class LoginWindow extends JFrame {
     /**
      * Method for getting the username
      *
-     * @return the username entered by the user
+     * @return the username entered by the user OR The username input from the login window.
      */
     public String getUsernameInput() {
         return usernameField.getText();
@@ -166,7 +168,7 @@ public class LoginWindow extends JFrame {
     /**
      * Method for getting the password
      *
-     * @return the password entered by the user
+     * @return the password entered by the user OR The password input from the login window.
      */
     public String getPasswordInput() {
         return new String(passwordField.getPassword());

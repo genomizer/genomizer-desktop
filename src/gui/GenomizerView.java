@@ -78,38 +78,38 @@ public interface GenomizerView {
     public void addRawToProfileDataListener(ActionListener listener); // unused good enough
     
     public void addAddToExistingExpButtonListener(
-            ActionListener addToExistingExpButtonListener); // unused
+            ActionListener addToExistingExpButtonListener); // unused commented
     
-    public void addUploadToExperimentButtonListener(ActionListener listener); // unused
+    public void addUploadToExperimentButtonListener(ActionListener listener); // unused commented
     
-    // TODO unimplemented listener
-    public void addSearchResultsDownloadListener(ActionListener listener); // unused
+    // TODO unimplemented listener-assigning method
+    public void addSearchResultsDownloadListener(ActionListener listener); // unused N/A? sort of
     
-    public void addSelectFilesToUploadButtonListener(ActionListener listener); // unused
+    public void addSelectFilesToUploadButtonListener(ActionListener listener); // unused commented
     
-    public void addUpdateSearchAnnotationsListener(ActionListener listener); // unused
+    public void addUpdateSearchAnnotationsListener(ActionListener listener); // unused commented
     
-    public void addNewExpButtonListener(ActionListener listener); // unused
+    public void addNewExpButtonListener(ActionListener listener); // unused commented
     
-    public void addSelectButtonListener(ActionListener listener); // unused
+    public void addSelectButtonListener(ActionListener listener); // unused commented
     
-    public void addDeleteFromDatabaseListener(ActionListener listener); // unused
+    public void addDeleteFromDatabaseListener(ActionListener listener); // unused commented
     
-    public void addProcessFeedbackListener(ActionListener listener); // unused
+    public void addProcessFeedbackListener(ActionListener listener); // unused commented
     
-    public void addUploadButtonListener(ActionListener listener); // unused
+    public void addUploadButtonListener(ActionListener listener); // unused commented
     
-    public void addToWorkspace(ArrayList<ExperimentData> experiments); // unused
+    public void addToWorkspace(ArrayList<ExperimentData> experiments); // unused commented
     
-    public ArrayList<FileData> getAllMarkedFiles();
+    public ArrayList<FileData> getAllMarkedFiles(); // unused
     
-    public String getPassword(); // unused
+    public String getPassword(); // unused commented-collision
     
-    public String getUsername(); // unused
+    public String getUsername(); // unused commented-collision
     
-    public JFrame getFrame();
+    public JFrame getFrame(); //used commented
     
-    public void setDownloadWindow(DownloadWindow downloadWindow); // used
+    public void setDownloadWindow(DownloadWindow downloadWindow); // used commented
     
     public DownloadWindow getDownloadWindow(); // used
     
