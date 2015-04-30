@@ -28,12 +28,16 @@ public class UpdaterModel {
 
     private ConnectionFactory connFactory;
 
+    private TickingThread ticker;
+
     public UpdaterModel(ConnectionFactory connFactory) {
 
-        ongoingDownloads = new CopyOnWriteArrayList<>();
-        ongoingUploads = new CopyOnWriteArrayList<>();
+        this.ongoingDownloads = new CopyOnWriteArrayList<>();
+        this.ongoingUploads = new CopyOnWriteArrayList<>();
 
         this.connFactory = connFactory;
+
+        this.ticker = new TickingThread();
 
     }
 
@@ -124,4 +128,120 @@ public class UpdaterModel {
 
         return true;
     }
+
+    /**
+     * Setup new lists with downloads and uploads, and also clear the ticking
+     * thread of things to do.
+     */
+    public void resetUpdaterModel() {
+
+        ongoingDownloads = new CopyOnWriteArrayList<>();
+        ongoingUploads = new CopyOnWriteArrayList<>();
+
+        clearTickingThread();
+
+    }
+
+    /**
+     * Completely stop and clear the ticking thread.
+     */
+    public void clearTickingThread() {
+        ticker.clearTasks();
+        ticker.stopTicking();
+
+    }
+
+    /**
+     * Add a new ticking task
+     * @param task
+     */
+    public void addTickingTask(Runnable task){
+        ticker.addTask(task);
+        ticker.startTicking();
+    }
+
+    private class TickingThread {
+
+        private final int DELAY = 100; // ms
+        private final Runnable tick = new Runnable() {
+
+            @Override
+            public void run() {
+
+                while (isTicking) {
+
+                    for (Runnable task : tasks) {
+                        task.run();
+                    }
+
+                    try {
+                        Thread.sleep(DELAY);
+                    } catch (InterruptedException e) {
+                        isTicking = false;
+                    }
+                }
+
+            }
+        };
+
+        private Thread ticker;
+        private boolean isTicking;
+        private CopyOnWriteArrayList<Runnable> tasks;
+
+        /**
+         * Create a new unstarted ticker.
+         */
+        public TickingThread() {
+            isTicking = false;
+            ticker = null;
+            tasks = new CopyOnWriteArrayList<Runnable>();
+        }
+
+        /**
+         * Start a new ticking thread.
+         * Does nothing if already running.
+         */
+        public synchronized void startTicking() {
+
+            if ( ticker != null ) return;
+            isTicking = true;
+            ticker = new Thread(tick);
+            ticker.start();
+        }
+
+        /**
+         * Stop the ticker Thread, interrupting it and
+         * joining it to current.
+         */
+        public synchronized void stopTicking() {
+
+            isTicking = false;
+            if (ticker == null) return;
+
+            ticker.interrupt();
+            try {
+                ticker.join();
+            } catch (InterruptedException e) {
+                ErrorLogger.log(e);
+            }
+            ticker = null;
+        }
+
+        /**
+         * Add a new task to be performed each tick.
+         * @param task to perform
+         */
+        public void addTask(Runnable task) {
+            tasks.add(task);
+        }
+
+        /**
+         * Remove all tasks in the list, but keep ticking.
+         */
+        public void clearTasks(){
+            tasks.clear();
+        }
+
+    }
+
 }

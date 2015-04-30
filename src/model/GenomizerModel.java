@@ -95,4 +95,9 @@ public interface GenomizerModel {
 
     public boolean changeExperiment(String expName,
             AnnotationDataValue[] annotations);
+
+    public void addTickingTask(Runnable task);
+
+    public void clearTickingTasks();
+
 }

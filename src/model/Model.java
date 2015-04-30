@@ -57,6 +57,7 @@ public class Model implements GenomizerModel {
     private UpdaterModel updateTabModel;
     private ConnectionFactory connFactory;
 
+
     public Model() {
         connFactory = new ConnectionFactory();
         searchHistory = new ArrayList<>();
@@ -538,12 +539,12 @@ public class Model implements GenomizerModel {
         }
     }
 
+
     public void resetModel() {
         User.getInstance().setToken("");
         searchHistory = new ArrayList<>();
-
-        // TODO: Maybe stop old model
-        updateTabModel = new UpdaterModel(connFactory);
+        // TODO: probably a lot of other things needs doing !!!
+        updateTabModel.resetUpdaterModel();
     }
 
     // TODO: Not working (JH)
@@ -557,6 +558,15 @@ public class Model implements GenomizerModel {
     public void setIP(String ip) {
         connFactory.setIP(ip);
     }
+
+    public void addTickingTask(Runnable task){
+        updateTabModel.addTickingTask(task);
+    }
+
+    public void clearTickingTasks() {
+        updateTabModel.clearTickingThread();
+    }
+
 }
 
 
