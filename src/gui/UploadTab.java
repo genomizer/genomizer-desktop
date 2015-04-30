@@ -4,7 +4,6 @@ import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
-import java.util.ArrayList;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 import javax.swing.BorderFactory;
@@ -22,7 +21,6 @@ import util.ExperimentData;
 import util.GenomeReleaseData;
 
 import communication.HTTPURLUpload;
-import controller.UploadTabController;
 
 /**
  * A class representing a upload view in an application for genome research.
@@ -41,11 +39,6 @@ public class UploadTab extends JPanel {
     private JLabel boldTextLabel;
     private JTextField experimentNameField;
     private JScrollPane uploadScroll;
-
-    // TODO: WTF What doues 'Test purpose' mean. newExps does not seem to do anythnig atall? OO
-    // Test purpose
-    private ArrayList<UploadToNewExpPanel> newExps = new ArrayList<UploadToNewExpPanel>();
-    private UploadTabController uploadTabController;
 
     /**Gets the UploadToNewExpPanel
      * @return the uploadToNewExpPanel
@@ -131,6 +124,7 @@ public class UploadTab extends JPanel {
      */
     public void addExistingExpPanel(ExperimentData ed, AnnotationDataType[] annot) {
         killContentsOfUploadPanel();
+        //TODO Rensa gammal implementation CF
 //        activePanel = ActivePanel.EXISTING;
 //        uploadToExistingExpPanel.build();
 //        uploadToExistingExpPanel.addExistingExp(ed);
@@ -296,9 +290,5 @@ public class UploadTab extends JPanel {
                 }
             }
         }).start();
-    }
-
-    public void setController(UploadTabController uploadTabController) {
-        this.uploadTabController = uploadTabController;
     }
 }
