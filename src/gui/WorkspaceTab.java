@@ -283,6 +283,17 @@ public class WorkspaceTab extends JPanel {
     public void addProcessFileListener(ActionListener listener) {
         processButton.addActionListener(listener);
     }
+    
+    /**
+     * Method adding a listener to the "processButton" button.
+     *
+     * @see controller.WorkspaceTabController#ProcessFileListener()
+     * @param listener
+     *            The listener to start processing experiment.
+     */
+    public void addConvertFileListener(ActionListener listener) {
+        convertButton.addActionListener(listener);
+    }
 
     /**
      * Method adding a listener to the "uploadButton" button. OR Method adding a
