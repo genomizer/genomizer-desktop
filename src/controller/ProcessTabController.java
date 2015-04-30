@@ -20,42 +20,41 @@ import gui.GenomizerView;
 import gui.ProcessTab;
 
 public class ProcessTabController {
-    GenomizerView view;
+    GUI view;
     GenomizerModel model;
     private boolean deletedProcessFiles = false;
-    
+
     public ProcessTabController(GenomizerView view, GenomizerModel model) {
-        this.view = view;
         this.model = model;
-        GUI gui = (GUI) view;
-        ProcessTab processTab = gui.getProcessTab();
+        view = (GUI) view;
+        ProcessTab processTab = view.getProcessTab();
         processTab.addRawToProfileDataListener(RawToProfileDataListener());
-        
+
         fileListAddMouseListener(view.getProcessTab().getFileList());
-        
+
         processTab.addProcessFeedbackListener(ProcessFeedbackListener());
-        
+
         processTab.addDeleteSelectedListener(DeleteSelectedListener());
-        
+
     }
-    
+
     private void fileListAddMouseListener(JList fileList) {
         fileList.addMouseListener(new MouseAdapter() {
             String species = "";
             int count = 0;
-            
+
             @Override
             public void mouseClicked(MouseEvent event) {
                 JList list = (JList) event.getSource();
-                
+
                 if (deletedProcessFiles) {
                     species = "";
                     count = 0;
                 }
-                
+
                 if (list.getModel().getSize() > 0) {
                     int index = list.locationToIndex(event.getPoint());
-                    
+
                     CheckListItem item = (CheckListItem) list.getModel()
                             .getElementAt(index);
                     if (count == 0) {
@@ -65,9 +64,9 @@ public class ProcessTabController {
                         species = item.getSpecie();
                     }
                     if (item.getSpecie().equals(species)) {
-                        
+
                         item.setSelected(!item.isSelected());
-                        
+
                         GenomeReleaseData[] genome = model
                                 .getSpeciesGenomeReleases(item.getSpecie());
                         if (view.getProcessTab().getAllMarkedFiles().isEmpty()) {
@@ -75,7 +74,7 @@ public class ProcessTabController {
                         } else {
                             view.getProcessTab().setGenomeFileList(genome);
                         }
-                        
+
                         if (item.isSelected()) {
                             count++;
                         } else {
@@ -88,41 +87,41 @@ public class ProcessTabController {
             }
         });
     }
-    
+
     /**
      * The listener to create profile data, Sends a request to the server for
      * every RAW-file that the user wants to create profile data.
-     * 
+     *
      * @author c11ann
      */
     public ActionListener RawToProfileDataListener() {
         return new ActionListener() {
-            
+
             @Override
             public void actionPerformed(ActionEvent e) {
                 new Thread() {
                     @Override
                     public void run() {
-                        
+
                         view.getProcessTab().setRegularParameters();
                         ArrayList<FileData> allMarked = view.getProcessTab()
                                 .getAllMarkedFiles();
                         String message;
                         Boolean isConverted;
                         Boolean allRaw = false;
-                        
+
                         for (FileData raw : allMarked) {
                             allRaw = raw.type.equals("Raw");
                         }
-                        
+
                         // DANIEL
                         if (allRaw) {
                             if (view.isCorrectToProcess()
                                     && view.isRatioCorrectToProcess()) {
                                 if (!allMarked.isEmpty()) {
-                                    
+
                                     for (FileData data : allMarked) {
-                                        
+
                                         String fileName = data.filename;
                                         String author = view.getLoginWindow()
                                                 .getUsernameInput();
@@ -136,7 +135,7 @@ public class ProcessTabController {
                                         parameters[3] = processParameters[3];
                                         parameters[4] = processParameters[4];
                                         parameters[5] = processParameters[5];
-                                        
+
                                         if (view.getProcessTab().useRatio()) {
                                             String[] ratioParameters = view
                                                     .getRatioCalcPopup()
@@ -147,7 +146,7 @@ public class ProcessTabController {
                                             parameters[6] = "";
                                             parameters[7] = "";
                                         }
-                                        
+
                                         String expid = data.expId;
                                         String genomeVersion = processParameters[1];
                                         String metadata = parameters[0] + " "
@@ -158,14 +157,14 @@ public class ProcessTabController {
                                                 + parameters[5] + " "
                                                 + parameters[6] + " "
                                                 + parameters[7];
-                                        
+
                                         // Sends a request to create profile
                                         // data from raw
                                         // files.
                                         isConverted = model.rawToProfile(expid,
                                                 parameters, metadata,
                                                 genomeVersion, author);
-                                        
+
                                         if (isConverted) {
                                             message = "The server has started process on file: "
                                                     + fileName
@@ -173,7 +172,7 @@ public class ProcessTabController {
                                                     + expid + "\n\n";
                                             view.getProcessTab()
                                                     .printToConsole(message);
-                                            
+
                                         } else {
                                             message = "WARNING - The server couldn't start processing on file: "
                                                     + fileName
@@ -189,13 +188,13 @@ public class ProcessTabController {
                             message = "One or more selected files are not raw files! \n\n";
                             view.getProcessTab().printToConsole(message);
                         }
-                        
+
                     };
                 }.start();
             }
         };
     }
-    
+
     public ActionListener ProcessFeedbackListener() {
         return new ActionListener() {
             @Override
@@ -203,7 +202,7 @@ public class ProcessTabController {
                 new Thread() {
                     @Override
                     public void run() {
-                        
+
                         ProcessFeedbackData[] processFeedbackData = model
                                 .getProcessFeedback();
                         if (processFeedbackData != null
@@ -211,13 +210,22 @@ public class ProcessTabController {
                             view.getProcessTab().showProcessFeedback(
                                     processFeedbackData);
                         }
-                        
+
                     };
                 }.start();
             }
         };
     }
-    
+
+    public ActionListener abortProcessListener() {
+        return new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                //TODO
+            }
+        };
+    }
+
     public ActionListener DeleteSelectedListener() {
         return new ActionListener() {
             @Override
@@ -225,21 +233,21 @@ public class ProcessTabController {
                 new Thread() {
                     @Override
                     public void run() {
-                        
+
                         ArrayList<FileData> markedFiles = view.getProcessTab()
                                 .getAllMarkedFiles();
                         ArrayList<ExperimentData> exData = view.getProcessTab()
                                 .getFileInfo();
-                        
+
                         if (exData != null && markedFiles != null) {
-                            
+
                             for (ExperimentData data : exData) {
                                 data.files.removeAll(markedFiles);
                             }
                             view.getProcessTab().setFileInfo(exData);
                             deletedProcessFiles = true;
                         }
-                        
+
                     };
                 }.start();
             }
