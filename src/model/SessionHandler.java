@@ -85,6 +85,7 @@ public class SessionHandler {
                         .parseLoginResponse(conn.getResponseBody());
                 if (loginResponse != null) {
                     User.getInstance().setToken(loginResponse.token);
+                    User.getInstance().setName(username);
                     return "true";
                 }
             } else {
