@@ -48,15 +48,15 @@ import util.ProcessFeedbackData;
 
 /**
  * Visual presentation of the process tab.
- * 
+ *
  * @author
  */
 public class ProcessTab extends JPanel {
-    
+
     private static final long serialVersionUID = -2830290705724588252L;
-    
+
     private final JList<CheckListItem> fileList = new JList<CheckListItem>();
-    
+
     private final JPanel rawParameterPanel = new JPanel();
     private final JPanel buttonPanel = new JPanel();
     private final JPanel filesPanel = new JPanel(new BorderLayout());
@@ -65,7 +65,7 @@ public class ProcessTab extends JPanel {
     private final JPanel rawToProfileMenuPanel = new JPanel();
     private final JPanel southPanel = new JPanel();
     private final JPanel westPanel = new JPanel(new BorderLayout());
-    
+
     private final JPanel flagsPanel = new JPanel();
     private final JPanel genomeReleasePanel = new JPanel();
     private final JPanel windowSizePanel = new JPanel();
@@ -77,39 +77,40 @@ public class ProcessTab extends JPanel {
     private final JPanel removePanel = new JPanel(new FlowLayout());
     private final JPanel createProfilePanel = new JPanel();
     private final JPanel formatPanel = new JPanel();
-    
+
     private final JTextArea consoleArea = new JTextArea();
     private final JTextField flags = new JTextField();
     public final JTextField smoothWindowSize = new JTextField();
     public final JTextField stepPosition = new JTextField();
     public final JTextField stepSize = new JTextField();
-    
+
     private final JScrollPane scrollConsole = new JScrollPane();
     private final JScrollPane scrollProcessList = new JScrollPane();
     private final JScrollPane scrollFiles = new JScrollPane();
-    
+
     private final JButton profileButton = new JButton("Start process");
     private final JButton ratioCalcButton = new JButton(
             "Ratio calculation option");
     private final JButton processFeedbackButton = new JButton(
             "Get process feedback");
     private final JButton deleteButton = new JButton("Delete selected");
+    private final JButton abortProcessButton = new JButton("Abort process");
     private JButton infoButton;
-    
+
     private final JCheckBox printMean = new JCheckBox("Print mean");
     private final JCheckBox printZeros = new JCheckBox("Print zeros");
     public final JCheckBox stepSizeBox = new JCheckBox("Step size");
     public final JCheckBox useSmoothing = new JCheckBox("Smoothing");
     private final JCheckBox useRatio = new JCheckBox("Ratio calculation");
-    
+
     private final JComboBox<String> genomeFile = new JComboBox<String>();
     private final JComboBox<String> smoothType = new JComboBox<String>();
-    
+
     public final JRadioButton outputSGR = new JRadioButton("SGR");
     public final JRadioButton outputGFF = new JRadioButton("GFF");
     public final JRadioButton outputSAM = new JRadioButton("SAM");
     public final ButtonGroup radioGroup = new ButtonGroup();
-    
+
     private final JTabbedPane tabbedPane = new JTabbedPane(JTabbedPane.BOTTOM);
     public final JOptionPane ratioPopup = new JOptionPane();
     private String[] regularParameters = new String[4];
@@ -117,8 +118,8 @@ public class ProcessTab extends JPanel {
     private ArrayList<ExperimentData> experimentData;
 
     private ProcessTabController processTabController;
-    
-    
+
+
     public ProcessTab() {
         processFeedbackData = new ProcessFeedbackData[0];
         setPreferredSize(new Dimension(1225, 725));
@@ -127,12 +128,12 @@ public class ProcessTab extends JPanel {
         initPanels();
         disableAllParameters();
     }
-    
+
     /**
      * Initiates all the process tabs panels.
      */
     private void initPanels() {
-        
+
         addNorthPanel();
         addWestPanels();
         addConsolePanel();
@@ -140,22 +141,22 @@ public class ProcessTab extends JPanel {
         addSouthPanel();
         addConsolePanelComponents();
         initFileList();
-        
+
         ArrayList<String> smooth = new ArrayList<String>();
         smooth.add("Median");
         smooth.add("Trimmed Mean");
         initComboBoxes(smooth, smoothType);
-        
+
         initRegularParameters();
         setButtonListeners();
-        
+
     }
-    
+
     /**
      * Shows parameters information popup window.
      */
     private void helpPopup() {
-        
+
         JOptionPane
                 .showMessageDialog(
                         this,
@@ -163,7 +164,7 @@ public class ProcessTab extends JPanel {
                                 + "Print zeros: Print values with zeros.\nPrint mean: Print total mean of file.\n",
                         "Parameter information", JOptionPane.PLAIN_MESSAGE);
     }
-    
+
     /**
      * Sets buttonListeners to all the parameters textFields and buttons.
      */
@@ -182,16 +183,16 @@ public class ProcessTab extends JPanel {
         setJButtonListener(infoButton);
         setFlagsListener();
     }
-    
+
     /**
      * Initiates the smooth type comboBox in process tab.
-     * 
+     *
      * @param items
      * @param dropDownList
      */
     private void initComboBoxes(ArrayList<String> items,
             JComboBox<String> dropDownList) {
-        
+
         // Only if the dropDown is not null
         if (!dropDownList.equals(null)) {
             for (String item : items) {
@@ -199,7 +200,7 @@ public class ProcessTab extends JPanel {
             }
         }
     }
-    
+
     /**
      * Initiates the north panel in the process tabs borderlayout.
      */
@@ -210,9 +211,9 @@ public class ProcessTab extends JPanel {
         this.add(rawToProfileMenuPanel, BorderLayout.NORTH);
         addOptionsToRawToProfileTab();
         enableButtons();
-        
+
     }
-    
+
     /**
      * Initiates the west panel in the process tabs borderlayout.
      */
@@ -221,7 +222,7 @@ public class ProcessTab extends JPanel {
         westPanel.setBorder(BorderFactory.createTitledBorder("Files"));
         addFilesPanel();
     }
-    
+
     /**
      * Initiates the center panel in the process tabs borderlayout.
      */
@@ -229,7 +230,7 @@ public class ProcessTab extends JPanel {
         this.add(consolePanel, BorderLayout.CENTER);
         consolePanel.setBorder(BorderFactory.createTitledBorder("Console"));
     }
-    
+
     /**
      * Initiates the east panel in the process tabs borderlayout.
      */
@@ -258,7 +259,7 @@ public class ProcessTab extends JPanel {
                     }
                 }
                 for (String author : authors) {
-                    
+
                     DefaultMutableTreeNode authorNode = new DefaultMutableTreeNode(
                             "<html><b>Author</b>: " + author + "</html>");
                     root.add(authorNode);
@@ -306,11 +307,11 @@ public class ProcessTab extends JPanel {
                             DefaultMutableTreeNode finishedTimeNode = new DefaultMutableTreeNode(
                                     "<html><u>Time Finished</u>: "
                                             + timeFinished + "</html>");
-                            
+
                             expNode.add(addedTimeNode);
                             expNode.add(startedTimeNode);
                             expNode.add(finishedTimeNode);
-                            
+
                             if (data.status.equals("Finished")) {
                                 finishedNode.add(expNode);
                             } else if (data.status.equals("Waiting")) {
@@ -320,9 +321,9 @@ public class ProcessTab extends JPanel {
                             } else if (data.status.equals("Started")) {
                                 startedNode.add(expNode);
                             }
-                            
+
                         }
-                        
+
                     }
                 }
                 // create the tree by passing in the root node
@@ -336,20 +337,22 @@ public class ProcessTab extends JPanel {
                 scrollProcessList.setViewportView(tree);
                 procInfoSouthPanel.add(Box.createHorizontalStrut(35));
                 procInfoSouthPanel.add(processFeedbackButton);
+                procInfoSouthPanel.add(abortProcessButton);
                 procInfoSouthPanel.add(Box.createHorizontalStrut(35));
+
             }
         });
     }
-    
+
     /**
      * Initiates southPanel to south in the process tabs borderlayout.
      */
     private void addSouthPanel() {
         this.add(southPanel, BorderLayout.SOUTH);
         southPanel.setPreferredSize(new Dimension(300, 30));
-        
+
     }
-    
+
     /**
      * Writes text to convertArea. The user gets a visual message whether or not
      * the conversion succeeded.
@@ -369,7 +372,7 @@ public class ProcessTab extends JPanel {
         });
         clearConsolePanel.add(clearConsoleButton);
     }
-    
+
     /**
      * Initiates filesPanel in westPanel.
      */
@@ -380,7 +383,7 @@ public class ProcessTab extends JPanel {
         westPanel.add(removePanel, BorderLayout.SOUTH);
         scrollFiles.setViewportView(fileList);
     }
-    
+
     /**
      * Initiates all checkboxes and textfields in raw to profile tab.
      */
@@ -395,32 +398,32 @@ public class ProcessTab extends JPanel {
         addPrintMeanToRawTab();
         addPrintZeroToRawTab();
     }
-    
+
     /**
      * Initiates all panels to the raw to profile tab.
      */
     private void addPanelsToRawToProfileTab() {
-        
+
         ImageIcon img = IconFactory.getInfoIcon(40, 40);
         ImageIcon hoverImg = IconFactory.getInfoIcon(44, 44);
-        
+
         infoButton = CustomButtonFactory.makeCustomButton(img, hoverImg, 44,
                 44, "Parameter information");
-        
+
         rawToProfileMenuPanel.setLayout(new BorderLayout());
         rawToProfileMenuPanel.add(tabbedPane, BorderLayout.CENTER);
-        
+
         tabbedPane.addTab("Create profile data", null, rawTabpanel, null);
         rawTabpanel.add(rawParameterPanel, BorderLayout.NORTH);
         formatPanel.setPreferredSize(new Dimension(100, 82));
         formatPanel.setBorder(BorderFactory.createTitledBorder("Format"));
-        
+
         rawParameterPanel.add(formatPanel);
         formatPanel.setLayout(new GridLayout(0, 1, 0, 0));
         formatPanel.add(outputSAM);
         formatPanel.add(outputGFF);
         formatPanel.add(outputSGR);
-        
+
         rawParameterPanel.add(flagsPanel);
         flagsPanel.setBorder(BorderFactory.createTitledBorder("Bowtie flags"));
         rawParameterPanel.add(genomeReleasePanel);
@@ -437,13 +440,13 @@ public class ProcessTab extends JPanel {
                 .createTitledBorder("Step position"));
         rawParameterPanel.setBorder(null);
         checkBoxPanel.setPreferredSize(new Dimension(315, 81));
-        
+
         rawParameterPanel.add(stepSizePanel);
         stepSizePanel.setBorder(BorderFactory.createTitledBorder("Step size"));
         rawParameterPanel.add(infoButton);
-        
+
     }
-    
+
     /**
      * Initiates the flag text field in raw to profile tab
      */
@@ -453,7 +456,7 @@ public class ProcessTab extends JPanel {
         flags.setText("-a -m 1 --best -p 10 -v 2 -q -S");
         flags.setPreferredSize(new Dimension(180, 30));
     }
-    
+
     /**
      * Initiates the genome files combobox in raw to profile tab
      */
@@ -462,7 +465,7 @@ public class ProcessTab extends JPanel {
         genomeFile.setPreferredSize(new Dimension(180, 30));
         genomeFile.setBorder(null);
     }
-    
+
     /**
      * Initiates the window size text field in raw to profile tab
      */
@@ -472,7 +475,7 @@ public class ProcessTab extends JPanel {
         smoothWindowSize.setBorder(null);
         smoothWindowSize.setHorizontalAlignment(JTextField.CENTER);
     }
-    
+
     /**
      * Initiates the smooth type text field in raw to profile tab
      */
@@ -481,7 +484,7 @@ public class ProcessTab extends JPanel {
         smoothType.setPreferredSize(new Dimension(140, 30));
         smoothType.setBorder(null);
     }
-    
+
     /**
      * Initiates the step position text field in raw to profile tab
      */
@@ -491,7 +494,7 @@ public class ProcessTab extends JPanel {
         stepPosition.setBorder(null);
         stepPosition.setHorizontalAlignment(JTextField.CENTER);
     }
-    
+
     /**
      * Initiates the step size text field in raw to profile tab
      */
@@ -501,7 +504,7 @@ public class ProcessTab extends JPanel {
         stepSize.setBorder(null);
         stepSize.setHorizontalAlignment(JTextField.CENTER);
     }
-    
+
     /**
      * Initiates the print mean checkbox in raw to profile tab
      */
@@ -510,7 +513,7 @@ public class ProcessTab extends JPanel {
         printMean.setBorder(null);
         stepSizeBox.setPreferredSize(new Dimension(80, 30));
     }
-    
+
     /**
      * Initiates the print zeros checkbox in raw to profile tab
      */
@@ -518,24 +521,24 @@ public class ProcessTab extends JPanel {
         printZeros.setPreferredSize(new Dimension(90, 30));
         printZeros.setBorder(null);
     }
-    
+
     /**
      * Initiates the all buttons.
      */
     private void enableButtons() {
         rawTabpanel.add(buttonPanel, BorderLayout.SOUTH);
         useSmoothing.setPreferredSize(new Dimension(95, 30));
-        
+
         buttonPanel.add(useSmoothing);
         buttonPanel.add(printMean);
         buttonPanel.add(printZeros);
         buttonPanel.add(stepSizeBox);
         useRatio.setPreferredSize(new Dimension(130, 30));
-        
+
         buttonPanel.add(useRatio);
         buttonPanel.add(ratioCalcButton);
     }
-    
+
     /**
      * Initiates default parameters in the raw to profile tab.
      */
@@ -547,24 +550,24 @@ public class ProcessTab extends JPanel {
         printZeros.setSelected(true);
         genomeFile.removeAllItems();
     }
-    
+
     /**
      * Initiate fileList.
      */
     private void initFileList() {
         fileListSetCellRenderer();
     }
-    
+
     /**returns the files from... some list TODO understand/comment
      * @return the list of files
      */
     public JList<CheckListItem> getFileList() {
         return fileList;
     }
-    
+
     /**
      * Gets the step size from raw to profile tab.
-     * 
+     *
      * @return String - "y" + stepSize || "n" + stepSize
      */
     private String getStepSize() {
@@ -575,38 +578,38 @@ public class ProcessTab extends JPanel {
             return "";
         }
     }
-    
+
     /**
      * Gets the text in the flag parameter in raw to profile tab.
-     * 
+     *
      * @return String
      */
     private String getTextFromFlags() {
         return flags.getText().trim();
     }
-    
+
     /**
      * Gets the selected genome files name from the combobox.
-     * 
+     *
      * @return String - Name of the selected genome file
      */
     private String getTextGenomeFileName() {
         return genomeFile.getSelectedItem().toString().trim();
     }
-    
+
     /**
      * Returns all smoothing parameters in one string from the raw to profile
      * tab.
-     * 
+     *
      * @return String - all parameters in a string
      */
     private String getSmoothingParameters() {
         String smoothPar;
         String printmean = "0";
         String printzeros = "0";
-        
+
         smoothPar = smoothWindowSize.getText().trim() + " ";
-        
+
         if (!useSmoothing.isSelected()) {
             return "";
         } else if (smoothType.getSelectedItem().equals("Median")) {
@@ -614,49 +617,49 @@ public class ProcessTab extends JPanel {
         } else {
             smoothPar = smoothPar + "0" + " ";
         }
-        
+
         smoothPar = smoothPar + stepPosition.getText().trim();
-        
+
         if (printMean.isSelected()) {
             printmean = "1";
         }
-        
+
         if (printZeros.isSelected()) {
             printzeros = "1";
         }
-        
+
         return smoothPar + " " + printmean.trim() + " " + printzeros.trim();
     }
-    
+
     /**
      * Gets all the parameters that the user has written in the raw to profile
      * tab when trying to create profile data from raw data.
-     * 
+     *
      * @return String[] - regularParameters
      */
     public String[] getregularParameters() {
         return this.regularParameters;
     }
-    
+
     /**
      * Sets regularParameters from the user in raw to profile tab.
      */
     public void setRegularParameters() {
-        
+
         regularParameters[0] = getTextFromFlags(); // "-a -m 1 --best -p 10 -v 2";
         regularParameters[1] = getTextGenomeFileName(); // "hg38";
         regularParameters[2] = getSmoothingParameters(); // "10 1 5 0 1";
         regularParameters[3] = getStepSize(); // "y 10";
-        
+
     }
-    
+
     /**
      * Gets all the regular parameters that the user has entered.
-     * 
+     *
      * @return the parameters
      */
     public String[] getRegularParameters() {
-        
+
         String[] parameters = new String[6];
         parameters[0] = getTextFromFlags();
         parameters[1] = getTextGenomeFileName();
@@ -672,15 +675,15 @@ public class ProcessTab extends JPanel {
             parameters[3] = "";
             parameters[4] = "";
         }
-        
+
         parameters[5] = getStepSize();
         return parameters;
     }
-    
+
     /**
      * Sets the genomeFile comboBox with all the genome release files that exist
      * for a specific species.
-     * 
+     *
      * @param genomeReleases
      */
     public void setGenomeFileList(GenomeReleaseData[] genomeReleases) {
@@ -693,11 +696,11 @@ public class ProcessTab extends JPanel {
             }
         }
     }
-    
+
     /**
      * Sets the experimentData list with all selected files to process from
      * workspace.
-     * 
+     *
      * @param experimentData
      */
     public void setFileInfo(ArrayList<ExperimentData> experimentData) {
@@ -705,16 +708,16 @@ public class ProcessTab extends JPanel {
         // Parse out experiment files.
         parseFileData();
     }
-    
+
     /**
      * Get all the experiments from the process tab.
-     * 
+     *
      * @return
      */
     public ArrayList<ExperimentData> getFileInfo() {
         return this.experimentData;
     }
-    
+
     /**
      * Sets a cell renderer to fileList.
      */
@@ -722,17 +725,17 @@ public class ProcessTab extends JPanel {
         fileList.setCellRenderer(new CheckListRenderer());
         fileList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
     }
-    
+
     /**
      * Parse out the all the files from ExperimentData and creates an
      * CheckListItem and adds that file to it. Adds all the files CheckListItems
      * to fileList.
      */
     private void parseFileData() {
-        
+
         ArrayList<CheckListItem> itemList = new ArrayList<CheckListItem>();
         String specie = "";
-        
+
         for (ExperimentData exData : experimentData) {
             for (FileData fileData : exData.files) {
                 for (AnnotationDataValue annoDataValue : exData.annotations) {
@@ -749,27 +752,27 @@ public class ProcessTab extends JPanel {
         this.revalidate();
         this.repaint();
     }
-    
+
     /**
      * Gets all marked files in the fileList.
-     * 
+     *
      * @return ArrayList<FileData> - List of all the files.
      */
-    
+
     public ArrayList<FileData> getAllMarkedFiles() {
-        
+
         ArrayList<FileData> arr = new ArrayList<FileData>();
-        
+
         for (int i = 0; i < fileList.getModel().getSize(); i++) {
             CheckListItem checkItem = fileList.getModel().getElementAt(i);
             checkItemIsSelected(arr, checkItem);
         }
         return arr;
     }
-    
+
     /**
      * Checks if an item in a list is selected.
-     * 
+     *
      * @param arr
      *            - the list
      * @param checkItem
@@ -781,16 +784,16 @@ public class ProcessTab extends JPanel {
             arr.add(checkItem.getfile());
         }
     }
-    
+
     /**
      * Adds listener to the fileList.
-     * 
+     *
      * @param mouseAdapter
      */
     public void addFileListMouseListener(MouseAdapter mouseAdapter) {
         fileList.addMouseListener(mouseAdapter);
     }
-    
+
     /**
      * Adds button listener to processFeedbackButton.
      * @see controller.ProcessTabController#ProcessFeedbackListener()
@@ -799,7 +802,16 @@ public class ProcessTab extends JPanel {
     public void addProcessFeedbackListener(ActionListener listener) {
         processFeedbackButton.addActionListener(listener);
     }
-    
+
+    /**
+     * Adds button listener to abortProcessButton.
+     * @see controller.ProcessTabController#abortProcessListener()
+     * @param listener
+     */
+    public void addAbortProcessListener(ActionListener listener) {
+        abortProcessButton.addActionListener(listener);
+    }
+
     /**
      * Adds button listener to profileButton.
      * @see controller.ProcessTabController#RawToProfileDataListener()
@@ -808,7 +820,7 @@ public class ProcessTab extends JPanel {
     public void addRawToProfileDataListener(ActionListener listener) {
         profileButton.addActionListener(listener);
     }
-    
+
     /**
      * Adds button listener to ratioCalcButton.
      * @see controller.Controller#RatioCalcListener()
@@ -817,7 +829,7 @@ public class ProcessTab extends JPanel {
     public void addRatioCalcListener(ActionListener listener) {
         ratioCalcButton.addActionListener(listener);
     }
-    
+
     /**
      * Adds button listener to deleteButton.
      * @see controller.ProcessTabController#DeleteSelectedListener()
@@ -826,10 +838,10 @@ public class ProcessTab extends JPanel {
     public void addDeleteSelectedListener(ActionListener listener) {
         deleteButton.addActionListener(listener);
     }
-    
+
     /**
      * Shows all of the processes the server is currently handling.
-     * 
+     *
      * @param processFeedbackData
      */
     public void showProcessFeedback(ProcessFeedbackData[] processFeedbackData) {
@@ -839,33 +851,33 @@ public class ProcessTab extends JPanel {
         repaint();
         revalidate();
     }
-    
+
     /**
      * Sets a listener to the parameter flags JTextField.
      */
     public void setFlagsListener() {
         flags.getDocument().addDocumentListener(new DocumentListener() {
-            
+
             // If something is changed from the textfield
             public void changedUpdate(DocumentEvent e) {
                 check();
             }
-            
+
             // If something is removed from the textfield
             public void removeUpdate(DocumentEvent e) {
                 check();
             }
-            
+
             // If something is inserted from the textfield
             public void insertUpdate(DocumentEvent e) {
                 check();
             }
         });
     }
-    
+
     /**
      * Sets a button listener to a selected JComboBox<String>.
-     * 
+     *
      * @param combobox
      */
     public void setComboBoxActionListener(JComboBox<String> combobox) {
@@ -876,10 +888,10 @@ public class ProcessTab extends JPanel {
             }
         });
     }
-    
+
     /**
      * Sets a button listener to a selected JCheckBox.
-     * 
+     *
      * @param checkbox
      */
     public void setCheckBoxListener(JCheckBox checkbox) {
@@ -890,10 +902,10 @@ public class ProcessTab extends JPanel {
             }
         });
     }
-    
+
     /**
      * Sets a button listener to a selected JRadioButton.
-     * 
+     *
      * @param radioButton
      */
     public void setRadioButtonListener(JRadioButton radioButton) {
@@ -904,14 +916,14 @@ public class ProcessTab extends JPanel {
             }
         });
     }
-    
+
     public void setController(ProcessTabController processTabController) {
         this.processTabController = processTabController;
     }
-    
+
     /**
      * Sets a button listener to a selected JButton.
-     * 
+     *
      * @param infoButton
      */
     private void setJButtonListener(JButton infoButton) {
@@ -922,7 +934,7 @@ public class ProcessTab extends JPanel {
             }
         });
     }
-    
+
     /**
      * Checks which parameters should be enabled and set. Every button and
      * textfield uses this method to be able to listen to eachothers events.
@@ -930,7 +942,7 @@ public class ProcessTab extends JPanel {
     private void check() {
         /* Check if there are valid genome releases */
         if (genomeFile.getItemCount() > 0) {
-            
+
             outputSGR.setEnabled(true);
             outputGFF.setEnabled(true);
             outputSAM.setEnabled(true);
@@ -988,9 +1000,9 @@ public class ProcessTab extends JPanel {
         } else {
             ratioCalcButton.setEnabled(false);
         }
-        
+
     }
-    
+
     /**
      * Disables all the buttons and textfields in the process tab
      */
@@ -1014,25 +1026,25 @@ public class ProcessTab extends JPanel {
         stepSize.setEnabled(false);
         flags.setEnabled(false);
     }
-    
+
     /**
      * Prints message to genProfArea. The message is red if it is a warning
      * message, black otherwise.
-     * 
+     *
      * @param message
      *            - Whether or not create profile data succeeded
      */
     public void printToConsole(String message) {
         consoleArea.append(message);
     }
-    
+
     /**
      * Checks whether or not the user wants to use ratio calculation
-     * 
+     *
      * @return boolean
      */
     public boolean useRatio() {
         return (useRatio.isEnabled() && useRatio.isSelected());
     }
-    
+
 }

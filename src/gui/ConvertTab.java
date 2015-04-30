@@ -304,20 +304,10 @@ public class ConvertTab extends JPanel {
   //      return uploadToExistingExpPanel;
   //  }
 
-   // public UploadToNewExpPanel getNewExpPanel() {
-  //      return uploadToNewExpPanel;
-   // }
 
     public boolean newExpStarted() {
         return activePanel == ActivePanel.NEW;
     }
-
-    /**
-     * Method returning the text in the experiment name field.
-     *
-     * @return a String with the experiment name.
-     */
-
 
 
     /**
@@ -380,6 +370,18 @@ public class ConvertTab extends JPanel {
             }
         }).start();
     }
+
+
+
+
+    public void addConvertFileListener(ActionListener listener) {
+        // TODO Auto-generated method stub
+        
+    }
+
+
+
+  
 
 //    public void setController(UploadTabController uploadTabController) {
  //       this.uploadTabController = uploadTabController;
