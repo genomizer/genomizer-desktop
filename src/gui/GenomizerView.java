@@ -215,67 +215,6 @@ public interface GenomizerView {
 
     public void showProcessFeedback(ProcessFeedbackData[] processFeedbackData); // unused commented~
 
-    public int getSelectedRowAtAnnotationTable();
-
-    public void updateLoginAccepted(String username, String pwd, String name);
-
-    public void updateLoginNeglected(String errorMessage);
-
-    public void updateLogout();
-
-    public void setSearchAnnotationTypes(AnnotationDataType[] annotationTypes);
-
-    public void setProcessFileList(ArrayList<FileData> arrayList);
-
-    public void printToConsole(String message);
-
-    public void setSysadminController(SysadminController sysadminController);
-
-    public ArrayList<ExperimentData> getSelectedDataInWorkspace();
-
-    public ArrayList<ExperimentData> getSelectedExperimentsInWorkspace();
-
-    public void createNewExp(AnnotationDataType[] annotations);
-
-    public String[] getParameters();
-
-    public void selectFilesToNewExp(File[] files);
-
-    public void selectFilesToExistingExp(File[] files);
-
-    public ArrayList<File> getFilesToUpload();
-
-    public AnnotationDataValue[] getUploadAnnotations();
-
-    public void setBowtieParameters();
-
-    public JList getfileList();
-
-    public String getNewExpName();
-
-    public boolean getIsNewExp();
-
-    public HashMap<String, String> getFilesToUploadTypes();
-
-    public void updateQuerySearchResults(ArrayList<ExperimentData> searchResults);
-
-    public void enableUploadButton(boolean b);
-
-    public String[] getRatioCalcParameters();
-
-    public void deleteUploadFileRow(File f);
-
-    public void addRatioCalcListener(ActionListener listener);
-
-    public void setDefaultRatioPar();
-
-    public void setUnusedRatioPar();
-
-    public void showRatioPopup();
-
-    public void showProcessFeedback(ProcessFeedbackData[] processFeedbackData);
-
-
     public void setOngoingUploads(
             CopyOnWriteArrayList<HTTPURLUpload> ongoingUploads); // unused commented
 
@@ -347,4 +286,6 @@ public interface GenomizerView {
     public void addUploadToListenerSearchTab(ActionListener listener); // unused commented
 
     public void addConvertFileListener(ActionListener listener);
+
+    boolean getIsNewExp();
 }
