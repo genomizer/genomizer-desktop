@@ -27,16 +27,13 @@ public class UpdaterModel {
     private CopyOnWriteArrayList<DownloadHandler> ongoingDownloads;
     private CopyOnWriteArrayList<HTTPURLUpload> ongoingUploads;
 
-    private String userID;
     private ConnectionFactory connFactory;
 
-    public UpdaterModel( String userID, ConnectionFactory connFactory ) {
+    public UpdaterModel( ConnectionFactory connFactory ) {
 
         ongoingDownloads = new CopyOnWriteArrayList<>();
         ongoingUploads = new CopyOnWriteArrayList<>();
 
-        // Should perhaps take a user instead
-        this.userID = userID;
         this.connFactory = connFactory;
 
     }
@@ -47,9 +44,7 @@ public class UpdaterModel {
         // TODO: Trace comments. also "metameta"
         System.out.println("ska uploada fil: " + f.getName());
 
-        // TODO: SHOULD ACTUALLY BE getLoginWindow().getUsernameInput()
-        // USERNAME! Change for user-username later and fix
-        String username = userID.substring(0,30);
+        String username = User.getInstance().getName();
 
         AddFileToExperiment request = RequestFactory.makeAddFile(expName,
                 f.getName(), type, "metameta", username, username, isPrivate,
@@ -72,7 +67,7 @@ public class UpdaterModel {
                     f.getAbsolutePath(), f.getName());
 
             ongoingUploads.add(upload);
-            boolean ok = upload.sendFile(userID);
+            boolean ok = upload.sendFile(User.getInstance().getToken());
 
             if (ok) {
                 return true;
@@ -108,7 +103,7 @@ public class UpdaterModel {
 
         Connection conn = connFactory.makeConnection();
         try {
-            conn.sendRequest(request, userID, Constants.TEXT_PLAIN);
+            conn.sendRequest(request, User.getInstance().getToken(), Constants.TEXT_PLAIN);
             Gson gson = new Gson();
             DownloadFileResponse response = gson.fromJson(
                     conn.getResponseBody(), DownloadFileResponse.class);

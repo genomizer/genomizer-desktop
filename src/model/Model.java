@@ -59,7 +59,7 @@ public class Model implements GenomizerModel {
     public Model() {
         connFactory = new ConnectionFactory();
         searchHistory = new ArrayList<>();
-        updateTabModel = new UpdaterModel(userID, connFactory);
+        updateTabModel = new UpdaterModel(connFactory);
     }
 
     /**
@@ -334,7 +334,7 @@ public class Model implements GenomizerModel {
                 for (int i = 0; i < files.length; i++) {
                     HTTPURLUpload upload = new HTTPURLUpload(aGRR[i].URLupload,
                             files[i].getAbsolutePath(), files[i].getName());
-                    ongoingUploads.add(upload);
+                    updateTabModel.addUpload(upload);
                     if (upload.sendFile(User.getInstance().getToken())) {
                         // TODO: This if part looks like a mess! (OO)
                         // System.out
@@ -523,7 +523,7 @@ public class Model implements GenomizerModel {
         searchHistory = new ArrayList<>();
 
         // TODO: Maybe stop old model
-        updateTabModel = new UpdaterModel(userID, connFactory);
+        updateTabModel = new UpdaterModel(connFactory);
     }
 
     // TODO: Not working (JH)
