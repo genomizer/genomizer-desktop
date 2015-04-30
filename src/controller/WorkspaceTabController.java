@@ -15,6 +15,7 @@ import javax.swing.JPanel;
 import util.ExperimentData;
 import util.FileData;
 import gui.DeleteDataWindow;
+import gui.GUI;
 import gui.GenomizerView;
 import gui.UploadTab;
 import gui.WorkspaceTab;
@@ -22,14 +23,14 @@ import model.ErrorLogger;
 import model.GenomizerModel;
 
 public class WorkspaceTabController {
-    GenomizerView view;
+    GUI view;
     GenomizerModel model;
     private final JFileChooser fileChooser;
     private boolean abortDeletion;
     
     public WorkspaceTabController(GenomizerView view, GenomizerModel model,
             JFileChooser fileChooser) {
-        this.view = view;
+        this.view = (GUI) view;
         this.model = model;
         this.fileChooser = fileChooser;
         WorkspaceTab workspaceTab = view.getWorkSpaceTab();

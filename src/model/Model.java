@@ -12,6 +12,7 @@ import requests.AddExperimentRequest;
 import requests.AddFileToExperiment;
 import requests.AddGenomeReleaseRequest;
 import requests.AddNewAnnotationValueRequest;
+import requests.ChangeExperimentRequest;
 import requests.DownloadFileRequest;
 import requests.GetAnnotationRequest;
 import requests.GetGenomeReleasesRequest;
@@ -379,6 +380,22 @@ public class Model implements GenomizerModel {
             conn.sendRequest(aER, User.getInstance().getToken(), Constants.JSON);
         } catch (RequestException e) {
             showErrorDialog("Couldn't add new experiment", e);
+        }
+        int responseCode = conn.getResponseCode();
+        return (responseCode == 201);
+    }
+
+    public boolean changeExperiment(String expName,
+            AnnotationDataValue[] annotations) {
+        ChangeExperimentRequest cER = RequestFactory.makeChangeExperimentRequest(
+                expName, annotations);
+
+        Connection conn = connFactory.makeConnection();
+
+        try {
+            conn.sendRequest(cER, User.getInstance().getToken(), Constants.JSON);
+        } catch (RequestException e) {
+            showErrorDialog("Couldn't update experiment", e);
         }
         int responseCode = conn.getResponseCode();
         return (responseCode == 201);

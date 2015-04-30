@@ -177,6 +177,11 @@ public class GUI extends JFrame implements GenomizerView {
     public void addProcessFileListener(ActionListener listener) {
         workspaceTab.addProcessFileListener(listener);
     }
+    
+    @Override
+    public void addConvertFileListener(ActionListener listener) {
+        convertTab.addConvertFileListener(listener);
+    }
 
     @Override
     public void addRawToProfileDataListener(ActionListener listener) {
@@ -891,5 +896,10 @@ public class GUI extends JFrame implements GenomizerView {
     }
 
 
+
+    @Override
+    public boolean getIsNewExp() {
+        return uploadTab.getUploadToNewExpPanel().getIsNewExp();
+    }
 
 }

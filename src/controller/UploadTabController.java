@@ -125,7 +125,7 @@ public class UploadTabController {
 
                                 }
                                 if (existingSpecies) {
-                                    uploadTab.addExistingExpPanel(ed);
+                                    uploadTab.addExistingExpPanel(ed,model.getAnnotations());
                                     GenomeReleaseData[] grd = model
                                             .getSpeciesGenomeReleases(species);
                                     view.getUploadTab().setGenomeReleases(grd);
@@ -205,7 +205,6 @@ public class UploadTabController {
                                                 JOptionPane.ERROR_MESSAGE);
                             }
                         }
-
                     };
                 }.start();
             }
@@ -240,18 +239,23 @@ public class UploadTabController {
                 new Thread() {
                     @Override
                     public void run() {
+                        boolean expCreated;
                         String expName = view.getUploadTab().getNewExpPanel().getNewExpID();
                         AnnotationDataValue[] annotations = view.getUploadTab().getNewExpPanel().getUploadAnnotations();
                         ArrayList<File> files = view.getUploadTab().getNewExpPanel().getUploadFiles();
-                        if (files != null && files.size() > 0
-                                && annotations != null && expName != null) {
+//                        if (files != null && files.size() > 0
+//                                && annotations != null && expName != null) {
                             HashMap<String, String> types = view.getUploadTab().getNewExpPanel().getTypes();
                             // Should be genome release from uploadTab
                             // String release = "wk1m";
                             // Test purpose
-                            boolean created = model.addNewExperiment(expName,
-                                    annotations);
-                            if (created) {
+                            if (view.getIsNewExp()) {
+                                expCreated = model.addNewExperiment(expName, annotations);
+                            } else {
+                                expCreated = model.changeExperiment(expName, annotations);
+                                System.err.println("Ändrad " + expCreated);
+                            }
+                            if (expCreated) {
                                 for (File f : files) {
                                     view.disableSelectedRow(f);
                                     if (model.uploadFile(expName, f,
@@ -278,7 +282,7 @@ public class UploadTabController {
                                     }
                                 }
                             }
-                        }
+//                        }
                     };
                 }.start();
             }
