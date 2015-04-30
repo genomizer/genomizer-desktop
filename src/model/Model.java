@@ -81,7 +81,7 @@ public class Model implements GenomizerModel {
             conn.sendRequest(rawToProfilerequest,
                     User.getInstance().getToken(), Constants.JSON);
         } catch (RequestException e) {
-            showErrorDialog("Data process failed", e);
+            new ErrorDialog("Data process failed", e).showDialog();
         }
         return conn.getResponseCode() == 200;
     }
@@ -108,7 +108,7 @@ public class Model implements GenomizerModel {
             conn.sendRequest(request, User.getInstance().getToken(),
                     Constants.JSON);
         } catch (RequestException e) {
-            showErrorDialog("Couldn't upload file", e);
+            new ErrorDialog("Couldn't upload file", e).showDialog();
         }
         int responseCode = conn.getResponseCode();
         if (responseCode == 200) {
@@ -152,7 +152,7 @@ public class Model implements GenomizerModel {
                 }
             }).start();
         } catch (RequestException e) {
-            showErrorDialog("Couldn't download file", e);
+            new ErrorDialog("Couldn't download file", e).showDialog();
         }
         return true;
     }
@@ -176,7 +176,7 @@ public class Model implements GenomizerModel {
                 }
             }
         } catch (RequestException e) {
-            showErrorDialog("Search failed", e);
+            new ErrorDialog("Search failed", e).showDialog();
         }
         return null;
     }
@@ -225,7 +225,7 @@ public class Model implements GenomizerModel {
                 return false;
             }
         } catch (RequestException e) {
-            showErrorDialog("Couldn't add annotation", e);
+            new ErrorDialog("Couldn't add annotation", e).showDialog();
         }
         return false;
     }
@@ -275,7 +275,7 @@ public class Model implements GenomizerModel {
             conn.sendRequest(request, User.getInstance().getToken(),
                     Constants.JSON);
         } catch (RequestException e) {
-            showErrorDialog("Couldn't delete annotation", e);
+            new ErrorDialog("Couldn't delete annotation", e).showDialog();
         }
         if (conn.getResponseCode() == 200) {
             return true;
@@ -298,7 +298,7 @@ public class Model implements GenomizerModel {
             conn.sendRequest(request, User.getInstance().getToken(),
                     Constants.TEXT_PLAIN);
         } catch (RequestException e) {
-            showErrorDialog("Couldn't get annotations", e);
+            new ErrorDialog("Couldn't get annotations", e).showDialog();
         }
         if (conn.getResponseCode() == 200) {
             AnnotationDataType[] annotations = ResponseParser
@@ -318,7 +318,7 @@ public class Model implements GenomizerModel {
             conn.sendRequest(request, User.getInstance().getToken(),
                     Constants.TEXT_PLAIN);
         } catch (RequestException e) {
-            showErrorDialog("Couldn't get genome releases", e);
+            new ErrorDialog("Couldn't get genome releases", e).showDialog();
         }
         if (conn.getResponseCode() == 200) {
             GenomeReleaseData[] genomeReleases = ResponseParser
@@ -365,7 +365,7 @@ public class Model implements GenomizerModel {
                 return true;
             }
         } catch (RequestException e) {
-            showErrorDialog("Couldn't get genome releases", e);
+            new ErrorDialog("Couldn't get genome releases", e).showDialog();
         }
         return false;
     }
@@ -379,7 +379,7 @@ public class Model implements GenomizerModel {
         try {
             conn.sendRequest(aER, User.getInstance().getToken(), Constants.JSON);
         } catch (RequestException e) {
-            showErrorDialog("Couldn't add new experiment", e);
+            new ErrorDialog("Couldn't add new experiment", e).showDialog();
         }
         int responseCode = conn.getResponseCode();
         return (responseCode == 201);
@@ -395,7 +395,7 @@ public class Model implements GenomizerModel {
         try {
             conn.sendRequest(cER, User.getInstance().getToken(), Constants.JSON);
         } catch (RequestException e) {
-            showErrorDialog("Couldn't update experiment", e);
+            new ErrorDialog("Couldn't update experiment", e).showDialog();
         }
         int responseCode = conn.getResponseCode();
         return (responseCode == 201);
@@ -412,7 +412,7 @@ public class Model implements GenomizerModel {
         try {
             conn.sendRequest(rER, User.getInstance().getToken(), "plain/text");
         } catch (RequestException e) {
-            showErrorDialog("Couldn't retrieve experiment", e);
+            new ErrorDialog("Couldn't retrieve experiment", e).showDialog();
         }
         if (conn.getResponseCode() == 200) {
             return ResponseParser.parseRetrieveExp(conn.getResponseBody());
@@ -436,7 +436,7 @@ public class Model implements GenomizerModel {
             conn.sendRequest(request, User.getInstance().getToken(),
                     Constants.JSON);
         } catch (RequestException e) {
-            showErrorDialog("Couldn't rename annotation field", e);
+            new ErrorDialog("Couldn't rename annotation field", e).showDialog();
         }
         return conn.getResponseCode() == 200;
     }
@@ -450,7 +450,7 @@ public class Model implements GenomizerModel {
             conn.sendRequest(request, User.getInstance().getToken(),
                     Constants.JSON);
         } catch (RequestException e) {
-            showErrorDialog("Couldn't rename annotation value", e);
+            new ErrorDialog("Couldn't rename annotation value", e).showDialog();
         }
         if (conn.getResponseCode() == 201 || conn.getResponseCode() == 200) {
             return true;
@@ -466,7 +466,7 @@ public class Model implements GenomizerModel {
             conn.sendRequest(request, User.getInstance().getToken(),
                     Constants.JSON);
         } catch (RequestException e) {
-            showErrorDialog("Couldn't remove annotation value", e);
+            new ErrorDialog("Couldn't remove annotation value", e).showDialog();
         }
         if (conn.getResponseCode() == 200) {
             return true;
@@ -482,7 +482,7 @@ public class Model implements GenomizerModel {
             conn.sendRequest(request, User.getInstance().getToken(),
                     Constants.JSON);
         } catch (RequestException e) {
-            showErrorDialog("Couldn't add new annotation value", e);
+            new ErrorDialog("Couldn't add new annotation value", e).showDialog();
         }
         if (conn.getResponseCode() == 201) {
             return true;
@@ -498,7 +498,7 @@ public class Model implements GenomizerModel {
             conn.sendRequest(request, User.getInstance().getToken(),
                     Constants.TEXT_PLAIN);
         } catch (RequestException e) {
-            showErrorDialog("Couldn't get process feedback", e);
+            new ErrorDialog("Couldn't get process feedback", e).showDialog();
         }
         if (conn.getResponseCode() == 200) {
             return ResponseParser.parseProcessFeedbackResponse(conn
@@ -520,7 +520,7 @@ public class Model implements GenomizerModel {
                     + version);
             return true;
         } catch (RequestException e) {
-            showErrorDialog("Couldn't delete genome release", e);
+            new ErrorDialog("Couldn't delete genome release", e).showDialog();
             return false;
         }
     }
@@ -535,7 +535,7 @@ public class Model implements GenomizerModel {
             return ResponseParser.parseGetGenomeReleaseResponse(conn
                     .getResponseBody());
         } catch (RequestException e) {
-            showErrorDialog("Couldn't get genome releases", e);
+            new ErrorDialog("Couldn't get genome releases", e).showDialog();
             return new GenomeReleaseData[] {};
         }
     }
@@ -550,7 +550,7 @@ public class Model implements GenomizerModel {
                     Constants.TEXT_PLAIN);
             return true;
         } catch (RequestException e) {
-            showErrorDialog("Couldn't delete file from experiment", e);
+            new ErrorDialog("Couldn't delete file from experiment", e).showDialog();
             return false;
         }
     }
@@ -565,7 +565,7 @@ public class Model implements GenomizerModel {
                     Constants.TEXT_PLAIN);
             return true;
         } catch (RequestException e) {
-            showErrorDialog("Couldn't delete experiment", e);
+            new ErrorDialog("Couldn't delete experiment", e).showDialog();
             return false;
         }
     }
@@ -581,16 +581,6 @@ public class Model implements GenomizerModel {
     @Override
     public boolean addGenomeRelease() {
         return false;
-    }
-
-    private void showErrorDialog(String title, RequestException e) {
-        String responseBody = e.getResponseBody();
-        String message = ResponseParser.parseErrorResponse(responseBody).message;
-        String extendedMessage = ErrorMessageGenerator.generateMessage(e
-                .getResponseCode());
-        ErrorDialog errorDialog = new ErrorDialog(title, message,
-                extendedMessage);
-        errorDialog.showDialog();
     }
 
     @Override

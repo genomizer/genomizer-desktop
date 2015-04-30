@@ -21,7 +21,6 @@ import communication.ConnectionFactory;
 
 public class SessionHandler {
 
-
     private ConnectionFactory connFactory = new ConnectionFactory();
 
     /** The SessionHandler instance */
@@ -33,6 +32,7 @@ public class SessionHandler {
 
     /**
      * Returns the instance of the SessionHandler
+     *
      * @return the instance of the SessionHandler
      */
     public static SessionHandler getInstance() {
@@ -41,7 +41,9 @@ public class SessionHandler {
 
     /**
      * Sets the IP to the server where all requests are sent for the session.
-     * @param ip the IP to the server
+     *
+     * @param ip
+     *            the IP to the server
      */
     public void setIP(String ip) {
         connFactory.setIP(ip);
@@ -49,6 +51,7 @@ public class SessionHandler {
 
     /**
      * Returns the IP to the server where all requests are sent
+     *
      * @return the IP
      */
     public String getIP() {
@@ -58,8 +61,11 @@ public class SessionHandler {
     // TODO should not return string. Throw exception?
     /**
      * Logs in the user with the given username and password
-     * @param username the username
-     * @param password the password
+     *
+     * @param username
+     *            the username
+     * @param password
+     *            the password
      * @return
      */
     public String loginUser(String username, String password) {
@@ -97,6 +103,7 @@ public class SessionHandler {
     // TODO Should not return boolean. Throw exception?
     /**
      * Logs out the user
+     *
      * @return
      */
     public boolean logoutUser() {
