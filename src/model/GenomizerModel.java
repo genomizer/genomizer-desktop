@@ -92,4 +92,7 @@ public interface GenomizerModel {
     public void resetModel();
 
     public boolean addGenomeRelease();
+
+    public boolean changeExperiment(String expName,
+            AnnotationDataValue[] annotations);
 }

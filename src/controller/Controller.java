@@ -61,7 +61,6 @@ public class Controller {
         view.getWorkSpaceTab().setController(workspaceTabController);
         UploadTabController uploadTabController = new UploadTabController(view.getUploadTab(),
                 model, fileChooser);
-        view.getUploadTab().setController(uploadTabController);
         SysadminController sysadminTabController = new SysadminController(model);
         view.getSysAdminTab().setController(sysadminTabController);
         sysadminTabController.updateAnnotationTable();

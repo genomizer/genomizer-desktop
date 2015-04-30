@@ -20,14 +20,14 @@ import util.FileDrop;
 import util.GenomeReleaseData;
 
 public class UploadToExistingExpPanel extends JPanel implements ExperimentPanel {
-    
+
     private static final long serialVersionUID = 7796310269631189223L;
     private JButton selectFilesToUploadButton, uploadFilesToExperimentButton;
     private JPanel northPanel, centerPanel, uploadFilesPanel, buttonsPanel;
     private HashMap<File, UploadFileRow> uploadFileRows;
     private ExperimentData ed;
     private ArrayList<String> genome;
-    
+
     /**
      * Initiates an uploadToExistingExpPanel with its standard buttons and
      * panels. Calls the method build() to build it further.
@@ -37,21 +37,21 @@ public class UploadToExistingExpPanel extends JPanel implements ExperimentPanel 
         uploadFilesToExperimentButton = new JButton("Upload files");
         uploadFileRows = new HashMap<>();
         genome = new ArrayList<String>();
-        
+
         northPanel = new JPanel(new BorderLayout());
         centerPanel = new JPanel(new BorderLayout());
         uploadFilesPanel = new JPanel(new GridLayout(0, 1));
         buttonsPanel = new JPanel(new FlowLayout());
-        
+
         setLayout(new BorderLayout());
         addFileDrop();
         build();
     }
-    
+
     public HashMap<File, UploadFileRow> getFileRows() {
         return uploadFileRows;
     }
-    
+
     /**
      * Builds/rebuilds the panel. This is not part of the constructor so it can
      * be called from elsewhere aswell.
@@ -69,12 +69,12 @@ public class UploadToExistingExpPanel extends JPanel implements ExperimentPanel 
         northPanel.setLayout(gbl_panel);
         repaintSelectedFiles();
     }
-    
+
     /**
      * Creates an uploadFileRow from the provided files. Checks if the files are
      * already in an uploadFileRow so there won't be duplicates. Displays an
      * error message if it was selected and added previously.
-     * 
+     *
      * @param files
      *            The files to make an uploadFileRow out of.
      */
@@ -91,11 +91,11 @@ public class UploadToExistingExpPanel extends JPanel implements ExperimentPanel 
         }
         repaintSelectedFiles();
     }
-    
+
     /**
      * Deletes an uploadFileRow and calls repaintSelectedFiles() to repaint. If
      * it fails to find the file, an error message is shown to the user.
-     * 
+     *
      * @param f
      *            This is used to identify which uploadFileRow to be deleted.
      */
@@ -111,10 +111,10 @@ public class UploadToExistingExpPanel extends JPanel implements ExperimentPanel 
                     JOptionPane.ERROR_MESSAGE);
         }
     }
-    
+
     /**
      * Adds a listener for the "Select files" button.
-     * 
+     *
      * @see controller.UploadTabController#SelectFilesToUploadButtonListener()
      * @param listener
      *            The listener to be added.
@@ -122,10 +122,10 @@ public class UploadToExistingExpPanel extends JPanel implements ExperimentPanel 
     public void addSelectFilesToUploadButtonListener(ActionListener listener) {
         selectFilesToUploadButton.addActionListener(listener);
     }
-    
+
     /**
      * Adds a listener to the upload button.
-     * 
+     *
      * @see controller.UploadTabController#UploadToExperimentButtonListener()
      * @param listener
      *            The listener to be added.
@@ -133,7 +133,7 @@ public class UploadToExistingExpPanel extends JPanel implements ExperimentPanel 
     public void addUploadToExperimentButtonListener(ActionListener listener) {
         uploadFilesToExperimentButton.addActionListener(listener);
     }
-    
+
     /**
      * Checks if there are any uploadfilerows. Disables the uploadbutton if
      * there aren't, and adds them to the panel if there are. After these
@@ -153,7 +153,7 @@ public class UploadToExistingExpPanel extends JPanel implements ExperimentPanel 
         repaint();
         revalidate();
     }
-    
+
     /**
      * Tries to set the experiment button to either be enabled or disabled. If
      * there are no fileRows, it won't be set to true.
@@ -165,7 +165,7 @@ public class UploadToExistingExpPanel extends JPanel implements ExperimentPanel 
             uploadFilesToExperimentButton.setEnabled(false);
         }
     }
-    
+
     /**
      * Removes everything in the panel and underlying panels.
      */
@@ -175,27 +175,27 @@ public class UploadToExistingExpPanel extends JPanel implements ExperimentPanel 
         northPanel.removeAll();
         super.removeAll();
     }
-    
+
     /**
      * @param ed
      *            The experiment to be added, in the form of ExperimentData
      */
     public void addExistingExp(ExperimentData ed) {
-        
+
         this.ed = ed;
-        
+
         build();
-        
+
         ArrayList<AnnotationDataValue> annot = ed.getAnnotations();
-        
+
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.anchor = GridBagConstraints.WEST;
-        gbc.insets = new Insets(5, 0, 5, 30);
+        gbc.insets = new Insets(5, 10, 5, 30);
         int x = 0;
         int y = 0;
         gbc.gridx = x;
         gbc.gridy = y;
-        
+
         JPanel exp = new JPanel(new BorderLayout());
         JLabel expHeader = new JLabel("Experiment ID");
         Font font = expHeader.getFont();
@@ -209,18 +209,18 @@ public class UploadToExistingExpPanel extends JPanel implements ExperimentPanel 
         exp.add(expID, BorderLayout.CENTER);
         northPanel.add(exp, gbc);
         x++;
-        
+
         for (AnnotationDataValue adv : annot) {
-            
+
             if (x > 6) {
                 x = 0;
                 y++;
             }
             gbc.anchor = GridBagConstraints.WEST;
-            gbc.insets = new Insets(5, 0, 5, 30);
+            gbc.insets = new Insets(5, 10, 5, 30);
             gbc.gridx = x;
             gbc.gridy = y;
-            
+
             JPanel p = new JPanel(new BorderLayout());
             if (adv.getName().equalsIgnoreCase("species")) {
                 adv.getValue();
@@ -230,7 +230,7 @@ public class UploadToExistingExpPanel extends JPanel implements ExperimentPanel 
             boldFont = new Font(font.getFontName(), Font.BOLD, font.getSize());
             annotationHeader.setFont(boldFont);
             JTextField annotationValue = new JTextField(adv.getValue());
-            annotationValue.setEnabled(false);
+            annotationValue.setEnabled(true);
             annotationValue.setOpaque(true);
             annotationValue.setDisabledTextColor(Color.BLACK);
             p.add(annotationHeader, BorderLayout.NORTH);
@@ -239,11 +239,11 @@ public class UploadToExistingExpPanel extends JPanel implements ExperimentPanel 
             x++;
         }
     }
-    
+
     public ExperimentData getExperiment() {
         return ed;
     }
-    
+
     public ArrayList<File> getFilesToUpload() {
         ArrayList<File> files = new ArrayList<>();
         for (File f : uploadFileRows.keySet()) {
@@ -251,7 +251,7 @@ public class UploadToExistingExpPanel extends JPanel implements ExperimentPanel 
         }
         return files;
     }
-    
+
     public HashMap<String, String> getTypes() {
         HashMap<String, String> types = new HashMap<>();
         for (File f : uploadFileRows.keySet()) {
@@ -259,7 +259,7 @@ public class UploadToExistingExpPanel extends JPanel implements ExperimentPanel 
         }
         return types;
     }
-    
+
     /**
      * Makes dragging & dropping of files into the panel possible
      */
@@ -271,14 +271,14 @@ public class UploadToExistingExpPanel extends JPanel implements ExperimentPanel 
             }
         });
     }
-    
+
     public String getGenomeVersion(File f) {
         if (uploadFileRows.containsKey(f)) {
             return uploadFileRows.get(f).getGenomeRelease();
         }
         return null;
     }
-    
+
     public void setGenomeReleases(GenomeReleaseData[] grd) {
         if (genome.size() > 0) {
             genome.clear();
@@ -293,10 +293,10 @@ public class UploadToExistingExpPanel extends JPanel implements ExperimentPanel 
             }
         }
     }
-    
+
     @Override
     public ArrayList<String> getGenomeReleases() {
         return genome;
     }
-    
+
 }

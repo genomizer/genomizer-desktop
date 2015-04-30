@@ -23,13 +23,12 @@ import communication.HTTPURLUpload;
 
 public class UpdaterModel {
 
-
     private CopyOnWriteArrayList<DownloadHandler> ongoingDownloads;
     private CopyOnWriteArrayList<HTTPURLUpload> ongoingUploads;
 
     private ConnectionFactory connFactory;
 
-    public UpdaterModel( ConnectionFactory connFactory ) {
+    public UpdaterModel(ConnectionFactory connFactory) {
 
         ongoingDownloads = new CopyOnWriteArrayList<>();
         ongoingUploads = new CopyOnWriteArrayList<>();
@@ -53,7 +52,8 @@ public class UpdaterModel {
         Connection conn = connFactory.makeConnection();
 
         try {
-            conn.sendRequest(request, User.getInstance().getToken(), Constants.JSON);
+            conn.sendRequest(request, User.getInstance().getToken(),
+                    Constants.JSON);
         } catch (RequestException e) {
             ErrorDialog.showRequestErrorDialog("Couldn't upload file", e);
         }
@@ -95,20 +95,21 @@ public class UpdaterModel {
         return ongoingUploads;
     }
 
-    public boolean downloadFile(final String url, String fileID, final String path,
-            String fileName) {
-     // TODO: Use this until search works on the server
+    public boolean downloadFile(final String url, String fileID,
+            final String path, String fileName) {
+        // TODO: Use this until search works on the server
         DownloadFileRequest request = RequestFactory.makeDownloadFileRequest(
                 fileID, ".wig");
 
         Connection conn = connFactory.makeConnection();
         try {
-            conn.sendRequest(request, User.getInstance().getToken(), Constants.TEXT_PLAIN);
+            conn.sendRequest(request, User.getInstance().getToken(),
+                    Constants.TEXT_PLAIN);
             Gson gson = new Gson();
             DownloadFileResponse response = gson.fromJson(
                     conn.getResponseBody(), DownloadFileResponse.class);
-            final DownloadHandler handler = new DownloadHandler(User.getInstance().getToken(),
-                    fileName);
+            final DownloadHandler handler = new DownloadHandler(User
+                    .getInstance().getToken(), fileName);
             addDownload(handler);
 
             new Thread(new Runnable() {

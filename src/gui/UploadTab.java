@@ -4,7 +4,6 @@ import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
-import java.util.ArrayList;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 import javax.swing.BorderFactory;
@@ -22,7 +21,6 @@ import util.ExperimentData;
 import util.GenomeReleaseData;
 
 import communication.HTTPURLUpload;
-import controller.UploadTabController;
 
 /**
  * A class representing a upload view in an application for genome research.
@@ -35,15 +33,16 @@ public class UploadTab extends JPanel {
     private JButton existingExpButton, newExpButton;
     private JPanel northPanel, expNamePanel, uploadPanel;
     private UploadToExistingExpPanel uploadToExistingExpPanel;
+    private UploadToNewExpPanel uploadToNewExpPanel;
     private CopyOnWriteArrayList<HTTPURLUpload> ongoingUploads;
     private ActivePanel activePanel;
     private JLabel boldTextLabel;
     private JTextField experimentNameField;
     private JScrollPane uploadScroll;
 
-    private UploadToNewExpPanel uploadToNewExpPanel;
-    private UploadTabController uploadTabController;
-
+    /**Gets the UploadToNewExpPanel
+     * @return the uploadToNewExpPanel
+     */
     public UploadToNewExpPanel getUploadToNewExpPanel() {
         return uploadToNewExpPanel;
     }
@@ -124,12 +123,17 @@ public class UploadTab extends JPanel {
      * @param ed
      *            The experiment data for the existing experiment.
      */
-    public void addExistingExpPanel(ExperimentData ed) {
+    public void addExistingExpPanel(ExperimentData ed, AnnotationDataType[] annot) {
         killContentsOfUploadPanel();
-        activePanel = ActivePanel.EXISTING;
-        uploadToExistingExpPanel.build();
-        uploadToExistingExpPanel.addExistingExp(ed);
-        uploadPanel.add(uploadToExistingExpPanel, BorderLayout.CENTER);
+        //TODO Rensa gammal implementation CF
+//        activePanel = ActivePanel.EXISTING;
+//        uploadToExistingExpPanel.build();
+//        uploadToExistingExpPanel.addExistingExp(ed);
+//        uploadPanel.add(uploadToExistingExpPanel, BorderLayout.CENTER);
+        uploadToNewExpPanel.createNewExpPanel(annot, false);
+        uploadToNewExpPanel.setExistingExp(ed);
+        uploadPanel.add(uploadToNewExpPanel, BorderLayout.CENTER);
+        activePanel = ActivePanel.NEW;
         repaint();
         revalidate();
     }
@@ -147,9 +151,9 @@ public class UploadTab extends JPanel {
      */
     public void addNewExpPanel(AnnotationDataType[] annotations) {
         killContentsOfUploadPanel();
-        activePanel = ActivePanel.NEW;
-        uploadToNewExpPanel.createNewExpPanel(annotations);
+        uploadToNewExpPanel.createNewExpPanel(annotations, true);
         uploadPanel.add(uploadToNewExpPanel, BorderLayout.CENTER);
+        activePanel = ActivePanel.NEW;
         repaint();
         revalidate();
     }
@@ -195,7 +199,7 @@ public class UploadTab extends JPanel {
             return uploadToNewExpPanel.getGenomeVersion(f);
         }
     }
-    
+
     /**Ummm
      * No idea, wrong sprint anyway, TODO
      * @param grd
@@ -246,13 +250,12 @@ public class UploadTab extends JPanel {
         this.ongoingUploads = ongoingUploads;
     }
 
-    public void setController(UploadTabController uploadTabController) {
-        this.uploadTabController = uploadTabController;
-    }
-
+    /**
+     * NOT IMPLEMENTED AT ALL!
+     * @param f
+     */
     public void disableSelectedRow(File f) {
-        // TODO Auto-generated method stub
-        // Doesn't do anything!
+        // TODO: Doesn't do anything (OO)
     }
 
     /**

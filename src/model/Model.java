@@ -12,6 +12,7 @@ import requests.AddExperimentRequest;
 import requests.AddFileToExperiment;
 import requests.AddGenomeReleaseRequest;
 import requests.AddNewAnnotationValueRequest;
+import requests.ChangeExperimentRequest;
 import requests.DownloadFileRequest;
 import requests.GetAnnotationRequest;
 import requests.GetGenomeReleasesRequest;
@@ -355,6 +356,40 @@ public class Model implements GenomizerModel {
         return false;
     }
 
+    @Override
+    public boolean addNewExperiment(String expName,
+            AnnotationDataValue[] annotations) {
+        AddExperimentRequest aER = RequestFactory.makeAddExperimentRequest(
+                expName, annotations);
+        Connection conn = connFactory.makeConnection();
+        try {
+            conn.sendRequest(aER, User.getInstance().getToken(), Constants.JSON);
+        } catch (RequestException e) {
+            new ErrorDialog("Couldn't add new experiment", e).showDialog();
+        }
+        int responseCode = conn.getResponseCode();
+        return (responseCode == 201);
+    }
+
+    public boolean changeExperiment(String expName,
+            AnnotationDataValue[] annotations) {
+        ChangeExperimentRequest cER = RequestFactory.makeChangeExperimentRequest(
+                expName, annotations);
+
+        Connection conn = connFactory.makeConnection();
+
+        try {
+            conn.sendRequest(cER, User.getInstance().getToken(), Constants.JSON);
+        } catch (RequestException e) {
+            new ErrorDialog("Couldn't update experiment", e).showDialog();
+        }
+        int responseCode = conn.getResponseCode();
+        return (responseCode == 201);
+    }
+
+    public CopyOnWriteArrayList<DownloadHandler> getOngoingDownloads() {
+        return ongoingDownloads;
+    }
 
     public ExperimentData retrieveExperiment(String expID) {
         RetrieveExperimentRequest rER = RequestFactory

@@ -135,7 +135,7 @@ public class Connection {
         String targetUrl;
 
         if (ip.startsWith("http://")) {
-            targetUrl = ip;
+            targetUrl = ip + request.url;
         } else {
             targetUrl = "http://" + ip + request.url;
         }

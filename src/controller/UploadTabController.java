@@ -259,24 +259,27 @@ public class UploadTabController {
 
                             // TODO: Reverted your change of the if bit CF...
                             // used to look something like this.
-                            // It was probably correct and now I ruined it, but merge
-                            // wouldn't play nice. Mine only seem to do add... not change...
+                            // It was probably correct and now I ruined it, but
+                            // merge
+                            // wouldn't play nice. Mine only seem to do add...
+                            // not change...
                             //
-                            // if (files != null && files.size() > 0
-                            // && annotations != null && expName != null) {
-                            //HashMap<String, String> types = view.getUploadTab()
-                            //        .getNewExpPanel().getTypes();
-                            //// Should be genome release from uploadTab
-                            //// String release = "wk1m";
-                            //// Test purpose
-                            //if (view.getIsNewExp()) {
-                            //    expCreated = model.addNewExperiment(expName,
-                            //            annotations);
-                            //} else {
-                            //    expCreated = model.changeExperiment(expName,
-                            //            annotations);
-                            //    System.err.println("Ändrad " + expCreated);
-                            //}
+                            // //if (files != null && files.size() > 0
+                            // //&& annotations != null && expName != null) {
+                            // HashMap<String, String> types =
+                            // view.getUploadTab()
+                            // .getNewExpPanel().getTypes();
+                            // // Should be genome release from uploadTab
+                            // // String release = "wk1m";
+                            // // Test purpose
+                            // if (view.getIsNewExp()) {
+                            // expCreated = model.addNewExperiment(expName,
+                            // annotations);
+                            // } else {
+                            // expCreated = model.changeExperiment(expName,
+                            // annotations);
+                            // System.err.println("Ã„ndrad " + expCreated);
+                            // }
 
                             boolean created = model.addNewExperiment(expName,
                                     annotations);

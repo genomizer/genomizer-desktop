@@ -12,6 +12,7 @@ import util.AnnotationDataType;
 import util.AnnotationDataValue;
 import util.ExperimentData;
 import util.GenomeReleaseData;
+import gui.GUI;
 import gui.GenomizerView;
 import gui.UploadTab;
 import gui.QueryBuilderRow;
@@ -19,12 +20,13 @@ import gui.QuerySearchTab;
 import gui.sysadmin.annotationview.AnnotationButtonsListener;
 
 public class QuerySearchTabController {
-    GenomizerView view;
+    GUI view;
+    
     GenomizerModel model;
     private QuerySearchTab querySearchTab;
     
     public QuerySearchTabController(GenomizerView view, GenomizerModel model) {
-        this.view = view;
+        this.view = (GUI) view;
         this.querySearchTab = view.getQuerySearchTab();
         this.model = model;
         // querySearchTab.addDownloadButtonListener(listener)
