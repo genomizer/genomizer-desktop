@@ -111,12 +111,14 @@ public class Model implements GenomizerModel {
             new ErrorDialog("Couldn't upload file", e).showDialog();
         }
         int responseCode = conn.getResponseCode();
+        System.out.println(responseCode);
         if (responseCode == 200) {
             AddFileToExperimentResponse aFTER = ResponseParser
                     .parseUploadResponse(conn.getResponseBody());
             HTTPURLUpload upload = new HTTPURLUpload(aFTER.URLupload,
                     f.getAbsolutePath(), f.getName());
             /* FOR MOCK SERVER */
+            System.err.println(aFTER.URLupload);
             if (aFTER.URLupload.equalsIgnoreCase("url")) {
                 return true;
             }
