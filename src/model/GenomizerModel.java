@@ -32,7 +32,7 @@ public interface GenomizerModel {
     public boolean downloadFile(String url, String fileID, String path,
             String fileName);
 
-    public void setIp(String ip);
+    public void setIP(String ip);
 
     void setGenomizerView(GenomizerView view);
 

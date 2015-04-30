@@ -25,6 +25,8 @@ import javax.swing.border.Border;
 import javax.swing.border.EtchedBorder;
 import javax.swing.border.TitledBorder;
 
+import org.apache.http.conn.ssl.AllowAllHostnameVerifier;
+
 import controller.QueryRowController;
 import controller.QuerySearchTabController;
 
@@ -36,6 +38,18 @@ import util.TreeTable;
 
 /**
  * Class representing the search tab of the gui
+ */
+/**
+ * @author Viktor
+ * 
+ */
+/**
+ * @author Viktor
+ * 
+ */
+/**
+ * @author Viktor
+ * 
  */
 public class QuerySearchTab extends JPanel {
     /**
@@ -81,7 +95,7 @@ public class QuerySearchTab extends JPanel {
     private void setQueryRowController(QueryRowController queryRowController) {
         this.queryRowController = queryRowController;
     }
-
+    
     /**
      * Show the search view of the tab
      */
@@ -152,18 +166,8 @@ public class QuerySearchTab extends JPanel {
                 .makeCustomButton(IconFactory.getClearIcon(30, 30),
                         IconFactory.getClearIcon(32, 32), 32, 32,
                         "Clear search fields");
-        // JButton clearButton = new JButton("Clear");
-        // clearButton.addActionListener(querySearchTabController.createClearButtonListener());
-        // clearButton.addActionListener(new ActionListener() {
-        // @Override
-        // public void actionPerformed(ActionEvent e) {
-        //
-        // clearSearchFields();
-        // }
-        // });
+        
         searchArea = new JTextArea("");
-
-
         
         JTextField apa = new JTextField();
         searchArea.setBorder(apa.getBorder());
@@ -212,30 +216,24 @@ public class QuerySearchTab extends JPanel {
         backButton = CustomButtonFactory.makeCustomButton(
                 IconFactory.getBackIcon(25, 25),
                 IconFactory.getBackIcon(27, 27), 25, 25, "Back to search view");
-        // backButton = new JButton("Back");
-
         
-        // TODO: WTF look why the buttons are not removed completely. OO
-        // addToWorkspaceButton = CustomButtonFactory.makeCustomButton(
-        // IconFactory.getAddToWorkspaceIcon(50, 34),
-        // IconFactory.getAddToWorkspaceHoverIcon(52, 36), 52, 36,
-        // "Add selected to workspace");
         addToWorkspaceButton = new JButton("Add to workspace");
         addToUploadButton = new JButton("Edit experiment");
-
+        
         JPanel eastPanel = new JPanel();
         eastPanel.add(addToWorkspaceButton);
         eastPanel.add(addToUploadButton);
-
+        eastPanel.add(backButton);
+        
         downloadButton = new JButton("Download Selected Files");
-        // resultsHeaderPanel.add(downloadButton, BorderLayout.EAST);
-
-
-
+        
         resultsHeaderPanel.add(eastPanel, BorderLayout.EAST);
         resultsHeaderPanel.add(backButton, BorderLayout.WEST);
     }
     
+    /**
+     * @see controller.QuerySearchTabController#SearchButtonListener()
+     */
     public void refresh() {
         if (activePanel == ActiveSearchPanel.TABLE) {
             searchButton.doClick();
@@ -253,11 +251,11 @@ public class QuerySearchTab extends JPanel {
      * Update the search results and switch to results view
      * 
      * @param searchResults
+     *            the result of the search, files and experiments
      */
     public void updateSearchResults(
             final ArrayList<ExperimentData> searchResults) {
-        // updateAnnotationsButton.doClick();
-        // updateRows();
+        
         SwingUtilities.invokeLater(new Runnable() {
             public void run() {
                 paintRows();
@@ -287,7 +285,8 @@ public class QuerySearchTab extends JPanel {
      * Add a new row to the query builder
      */
     public void addRow() {
-        rowList.add(new QueryBuilderRow(this, annotationTypes, queryRowController));
+        rowList.add(new QueryBuilderRow(this, annotationTypes,
+                queryRowController));
         paintRows();
     }
     
@@ -313,14 +312,14 @@ public class QuerySearchTab extends JPanel {
                 
                 for (int i = 0; i < rowList.size(); i++) {
                     QueryBuilderRow row = rowList.get(i);
-                    if(i == 0){
-                        if(i == (rowList.size() - 1)){
+                    if (i == 0) {
+                        if (i == (rowList.size() - 1)) {
                             row.setAs(true, true);
                         } else {
                             row.setAs(true, false);
                         }
                     } else {
-                        if(i == (rowList.size() - 1)){
+                        if (i == (rowList.size() - 1)) {
                             row.setAs(false, true);
                         } else {
                             row.setAs(false, false);
@@ -373,10 +372,24 @@ public class QuerySearchTab extends JPanel {
         }
     }
     
+    /**
+     * Controller can't access button, hence this <br>
+     * 
+     * @see controller.QuerySearchTabController#SearchButtonListener()
+     * @param listener
+     *            The ActionListener
+     */
     public void addSearchButtonListener(ActionListener listener) {
         searchButton.addActionListener(listener);
     }
     
+    /**
+     * Controller can't access button, hence this <br>
+     * 
+     * @see controller.QuerySearchTabController#SearchToWorkspaceListener()
+     * @param listener
+     *            The ActionListener
+     */
     public void addAddToWorkspaceButtonListener(ActionListener listener) {
         addToWorkspaceButton.addActionListener(listener);
     }
@@ -385,10 +398,23 @@ public class QuerySearchTab extends JPanel {
         downloadButton.addActionListener(listener);
     }
     
+    /**
+     * Adds an ActionListener to the Upload-button
+     * 
+     * @see controller.QuerySearchTabController#SearchUploadToListener()
+     * @param listener
+     */
     public void addUploadToListener(ActionListener listener) {
         addToUploadButton.addActionListener(listener);
     }
-
+    
+    /**
+     * adds a listener to updateAnnotationsButton
+     * 
+     * @see controller.QuerySearchTabController#updateAnnotationsListener()
+     * @param listener
+     *            the listener to be added
+     */
     public void addUpdateAnnotationsListener(ActionListener listener) {
         updateAnnotationsButton.addActionListener(listener);
     }
@@ -397,6 +423,13 @@ public class QuerySearchTab extends JPanel {
         updateAnnotationsButton.doClick();
     }
     
+    /**
+     * Sets the annotationTypes of the querySearchTab.
+     * 
+     * @param annotationTypes
+     *            An array containing AnnotationDataTypes to set the
+     *            querySearchTab's annotationTypes to.
+     */
     public void setAnnotationTypes(AnnotationDataType[] annotationTypes) {
         this.annotationTypes = annotationTypes;
         updateRows();
@@ -411,22 +444,40 @@ public class QuerySearchTab extends JPanel {
         
         queryBuilderButton.addActionListener(querySearchTabController
                 .createQueryBuilderButtonListener());
-        backButton.addActionListener(querySearchTabController.createBackButtonListener());
-
+        backButton.addActionListener(querySearchTabController
+                .createBackButtonListener());
+        
     }
+    
+    /**
+     * @return The data (files or experiments) that were selected in search.
+     */
     public ArrayList<ExperimentData> getSelectedData() {
         return resultsTable.getSelectedData();
         
     }
     
+    /**
+     * @return The text where the built query is displayed
+     */
     public String getSearchString() {
         return searchArea.getText();
     }
     
+    /**
+     * Returns the TODO activepanel?
+     * 
+     * @return the active panel?
+     */
     public ActiveSearchPanel getActivePanel() {
         return activePanel;
     }
     
+    /**
+     * returns the button that when pressed goes back to search
+     * 
+     * @return the back button
+     */
     public JButton getBackButton() {
         return backButton;
     }
@@ -439,6 +490,10 @@ public class QuerySearchTab extends JPanel {
         return searchArea;
     }
     
+    /**
+     * TODO ummm... treetable...?
+     * 
+     */
     public void clearSearchSelection() {
         resultsTable.deselectTreeTable();
     }

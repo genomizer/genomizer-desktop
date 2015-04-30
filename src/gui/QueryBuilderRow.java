@@ -48,7 +48,8 @@ public class QueryBuilderRow extends JPanel {
     private QueryRowController queryRowController;
 
     public QueryBuilderRow(QuerySearchTab parent,
-            AnnotationDataType[] annotationTypes, QueryRowController queryRowController) {
+            AnnotationDataType[] annotationTypes,
+            QueryRowController queryRowController) {
         /* The Parent query search tab */
         this.parent = parent;
         /* The annotation information */
@@ -140,13 +141,9 @@ public class QueryBuilderRow extends JPanel {
         plusButton = CustomButtonFactory.makeCustomButton(
                 IconFactory.getPlusIcon(15, 15),
                 IconFactory.getPlusIcon(17, 17), 17, 25, null);
-        plusButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                /* Add a row to the parent when button is clicked */
-                parent.addRow();
-            }
-        });
+        plusButton.addActionListener(queryRowController
+                .createPlusButtonListener());
+
         plusButton.setFocusable(false);
     }
 
@@ -157,15 +154,8 @@ public class QueryBuilderRow extends JPanel {
         minusButton = CustomButtonFactory.makeCustomButton(
                 IconFactory.getMinusIcon(15, 15),
                 IconFactory.getMinusIcon(17, 17), 17, 25, null);
-        final QueryBuilderRow row = this;
-        minusButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                /* Remove the row and update the search area in the parent */
-                parent.removeRow(row);
-                parent.updateSearchArea();
-            }
-        });
+        minusButton.addActionListener(queryRowController
+                .createMinusButtonListener(this));
         minusButton.setFocusable(false);
     }
 
@@ -178,24 +168,8 @@ public class QueryBuilderRow extends JPanel {
          * The search field in the parent is updated when the text field content
          * is changed
          */
-        textField.getDocument().addDocumentListener(new DocumentListener() {
-            @Override
-            public void changedUpdate(DocumentEvent e) {
-                parent.updateSearchArea();
-            }
-
-            @Override
-            public void removeUpdate(DocumentEvent e) {
-                parent.updateSearchArea();
-            }
-
-            @Override
-            public void insertUpdate(DocumentEvent e) {
-                parent.updateSearchArea();
-            }
-        });
-        // TODO: WTF what does this empty todo mean? OO
-        // TODO
+        textField.getDocument().addDocumentListener(
+                queryRowController.createDocumentListener());
         setTextFieldOnEnterListener(textField);
     }
 
@@ -238,11 +212,6 @@ public class QueryBuilderRow extends JPanel {
     private void setAnnotationAlternatives(String[] alternatives) {
         annotationAlternatives = new JComboBox(alternatives);
 
-        // TODO: WTF Why is this comment not removed? OO
-        /* Setting the width of the combobox */
-        // annotationAlternatives
-        // .setPrototypeDisplayValue("AAAAAAAAAAAAAAAAAAAAAAA"
-        // + "AAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
         annotationAlternatives.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -282,13 +251,12 @@ public class QueryBuilderRow extends JPanel {
         SwingUtilities.invokeLater(new Runnable() {
             public void run() {
                 if (annotationNames.size() > 0) {
-                    annotationBox = new JComboBox(annotationNames
+                    annotationBox = new JComboBox<String>(annotationNames
                             .toArray(new String[annotationNames.size()]));
                 } else {
-                    annotationBox = new JComboBox();
+                    annotationBox = new JComboBox<String>();
                 }
-                // TODO: WTF Why is this comment not removed? OO
-                // annotationBox.setPrototypeDisplayValue("AAAAAAAAAAAAAAAAAAAAAAA");
+
                 annotationBox.addActionListener(new ActionListener() {
                     @Override
                     public void actionPerformed(ActionEvent e) {

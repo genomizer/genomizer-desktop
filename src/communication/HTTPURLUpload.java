@@ -21,19 +21,19 @@ import org.apache.http.util.EntityUtils;
 // TODO: not thread safe?
 /**
  * Class for handling file uploads.
- *
+ * 
  */
 public class HTTPURLUpload {
-
+    
     private String filePath;
     private String uploadPath;
     private String fileName;
     private float currentProgress;
     private int responseCode;
-
+    
     /**
      * Constructs a new HTTPURLUpload object
-     *
+     * 
      * @param uploadPath
      *            the target location
      * @param filePath
@@ -45,12 +45,12 @@ public class HTTPURLUpload {
         this.fileName = fileName;
         this.filePath = filePath;
         this.uploadPath = uploadPath;
-
+        
     }
-
+    
     /**
      * Uploads a file to
-     *
+     * 
      * @param userID
      * @return
      * @throws IllegalArgumentException
@@ -63,22 +63,14 @@ public class HTTPURLUpload {
         } else {
             path = uploadPath;
         }
-
+        
         // new HttpClient
         HttpClientBuilder hcBuilder = HttpClients.custom();
-
+        
         CloseableHttpClient httpClient = hcBuilder.build();
-
-        // Authentication information
-        /*
-         * CredentialsProvider credentialsProvider = new
-         * BasicCredentialsProvider();
-         * credentialsProvider.setCredentials(AuthScope.ANY, new
-         * UsernamePasswordCredentials(username + ":" + password));
-         */
+        
         HttpClientContext localContext = HttpClientContext.create();
-        // localContext.setCredentialsProvider(credentialsProvider);
-
+        
         // post header
         File file = new File(filePath);
         try {
@@ -89,37 +81,36 @@ public class HTTPURLUpload {
             ErrorLogger.log(e);
             e.printStackTrace();
         }
-
-
+        
         HttpPost httpPost = new HttpPost(uploadPath);
-
+        
         httpPost.addHeader("Authorization", userID);
         // HttpPost httpPost = new HttpPost(filePath);
-
+        
         MultipartEntityBuilder reqEntity = MultipartEntityBuilder.create();
         reqEntity.setMode(HttpMultipartMode.BROWSER_COMPATIBLE);
-
+        
         // add the location on the server where the file should be saved
         reqEntity.addTextBody("path", path);
-
+        
         reqEntity.addBinaryBody("uploadfile", file);
         ProgressHttpEntityWrapper.ProgressCallback progressCallback = new ProgressHttpEntityWrapper.ProgressCallback() {
-
+            
             @Override
             public void progress(float progress) {
                 if (progress != -1) {
                     currentProgress = progress;
                 }
             }
-
+            
         };
         httpPost.setEntity(new ProgressHttpEntityWrapper(reqEntity.build(),
                 progressCallback));
-
+        
         try {
             HttpResponse response;
             // execute HTTP post request
-            //System.out.println(httpPost.toString());
+            
             response = httpClient.execute(httpPost, localContext);
             HttpEntity resEntity = response.getEntity();
             responseCode = response.getStatusLine().getStatusCode();
@@ -127,7 +118,7 @@ public class HTTPURLUpload {
                 return false;
             }
             if (resEntity != null) {
-
+                
                 // TODO: Anvï¿½nds ej
                 String responseStr = EntityUtils.toString(resEntity).trim();
             }
@@ -143,35 +134,35 @@ public class HTTPURLUpload {
         }
         return true;
     }
-
+    
     // TODO: Används ej.
     private String getFileNameFromUrl(String url) {
         String[] urlSplit = url.split("/");
         return urlSplit[urlSplit.length - 1];
-
+        
     }
-
+    
     /**
      * Returns the filename of the file to upload
-     *
+     * 
      * @return the filename
      */
     public String getFileName() {
         return fileName;
     }
-
+    
     /**
      * Return the current progress of the file upload
-     *
+     * 
      * @return the current progress
      */
     public float getCurrentProgress() {
         return currentProgress;
     }
-
+    
     /**
      * Returns the response code of the upload request
-     *
+     * 
      * @return the response code of the upload request
      */
     public int getResponseCode() {

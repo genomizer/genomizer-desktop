@@ -1,6 +1,5 @@
 // TODO SORTERA SKITEN
 // TODO WHY IS CONTROLLER EVEN A CLASS TO USE
-
 package controller;
 
 import gui.DownloadWindow;
@@ -12,47 +11,38 @@ import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
-
 import model.ErrorLogger;
 import model.GenomizerModel;
+import model.SessionHandler;
 import util.AnnotationDataType;
 import util.ExperimentData;
 import util.FileData;
 
 /**
- * Controller class responsible for setting the correct actions
- * to the listening buttons and other component.
- * This will drive the actions started via the GUI.
+ * Controller class responsible for setting the correct actions to the listening
+ * buttons and other component. This will drive the actions started via the GUI.
  */
 public class Controller {
-
     private GenomizerView view;
     private GenomizerModel model;
     private final JFileChooser fileChooser = new JFileChooser();
-    private SysadminController sysController;
+    private boolean runonce;
 
     public Controller(GenomizerView view, GenomizerModel model) {
         this.view = view;
         this.model = model;
-        this.sysController = new SysadminController(model);
         updateView();
+        runonce = true;
     }
 
     /**
      * Update **ALL** the actionlisteners in the whole wide gui.
      */
     private void updateView() {
-
         loginWindowUpdate();
-
         userPanelUpdate();
-
         ratioCalcUpdate();
-
-        updateTabs();
-
         tabbedPaneUpdate();
-
         // unimplementedUpdate();
     }
 
@@ -60,14 +50,22 @@ public class Controller {
      * Update all the actionlisteners in the tabs.
      */
     public void updateTabs() {
-
-        QuerySearchTabController querySearchTabController = new QuerySearchTabController(view, model);
-        ProcessTabController processTabController = new ProcessTabController(view, model);
-        WorkspaceTabController workspaceTabController = new WorkspaceTabController(view, model, fileChooser);
-        UploadTabController uploadTabController = new UploadTabController(view, model, fileChooser);
-        sysadminTabUpdate();
-
-
+        QuerySearchTabController querySearchTabController = new QuerySearchTabController(
+                view, model);
+        view.getQuerySearchTab().setController(querySearchTabController);
+        ProcessTabController processTabController = new ProcessTabController(
+                view, model);
+        view.getProcessTab().setController(processTabController);
+        WorkspaceTabController workspaceTabController = new WorkspaceTabController(
+                view, model, fileChooser);
+        view.getWorkSpaceTab().setController(workspaceTabController);
+        UploadTabController uploadTabController = new UploadTabController(view,
+                model, fileChooser);
+        view.getUploadTab().setController(uploadTabController);
+        SysadminController sysadminTabController = new SysadminController(model);
+        view.getSysAdminTab().setController(sysadminTabController);
+        sysadminTabController.updateAnnotationTable();
+        sysadminTabController.updateGenomeReleaseTab();
     }
 
     /**
@@ -78,17 +76,10 @@ public class Controller {
     }
 
     /**
-     * Update sysadminTab listeners and controller
-     */
-    private void sysadminTabUpdate() {
-        view.setSysadminController(sysController);
-    }
-
-    /**
      * Update the loginWindow listeners
      */
     private void loginWindowUpdate() {
-        view.addLoginListener(new LoginListener());
+        view.getLoginWindow().addLoginListener(new LoginListener());
     }
 
     /**
@@ -99,15 +90,6 @@ public class Controller {
     }
 
     /**
-     * Update unkown/unimplemented parts of the gui with listeners
-     * QuerySearchListener has been moved to QuerySearchTabController - VB TODO
-     * seriously needs some doing
-     */
-    // private void unimplementedUpdate() {
-    // view.addSearchListener(new QuerySearchListener());
-    // }
-
-    /**
      * Update the ratioCalcWindow listeners
      */
     private void ratioCalcUpdate() {
@@ -116,13 +98,12 @@ public class Controller {
     }
 
     /**
-     * Listener for when tabs are changed.
-     * Will for some tabs perform automatic updates.
+     * Listener for when tabs are changed. Will for some tabs perform automatic
+     * updates.
      *
      * TODO: separate view from Thread
      */
     class ChangedTabListener implements ChangeListener, Runnable {
-
         @Override
         public void stateChanged(ChangeEvent e) {
             new Thread(this).start();
@@ -138,16 +119,15 @@ public class Controller {
                 }
             } else if (view.getSelectedIndex() == 0) {
                 if ((a = model.getAnnotations()) != null) {
-                    view.setSearchAnnotationTypes(a);
+                    view.getQuerySearchTab().setAnnotationTypes(a);
                 }
             }
         }
     }
 
     /**
-     * Listener to convert files.
-     * Should convert files between different formats.
-     * TODO: Not completed.
+     * Listener to convert files. Should convert files between different
+     * formats. TODO: Not completed.
      */
     class ConvertFileListener implements ActionListener, Runnable {
         @Override
@@ -162,8 +142,8 @@ public class Controller {
     }
 
     /**
-     * The listener to create region data,
-     * TODO: Not completed at all
+     * The listener to create region data, TODO: Not completed at all
+     *
      * @author c11ann
      */
     class RawToRegionDataListener implements ActionListener, Runnable {
@@ -174,19 +154,13 @@ public class Controller {
 
         @Override
         public void run() {
-
             // TODO: Raw To Region Data Listener doesn't do anything.
-            // System.out.println("RAW TO REGION");
-            // System.out.println(view.getAllMarkedFiles());
-
         }
     }
 
     /**
-     * Listen to the login button.
-     * Will send the entered name and password, and if accepted update
-     * view.
-     * TODO: Move view bits from Thread
+     * Listen to the login button. Will send the entered name and password, and
+     * if accepted update view. TODO: Move view bits from Thread
      */
     class LoginListener implements ActionListener, Runnable {
         @Override
@@ -197,29 +171,38 @@ public class Controller {
         @Override
         public void run() {
             model.setGenomizerView(view);
-            model.setIp(view.getIp());
-            String username = view.getUsername();
-            String pwd = view.getPassword();
-            String response = model.loginUser(username, pwd);
-
-            // TODO: extract stupid .equals true to a domain object boolean thingy
+            model.setIP(view.getLoginWindow().getIPInput());
+            SessionHandler.getInstance().setIP(
+                    view.getLoginWindow().getIPInput());
+            String username = view.getLoginWindow().getUsernameInput();
+            String pwd = view.getLoginWindow().getPasswordInput();
+            String response = SessionHandler.getInstance().loginUser(username,
+                    pwd);
+            // TODO: extract stupid .equals true to a domain object boolean
+            // thingy
             if (response.equals("true")) {
                 view.updateLoginAccepted(username, pwd, "Desktop User");
-                sysController.updateAnnotationTable();
-                ErrorLogger.log("Login",username+" logged in");
+                if (runonce) {
+                    updateTabs();
+                    runonce = false;
+                } else {
+                    view.getSysAdminTab().getController()
+                            .updateAnnotationTable();
+                    view.getSysAdminTab().getController()
+                            .updateGenomeReleaseTab();
+                }
+                ErrorLogger.log("Login", username + " logged in");
             } else {
-                view.updateLoginNeglected(response);
+                view.getLoginWindow().updateLoginFailed(response);
                 ErrorLogger.log(response);
             }
         }
     }
 
     /**
-     * Listen to the logout button.
-     * Will call logout and reset methods of the model, and
-     * also update and reset view. (Because of this also reset
-     * relevant parts of the controller.)
-     * TODO: Separate view part of Thread.
+     * Listen to the logout button. Will call logout and reset methods of the
+     * model, and also update and reset view. (Because of this also reset
+     * relevant parts of the controller.) TODO: Separate view part of Thread.
      */
     class LogoutListener implements ActionListener, Runnable {
         @Override
@@ -232,16 +215,15 @@ public class Controller {
             int response = JOptionPane.showConfirmDialog(null,
                     "Are you sure you wish to log out?", "Log out",
                     JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
-
             if (response == JOptionPane.YES_OPTION) {
-                model.logoutUser();
+                SessionHandler.getInstance().logoutUser();
                 model.resetModel();
                 view.updateLogout();
                 view.resetGUI();
                 // If only tabs are updated then only these methods will be
                 // needed.
                 updateTabs();
-                ErrorLogger.log("Logout","User logged out");
+                ErrorLogger.log("Logout", "User logged out");
             }
         }
     }
@@ -253,18 +235,16 @@ public class Controller {
      * TODO: separate view parts from Thread. Move to correct tab controller?
      */
     class DownloadWindowListener implements ActionListener, Runnable {
-
         @Override
         public void actionPerformed(ActionEvent actionEvent) {
-
             new Thread(this).start();
         }
 
         @Override
         public void run() {
-            // Skicka med arraylist<FileData> fÃ¶r de filer som ska nerladdas
-            ArrayList<ExperimentData> selectedData = view
-                    .getSelectedDataInWorkspace();
+            // Skicka med arraylist<FileData> för de filer som ska nerladdas
+            ArrayList<ExperimentData> selectedData = view.getWorkSpaceTab()
+                    .getSelectedData();
             ArrayList<FileData> selectedFiles = new ArrayList<>();
             for (ExperimentData experiment : selectedData) {
                 for (FileData file : experiment.files) {
@@ -281,8 +261,7 @@ public class Controller {
     }
 
     /**
-     * Show the ratioCalc popup.
-     * TODO: Remove Thread
+     * Show the ratioCalc popup. TODO: Remove Thread
      */
     class RatioCalcListener implements ActionListener, Runnable {
         @Override
@@ -297,8 +276,7 @@ public class Controller {
     }
 
     /**
-     * Listen to the OK button in the ratioCalc popup.
-     * Will hide the window.
+     * Listen to the OK button in the ratioCalc popup. Will hide the window.
      * TODO: Remove the Thread, should OK do something more?
      */
     class OkListener implements ActionListener, Runnable {
@@ -311,6 +289,5 @@ public class Controller {
         public void run() {
             view.getRatioCalcPopup().hideRatioWindow();
         }
-
     }
 }

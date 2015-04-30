@@ -11,7 +11,7 @@ public class FileNode extends AbstractMutableTreeTableNode implements
     private FileData file;
 
     public FileNode(FileData file) {
-        super(new Object[] { file.filename, file.date, file.author });
+        super(new Object[] { file.filename, file.fileSize, file.date, file.author});
         this.file = file;
     }
 

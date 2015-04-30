@@ -20,7 +20,6 @@ public class DeleteDataWindow extends JFrame {
      */
     public DeleteDataWindow(final GenomizerView parent) {
         setTitle("Deleting data");
-        // setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setSize(200, 60);
         setResizable(false);
         this.setLocationRelativeTo(parent.getFrame());

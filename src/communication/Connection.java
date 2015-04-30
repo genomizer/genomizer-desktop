@@ -8,15 +8,19 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.HttpURLConnection;
+import javax.net.ssl.HttpsURLConnection;
+import java.net.MalformedURLException;
+import java.net.ProtocolException;
 import java.net.URL;
 
 import model.ErrorLogger;
 
 import requests.Request;
+import util.RequestException;
 
 /**
- * Class representing a connection to a server (fast egentligen inte), and the communication between
- * server-client
+ * Class representing a connection to a server (fast egentligen inte), and the
+ * communication between server-client
  *
  * @author
  *
@@ -68,36 +72,22 @@ public class Connection {
      *            a unique identifier of the user
      * @param type
      *            the type of request (JSON or PLAIN_TEXT)
-     * @return true if successful
+     * @throws RequestException
+     *             if an error occurs (i.e HTTP response code is > 201)
      */
-    public boolean sendRequest(Request request, String token, String type) {
+    public void sendRequest(Request request, String token, String type)
+            throws RequestException {
         // TODO: on�dig
         this.request = request;
-
-        if (ip.startsWith("http://")) {
-            ip = ip.substring(7);
-        }
         try {
-            // Connect
-            String targetUrl = "http://" + ip + request.url;
-            URL url = new URL(targetUrl);
-            connection = (HttpURLConnection) url.openConnection();
-
-            if (type.equals("application/json")) {
-                connection.setDoOutput(true);
-            }
-            connection.setReadTimeout(2000);
-            connection.setRequestMethod(request.type);
-            connection.setRequestProperty("Content-Type", type);
-            if (!token.isEmpty()) {
-                connection.setRequestProperty("Authorization", token);
-            }
+            connect(request, token, type);
 
             if (request.type.equals("DELETE")) {
-                // connection.connect();
                 responseCode = connection.getResponseCode();
                 fetchResponse(connection.getInputStream());
-                return (!(responseCode >= 300));
+                if (responseCode >= 300) {
+                    throw new RequestException(responseCode, responseBody);
+                }
             }
 
             if (type.equals("application/json")) {
@@ -108,32 +98,60 @@ public class Connection {
             }
             responseCode = connection.getResponseCode();
             fetchResponse(connection.getInputStream());
+
             if (responseCode == 401 && !token.isEmpty()) {
                 // TODO:wtf
                 view.updateLogout();
-                return false;
+                throw new RequestException(responseCode, responseBody);
             }
             if (responseCode >= 300) {
                 ErrorLogger.log(responseBody);
-                return false;
+                throw new RequestException(responseCode, responseBody);
             }
             connection.disconnect();
         } catch (IOException e) {
+
             ErrorLogger.log(e);
             try {
                 InputStream is = connection.getErrorStream();
                 if (is != null) {
                     fetchResponse(connection.getErrorStream());
+                    if(responseCode==400){
+                        throw new RequestException(responseCode, responseBody);
+                    }
                 }
             } catch (IOException e1) {
                 ErrorLogger.log(e1);
                 connection.disconnect();
-                return false;
+                throw new RequestException(responseCode, responseBody);
             }
             connection.disconnect();
-            return false;
         }
-        return true;
+    }
+
+    private void connect(Request request, String token, String type)
+            throws MalformedURLException, IOException, ProtocolException {
+
+        String targetUrl;
+
+        if (ip.startsWith("http://")) {
+            targetUrl = ip;
+        } else {
+            targetUrl = "http://" + ip + request.url;
+        }
+
+        URL url = new URL(targetUrl);
+        connection = (HttpURLConnection) url.openConnection();
+
+        if (type.equals("application/json")) {
+            connection.setDoOutput(true);
+        }
+        connection.setReadTimeout(2000);
+        connection.setRequestMethod(request.type);
+        connection.setRequestProperty("Content-Type", type);
+        if (!token.isEmpty()) {
+            connection.setRequestProperty("Authorization", token);
+        }
     }
 
     /**
@@ -155,9 +173,6 @@ public class Connection {
         responseBody = output.toString();
         // TODO: On�dig if-sats?
         if (responseCode >= 300) {
-            // err response
-            // System.err.println(request.getRequestName() + " response " +
-            // responseCode + " " + responseBody);
             ErrorLogger.log(responseBody);
         }
     }

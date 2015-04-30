@@ -24,11 +24,11 @@ import util.FileSizeFormatter;
  * A class representing a row for each browsed files to be uploaded. Each row
  * contains the filename, a progressbar, a dropdown menu for choosing type of
  * file, a close button and a checkbox for selecting the filerow.
- *
+ * 
  * @author oi11ejn
  */
 public class UploadFileRow extends JPanel {
-
+    
     private static final long serialVersionUID = -4087152834657635393L;
     private ExperimentPanel parent;
     private JPanel filePanel;
@@ -38,10 +38,10 @@ public class UploadFileRow extends JPanel {
     private JComboBox<String> typeBox, genome;
     private JProgressBar uploadBar;
     private File file;
-
+    
     /**
      * A constructor creating the upload file row.
-     *
+     * 
      * @param f
      *            The file to be uploaded.
      * @param parent
@@ -58,10 +58,10 @@ public class UploadFileRow extends JPanel {
         add(filePanel, BorderLayout.SOUTH);
         setContent(newExp);
     }
-
+    
     /**
      * Method setting the content of this file row.
-     *
+     * 
      * @param newExp
      *            Boolean indicating if this file row is for a new experiment or
      *            not.
@@ -73,8 +73,9 @@ public class UploadFileRow extends JPanel {
         gbl.columnWeights = new double[] { 1.0, 0.0, 0.0, Double.MIN_VALUE };
         gbl.rowWeights = new double[] { 0.0, Double.MIN_VALUE };
         filePanel.setLayout(gbl);
-
-        String fileSize = " ("+FileSizeFormatter.convertByteToString(file.length())+")";
+        
+        String fileSize = " ("
+                + FileSizeFormatter.convertByteToString(file.length()) + ")";
         fileLabel = new JLabel(file.getName() + fileSize);
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.anchor = GridBagConstraints.WEST;
@@ -82,7 +83,7 @@ public class UploadFileRow extends JPanel {
         gbc.gridx = 0;
         gbc.gridy = 0;
         filePanel.add(fileLabel, gbc);
-
+        
         uploadBar = new JProgressBar(0, 100);
         uploadBar.setStringPainted(true);
         gbc.insets = new Insets(0, 0, 0, 5);
@@ -90,7 +91,7 @@ public class UploadFileRow extends JPanel {
         gbc.gridx = 0;
         gbc.gridy = 1;
         filePanel.add(uploadBar, gbc);
-
+        
         String[] fileTypes = { "Profile", "Raw", "Region" };
         typeBox = new JComboBox<String>(fileTypes);
         typeBox.setSelectedItem("Raw");
@@ -99,8 +100,10 @@ public class UploadFileRow extends JPanel {
         genome.setPreferredSize(new Dimension(120, 31));
         genome.addItem("No GR");
         genome.setEnabled(false);
+        
+        // Add actionlistener which sets the GR-box correctly.
         typeBox.addActionListener(new ActionListener() {
-
+            
             @Override
             public void actionPerformed(ActionEvent arg0) {
                 genome.removeAllItems();
@@ -123,29 +126,36 @@ public class UploadFileRow extends JPanel {
                 }
             }
         });
-
+        
         gbc.insets = new Insets(0, 0, 0, 5);
         gbc.anchor = GridBagConstraints.WEST;
         gbc.gridx = 1;
         gbc.gridy = 1;
         filePanel.add(typeBox, gbc);
-
+        
         gbc.insets = new Insets(0, 0, 0, 5);
         gbc.anchor = GridBagConstraints.WEST;
         gbc.gridx = 2;
         gbc.gridy = 1;
         filePanel.add(genome, gbc);
-
+        
         closeButton = new JButton("X");
-        addCloseButtonListener(new closeButtonListener());
+        
+        // Listener closing this file row when a user presses the close button.
+        addCloseButtonListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent arg0) {
+                parent.deleteFileRow(file);
+                
+            }
+        });
+        
         GridBagConstraints gbc_btnX = new GridBagConstraints();
         gbc_btnX.gridx = 3;
         gbc_btnX.gridy = 1;
         filePanel.add(closeButton, gbc_btnX);
-
+        
         if (newExp) {
-            // TODO: WTF Why have they not fixed warnings, 'p' does nothing at all? OO
-            JPanel p = new JPanel(new FlowLayout());
             JLabel selectLabel = new JLabel(" Select:");
             gbc.insets = new Insets(0, 0, 0, 5);
             gbc.anchor = GridBagConstraints.EAST;
@@ -160,38 +170,38 @@ public class UploadFileRow extends JPanel {
             filePanel.add(uploadBox, gbc);
         }
     }
-
+    
     /**
      * Method adding a listener to the close button.
-     *
+     * 
      * @param listener
      *            The listener to be added.
      */
     public void addCloseButtonListener(ActionListener listener) {
         closeButton.addActionListener(listener);
     }
-
+    
     /**
      * Method returning the file name of the file associated to this row.
-     *
+     * 
      * @return a String with the file name.
      */
     public String getFileName() {
         return file.getName();
     }
-
+    
     /**
      * Method returning the choosen file type associated with this file row.
-     *
+     * 
      * @return a String representing the choosen file type.
      */
     public String getType() {
         return typeBox.getSelectedItem().toString();
     }
-
+    
     /**
      * Method updating the progress bar of this file row.
-     *
+     * 
      * @param progress
      *            The current progress.
      */
@@ -201,25 +211,25 @@ public class UploadFileRow extends JPanel {
         uploadBar.setMaximum(100);
         uploadBar.setValue((int) progress);
     }
-
+    
     /**
      * Boolean indicating if this file row is selected.
-     *
+     * 
      * @return a Boolean indicating if the row is choosen or not.
      */
     public boolean isSelected() {
         return uploadBox.isSelected();
     }
-
+    
     /**
      * Method returning the chosen genome release for the current file.
-     *
+     * 
      * @return String representing the genome release.
      */
     public String getGenomeRelease() {
         return genome.getSelectedItem().toString();
     }
-
+    
     /**
      * Method disabling the components of this file row.
      */
@@ -228,22 +238,7 @@ public class UploadFileRow extends JPanel {
         closeButton.setEnabled(false);
         uploadBox.setEnabled(false);
     }
-
-    /**
-     * Listener closing this file row when a user presses the close button.
-     */
-    class closeButtonListener implements ActionListener, Runnable {
-        @Override
-        public void actionPerformed(ActionEvent e) {
-            new Thread(this).start();
-        }
-
-        @Override
-        public void run() {
-            parent.deleteFileRow(file);
-        }
-    }
-
+    
     /**
      * Method used to reset the type combobox, when a new species is chosen in
      * the parent panel.

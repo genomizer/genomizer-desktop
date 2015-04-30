@@ -22,6 +22,7 @@ import util.ExperimentData;
 import util.GenomeReleaseData;
 
 import communication.HTTPURLUpload;
+import controller.UploadTabController;
 
 /**
  * A class representing a upload view in an application for genome research.
@@ -44,7 +45,7 @@ public class UploadTab extends JPanel {
     // TODO: WTF What doues 'Test purpose' mean. newExps does not seem to do anythnig atall? OO
     // Test purpose
     private ArrayList<UploadToNewExpPanel> newExps = new ArrayList<UploadToNewExpPanel>();
-
+    private UploadTabController uploadTabController;
 
     public UploadToNewExpPanel getUploadToNewExpPanel() {
         return uploadToNewExpPanel;
@@ -101,7 +102,7 @@ public class UploadTab extends JPanel {
 
     /**
      * Method adding a listener to the "addToExistingExpButton".
-     *
+     * @see controller.UploadTabController#AddToExistingExpButtonListener()
      * @param listener
      *            The listener to add file to existing experiment.
      */
@@ -111,7 +112,7 @@ public class UploadTab extends JPanel {
 
     /**
      * Method adding a listener to the "newExpButton".
-     *
+     * @see controller.UploadTabController#NewExpButtonListener()
      * @param listener
      *            The listener to create a experiment.
      */
@@ -138,13 +139,16 @@ public class UploadTab extends JPanel {
         repaint();
         revalidate();
     }
-
+    //the gui's interface had one javadoc, and here's a different one
     /**
-     * Displays a panel for creating a new experiment.
+     * Displays a panel for creating a new experiment. <br>
+     * OR<br>
+     * Creates a new experiment to upload to using the provided annotations.
      *
      * @param annotations
-     *            The available annotations at the server.
-     *
+     *            The available annotations at the server.<br>
+     *            OR<br>
+     *            The annotations of the new experiment.
      */
     public void addNewExpPanel(AnnotationDataType[] annotations) {
         killContentsOfUploadPanel();
@@ -197,6 +201,10 @@ public class UploadTab extends JPanel {
         }
     }
 
+    /**Ummm
+     * No idea, wrong sprint anyway, TODO
+     * @param grd
+     */
     public void setGenomeReleases(GenomeReleaseData[] grd) {
         if (activePanel == ActivePanel.EXISTING) {
             uploadToExistingExpPanel.setGenomeReleases(grd);
@@ -281,8 +289,13 @@ public class UploadTab extends JPanel {
                         ErrorLogger.log(e);
                         running = false;
                     }
+                    // TODO: THIS IS BROKEN, more is created on each logout-in !!! System.err.println(this.toString());
                 }
             }
         }).start();
+    }
+
+    public void setController(UploadTabController uploadTabController) {
+        this.uploadTabController = uploadTabController;
     }
 }
