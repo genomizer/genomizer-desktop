@@ -205,7 +205,6 @@ public class UploadTabController {
                                                 JOptionPane.ERROR_MESSAGE);
                             }
                         }
-
                     };
                 }.start();
             }
