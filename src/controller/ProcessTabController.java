@@ -26,7 +26,7 @@ public class ProcessTabController {
 
     public ProcessTabController(GenomizerView view, GenomizerModel model) {
         this.model = model;
-        view = (GUI) view;
+        this.view = (GUI) view;
         ProcessTab processTab = view.getProcessTab();
         processTab.addRawToProfileDataListener(RawToProfileDataListener());
 
@@ -35,6 +35,8 @@ public class ProcessTabController {
         processTab.addProcessFeedbackListener(ProcessFeedbackListener());
 
         processTab.addDeleteSelectedListener(DeleteSelectedListener());
+
+
 
     }
 
@@ -46,6 +48,7 @@ public class ProcessTabController {
             @Override
             public void mouseClicked(MouseEvent event) {
                 JList list = (JList) event.getSource();
+
 
                 if (deletedProcessFiles) {
                     species = "";
@@ -202,7 +205,6 @@ public class ProcessTabController {
                 new Thread() {
                     @Override
                     public void run() {
-
                         ProcessFeedbackData[] processFeedbackData = model
                                 .getProcessFeedback();
                         if (processFeedbackData != null
@@ -236,6 +238,7 @@ public class ProcessTabController {
 
                         ArrayList<FileData> markedFiles = view.getProcessTab()
                                 .getAllMarkedFiles();
+
                         ArrayList<ExperimentData> exData = view.getProcessTab()
                                 .getFileInfo();
 

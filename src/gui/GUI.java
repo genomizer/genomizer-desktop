@@ -177,7 +177,7 @@ public class GUI extends JFrame implements GenomizerView {
     public void addProcessFileListener(ActionListener listener) {
         workspaceTab.addProcessFileListener(listener);
     }
-    
+
     @Override
     public void addConvertFileListener(ActionListener listener) {
         convertTab.addConvertFileListener(listener);
