@@ -20,15 +20,14 @@ import gui.GenomizerView;
 import gui.ProcessTab;
 
 public class ProcessTabController {
-    GenomizerView view;
+    GUI view;
     GenomizerModel model;
     private boolean deletedProcessFiles = false;
     
     public ProcessTabController(GenomizerView view, GenomizerModel model) {
-        this.view = view;
         this.model = model;
-        GUI gui = (GUI) view;
-        ProcessTab processTab = gui.getProcessTab();
+        view = (GUI) view;
+        ProcessTab processTab = view.getProcessTab();
         processTab.addRawToProfileDataListener(RawToProfileDataListener());
         
         fileListAddMouseListener(view.getProcessTab().getFileList());
