@@ -19,8 +19,8 @@ import requests.Request;
 import util.RequestException;
 
 /**
- * Class representing a connection to a server (fast egentligen inte), and the communication between
- * server-client
+ * Class representing a connection to a server (fast egentligen inte), and the
+ * communication between server-client
  *
  * @author
  *
@@ -72,9 +72,11 @@ public class Connection {
      *            a unique identifier of the user
      * @param type
      *            the type of request (JSON or PLAIN_TEXT)
-     * @throws RequestException if an error occurs (i.e HTTP response code is > 201)
+     * @throws RequestException
+     *             if an error occurs (i.e HTTP response code is > 201)
      */
-    public void sendRequest(Request request, String token, String type) throws RequestException {
+    public void sendRequest(Request request, String token, String type)
+            throws RequestException {
         // TODO: on�dig
         this.request = request;
         try {
@@ -96,6 +98,7 @@ public class Connection {
             }
             responseCode = connection.getResponseCode();
             fetchResponse(connection.getInputStream());
+
             if (responseCode == 401 && !token.isEmpty()) {
                 // TODO:wtf
                 view.updateLogout();
@@ -107,11 +110,15 @@ public class Connection {
             }
             connection.disconnect();
         } catch (IOException e) {
+
             ErrorLogger.log(e);
             try {
                 InputStream is = connection.getErrorStream();
                 if (is != null) {
                     fetchResponse(connection.getErrorStream());
+                    if(responseCode==400){
+                        throw new RequestException(responseCode, responseBody);
+                    }
                 }
             } catch (IOException e1) {
                 ErrorLogger.log(e1);
@@ -119,7 +126,6 @@ public class Connection {
                 throw new RequestException(responseCode, responseBody);
             }
             connection.disconnect();
-            throw new RequestException(responseCode, responseBody);
         }
     }
 

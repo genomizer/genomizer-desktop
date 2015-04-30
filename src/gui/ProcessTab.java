@@ -36,6 +36,7 @@ import javax.swing.event.DocumentListener;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeCellRenderer;
 
+import controller.Controller;
 import controller.ProcessTabController;
 
 import util.AnnotationDataValue;
@@ -554,6 +555,9 @@ public class ProcessTab extends JPanel {
         fileListSetCellRenderer();
     }
     
+    /**returns the files from... some list TODO understand/comment
+     * @return the list of files
+     */
     public JList<CheckListItem> getFileList() {
         return fileList;
     }
@@ -649,7 +653,7 @@ public class ProcessTab extends JPanel {
     /**
      * Gets all the regular parameters that the user has entered.
      * 
-     * @return parameters
+     * @return the parameters
      */
     public String[] getRegularParameters() {
         
@@ -789,7 +793,7 @@ public class ProcessTab extends JPanel {
     
     /**
      * Adds button listener to processFeedbackButton.
-     * 
+     * @see controller.ProcessTabController#ProcessFeedbackListener()
      * @param listener
      */
     public void addProcessFeedbackListener(ActionListener listener) {
@@ -798,7 +802,7 @@ public class ProcessTab extends JPanel {
     
     /**
      * Adds button listener to profileButton.
-     * 
+     * @see controller.ProcessTabController#RawToProfileDataListener()
      * @param listener
      */
     public void addRawToProfileDataListener(ActionListener listener) {
@@ -807,8 +811,8 @@ public class ProcessTab extends JPanel {
     
     /**
      * Adds button listener to ratioCalcButton.
-     * 
-     * @param listener
+     * @see controller.Controller#RatioCalcListener()
+     * @param listener the ActionListener
      */
     public void addRatioCalcListener(ActionListener listener) {
         ratioCalcButton.addActionListener(listener);
@@ -816,7 +820,7 @@ public class ProcessTab extends JPanel {
     
     /**
      * Adds button listener to deleteButton.
-     * 
+     * @see controller.ProcessTabController#DeleteSelectedListener()
      * @param listener
      */
     public void addDeleteSelectedListener(ActionListener listener) {
@@ -824,7 +828,7 @@ public class ProcessTab extends JPanel {
     }
     
     /**
-     * Showes all the process the server is currently handling.
+     * Shows all of the processes the server is currently handling.
      * 
      * @param processFeedbackData
      */

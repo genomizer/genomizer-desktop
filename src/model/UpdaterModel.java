@@ -13,6 +13,7 @@ import requests.RequestFactory;
 import responses.AddFileToExperimentResponse;
 import responses.DownloadFileResponse;
 import responses.ResponseParser;
+import util.Constants;
 import util.RequestException;
 
 import communication.Connection;
@@ -22,9 +23,6 @@ import communication.HTTPURLUpload;
 
 public class UpdaterModel {
 
-
-    private static final String TEXT_PLAIN = "text/plain";
-    private static final String JSON = "application/json";
 
     private CopyOnWriteArrayList<DownloadHandler> ongoingDownloads;
     private CopyOnWriteArrayList<HTTPURLUpload> ongoingUploads;
@@ -60,7 +58,7 @@ public class UpdaterModel {
         Connection conn = connFactory.makeConnection();
 
         try {
-            conn.sendRequest(request, userID, JSON);
+            conn.sendRequest(request, User.getInstance().getToken(), Constants.JSON);
         } catch (RequestException e) {
             ErrorDialog.showRequestErrorDialog("Couldn't upload file", e);
         }
@@ -110,11 +108,11 @@ public class UpdaterModel {
 
         Connection conn = connFactory.makeConnection();
         try {
-            conn.sendRequest(request, userID, TEXT_PLAIN);
+            conn.sendRequest(request, userID, Constants.TEXT_PLAIN);
             Gson gson = new Gson();
             DownloadFileResponse response = gson.fromJson(
                     conn.getResponseBody(), DownloadFileResponse.class);
-            final DownloadHandler handler = new DownloadHandler(userID,
+            final DownloadHandler handler = new DownloadHandler(User.getInstance().getToken(),
                     fileName);
             addDownload(handler);
 

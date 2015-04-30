@@ -149,13 +149,13 @@ public class SysadminController {
     public util.GenomeReleaseData[] getGenomeReleases() {
 
         GenomeReleaseData[] grdarray = null;
-
+        //TODO Behövs felmeddelandet? Det poppar upp när man loggar ut. mycket underligt
         try {
             grdarray = model.getGenomeReleases();
             if (!(grdarray == null)) {
                 if (grdarray.length == 0) {
-                    JOptionPane.showMessageDialog(null,
-                            "Could not get genomereleases!");
+//                    JOptionPane.showMessageDialog(null,
+//                            "Could not get genomereleases!");
                 }
             }
 
@@ -210,7 +210,8 @@ public class SysadminController {
             }
         }.start();
     }
-    public void updateGenomeReleaseTab(){
+
+    public void updateGenomeReleaseTab() {
         new Thread() {
             public void run() {
                 // sysController.getGenomeReleases();
@@ -221,16 +222,15 @@ public class SysadminController {
                 javax.swing.SwingUtilities.invokeLater(new Runnable() {
                     public void run() {
 
-                        getSysTab()
-                                .getGenomeReleaseView()
-                                .setSpeciesDDList(species);
+                        getSysTab().getGenomeReleaseView().setSpeciesDDList(
+                                species);
                     }
                 });
-
 
             }
         }.start();
     }
+
     public void addGenomeRelease() {
         GenomeReleaseViewCreator gr = sysTab.getGenomeReleaseView();
         if (model.addGenomeReleaseFile(gr.getFilenames(), gr.getSpeciesText(),

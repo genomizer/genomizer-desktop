@@ -30,13 +30,13 @@ public class ProcessTabController {
         GUI gui = (GUI) view;
         ProcessTab processTab = gui.getProcessTab();
         processTab.addRawToProfileDataListener(RawToProfileDataListener());
-
+        
         fileListAddMouseListener(view.getProcessTab().getFileList());
         
         processTab.addProcessFeedbackListener(ProcessFeedbackListener());
-
+        
         processTab.addDeleteSelectedListener(DeleteSelectedListener());
-
+        
     }
     
     private void fileListAddMouseListener(JList fileList) {
@@ -70,10 +70,10 @@ public class ProcessTabController {
                         
                         GenomeReleaseData[] genome = model
                                 .getSpeciesGenomeReleases(item.getSpecie());
-                        if (view.getAllMarkedFiles().isEmpty()) {
-                            view.setGenomeFileList(null);
+                        if (view.getProcessTab().getAllMarkedFiles().isEmpty()) {
+                            view.getProcessTab().setGenomeFileList(null);
                         } else {
-                            view.setGenomeFileList(genome);
+                            view.getProcessTab().setGenomeFileList(genome);
                         }
                         
                         if (item.isSelected()) {
@@ -105,7 +105,7 @@ public class ProcessTabController {
                     public void run() {
                         
                         view.getProcessTab().setRegularParameters();
-                        ArrayList<FileData> allMarked = view
+                        ArrayList<FileData> allMarked = view.getProcessTab()
                                 .getAllMarkedFiles();
                         String message;
                         Boolean isConverted;
@@ -124,9 +124,12 @@ public class ProcessTabController {
                                     for (FileData data : allMarked) {
                                         
                                         String fileName = data.filename;
-                                        String author = view.getLoginWindow().getUsernameInput();
+                                        String author = view.getLoginWindow()
+                                                .getUsernameInput();
                                         String parameters[] = new String[8];
-                                        String[] processParameters = view.getProcessTab().getregularParameters();
+                                        String[] processParameters = view
+                                                .getProcessTab()
+                                                .getregularParameters();
                                         parameters[0] = processParameters[0];
                                         parameters[1] = "";
                                         parameters[2] = processParameters[2];
@@ -134,8 +137,10 @@ public class ProcessTabController {
                                         parameters[4] = processParameters[4];
                                         parameters[5] = processParameters[5];
                                         
-                                        if (view.useRatio()) {
-                                            String[] ratioParameters = view.getRatioCalcPopup().getRatioCalcParameters();
+                                        if (view.getProcessTab().useRatio()) {
+                                            String[] ratioParameters = view
+                                                    .getRatioCalcPopup()
+                                                    .getRatioCalcParameters();
                                             parameters[6] = ratioParameters[0]; // "single 4 0";
                                             parameters[7] = ratioParameters[1]; // "150 1 7 0 0";
                                         } else {
@@ -166,14 +171,16 @@ public class ProcessTabController {
                                                     + fileName
                                                     + " from experiment: "
                                                     + expid + "\n\n";
-                                            view.getProcessTab().printToConsole(message);
+                                            view.getProcessTab()
+                                                    .printToConsole(message);
                                             
                                         } else {
                                             message = "WARNING - The server couldn't start processing on file: "
                                                     + fileName
                                                     + " from experiment: "
                                                     + expid + "\n\n";
-                                            view.getProcessTab().printToConsole(message);
+                                            view.getProcessTab()
+                                                    .printToConsole(message);
                                         }
                                     }
                                 }
@@ -201,7 +208,8 @@ public class ProcessTabController {
                                 .getProcessFeedback();
                         if (processFeedbackData != null
                                 && processFeedbackData.length > 0) {
-                            view.getProcessTab().showProcessFeedback(processFeedbackData);
+                            view.getProcessTab().showProcessFeedback(
+                                    processFeedbackData);
                         }
                         
                     };
@@ -218,16 +226,17 @@ public class ProcessTabController {
                     @Override
                     public void run() {
                         
-                        ArrayList<FileData> markedFiles = view
+                        ArrayList<FileData> markedFiles = view.getProcessTab()
                                 .getAllMarkedFiles();
-                        ArrayList<ExperimentData> exData = view.getFileInfo();
+                        ArrayList<ExperimentData> exData = view.getProcessTab()
+                                .getFileInfo();
                         
                         if (exData != null && markedFiles != null) {
                             
                             for (ExperimentData data : exData) {
                                 data.files.removeAll(markedFiles);
                             }
-                            view.setFileInfo(exData);
+                            view.getProcessTab().setFileInfo(exData);
                             deletedProcessFiles = true;
                         }
                         

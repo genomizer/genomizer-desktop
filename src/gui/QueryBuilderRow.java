@@ -168,7 +168,8 @@ public class QueryBuilderRow extends JPanel {
          * The search field in the parent is updated when the text field content
          * is changed
          */
-        textField.getDocument().addDocumentListener(queryRowController.createDocumentListener());
+        textField.getDocument().addDocumentListener(
+                queryRowController.createDocumentListener());
         setTextFieldOnEnterListener(textField);
     }
 
@@ -211,7 +212,6 @@ public class QueryBuilderRow extends JPanel {
     private void setAnnotationAlternatives(String[] alternatives) {
         annotationAlternatives = new JComboBox(alternatives);
 
-
         annotationAlternatives.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -251,10 +251,10 @@ public class QueryBuilderRow extends JPanel {
         SwingUtilities.invokeLater(new Runnable() {
             public void run() {
                 if (annotationNames.size() > 0) {
-                    annotationBox = new JComboBox(annotationNames
+                    annotationBox = new JComboBox<String>(annotationNames
                             .toArray(new String[annotationNames.size()]));
                 } else {
-                    annotationBox = new JComboBox();
+                    annotationBox = new JComboBox<String>();
                 }
 
                 annotationBox.addActionListener(new ActionListener() {

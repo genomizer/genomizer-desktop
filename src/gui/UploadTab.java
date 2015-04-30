@@ -100,7 +100,7 @@ public class UploadTab extends JPanel {
 
     /**
      * Method adding a listener to the "addToExistingExpButton".
-     *
+     * @see controller.UploadTabController#AddToExistingExpButtonListener()
      * @param listener
      *            The listener to add file to existing experiment.
      */
@@ -110,7 +110,7 @@ public class UploadTab extends JPanel {
 
     /**
      * Method adding a listener to the "newExpButton".
-     *
+     * @see controller.UploadTabController#NewExpButtonListener()
      * @param listener
      *            The listener to create a experiment.
      */
@@ -195,7 +195,11 @@ public class UploadTab extends JPanel {
             return uploadToNewExpPanel.getGenomeVersion(f);
         }
     }
-
+    
+    /**Ummm
+     * No idea, wrong sprint anyway, TODO
+     * @param grd
+     */
     public void setGenomeReleases(GenomeReleaseData[] grd) {
         if (activePanel == ActivePanel.EXISTING) {
             uploadToExistingExpPanel.setGenomeReleases(grd);

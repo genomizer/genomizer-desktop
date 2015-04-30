@@ -19,7 +19,7 @@ public class GetAnnotationTest {
     @Before
     public void setUp() throws Exception {
         model = new Model();
-        model.setIp(ExampleExperimentData.getTestServerIP());
+        model.setIP(ExampleExperimentData.getTestServerIP());
         model.loginUser(ExampleExperimentData.getTestUsername(), ExampleExperimentData.getTestPassword());
         new SysadminTab();
         model.addNewAnnotation("GetAnnotationTest", new String[] { "yes", "no" }, false);
