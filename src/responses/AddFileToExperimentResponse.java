@@ -6,9 +6,9 @@ public class AddFileToExperimentResponse extends Response {
     @Expose
     public String URLupload;
 
-    public AddFileToExperimentResponse(String responseName, String uploadUrl) {
+    public AddFileToExperimentResponse(String responseName, String wwwTunnelPath) {
         super(responseName);
-        this.URLupload = uploadUrl;
+        this.URLupload = wwwTunnelPath;
     }
 
 }
