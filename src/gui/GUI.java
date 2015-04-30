@@ -717,10 +717,6 @@ public class GUI extends JFrame implements GenomizerView {
         processTab.showProcessFeedback(processFeedbackData);
     }
 
-    public void setOngoingUploads(
-            CopyOnWriteArrayList<HTTPURLUpload> ongoingUploads) {
-        uploadTab.setOngoingUploads(ongoingUploads);
-    }
 
     /**
      * returns the RatioCalcPopup
@@ -742,11 +738,6 @@ public class GUI extends JFrame implements GenomizerView {
 
     public void removeSelectedFromWorkspace() {
         workspaceTab.removeSelectedData();
-    }
-
-    public void disableSelectedRow(File f) {
-        // TODO: Doesn't do anything (OO)
-        // uploadTab.disableRow(f);
     }
 
     /**

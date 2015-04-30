@@ -149,7 +149,7 @@ public class SysadminController {
     public util.GenomeReleaseData[] getGenomeReleases() {
 
         GenomeReleaseData[] grdarray = null;
-        //TODO Behövs felmeddelandet? Det poppar upp när man loggar ut. mycket underligt
+        //TODO BehÃ¶vs felmeddelandet? Det poppar upp nÃ¤r man loggar ut. mycket underligt
         try {
             grdarray = model.getGenomeReleases();
             if (!(grdarray == null)) {
@@ -320,6 +320,7 @@ public class SysadminController {
     }
 
     public void uploadGenomeReleaseProgress() {
+        // TODO: Is this thread stopped?
         new Thread(new Runnable() {
             private boolean running;
 

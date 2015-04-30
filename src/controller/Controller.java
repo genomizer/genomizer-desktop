@@ -59,8 +59,8 @@ public class Controller {
         WorkspaceTabController workspaceTabController = new WorkspaceTabController(
                 view, model, fileChooser);
         view.getWorkSpaceTab().setController(workspaceTabController);
-        UploadTabController uploadTabController = new UploadTabController(view,
-                model, fileChooser);
+        UploadTabController uploadTabController = new UploadTabController(
+                view.getUploadTab(), model, fileChooser);
         SysadminController sysadminTabController = new SysadminController(model);
         view.getSysAdminTab().setController(sysadminTabController);
         sysadminTabController.updateAnnotationTable();
@@ -241,7 +241,7 @@ public class Controller {
 
         @Override
         public void run() {
-            // Skicka med arraylist<FileData> för de filer som ska nerladdas
+            // Skicka med arraylist<FileData> fÃ¶r de filer som ska nerladdas
             ArrayList<ExperimentData> selectedData = view.getWorkSpaceTab()
                     .getSelectedData();
             ArrayList<FileData> selectedFiles = new ArrayList<>();
@@ -262,30 +262,21 @@ public class Controller {
     /**
      * Show the ratioCalc popup. TODO: Remove Thread
      */
-    class RatioCalcListener implements ActionListener, Runnable {
+    class RatioCalcListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
-            new Thread(this).start();
-        }
-
-        @Override
-        public void run() {
             view.showRatioPopup();
         }
     }
 
     /**
      * Listen to the OK button in the ratioCalc popup. Will hide the window.
-     * TODO: Remove the Thread, should OK do something more?
      */
-    class OkListener implements ActionListener, Runnable {
+    class OkListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
-            new Thread(this).start();
-        }
+            // TODO: Should OK do something more?
 
-        @Override
-        public void run() {
             view.getRatioCalcPopup().hideRatioWindow();
         }
     }

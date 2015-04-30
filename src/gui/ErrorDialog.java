@@ -175,7 +175,17 @@ public class ErrorDialog extends JOptionPane {
             }
             dialog.pack();
         }
+        
+    }
 
+
+    public static void showRequestErrorDialog(String title, RequestException e) {
+        String responseBody = e.getResponseBody();
+        String message = ResponseParser.parseErrorResponse(responseBody).message;
+        String extendedMessage = e.getResponseCode() + ":\n" + responseBody;
+        ErrorDialog errorDialog = new ErrorDialog(title, message,
+                extendedMessage);
+        errorDialog.showDialog();
     }
 
 }

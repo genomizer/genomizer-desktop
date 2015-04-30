@@ -215,8 +215,7 @@ public interface GenomizerView {
 
     public void showProcessFeedback(ProcessFeedbackData[] processFeedbackData); // unused commented~
 
-    public void setOngoingUploads(
-            CopyOnWriteArrayList<HTTPURLUpload> ongoingUploads); // unused commented
+
 
     public void setOngoingDownloads(
             CopyOnWriteArrayList<DownloadHandler> ongoingDownloads); // unused commented
@@ -235,8 +234,6 @@ public interface GenomizerView {
 
     public void removeSelectedFromWorkspace(); // unused
 
-    public void disableSelectedRow(File f); // used? HOW TODO why is this now used?, and doesn't do anything,
-                                            // at all
 
     public boolean isCorrectToProcess(); // used not commented
 

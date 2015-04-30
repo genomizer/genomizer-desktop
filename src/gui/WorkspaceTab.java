@@ -167,6 +167,8 @@ public class WorkspaceTab extends JPanel {
      */
     private void updateOngoingDownloadsPanel() {
         final CopyOnWriteArrayList<DownloadHandler> completedDownloads = new CopyOnWriteArrayList<DownloadHandler>();
+
+        // TODO: When is this thread stopped? also wrong thread
         new Thread(new Runnable() {
             @Override
             public void run() {
