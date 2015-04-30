@@ -249,7 +249,7 @@ public class UploadTabController {
                             // Should be genome release from uploadTab
                             // String release = "wk1m";
                             // Test purpose
-                            if (view.getIsNewExp()) {
+                            if (view.getUploadTab().getUploadToNewExpPanel().getIsNewExp()) {
                                 expCreated = model.addNewExperiment(expName, annotations);
                             } else {
                                 expCreated = model.changeExperiment(expName, annotations);

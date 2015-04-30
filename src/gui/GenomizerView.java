@@ -285,7 +285,7 @@ public interface GenomizerView {
 
     public void addUploadToListenerSearchTab(ActionListener listener); // unused commented
 
-    public void addConvertFileListener(ActionListener listener);
+    public void addConvertFileListener(ActionListener listener); //unused N/A
 
-    boolean getIsNewExp();
+    boolean getIsNewExp(); //unused commented
 }
