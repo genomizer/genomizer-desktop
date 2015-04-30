@@ -362,6 +362,7 @@ public class UploadToNewExpPanel extends JPanel implements ExperimentPanel {
         }
         newExpPanel.repaint();
         newExpPanel.revalidate();
+        setNewOrExistingView();
         repaintSelectedFiles();
     }
 
@@ -422,19 +423,6 @@ public class UploadToNewExpPanel extends JPanel implements ExperimentPanel {
      * updates, it repaints the panel.
      */
     private void repaintSelectedFiles() {
-        if(isNewExp){
-            expID.setText("");
-            expID.setEnabled(true);
-            species.setSelectedIndex(0);
-            selectButton.setText("Browse files");
-            uploadSelectedBtn.setVisible(true);
-            uploadSelectedBtn.setText("Create with selected files");
-            uploadButton.setText("Create with all files");
-        }else {
-            uploadSelectedBtn.setVisible(false);
-            selectButton.setText("Add files");
-            uploadButton.setText("Save changes");
-        }
         uploadFilesPanel.add(boldTextLabel);
         if (!uploadFileRows.isEmpty()) {
             for (File f : uploadFileRows.keySet()) {
@@ -449,6 +437,25 @@ public class UploadToNewExpPanel extends JPanel implements ExperimentPanel {
         uploadFilesPanel.add(buttonsPanel);
         repaint();
         revalidate();
+    }
+
+    /**
+     *
+     */
+    private void setNewOrExistingView(){
+        if(isNewExp){
+            expID.setText("");
+            expID.setEnabled(true);
+//            species.setSelectedIndex(0);
+            selectButton.setText("Browse files");
+            uploadSelectedBtn.setVisible(true);
+            uploadSelectedBtn.setText("Create with selected files");
+            uploadButton.setText("Create with all files");
+        }else {
+            uploadSelectedBtn.setVisible(false);
+            selectButton.setText("Add files");
+            uploadButton.setText("Save changes");
+        }
     }
 
     /**
