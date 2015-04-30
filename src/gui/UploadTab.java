@@ -34,7 +34,6 @@ public class UploadTab extends JPanel {
     private JPanel northPanel, expNamePanel, uploadPanel;
     private UploadToExistingExpPanel uploadToExistingExpPanel;
     private UploadToNewExpPanel uploadToNewExpPanel;
-    private CopyOnWriteArrayList<HTTPURLUpload> ongoingUploads;
     private ActivePanel activePanel;
     private JLabel boldTextLabel;
     private JTextField experimentNameField;
@@ -93,7 +92,6 @@ public class UploadTab extends JPanel {
                 "<html><b>Bold text indicates a forced annotation.</b></html>");
         boldTextLabel.setOpaque(true);
 
-        updateProgress();
 
     }
 
@@ -239,16 +237,6 @@ public class UploadTab extends JPanel {
         }
     }
 
-    /**
-     * Method setting the ongoing uploads.
-     *
-     * @param ongoingUploads
-     *            The uploads currently ongoing.
-     */
-    public void setOngoingUploads(
-            CopyOnWriteArrayList<HTTPURLUpload> ongoingUploads) {
-        this.ongoingUploads = ongoingUploads;
-    }
 
     /**
      * NOT IMPLEMENTED AT ALL!
@@ -258,49 +246,5 @@ public class UploadTab extends JPanel {
         // TODO: Doesn't do anything (OO)
     }
 
-    /**
-     * Method updating the progress of ongoing uploads.
-     */
-    private void updateProgress() {
-        new Thread(new Runnable() {
-            private boolean running;
 
-            @Override
-            public void run() {
-                running = true;
-                while (running) {
-                    for (File key : uploadToNewExpPanel.getFileRows().keySet()) {
-                        UploadFileRow row = uploadToNewExpPanel.getFileRows()
-                                .get(key);
-                        for (HTTPURLUpload upload : ongoingUploads) {
-                            if (upload.getFileName().equals(row.getFileName())) {
-                                row.updateProgressBar(upload
-                                        .getCurrentProgress());
-                            }
-                        }
-                    }
-                    for (File key : uploadToExistingExpPanel.getFileRows()
-                            .keySet()) {
-                        UploadFileRow row = uploadToExistingExpPanel
-                                .getFileRows().get(key);
-                        for (HTTPURLUpload upload : ongoingUploads) {
-                            if (upload.getFileName().equals(row.getFileName())) {
-                                row.updateProgressBar(upload
-                                        .getCurrentProgress());
-                            }
-                        }
-                    }
-                    try {
-                        Thread.sleep(100);
-                    } catch (InterruptedException e) {
-                        ErrorLogger.log(e);
-                        running = false;
-                    }
-                    // TODO: THIS IS BROKEN, more is created on each logout-in
-                    // !!!
-//                    System.err.println(this.toString());
-                }
-            }
-        }).start();
-    }
 }

@@ -87,11 +87,13 @@ public class Model implements GenomizerModel {
 
     @Override
     public String loginUser(String username, String password) {
+        // TODO: This doesn't look right
         return "";
     }
 
     @Override
     public boolean logoutUser() {
+        // TODO: This doesn't look right
         return false;
     }
 
@@ -121,22 +123,7 @@ public class Model implements GenomizerModel {
         return updateTabModel.getOngoingUploads();
     }
 
-    @Override
-    public boolean addNewExperiment(String expName,
-            AnnotationDataValue[] annotations) {
-        AddExperimentRequest aER = RequestFactory.makeAddExperimentRequest(
-                expName, annotations);
 
-        Connection conn = connFactory.makeConnection();
-
-        try {
-            conn.sendRequest(aER, User.getInstance().getToken(), Constants.JSON);
-        } catch (RequestException e) {
-            ErrorDialog.showRequestErrorDialog("Couldn't add new experiment", e);
-        }
-        int responseCode = conn.getResponseCode();
-        return (responseCode == 201);
-    }
 
     @Override
     public ArrayList<ExperimentData> search(String pubmedString) {
@@ -387,9 +374,7 @@ public class Model implements GenomizerModel {
         return (responseCode == 201);
     }
 
-    public CopyOnWriteArrayList<DownloadHandler> getOngoingDownloads() {
-        return ongoingDownloads;
-    }
+
 
     public ExperimentData retrieveExperiment(String expID) {
         RetrieveExperimentRequest rER = RequestFactory

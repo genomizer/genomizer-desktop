@@ -215,8 +215,7 @@ public interface GenomizerView {
 
     public void showProcessFeedback(ProcessFeedbackData[] processFeedbackData); // unused commented~
 
-    public void setOngoingUploads(
-            CopyOnWriteArrayList<HTTPURLUpload> ongoingUploads); // unused commented
+
 
     public void setOngoingDownloads(
             CopyOnWriteArrayList<DownloadHandler> ongoingDownloads); // unused commented

@@ -17,16 +17,16 @@ import controller.Controller;
 
 /**
  * Main Genomizer desktop startup class
- * 
+ *
  */
 public class Genomizer {
-    
+
     public static void main(String args[]) {
-        
+
         // Create GUI
         final GUI gui = new GUI();
         ErrorDialog.setParentComponent(gui);
-        
+
         try {
             // Create Tabs
             UploadTab ut = new UploadTab();
@@ -37,7 +37,7 @@ public class Genomizer {
             SysadminTab sat = new SysadminTab();
             QuerySearchTab qst = new QuerySearchTab();
             ConvertTab ct = new ConvertTab();
-            
+
             // Set tabs in GUI
             gui.setQuerySearchTab(qst);
             gui.setUploadTab(ut);
@@ -46,12 +46,13 @@ public class Genomizer {
             // gui.setAnalyzeTab(at); // TODO: Analyze tab not used (OO)
             gui.setSysAdminTab(sat);
             gui.setConvertTab(ct);
-            
+
             // Create model and controller
             Model model = new Model();
             Controller controller = new Controller(gui, model);
-            
+
             // Start the GUI
+            // TODO: Maybe put EDT on other parts?
             SwingUtilities.invokeLater(new Runnable() {
                 public void run() {
                     gui.showLoginWindow();
@@ -61,6 +62,6 @@ public class Genomizer {
         } catch (Exception e) {
             ErrorLogger.log(e);
         }
-        
+
     }
 }
