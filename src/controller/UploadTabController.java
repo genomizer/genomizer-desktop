@@ -280,9 +280,24 @@ public class UploadTabController {
                             // annotations);
                             // System.err.println("Ändrad " + expCreated);
                             // }
+                            //
+                            // TODO: Now replaced your code bits, EXCEPT FOR REMOVED IF BIT -
+                            // Did not dare to touch it since it looks implortants. Check later!
 
-                            boolean created = model.addNewExperiment(expName,
-                                    annotations);
+
+                            boolean created;
+
+                            if (uploadTab.getUploadToNewExpPanel().getIsNewExp()) {
+                                created = model.addNewExperiment(expName,
+                                        annotations);
+                            } else {
+                                created = model.changeExperiment(expName,
+                                        annotations);
+
+                                // TODO: Trace comment
+                                System.err.println("Ändrad " + created);
+                            }
+
                             if (created) {
                                 for (File f : files) {
                                     uploadTab.disableSelectedRow(f);
