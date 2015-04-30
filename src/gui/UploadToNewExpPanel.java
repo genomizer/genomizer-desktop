@@ -362,6 +362,7 @@ public class UploadToNewExpPanel extends JPanel implements ExperimentPanel {
         }
         newExpPanel.repaint();
         newExpPanel.revalidate();
+        setNewOrExistingView();
         repaintSelectedFiles();
     }
 
@@ -422,7 +423,6 @@ public class UploadToNewExpPanel extends JPanel implements ExperimentPanel {
      * updates, it repaints the panel.
      */
     private void repaintSelectedFiles() {
-        setNewOrExistingView();
         uploadFilesPanel.add(boldTextLabel);
         if (!uploadFileRows.isEmpty()) {
             for (File f : uploadFileRows.keySet()) {
