@@ -881,16 +881,28 @@ public class GUI extends JFrame implements GenomizerView {
         return processTab;
     }
 
+    @Override
+    public boolean getIsNewExp() {
+        return uploadTab.getUploadToNewExpPanel().getIsNewExp();
+    }
+
     public void setConvertTab(ConvertTab ct) {
         this.convertTab = ct;
         tabbedPane.addTab("CONVERT", null, convertTab, "Convert");
     }
 
-
+    @Override
+    public ConvertTab getConvertTab() {
+        return convertTab;
+    }
 
     @Override
-    public boolean getIsNewExp() {
-        return uploadTab.getUploadToNewExpPanel().getIsNewExp();
+    public void setConvertFileList(ArrayList<FileData> arrayList) {
+        ArrayList<FileData> fileArray = arrayList;
+
+        tabbedPane.setSelectedIndex(5);
+        convertTab.setFileInfo(workspaceTab.getSelectedData());
+
     }
 
 }

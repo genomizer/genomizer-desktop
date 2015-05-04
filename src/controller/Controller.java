@@ -63,6 +63,10 @@ public class Controller {
                 view.getUploadTab(), model, fileChooser);
         SysadminController sysadminTabController = new SysadminController(model);
         view.getSysAdminTab().setController(sysadminTabController);
+
+        ConvertTabController convertTabController = new ConvertTabController(view, model, fileChooser);
+        view.getConvertTab().setController(convertTabController);
+
         sysadminTabController.updateAnnotationTable();
         sysadminTabController.updateGenomeReleaseTab();
     }
