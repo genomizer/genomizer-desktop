@@ -42,8 +42,8 @@ public class UploadToNewExpPanel extends JPanel implements ExperimentPanel {
     private JButton uploadButton, uploadSelectedBtn, selectButton;
     private AnnotationDataType[] annotations;
     private JLabel expNameLabel, boldTextLabel;
-    private JTextField expID;
     private JComboBox<String> species;
+    private JTextField expID;
     private ArrayList<String> genome;
     private GridBagConstraints gbc;
     private boolean isNewExp;
@@ -69,11 +69,11 @@ public class UploadToNewExpPanel extends JPanel implements ExperimentPanel {
                 "<html><b>Bold text indicates a forced annotation.</b></html>");
         boldTextLabel.setOpaque(true);
         expNameLabel = new JLabel();
+        species = new JComboBox<String>();
+        species.setPreferredSize(new Dimension(120, 31));
         expID = new JTextField();
         expID.setColumns(10);
         expID.getDocument().addDocumentListener(new FreetextListener());
-        species = new JComboBox<String>();
-        species.setPreferredSize(new Dimension(120, 31));
         genome = new ArrayList<String>();
         currentAnnotations = new HashMap<String, JPanel>();
         enableUploadButton(false);
@@ -122,11 +122,35 @@ public class UploadToNewExpPanel extends JPanel implements ExperimentPanel {
      * @return a String representing the species.
      */
     public String getSelectedSpecies() {
+
         if (species != null) {
-            return species.getSelectedItem().toString();
+            if (species.getSelectedItem() == null ){
+                return "";
+            }else{
+                return species.getSelectedItem().toString();
+            }
         } else {
             return "";
         }
+    }
+
+    /**
+     * Return the Entered value of the annotation with this name.
+     *
+     * @param annotationName
+     *            To look for
+     * @return The entered value, or null if it doesn't exist
+     */
+    private String getEnteredAnnotationValue(String annotationName) {
+
+        if (annotationBoxes.containsKey(annotationName)) {
+            return annotationBoxes.get(annotationName).getSelectedItem()
+                    .toString();
+        } else if (annotationFields.containsKey(annotationName)) {
+            return annotationFields.get(annotationName).getText();
+        }
+
+        return null;
     }
 
     /**
@@ -295,7 +319,18 @@ public class UploadToNewExpPanel extends JPanel implements ExperimentPanel {
                     for (int i = 1; i <= a.getValues().length; i++) {
                         aCopy[i] = a.getValues()[i - 1];
                     }
-                    comboBox = new JComboBox<String>(aCopy);
+
+                    if (a.getName().equalsIgnoreCase("species")) {
+                        comboBox = species;
+                        species.removeAllItems();
+                        for (String s : aCopy) {
+                            species.addItem(s);
+                        }
+                        species.setSelectedIndex(0);
+                    } else {
+                        comboBox = new JComboBox<String>(aCopy);
+
+                    }
 
                     comboBox.setPreferredSize(new Dimension(120, 31));
                     /*
@@ -318,6 +353,7 @@ public class UploadToNewExpPanel extends JPanel implements ExperimentPanel {
                 exists.add(a.getName());
             }
         }
+
         String[] checkIt = new String[annotationHeaders.size()];
         for (int i = 0; i < annotationHeaders.size(); i++) {
             checkIt[i] = annotationHeaders.get(i);
@@ -329,7 +365,10 @@ public class UploadToNewExpPanel extends JPanel implements ExperimentPanel {
                 annotationBoxes.remove(s);
                 currentAnnotations.remove(s);
             }
+            exists.remove(s);
         }
+
+
         buildAnnotationsMenu();
         this.annotations = annotations;
     }
@@ -491,18 +530,14 @@ public class UploadToNewExpPanel extends JPanel implements ExperimentPanel {
                 .size() - 1];
         int nrOfAdded = 0;
         for (int i = 0; i < annotationHeaders.size(); i++) {
-            if (!annotationHeaders.get(i).equals("UniqueExpID")) {
-                if (annotationBoxes.containsKey(annotationHeaders.get(i))) {
-                    a[nrOfAdded] = new AnnotationDataValue(Integer.toString(i),
-                            annotationHeaders.get(i), annotationBoxes
-                                    .get(annotationHeaders.get(i))
-                                    .getSelectedItem().toString());
-                } else if (annotationFields.containsKey(annotationHeaders
-                        .get(i))) {
-                    a[nrOfAdded] = new AnnotationDataValue(Integer.toString(i),
-                            annotationHeaders.get(i), annotationFields.get(
-                                    annotationHeaders.get(i)).getText());
-                }
+            String annotationName = annotationHeaders.get(i);
+            if (!annotationName.equals("UniqueExpID")) {
+
+                String value = getEnteredAnnotationValue(annotationName);
+
+                a[nrOfAdded] = new AnnotationDataValue(Integer.toString(i),
+                        annotationName, value);
+
                 nrOfAdded++;
             }
         }

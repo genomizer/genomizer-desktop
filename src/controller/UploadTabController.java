@@ -395,8 +395,16 @@ public class UploadTabController {
                 new Thread() {
                     @Override
                     public void run() {
+
                         String species = uploadTab.getNewExpPanel()
                                 .getSelectedSpecies();
+
+                        if (species.equals("")){
+
+                            uploadTab.setGenomeReleases(new GenomeReleaseData[] {});
+
+                            return;
+                        }
 
                         // TODO: Thread, although connection here, should not
                         // below.
