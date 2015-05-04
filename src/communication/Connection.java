@@ -1,5 +1,6 @@
 package communication;
 
+import gui.GUI;
 import gui.GenomizerView;
 
 import java.io.BufferedReader;
@@ -28,7 +29,7 @@ import util.RequestException;
 public class Connection {
 
     // TODO: varf�r view? g�r oberoende?
-    private final GenomizerView view;
+    private final GUI view;
 
     /** The IP-adress to the Server */
     private String ip;
@@ -56,7 +57,7 @@ public class Connection {
      */
     public Connection(String ip, GenomizerView view) {
         this.ip = ip;
-        this.view = view;
+        this.view = (GUI) view;
         responseBody = "";
         responseCode = 0;
     }
