@@ -42,7 +42,7 @@ public class RequestFactory {
     }
 
     public static ChangeAnnotationRequest makeChangeAnnotationRequest(
-            String id, HashMap annotations) {
+            String id, HashMap<String, String> annotations) {
         return new ChangeAnnotationRequest(id, annotations);
     }
 

@@ -305,7 +305,6 @@ public class UploadToNewExpPanel extends JPanel implements ExperimentPanel {
                     comboBox.addActionListener(new ActionListener() {
                         @Override
                         public void actionPerformed(ActionEvent actionEvent) {
-                            String text = (String) comboBox.getSelectedItem();
                             enableUploadButton(forcedAnnotationCheck());
                         }
                     });
