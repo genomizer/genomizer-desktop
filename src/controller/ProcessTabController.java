@@ -223,7 +223,7 @@ public class ProcessTabController {
         return new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                //TODO skicka request till server att avbryta processen som är markerad
+                //TODO skicka request till server att avbryta processen som ï¿½r markerad
             }
         };
     }

@@ -9,6 +9,7 @@ import java.awt.event.WindowEvent;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Iterator;
 
 import javax.swing.JFileChooser;
 import javax.swing.JList;
@@ -38,14 +39,15 @@ public class ConvertTabController {
         this.model = model;
 
         ConvertTab ct = view.getConvertTab();
-        ct.convertSelectedButtonListener(ConvertFileListener());
+        ct.convertSelectedButtonListener(ConvertSelectedFileListener());
+        ct.deleteSelectedButtonListener(DeleteSelectedFileListener());
         fileListAddMouseListener(view.getConvertTab().getFileList());
 
 
     }
 
 
-    public ActionListener ConvertFileListener() {
+    public ActionListener ConvertSelectedFileListener() {
         return new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -53,19 +55,44 @@ public class ConvertTabController {
                     @Override
                     public void run() {
                         // TODO Skicka in filedata arrayen
-                        System.out.println("gaay");
-                        ArrayList<ExperimentData> selectedData = view.getWorkSpaceTab().getSelectedData();
-                        ArrayList<FileData> selectedFiles = new ArrayList<>();
 
-                        System.out.println();
-                        for (ExperimentData experiment : selectedData) {
-                            for (FileData file : experiment.files) {
-                                if (!selectedFiles.contains(file)) {
-                                    selectedFiles.add(file);
-                                }
-                            }
+                        ArrayList<FileData> selectedFiles = view.getConvertTab().getAllMarkedFiles();
+
+
+                        Iterator<FileData> it = selectedFiles.iterator();
+                        while(it.hasNext()){
+                            FileData data = it.next();
+                            System.out.println(data);
                         }
-                        view.setConvertFileList(selectedFiles);
+
+                       // view.setConvertFileList(selectedFiles);
+                    };
+                }.start();
+            }
+        };
+    }
+
+    public ActionListener DeleteSelectedFileListener() {
+        return new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                new Thread() {
+                    @Override
+                    public void run() {
+
+                        ArrayList<FileData> markedFiles = view.getConvertTab().getAllMarkedFiles();
+
+                        ArrayList<ExperimentData> exData = view.getConvertTab().getFileInfo();
+
+                        if (exData != null && markedFiles != null) {
+
+                            for (ExperimentData data : exData) {
+                                data.files.removeAll(markedFiles);
+                            }
+                            view.getConvertTab().setFileInfo(exData);
+                            deletedProcessFiles = true;
+                        }
+
                     };
                 }.start();
             }

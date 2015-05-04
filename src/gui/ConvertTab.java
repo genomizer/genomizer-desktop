@@ -206,11 +206,11 @@ public class ConvertTab extends JPanel {
 
         selectedFilesPanel = new JPanel();
 
-        selectedFilesPanel.setPreferredSize(new Dimension(1225/2,0));
+        selectedFilesPanel.setMinimumSize(new Dimension(1225/2,0));
         selectedFilesPanel.setBorder(BorderFactory.createTitledBorder("selectedFilesPanel"));
         add(selectedFilesPanel, BorderLayout.CENTER);
 
-
+        scrollFiles.setPreferredSize(new Dimension(560,510));
         selectedFilesPanel.add(scrollFiles, BorderLayout.CENTER);
 
         scrollFiles.setViewportView(fileList);
