@@ -5,28 +5,35 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.concurrent.CopyOnWriteArrayList;
 
+
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
 import javax.swing.JTextField;
+import javax.swing.ListSelectionModel;
 
 import model.ErrorLogger;
 
 import util.ActivePanel;
 import util.AnnotationDataType;
+import util.AnnotationDataValue;
 import util.ExperimentData;
 import util.FileData;
 import util.GenomeReleaseData;
 
 import communication.HTTPURLUpload;
+import controller.ConvertTabController;
+import controller.ProcessTabController;
 import controller.UploadTabController;
 
 /**
@@ -45,6 +52,8 @@ public class ConvertTab extends JPanel {
     private JTextField experimentNameField;
   //  private JScrollPane uploadScroll;
     private Dimension panelSize = new Dimension(200,80);
+    private ArrayList<ExperimentData> experimentData;
+
 
 
     // Test purpose
@@ -60,8 +69,9 @@ public class ConvertTab extends JPanel {
     private JSplitPane splitPane;
     private Dimension minimumSize;
     private JPanel emptySouthPanel;
-    private JList<CheckListItem> fileList;
+    private JList<CheckListItem> fileList = new JList<CheckListItem>();
     private final JScrollPane scrollFiles = new JScrollPane();
+    private ConvertTabController convertTabController;
 
     /**
      * Constructor creating a convert tab.
@@ -78,6 +88,7 @@ public class ConvertTab extends JPanel {
         setupSelectedFilesPanel();
         setupQueuedFilesPanel();
         setupEmptySouthPanel();
+        fileListSetCellRenderer();
 
   //      setupEmptyDividerPanel();
 
@@ -121,28 +132,23 @@ public class ConvertTab extends JPanel {
 
 
 
+
+
+
     public JList<CheckListItem> getFileList() {
         return fileList;
     }
 
 
-    public ArrayList<FileData> getAllMarkedFiles() {
-
-        ArrayList<FileData> arr = new ArrayList<FileData>();
-
-        for (int i = 0; i < fileList.getModel().getSize(); i++) {
-            CheckListItem checkItem = fileList.getModel().getElementAt(i);
-            checkItemIsSelected(arr, checkItem);
-        }
-        return arr;
+    /**
+     * Adds listener to the fileList.
+     *
+     * @param mouseAdapter
+     */
+    public void addFileListMouseListener(MouseAdapter mouseAdapter) {
+        fileList.addMouseListener(mouseAdapter);
     }
 
-    private void checkItemIsSelected(ArrayList<FileData> arr,
-            CheckListItem checkItem) {
-        if (checkItem.isSelected()) {
-            arr.add(checkItem.getfile());
-        }
-    }
 
 
 
@@ -200,11 +206,13 @@ public class ConvertTab extends JPanel {
 
         selectedFilesPanel = new JPanel();
 
-        selectedFilesPanel.setPreferredSize(new Dimension(1225/2,0));
+        selectedFilesPanel.setMinimumSize(new Dimension(1225/2,0));
         selectedFilesPanel.setBorder(BorderFactory.createTitledBorder("selectedFilesPanel"));
         add(selectedFilesPanel, BorderLayout.CENTER);
-        selectedFilesPanel.add(scrollFiles);
-        selectedFilesPanel.add(new JButton("deleteButton"));
+
+        scrollFiles.setPreferredSize(new Dimension(560,510));
+        selectedFilesPanel.add(scrollFiles, BorderLayout.CENTER);
+
         scrollFiles.setViewportView(fileList);
 
 
@@ -228,38 +236,12 @@ public class ConvertTab extends JPanel {
 
 
 
-
-
-//  private void setupLowerPanel(){
-//      lowerPanel = new JPanel();
-//      lowerPanel.setBorder(BorderFactory.createTitledBorder("lowerPanel"));
-//      add(lowerPanel);
-//
-//
-//      minimumSize = new Dimension(500, 500);
-//
-//      setupSelectedFilesPanel();
-//      setupQueuedFilesPanel();
-//
-//      splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT,selectedFilesPanel,queuedFilesPanel);
-//      splitPane.setPreferredSize(new Dimension(1000, 1000));
-//      //splitPane.setOneTouchExpandable(true);
-//     // splitPane.setDividerLocation(500);
-//
-//
-//
-//      lowerPanel.add(splitPane);
-//
-//  }
-
-    /**
-     * Method adding a listener to the "newExpButton".
-     *
-     * @param listener
-     *            The listener to create a experiment.
-     */
-    public void addNewExpButtonListener(ActionListener listener) {
+    public void deleteSelectedButtonListener(ActionListener listener) {
         deleteSelectedFiles.addActionListener(listener);
+    }
+
+    public void convertSelectedButtonListener(ActionListener listener) {
+        convertSelectedFiles.addActionListener(listener);
     }
 
     /**
@@ -294,6 +276,8 @@ public class ConvertTab extends JPanel {
         repaint();
         revalidate();
     }
+
+
 
     /**
      * Method returning a uploadToExistingExpPanel.
@@ -372,6 +356,46 @@ public class ConvertTab extends JPanel {
     }
 
 
+    /**
+     * Gets all marked files in the fileList.
+     *
+     * @return ArrayList<FileData> - List of all the files.
+     */
+
+    public ArrayList<FileData> getAllMarkedFiles() {
+
+        ArrayList<FileData> arr = new ArrayList<FileData>();
+
+        for (int i = 0; i < fileList.getModel().getSize(); i++) {
+            CheckListItem checkItem = fileList.getModel().getElementAt(i);
+            checkItemIsSelected(arr, checkItem);
+        }
+        return arr;
+    }
+
+    /**
+     * Checks if an item in a list is selected.
+     *
+     * @param arr
+     *            - the list
+     * @param checkItem
+     *            - the item in the list
+     */
+    private void checkItemIsSelected(ArrayList<FileData> arr, CheckListItem checkItem) {
+        if (checkItem.isSelected()) {
+            arr.add(checkItem.getfile());
+        }
+    }
+
+
+
+
+
+    public void setController(ConvertTabController convertTabController) {
+        this.convertTabController = convertTabController;
+    }
+
+
 
 
     public void addConvertFileListener(ActionListener listener) {
@@ -379,7 +403,59 @@ public class ConvertTab extends JPanel {
 
     }
 
+    /**
+     * Sets a cell renderer to fileList.
+     */
+    private void fileListSetCellRenderer() {
+        fileList.setCellRenderer(new CheckListRenderer());
+        fileList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+    }
 
+
+
+
+    private void parseFileData() {
+
+        ArrayList<CheckListItem> itemList = new ArrayList<CheckListItem>();
+        String specie = "";
+
+        for (ExperimentData exData : experimentData) {
+            for (FileData fileData : exData.files) {
+                for (AnnotationDataValue annoDataValue : exData.annotations) {
+                    if (annoDataValue.getName().equals("Species")) {
+                        specie = annoDataValue.value;
+                        break;
+                    }
+                }
+                itemList.add(new CheckListItem(fileData, fileData.filename,
+                        fileData.id, specie));
+            }
+        }
+        fileList.setListData(itemList.toArray(new CheckListItem[itemList.size()]));
+        this.revalidate();
+        this.repaint();
+    }
+
+    /**
+     * Sets the experimentData list with all selected files to process from
+     * workspace.
+     *
+     * @param experimentData
+     */
+    public void setFileInfo(ArrayList<ExperimentData> experimentData) {
+        this.experimentData = experimentData;
+        // Parse out experiment files.
+        parseFileData();
+    }
+
+    /**
+     * Get all the experiments from the convert tab.
+     *
+     * @return
+     */
+    public ArrayList<ExperimentData> getFileInfo() {
+        return this.experimentData;
+    }
 
 
 

@@ -55,7 +55,7 @@ public class ModelTest {
 
     @Test
     public void shouldUploadFile() throws Exception {
-        assertThat(m.uploadFile("test", new File("test"), "type", "user", false, "fb5")).isTrue();
+        assertThat(m.uploadFile("test", new File("test"), "type", false, "fb5")).isTrue();
     }
 
     @Test

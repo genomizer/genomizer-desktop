@@ -1,7 +1,7 @@
 package model;
 
 import gui.ErrorDialog;
-import gui.GenomizerView;
+import gui.GUI;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -9,16 +9,12 @@ import java.util.concurrent.CopyOnWriteArrayList;
 import javax.swing.JOptionPane;
 import requests.AddAnnotationRequest;
 import requests.AddExperimentRequest;
-import requests.AddFileToExperiment;
 import requests.AddGenomeReleaseRequest;
 import requests.AddNewAnnotationValueRequest;
 import requests.ChangeExperimentRequest;
-import requests.DownloadFileRequest;
 import requests.GetAnnotationRequest;
 import requests.GetGenomeReleasesRequest;
 import requests.GetGenomeSpecieReleasesRequest;
-import requests.LoginRequest;
-import requests.LogoutRequest;
 import requests.ProcessFeedbackRequest;
 import requests.RemoveAnnotationFieldRequest;
 import requests.RemoveAnnotationValueRequest;
@@ -31,21 +27,15 @@ import requests.RequestFactory;
 import requests.RetrieveExperimentRequest;
 import requests.SearchRequest;
 import requests.rawToProfileRequest;
-import responses.AddFileToExperimentResponse;
-import responses.DownloadFileResponse;
-import responses.ErrorResponse;
-import responses.LoginResponse;
 import responses.ResponseParser;
 import responses.sysadmin.AddGenomeReleaseResponse;
 import util.AnnotationDataType;
 import util.AnnotationDataValue;
 import util.Constants;
-import util.ErrorMessageGenerator;
 import util.ExperimentData;
 import util.GenomeReleaseData;
 import util.ProcessFeedbackData;
 import util.RequestException;
-import com.google.gson.Gson;
 import communication.Connection;
 import communication.ConnectionFactory;
 import communication.DownloadHandler;
@@ -152,8 +142,8 @@ public class Model implements GenomizerModel {
     }
 
     @Override
-    public void setGenomizerView(GenomizerView view) {
-        connFactory.setGenomizerView(view);
+    public void setGUI(GUI view) {
+        connFactory.setGUI(view);
     }
 
     @Override

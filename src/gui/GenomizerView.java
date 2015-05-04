@@ -285,4 +285,12 @@ public interface GenomizerView {
     public void addConvertFileListener(ActionListener listener); //unused N/A
 
     boolean getIsNewExp(); //unused commented
+
+    public void setConvertFileList(ArrayList<FileData> selectedFiles);
+
+    public ConvertTab getConvertTab();
+
+    public void convertSelectedButtonListener(ActionListener listener);
+
+    public void deleteSelectedButtonListener(ActionListener listener);
 }

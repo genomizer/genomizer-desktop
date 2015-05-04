@@ -4,7 +4,6 @@ import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
-import java.util.concurrent.CopyOnWriteArrayList;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
@@ -13,15 +12,10 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 
-import model.ErrorLogger;
-
 import util.ActivePanel;
 import util.AnnotationDataType;
 import util.ExperimentData;
 import util.GenomeReleaseData;
-
-import communication.HTTPURLUpload;
-
 /**
  * A class representing a upload view in an application for genome research.
  * This class allows the user to upload files to the database of the

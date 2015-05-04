@@ -16,7 +16,6 @@ import util.GenomeReleaseData;
 import util.ProcessFeedbackData;
 import gui.CheckListItem;
 import gui.GUI;
-import gui.GenomizerView;
 import gui.ProcessTab;
 
 public class ProcessTabController {
@@ -24,7 +23,7 @@ public class ProcessTabController {
     GenomizerModel model;
     private boolean deletedProcessFiles = false;
 
-    public ProcessTabController(GenomizerView view, GenomizerModel model) {
+    public ProcessTabController(GUI view, GenomizerModel model) {
         this.model = model;
         this.view = (GUI) view;
         ProcessTab processTab = view.getProcessTab();
@@ -223,7 +222,7 @@ public class ProcessTabController {
         return new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                //TODO skicka request till server att avbryta processen som är markerad
+                //TODO skicka request till server att avbryta processen som ï¿½r markerad
             }
         };
     }

@@ -23,7 +23,6 @@ import gui.UploadTab;
 import gui.UploadToExistingExpPanel;
 import model.ErrorLogger;
 import model.GenomizerModel;
-import model.Model;
 
 public class UploadTabController {
     private final GenomizerModel model;
@@ -252,42 +251,15 @@ public class UploadTabController {
 
                         ArrayList<File> files = uploadTab.getNewExpPanel()
                                 .getUploadFiles();
-
+                        // TODO: Now replaced your code bits, EXCEPT FOR
+                        // REMOVED IF BIT -
+                        // Did not dare to touch it since it looks
+                        // implortants. Check later!
                         if (files != null && files.size() > 0
                                 && annotations != null && expName != null) {
 
                             HashMap<String, String> types = uploadTab
                                     .getNewExpPanel().getTypes();
-
-                            // TODO: Reverted your change of the if bit CF...
-                            // used to look something like this.
-                            // It was probably correct and now I ruined it, but
-                            // merge
-                            // wouldn't play nice. Mine only seem to do add...
-                            // not change...
-                            //
-                            // //if (files != null && files.size() > 0
-                            // //&& annotations != null && expName != null) {
-                            // HashMap<String, String> types =
-                            // view.getUploadTab()
-                            // .getNewExpPanel().getTypes();
-                            // // Should be genome release from uploadTab
-                            // // String release = "wk1m";
-                            // // Test purpose
-                            // if (view.getIsNewExp()) {
-                            // expCreated = model.addNewExperiment(expName,
-                            // annotations);
-                            // } else {
-                            // expCreated = model.changeExperiment(expName,
-                            // annotations);
-                            // System.err.println("Ändrad " + expCreated);
-                            // }
-                            //
-                            // TODO: Now replaced your code bits, EXCEPT FOR
-                            // REMOVED IF BIT -
-                            // Did not dare to touch it since it looks
-                            // implortants. Check later!
-
                             boolean created;
 
                             if (uploadTab.getUploadToNewExpPanel()
@@ -297,9 +269,6 @@ public class UploadTabController {
                             } else {
                                 created = model.changeExperiment(expName,
                                         annotations);
-
-                                // TODO: Trace comment
-                                System.err.println("Ändrad " + created);
                             }
 
                             if (created) {
@@ -450,8 +419,8 @@ public class UploadTabController {
     }
 
     /**
-     * Method updating the progress of ongoing uploads.
-     * OO Now adding to the ticker updater thread.
+     * Method updating the progress of ongoing uploads. OO Now adding to the
+     * ticker updater thread.
      */
     private void updateProgress() {
         Runnable task = new Runnable() {

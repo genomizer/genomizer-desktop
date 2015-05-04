@@ -155,7 +155,7 @@ public class WorkspaceTab extends JPanel {
         buttonPanel.add(Box.createHorizontalStrut(10));
 
         buttonPanel.add(processButton);
-        
+
         buttonPanel.add(Box.createHorizontalStrut(10));
 
         buttonPanel.add(convertButton);
@@ -285,7 +285,7 @@ public class WorkspaceTab extends JPanel {
     public void addProcessFileListener(ActionListener listener) {
         processButton.addActionListener(listener);
     }
-    
+
     /**
      * Method adding a listener to the "processButton" button.
      *
@@ -355,10 +355,11 @@ public class WorkspaceTab extends JPanel {
     /**
      * Method returning the data of selected experiment(s).
      *
-     * @return an array with data of the current selected experiment(s). OR The
+     * @return an array with data of the current selected experiment(s).<br> OR<br> The
      *         selected data in the workspace in the form of an arrayList
      *         containing the ExperimentData.
      */
+    
     public ArrayList<ExperimentData> getSelectedData() {
         return table.getSelectedData();
     }

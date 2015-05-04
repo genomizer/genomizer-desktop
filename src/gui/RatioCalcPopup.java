@@ -54,7 +54,7 @@ public class RatioCalcPopup extends JFrame {
      * 
      * @param parent
      */
-    public RatioCalcPopup(final GenomizerView parent) {
+    public RatioCalcPopup(final GUI parent) {
         
         URL url = ClassLoader.getSystemResource("icons/logo.png");
         Toolkit kit = Toolkit.getDefaultToolkit();

@@ -341,7 +341,6 @@ public class UploadToNewExpPanel extends JPanel implements ExperimentPanel {
                     comboBox.addActionListener(new ActionListener() {
                         @Override
                         public void actionPerformed(ActionEvent actionEvent) {
-                            String text = (String) comboBox.getSelectedItem();
                             enableUploadButton(forcedAnnotationCheck());
                         }
                     });
@@ -703,15 +702,29 @@ public class UploadToNewExpPanel extends JPanel implements ExperimentPanel {
         return this.annotationFields;
     }
 
+    /**
+     * Method that filles out the annotations fields with an existing
+     * experiments values. Used to edit an existing experiment.
+     * @param ed - Experiment to get annotations from
+     */
     public void setExistingExp(ExperimentData ed) {
         expID.setText(ed.getName());
         for (AnnotationDataValue data : ed.getAnnotations()) {
-            annotationBoxes.get(data.getName())
-                    .setSelectedItem(data.getValue());
+            if (annotationBoxes.containsKey(data.getName())) {
+                annotationBoxes.get(data.getName()).setSelectedItem(
+                        data.getValue());
+            } else if (annotationFields.containsKey(data.getName())) {
+                annotationFields.get(data.getName()).setText(data.getValue());
+            }
+
         }
         expID.setEnabled(false);
     }
 
+    /**
+     * Returns the status if active experiment is a new experiment or existing
+     * @return
+     */
     public boolean getIsNewExp() {
         return isNewExp;
     }
