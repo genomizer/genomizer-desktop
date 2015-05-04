@@ -303,11 +303,11 @@ public class UploadTabController {
                                 }
                             } else {
 
-                                // TODO: Fix the error dialog?
-                                new ErrorDialog("Couldn't create experiment",
-                                        "The experiment " + expName
-                                                + " could not be created.",
-                                        "singdudeldej").showDialog();
+//                                // TODO: Fix the error dialog?
+//                                new ErrorDialog("Couldn't create experiment",
+//                                        "The experiment " + expName
+//                                                + " could not be created.",
+//                                        "singdudeldej").showDialog();
 
                             }
                         }
