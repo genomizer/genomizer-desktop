@@ -347,6 +347,8 @@ public class Model implements GenomizerModel {
     @Override
     public boolean addNewExperiment(String expName,
             AnnotationDataValue[] annotations) {
+
+
         AddExperimentRequest aER = RequestFactory.makeAddExperimentRequest(
                 expName, annotations);
         Connection conn = connFactory.makeConnection();

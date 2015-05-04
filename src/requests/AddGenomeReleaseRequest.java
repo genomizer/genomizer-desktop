@@ -1,5 +1,6 @@
 package requests;
 
+
 public class AddGenomeReleaseRequest extends Request {
 
     private String genomeVersion;
