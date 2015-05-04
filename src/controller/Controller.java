@@ -95,8 +95,8 @@ public class Controller {
      * Update the ratioCalcWindow listeners
      */
     private void ratioCalcUpdate() {
-        view.addOkListener(new OkListener());
-        view.addRatioCalcListener(new RatioCalcListener());
+        view.getRatioCalcPopup().addOkListener(new OkListener());
+        view.getProcessTab().addRatioCalcListener(new RatioCalcListener());
     }
 
     /**

@@ -756,9 +756,9 @@ public class ProcessTab extends JPanel {
     /**
      * Gets all marked files in the fileList.
      *
-     * @return ArrayList<FileData> - List of all the files.
+     * @return ArrayList<FileData> - List of all the files.<br>
+     * OR<br>The marked files from the process tab.
      */
-
     public ArrayList<FileData> getAllMarkedFiles() {
 
         ArrayList<FileData> arr = new ArrayList<FileData>();
