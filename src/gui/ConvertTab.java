@@ -236,38 +236,12 @@ public class ConvertTab extends JPanel {
 
 
 
-
-
-//  private void setupLowerPanel(){
-//      lowerPanel = new JPanel();
-//      lowerPanel.setBorder(BorderFactory.createTitledBorder("lowerPanel"));
-//      add(lowerPanel);
-//
-//
-//      minimumSize = new Dimension(500, 500);
-//
-//      setupSelectedFilesPanel();
-//      setupQueuedFilesPanel();
-//
-//      splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT,selectedFilesPanel,queuedFilesPanel);
-//      splitPane.setPreferredSize(new Dimension(1000, 1000));
-//      //splitPane.setOneTouchExpandable(true);
-//     // splitPane.setDividerLocation(500);
-//
-//
-//
-//      lowerPanel.add(splitPane);
-//
-//  }
-
-    /**
-     * Method adding a listener to the "newExpButton".
-     *
-     * @param listener
-     *            The listener to create a experiment.
-     */
-    public void addNewExpButtonListener(ActionListener listener) {
+    public void deleteSelectedButtonListener(ActionListener listener) {
         deleteSelectedFiles.addActionListener(listener);
+    }
+
+    public void convertSelectedButtonListener(ActionListener listener) {
+        convertSelectedFiles.addActionListener(listener);
     }
 
     /**
@@ -302,6 +276,8 @@ public class ConvertTab extends JPanel {
         repaint();
         revalidate();
     }
+
+
 
     /**
      * Method returning a uploadToExistingExpPanel.
@@ -378,11 +354,6 @@ public class ConvertTab extends JPanel {
             }
         }).start();
     }
-
-
-
-
-
 
 
     /**
