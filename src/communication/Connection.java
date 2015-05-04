@@ -8,7 +8,6 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.HttpURLConnection;
-import javax.net.ssl.HttpsURLConnection;
 import java.net.MalformedURLException;
 import java.net.ProtocolException;
 import java.net.URL;
@@ -42,9 +41,6 @@ public class Connection {
 
     private HttpURLConnection connection;
 
-    // TODO: anv�nds inte. ta bort?
-    private Request request;
-
     /**
      * Constructs a new Connection object to a server with a given IP address,
      * and a given GUI
@@ -77,8 +73,6 @@ public class Connection {
      */
     public void sendRequest(Request request, String token, String type)
             throws RequestException {
-        // TODO: on�dig
-        this.request = request;
         try {
             connect(request, token, type);
 

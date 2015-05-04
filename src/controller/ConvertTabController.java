@@ -19,6 +19,7 @@ import util.ExperimentData;
 import util.FileData;
 import util.GenomeReleaseData;
 import gui.CheckListItem;
+import gui.ConvertTab;
 import gui.DeleteDataWindow;
 import gui.GUI;
 import gui.UploadTab;
@@ -36,9 +37,10 @@ public class ConvertTabController {
         this.view = view;
         this.model = model;
 
-        WorkspaceTab workspaceTab = view.getWorkSpaceTab();
-        workspaceTab.addConvertFileListener(ConvertFileListener());
+        ConvertTab ct = view.getConvertTab();
+        ct.convertSelectedButtonListener(ConvertFileListener());
         fileListAddMouseListener(view.getConvertTab().getFileList());
+
 
     }
 
@@ -51,8 +53,11 @@ public class ConvertTabController {
                     @Override
                     public void run() {
                         // TODO Skicka in filedata arrayen
+                        System.out.println("gaay");
                         ArrayList<ExperimentData> selectedData = view.getWorkSpaceTab().getSelectedData();
                         ArrayList<FileData> selectedFiles = new ArrayList<>();
+
+                        System.out.println();
                         for (ExperimentData experiment : selectedData) {
                             for (FileData file : experiment.files) {
                                 if (!selectedFiles.contains(file)) {
