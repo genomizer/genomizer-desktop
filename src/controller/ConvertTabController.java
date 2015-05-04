@@ -106,6 +106,9 @@ public class ConvertTabController {
 
           String species = "";
           int count = 0;
+          String fileType1 = "";
+          String fileType2 = "";
+          ArrayList<String> fileTypeList = null;
 
           @Override
           public void mouseClicked(MouseEvent event) {
@@ -114,19 +117,51 @@ public class ConvertTabController {
               if (deletedProcessFiles) {
                   species = "";
                   count = 0;
+                  view.getConvertTab().resetCurrentSelectedFileType();
               }
 
               if (list.getModel().getSize() > 0) {
+
+
+
+
+
                   int index = list.locationToIndex(event.getPoint());
 
                   CheckListItem item = (CheckListItem) list.getModel()
                           .getElementAt(index);
 
+          //        System.out.println("listans storlek = " + list.getModel().getSize());
+
+                  String fileName = item.getfile().getName().toUpperCase();
+                  fileType1 = fileName.substring(fileName.lastIndexOf(".") + 1);
+
+
+                  if (count == 0) {
+                      fileType2 = "";
+                      view.getConvertTab().resetCurrentSelectedFileType();
+                  }
+                  if (fileType2.equals("") && count == 0) {
+                      fileName = item.getfile().getName().toUpperCase();
+                      fileType2 = fileName.substring(fileName.lastIndexOf(".") + 1);
+                  }
+
+                  // OBS vill använda och sätta alla checkboxes som inte går att konvertera ifrån till not enabled!
+                  fileTypeList = view.getConvertTab().getPossibleConvertFromFileTypes();
+
+                  if (fileType1.equals(fileType2)) {
+
+                      view.getConvertTab().setCurrentSelectedFileType(fileType1);
+
                       item.setSelected(!item.isSelected());
 
 
-
-
+                      if (item.isSelected()) {
+                          count++;
+                      } else {
+                          count--;
+                      }
+                  }
                   deletedProcessFiles = false;
                   list.repaint(list.getCellBounds(index, index));
               }

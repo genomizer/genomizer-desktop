@@ -15,6 +15,7 @@ import java.util.concurrent.CopyOnWriteArrayList;
 import javax.swing.BorderFactory;
 import javax.swing.ButtonGroup;
 import javax.swing.JButton;
+import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JList;
@@ -87,6 +88,7 @@ public class ConvertTab extends JPanel {
     public final JRadioButton cToGFF = new JRadioButton("GFF");
     public final ButtonGroup radioGroupFrom = new ButtonGroup();
     public final ButtonGroup radioGroupTo = new ButtonGroup();
+    private String currentFileType = "";
 
     /**
      * Constructor creating a convert tab.
@@ -105,7 +107,7 @@ public class ConvertTab extends JPanel {
         setupEmptySouthPanel();
         fileListSetCellRenderer();
 
-        setRadioButtonListeners();
+        setButtonListeners();
         check();
 
         updateProgress();
@@ -118,7 +120,7 @@ public class ConvertTab extends JPanel {
     /**
      *
      */
-    private void setRadioButtonListeners() {
+    private void setButtonListeners() {
 
         radioGroupFrom.add(cFromFASTQ);
         radioGroupFrom.add(cFromSGR);
@@ -135,6 +137,10 @@ public class ConvertTab extends JPanel {
         setRadioButtonListener(cToWIG);
         setRadioButtonListener(cToSGR);
         setRadioButtonListener(cToGFF);
+        
+       // setCheckBoxListener();
+        
+        
 
         disableCToRadiobuttons();
 
@@ -234,6 +240,7 @@ public class ConvertTab extends JPanel {
         scrollFiles.setViewportView(fileList);
 
 
+
     }
 
 
@@ -276,6 +283,20 @@ public class ConvertTab extends JPanel {
             }
         });
     }
+    
+    /**
+     * Sets a button listener to a selected JCheckBox.
+     *
+     * @param checkbox
+     */
+    public void setCheckBoxListener(JCheckBox checkbox) {
+        checkbox.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                check();
+            }
+        });
+    }
 
 
 
@@ -287,48 +308,77 @@ public class ConvertTab extends JPanel {
     private void check() {
         /* Check if there are valid genome releases */
         disableCToRadiobuttons();
+        
+        if(currentFileType.equals("FASTQ")){
+            cFromFASTQ.setSelected(true);
+        } else if(currentFileType.equals("WIG")){
+            cFromWIG.setSelected(true);
+        } else if(currentFileType.equals("SGR")){
+            cFromSGR.setSelected(true);
+        } else if(currentFileType.equals("CHP")){
+            cFromCHP.setSelected(true);
+        }
+        
+            if (cFromFASTQ.isSelected() && cFromFASTQ.isEnabled()) {
+                cToWIG.setEnabled(true);
+                cToSGR.setEnabled(true);
 
-        if (cFromFASTQ.isSelected() && cFromFASTQ.isEnabled()) {
-            cToWIG.setEnabled(true);
-            cToSGR.setEnabled(true);
+                if(cToGFF.isSelected()){
+                    cToWIG.setSelected(true);
+                }
 
-            if(cToGFF.isSelected()){
-                cToWIG.setSelected(true);
             }
 
-        }
+            if (cFromWIG.isSelected() && cFromWIG.isEnabled()) {
+                cToGFF.setEnabled(true);
 
-        if (cFromWIG.isSelected() && cFromWIG.isEnabled()) {
-            cToGFF.setEnabled(true);
+                if(cToSGR.isSelected() || cToWIG.isSelected()){
+                    cToGFF.setSelected(true);
+                }
 
-            if(cToSGR.isSelected() || cToWIG.isSelected()){
-                cToGFF.setSelected(true);
             }
 
-        }
+            if (cFromSGR.isSelected() && cFromSGR.isEnabled()) {
+                cToGFF.setEnabled(true);
+                cToWIG.setEnabled(true);
 
-        if (cFromSGR.isSelected() && cFromSGR.isEnabled()) {
-            cToGFF.setEnabled(true);
-            cToWIG.setEnabled(true);
-
-            if(cToSGR.isSelected()){
-                cToWIG.setSelected(true);
-            }
-        }
-
-        if (cFromCHP.isSelected() && cFromCHP.isEnabled()) {
-            cToGFF.setEnabled(true);
-            cToWIG.setEnabled(true);
-
-            if(cToSGR.isSelected()){
-                cToWIG.setSelected(true);
+                if(cToSGR.isSelected()){
+                    cToWIG.setSelected(true);
+                }
             }
 
-        }
+            if (cFromCHP.isSelected() && cFromCHP.isEnabled()) {
+                cToGFF.setEnabled(true);
+                cToWIG.setEnabled(true);
 
+                if(cToSGR.isSelected()){
+                    cToWIG.setSelected(true);
+                }
 
-
+            }
     }
+    
+    public ArrayList<String> getPossibleConvertFromFileTypes(){
+        ArrayList<String> fileTypeList = new ArrayList<String>();
+        fileTypeList.add("FASTQ");
+        fileTypeList.add("WIG");
+        fileTypeList.add("SGR");
+        fileTypeList.add("CHP");
+        
+        return fileTypeList;
+        
+    }
+    
+    public void setCurrentSelectedFileType(String type){
+        currentFileType = type;
+        check();
+    }
+    
+    public void resetCurrentSelectedFileType(){
+        currentFileType = "";
+        check();
+    }
+    
 
     /**
      * Disables all the buttons and textfields in the process tab
@@ -337,9 +387,6 @@ public class ConvertTab extends JPanel {
         cToSGR.setEnabled(false);
         cToGFF.setEnabled(false);
         cToWIG.setEnabled(false);
-        cToSGR.setSelected(false);
-        cToGFF.setSelected(false);
-        cToWIG.setSelected(false);
 
     }
 
