@@ -289,4 +289,8 @@ public interface GenomizerView {
     public void setConvertFileList(ArrayList<FileData> selectedFiles);
 
     public ConvertTab getConvertTab();
+
+    public void convertSelectedButtonListener(ActionListener listener);
+
+    public void deleteSelectedButtonListener(ActionListener listener);
 }

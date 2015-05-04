@@ -155,6 +155,16 @@ public class GUI extends JFrame implements GenomizerView {
     }
 
     @Override
+    public void convertSelectedButtonListener(ActionListener listener) {
+        convertTab.convertSelectedButtonListener(listener);
+    }
+
+    @Override
+    public void deleteSelectedButtonListener(ActionListener listener) {
+        convertTab.deleteSelectedButtonListener(listener);
+    }
+
+    @Override
     public void addUploadToListenerSearchTab(ActionListener listener) {
         querySearchTab.addUploadToListener(listener);
     }

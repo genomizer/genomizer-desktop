@@ -35,10 +35,18 @@ public class WorkspaceTabController {
         this.view = (GUI) view;
         this.model = model;
         this.fileChooser = fileChooser;
+
+
+
+
+
         WorkspaceTab workspaceTab = view.getWorkSpaceTab();
         workspaceTab.addDownloadFileListener(DownloadFileListener());
         workspaceTab.addProcessFileListener(ProcessFileListener());
         workspaceTab.addUploadToListener(UploadToListener());
+
+        workspaceTab.addConvertFileListener(ConvertFileListener());
+
         // view.addUploadToListener( UploadToListener());
         workspaceTab.addDeleteSelectedListener(DeleteFromDatabaseListener());
         view.getWorkSpaceTab().setOngoingDownloads(model.getOngoingDownloads());
@@ -89,6 +97,33 @@ public class WorkspaceTabController {
                                     data.filename);
                         }
                         view.getWorkSpaceTab().changeTab(1);
+                    };
+                }.start();
+            }
+        };
+    }
+
+
+    public ActionListener ConvertFileListener() {
+        return new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                new Thread() {
+                    @Override
+                    public void run() {
+                        // TODO Skicka in filedata arrayen
+                        ArrayList<ExperimentData> selectedData = view.getWorkSpaceTab().getSelectedData();
+                        ArrayList<FileData> selectedFiles = new ArrayList<>();
+
+                        System.out.println();
+                        for (ExperimentData experiment : selectedData) {
+                            for (FileData file : experiment.files) {
+                                if (!selectedFiles.contains(file)) {
+                                    selectedFiles.add(file);
+                                }
+                            }
+                        }
+                        view.setConvertFileList(selectedFiles);
                     };
                 }.start();
             }
