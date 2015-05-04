@@ -14,6 +14,7 @@ import javax.swing.JPanel;
 
 import util.ExperimentData;
 import util.FileData;
+import gui.ConvertTab;
 import gui.DeleteDataWindow;
 import gui.GUI;
 import gui.UploadTab;
@@ -26,7 +27,8 @@ public class WorkspaceTabController {
     GenomizerModel model;
     private final JFileChooser fileChooser;
     private boolean abortDeletion;
-    
+
+
     public WorkspaceTabController(GUI view, GenomizerModel model,
             JFileChooser fileChooser) {
         this.view = (GUI) view;
@@ -40,7 +42,7 @@ public class WorkspaceTabController {
         workspaceTab.addDeleteSelectedListener(DeleteFromDatabaseListener());
         view.getWorkSpaceTab().setOngoingDownloads(model.getOngoingDownloads());
     }
-    
+
     /**
      * Listener for when the download button in the download window is clicked.
      * Opens a file chooser.
@@ -52,7 +54,7 @@ public class WorkspaceTabController {
                 new Thread() {
                     @Override
                     public void run() {
-                        
+
                         ArrayList<ExperimentData> expData = view
                                 .getWorkSpaceTab().getSelectedData();
                         ArrayList<FileData> fileData = new ArrayList<>();
@@ -79,7 +81,7 @@ public class WorkspaceTabController {
                         } else {
                             return;
                         }
-                        
+
                         for (FileData data : fileData) {
                             model.downloadFile(data.url, data.id, directoryName
                                     + "/" + data.type + "/" + data.filename,
@@ -91,7 +93,7 @@ public class WorkspaceTabController {
             }
         };
     }
-    
+
     public ActionListener ProcessFileListener() {
         return new ActionListener() {
             @Override
@@ -116,12 +118,12 @@ public class WorkspaceTabController {
             }
         };
     }
-    
+
     public ActionListener UploadToListener() {
         return new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                
+
                 try {
                     ExperimentData firstChosenExperiment = view
                             .getWorkSpaceTab().getSelectedExperiments().get(0);
@@ -138,7 +140,27 @@ public class WorkspaceTabController {
             }
         };
     }
-    
+
+    public ActionListener ConvertListener() {
+        return new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+                try {
+                    ExperimentData firstChosenExperiment = view.getWorkSpaceTab().getSelectedExperiments().get(0);
+                    ConvertTab ct = view.getConvertTab();
+                    view.getTabbedPane().setSelectedComponent(ct);
+                  //  ct.getExperimentNameField().setText(firstChosenExperiment.getName());
+                   // ct.getExistingExpButton().doClick();
+                } catch (IndexOutOfBoundsException ee) {
+                    ErrorLogger.log(ee);
+                    JOptionPane.showMessageDialog(null,
+                            "No experiment was selected.");
+                }
+            }
+        };
+    }
+
     public ActionListener DeleteFromDatabaseListener() {
         return new ActionListener() {
             @Override
@@ -202,13 +224,13 @@ public class WorkspaceTabController {
                             view.getWorkSpaceTab().removeSelectedData();
                             view.getQuerySearchTab().refresh();
                         }
-                        
+
                     };
                 }.start();
             }
         };
     }
-    
+
     public ActionListener SelectFilesToNewExpListener() {
         return new ActionListener() {
             @Override
@@ -235,5 +257,5 @@ public class WorkspaceTabController {
             }
         };
     }
-    
+
 }

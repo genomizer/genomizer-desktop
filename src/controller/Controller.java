@@ -56,13 +56,16 @@ public class Controller {
         ProcessTabController processTabController = new ProcessTabController(
                 view, model);
         view.getProcessTab().setController(processTabController);
-        WorkspaceTabController workspaceTabController = new WorkspaceTabController(
-                view, model, fileChooser);
+        WorkspaceTabController workspaceTabController = new WorkspaceTabController(view, model, fileChooser);
         view.getWorkSpaceTab().setController(workspaceTabController);
         UploadTabController uploadTabController = new UploadTabController(
                 view.getUploadTab(), model, fileChooser);
         SysadminController sysadminTabController = new SysadminController(model);
         view.getSysAdminTab().setController(sysadminTabController);
+
+        ConvertTabController convertTabController = new ConvertTabController(view, model, fileChooser);
+        view.getConvertTab().setController(convertTabController);
+
         sysadminTabController.updateAnnotationTable();
         sysadminTabController.updateGenomeReleaseTab();
     }
