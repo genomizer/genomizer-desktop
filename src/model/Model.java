@@ -357,7 +357,7 @@ public class Model implements GenomizerModel {
                 expName, annotations);
 
         Connection conn = connFactory.makeConnection();
-
+        System.out.println("code: "+conn.getResponseCode());
         try {
             conn.sendRequest(cER, User.getInstance().getToken(), Constants.JSON);
         } catch (RequestException e) {

@@ -91,8 +91,10 @@ public class WorkspaceTabController {
                         }
 
                         for (FileData data : fileData) {
+
+                            //TODO Lägga filen i olika datatypsmappar?
                             model.downloadFile(data.url, data.id, directoryName
-                                    + "/" + data.type + "/" + data.filename,
+                                    + "/" + data.filename,
                                     data.filename);
                         }
                         view.getWorkSpaceTab().changeTab(1);
