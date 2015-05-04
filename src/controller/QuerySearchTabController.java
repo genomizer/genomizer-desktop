@@ -25,7 +25,7 @@ public class QuerySearchTabController {
     GenomizerModel model;
     private QuerySearchTab querySearchTab;
     
-    public QuerySearchTabController(GenomizerView view, GenomizerModel model) {
+    public QuerySearchTabController(GUI view, GenomizerModel model) {
         this.view = (GUI) view;
         this.querySearchTab = view.getQuerySearchTab();
         this.model = model;

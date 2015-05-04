@@ -46,7 +46,7 @@ public class LoginWindow extends JFrame {
     /**
      * Constructor creating the login window and adding listeners.
      */
-    public LoginWindow(final GenomizerView parent) {
+    public LoginWindow(final GUI parent) {
         
         URL url = ClassLoader.getSystemResource("icons/logo.png");
         Toolkit kit = Toolkit.getDefaultToolkit();

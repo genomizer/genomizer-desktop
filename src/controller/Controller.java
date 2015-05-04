@@ -3,6 +3,7 @@
 package controller;
 
 import gui.DownloadWindow;
+import gui.GUI;
 import gui.GenomizerView;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -23,12 +24,12 @@ import util.FileData;
  * buttons and other component. This will drive the actions started via the GUI.
  */
 public class Controller {
-    private GenomizerView view;
+    private GUI view;
     private GenomizerModel model;
     private final JFileChooser fileChooser = new JFileChooser();
     private boolean runonce;
 
-    public Controller(GenomizerView view, GenomizerModel model) {
+    public Controller(GUI view, GenomizerModel model) {
         this.view = view;
         this.model = model;
         updateView();
