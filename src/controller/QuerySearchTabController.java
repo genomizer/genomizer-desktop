@@ -13,7 +13,6 @@ import util.AnnotationDataValue;
 import util.ExperimentData;
 import util.GenomeReleaseData;
 import gui.GUI;
-import gui.GenomizerView;
 import gui.UploadTab;
 import gui.QueryBuilderRow;
 import gui.QuerySearchTab;
@@ -138,6 +137,7 @@ public class QuerySearchTabController {
                         } else if (view.getQuerySearchTab().getActivePanel() == ActiveSearchPanel.TABLE) {
                             // Go back to the query search
                             view.getBackButton().doClick();
+                            view.getQuerySearchTab().getBackButton();
                         }
                     };
                 }.start();

@@ -458,7 +458,8 @@ public class QuerySearchTab extends JPanel {
     }
     
     /**
-     * @return The text where the built query is displayed
+     * @return The text where the built query is displayed<br>OR<br>The querySearchTab's searchString.
+     * 
      */
     public String getSearchString() {
         return searchArea.getText();

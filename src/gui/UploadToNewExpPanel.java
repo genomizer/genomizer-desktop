@@ -87,9 +87,10 @@ public class UploadToNewExpPanel extends JPanel implements ExperimentPanel {
      *            An array with the current available annotations on the server.
      * @param isNewExp
      */
-    public void createNewExpPanel(AnnotationDataType[] annotations, boolean isNewExp) {
+    public void createNewExpPanel(AnnotationDataType[] annotations,
+            boolean isNewExp) {
         this.annotations = annotations;
-        this.isNewExp=isNewExp;
+        this.isNewExp = isNewExp;
         createNewExp();
     }
 
@@ -305,7 +306,6 @@ public class UploadToNewExpPanel extends JPanel implements ExperimentPanel {
                     comboBox.addActionListener(new ActionListener() {
                         @Override
                         public void actionPerformed(ActionEvent actionEvent) {
-                            String text = (String) comboBox.getSelectedItem();
                             enableUploadButton(forcedAnnotationCheck());
                         }
                     });
@@ -442,16 +442,16 @@ public class UploadToNewExpPanel extends JPanel implements ExperimentPanel {
     /**
      *
      */
-    private void setNewOrExistingView(){
-        if(isNewExp){
+    private void setNewOrExistingView() {
+        if (isNewExp) {
             expID.setText("");
             expID.setEnabled(true);
-//            species.setSelectedIndex(0);
+            // species.setSelectedIndex(0);
             selectButton.setText("Browse files");
             uploadSelectedBtn.setVisible(true);
             uploadSelectedBtn.setText("Create with selected files");
             uploadButton.setText("Create with all files");
-        }else {
+        } else {
             uploadSelectedBtn.setVisible(false);
             selectButton.setText("Add files");
             uploadButton.setText("Save changes");
@@ -619,9 +619,9 @@ public class UploadToNewExpPanel extends JPanel implements ExperimentPanel {
             }
         } else {
             uploadSelectedBtn.setEnabled(false);
-            if(isNewExp){
+            if (isNewExp) {
                 uploadButton.setEnabled(false);
-            }else{
+            } else {
                 uploadButton.setEnabled(true);
             }
         }
@@ -667,15 +667,30 @@ public class UploadToNewExpPanel extends JPanel implements ExperimentPanel {
         return this.annotationFields;
     }
 
-    public void setExistingExp(ExperimentData ed){
+    /**
+     * Method that filles out the annotations fields with an existing
+     * experiments values. Used to edit an existing experiment.
+     * @param ed - Experiment to get annotations from
+     */
+    public void setExistingExp(ExperimentData ed) {
         expID.setText(ed.getName());
-        for(AnnotationDataValue data:ed.getAnnotations()){
-            annotationBoxes.get(data.getName()).setSelectedItem(data.getValue());
+        for (AnnotationDataValue data : ed.getAnnotations()) {
+            if (annotationBoxes.containsKey(data.getName())) {
+                annotationBoxes.get(data.getName()).setSelectedItem(
+                        data.getValue());
+            } else if (annotationFields.containsKey(data.getName())) {
+                annotationFields.get(data.getName()).setText(data.getValue());
+            }
+
         }
         expID.setEnabled(false);
     }
 
-    public boolean getIsNewExp(){
+    /**
+     * Returns the status if active experiment is a new experiment or existing
+     * @return
+     */
+    public boolean getIsNewExp() {
         return isNewExp;
     }
 }

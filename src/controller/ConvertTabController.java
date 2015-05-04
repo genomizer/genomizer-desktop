@@ -22,18 +22,18 @@ import util.GenomeReleaseData;
 import gui.CheckListItem;
 import gui.ConvertTab;
 import gui.DeleteDataWindow;
-import gui.GenomizerView;
+import gui.GUI;
 import gui.UploadTab;
 import gui.WorkspaceTab;
 import model.ErrorLogger;
 import model.GenomizerModel;
 
 public class ConvertTabController {
-    GenomizerView view;
+    GUI view;
     GenomizerModel model;
     private boolean deletedProcessFiles = false;
 
-    public ConvertTabController(GenomizerView view, GenomizerModel model,
+    public ConvertTabController(GUI view, GenomizerModel model,
             JFileChooser fileChooser) {
         this.view = view;
         this.model = model;

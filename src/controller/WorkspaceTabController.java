@@ -17,7 +17,6 @@ import util.FileData;
 import gui.ConvertTab;
 import gui.DeleteDataWindow;
 import gui.GUI;
-import gui.GenomizerView;
 import gui.UploadTab;
 import gui.WorkspaceTab;
 import model.ErrorLogger;

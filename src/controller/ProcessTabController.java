@@ -16,7 +16,6 @@ import util.GenomeReleaseData;
 import util.ProcessFeedbackData;
 import gui.CheckListItem;
 import gui.GUI;
-import gui.GenomizerView;
 import gui.ProcessTab;
 
 public class ProcessTabController {

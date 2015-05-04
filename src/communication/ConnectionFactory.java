@@ -1,7 +1,6 @@
 package communication;
 
 import gui.GUI;
-import gui.GenomizerView;
 
 // TODO: Helt on�dig och fel. F�ljer inte pattern. Ta bort?
 // ehh, test
@@ -26,7 +25,7 @@ public class ConnectionFactory {
         this.ip = ip;
     }
     
-    public void setGenomizerView(GenomizerView view) {
+    public void setGUI(GUI view) {
         this.view = (GUI) view;
     }
     
