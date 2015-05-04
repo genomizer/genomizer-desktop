@@ -66,7 +66,7 @@ public class ModelRealTest {
         }
         assertThat(m.search(expid + "[ExpID]")).isNull();
         assertThat(m.addNewExperiment(expid, values)).isTrue();
-        assertThat(m.uploadFile(expid, file, "Profile", "genomizer", false, "fb5")).isTrue();
+        assertThat(m.uploadFile(expid, file, "Profile", false, "fb5")).isTrue();
         ArrayList<ExperimentData> data = m.search(expid + "[ExpID]");
         assertThat(data).isNotNull();
         for (FileData fileData : data.get(0).files) {
