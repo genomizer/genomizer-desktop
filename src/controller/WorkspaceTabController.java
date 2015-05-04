@@ -29,7 +29,8 @@ public class WorkspaceTabController {
     private final JFileChooser fileChooser;
     private boolean abortDeletion;
 
-    public WorkspaceTabController(GenomizerView view, GenomizerModel model,
+
+    public WorkspaceTabController(GUI view, GenomizerModel model,
             JFileChooser fileChooser) {
         this.view = (GUI) view;
         this.model = model;

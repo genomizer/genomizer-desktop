@@ -18,7 +18,7 @@ public class DeleteDataWindow extends JFrame {
     /**
      * Constructor creating the login window and adding listeners.
      */
-    public DeleteDataWindow(final GenomizerView parent) {
+    public DeleteDataWindow(final GUI parent) {
         setTitle("Deleting data");
         setSize(200, 60);
         setResizable(false);

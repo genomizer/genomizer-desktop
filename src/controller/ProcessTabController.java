@@ -24,7 +24,7 @@ public class ProcessTabController {
     GenomizerModel model;
     private boolean deletedProcessFiles = false;
 
-    public ProcessTabController(GenomizerView view, GenomizerModel model) {
+    public ProcessTabController(GUI view, GenomizerModel model) {
         this.model = model;
         this.view = (GUI) view;
         ProcessTab processTab = view.getProcessTab();
