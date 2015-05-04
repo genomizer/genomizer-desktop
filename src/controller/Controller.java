@@ -4,7 +4,6 @@ package controller;
 
 import gui.DownloadWindow;
 import gui.GUI;
-import gui.GenomizerView;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
@@ -170,7 +169,7 @@ public class Controller {
 
         @Override
         public void run() {
-            model.setGenomizerView(view);
+            model.setGUI(view);
             model.setIP(view.getLoginWindow().getIPInput());
             SessionHandler.getInstance().setIP(
                     view.getLoginWindow().getIPInput());

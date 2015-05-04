@@ -13,7 +13,6 @@ import util.AnnotationDataValue;
 import util.ExperimentData;
 import util.GenomeReleaseData;
 import gui.GUI;
-import gui.GenomizerView;
 import gui.UploadTab;
 import gui.QueryBuilderRow;
 import gui.QuerySearchTab;

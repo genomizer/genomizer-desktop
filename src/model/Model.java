@@ -1,7 +1,7 @@
 package model;
 
 import gui.ErrorDialog;
-import gui.GenomizerView;
+import gui.GUI;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -152,8 +152,8 @@ public class Model implements GenomizerModel {
     }
 
     @Override
-    public void setGenomizerView(GenomizerView view) {
-        connFactory.setGenomizerView(view);
+    public void setGUI(GUI view) {
+        connFactory.setGUI(view);
     }
 
     @Override

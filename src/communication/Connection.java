@@ -1,7 +1,6 @@
 package communication;
 
 import gui.GUI;
-import gui.GenomizerView;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -48,14 +47,14 @@ public class Connection {
 
     /**
      * Constructs a new Connection object to a server with a given IP address,
-     * and a given GenomizerView
+     * and a given GUI
      *
      * @param ip
      *            the IP address
      * @param view
-     *            the GenomizerView
+     *            the GUI
      */
-    public Connection(String ip, GenomizerView view) {
+    public Connection(String ip, GUI view) {
         this.ip = ip;
         this.view = (GUI) view;
         responseBody = "";
