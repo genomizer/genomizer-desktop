@@ -3,6 +3,7 @@ package gui;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
@@ -12,11 +13,13 @@ import java.util.concurrent.CopyOnWriteArrayList;
 
 
 import javax.swing.BorderFactory;
+import javax.swing.ButtonGroup;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JPanel;
+import javax.swing.JRadioButton;
 import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
 import javax.swing.JTextField;
@@ -51,7 +54,7 @@ public class ConvertTab extends JPanel {
     private JLabel boldTextLabel;
     private JTextField experimentNameField;
   //  private JScrollPane uploadScroll;
-    private Dimension panelSize = new Dimension(200,80);
+    private Dimension panelSize = new Dimension(200,110);
     private ArrayList<ExperimentData> experimentData;
 
 
@@ -73,6 +76,18 @@ public class ConvertTab extends JPanel {
     private final JScrollPane scrollFiles = new JScrollPane();
     private ConvertTabController convertTabController;
 
+
+    public final JRadioButton cFromFASTQ = new JRadioButton("FASTQ");
+    public final JRadioButton cFromWIG = new JRadioButton("WIG");
+    public final JRadioButton cFromSGR = new JRadioButton("SGR");
+    public final JRadioButton cFromCHP = new JRadioButton("CHP");
+
+    public final JRadioButton cToWIG = new JRadioButton("WIG");
+    public final JRadioButton cToSGR = new JRadioButton("SGR");
+    public final JRadioButton cToGFF = new JRadioButton("GFF");
+    public final ButtonGroup radioGroupFrom = new ButtonGroup();
+    public final ButtonGroup radioGroupTo = new ButtonGroup();
+
     /**
      * Constructor creating a convert tab.
      */
@@ -90,11 +105,8 @@ public class ConvertTab extends JPanel {
         setupEmptySouthPanel();
         fileListSetCellRenderer();
 
-  //      setupEmptyDividerPanel();
-
-     //   uploadPanel = new JPanel(new BorderLayout());
-     //   uploadScroll = new JScrollPane(uploadPanel);
-     //   add(uploadScroll, BorderLayout.CENTER);
+        setRadioButtonListeners();
+        check();
 
         updateProgress();
 
@@ -103,35 +115,30 @@ public class ConvertTab extends JPanel {
 
     }
 
+    /**
+     *
+     */
+    private void setRadioButtonListeners() {
 
+        radioGroupFrom.add(cFromFASTQ);
+        radioGroupFrom.add(cFromSGR);
+        radioGroupFrom.add(cFromCHP);
+        radioGroupFrom.add(cFromWIG);
+        radioGroupFrom.setSelected(cFromFASTQ.getModel(), true);
+        radioGroupTo.add(cToWIG);
+        radioGroupTo.add(cToSGR);
+        radioGroupTo.add(cToGFF);
+        setRadioButtonListener(cFromFASTQ);
+        setRadioButtonListener(cFromWIG);
+        setRadioButtonListener(cFromCHP);
+        setRadioButtonListener(cFromSGR);
+        setRadioButtonListener(cToWIG);
+        setRadioButtonListener(cToSGR);
+        setRadioButtonListener(cToGFF);
 
+        disableCToRadiobuttons();
 
-//    private void addNewCheckListItemTest(){
-//
-//        ArrayList<CheckListItem> itemList = new ArrayList<CheckListItem>();
-//        FileData fildata = new FileData("a","a","a","a","a","a",true,"a","a","a","a","a");
-//        CheckListItem checksItem = new CheckListItem(fildata,"a","b","c");
-//        System.out.println("1");
-//
-//        itemList.add(checksItem);
-//        System.out.println("2");
-//        scrollFiles.setViewportView(fileList);
-//        System.out.println("3");
-//        CheckListItem[] checkList = itemList.toArray(new CheckListItem[itemList.size()]);
-//        System.out.println("4");
-//        fileList = new JList<CheckListItem>();
-//        fileList.setListData(checkList);
-//        System.out.println("5");
-//
-//        this.revalidate();
-//        this.repaint();
-//
-//
-//    }
-
-
-
-
+    }
 
 
 
@@ -189,15 +196,26 @@ public class ConvertTab extends JPanel {
 
     private void setupConvertFromPanel(){
         convertFromPanel = new JPanel();
+        convertFromPanel.setLayout(new GridLayout(0, 1, 0, 0));
         convertFromPanel.setPreferredSize(panelSize);
         convertFromPanel.setBorder(BorderFactory.createTitledBorder("Convert from"));
+
+        convertFromPanel.add(cFromFASTQ);
+        convertFromPanel.add(cFromSGR);
+        convertFromPanel.add(cFromCHP);
+        convertFromPanel.add(cFromWIG);
 
     }
 
     private void setupConvertToPanel(){
         convertToPanel = new JPanel();
+        convertToPanel.setLayout(new GridLayout(0, 1, 0, 0));
         convertToPanel.setPreferredSize(panelSize);
         convertToPanel.setBorder(BorderFactory.createTitledBorder("Convert to"));
+
+        convertToPanel.add(cToWIG);
+        convertToPanel.add(cToSGR);
+        convertToPanel.add(cToGFF);
     }
 
 
@@ -210,7 +228,7 @@ public class ConvertTab extends JPanel {
         selectedFilesPanel.setBorder(BorderFactory.createTitledBorder("selectedFilesPanel"));
         add(selectedFilesPanel, BorderLayout.CENTER);
 
-        scrollFiles.setPreferredSize(new Dimension(560,510));
+        scrollFiles.setPreferredSize(new Dimension(560,480));
         selectedFilesPanel.add(scrollFiles, BorderLayout.CENTER);
 
         scrollFiles.setViewportView(fileList);
@@ -244,88 +262,85 @@ public class ConvertTab extends JPanel {
         convertSelectedFiles.addActionListener(listener);
     }
 
-    /**
-     * Displays a panel for adding to an existing experiment.
-     *
-     * @param ed
-     *            The experiment data for the existing experiment.
-     */
-    public void addExistingExpPanel(ExperimentData ed) {
-        killContentsOfUploadPanel();
-        activePanel = ActivePanel.EXISTING;
- //       uploadToExistingExpPanel.build();
-  //      uploadToExistingExpPanel.addExistingExp(ed);
- //       uploadPanel.add(uploadToExistingExpPanel, BorderLayout.CENTER);
-        repaint();
-        revalidate();
-    }
 
     /**
-     * Displays a panel for creating a new experiment.
+     * Sets a button listener to a selected JRadioButton.
      *
-     * @param annotations
-     *            The available annotations at the server.
-     *
+     * @param radioButton
      */
-    public void addNewExpPanel(AnnotationDataType[] annotations) {
-        killContentsOfUploadPanel();
-        activePanel = ActivePanel.NEW;
-  //      uploadToNewExpPanel.createNewExpPanel(annotations);
-  //      uploadPanel.add(uploadToNewExpPanel, BorderLayout.CENTER);
-  //      newExps.add(uploadToNewExpPanel);
-        repaint();
-        revalidate();
+    public void setRadioButtonListener(JRadioButton radioButton) {
+        radioButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                check();
+            }
+        });
     }
 
 
 
-    /**
-     * Method returning a uploadToExistingExpPanel.
-     *
-     * @return a panel used when uploading file to a existing experiment.
-     */
-  //  public UploadToExistingExpPanel getExistExpPanel() {
-  //      return uploadToExistingExpPanel;
-  //  }
-
-
-    public boolean newExpStarted() {
-        return activePanel == ActivePanel.NEW;
-    }
-
 
     /**
-     * A method removing the components in the panels when one of them gets
-     * chosen by the user, to make sure the new components won't overlap and end
-     * up invisible. The method checks the Enum ActivePanel to check which panel
-     * was the active one.
+     * Checks which parameters should be enabled and set. Every button and
+     * textfield uses this method to be able to listen to eachothers events.
      */
-    public void killContentsOfUploadPanel() {
-        switch (activePanel) {
-            case NONE:
-                break;
-            case EXISTING:
-                repaint();
-                revalidate();
-                activePanel = ActivePanel.NONE;
-                break;
-            case NEW:
-                repaint();
-                revalidate();
-                activePanel = ActivePanel.NONE;
-                break;
+    private void check() {
+        /* Check if there are valid genome releases */
+        disableCToRadiobuttons();
+
+        if (cFromFASTQ.isSelected() && cFromFASTQ.isEnabled()) {
+            cToWIG.setEnabled(true);
+            cToSGR.setEnabled(true);
+
+            if(cToGFF.isSelected()){
+                cToWIG.setSelected(true);
+            }
+
         }
+
+        if (cFromWIG.isSelected() && cFromWIG.isEnabled()) {
+            cToGFF.setEnabled(true);
+
+            if(cToSGR.isSelected() || cToWIG.isSelected()){
+                cToGFF.setSelected(true);
+            }
+
+        }
+
+        if (cFromSGR.isSelected() && cFromSGR.isEnabled()) {
+            cToGFF.setEnabled(true);
+            cToWIG.setEnabled(true);
+
+            if(cToSGR.isSelected()){
+                cToWIG.setSelected(true);
+            }
+        }
+
+        if (cFromCHP.isSelected() && cFromCHP.isEnabled()) {
+            cToGFF.setEnabled(true);
+            cToWIG.setEnabled(true);
+
+            if(cToSGR.isSelected()){
+                cToWIG.setSelected(true);
+            }
+
+        }
+
+
+
     }
 
     /**
-     * Method setting the ongoing uploads.
-     *
-     * @param ongoingUploads
-     *            The uploads currently ongoing.
+     * Disables all the buttons and textfields in the process tab
      */
-    public void setOngoingUploads(
-            CopyOnWriteArrayList<HTTPURLUpload> ongoingUploads) {
-        this.ongoingUploads = ongoingUploads;
+    private void disableCToRadiobuttons() {
+        cToSGR.setEnabled(false);
+        cToGFF.setEnabled(false);
+        cToWIG.setEnabled(false);
+        cToSGR.setSelected(false);
+        cToGFF.setSelected(false);
+        cToWIG.setSelected(false);
+
     }
 
     /**
