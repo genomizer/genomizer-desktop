@@ -119,7 +119,6 @@ public class GUI extends JFrame {
     /**
      * adds a ChangeListener to the tabbedPane not used...? TODO unuseds
      * 
-     * @see gui.GenomizerView#addChangedTabListener(javax.swing.event.ChangeListener)
      */
     public void addChangedTabListener(ChangeListener listener) {
         tabbedPane.addChangeListener(listener);
@@ -128,7 +127,6 @@ public class GUI extends JFrame {
     /**
      * returns the index of the currently select item in the tabbed pane
      * 
-     * @see gui.GenomizerView#getSelectedIndex()
      */
     public int getSelectedIndex() {
         return tabbedPane.getSelectedIndex();
@@ -182,7 +180,6 @@ public class GUI extends JFrame {
      * Is run when the user has logged in, makes the GUI visible, hides the
      * loginWindow
      * 
-     * @see controller.Controller#LoginListener()
      * @param username
      *            the username the user logged in with
      * @param pwd
@@ -377,7 +374,6 @@ public class GUI extends JFrame {
     /**
      * displays the ratio popup
      * 
-     * @see gui.GenomizerView#showRatioPopup()
      */
     public void showRatioPopup() {
         ratioCalcPopup.setVisible(true);
@@ -386,7 +382,6 @@ public class GUI extends JFrame {
     /**
      * returns the RatioCalcPopup
      * 
-     * @see gui.GenomizerView#getRatioCalcPopup()
      */
     public RatioCalcPopup getRatioCalcPopup() {
         return this.ratioCalcPopup;
@@ -400,7 +395,6 @@ public class GUI extends JFrame {
     /**
      * TODO understand
      * 
-     * @see gui.GenomizerView#isCorrectToProcess()
      */
     public boolean isCorrectToProcess() {
         boolean sgrFormat = processTab.radioGroup
@@ -413,7 +407,6 @@ public class GUI extends JFrame {
     /**
      * TODO understand
      * 
-     * @see gui.GenomizerView#isRatioCorrectToProcess()
      */
     public boolean isRatioCorrectToProcess() {
         return !processTab.useRatio()
@@ -467,7 +460,6 @@ public class GUI extends JFrame {
     /**
      * returns the tabbedPane
      * 
-     * @see gui.GenomizerView#getTabbedPane()
      */
     public JTabbedPane getTabbedPane() {
         return tabbedPane;
