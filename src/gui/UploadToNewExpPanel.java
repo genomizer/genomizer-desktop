@@ -283,12 +283,16 @@ public class UploadToNewExpPanel extends JPanel implements ExperimentPanel {
         ArrayList<String> exists = new ArrayList<String>();
         exists.add("UniqueExpID");
         for (AnnotationDataType a : annotations) {
-            if ((annotationHeaders.contains(a.getName()))
-                    && ((a.getValues()[0].equalsIgnoreCase("freetext")) || (a
-                            .getValues().length == annotationBoxes.get(
-                            a.getName()).getItemCount()))) {
-                exists.add(a.getName());
-            } else {
+            if (annotationHeaders.contains(a.getName())){
+                if(a.getValues()[0].equalsIgnoreCase("freetext")){
+                    exists.add(a.getName());
+                }else if(annotationBoxes.containsKey(a.getName())){
+                    if (a.getValues().length == annotationBoxes.get(
+                            a.getName()).getItemCount()){
+                        exists.add(a.getName());
+                    }
+                }
+            }else {
                 JPanel p = new JPanel(new BorderLayout());
                 JLabel annotationLabel = null;
                 if (a.isForced()) {
