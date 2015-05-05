@@ -12,6 +12,9 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 
+import controller.ConvertTabController;
+import controller.UploadTabController;
+
 import util.ActivePanel;
 import util.AnnotationDataType;
 import util.ExperimentData;
@@ -32,6 +35,7 @@ public class UploadTab extends JPanel {
     private JLabel boldTextLabel;
     private JTextField experimentNameField;
     private JScrollPane uploadScroll;
+    private UploadTabController uploadTabController;
 
     /**Gets the UploadToNewExpPanel
      * @return the uploadToNewExpPanel
@@ -202,6 +206,13 @@ public class UploadTab extends JPanel {
         } else {
             uploadToNewExpPanel.setGenomeReleases(grd);
         }
+    }
+
+
+
+
+    public void setController(UploadTabController uploadTabController) {
+        this.uploadTabController = uploadTabController;
     }
 
     /**
