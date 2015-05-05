@@ -263,7 +263,7 @@ public class Model implements GenomizerModel {
             return true;
         } else {
             System.err
-                    .println("addAnnotaion FAILURE, did not recive 201 response");
+                    .println("addAnnotaion FAILURE, did not receive 201 response");
             // System.out.println("Response code: " + conn.getResponseCode() +
             // " "
             // + conn.getResponseBody());
@@ -318,7 +318,7 @@ public class Model implements GenomizerModel {
         conn.sendRequest(request, userID, JSON);
         if (conn.getResponseCode() == 200) {
             System.err.println("Annotation named " + deleteAnnoationData
-                    + " deleted succesfully");
+                    + " deleted successfully");
             return true;
         } else {
             System.err.println("Could not delete annotation name "
@@ -402,7 +402,7 @@ public class Model implements GenomizerModel {
                 if (upload.sendFile(userID)) {
 
                     System.out
-                            .println("Succefully added genome release file named "
+                            .println("Successfully added genome release file named "
                                     + files[i].getName() + ".");
 
                 } else {
@@ -562,7 +562,7 @@ public class Model implements GenomizerModel {
                     .getResponseBody());
         } else {
             JOptionPane.showMessageDialog(null,
-                    "Could not get genomespeciereleases!");
+                    "Could not get genome species releases!");
         }
 
         //
