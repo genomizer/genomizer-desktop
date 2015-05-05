@@ -110,9 +110,15 @@ public class Connection {
                 InputStream is = connection.getErrorStream();
                 if (is != null) {
                     fetchResponse(connection.getErrorStream());
-                    if(responseCode==400){
+
+                    //TODO Fixa så att man kan kasta meddelanden för alla koder >300
+                    if(responseCode==300){
                         throw new RequestException(responseCode, responseBody);
                     }
+                    if(responseCode==503){
+                        throw new RequestException(responseCode, responseBody);
+                    }
+
                 }
             } catch (IOException e1) {
                 ErrorLogger.log(e1);
