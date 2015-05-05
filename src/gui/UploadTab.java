@@ -59,7 +59,6 @@ public class UploadTab extends JPanel {
         expNamePanel = new JPanel();
         add(northPanel, BorderLayout.NORTH);
 
-        northPanel.add(new JLabel("Experiment name: "));
         experimentNameField = new JTextField();
         experimentNameField.setColumns(30);
         expNamePanel.add(experimentNameField);

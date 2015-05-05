@@ -124,9 +124,9 @@ public class UploadToNewExpPanel extends JPanel implements ExperimentPanel {
     public String getSelectedSpecies() {
 
         if (species != null) {
-            if (species.getSelectedItem() == null ){
+            if (species.getSelectedItem() == null) {
                 return "";
-            }else{
+            } else {
                 return species.getSelectedItem().toString();
             }
         } else {
@@ -272,7 +272,6 @@ public class UploadToNewExpPanel extends JPanel implements ExperimentPanel {
      */
     public void updateAnnotations(AnnotationDataType[] annotations) {
 
-
         if (!annotationHeaders.contains("UniqueExpID")) {
             JPanel exp = new JPanel(new BorderLayout());
             expNameLabel.setText("<html><b>Experiment ID</b></html>");
@@ -285,18 +284,18 @@ public class UploadToNewExpPanel extends JPanel implements ExperimentPanel {
         ArrayList<String> exists = new ArrayList<String>();
         exists.add("UniqueExpID");
         for (AnnotationDataType a : annotations) {
-            if (annotationHeaders.contains(a.getName())){
-                if(a.getValues()[0].equalsIgnoreCase("freetext")){
-
+            if (annotationHeaders.contains(a.getName())) {
+                if (a.getValues()[0].equalsIgnoreCase("freetext")) {
+                    annotationFields.get(a.getName()).setEnabled(true);
                     exists.add(a.getName());
 
-                }else if(annotationBoxes.containsKey(a.getName())){
+                } else if (annotationBoxes.containsKey(a.getName())) {
 
-                    JComboBox<String> currentBox = annotationBoxes.get(
-                            a.getName());
-
+                    JComboBox<String> currentBox = annotationBoxes.get(a
+                            .getName());
+                    currentBox.setEnabled(true);
                     // +1 for emty item.
-                    if (a.getValues().length +1  == currentBox.getItemCount()){
+                    if (a.getValues().length + 1 == currentBox.getItemCount()) {
                         exists.add(a.getName());
                     } else {
 
@@ -309,11 +308,10 @@ public class UploadToNewExpPanel extends JPanel implements ExperimentPanel {
                         for (String s : aCopy) {
                             currentBox.addItem(s);
                         }
-
                     }
 
                 }
-            }else {
+            } else {
                 JPanel p = new JPanel(new BorderLayout());
                 JLabel annotationLabel = null;
                 if (a.isForced()) {
@@ -392,7 +390,6 @@ public class UploadToNewExpPanel extends JPanel implements ExperimentPanel {
             }
             exists.remove(s);
         }
-
 
         buildAnnotationsMenu();
         this.annotations = annotations;
@@ -510,15 +507,14 @@ public class UploadToNewExpPanel extends JPanel implements ExperimentPanel {
         if (isNewExp) {
             expID.setText("");
             expID.setEnabled(true);
-            // species.setSelectedIndex(0);
             selectButton.setText("Browse files");
             uploadSelectedBtn.setVisible(true);
             uploadSelectedBtn.setText("Create with selected files");
             uploadButton.setText("Create with all files");
         } else {
             uploadSelectedBtn.setVisible(false);
-            selectButton.setText("Add files");
-            uploadButton.setText("Save changes");
+            selectButton.setText("Browse files");
+            uploadButton.setText("Upload files");
         }
     }
 
@@ -682,7 +678,8 @@ public class UploadToNewExpPanel extends JPanel implements ExperimentPanel {
             if (isNewExp) {
                 uploadButton.setEnabled(false);
             } else {
-                uploadButton.setEnabled(true);
+                // TODO Sätt till true när edit annotation är implementerat CF
+                uploadButton.setEnabled(false);
             }
         }
     }
@@ -730,7 +727,9 @@ public class UploadToNewExpPanel extends JPanel implements ExperimentPanel {
     /**
      * Method that filles out the annotations fields with an existing
      * experiments values. Used to edit an existing experiment.
-     * @param ed - Experiment to get annotations from
+     *
+     * @param ed
+     *            - Experiment to get annotations from
      */
     public void setExistingExp(ExperimentData ed) {
         expID.setText(ed.getName());
@@ -738,8 +737,12 @@ public class UploadToNewExpPanel extends JPanel implements ExperimentPanel {
             if (annotationBoxes.containsKey(data.getName())) {
                 annotationBoxes.get(data.getName()).setSelectedItem(
                         data.getValue());
+                // TODO Ta bort när edit annotation är implementerat
+                annotationBoxes.get(data.getName()).setEnabled(false);
             } else if (annotationFields.containsKey(data.getName())) {
                 annotationFields.get(data.getName()).setText(data.getValue());
+                // TODO Ta bort när edit annotation är implementerat
+                annotationFields.get(data.getName()).setEnabled(false);
             }
 
         }
@@ -748,6 +751,7 @@ public class UploadToNewExpPanel extends JPanel implements ExperimentPanel {
 
     /**
      * Returns the status if active experiment is a new experiment or existing
+     *
      * @return
      */
     public boolean getIsNewExp() {
