@@ -10,12 +10,15 @@ import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
 import javax.swing.JDialog;
+import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JRootPane;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.ScrollPaneConstants;
+import javax.swing.SwingUtilities;
 
 import responses.ResponseParser;
 
@@ -114,6 +117,7 @@ public class ErrorDialog extends JOptionPane {
     }
 
     private void buildButtonPanel() {
+
         JPanel buttonPanel = new JPanel(new FlowLayout());
         moreInfoButton = new JButton("More info");
         JButton okButton = new JButton("OK");
@@ -122,6 +126,8 @@ public class ErrorDialog extends JOptionPane {
         okButton.addActionListener(new OkButtonListener());
         moreInfoButton.addActionListener(new MoreButtonListener());
         bodyPanel.add(buttonPanel, BorderLayout.SOUTH);
+
+
     }
 
     /**
@@ -135,13 +141,10 @@ public class ErrorDialog extends JOptionPane {
         dialog.setTitle(title);
         dialog.setModal(true);
         dialog.setResizable(false);
-
         dialog.setContentPane(optionPane);
-
         dialog.setDefaultCloseOperation(JDialog.DO_NOTHING_ON_CLOSE);
         dialog.pack();
         dialog.setLocationRelativeTo(parentComponent);
-
         dialog.setVisible(true);
 
     }
@@ -175,7 +178,7 @@ public class ErrorDialog extends JOptionPane {
             }
             dialog.pack();
         }
-        
+
     }
 
 
