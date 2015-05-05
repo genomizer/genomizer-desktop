@@ -168,7 +168,7 @@ public class UploadToNewExpPanel extends JPanel implements ExperimentPanel {
                     genome.add(g.getVersion());
                 } catch (NullPointerException e) {
                     ErrorLogger.log(e);
-                    System.out.println("Couldn't find genome version.");
+                    ErrorLogger.log("Couldn't find genome version.");
                 }
             }
         }
@@ -271,6 +271,8 @@ public class UploadToNewExpPanel extends JPanel implements ExperimentPanel {
      * Method updating current annotations available at the server.
      */
     public void updateAnnotations(AnnotationDataType[] annotations) {
+
+
         if (!annotationHeaders.contains("UniqueExpID")) {
             JPanel exp = new JPanel(new BorderLayout());
             expNameLabel.setText("<html><b>Experiment ID</b></html>");
@@ -285,12 +287,31 @@ public class UploadToNewExpPanel extends JPanel implements ExperimentPanel {
         for (AnnotationDataType a : annotations) {
             if (annotationHeaders.contains(a.getName())){
                 if(a.getValues()[0].equalsIgnoreCase("freetext")){
+
                     exists.add(a.getName());
+
                 }else if(annotationBoxes.containsKey(a.getName())){
-                    if (a.getValues().length == annotationBoxes.get(
-                            a.getName()).getItemCount()){
+
+                    JComboBox<String> currentBox = annotationBoxes.get(
+                            a.getName());
+
+                    // +1 for emty item.
+                    if (a.getValues().length +1  == currentBox.getItemCount()){
                         exists.add(a.getName());
+                    } else {
+
+                        currentBox.removeAllItems();
+                        String[] aCopy = new String[a.getValues().length + 1];
+                        aCopy[0] = "";
+                        for (int i = 1; i <= a.getValues().length; i++) {
+                            aCopy[i] = a.getValues()[i - 1];
+                        }
+                        for (String s : aCopy) {
+                            currentBox.addItem(s);
+                        }
+
                     }
+
                 }
             }else {
                 JPanel p = new JPanel(new BorderLayout());

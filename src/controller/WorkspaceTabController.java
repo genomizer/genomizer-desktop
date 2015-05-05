@@ -28,16 +28,11 @@ public class WorkspaceTabController {
     private final JFileChooser fileChooser;
     private boolean abortDeletion;
 
-
     public WorkspaceTabController(GUI view, GenomizerModel model,
             JFileChooser fileChooser) {
         this.view = (GUI) view;
         this.model = model;
         this.fileChooser = fileChooser;
-
-
-
-
 
         WorkspaceTab workspaceTab = view.getWorkSpaceTab();
         workspaceTab.addDownloadFileListener(DownloadFileListener());
@@ -91,11 +86,16 @@ public class WorkspaceTabController {
                         }
 
                         for (FileData data : fileData) {
+                            File theDir = new File(directoryName + "/"
+                                    + data.expId + "/" + data.type);
 
-                            //TODO Lägga filen i olika datatypsmappar?
+                            if (!theDir.isDirectory()) {
+                                theDir.mkdirs();
+                            }
+                            // TODO Lägga filen i olika datatypsmappar?
                             model.downloadFile(data.url, data.id, directoryName
-                                    + "/" + data.filename,
-                                    data.filename);
+                                    + "/" + data.expId + "/" + data.type + "/"
+                                    + data.filename, data.filename);
                         }
                         view.getWorkSpaceTab().changeTab(1);
                     };
@@ -103,7 +103,6 @@ public class WorkspaceTabController {
             }
         };
     }
-
 
     public ActionListener ConvertFileListener() {
         return new ActionListener() {
@@ -113,7 +112,8 @@ public class WorkspaceTabController {
                     @Override
                     public void run() {
                         // TODO Skicka in filedata arrayen
-                        ArrayList<ExperimentData> selectedData = view.getWorkSpaceTab().getSelectedData();
+                        ArrayList<ExperimentData> selectedData = view
+                                .getWorkSpaceTab().getSelectedData();
                         ArrayList<FileData> selectedFiles = new ArrayList<>();
 
                         System.out.println();
@@ -184,11 +184,12 @@ public class WorkspaceTabController {
             public void actionPerformed(ActionEvent e) {
 
                 try {
-                    ExperimentData firstChosenExperiment = view.getWorkSpaceTab().getSelectedExperiments().get(0);
+                    ExperimentData firstChosenExperiment = view
+                            .getWorkSpaceTab().getSelectedExperiments().get(0);
                     ConvertTab ct = view.getConvertTab();
                     view.getTabbedPane().setSelectedComponent(ct);
-                  //  ct.getExperimentNameField().setText(firstChosenExperiment.getName());
-                   // ct.getExistingExpButton().doClick();
+                    // ct.getExperimentNameField().setText(firstChosenExperiment.getName());
+                    // ct.getExistingExpButton().doClick();
                 } catch (IndexOutOfBoundsException ee) {
                     ErrorLogger.log(ee);
                     JOptionPane.showMessageDialog(null,
