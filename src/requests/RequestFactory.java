@@ -154,9 +154,9 @@ public class RequestFactory {
     }
     
     public static AddGenomeReleaseRequest makeAddGenomeRelease(String[] files,
-            String species, String version) {
+            String species, String version, String[] fileCheckSumsMD5) {
         
-        return new AddGenomeReleaseRequest(files, species, version);
+        return new AddGenomeReleaseRequest(files, species, version, fileCheckSumsMD5);
     }
     
     public static RemoveFileFromExperimentRequest makeRemoveFileFromExperimentRequest(

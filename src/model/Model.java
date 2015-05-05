@@ -370,8 +370,22 @@ public class Model implements GenomizerModel {
             names[i] = files[i].getName();
         }
 
+        String[] fileCheckSumsMD5 = new String[filePaths.length];
+        for (int i = 0; i < filePaths.length; ++i) {
+            String checkSumMD5 = "";
+            try {
+                try (InputStream is = new FileInputStream(files[i])) {
+                    checkSumMD5 = DigestUtils.md5Hex(is);
+                }
+            }
+            catch (Exception ex) {
+                System.err.println("Couldn't calculate MD5 for file " + files[i]);
+            }
+            fileCheckSumsMD5[i] = checkSumMD5;
+        }
+
         AddGenomeReleaseRequest request = RequestFactory.makeAddGenomeRelease(
-                names, species, version);
+                names, species, version, fileCheckSumsMD5);
         Connection conn = connFactory.makeConnection();
         conn.sendRequest(request, userID, JSON);
         if (conn.getResponseCode() == 201) {
