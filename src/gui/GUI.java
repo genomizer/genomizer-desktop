@@ -443,6 +443,7 @@ public class GUI extends JFrame {
         WorkspaceTab wt = new WorkspaceTab();
         SysadminTab sat = new SysadminTab();
         QuerySearchTab qst = new QuerySearchTab();
+        ConvertTab ct = new ConvertTab();
         // TODO: Maybe analyse too (OO)
         
         // Set tabs
@@ -451,6 +452,7 @@ public class GUI extends JFrame {
         setProcessTab(pt);
         setWorkspaceTab(wt);
         setSysAdminTab(sat);
+        setConvertTab(ct);
         // Maybe analyse too (OO)
         
         repaint();
