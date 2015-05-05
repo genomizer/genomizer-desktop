@@ -23,6 +23,7 @@ import util.ExperimentData;
 import util.FileData;
 import gui.ConvertTab;
 import gui.DeleteDataWindow;
+import gui.ErrorDialog;
 import gui.GUI;
 import gui.UploadTab;
 import gui.WorkspaceTab;
@@ -99,7 +100,14 @@ public class WorkspaceTabController {
                                     + data.expId + "/" + data.type);
 
                             if (!theDir.isDirectory()) {
-                                theDir.mkdirs();
+                                if (!theDir.mkdirs()) {
+
+                                    new ErrorDialog("Download Failure",
+                                            "Couldn't Create Folders",
+                                            "mkdirs FAILURE\nNot possible to create directory"
+                                                    + theDir + "!")
+                                            .showDialog();
+                                }
                             }
                             // TODO L�gga filen i olika datatypsmappar?
                             model.downloadFile(data.url, data.id, directoryName
@@ -125,7 +133,6 @@ public class WorkspaceTabController {
                         ArrayList<ExperimentData> selectedData = view
                                 .getWorkSpaceTab().getSelectedData();
                         ArrayList<FileData> selectedFiles = new ArrayList<>();
-
 
                         for (ExperimentData experiment : selectedData) {
                             for (FileData file : experiment.files) {
@@ -318,7 +325,6 @@ public class WorkspaceTabController {
         Runnable task = new Runnable() {
             @Override
             public void run() {
-
 
                 JPanel ongoingDownloadsPanel = workspaceTab
                         .getOngoingDownloadsPanel();

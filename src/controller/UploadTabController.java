@@ -305,12 +305,12 @@ public class UploadTabController {
 
                                         //TODO Behövs nog inte
 
-//                                        JOptionPane.showMessageDialog(
-//                                                null,
-//                                                "Couldn't upload "
-//                                                        + f.getName() + ".",
-//                                                "Error",
-//                                                JOptionPane.ERROR_MESSAGE);
+                                        JOptionPane.showMessageDialog(
+                                                null,
+                                                "Couldn't upload "
+                                                        + f.getName() + ".",
+                                                "Error",
+                                                JOptionPane.ERROR_MESSAGE);
 
                                     }
                                 }
@@ -323,10 +323,10 @@ public class UploadTabController {
                             } else {
 
 //                                // TODO: Fix the error dialog?
-//                                new ErrorDialog("Couldn't create experiment",
-//                                        "The experiment " + expName
-//                                                + " could not be created.",
-//                                        "singdudeldej").showDialog();
+                                new ErrorDialog("Couldn't create experiment",
+                                        "The experiment " + expName
+                                                + " could not be created.",
+                                        "singdudeldej").showDialog();
 
                             }
                         }
@@ -375,6 +375,8 @@ public class UploadTabController {
                                             }
                                         }
                                     } else {
+
+                                        // TODO: Fixa era felmeddelanden!
                                         JOptionPane.showMessageDialog(
                                                 null,
                                                 "Couldn't upload "
@@ -389,16 +391,24 @@ public class UploadTabController {
                                 // experiment.
 
                                 // TODO: Here is status panel on other!
-                                JOptionPane.showMessageDialog(null,"Upload to the new " + "experiment \""
-                                        + expName + "\" complete");
+//                                JOptionPane.showMessageDialog(null,"Upload to the new " + "experiment \""
+//                                        + expName + "\" complete");
 
+                                String status = "Upload to new experiment \"" + expName + "\" complete.";
+                                view.setStatusPanel(status);
 
 
                             } else {
-                                JOptionPane.showMessageDialog(null,
-                                        "Couldn't create new experiment "
-                                                + expName + ".", "Error",
-                                        JOptionPane.ERROR_MESSAGE);
+//                                JOptionPane.showMessageDialog(null,
+//                                        "Couldn't create new experiment "
+//                                                + expName + ".", "Error",
+//                                        JOptionPane.ERROR_MESSAGE);
+
+//                              // TODO: Fix the error dialog?
+                              new ErrorDialog("Couldn't create new experiment",
+                                      "The experiment " + expName
+                                              + " could not be created.",
+                                      "singdudeldej").showDialog();
                             }
                         } else {
                             JOptionPane.showMessageDialog(null,
