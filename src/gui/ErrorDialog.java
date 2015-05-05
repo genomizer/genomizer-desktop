@@ -145,10 +145,7 @@ public class ErrorDialog extends JOptionPane {
         dialog.setModal(true);
         dialog.setResizable(false);
         dialog.setContentPane(optionPane);
-<<<<<<< HEAD
         dialog.addKeyListener(new DialogListener());
-=======
->>>>>>> branch 'Tesktop' of https://github.com/genomizer/genomizer-desktop.git
         dialog.setDefaultCloseOperation(JDialog.DO_NOTHING_ON_CLOSE);
         dialog.pack();
         dialog.setLocationRelativeTo(parentComponent);
