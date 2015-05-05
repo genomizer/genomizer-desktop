@@ -10,12 +10,14 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.Random;
 
 import javax.swing.JFileChooser;
 import javax.swing.JList;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
+import util.AudioPlayer;
 import util.ExperimentData;
 import util.FileData;
 import util.GenomeReleaseData;
@@ -79,7 +81,10 @@ public class ConvertTabController {
                 new Thread() {
                     @Override
                     public void run() {
-
+                        Random r = new Random();
+                        if(r.nextInt(10) == 3) {
+                            AudioPlayer.playSound("kenneth.wav");
+                        }
                         ArrayList<FileData> markedFiles = view.getConvertTab().getAllMarkedFiles();
 
                         ArrayList<ExperimentData> exData = view.getConvertTab().getFileInfo();

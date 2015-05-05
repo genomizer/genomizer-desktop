@@ -112,7 +112,7 @@ public class Connection {
                     fetchResponse(connection.getErrorStream());
 
                     //TODO Fixa så att man kan kasta meddelanden för alla koder >300
-                    if(responseCode==300){
+                    if(responseCode==400){
                         throw new RequestException(responseCode, responseBody);
                     }
                     if(responseCode==503){
