@@ -292,6 +292,8 @@ public class UploadTabController {
                                         // TODO: Decide whether to refresh this
                                         // view part -
                                         // view.getQuerySearchTab().refresh();
+
+
                                     } else {
 
                                         JOptionPane.showMessageDialog(
@@ -303,6 +305,10 @@ public class UploadTabController {
 
                                     }
                                 }
+
+                                JOptionPane.showMessageDialog(null,
+                                        "Upload to the new " + "experiment \""
+                                                + expName + "\" complete");
                             } else {
 
 //                                // TODO: Fix the error dialog?
