@@ -55,6 +55,7 @@ public class UpdaterModel {
 
         Connection conn = connFactory.makeConnection();
 
+
         try {
             conn.sendRequest(request, User.getInstance().getToken(),
                     Constants.JSON);
