@@ -267,8 +267,10 @@ public class UploadTabController {
                                 created = model.addNewExperiment(expName,
                                         annotations);
                             } else {
-                                created = model.changeExperiment(expName,
-                                        annotations);
+                                //TODO Ska användas när edit annot implementerats
+//                                created = model.changeExperiment(expName,
+//                                        annotations);
+                                created = true;
                             }
 
                             if (created) {
