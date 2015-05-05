@@ -19,6 +19,7 @@ import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JList;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.JScrollPane;
@@ -107,6 +108,8 @@ public class ConvertTab extends JPanel {
 
         setButtonListeners();
         check();
+        
+        
     }
 
     /**
@@ -244,14 +247,11 @@ public class ConvertTab extends JPanel {
 
     }
 
-
     private void setupEmptySouthPanel() {
         emptySouthPanel = new JPanel();
         emptySouthPanel.setPreferredSize(new Dimension(1225,30));
         add(emptySouthPanel,BorderLayout.SOUTH);
     }
-
-
 
     public void deleteSelectedButtonListener(ActionListener listener) {
         deleteSelectedFiles.addActionListener(listener);
@@ -297,7 +297,7 @@ public class ConvertTab extends JPanel {
      * Checks which parameters should be enabled and set. Every button and
      * textfield uses this method to be able to listen to eachothers events.
      */
-    private void check() {
+    public void check() {
         /* Check if there are valid genome releases */
         disableCToRadiobuttons();
 
@@ -349,6 +349,8 @@ public class ConvertTab extends JPanel {
 
             }
     }
+
+
 
     public ArrayList<String> getPossibleConvertFromFileTypes(){
         ArrayList<String> fileTypeList = new ArrayList<String>();
@@ -445,6 +447,8 @@ public class ConvertTab extends JPanel {
 
         ArrayList<CheckListItem> itemList = new ArrayList<CheckListItem>();
         String specie = "";
+        String fileName;
+        String fileType;
 
         for (ExperimentData exData : experimentData) {
             for (FileData fileData : exData.files) {
@@ -454,11 +458,23 @@ public class ConvertTab extends JPanel {
                         break;
                     }
                 }
-                itemList.add(new CheckListItem(fileData, fileData.filename,
-                        fileData.id, specie));
+                
+                fileName = fileData.filename.toUpperCase();
+                fileType = fileName.substring(fileName.lastIndexOf(".") + 1);
+                
+                if(getPossibleConvertFromFileTypes().contains(fileType)){
+                    itemList.add(new CheckListItem(fileData, fileData.filename,
+                            fileData.id, specie));
+                }
+
             }
         }
         fileList.setListData(itemList.toArray(new CheckListItem[itemList.size()]));
+        if(fileList.getModel().getSize() == 0){
+            JOptionPane.showMessageDialog(null,"No matching filetypes. \nPossible types to convert: \n" + 
+                    getPossibleConvertFromFileTypes().toString());
+        }
+
         this.revalidate();
         this.repaint();
     }
