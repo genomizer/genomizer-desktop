@@ -27,14 +27,14 @@ public class Controller {
     private GenomizerModel model;
     private final JFileChooser fileChooser = new JFileChooser();
     private boolean runonce;
-    
+
     public Controller(GUI view, GenomizerModel model) {
         this.view = view;
         this.model = model;
         updateView();
         runonce = true;
     }
-    
+
     /**
      * Update **ALL** the actionlisteners in the whole wide gui.
      */
@@ -45,54 +45,55 @@ public class Controller {
         tabbedPaneUpdate();
         // unimplementedUpdate();
     }
-    
+
     /**
      * Update all the actionlisteners in the tabs.
      */
     public void updateTabs() {
-        QuerySearchTabController querySearchTabController = new QuerySearchTabController(
-                view, model);
+
+        QuerySearchTabController querySearchTabController = new QuerySearchTabController(view, model);
         view.getQuerySearchTab().setController(querySearchTabController);
-        ProcessTabController processTabController = new ProcessTabController(
-                view, model);
+
+        ProcessTabController processTabController = new ProcessTabController(view, model);
         view.getProcessTab().setController(processTabController);
-        WorkspaceTabController workspaceTabController = new WorkspaceTabController(
-                view, model, fileChooser);
+
+        WorkspaceTabController workspaceTabController = new WorkspaceTabController(view, model, fileChooser);
         view.getWorkSpaceTab().setController(workspaceTabController);
-        UploadTabController uploadTabController = new UploadTabController(
-                view.getUploadTab(), model, fileChooser);
+
+        UploadTabController uploadTabController = new UploadTabController(view, model, fileChooser);
+        view.getUploadTab().setController(uploadTabController);
+
         SysadminController sysadminTabController = new SysadminController(model);
         view.getSysAdminTab().setController(sysadminTabController);
-        
-        ConvertTabController convertTabController = new ConvertTabController(
-                view, model, fileChooser);
+
+        ConvertTabController convertTabController = new ConvertTabController(view, model, fileChooser);
         view.getConvertTab().setController(convertTabController);
-        
+
         sysadminTabController.updateAnnotationTable();
         sysadminTabController.updateGenomeReleaseTab();
     }
-    
+
     /**
      * Update the tabbed-pane listeners
      */
     private void tabbedPaneUpdate() {
         view.addChangedTabListener(ChangedTabListener());
     }
-    
+
     /**
      * Update the loginWindow listeners
      */
     private void loginWindowUpdate() {
         view.getLoginWindow().addLoginListener(LoginListener());
     }
-    
+
     /**
      * Update the userPanel listeners
      */
     private void userPanelUpdate() {
         view.addLogoutListener(LogoutListener());
     }
-    
+
     /**
      * Update the ratioCalcWindow listeners
      */
@@ -100,11 +101,11 @@ public class Controller {
         view.getRatioCalcPopup().addOkListener(OkListener());
         view.getProcessTab().addRatioCalcListener(RatioCalcListener());
     }
-    
+
     /**
      * Listener for when tabs are changed. Will for some tabs perform automatic
      * updates.
-     * 
+     *
      * TODO: separate view from Thread
      */
     public ChangeListener ChangedTabListener() {
@@ -131,7 +132,7 @@ public class Controller {
             }
         };
     }
-    
+
     /**
      * Listener to convert files. Should convert files between different
      * formats. TODO: Not completed.
@@ -149,10 +150,10 @@ public class Controller {
             }
         };
     }
-    
+
     /**
      * The listener to create region data, TODO: Not completed at all
-     * 
+     *
      * @author c11ann
      */
     public ActionListener RawToRegionDataListener() {
@@ -169,7 +170,7 @@ public class Controller {
             }
         };
     }
-    
+
     /**
      * Listen to the login button. Will send the entered name and password, and
      * if accepted update view. TODO: Move view bits from Thread
@@ -215,7 +216,7 @@ public class Controller {
             }
         };
     }
-    
+
     /**
      * Listen to the logout button. Will call logout and reset methods of the
      * model, and also update and reset view. (Because of this also reset
@@ -248,11 +249,11 @@ public class Controller {
             }
         };
     }
-    
+
     /**
      * Listener for when the download button in workspace is clicked. Opens a
      * DownloadWindow with the selected files.
-     * 
+     *
      * TODO: separate view parts from Thread. Move to correct tab controller?
      */
     public ActionListener DownloadWindowListener() {
@@ -283,7 +284,7 @@ public class Controller {
             }
         };
     }
-    
+
     /**
      * Show the ratioCalc popup. TODO: Remove Thread
      */
@@ -295,7 +296,7 @@ public class Controller {
             }
         };
     }
-    
+
     /**
      * Listen to the OK button in the ratioCalc popup. Will hide the window.
      */
@@ -304,7 +305,7 @@ public class Controller {
             @Override
             public void actionPerformed(ActionEvent e) {
                 // TODO: Should OK do something more?
-                
+
                 view.getRatioCalcPopup().hideRatioWindow();
             }
         };

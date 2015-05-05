@@ -20,10 +20,10 @@ import gui.sysadmin.annotationview.AnnotationButtonsListener;
 
 public class QuerySearchTabController {
     GUI view;
-    
+
     GenomizerModel model;
     private QuerySearchTab querySearchTab;
-    
+
     public QuerySearchTabController(GUI view, GenomizerModel model) {
         this.view = (GUI) view;
         this.querySearchTab = view.getQuerySearchTab();
@@ -40,32 +40,32 @@ public class QuerySearchTabController {
         // view.addSearchToWorkspaceListener( SearchToWorkspaceListener());
         querySearchTab.addUploadToListener(SearchUploadToListener());
         // view.addUploadToListenerSearchTab( SearchUploadToListener());
-        
+
     }
-    
+
     public ActionListener createClearButtonListener() {
         return new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                
+
                 querySearchTab.clearSearchFields();
             }
         };
     }
-    
+
     public ActionListener createManualEditButtonListener() {
         return new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 querySearchTab.getSearchArea().setEditable(true);
-                
+
                 for (QueryBuilderRow row : querySearchTab.getRowList()) {
                     row.setEnabled(false);
                 }
             }
         };
     }
-    
+
     // En uploadlistener som körs när upload knappen trycks i search-taben
     public ActionListener SearchUploadToListener() {
         return new ActionListener() {
@@ -74,7 +74,7 @@ public class QuerySearchTabController {
                 try {
                     ExperimentData firstChosenExperiment = view
                             .getQuerySearchTab().getSelectedData().get(0);
-                    
+
                     UploadTab ut = view.getUploadTab();
                     view.getTabbedPane().setSelectedComponent(ut);
                     ut.getExperimentNameField().setText(
@@ -88,20 +88,20 @@ public class QuerySearchTabController {
             }
         };
     }
-    
+
     public ActionListener createQueryBuilderButtonListener() {
         return new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 querySearchTab.getSearchArea().setEditable(false);
-                
+
                 for (QueryBuilderRow row : querySearchTab.getRowList()) {
                     row.setEnabled(true);
                 }
             }
         };
     }
-    
+
     public ActionListener createBackButtonListener() {
         return new ActionListener() {
             @Override
@@ -110,7 +110,7 @@ public class QuerySearchTabController {
             }
         };
     }
-    
+
     public ActionListener SearchButtonListener() {
         return new ActionListener() {
             @Override
@@ -120,6 +120,9 @@ public class QuerySearchTabController {
                     public void run() {
                         String pubmed = view.getQuerySearchTab()
                                 .getSearchString();
+                        if(pubmed.isEmpty()) {
+                            pubmed = "[ExpID]";
+                        }
                         ArrayList<ExperimentData> searchResults = model
                                 .search(pubmed);
                         if (searchResults != null) {
@@ -131,7 +134,7 @@ public class QuerySearchTabController {
                             JOptionPane.showMessageDialog(null,
                                     "No search results!", "Search Warning",
                                     JOptionPane.WARNING_MESSAGE);
-                            
+
                             // If search results are null and the active panel
                             // is table
                         } else if (view.getQuerySearchTab().getActivePanel() == ActiveSearchPanel.TABLE) {
@@ -144,7 +147,7 @@ public class QuerySearchTabController {
             }
         };
     }
-    
+
     public ActionListener updateAnnotationsListener() {
         return new ActionListener() {
             @Override
@@ -158,13 +161,13 @@ public class QuerySearchTabController {
                             view.getQuerySearchTab().setAnnotationTypes(
                                     annotations);
                         }
-                        
+
                     };
                 }.start();
             }
         };
     }
-    
+
     public ActionListener SearchToWorkspaceListener() {
         return new ActionListener() {
             @Override
@@ -184,9 +187,9 @@ public class QuerySearchTabController {
                         view.getQuerySearchTab().clearSearchSelection();
                     };
                 }.start();
-                
+
             }
         };
     }
-    
+
 }
