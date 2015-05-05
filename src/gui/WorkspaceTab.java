@@ -41,6 +41,10 @@ import controller.WorkspaceTabController;
 public class WorkspaceTab extends JPanel {
 
     private static final long serialVersionUID = -7278768268151806081L;
+
+    public static final int DOWNLOADTABNUMBER = 1;
+
+
     private TreeTable table;
     private JPanel buttonPanel;
     private JButton deleteButton, removeButton, downloadButton;
@@ -181,7 +185,7 @@ public class WorkspaceTab extends JPanel {
                                     && handler.getTotalSize() > 0) {
                                 JPanel downloadPanel = new JPanel(
                                         new BorderLayout());
-                                double speed = handler.getCurrentSpeed() / 1024 / 2014;
+                                double speed = handler.getCurrentSpeed() / 1024.0 / 2014.0;
 
                                 JProgressBar progress = new JProgressBar(0,
                                         handler.getTotalSize());
@@ -359,7 +363,7 @@ public class WorkspaceTab extends JPanel {
      *         selected data in the workspace in the form of an arrayList
      *         containing the ExperimentData.
      */
-    
+
     public ArrayList<ExperimentData> getSelectedData() {
         return table.getSelectedData();
     }

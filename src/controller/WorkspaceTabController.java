@@ -97,7 +97,7 @@ public class WorkspaceTabController {
                                     + "/" + data.expId + "/" + data.type + "/"
                                     + data.filename, data.filename);
                         }
-                        view.getWorkSpaceTab().changeTab(1);
+                        view.getWorkSpaceTab().changeTab(WorkspaceTab.DOWNLOADTABNUMBER);
                     };
                 }.start();
             }
