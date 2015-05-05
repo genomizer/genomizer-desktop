@@ -92,7 +92,7 @@ public class WorkspaceTabController {
                             if (!theDir.isDirectory()) {
                                 theDir.mkdirs();
                             }
-                            // TODO Lägga filen i olika datatypsmappar?
+                            // TODO Lï¿½gga filen i olika datatypsmappar?
                             model.downloadFile(data.url, data.id, directoryName
                                     + "/" + data.expId + "/" + data.type + "/"
                                     + data.filename, data.filename);
@@ -116,7 +116,7 @@ public class WorkspaceTabController {
                                 .getWorkSpaceTab().getSelectedData();
                         ArrayList<FileData> selectedFiles = new ArrayList<>();
 
-                        System.out.println();
+                        
                         for (ExperimentData experiment : selectedData) {
                             for (FileData file : experiment.files) {
                                 if (!selectedFiles.contains(file)) {
@@ -124,6 +124,7 @@ public class WorkspaceTabController {
                                 }
                             }
                         }
+                        
                         view.setConvertFileList(selectedFiles);
                     };
                 }.start();
@@ -187,7 +188,9 @@ public class WorkspaceTabController {
                     ExperimentData firstChosenExperiment = view
                             .getWorkSpaceTab().getSelectedExperiments().get(0);
                     ConvertTab ct = view.getConvertTab();
+                    
                     view.getTabbedPane().setSelectedComponent(ct);
+                    
                     // ct.getExperimentNameField().setText(firstChosenExperiment.getName());
                     // ct.getExistingExpButton().doClick();
                 } catch (IndexOutOfBoundsException ee) {
