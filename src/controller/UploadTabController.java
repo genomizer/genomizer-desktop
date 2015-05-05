@@ -30,7 +30,7 @@ public class UploadTabController {
     private final UploadTab uploadTab;
     private final JFileChooser fileChooser;
     GUI view;
-    
+
 
     public UploadTabController(GUI view, GenomizerModel model, JFileChooser fileChooser) {
         this.view = view;
@@ -195,7 +195,7 @@ public class UploadTabController {
                                     view.setStatusPanel(status);
                                     JOptionPane.showMessageDialog(
                                             null,status);
-                                    
+
                                     // TODO: Decide whether to refresh this view
                                     // part -
                                     // view.getQuerySearchTab().refresh();
@@ -303,21 +303,23 @@ public class UploadTabController {
 
                                     } else {
 
-                                        JOptionPane.showMessageDialog(
-                                                null,
-                                                "Couldn't upload "
-                                                        + f.getName() + ".",
-                                                "Error",
-                                                JOptionPane.ERROR_MESSAGE);
+                                        //TODO Behövs nog inte
+
+//                                        JOptionPane.showMessageDialog(
+//                                                null,
+//                                                "Couldn't upload "
+//                                                        + f.getName() + ".",
+//                                                "Error",
+//                                                JOptionPane.ERROR_MESSAGE);
 
                                     }
                                 }
-                                
+
                                 String status = "Upload to experiment \"" + expName + "\" complete.";
                                 view.setStatusPanel(status);
 
                                 //JOptionPane.showMessageDialog(null,status);
-                                
+
                             } else {
 
 //                                // TODO: Fix the error dialog?
@@ -385,12 +387,12 @@ public class UploadTabController {
                                 }
                                 // Shown when all files have been uploaded to
                                 // experiment.
-                                
+
                                 JOptionPane.showMessageDialog(null,"Upload to the new " + "experiment \""
                                         + expName + "\" complete");
-                                
-                                
-                                
+
+
+
                             } else {
                                 JOptionPane.showMessageDialog(null,
                                         "Couldn't create new experiment "
