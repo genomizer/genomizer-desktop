@@ -12,15 +12,12 @@ import java.awt.event.KeyListener;
 
 import javax.swing.JButton;
 import javax.swing.JDialog;
-import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-import javax.swing.JRootPane;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.ScrollPaneConstants;
-import javax.swing.SwingUtilities;
 
 import responses.ResponseParser;
 
@@ -145,7 +142,6 @@ public class ErrorDialog extends JOptionPane {
         dialog.setModal(true);
         dialog.setResizable(false);
         dialog.setContentPane(optionPane);
-        dialog.addKeyListener(new DialogListener());
         dialog.setDefaultCloseOperation(JDialog.DO_NOTHING_ON_CLOSE);
         dialog.pack();
         dialog.setLocationRelativeTo(parentComponent);
@@ -155,32 +151,6 @@ public class ErrorDialog extends JOptionPane {
 
     public static void setParentComponent(Component parentComponent) {
         ErrorDialog.parentComponent = parentComponent;
-    }
-
-    private class DialogListener implements KeyListener {
-
-        @Override
-        public void keyTyped(KeyEvent e) {
-            // TODO Auto-generated method stub
-
-        }
-
-        @Override
-        public void keyPressed(KeyEvent e) {
-            System.out.println(e.getKeyCode());
-            if (e.getKeyCode() == KeyEvent.VK_ENTER) {
-                System.out.println("ENTER!");
-                okButton.doClick();
-            }
-
-        }
-
-        @Override
-        public void keyReleased(KeyEvent e) {
-            // TODO Auto-generated method stub
-
-        }
-
     }
 
     private class OkButtonListener implements ActionListener {
