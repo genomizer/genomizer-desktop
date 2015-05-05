@@ -130,7 +130,7 @@ public class ExperimentData {
 
     public void testFileSioze() {
         for (int i = 0; i < files.size(); i++) {
-            files.get(i).fileSize = FileSizeFormatter.convertByteToString(547);
+            files.get(i).fileSize = FileSizeFormatter.convertByteToString(999999);
         }
     }
 

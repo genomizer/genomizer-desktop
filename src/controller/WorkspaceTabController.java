@@ -126,7 +126,7 @@ public class WorkspaceTabController {
                                 .getWorkSpaceTab().getSelectedData();
                         ArrayList<FileData> selectedFiles = new ArrayList<>();
 
-                        
+
                         for (ExperimentData experiment : selectedData) {
                             for (FileData file : experiment.files) {
                                 if (!selectedFiles.contains(file)) {
@@ -134,7 +134,7 @@ public class WorkspaceTabController {
                                 }
                             }
                         }
-                        
+
                         view.setConvertFileList(selectedFiles);
                     };
                 }.start();
@@ -198,9 +198,9 @@ public class WorkspaceTabController {
                     ExperimentData firstChosenExperiment = view
                             .getWorkSpaceTab().getSelectedExperiments().get(0);
                     ConvertTab ct = view.getConvertTab();
-                    
+
                     view.getTabbedPane().setSelectedComponent(ct);
-                    
+
                     // ct.getExperimentNameField().setText(firstChosenExperiment.getName());
                     // ct.getExistingExpButton().doClick();
                 } catch (IndexOutOfBoundsException ee) {
@@ -319,7 +319,6 @@ public class WorkspaceTabController {
             @Override
             public void run() {
 
-//                System.out.println("TICK: " + Thread.currentThread());
 
                 JPanel ongoingDownloadsPanel = workspaceTab
                         .getOngoingDownloadsPanel();

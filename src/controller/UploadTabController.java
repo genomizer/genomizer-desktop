@@ -388,6 +388,7 @@ public class UploadTabController {
                                 // Shown when all files have been uploaded to
                                 // experiment.
 
+                                // TODO: Here is status panel on other!
                                 JOptionPane.showMessageDialog(null,"Upload to the new " + "experiment \""
                                         + expName + "\" complete");
 
@@ -448,6 +449,9 @@ public class UploadTabController {
         Runnable task = new Runnable() {
             @Override
             public void run() {
+
+//                System.out.println("TICK: " + Thread.currentThread());
+
                 for (File key : uploadTab.getNewExpPanel().getFileRows()
                         .keySet()) {
                     UploadFileRow row = uploadTab.getNewExpPanel()

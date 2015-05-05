@@ -13,6 +13,7 @@ import javax.swing.event.ChangeListener;
 import model.ErrorLogger;
 import model.GenomizerModel;
 import model.SessionHandler;
+import model.User;
 import util.AnnotationDataType;
 import util.ExperimentData;
 import util.FileData;
@@ -114,16 +115,23 @@ public class Controller {
                 new Thread() {
                     @Override
                     public void run() {
+
+                        // If logged out
+                        if (User.getInstance().getToken() == "") return;
+
                         AnnotationDataType[] a;
                         if (view.getSelectedIndex() == 1) {
+                            // uplod
                             if (((a = model.getAnnotations()) != null)
                                     && view.getUploadTab().newExpStarted()) {
                                 view.getUploadTab().getNewExpPanel()
                                         .updateAnnotations(a);
                             }
                         } else if (view.getSelectedIndex() == 0) {
+                            // Query
                             if ((a = model.getAnnotations()) != null) {
                                 view.getQuerySearchTab().setAnnotationTypes(a);
+                                view.getQuerySearchTab().refresh();
                             }
                         }
                     };
