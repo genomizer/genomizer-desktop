@@ -57,7 +57,7 @@ public class Controller {
         view.getProcessTab().setController(processTabController);
 
         WorkspaceTabController workspaceTabController = new WorkspaceTabController(view, model, fileChooser);
-        view.getWorkSpaceTab().setController(workspaceTabController);
+
 
         UploadTabController uploadTabController = new UploadTabController(view, model, fileChooser);
         view.getUploadTab().setController(uploadTabController);

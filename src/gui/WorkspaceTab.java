@@ -53,9 +53,7 @@ public class WorkspaceTab extends JPanel {
     private JPanel ongoingDownloadsPanel;
     private JPanel bottomPanel;
     private JPanel filePanel;
-    private CopyOnWriteArrayList<DownloadHandler> ongoingDownloads;
     private JScrollPane bottomScroll;
-    private WorkspaceTabController workspaceTabController;
 
     /**
      * Constructor creating the workspace tab.
@@ -77,7 +75,6 @@ public class WorkspaceTab extends JPanel {
         bottomPanel.add(ongoingDownloadsPanel, BorderLayout.NORTH);
         add(buttonPanel, BorderLayout.NORTH);
         setTabbedPane();
-        updateOngoingDownloadsPanel();
         setVisible(true);
     }
 
@@ -127,16 +124,6 @@ public class WorkspaceTab extends JPanel {
         convertButton.setPreferredSize(new Dimension(150, 40));
     }
 
-    /**
-     * Method setting the ongoing downloads.
-     *
-     * @param ongoingDownloads
-     *            An array with the current ongoing downloads.
-     */
-    public void setOngoingDownloads(
-            CopyOnWriteArrayList<DownloadHandler> ongoingDownloads) {
-        this.ongoingDownloads = ongoingDownloads;
-    }
 
     /**
      * Method adding the buttons to the button panel.
@@ -166,95 +153,6 @@ public class WorkspaceTab extends JPanel {
 
     }
 
-    /**
-     * Method updating the current ongoing downloads.
-     */
-    private void updateOngoingDownloadsPanel() {
-        final CopyOnWriteArrayList<DownloadHandler> completedDownloads = new CopyOnWriteArrayList<DownloadHandler>();
-
-        // TODO: When is this thread stopped? also wrong thread
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                boolean running = true;
-                while (running) {
-                    ongoingDownloadsPanel.removeAll();
-                    if (ongoingDownloads != null) {
-                        for (final DownloadHandler handler : ongoingDownloads) {
-                            if (!handler.isFinished()
-                                    && handler.getTotalSize() > 0) {
-                                JPanel downloadPanel = new JPanel(
-                                        new BorderLayout());
-                                double speed = handler.getCurrentSpeed() / 1024.0 / 2014.0;
-
-                                JProgressBar progress = new JProgressBar(0,
-                                        handler.getTotalSize());
-                                progress.setValue(handler.getCurrentProgress());
-                                progress.setStringPainted(true);
-                                JButton stopButton = new JButton("X");
-                                stopButton
-                                        .addActionListener(new ActionListener() {
-                                            @Override
-                                            public void actionPerformed(
-                                                    ActionEvent e) {
-                                                ongoingDownloads
-                                                        .remove(handler);
-                                            }
-                                        });
-                                downloadPanel
-                                        .add(progress, BorderLayout.CENTER);
-                                downloadPanel
-                                        .add(stopButton, BorderLayout.EAST);
-                                downloadPanel.add(
-                                        new JLabel(handler.getFileName() + " ("
-                                                + Math.round(speed * 100.0)
-                                                / 100.0 + "MiB/s)"),
-                                        BorderLayout.NORTH);
-                                ongoingDownloadsPanel.add(downloadPanel);
-                            } else {
-                                if (handler.isFinished()) {
-                                    completedDownloads.add(handler);
-                                }
-                                ongoingDownloads.remove(handler);
-                            }
-                        }
-
-                    }
-                    for (final DownloadHandler handler : completedDownloads) {
-                        JPanel completedDownloadPanel = new JPanel(
-                                new BorderLayout());
-                        JProgressBar progress = new JProgressBar(0, 100);
-                        progress.setValue(100);
-                        progress.setStringPainted(true);
-                        JButton stopButton = new JButton("X");
-                        stopButton.addActionListener(new ActionListener() {
-                            @Override
-                            public void actionPerformed(ActionEvent e) {
-                                completedDownloads.remove(handler);
-                            }
-                        });
-                        completedDownloadPanel.add(progress,
-                                BorderLayout.CENTER);
-                        completedDownloadPanel.add(stopButton,
-                                BorderLayout.EAST);
-                        completedDownloadPanel.add(
-                                new JLabel("<html><b>Completed: </b>"
-                                        + handler.getFileName() + "</html>"),
-                                BorderLayout.NORTH);
-                        ongoingDownloadsPanel.add(completedDownloadPanel);
-                    }
-                    ongoingDownloadsPanel.revalidate();
-                    ongoingDownloadsPanel.repaint();
-                    try {
-                        Thread.sleep(100);
-                    } catch (InterruptedException e) {
-                        ErrorLogger.log(e);
-                        running = false;
-                    }
-                }
-            }
-        }).start();
-    }
 
     /**
      * Returns an ImageIcon, or null if the path was invalid.
@@ -398,7 +296,8 @@ public class WorkspaceTab extends JPanel {
         tabbedPane.setSelectedIndex(tabIndex);
     }
 
-    public void setController(WorkspaceTabController workspaceTabController) {
-        this.workspaceTabController = workspaceTabController;
+
+    public JPanel getOngoingDownloadsPanel() {
+        return ongoingDownloadsPanel;
     }
 }
