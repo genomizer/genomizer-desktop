@@ -310,10 +310,12 @@ public class UploadTabController {
 
                                     }
                                 }
+                                
+                                String status = "Upload to experiment \"" + expName + "\" complete.";
+                                view.setStatusPanel(status);
 
-                                JOptionPane.showMessageDialog(null,
-                                        "Upload to the new " + "experiment \""
-                                                + expName + "\" complete");
+                                //JOptionPane.showMessageDialog(null,status);
+                                
                             } else {
 
 //                                // TODO: Fix the error dialog?
