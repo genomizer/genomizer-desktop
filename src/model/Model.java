@@ -357,6 +357,8 @@ public class Model implements GenomizerModel {
                 expName, annotations);
 
         Connection conn = connFactory.makeConnection();
+
+        // TODO: Trace printlns
         System.out.println("code: "+conn.getResponseCode());
         try {
             conn.sendRequest(cER, User.getInstance().getToken(), Constants.JSON);
@@ -461,6 +463,7 @@ public class Model implements GenomizerModel {
         } catch (RequestException e) {
             ErrorDialog.showRequestErrorDialog("Couldn't get process feedback", e);
         }
+        System.out.println(request.toString() + " aaa " + conn.getResponseCode() + " " +conn.getResponseBody());
         if (conn.getResponseCode() == 200) {
             return ResponseParser.parseProcessFeedbackResponse(conn
                     .getResponseBody());

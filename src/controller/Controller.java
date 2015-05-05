@@ -2,7 +2,6 @@
 // TODO WHY IS CONTROLLER EVEN A CLASS TO USE
 package controller;
 
-import gui.DownloadWindow;
 import gui.GUI;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -250,40 +249,7 @@ public class Controller {
         };
     }
 
-    /**
-     * Listener for when the download button in workspace is clicked. Opens a
-     * DownloadWindow with the selected files.
-     *
-     * TODO: separate view parts from Thread. Move to correct tab controller?
-     */
-    public ActionListener DownloadWindowListener() {
-        return new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                new Thread() {
-                    @Override
-                    public void run() {
-                        // Skicka med arraylist<FileData> för de filer som ska
-                        // nerladdas
-                        ArrayList<ExperimentData> selectedData = view
-                                .getWorkSpaceTab().getSelectedData();
-                        ArrayList<FileData> selectedFiles = new ArrayList<>();
-                        for (ExperimentData experiment : selectedData) {
-                            for (FileData file : experiment.files) {
-                                if (!selectedFiles.contains(file)) {
-                                    selectedFiles.add(file);
-                                }
-                            }
-                        }
-                        DownloadWindow downloadWindow = new DownloadWindow(
-                                selectedFiles, model.getOngoingDownloads());
-                        view.setDownloadWindow(downloadWindow);
-                        downloadWindow.setVisible(true);
-                    };
-                }.start();
-            }
-        };
-    }
+
 
     /**
      * Show the ratioCalc popup. TODO: Remove Thread
