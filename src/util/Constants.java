@@ -16,6 +16,7 @@ public class Constants {
      * default password
      */
     public static final String password = "baguette";
+    //public static final String password = "";
     /**
      * default server address
      */
