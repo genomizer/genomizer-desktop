@@ -95,11 +95,9 @@ public class ConvertTab extends JPanel {
      */
     public ConvertTab() {
 
-
         activePanel = ActivePanel.NONE;
         setPreferredSize(new Dimension(1225, 725));
         setLayout(new BorderLayout());
-
 
         setupUpperPanel();
         setupSelectedFilesPanel();
@@ -109,12 +107,6 @@ public class ConvertTab extends JPanel {
 
         setButtonListeners();
         check();
-
-        updateProgress();
-
-
-
-
     }
 
     /**
@@ -137,10 +129,10 @@ public class ConvertTab extends JPanel {
         setRadioButtonListener(cToWIG);
         setRadioButtonListener(cToSGR);
         setRadioButtonListener(cToGFF);
-        
+
        // setCheckBoxListener();
-        
-        
+
+
 
         disableCToRadiobuttons();
 
@@ -283,7 +275,7 @@ public class ConvertTab extends JPanel {
             }
         });
     }
-    
+
     /**
      * Sets a button listener to a selected JCheckBox.
      *
@@ -308,7 +300,7 @@ public class ConvertTab extends JPanel {
     private void check() {
         /* Check if there are valid genome releases */
         disableCToRadiobuttons();
-        
+
         if(currentFileType.equals("FASTQ")){
             cFromFASTQ.setSelected(true);
         } else if(currentFileType.equals("WIG")){
@@ -318,7 +310,7 @@ public class ConvertTab extends JPanel {
         } else if(currentFileType.equals("CHP")){
             cFromCHP.setSelected(true);
         }
-        
+
             if (cFromFASTQ.isSelected() && cFromFASTQ.isEnabled()) {
                 cToWIG.setEnabled(true);
                 cToSGR.setEnabled(true);
@@ -357,28 +349,28 @@ public class ConvertTab extends JPanel {
 
             }
     }
-    
+
     public ArrayList<String> getPossibleConvertFromFileTypes(){
         ArrayList<String> fileTypeList = new ArrayList<String>();
         fileTypeList.add("FASTQ");
         fileTypeList.add("WIG");
         fileTypeList.add("SGR");
         fileTypeList.add("CHP");
-        
+
         return fileTypeList;
-        
+
     }
-    
+
     public void setCurrentSelectedFileType(String type){
         currentFileType = type;
         check();
     }
-    
+
     public void resetCurrentSelectedFileType(){
         currentFileType = "";
         check();
     }
-    
+
 
     /**
      * Disables all the buttons and textfields in the process tab
@@ -388,33 +380,6 @@ public class ConvertTab extends JPanel {
         cToGFF.setEnabled(false);
         cToWIG.setEnabled(false);
 
-    }
-
-    /**
-     * Method updating the progress of ongoing uploads.
-     */
-    private void updateProgress() {
-
-        new Thread(new Runnable() {
-            private boolean running;
-
-            @Override
-            public void run() {
-                running = true;
-                while (running) {
-                    try {
-
-                       // addNewCheckListItemTest();
-
-                        Thread.sleep(100);
-                    } catch (InterruptedException e) {
-                        ErrorLogger.log(e);
-                        running = false;
-                    }
-                    // TODO: THIS IS BROKEN, more is created on each logout-in !!! System.err.println(this.toString());
-                }
-            }
-        }).start();
     }
 
 

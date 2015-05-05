@@ -349,7 +349,7 @@ public class QuerySearchTab extends JPanel {
         String searchString = "";
         int i = 0;
         for (QueryBuilderRow row : rowList) {
-            if (!row.getText().isEmpty()) {
+            //if (!row.getText().isEmpty()) {
                 String logic;
                 String endParenthesis = "";
                 if (i == 0) {
@@ -364,7 +364,7 @@ public class QuerySearchTab extends JPanel {
                 searchString = searchString + endParenthesis + logic + text
                         + "[" + annotation + "]";
                 i++;
-            }
+            //}
         }
         if (searchString.isEmpty()) {
             searchArea.setText("");
