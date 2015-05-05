@@ -177,12 +177,14 @@ public class QuerySearchTabController {
                     public void run() {
                         ArrayList<ExperimentData> selectedData = view
                                 .getQuerySearchTab().getSelectedData();
-                        view.setStatusPanel(selectedData.get(0).name
-                                + " was added to the workspace.");
                         if (selectedData != null && selectedData.size() > 0) {
+                            view.setStatusPanel(selectedData.get(0).name
+                                    + " was added to the workspace.");
                             view.getWorkSpaceTab().addExperimentsToTable(
                                     view.getQuerySearchTab().getSelectedData());
                             view.getWorkSpaceTab().changeTab(0);
+                        } else {
+                            view.setStatusPanel( "No data selected!");
                         }
                         view.getQuerySearchTab().clearSearchSelection();
                     };
