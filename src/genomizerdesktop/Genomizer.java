@@ -11,6 +11,8 @@ import gui.sysadmin.SysadminTab;
 
 import javax.swing.SwingUtilities;
 
+import communication.SSLTool;
+
 import model.ErrorLogger;
 import model.Model;
 import controller.Controller;
@@ -23,6 +25,8 @@ public class Genomizer {
 
     public static void main(String args[]) {
 
+        // TODO
+        SSLTool.disableCertificateValidation();
         // Create GUI
         final GUI gui = new GUI();
         ErrorDialog.setParentComponent(gui);
