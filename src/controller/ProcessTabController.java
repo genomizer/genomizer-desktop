@@ -105,7 +105,6 @@ public class ProcessTabController {
                     @Override
                     public void run() {
 
-                        view.getProcessTab().setRegularParameters();
                         ArrayList<FileData> allMarked = view.getProcessTab()
                                 .getAllMarkedFiles();
                         String message;
@@ -130,7 +129,7 @@ public class ProcessTabController {
                                         String parameters[] = new String[8];
                                         String[] processParameters = view
                                                 .getProcessTab()
-                                                .getregularParameters();
+                                                .getRegularParameters();
                                         parameters[0] = processParameters[0];
                                         parameters[1] = "";
                                         parameters[2] = processParameters[2];

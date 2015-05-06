@@ -1,5 +1,6 @@
 package controller;
 
+import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
@@ -7,10 +8,16 @@ import java.awt.event.WindowEvent;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.concurrent.CopyOnWriteArrayList;
 
+import javax.swing.JButton;
 import javax.swing.JFileChooser;
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JProgressBar;
+
+import communication.DownloadHandler;
 
 import util.ExperimentData;
 import util.FileData;
@@ -27,6 +34,7 @@ public class WorkspaceTabController {
     GenomizerModel model;
     private final JFileChooser fileChooser;
     private boolean abortDeletion;
+    private WorkspaceTab workspaceTab;
 
     public WorkspaceTabController(GUI view, GenomizerModel model,
             JFileChooser fileChooser) {
@@ -34,7 +42,7 @@ public class WorkspaceTabController {
         this.model = model;
         this.fileChooser = fileChooser;
 
-        WorkspaceTab workspaceTab = view.getWorkSpaceTab();
+        workspaceTab = view.getWorkSpaceTab();
         workspaceTab.addDownloadFileListener(DownloadFileListener());
         workspaceTab.addProcessFileListener(ProcessFileListener());
         workspaceTab.addUploadToListener(UploadToListener());
@@ -43,7 +51,8 @@ public class WorkspaceTabController {
 
         // view.addUploadToListener( UploadToListener());
         workspaceTab.addDeleteSelectedListener(DeleteFromDatabaseListener());
-        view.getWorkSpaceTab().setOngoingDownloads(model.getOngoingDownloads());
+
+        updateOngoingDownloadsPanel();
     }
 
     /**
@@ -92,12 +101,13 @@ public class WorkspaceTabController {
                             if (!theDir.isDirectory()) {
                                 theDir.mkdirs();
                             }
-                            // TODO Lägga filen i olika datatypsmappar?
+                            // TODO Lï¿½gga filen i olika datatypsmappar?
                             model.downloadFile(data.url, data.id, directoryName
                                     + "/" + data.expId + "/" + data.type + "/"
                                     + data.filename, data.filename);
                         }
-                        view.getWorkSpaceTab().changeTab(1);
+                        view.getWorkSpaceTab().changeTab(
+                                WorkspaceTab.DOWNLOADTABNUMBER);
                     };
                 }.start();
             }
@@ -116,7 +126,7 @@ public class WorkspaceTabController {
                                 .getWorkSpaceTab().getSelectedData();
                         ArrayList<FileData> selectedFiles = new ArrayList<>();
 
-                        System.out.println();
+
                         for (ExperimentData experiment : selectedData) {
                             for (FileData file : experiment.files) {
                                 if (!selectedFiles.contains(file)) {
@@ -124,6 +134,7 @@ public class WorkspaceTabController {
                                 }
                             }
                         }
+
                         view.setConvertFileList(selectedFiles);
                     };
                 }.start();
@@ -187,7 +198,9 @@ public class WorkspaceTabController {
                     ExperimentData firstChosenExperiment = view
                             .getWorkSpaceTab().getSelectedExperiments().get(0);
                     ConvertTab ct = view.getConvertTab();
+
                     view.getTabbedPane().setSelectedComponent(ct);
+
                     // ct.getExperimentNameField().setText(firstChosenExperiment.getName());
                     // ct.getExistingExpButton().doClick();
                 } catch (IndexOutOfBoundsException ee) {
@@ -294,6 +307,88 @@ public class WorkspaceTabController {
                 }.start();
             }
         };
+    }
+
+    /**
+     * Method updating the current ongoing downloads.
+     */
+    private void updateOngoingDownloadsPanel() {
+        final CopyOnWriteArrayList<DownloadHandler> completedDownloads = new CopyOnWriteArrayList<DownloadHandler>();
+
+        Runnable task = new Runnable() {
+            @Override
+            public void run() {
+
+
+                JPanel ongoingDownloadsPanel = workspaceTab
+                        .getOngoingDownloadsPanel();
+                final CopyOnWriteArrayList<DownloadHandler> ongoingDownloads = model
+                        .getOngoingDownloads();
+
+                ongoingDownloadsPanel.removeAll();
+                if (ongoingDownloads != null) {
+                    for (final DownloadHandler handler : ongoingDownloads) {
+                        if (!handler.isFinished() && handler.getTotalSize() > 0) {
+                            JPanel downloadPanel = new JPanel(
+                                    new BorderLayout());
+                            double speed = handler.getCurrentSpeed() / 1024.0 / 2014.0;
+
+                            JProgressBar progress = new JProgressBar(0,
+                                    handler.getTotalSize());
+                            progress.setValue(handler.getCurrentProgress());
+                            progress.setStringPainted(true);
+                            JButton stopButton = new JButton("X");
+                            stopButton.addActionListener(new ActionListener() {
+                                @Override
+                                public void actionPerformed(ActionEvent e) {
+                                    ongoingDownloads.remove(handler);
+                                }
+                            });
+                            downloadPanel.add(progress, BorderLayout.CENTER);
+                            downloadPanel.add(stopButton, BorderLayout.EAST);
+                            downloadPanel.add(new JLabel(handler.getFileName()
+                                    + " (" + Math.round(speed * 100.0) / 100.0
+                                    + "MiB/s)"), BorderLayout.NORTH);
+                            ongoingDownloadsPanel.add(downloadPanel);
+                        } else {
+                            if (handler.isFinished()) {
+                                completedDownloads.add(handler);
+                            }
+                            ongoingDownloads.remove(handler);
+                        }
+                    }
+
+                }
+                for (final DownloadHandler handler : completedDownloads) {
+                    JPanel completedDownloadPanel = new JPanel(
+                            new BorderLayout());
+                    JProgressBar progress = new JProgressBar(0, 100);
+                    progress.setValue(100);
+                    progress.setStringPainted(true);
+                    JButton stopButton = new JButton("X");
+                    stopButton.addActionListener(new ActionListener() {
+                        @Override
+                        public void actionPerformed(ActionEvent e) {
+                            completedDownloads.remove(handler);
+                        }
+                    });
+                    completedDownloadPanel.add(progress, BorderLayout.CENTER);
+                    completedDownloadPanel.add(stopButton, BorderLayout.EAST);
+                    completedDownloadPanel.add(new JLabel(
+                            "<html><b>Completed: </b>" + handler.getFileName()
+                                    + "</html>"), BorderLayout.NORTH);
+                    ongoingDownloadsPanel.add(completedDownloadPanel);
+                }
+                ongoingDownloadsPanel.revalidate();
+                ongoingDownloadsPanel.repaint();
+                try {
+                    Thread.sleep(100);
+                } catch (InterruptedException e) {
+                    ErrorLogger.log(e);
+                }
+            }
+        };
+        model.addTickingTask(task);
     }
 
 }

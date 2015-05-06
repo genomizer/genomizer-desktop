@@ -19,6 +19,7 @@ import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JList;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.JScrollPane;
@@ -95,11 +96,9 @@ public class ConvertTab extends JPanel {
      */
     public ConvertTab() {
 
-
         activePanel = ActivePanel.NONE;
         setPreferredSize(new Dimension(1225, 725));
         setLayout(new BorderLayout());
-
 
         setupUpperPanel();
         setupSelectedFilesPanel();
@@ -109,12 +108,8 @@ public class ConvertTab extends JPanel {
 
         setButtonListeners();
         check();
-
-        updateProgress();
-
-
-
-
+        
+        
     }
 
     /**
@@ -137,10 +132,10 @@ public class ConvertTab extends JPanel {
         setRadioButtonListener(cToWIG);
         setRadioButtonListener(cToSGR);
         setRadioButtonListener(cToGFF);
-        
+
        // setCheckBoxListener();
-        
-        
+
+
 
         disableCToRadiobuttons();
 
@@ -252,14 +247,11 @@ public class ConvertTab extends JPanel {
 
     }
 
-
     private void setupEmptySouthPanel() {
         emptySouthPanel = new JPanel();
         emptySouthPanel.setPreferredSize(new Dimension(1225,30));
         add(emptySouthPanel,BorderLayout.SOUTH);
     }
-
-
 
     public void deleteSelectedButtonListener(ActionListener listener) {
         deleteSelectedFiles.addActionListener(listener);
@@ -283,7 +275,7 @@ public class ConvertTab extends JPanel {
             }
         });
     }
-    
+
     /**
      * Sets a button listener to a selected JCheckBox.
      *
@@ -305,10 +297,10 @@ public class ConvertTab extends JPanel {
      * Checks which parameters should be enabled and set. Every button and
      * textfield uses this method to be able to listen to eachothers events.
      */
-    private void check() {
+    public void check() {
         /* Check if there are valid genome releases */
         disableCToRadiobuttons();
-        
+
         if(currentFileType.equals("FASTQ")){
             cFromFASTQ.setSelected(true);
         } else if(currentFileType.equals("WIG")){
@@ -318,7 +310,7 @@ public class ConvertTab extends JPanel {
         } else if(currentFileType.equals("CHP")){
             cFromCHP.setSelected(true);
         }
-        
+
             if (cFromFASTQ.isSelected() && cFromFASTQ.isEnabled()) {
                 cToWIG.setEnabled(true);
                 cToSGR.setEnabled(true);
@@ -357,28 +349,30 @@ public class ConvertTab extends JPanel {
 
             }
     }
-    
+
+
+
     public ArrayList<String> getPossibleConvertFromFileTypes(){
         ArrayList<String> fileTypeList = new ArrayList<String>();
         fileTypeList.add("FASTQ");
         fileTypeList.add("WIG");
         fileTypeList.add("SGR");
         fileTypeList.add("CHP");
-        
+
         return fileTypeList;
-        
+
     }
-    
+
     public void setCurrentSelectedFileType(String type){
         currentFileType = type;
         check();
     }
-    
+
     public void resetCurrentSelectedFileType(){
         currentFileType = "";
         check();
     }
-    
+
 
     /**
      * Disables all the buttons and textfields in the process tab
@@ -388,33 +382,6 @@ public class ConvertTab extends JPanel {
         cToGFF.setEnabled(false);
         cToWIG.setEnabled(false);
 
-    }
-
-    /**
-     * Method updating the progress of ongoing uploads.
-     */
-    private void updateProgress() {
-
-        new Thread(new Runnable() {
-            private boolean running;
-
-            @Override
-            public void run() {
-                running = true;
-                while (running) {
-                    try {
-
-                       // addNewCheckListItemTest();
-
-                        Thread.sleep(100);
-                    } catch (InterruptedException e) {
-                        ErrorLogger.log(e);
-                        running = false;
-                    }
-                    // TODO: THIS IS BROKEN, more is created on each logout-in !!! System.err.println(this.toString());
-                }
-            }
-        }).start();
     }
 
 
@@ -480,6 +447,8 @@ public class ConvertTab extends JPanel {
 
         ArrayList<CheckListItem> itemList = new ArrayList<CheckListItem>();
         String specie = "";
+        String fileName;
+        String fileType;
 
         for (ExperimentData exData : experimentData) {
             for (FileData fileData : exData.files) {
@@ -489,11 +458,23 @@ public class ConvertTab extends JPanel {
                         break;
                     }
                 }
-                itemList.add(new CheckListItem(fileData, fileData.filename,
-                        fileData.id, specie));
+                
+                fileName = fileData.filename.toUpperCase();
+                fileType = fileName.substring(fileName.lastIndexOf(".") + 1);
+                
+                if(getPossibleConvertFromFileTypes().contains(fileType)){
+                    itemList.add(new CheckListItem(fileData, fileData.filename,
+                            fileData.id, specie));
+                }
+
             }
         }
         fileList.setListData(itemList.toArray(new CheckListItem[itemList.size()]));
+        if(fileList.getModel().getSize() == 0){
+            JOptionPane.showMessageDialog(null,"No matching filetypes. \nPossible types to convert: \n" + 
+                    getPossibleConvertFromFileTypes().toString());
+        }
+
         this.revalidate();
         this.repaint();
     }

@@ -18,6 +18,7 @@ import util.ExperimentData;
 import util.GenomeReleaseData;
 
 import gui.ErrorDialog;
+import gui.GUI;
 import gui.UploadFileRow;
 import gui.UploadTab;
 import gui.UploadToExistingExpPanel;
@@ -28,12 +29,16 @@ public class UploadTabController {
     private final GenomizerModel model;
     private final UploadTab uploadTab;
     private final JFileChooser fileChooser;
+    GUI view;
 
-    public UploadTabController(UploadTab uploadTab, GenomizerModel model,
-            JFileChooser fileChooser) {
+
+    public UploadTabController(GUI view, GenomizerModel model, JFileChooser fileChooser) {
+        this.view = view;
         this.model = model;
         this.fileChooser = fileChooser;
-        this.uploadTab = uploadTab;
+        this.uploadTab = view.getUploadTab();
+
+
 
         uploadTab.getExistExpPanel().addSelectFilesToUploadButtonListener(
                 SelectFilesToUploadButtonListener());
@@ -50,6 +55,8 @@ public class UploadTabController {
                 UploadSelectedFilesListener());
         uploadTab.getNewExpPanel().addSpeciesSelectedListener(
                 SpeciesSelectedListener());
+
+
 
         updateProgress();
     }
@@ -184,11 +191,11 @@ public class UploadTabController {
                                 uploadTab.getExistExpPanel().deleteFileRow(f);
                                 if (uploadTab.getExistExpPanel().getFileRows()
                                         .size() == 0) {
+                                    String status = "Upload to experiment \"" + ed.getName() + "\" complete.";
+                                    view.setStatusPanel(status);
                                     JOptionPane.showMessageDialog(
-                                            null,
-                                            "Upload to experiment \""
-                                                    + ed.getName()
-                                                    + "\" complete.");
+                                            null,status);
+
                                     // TODO: Decide whether to refresh this view
                                     // part -
                                     // view.getQuerySearchTab().refresh();
@@ -296,19 +303,23 @@ public class UploadTabController {
 
                                     } else {
 
-                                        JOptionPane.showMessageDialog(
-                                                null,
-                                                "Couldn't upload "
-                                                        + f.getName() + ".",
-                                                "Error",
-                                                JOptionPane.ERROR_MESSAGE);
+                                        //TODO Behövs nog inte
+
+//                                        JOptionPane.showMessageDialog(
+//                                                null,
+//                                                "Couldn't upload "
+//                                                        + f.getName() + ".",
+//                                                "Error",
+//                                                JOptionPane.ERROR_MESSAGE);
 
                                     }
                                 }
 
-                                JOptionPane.showMessageDialog(null,
-                                        "Upload to the new " + "experiment \""
-                                                + expName + "\" complete");
+                                String status = "Upload to experiment \"" + expName + "\" complete.";
+                                view.setStatusPanel(status);
+
+                                //JOptionPane.showMessageDialog(null,status);
+
                             } else {
 
 //                                // TODO: Fix the error dialog?
@@ -376,9 +387,13 @@ public class UploadTabController {
                                 }
                                 // Shown when all files have been uploaded to
                                 // experiment.
-                                JOptionPane.showMessageDialog(null,
-                                        "Upload to the new " + "experiment \""
-                                                + expName + "\" complete");
+
+                                // TODO: Here is status panel on other!
+                                JOptionPane.showMessageDialog(null,"Upload to the new " + "experiment \""
+                                        + expName + "\" complete");
+
+
+
                             } else {
                                 JOptionPane.showMessageDialog(null,
                                         "Couldn't create new experiment "
@@ -434,6 +449,9 @@ public class UploadTabController {
         Runnable task = new Runnable() {
             @Override
             public void run() {
+
+//                System.out.println("TICK: " + Thread.currentThread());
+
                 for (File key : uploadTab.getNewExpPanel().getFileRows()
                         .keySet()) {
                     UploadFileRow row = uploadTab.getNewExpPanel()

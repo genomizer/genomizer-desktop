@@ -109,9 +109,6 @@ public interface GenomizerView {
 
     public JFrame getFrame(); //used commented
 
-    public void setDownloadWindow(DownloadWindow downloadWindow); // used commented
-
-    public DownloadWindow getDownloadWindow(); // used commented
 
     public String getQuerySearchString(); // unused commented
 

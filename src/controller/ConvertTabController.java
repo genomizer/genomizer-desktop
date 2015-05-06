@@ -10,6 +10,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.Random;
 
 import javax.swing.JFileChooser;
 import javax.swing.JList;
@@ -79,7 +80,6 @@ public class ConvertTabController {
                 new Thread() {
                     @Override
                     public void run() {
-
                         ArrayList<FileData> markedFiles = view.getConvertTab().getAllMarkedFiles();
 
                         ArrayList<ExperimentData> exData = view.getConvertTab().getFileInfo();

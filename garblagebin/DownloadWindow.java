@@ -1,5 +1,7 @@
 package gui;
 
+import gui.DownloadWindow;
+
 import java.awt.BorderLayout;
 import java.awt.GridLayout;
 import java.awt.Image;
@@ -23,12 +25,79 @@ import javax.swing.JTable;
 
 import model.ErrorLogger;
 
+import util.ExperimentData;
 import util.FileData;
 
 import communication.DownloadHandler;
 
+// Removed from project because it didn't look like it was used!
+// c12oor OO - 2015 05 05.
+
+
+// FROM GUI!
+///**
+// * Sets the downloadWindow attribute of the GUI.
+// *
+// * @param downloadWindow
+// *            The DownloadWindow to set the GUI's downloadWindow attribute
+// *            to.
+// */
+//public void setDownloadWindow(DownloadWindow downloadWindow) {
+//    this.downloadWindow = downloadWindow;
+//}
+//
+///**
+// * @return The GUI's downloadWindow.
+// */
+//public DownloadWindow getDownloadWindow() {
+//    return downloadWindow;
+//}
+
+// FROM GENOMIZERVIEW!
+//
+//public void setDownloadWindow(DownloadWindow downloadWindow); // used commented
+//
+//public DownloadWindow getDownloadWindow(); // used commented
+
+// FROM CONTROLLER!
+///**
+// * Listener for when the download button in workspace is clicked. Opens a
+// * DownloadWindow with the selected files.
+// *
+// * TODO: separate view parts from Thread. Move to correct tab controller?
+// * TODO: is this even used anywhere? -seems to only switch tabs now.
+// */
+//public ActionListener DownloadWindowListener() {
+//    return new ActionListener() {
+//        @Override
+//        public void actionPerformed(ActionEvent e) {
+//            new Thread() {
+//                @Override
+//                public void run() {
+//                    // Skicka med arraylist<FileData> för de filer som ska
+//                    // nerladdas
+//                    ArrayList<ExperimentData> selectedData = view
+//                            .getWorkSpaceTab().getSelectedData();
+//                    ArrayList<FileData> selectedFiles = new ArrayList<>();
+//                    for (ExperimentData experiment : selectedData) {
+//                        for (FileData file : experiment.files) {
+//                            if (!selectedFiles.contains(file)) {
+//                                selectedFiles.add(file);
+//                            }
+//                        }
+//                    }
+//                    DownloadWindow downloadWindow = new DownloadWindow(
+//                            selectedFiles, model.getOngoingDownloads());
+//                    view.setDownloadWindow(downloadWindow);
+//                    downloadWindow.setVisible(true);
+//                };
+//            }.start();
+//        }
+//    };
+//}
+
 public class DownloadWindow extends JFrame {
-    
+
     private static final long serialVersionUID = -7647204230941649167L;
     private JPanel mainPanel;
     private JPanel ongoingPanel;
@@ -36,16 +105,16 @@ public class DownloadWindow extends JFrame {
     private ArrayList<FileData> files;
     private CopyOnWriteArrayList<DownloadHandler> ongoingDownloads;
     private boolean running;
-    
+
     /**
      * Initiates a new DownloadWindow with the files it receives.
-     * 
+     *
      * @param files
      *            An ArrayList containing the FileData of the chosen files.
      */
     public DownloadWindow(ArrayList<FileData> files,
             CopyOnWriteArrayList<DownloadHandler> ongoingDownloads) {
-        
+
         URL url = ClassLoader.getSystemResource("icons/logo.png");
         Toolkit kit = Toolkit.getDefaultToolkit();
         Image img = kit.createImage(url);
@@ -70,19 +139,19 @@ public class DownloadWindow extends JFrame {
         add(mainPanel, BorderLayout.CENTER);
         updateProgress();
     }
-    
+
     /**
      * Private method that sets up the DownloadWindow.
-     * 
+     *
      * @param data
      *            An ArrayList containing the Strings to set up the window with.
      */
     private void setUpTablePanel(ArrayList<String> data) {
-        
+
         JPanel tablePanel = new JPanel(new BorderLayout(3, 3));
         mainPanel.add(tablePanel, BorderLayout.CENTER);
         tablePanel.add(new JLabel("test"), BorderLayout.SOUTH);
-        
+
         // Set up the JTable
         String[] headings = new String[] { "File Name" };
         String[][] content = new String[data.size()][1];
@@ -90,7 +159,7 @@ public class DownloadWindow extends JFrame {
             content[i][0] = data.get(i);
         }
         JTable table = new JTable(content, headings);
-        
+
         // Add comboboxes to each row in the table.
         table.setRowHeight(30);
         table.setEnabled(false);
@@ -98,7 +167,7 @@ public class DownloadWindow extends JFrame {
         JScrollPane scrollPane = new JScrollPane(table);
         tablePanel.add(scrollPane, BorderLayout.CENTER);
         tablePanel.add(table.getTableHeader(), BorderLayout.NORTH);
-        
+
         downloadButton = new JButton("Download");
         JPanel flowSouth = new JPanel();
         flowSouth.add(downloadButton);
@@ -107,19 +176,23 @@ public class DownloadWindow extends JFrame {
         setSize(500, 500);
         setLocationRelativeTo(null);
     }
-    
+
     private void setUpOngoingPanel() {
         ongoingPanel = new JPanel(new GridLayout(0, 1));
         mainPanel.add(ongoingPanel, BorderLayout.NORTH);
     }
-    
+
     private void updateProgress() {
-        // TODO: is this ever closed aswell?
+        // TODO: is this ever closed aswell? (Actually this is not private and
+        // is changed when it is closed!)
         new Thread(new Runnable() {
             @Override
             public void run() {
+
                 running = true;
                 while (running) {
+                    System.out.println("Tick: " + this);
+
                     ongoingPanel.removeAll();
                     if (ongoingDownloads != null) {
                         for (final DownloadHandler handler : ongoingDownloads) {
@@ -157,7 +230,7 @@ public class DownloadWindow extends JFrame {
                                         "Download complete");
                             }
                         }
-                        
+
                     }
                     revalidate();
                     repaint();
@@ -171,16 +244,16 @@ public class DownloadWindow extends JFrame {
             }
         }).start();
     }
-    
+
     /**
      * Adds a listener for pressing the download button.
-     * 
+     *
      * @param listener
      *            The listener to be added.
      */
     public void addDownloadFileListener(ActionListener listener) {
         downloadButton.addActionListener(listener);
-        
+
         /*
          * Automatically click the download button when the listener has been
          * added to let the user choose where to save the files immediately. If
@@ -202,7 +275,7 @@ public class DownloadWindow extends JFrame {
             setVisible(true);
         }
     }
-    
+
     /**
      * @return files An ArrayList containing the FileData representing the
      *         files.

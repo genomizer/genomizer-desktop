@@ -113,7 +113,6 @@ public class ProcessTab extends JPanel {
 
     private final JTabbedPane tabbedPane = new JTabbedPane(JTabbedPane.BOTTOM);
     public final JOptionPane ratioPopup = new JOptionPane();
-    private String[] regularParameters = new String[4];
     private ProcessFeedbackData[] processFeedbackData;
     private ArrayList<ExperimentData> experimentData;
 
@@ -636,27 +635,6 @@ public class ProcessTab extends JPanel {
      * tab when trying to create profile data from raw data.
      *
      * @return String[] - regularParameters
-     */
-    public String[] getregularParameters() {
-        return this.regularParameters;
-    }
-
-    /**
-     * Sets regularParameters from the user in raw to profile tab.
-     */
-    public void setRegularParameters() {
-
-        regularParameters[0] = getTextFromFlags(); // "-a -m 1 --best -p 10 -v 2";
-        regularParameters[1] = getTextGenomeFileName(); // "hg38";
-        regularParameters[2] = getSmoothingParameters(); // "10 1 5 0 1";
-        regularParameters[3] = getStepSize(); // "y 10";
-
-    }
-
-    /**
-     * Gets all the regular parameters that the user has entered.
-     *
-     * @return the parameters
      */
     public String[] getRegularParameters() {
 

@@ -45,7 +45,7 @@ public class UpdaterModel {
             boolean isPrivate, String release) {
 
         // TODO: Trace comments. also "metameta"
-        System.out.println("ska uploada fil: " + f.getName());
+//        System.out.println("ska uploada fil: " + f.getName());
 
         String username = User.getInstance().getName();
 
@@ -54,6 +54,7 @@ public class UpdaterModel {
                 release);
 
         Connection conn = connFactory.makeConnection();
+
 
         try {
             conn.sendRequest(request, User.getInstance().getToken(),

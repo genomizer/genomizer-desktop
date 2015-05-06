@@ -7,6 +7,8 @@ import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 
 import javax.swing.JButton;
 import javax.swing.JDialog;
@@ -45,6 +47,7 @@ public class ErrorDialog extends JOptionPane {
     private JScrollPane messageScrollPane;
     private JButton moreInfoButton;
     private boolean expanded = false;
+    private JButton okButton;
 
     /**
      * Constructs a new ErrorDialog object with title, and a simple and extended
@@ -114,14 +117,17 @@ public class ErrorDialog extends JOptionPane {
     }
 
     private void buildButtonPanel() {
+
         JPanel buttonPanel = new JPanel(new FlowLayout());
         moreInfoButton = new JButton("More info");
-        JButton okButton = new JButton("OK");
+        okButton = new JButton("OK");
         buttonPanel.add(moreInfoButton);
         buttonPanel.add(okButton);
         okButton.addActionListener(new OkButtonListener());
         moreInfoButton.addActionListener(new MoreButtonListener());
         bodyPanel.add(buttonPanel, BorderLayout.SOUTH);
+
+
     }
 
     /**
@@ -135,13 +141,10 @@ public class ErrorDialog extends JOptionPane {
         dialog.setTitle(title);
         dialog.setModal(true);
         dialog.setResizable(false);
-
         dialog.setContentPane(optionPane);
-
         dialog.setDefaultCloseOperation(JDialog.DO_NOTHING_ON_CLOSE);
         dialog.pack();
         dialog.setLocationRelativeTo(parentComponent);
-
         dialog.setVisible(true);
 
     }
@@ -175,7 +178,7 @@ public class ErrorDialog extends JOptionPane {
             }
             dialog.pack();
         }
-        
+
     }
 
 
