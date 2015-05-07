@@ -203,6 +203,7 @@ public class Controller {
                         // boolean
                         // thingy
 //                        if (response.equals("true")) {
+                        
                             view.updateLoginAccepted(username, pwd,
                                     "Desktop User");
                             if (runonce) {
@@ -215,6 +216,7 @@ public class Controller {
                                 view.getSysAdminTab().getController()
                                         .updateGenomeReleaseTab();
                             }
+                            
                             ErrorLogger.log("Login", username + " logged in");
 //                        } else {
 //                            view.getLoginWindow().updateLoginFailed(response);
