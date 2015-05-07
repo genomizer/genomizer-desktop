@@ -3,20 +3,20 @@
 package controller;
 
 import gui.GUI;
+
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.ArrayList;
+
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
+
 import model.ErrorLogger;
 import model.GenomizerModel;
 import model.SessionHandler;
 import model.User;
 import util.AnnotationDataType;
-import util.ExperimentData;
-import util.FileData;
 
 /**
  * Controller class responsible for setting the correct actions to the listening
@@ -189,6 +189,7 @@ public class Controller {
                 new Thread() {
                     @Override
                     public void run() {
+                        System.out.println("test");
                         model.setGUI(view);
                         model.setIP(view.getLoginWindow().getIPInput());
                         SessionHandler.getInstance().setIP(
@@ -196,15 +197,16 @@ public class Controller {
                         String username = view.getLoginWindow()
                                 .getUsernameInput();
                         String pwd = view.getLoginWindow().getPasswordInput();
-                        String response = SessionHandler.getInstance()
-                                .loginUser(username, pwd);
+//                        String response = SessionHandler.getInstance()
+//                                .loginUser(username, pwd);
                         // TODO: extract stupid .equals true to a domain object
                         // boolean
                         // thingy
-                        if (response.equals("true")) {
+//                        if (response.equals("true")) {
                             view.updateLoginAccepted(username, pwd,
                                     "Desktop User");
                             if (runonce) {
+                                System.out.println("test");
                                 updateTabs();
                                 runonce = false;
                             } else {
@@ -214,10 +216,10 @@ public class Controller {
                                         .updateGenomeReleaseTab();
                             }
                             ErrorLogger.log("Login", username + " logged in");
-                        } else {
-                            view.getLoginWindow().updateLoginFailed(response);
-                            ErrorLogger.log(response);
-                        }
+//                        } else {
+//                            view.getLoginWindow().updateLoginFailed(response);
+//                            ErrorLogger.log(response);
+//                        }
                     };
                 }.start();
             }
