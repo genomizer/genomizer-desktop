@@ -216,7 +216,7 @@ public class Controller {
                                 view.getSysAdminTab().getController()
                                         .updateGenomeReleaseTab();
                             }
-                            
+
                             ErrorLogger.log("Login", username + " logged in");
 //                        } else {
 //                            view.getLoginWindow().updateLoginFailed(response);
