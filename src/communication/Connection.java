@@ -7,7 +7,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
-import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.ProtocolException;
 import java.net.URL;
@@ -45,7 +44,7 @@ public class Connection {
     /** The response message of a request */
     private String responseBody;
 
-    private HttpURLConnection connection;
+    private HttpsURLConnection connection;
 
     /**
      * Constructs a new Connection object to a server with a given IP address,
@@ -140,17 +139,17 @@ public class Connection {
 
         String targetUrl;
 
-        if (ip.startsWith("http://")) {
+        if (ip.startsWith("https://")) {
             targetUrl = ip + request.url;
         } else {
-            targetUrl = "http://" + ip + request.url;
+            targetUrl = "https://" + ip + request.url;
         }
 
         URL url = new URL(targetUrl);
 
         //SSLSocketFactory sslSocketFactory = (SSLSocketFactory) SSLSocketFactory.getDefault();
 
-        connection = (HttpURLConnection) url.openConnection();
+        connection = (HttpsURLConnection) url.openConnection();
 
         //connection.setSSLSocketFactory(sslSocketFactory);
 
