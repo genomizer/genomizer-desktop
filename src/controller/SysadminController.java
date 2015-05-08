@@ -210,8 +210,8 @@ public class SysadminController {
             }
         }.start();
     }
-
     public void updateGenomeReleaseTab() {
+        //TODO Behövs dessa trådar och runnable i invokeLater? CF
         new Thread() {
             public void run() {
                 // sysController.getGenomeReleases();

@@ -5,6 +5,8 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 
+import javax.net.ssl.HttpsURLConnection;
+
 import model.ErrorLogger;
 
 // TODO: Borde denna klass vara en runnable?
@@ -15,7 +17,7 @@ import model.ErrorLogger;
  */
 public class DownloadHandler {
     
-    private HttpURLConnection conn;
+    private HttpsURLConnection conn;
     private String userID;
     private String fileName;
     private boolean finished;
@@ -59,7 +61,7 @@ public class DownloadHandler {
             
             URL targetUrl = new URL(url);
             
-            conn = (HttpURLConnection) targetUrl.openConnection();
+            conn = (HttpsURLConnection) targetUrl.openConnection();
             conn.setRequestMethod("GET");
             conn.setRequestProperty("Content-Type", "text/plain");
             conn.setRequestProperty("Authorization", userID);

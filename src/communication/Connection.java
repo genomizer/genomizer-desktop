@@ -12,6 +12,11 @@ import java.net.MalformedURLException;
 import java.net.ProtocolException;
 import java.net.URL;
 
+import javax.net.ssl.HostnameVerifier;
+import javax.net.ssl.HttpsURLConnection;
+import javax.net.ssl.SSLSession;
+import javax.net.ssl.SSLSocketFactory;
+
 import model.ErrorLogger;
 
 import requests.Request;
@@ -25,6 +30,7 @@ import util.RequestException;
  *
  */
 public class Connection {
+
 
     // TODO: varf�r view? g�r oberoende?
     private final GUI view;
@@ -141,7 +147,13 @@ public class Connection {
         }
 
         URL url = new URL(targetUrl);
+
+        //SSLSocketFactory sslSocketFactory = (SSLSocketFactory) SSLSocketFactory.getDefault();
+
         connection = (HttpURLConnection) url.openConnection();
+
+        //connection.setSSLSocketFactory(sslSocketFactory);
+
 
         if (type.equals("application/json")) {
             connection.setDoOutput(true);
@@ -152,6 +164,14 @@ public class Connection {
         if (!token.isEmpty()) {
             connection.setRequestProperty("Authorization", token);
         }
+
+        try {
+            connection.connect();
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.out.println(e.getMessage());
+        }
+
     }
 
     /**
