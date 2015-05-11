@@ -111,8 +111,11 @@ public class UpdaterModel {
             conn.sendRequest(request, User.getInstance().getToken(),
                     Constants.TEXT_PLAIN);
             Gson gson = new Gson();
+
+            // TODO: Deprecated Downloadfilethingy
             DownloadFileResponse response = gson.fromJson(
                     conn.getResponseBody(), DownloadFileResponse.class);
+
             final DownloadHandler handler = new DownloadHandler(User
                     .getInstance().getToken(), fileName);
             addDownload(handler);
