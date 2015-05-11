@@ -3,11 +3,11 @@ package gui.sysadmin.strings;
 /***
  * This class holds all the names of all buttons and tab names, this is to avoid
  * spelling errors and to simplify name changes.
- * 
+ *
  * @author oi11ahn
- * 
- * 
- * 
+ *
+ *
+ *
  */
 public class SysStrings {
 

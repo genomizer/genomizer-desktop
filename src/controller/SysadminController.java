@@ -276,6 +276,7 @@ public class SysadminController {
      */
     public boolean renameAnnotationValue(String name, String oldValue,
             String newValue) {
+        System.out.println(name + oldValue + newValue);
         return model.renameAnnotationValue(name, oldValue, newValue);
 
     }
