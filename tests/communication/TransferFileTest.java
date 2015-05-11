@@ -19,18 +19,17 @@ import static org.fest.assertions.api.Assertions.assertThat;
 public class TransferFileTest {
     String ip = ExampleExperimentData.getTestServerIP();
     Model m = new Model();
-    User u;
+    
     @Before
     public void setUp() throws Exception {
-        m.setIP("http://" + ip);
+        m.setIP("https://" + ip);
         m.loginUser(ExampleExperimentData.getTestUsername(), ExampleExperimentData.getTestPassword());
-        User user = User.getInstance();
     }
     @Test
     public void testDownloadIs200() throws Exception {
-        DownloadHandler handler = new DownloadHandler(u.getName(), "filename.txt");
+        DownloadHandler handler = new DownloadHandler("testuser", "filename.txt");
         String homeDir = System.getProperty("user.home");
-        assertThat(handler.download("http://www8.cs.umu.se/~c12jhn/", homeDir + "/.test")).isTrue();
+        assertThat(handler.download("https://www8.cs.umu.se/~c12jhn/", homeDir + "/.test")).isTrue();
     }
 
     @Test
@@ -43,7 +42,7 @@ public class TransferFileTest {
         fout.flush();
         HTTPURLUpload upload = new HTTPURLUpload("http://private-anon-1ade64f50-genomizer.apiary-mock.com/file/.testupload.txt",
                 homeDir + "/.testupload.txt", ".testupload.txt");
-        upload.sendFile(u.getName());
+        upload.sendFile("testuser");
         assertThat(upload.getResponseCode()).isEqualTo(201);
         fout.close();
     }
@@ -58,9 +57,9 @@ public class TransferFileTest {
         fout.flush();
         HTTPURLUpload upload = new HTTPURLUpload("http://" + ip + "/upload.php?path=/var/www/data/testup.txt",
                 homeDir + "/.testupload.txt", ".testupload.txt");
-        upload.sendFile(u.getName());
+        upload.sendFile("testuser");
 
-        DownloadHandler handler = new DownloadHandler(u.getName(), "test.txt");
+        DownloadHandler handler = new DownloadHandler("testuser", "test.txt");
         handler.download("http://" + ip + "/download.php?path=/var/www/data/testup.txt",
                 homeDir + "/.testtransferdown.txt");
         File file2 = new File(homeDir + "/.testtransferdown.txt");

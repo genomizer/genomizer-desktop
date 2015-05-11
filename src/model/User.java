@@ -3,7 +3,7 @@ package model;
 public class User {
 
     private static User instance = new User();
-    private String token;
+    private String token = "";
     private String name;
 
     private User() { }
