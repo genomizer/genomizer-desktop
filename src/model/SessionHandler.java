@@ -8,6 +8,7 @@ package model;
  *
  * @author oi12mlw, oi12pjn
  */
+import gui.ErrorDialog;
 import requests.LoginRequest;
 import requests.LogoutRequest;
 import requests.RequestFactory;
@@ -76,9 +77,8 @@ public class SessionHandler {
             try {
                 conn.sendRequest(request, "", Constants.JSON);
             } catch (RequestException e) {
-                // new ErrorDialog("Couldn't add new experiment", "fel",
-                // e.getResponseCode() + ":\n" +
-                // e.getResponseBody()).showDialog();
+
+                 new ErrorDialog("Could not log in", e).showDialog();
             }
             if (conn.getResponseCode() == 200) {
                 LoginResponse loginResponse = ResponseParser
@@ -94,6 +94,7 @@ public class SessionHandler {
                 if (response != null) {
                     return response.message;
                 } else {
+
                     return "Server not found";
                 }
             }
