@@ -203,7 +203,8 @@ public class Controller {
                         // boolean
                         // thingy
 //                        if (response.equals("true")) {
-                        
+
+
                             view.updateLoginAccepted(username, pwd,
                                     "Desktop User");
                             if (runonce) {
