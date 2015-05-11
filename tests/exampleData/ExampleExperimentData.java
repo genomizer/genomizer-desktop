@@ -58,7 +58,7 @@ public final class ExampleExperimentData {
 
     }
     public static String getTestServerIP() {
-        return "dunbledore.cs.umu.se:7000";
+        return "130.239.192.110:4434/api";
     }
     public static String getTestUsername() {
         return "testuser";
