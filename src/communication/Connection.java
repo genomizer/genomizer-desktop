@@ -10,11 +10,7 @@ import java.io.PrintWriter;
 import java.net.MalformedURLException;
 import java.net.ProtocolException;
 import java.net.URL;
-
-import javax.net.ssl.HostnameVerifier;
 import javax.net.ssl.HttpsURLConnection;
-import javax.net.ssl.SSLSession;
-import javax.net.ssl.SSLSocketFactory;
 
 import model.ErrorLogger;
 
@@ -30,6 +26,8 @@ import util.RequestException;
  */
 public class Connection {
 
+
+    private static final int TIME_OUT_MS = 2000;
 
     // TODO: varfï¿½r view? gï¿½r oberoende?
     private final GUI view;
@@ -56,7 +54,7 @@ public class Connection {
      *            the GUI
      */
     public Connection(String ip, GUI view) {
-        
+
         if(!ip.startsWith("https://")) {
             ip = "https://" + ip;
         }
@@ -117,8 +115,8 @@ public class Connection {
 
             ErrorLogger.log(e);
             try {
-                InputStream is = connection.getErrorStream();
-                if (is != null) {
+                InputStream inputStream = connection.getErrorStream();
+                if (inputStream != null) {
                     fetchResponse(connection.getErrorStream());
 
                     //TODO Fixa så att man kan kasta meddelanden för alla koder >300
@@ -128,7 +126,6 @@ public class Connection {
                     if(responseCode==503){
                         throw new RequestException(responseCode, responseBody);
                     }
-
                 }
             } catch (IOException e1) {
                 ErrorLogger.log(e1);
@@ -150,19 +147,15 @@ public class Connection {
         if (type.equals("application/json")) {
             connection.setDoOutput(true);
         }
-        connection.setReadTimeout(2000);
+        connection.setReadTimeout(TIME_OUT_MS);
         connection.setRequestMethod(request.type);
         connection.setRequestProperty("Content-Type", type);
+
         if (!token.isEmpty()) {
             connection.setRequestProperty("Authorization", token);
         }
 
-        try {
-            connection.connect();
-        } catch (Exception e) {
-            e.printStackTrace();
-            System.out.println(e.getMessage());
-        }
+        connection.connect();
 
     }
 
@@ -183,7 +176,6 @@ public class Connection {
             output.append(buffer);
         }
         responseBody = output.toString();
-        // TODO: Onï¿½dig if-sats?
         if (responseCode >= 300) {
             ErrorLogger.log(responseBody);
         }
