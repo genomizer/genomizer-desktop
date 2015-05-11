@@ -473,6 +473,7 @@ public class ConvertTab extends JPanel {
         if(fileList.getModel().getSize() == 0){
             JOptionPane.showMessageDialog(null,"No matching filetypes. \nPossible types to convert: \n" + 
                     getPossibleConvertFromFileTypes().toString());
+          
         }
 
         this.revalidate();

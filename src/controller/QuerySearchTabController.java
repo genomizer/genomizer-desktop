@@ -134,6 +134,7 @@ public class QuerySearchTabController {
                             JOptionPane.showMessageDialog(null,
                                     "No search results!", "Search Warning",
                                     JOptionPane.WARNING_MESSAGE);
+                                    view.setStatusPanel("No search results!");
 
                             // If search results are null and the active panel
                             // is table
@@ -141,6 +142,7 @@ public class QuerySearchTabController {
                             // Go back to the query search
                             view.getBackButton().doClick();
                             view.getQuerySearchTab().getBackButton();
+                            
                         }
                     };
                 }.start();
