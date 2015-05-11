@@ -305,7 +305,7 @@ public class QueryBuilderRow extends JPanel {
      * Method for creating the logic box
      */
     private void setLogicBox() {
-        logicBox = new JComboBox(logicOperators);
+        logicBox = new JComboBox<Object>(logicOperators);
         logicBox.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {

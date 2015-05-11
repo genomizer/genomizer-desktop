@@ -7,10 +7,14 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
-import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.ProtocolException;
 import java.net.URL;
+
+import javax.net.ssl.HostnameVerifier;
+import javax.net.ssl.HttpsURLConnection;
+import javax.net.ssl.SSLSession;
+import javax.net.ssl.SSLSocketFactory;
 
 import model.ErrorLogger;
 
@@ -26,6 +30,7 @@ import util.RequestException;
  */
 public class Connection {
 
+
     // TODO: varf�r view? g�r oberoende?
     private final GUI view;
 
@@ -39,7 +44,7 @@ public class Connection {
     /** The response message of a request */
     private String responseBody;
 
-    private HttpURLConnection connection;
+    private HttpsURLConnection connection;
 
     /**
      * Constructs a new Connection object to a server with a given IP address,
@@ -51,6 +56,11 @@ public class Connection {
      *            the GUI
      */
     public Connection(String ip, GUI view) {
+        
+        if(!ip.startsWith("https://")) {
+            ip = "https://" + ip;
+        }
+
         this.ip = ip;
         this.view = (GUI) view;
         responseBody = "";
@@ -132,16 +142,10 @@ public class Connection {
     private void connect(Request request, String token, String type)
             throws MalformedURLException, IOException, ProtocolException {
 
-        String targetUrl;
+        URL url = new URL(ip + request.url);
 
-        if (ip.startsWith("http://")) {
-            targetUrl = ip + request.url;
-        } else {
-            targetUrl = "http://" + ip + request.url;
-        }
+        connection = (HttpsURLConnection) url.openConnection();
 
-        URL url = new URL(targetUrl);
-        connection = (HttpURLConnection) url.openConnection();
 
         if (type.equals("application/json")) {
             connection.setDoOutput(true);
@@ -152,6 +156,14 @@ public class Connection {
         if (!token.isEmpty()) {
             connection.setRequestProperty("Authorization", token);
         }
+
+        try {
+            connection.connect();
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.out.println(e.getMessage());
+        }
+
     }
 
     /**

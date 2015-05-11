@@ -2,6 +2,12 @@ package communication;
 
 import java.io.*;
 import java.net.URLEncoder;
+import java.security.cert.X509Certificate;
+
+import javax.net.ssl.HostnameVerifier;
+import javax.net.ssl.SSLException;
+import javax.net.ssl.SSLSession;
+import javax.net.ssl.SSLSocket;
 
 import model.ErrorLogger;
 
@@ -10,6 +16,7 @@ import org.apache.http.HttpResponse;
 import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.client.protocol.HttpClientContext;
+import org.apache.http.conn.ssl.X509HostnameVerifier;
 import org.apache.http.entity.mime.HttpMultipartMode;
 import org.apache.http.entity.mime.MultipartEntityBuilder;
 import org.apache.http.impl.client.CloseableHttpClient;
@@ -65,7 +72,12 @@ public class HTTPURLUpload {
         }
 
         // new HttpClient
-        HttpClientBuilder hcBuilder = HttpClients.custom();
+
+     // Ignore differences between given hostname and certificate hostname
+
+
+
+        HttpClientBuilder hcBuilder = HttpClients.custom().setSslcontext(SSLTool.getSslContext()).setHostnameVerifier(SSLTool.getHostnameVerifier());
 
         CloseableHttpClient httpClient = hcBuilder.build();
 
