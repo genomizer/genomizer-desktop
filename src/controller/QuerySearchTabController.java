@@ -49,7 +49,6 @@ public class QuerySearchTabController {
             public void actionPerformed(ActionEvent e) {
 
                 querySearchTab.clearSearchFields();
-                System.out.println("1");
             }
         };
     }
@@ -157,7 +156,6 @@ public class QuerySearchTabController {
                 new Thread() {
                     @Override
                     public void run() {
-                        System.out.println("8");
                         AnnotationDataType[] annotations = model
                                 .getAnnotations();
                         if (annotations != null && annotations.length > 0) {
