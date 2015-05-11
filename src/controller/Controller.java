@@ -3,20 +3,20 @@
 package controller;
 
 import gui.GUI;
+
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.ArrayList;
+
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
+
 import model.ErrorLogger;
 import model.GenomizerModel;
 import model.SessionHandler;
 import model.User;
 import util.AnnotationDataType;
-import util.ExperimentData;
-import util.FileData;
 
 /**
  * Controller class responsible for setting the correct actions to the listening
@@ -51,22 +51,26 @@ public class Controller {
      */
     public void updateTabs() {
 
-        QuerySearchTabController querySearchTabController = new QuerySearchTabController(view, model);
+        QuerySearchTabController querySearchTabController = new QuerySearchTabController(
+                view, model);
         view.getQuerySearchTab().setController(querySearchTabController);
 
-        ProcessTabController processTabController = new ProcessTabController(view, model);
+        ProcessTabController processTabController = new ProcessTabController(
+                view, model);
         view.getProcessTab().setController(processTabController);
 
-        WorkspaceTabController workspaceTabController = new WorkspaceTabController(view, model, fileChooser);
+        WorkspaceTabController workspaceTabController = new WorkspaceTabController(
+                view, model, fileChooser);
 
-
-        UploadTabController uploadTabController = new UploadTabController(view, model, fileChooser);
+        UploadTabController uploadTabController = new UploadTabController(view,
+                model, fileChooser);
         view.getUploadTab().setController(uploadTabController);
 
         SysadminController sysadminTabController = new SysadminController(model);
         view.getSysAdminTab().setController(sysadminTabController);
 
-        ConvertTabController convertTabController = new ConvertTabController(view, model, fileChooser);
+        ConvertTabController convertTabController = new ConvertTabController(
+                view, model, fileChooser);
         view.getConvertTab().setController(convertTabController);
 
         sysadminTabController.updateAnnotationTable();
@@ -189,33 +193,47 @@ public class Controller {
                 new Thread() {
                     @Override
                     public void run() {
-                        model.setIP(view.getLoginWindow().getIPInput());
-                        SessionHandler.getInstance().setIP(
-                                view.getLoginWindow().getIPInput());
+                        String ip = view.getLoginWindow().getIPInput();
                         String username = view.getLoginWindow()
                                 .getUsernameInput();
                         String pwd = view.getLoginWindow().getPasswordInput();
-                        String response = SessionHandler.getInstance()
-                                .loginUser(username, pwd);
-                        // TODO: extract stupid .equals true to a domain object
-                        // boolean
-                        // thingy
-                        if (response.equals("true")) {
-                            view.updateLoginAccepted(username, pwd,
-                                    "Desktop User");
-                            if (runonce) {
-                                updateTabs();
-                                runonce = false;
+                        if (!ip.isEmpty() && !username.isEmpty()
+                                && !pwd.isEmpty()) {
+                            model.setGUI(view);
+                            model.setIP(view.getLoginWindow().getIPInput());
+                            SessionHandler.getInstance().setIP(
+                                    view.getLoginWindow().getIPInput());
+
+                            String response = SessionHandler.getInstance()
+                                    .loginUser(username, pwd);
+                            // TODO: extract stupid .equals true to a domain
+                            // object
+                            // boolean
+                            // thingy
+                            if (response.equals("true")) {
+                                view.updateLoginAccepted(username, pwd,
+                                        "Desktop User");
+                                if (runonce) {
+                                    updateTabs();
+                                    runonce = false;
+                                } else {
+                                    view.getSysAdminTab().getController()
+                                            .updateAnnotationTable();
+                                    view.getSysAdminTab().getController()
+                                            .updateGenomeReleaseTab();
+                                }
+                                ErrorLogger.log("Login", username
+                                        + " logged in");
                             } else {
-                                view.getSysAdminTab().getController()
-                                        .updateAnnotationTable();
-                                view.getSysAdminTab().getController()
-                                        .updateGenomeReleaseTab();
+                                view.getLoginWindow().updateLoginFailed(
+                                        response);
+                                ErrorLogger.log(response);
                             }
-                            ErrorLogger.log("Login", username + " logged in");
                         } else {
-                            view.getLoginWindow().updateLoginFailed(response);
-                            ErrorLogger.log(response);
+                            view.getLoginWindow()
+                                    .updateLoginFailed(
+                                            "Didn't enter username, " +
+                                            "password and/or server");
                         }
                     };
                 }.start();
@@ -255,8 +273,6 @@ public class Controller {
             }
         };
     }
-
-
 
     /**
      * Show the ratioCalc popup. TODO: Remove Thread

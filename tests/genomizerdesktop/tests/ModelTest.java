@@ -1,6 +1,7 @@
 package genomizerdesktop.tests;
 
 import static org.fest.assertions.api.Assertions.assertThat;
+import static org.junit.Assert.*;
 import model.GenomizerModel;
 import model.Model;
 import model.User;
@@ -22,7 +23,7 @@ public class ModelTest {
     @Before
     public void setUp() throws Exception {
         m = new Model();
-        m.setIP("http://");
+        m.setIP(ExampleExperimentData.getTestServerIP());
 
     }
 
@@ -33,9 +34,9 @@ public class ModelTest {
 
     @Test
     public void shouldLogin() throws Exception {
-        assertThat(u.getName()).isEmpty();
+        assertTrue(u.getToken().isEmpty());
         assertThat(m.loginUser(ExampleExperimentData.getTestUsername(), ExampleExperimentData.getTestPassword())).isEqualToIgnoringCase("true");
-        assertThat(u.getName()).isNotEmpty();
+        assertThat(u.getToken()).isNotEmpty();
     }
 
     @Test
