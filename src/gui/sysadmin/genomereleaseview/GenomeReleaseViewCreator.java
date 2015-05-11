@@ -53,7 +53,7 @@ public class GenomeReleaseViewCreator {
     private JTable grTable;
 
     private JTextField versionText;
-    private JComboBox speciesText;
+    private JComboBox<String> speciesText;
     private JTextField fileText;
 
     private JButton addButton;
@@ -66,7 +66,7 @@ public class GenomeReleaseViewCreator {
 
     private JPanel fileListPanel;
     private JPanel extraInfoPanel;
-    private String[] filenames;
+    private String[] filenames = null;
     private JPanel fileProgressPanel;
     private ArrayList<JProgressBar> progressbars = new ArrayList<JProgressBar>();
 
@@ -319,6 +319,7 @@ public class GenomeReleaseViewCreator {
         specieLabel.setText("Species");
         JTextField specie = new JTextField(20);
 
+        // TODO: These buttons do notthing!=!?
         JButton button = new JButton("Add");
 
         textNButton.add(specie, BorderLayout.CENTER);
@@ -366,7 +367,7 @@ public class GenomeReleaseViewCreator {
         /* text fields */
         versionText = new JTextField(20);
         versionText.addKeyListener(textListner);
-        speciesText = new JComboBox();
+        speciesText = new JComboBox<String>();
         fileText = new JTextField(20);
         fileText.addKeyListener(textListner);
         fileText.setEditable(false);

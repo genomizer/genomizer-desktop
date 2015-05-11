@@ -49,6 +49,7 @@ public class QuerySearchTabController {
             public void actionPerformed(ActionEvent e) {
 
                 querySearchTab.clearSearchFields();
+                System.out.println("1");
             }
         };
     }
@@ -94,7 +95,6 @@ public class QuerySearchTabController {
             @Override
             public void actionPerformed(ActionEvent e) {
                 querySearchTab.getSearchArea().setEditable(false);
-
                 for (QueryBuilderRow row : querySearchTab.getRowList()) {
                     row.setEnabled(true);
                 }
@@ -134,6 +134,7 @@ public class QuerySearchTabController {
                             JOptionPane.showMessageDialog(null,
                                     "No search results!", "Search Warning",
                                     JOptionPane.WARNING_MESSAGE);
+                                    view.setStatusPanel("No search results!");
 
                             // If search results are null and the active panel
                             // is table
@@ -141,6 +142,7 @@ public class QuerySearchTabController {
                             // Go back to the query search
                             view.getBackButton().doClick();
                             view.getQuerySearchTab().getBackButton();
+                            
                         }
                     };
                 }.start();
@@ -155,6 +157,7 @@ public class QuerySearchTabController {
                 new Thread() {
                     @Override
                     public void run() {
+                        System.out.println("8");
                         AnnotationDataType[] annotations = model
                                 .getAnnotations();
                         if (annotations != null && annotations.length > 0) {

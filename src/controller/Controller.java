@@ -197,9 +197,8 @@ public class Controller {
                         String username = view.getLoginWindow().getUsernameInput();
                         String password = view.getLoginWindow().getPasswordInput();
 
-                        if (!ip.isEmpty() && !username.isEmpty() && !password.isEmpty()) {
 
-                            model.setGUI(view);
+                        if (!ip.isEmpty() && !username.isEmpty() && !password.isEmpty()) {
 
                             SessionHandler sessionHandler = SessionHandler.getInstance();
 

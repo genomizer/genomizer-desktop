@@ -15,6 +15,7 @@ import util.FileData;
 import util.GenomeReleaseData;
 import util.ProcessFeedbackData;
 import gui.CheckListItem;
+import gui.ErrorDialog;
 import gui.GUI;
 import gui.ProcessTab;
 
@@ -222,6 +223,8 @@ public class ProcessTabController {
             @Override
             public void actionPerformed(ActionEvent e) {
                 //TODO skicka request till server att avbryta processen som �r markerad
+                new ErrorDialog("NOT IMPLEMENTED","Aborting processes is not yet supported","...").showDialog();
+
             }
         };
     }
