@@ -25,6 +25,9 @@ public class SSLTool {
 
     private static X509HostnameVerifier hostnameVerifier;
 
+    /**
+     * Disables all SSL certificate validation.
+     */
     public static void disableCertificateValidation() {
         // Create a trust manager that does not validate certificate chains
         TrustManager[] trustAllCerts = new TrustManager[] { new X509TrustManager() {
