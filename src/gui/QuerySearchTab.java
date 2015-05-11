@@ -276,7 +276,7 @@ public class QuerySearchTab extends JPanel {
             public void run() {
                 updateAnnotationsButton.doClick();
                 rowList = new CopyOnWriteArrayList<QueryBuilderRow>();
-                addRow();
+                addRow(); // TODO denna rad kastar expception ibland vid uppstart.
                 searchArea.setText("");
             }
         });
