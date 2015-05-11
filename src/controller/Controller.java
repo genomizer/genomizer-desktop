@@ -199,7 +199,6 @@ public class Controller {
                         String pwd = view.getLoginWindow().getPasswordInput();
                         if (!ip.isEmpty() && !username.isEmpty()
                                 && !pwd.isEmpty()) {
-                            model.setGUI(view);
                             model.setIP(view.getLoginWindow().getIPInput());
                             SessionHandler.getInstance().setIP(
                                     view.getLoginWindow().getIPInput());
