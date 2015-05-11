@@ -7,8 +7,6 @@ import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
 
 import javax.swing.JButton;
 import javax.swing.JDialog;
@@ -69,10 +67,20 @@ public class ErrorDialog extends JOptionPane {
         buildBodyPanel();
     }
 
-    public ErrorDialog(String title, RequestException e)  {
+    /**
+     * Constucts a new ErrorDialog object with a title and a RequestException
+     *
+     * @param title
+     *            the title
+     * @param e
+     *            a RequestException
+     * @see RequestException
+     */
+    public ErrorDialog(String title, RequestException e) {
         String responseBody = e.getResponseBody();
         String simpleMessage = ResponseParser.parseErrorResponse(responseBody).message;
-        String extendedMessage = ErrorMessageGenerator.generateMessage(e.getResponseCode());
+        String extendedMessage = ErrorMessageGenerator.generateMessage(e
+                .getResponseCode());
         this.title = title;
         this.simpleMessage = simpleMessage;
         this.extendedMessage = extendedMessage;
@@ -127,7 +135,6 @@ public class ErrorDialog extends JOptionPane {
         moreInfoButton.addActionListener(new MoreButtonListener());
         bodyPanel.add(buttonPanel, BorderLayout.SOUTH);
 
-
     }
 
     /**
@@ -149,10 +156,24 @@ public class ErrorDialog extends JOptionPane {
 
     }
 
+    /**
+     * Sets the parent component to the error dialog. This will cause every
+     * ErrorDialog to be centered on the given parent component.
+     *
+     * @param parentComponent
+     *            the parent component
+     */
     public static void setParentComponent(Component parentComponent) {
         ErrorDialog.parentComponent = parentComponent;
     }
 
+    /**
+     * ActionListener for the Ok-button of the dialog. When pressed the dialog
+     * will be disposed.
+     *
+     * @author oi12mlw
+     *
+     */
     private class OkButtonListener implements ActionListener {
 
         @Override
@@ -162,6 +183,13 @@ public class ErrorDialog extends JOptionPane {
         }
     }
 
+    /**
+     * ActionListener for the More-button of the dialog. When pressed the dialog
+     * will show or hide a JTextArea with and extended message.
+     *
+     * @author oi12mlw
+     *
+     */
     private class MoreButtonListener implements ActionListener {
 
         @Override
@@ -181,7 +209,15 @@ public class ErrorDialog extends JOptionPane {
 
     }
 
-
+    /**
+     * Constucts and displays a new ErrorDialog with the given title, from the
+     * given RequestException
+     *
+     * @param title
+     *            the title
+     * @param e
+     *            the RequestException
+     */
     public static void showRequestErrorDialog(String title, RequestException e) {
         String responseBody = e.getResponseBody();
         String message = ResponseParser.parseErrorResponse(responseBody).message;
