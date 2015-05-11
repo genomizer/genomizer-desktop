@@ -4,7 +4,23 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import model.User;
 
+/**
+ * A class for generating error messages based on a HTML response code.
+ *
+ * @author oi12mlw
+ *
+ */
 public class ErrorMessageGenerator {
+
+    /**
+     * Generates an error message string based on a given HTML response code.
+     * The string will contain information about the time this message was
+     * created and under which user token the message was created.
+     *
+     * @param responseCode
+     *            the HTML response code
+     * @return the error message string
+     */
     public static String generateMessage(int responseCode) {
         String date = getCurrentTimeStamp();
         String message = "Error code: " + responseCode + "\n"
@@ -14,8 +30,10 @@ public class ErrorMessageGenerator {
         return message;
     }
 
-    /*
-     * http://stackoverflow.com/questions/1459656/how-to-get-the-current-time-in-
+    /**
+     * Returns a string representing the current time and date. Code from:
+     * http:/
+     * /stackoverflow.com/questions/1459656/how-to-get-the-current-time-in-
      * yyyy-mm-dd-hhmisec-millisecond-format-in-java
      */
     private static String getCurrentTimeStamp() {

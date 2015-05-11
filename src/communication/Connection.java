@@ -56,6 +56,11 @@ public class Connection {
      *            the GUI
      */
     public Connection(String ip, GUI view) {
+        
+        if(!ip.startsWith("https://")) {
+            ip = "https://" + ip;
+        }
+
         this.ip = ip;
         this.view = (GUI) view;
         responseBody = "";
@@ -137,21 +142,9 @@ public class Connection {
     private void connect(Request request, String token, String type)
             throws MalformedURLException, IOException, ProtocolException {
 
-        String targetUrl;
-
-        if (ip.startsWith("https://")) {
-            targetUrl = ip + request.url;
-        } else {
-            targetUrl = "https://" + ip + request.url;
-        }
-
-        URL url = new URL(targetUrl);
-
-        //SSLSocketFactory sslSocketFactory = (SSLSocketFactory) SSLSocketFactory.getDefault();
+        URL url = new URL(ip + request.url);
 
         connection = (HttpsURLConnection) url.openConnection();
-
-        //connection.setSSLSocketFactory(sslSocketFactory);
 
 
         if (type.equals("application/json")) {
