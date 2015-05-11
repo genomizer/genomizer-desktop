@@ -15,10 +15,10 @@ import responses.ErrorResponse;
 import responses.LoginResponse;
 import responses.ResponseParser;
 import util.Constants;
+import util.LoginException;
 import util.RequestException;
 import communication.Connection;
 import communication.ConnectionFactory;
-import controller.LoginException;
 
 public class SessionHandler {
 

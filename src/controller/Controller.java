@@ -17,6 +17,7 @@ import model.GenomizerModel;
 import model.SessionHandler;
 import model.User;
 import util.AnnotationDataType;
+import util.LoginException;
 
 /**
  * Controller class responsible for setting the correct actions to the listening
