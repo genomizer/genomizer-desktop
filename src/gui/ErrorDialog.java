@@ -100,8 +100,10 @@ public class ErrorDialog extends JOptionPane {
 
     private void buildTopPanel() {
         JPanel topPanel = new JPanel(new GridLayout(2, 1));
-        JLabel simpleMessageLabel = new JLabel(simpleMessage);
+        JLabel simpleMessageLabel = new JLabel("<html>" + simpleMessage + "<html>");
         topPanel.add(simpleMessageLabel);
+
+        /* Empty panel for vertical padding */
         topPanel.add(new JLabel(""));
         bodyPanel.add(topPanel, BorderLayout.NORTH);
     }
