@@ -141,10 +141,7 @@ public class Model implements GenomizerModel {
         return null;
     }
 
-    @Override
-    public void setGUI(GUI view) {
-        connFactory.setGUI(view);
-    }
+
 
     @Override
     public boolean addNewAnnotation(String name, String[] categories,

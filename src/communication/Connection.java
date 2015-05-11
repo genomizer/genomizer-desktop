@@ -31,9 +31,6 @@ import util.RequestException;
 public class Connection {
 
 
-    // TODO: varfï¿½r view? gï¿½r oberoende?
-    private final GUI view;
-
     /** The IP-adress to the Server */
     private String ip;
 
@@ -55,14 +52,13 @@ public class Connection {
      * @param view
      *            the GUI
      */
-    public Connection(String ip, GUI view) {
-        
+    public Connection(String ip) {
+
         if(!ip.startsWith("https://")) {
             ip = "https://" + ip;
         }
 
         this.ip = ip;
-        this.view = (GUI) view;
         responseBody = "";
         responseCode = 0;
     }
@@ -90,6 +86,7 @@ public class Connection {
                 responseCode = connection.getResponseCode();
                 fetchResponse(connection.getInputStream());
                 if (responseCode >= 300) {
+                    connection.disconnect();
                     throw new RequestException(responseCode, responseBody);
                 }
             }
@@ -104,12 +101,12 @@ public class Connection {
             fetchResponse(connection.getInputStream());
 
             if (responseCode == 401 && !token.isEmpty()) {
-                // TODO:wtf
-                view.updateLogout();
+                connection.disconnect();
                 throw new RequestException(responseCode, responseBody);
             }
             if (responseCode >= 300) {
                 ErrorLogger.log(responseBody);
+                connection.disconnect();
                 throw new RequestException(responseCode, responseBody);
             }
             connection.disconnect();
@@ -123,9 +120,11 @@ public class Connection {
 
                     //TODO Fixa så att man kan kasta meddelanden för alla koder >300
                     if(responseCode==400){
+                        connection.disconnect();
                         throw new RequestException(responseCode, responseBody);
                     }
                     if(responseCode==503){
+                        connection.disconnect();
                         throw new RequestException(responseCode, responseBody);
                     }
 

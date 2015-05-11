@@ -189,7 +189,6 @@ public class Controller {
                 new Thread() {
                     @Override
                     public void run() {
-                        model.setGUI(view);
                         model.setIP(view.getLoginWindow().getIPInput());
                         SessionHandler.getInstance().setIP(
                                 view.getLoginWindow().getIPInput());
