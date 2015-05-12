@@ -318,7 +318,6 @@ public class ConvertTab extends JPanel {
                 if(cToGFF.isSelected()){
                     cToWIG.setSelected(true);
                 }
-
             }
 
             if (cFromWIG.isSelected() && cFromWIG.isEnabled()) {
@@ -327,7 +326,6 @@ public class ConvertTab extends JPanel {
                 if(cToSGR.isSelected() || cToWIG.isSelected()){
                     cToGFF.setSelected(true);
                 }
-
             }
 
             if (cFromSGR.isSelected() && cFromSGR.isEnabled()) {
@@ -346,7 +344,6 @@ public class ConvertTab extends JPanel {
                 if(cToSGR.isSelected()){
                     cToWIG.setSelected(true);
                 }
-
             }
     }
 
