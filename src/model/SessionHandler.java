@@ -8,7 +8,6 @@ package model;
  *
  * @author oi12mlw, oi12pjn
  */
-import gui.ErrorDialog;
 import requests.LoginRequest;
 import requests.LogoutRequest;
 import requests.RequestFactory;
@@ -16,6 +15,7 @@ import responses.ErrorResponse;
 import responses.LoginResponse;
 import responses.ResponseParser;
 import util.Constants;
+import util.LoginException;
 import util.RequestException;
 import communication.Connection;
 import communication.ConnectionFactory;
@@ -59,7 +59,6 @@ public class SessionHandler {
         return connFactory.getIP();
     }
 
-    // TODO should not return string. Throw exception?
     /**
      * Logs in the user with the given username and password
      *
@@ -67,39 +66,34 @@ public class SessionHandler {
      *            the username
      * @param password
      *            the password
-     * @return
+     *
+     * @throws RequestException if the log in failed
      */
-    public String loginUser(String username, String password) {
-        if (!username.isEmpty() && !password.isEmpty()) {
-            LoginRequest request = RequestFactory.makeLoginRequest(username,
-                    password);
-            Connection conn = connFactory.makeConnection();
-            try {
-                conn.sendRequest(request, "", Constants.JSON);
-            } catch (RequestException e) {
+    public void loginUser(String username, String password) throws LoginException {
+        LoginRequest request = RequestFactory.makeLoginRequest(username,
+                password);
+        Connection conn = connFactory.makeConnection();
+        try {
+            conn.sendRequest(request, "", Constants.JSON);
+            int responseCode = conn.getResponseCode();
 
-                 new ErrorDialog("Could not log in", e).showDialog();
+            if (responseCode == 0) {
+                throw new LoginException("Server not found");
+            } else if(responseCode == 401) {
+                throw new LoginException("Incorrect username or password");
             }
-            if (conn.getResponseCode() == 200) {
-                LoginResponse loginResponse = ResponseParser
-                        .parseLoginResponse(conn.getResponseBody());
-                if (loginResponse != null) {
-                    User.getInstance().setToken(loginResponse.token);
-                    User.getInstance().setName(username);
-                    return "true";
-                }
-            } else {
-                ErrorResponse response = ResponseParser.parseErrorResponse(conn
-                        .getResponseBody());
-                if (response != null) {
-                    return response.message;
-                } else {
 
-                    return "Server not found";
-                }
+            LoginResponse loginResponse = ResponseParser.parseLoginResponse(conn.getResponseBody());
+            if (loginResponse != null) {
+                User.getInstance().setToken(loginResponse.token);
+                User.getInstance().setName(username);
             }
+
+        } catch (RequestException e) {
+            ErrorResponse response = ResponseParser.parseErrorResponse(conn.getResponseBody());
+            String message = response == null ? "Server not found" : response.message;
+            throw new LoginException(message);
         }
-        return "No username and/or password inserted";
     }
 
     // TODO Should not return boolean. Throw exception?

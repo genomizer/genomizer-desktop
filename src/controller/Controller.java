@@ -17,6 +17,7 @@ import model.GenomizerModel;
 import model.SessionHandler;
 import model.User;
 import util.AnnotationDataType;
+import util.LoginException;
 
 /**
  * Controller class responsible for setting the correct actions to the listening
@@ -193,24 +194,23 @@ public class Controller {
                 new Thread() {
                     @Override
                     public void run() {
-                        String ip = view.getLoginWindow().getIPInput();
-                        String username = view.getLoginWindow()
-                                .getUsernameInput();
-                        String pwd = view.getLoginWindow().getPasswordInput();
-                        if (!ip.isEmpty() && !username.isEmpty()
-                                && !pwd.isEmpty()) {
-                            model.setIP(view.getLoginWindow().getIPInput());
-                            SessionHandler.getInstance().setIP(
-                                    view.getLoginWindow().getIPInput());
+                        String ip       = view.getLoginWindow().getIPInput();
+                        String username = view.getLoginWindow().getUsernameInput();
+                        String password = view.getLoginWindow().getPasswordInput();
 
-                            String response = SessionHandler.getInstance()
-                                    .loginUser(username, pwd);
-                            // TODO: extract stupid .equals true to a domain
-                            // object
-                            // boolean
-                            // thingy
-                            if (response.equals("true")) {
-                                view.updateLoginAccepted(username, pwd,
+
+                        if (!ip.isEmpty() && !username.isEmpty() && !password.isEmpty()) {
+
+                            SessionHandler sessionHandler = SessionHandler.getInstance();
+
+                            // TODO SessionHandler.setIP().........
+                            model.setIP(ip);
+
+                            sessionHandler.setIP(ip);
+
+                            try {
+                                sessionHandler.loginUser(username, password);
+                                view.updateLoginAccepted(username, password,
                                         "Desktop User");
                                 if (runonce) {
                                     updateTabs();
@@ -221,13 +221,14 @@ public class Controller {
                                     view.getSysAdminTab().getController()
                                             .updateGenomeReleaseTab();
                                 }
+                            } catch (LoginException e) {
                                 ErrorLogger.log("Login", username
                                         + " logged in");
-                            } else {
-                                view.getLoginWindow().updateLoginFailed(
-                                        response);
-                                ErrorLogger.log(response);
+                                view.getLoginWindow().updateLoginFailed(e.getMessage());
+                                ErrorLogger.log(e.getMessage());
                             }
+
+
                         } else {
                             view.getLoginWindow()
                                     .updateLoginFailed(

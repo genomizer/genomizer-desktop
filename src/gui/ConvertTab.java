@@ -318,7 +318,6 @@ public class ConvertTab extends JPanel {
                 if(cToGFF.isSelected()){
                     cToWIG.setSelected(true);
                 }
-
             }
 
             if (cFromWIG.isSelected() && cFromWIG.isEnabled()) {
@@ -327,7 +326,6 @@ public class ConvertTab extends JPanel {
                 if(cToSGR.isSelected() || cToWIG.isSelected()){
                     cToGFF.setSelected(true);
                 }
-
             }
 
             if (cFromSGR.isSelected() && cFromSGR.isEnabled()) {
@@ -346,7 +344,6 @@ public class ConvertTab extends JPanel {
                 if(cToSGR.isSelected()){
                     cToWIG.setSelected(true);
                 }
-
             }
     }
 
@@ -473,6 +470,7 @@ public class ConvertTab extends JPanel {
         if(fileList.getModel().getSize() == 0){
             JOptionPane.showMessageDialog(null,"No matching filetypes. \nPossible types to convert: \n" + 
                     getPossibleConvertFromFileTypes().toString());
+          
         }
 
         this.revalidate();

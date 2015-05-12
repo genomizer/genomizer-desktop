@@ -3,6 +3,8 @@ package model;
 import org.junit.Before;
 import org.junit.Test;
 
+import communication.SSLTool;
+
 import exampleData.ExampleExperimentData;
 import util.AnnotationDataType;
 import util.AnnotationDataValue;
@@ -25,16 +27,21 @@ public class ModelRealTest {
     String username = ExampleExperimentData.getTestUsername();
     String password = ExampleExperimentData.getTestPassword();
     Model m = new Model();
+    SessionHandler s = SessionHandler.getInstance();
 
     @Before
-    public void setUp() {
+    public void setUp() throws Exception{
+        SSLTool.disableCertificateValidation();
         m.setIP(ExampleExperimentData.getTestServerIP());
         m.loginUser(username, password);
+        s.setIP(ExampleExperimentData.getTestServerIP());
+        s.loginUser(ExampleExperimentData.getTestUsername(), ExampleExperimentData.getTestPassword());
+        
     }
 
     @Test
     public void shouldUploadExperimentAndRemove() {
-        String expid = "thisisatestexp476-";
+        String expid = "desktopTestExperiment";
         String strAp = Long.toString(System.currentTimeMillis() / 60);
         expid += strAp;
         String homeDir = System.getProperty("user.home");
@@ -66,7 +73,7 @@ public class ModelRealTest {
         }
         assertThat(m.search(expid + "[ExpID]")).isNull();
         assertThat(m.addNewExperiment(expid, values)).isTrue();
-        assertThat(m.uploadFile(expid, file, "Profile", false, "fb5")).isTrue();
+        assertThat(m.uploadFile(expid, file, "Profile", false, "14")).isTrue();
         ArrayList<ExperimentData> data = m.search(expid + "[ExpID]");
         assertThat(data).isNotNull();
         for (FileData fileData : data.get(0).files) {

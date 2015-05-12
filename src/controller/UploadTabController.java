@@ -274,7 +274,7 @@ public class UploadTabController {
                                 created = model.addNewExperiment(expName,
                                         annotations);
                             } else {
-                                //TODO Ska användas när edit annot implementerats
+                                //TODO Ska anvï¿½ndas nï¿½r edit annot implementerats
 //                                created = model.changeExperiment(expName,
 //                                        annotations);
                                 created = true;
@@ -303,7 +303,7 @@ public class UploadTabController {
 
                                     } else {
 
-                                        //TODO Behövs nog inte
+                                        //TODO Behï¿½vs nog inte
 
                                         JOptionPane.showMessageDialog(
                                                 null,
@@ -394,7 +394,7 @@ public class UploadTabController {
 //                                JOptionPane.showMessageDialog(null,"Upload to the new " + "experiment \""
 //                                        + expName + "\" complete");
 
-                                String status = "Upload to new experiment \"" + expName + "\" complete.";
+                                String status = "Uploads to experiment \"" + expName + "\" complete.";
                                 view.setStatusPanel(status);
 
 
