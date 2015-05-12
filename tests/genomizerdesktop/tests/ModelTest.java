@@ -4,10 +4,16 @@ import static org.fest.assertions.api.Assertions.assertThat;
 import static org.junit.Assert.*;
 import model.GenomizerModel;
 import model.Model;
+import model.SessionHandler;
 import model.User;
 
 import org.junit.Before;
 import org.junit.Test;
+
+import requests.LoginRequest;
+import requests.RequestFactory;
+
+import communication.SSLTool;
 
 import exampleData.ExampleExperimentData;
 import util.AnnotationDataValue;
@@ -20,11 +26,19 @@ public class ModelTest {
 
     Model m;
     User u = User.getInstance();
+    SessionHandler s = SessionHandler.getInstance();
+    String expName;
+    AnnotationDataValue[] values;
+
     @Before
     public void setUp() throws Exception {
+        SSLTool.disableCertificateValidation();
         m = new Model();
         m.setIP(ExampleExperimentData.getTestServerIP());
-
+        s.setIP(ExampleExperimentData.getTestServerIP());
+        values = new AnnotationDataValue[1];
+        values[0] = new AnnotationDataValue("test", "name", "val");
+        expName = "DesktopTestExperiment";
     }
 
     @Test
@@ -34,29 +48,51 @@ public class ModelTest {
 
     @Test
     public void shouldLogin() throws Exception {
-        assertTrue(u.getToken().isEmpty());
-        assertThat(m.loginUser(ExampleExperimentData.getTestUsername(), ExampleExperimentData.getTestPassword())).isEqualToIgnoringCase("true");
-        assertThat(u.getToken()).isNotEmpty();
+        LoginRequest r = RequestFactory.makeLoginRequest(
+                ExampleExperimentData.getTestUsername(),
+                ExampleExperimentData.getTestPassword());
+
+        assertEquals(r.username,ExampleExperimentData.getTestUsername());
+        assertEquals(r.password,ExampleExperimentData.getTestPassword());
+        assertEquals(r.type, "POST");
+        assertEquals(r.requestName,"login");
+        assertEquals(r.url, "/login");
+        assertEquals(r.toJson(), "HEJ");
+
     }
 
     @Test
     public void shouldLogout() throws Exception {
-        assertThat(m.loginUser(ExampleExperimentData.getTestUsername(), ExampleExperimentData.getTestPassword())).isEqualToIgnoringCase("true");
-        assertThat(u.getName()).isNotEmpty();
-        assertThat(m.logoutUser()).isTrue();
-        assertThat(u.getName()).isEmpty();
+        try {
+            s.loginUser(ExampleExperimentData.getTestUsername(),
+                    ExampleExperimentData.getTestPassword());
+        } catch (Exception e) {
+            fail("Login failed");
+        }
+        assertThat(u.getToken()).isNotEmpty();
+        assertThat(s.logoutUser()).isTrue();
+        assertThat(u.getToken()).isEmpty();
     }
 
     @Test
-    public void shouldAddExperiment() throws Exception {
-        AnnotationDataValue[] values = new AnnotationDataValue[1];
-        values[0] = new AnnotationDataValue("test", "name", "val");
-        assertThat(m.addNewExperiment("testexp", values)).isTrue();
+    public void shouldAddAndRemoveExperiment() throws Exception {
+        s.loginUser(ExampleExperimentData.getTestUsername(),
+                ExampleExperimentData.getTestPassword());
+        if (m.retrieveExperiment(expName) != null) {
+            assertThat(m.deleteExperimentFromDatabase(expName)).isTrue();
+            assertThat(m.addNewExperiment(expName, values)).isTrue();
+            assertThat(m.deleteExperimentFromDatabase(expName)).isTrue();
+        } else {
+            assertThat(m.addNewExperiment(expName, values)).isTrue();
+            assertThat(m.deleteExperimentFromDatabase(expName)).isTrue();
+        }
     }
 
     @Test
     public void shouldUploadFile() throws Exception {
-        assertThat(m.uploadFile("test", new File("test"), "type", false, "fb5")).isTrue();
+        assertThat(m.addNewExperiment(expName, values)).isTrue();
+        assertThat(m.uploadFile("test", new File("test"), "type", false, "fb5"))
+                .isTrue();
     }
 
     @Test
@@ -68,10 +104,9 @@ public class ModelTest {
     public void shouldGetUrlFromSearch() throws Exception {
         ArrayList<ExperimentData> data;
         data = m.search("exp1[ExpID]");
-        assertThat(data.get(0).files.get(0).url).
-                isEqualToIgnoringCase("http://scratchy.cs.umu.se:8000/download.php?" +
-                        "path=/var/www/data/Exp1/raw/file1.fastq");
+        assertThat(data.get(0).files.get(0).url).isEqualToIgnoringCase(
+                "http://scratchy.cs.umu.se:8000/download.php?"
+                        + "path=/var/www/data/Exp1/raw/file1.fastq");
     }
-
 
 }
