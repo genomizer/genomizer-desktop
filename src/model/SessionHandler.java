@@ -59,7 +59,6 @@ public class SessionHandler {
         return connFactory.getIP();
     }
 
-    // TODO should not return string. Throw exception?
     /**
      * Logs in the user with the given username and password
      *

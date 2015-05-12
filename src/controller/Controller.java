@@ -210,11 +210,6 @@ public class Controller {
 
                             try {
                                 sessionHandler.loginUser(username, password);
-
-                            // TODO: extract stupid .equals true to a domain
-                            // object
-                            // boolean
-                            // thingy
                                 view.updateLoginAccepted(username, password,
                                         "Desktop User");
                                 if (runonce) {
