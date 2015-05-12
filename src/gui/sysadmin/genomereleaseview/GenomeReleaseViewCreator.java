@@ -54,7 +54,7 @@ public class GenomeReleaseViewCreator {
     private JTable grTable;
 
     private JTextField versionText;
-    private JComboBox<String> speciesText;
+    private JComboBox<String> speciesCombo;
     private JTextField fileText;
 
     private JButton addButton;
@@ -70,7 +70,7 @@ public class GenomeReleaseViewCreator {
     private String[] filenames = null;
     private JPanel fileProgressPanel;
     private ArrayList<JProgressBar> progressbars = new ArrayList<JProgressBar>();
-    private JTextField specie;
+    private JTextField specieField;
 
     public GenomeReleaseViewCreator() {
     }
@@ -319,13 +319,13 @@ public class GenomeReleaseViewCreator {
         JLabel specieLabel = new JLabel();
         specieLabel.setBorder(border);
         specieLabel.setText("Species");
-        specie = new JTextField(20);
+        specieField = new JTextField(20);
 
         JButton button = new JButton(SysStrings.GENOME_BUTTON_ADD_SPECIE);
         button.addActionListener(buttonListener);
 
 
-        textNButton.add(specie, BorderLayout.CENTER);
+        textNButton.add(specieField, BorderLayout.CENTER);
         textNButton.add(button, BorderLayout.EAST);
 
         layout.setHorizontalGroup(layout.createSequentialGroup().addGroup(
@@ -370,7 +370,7 @@ public class GenomeReleaseViewCreator {
         /* text fields */
         versionText = new JTextField(20);
         versionText.addKeyListener(textListner);
-        speciesText = new JComboBox<String>();
+        speciesCombo = new JComboBox<String>();
         fileText = new JTextField(20);
         fileText.addKeyListener(textListner);
         fileText.setEditable(false);
@@ -411,14 +411,14 @@ public class GenomeReleaseViewCreator {
         layout.setHorizontalGroup(layout.createSequentialGroup().addGroup(
                 layout.createParallelGroup(GroupLayout.Alignment.LEADING)
                         .addComponent(versionLabel).addComponent(versionText)
-                        .addComponent(speciesLabel).addComponent(speciesText)
+                        .addComponent(speciesLabel).addComponent(speciesCombo)
                         .addComponent(fileLabel)
                         .addComponent(fileProgressPanel)
                         .addComponent(buttonCeptionPanel)));
 
         layout.setVerticalGroup(layout.createSequentialGroup()
                 .addComponent(versionLabel).addComponent(versionText)
-                .addComponent(speciesLabel).addComponent(speciesText)
+                .addComponent(speciesLabel).addComponent(speciesCombo)
                 .addComponent(fileLabel).addComponent(fileProgressPanel)
                 .addComponent(buttonCeptionPanel));
 
@@ -431,16 +431,28 @@ public class GenomeReleaseViewCreator {
         return grTablemodel;
     }
 
+    /**
+     * Get entered version text value.
+     * @return
+     */
     public String getVersionText() {
         return versionText.getText();
     }
 
+    /**
+     * Get selected specie in the combo box
+     * @return
+     */
     public String getSpeciesItem() {
-        return (String) speciesText.getSelectedItem();
+        return (String) speciesCombo.getSelectedItem();
     }
 
+    /**
+     * Get specie entered in textfield
+     * @return
+     */
     public String getSpecieText(){
-        return specie.getText();
+        return specieField.getText();
     }
 
     // TODO: this is temporary!
@@ -483,6 +495,10 @@ public class GenomeReleaseViewCreator {
         this.addButton.setEnabled(status);
     }
 
+    /**
+     * Get selected gr version from grTable
+     * @return string of genome table column: version
+     */
     public String getSelectedVersion() {
 
         int selectedRow = grTable.getSelectedRow();
@@ -497,6 +513,10 @@ public class GenomeReleaseViewCreator {
         return str;
     }
 
+    /**
+     * Get selected gr table specie value
+     * @return string with the species column value of selected row
+     */
     public String getSelectedSpecie() {
         return (String) grTable.getValueAt(
                 grTable.getSelectedRow(),
@@ -540,14 +560,14 @@ public class GenomeReleaseViewCreator {
     }
 
     public void setSpeciesDDList(String[] listItems) {
-        speciesText.removeAllItems();
+        speciesCombo.removeAllItems();
         if (listItems != null) {
             for (String item : listItems) {
-                speciesText.addItem(item);
+                speciesCombo.addItem(item);
             }
         }
 
-        speciesText.repaint();
+        speciesCombo.repaint();
     }
 
     /* old crap will be needed next year maybe */

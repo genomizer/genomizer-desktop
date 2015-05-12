@@ -243,8 +243,9 @@ public class SysadminController {
 
             updateGenomeReleaseTable();
             JOptionPane.showMessageDialog(null,
-                    "Added genom release " + gr.getSelectedVersion()
+                    "Added genom release " + gr.getVersionText()
                             + " for species " + gr.getSpeciesItem());
+            // TODO: Consider statusPanel, and make messages similar
         } else {
             JOptionPane.showMessageDialog(null, "Could not add genome release");
         }
