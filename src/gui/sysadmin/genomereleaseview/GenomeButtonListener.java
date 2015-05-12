@@ -1,10 +1,13 @@
 package gui.sysadmin.genomereleaseview;
 
+import gui.ErrorDialog;
 import gui.sysadmin.SysadminTab;
 import gui.sysadmin.strings.SysStrings;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+
+import javax.swing.JOptionPane;
 
 import controller.SysadminController;
 
@@ -51,6 +54,19 @@ public class GenomeButtonListener implements ActionListener {
                 break;
             case SysStrings.GENOME_BUTTON_CLOSE:
                 sysTab.getGenomeReleaseView().removeExtraInfoPanel();
+                break;
+            case SysStrings.GENOME_BUTTON_ADD_SPECIE:
+                String specie = sysTab.getGenomeReleaseView().getSpecieText();
+                if (specie != null && !specie.equals("")){
+                    if (sysController.addAnnotationValue(
+                            "Species", specie)) {
+                        sysController.updateAnnotationTable();
+                        sysController.updateGenomeReleaseTab();
+                    } else {
+                        new ErrorDialog( "Add Species Failure",
+                                "Could not add annotation value!", "Could not add "+specie).showDialog();
+                    }
+                }
                 break;
         }
     }

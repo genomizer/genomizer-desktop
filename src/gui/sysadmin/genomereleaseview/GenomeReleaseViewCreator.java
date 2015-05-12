@@ -70,6 +70,7 @@ public class GenomeReleaseViewCreator {
     private String[] filenames = null;
     private JPanel fileProgressPanel;
     private ArrayList<JProgressBar> progressbars = new ArrayList<JProgressBar>();
+    private JTextField specie;
 
     public GenomeReleaseViewCreator() {
     }
@@ -318,27 +319,11 @@ public class GenomeReleaseViewCreator {
         JLabel specieLabel = new JLabel();
         specieLabel.setBorder(border);
         specieLabel.setText("Species");
-        final JTextField specie = new JTextField(20);
+        specie = new JTextField(20);
 
-        JButton button = new JButton("Add");
-        button.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                // Add specie to combobox if not already there
-                String newSpecie = specie.getText();
-                if (!speciesContains(newSpecie)) {
-                    speciesText.addItem(newSpecie);
-                    speciesText.repaint();
-                }
-            }
-            private boolean speciesContains(String newspecie) {
-                int specieCount = speciesText.getItemCount();
-                for (int i = 0; i < specieCount; i++)
-                    if (speciesText.getItemAt(i) == newspecie) return true;
-                return false;
-            }
+        JButton button = new JButton(SysStrings.GENOME_BUTTON_ADD_SPECIE);
+        button.addActionListener(buttonListener);
 
-        });
 
         textNButton.add(specie, BorderLayout.CENTER);
         textNButton.add(button, BorderLayout.EAST);
@@ -450,8 +435,12 @@ public class GenomeReleaseViewCreator {
         return versionText.getText();
     }
 
-    public String getSpeciesText() {
+    public String getSpeciesItem() {
         return (String) speciesText.getSelectedItem();
+    }
+
+    public String getSpecieText(){
+        return specie.getText();
     }
 
     // TODO: this is temporary!
