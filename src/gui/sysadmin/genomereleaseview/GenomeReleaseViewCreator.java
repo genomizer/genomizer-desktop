@@ -6,6 +6,7 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
+import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseListener;
@@ -119,7 +120,7 @@ public class GenomeReleaseViewCreator {
         return mainPanel;
     }
 
-        /***
+    /***
      * Builds the available genome releases table.
      *
      * @return the panel containing the genome release table
@@ -135,7 +136,6 @@ public class GenomeReleaseViewCreator {
 
         TableRowSorter<TableModel> rowSorter = new TableRowSorter<TableModel>(
                 grTablemodel);
-
 
         /** Set the sorting if the column is clicked. */
         grTable.setSelectionMode(DefaultListSelectionModel.SINGLE_SELECTION);
@@ -156,6 +156,7 @@ public class GenomeReleaseViewCreator {
         fileListPanel.add(extraInfoPanel, BorderLayout.NORTH);
 
     }
+
     /***
      * Creates the extra info panel containing the extra information about tha
      * files in each genome release and the delete button.
@@ -213,8 +214,7 @@ public class GenomeReleaseViewCreator {
         return progressPanel;
     }
 
-
-        /***
+    /***
      * Uses the array of filenames to create progress bars for each file
      * uploading.
      *
@@ -237,6 +237,7 @@ public class GenomeReleaseViewCreator {
             }
         }
     }
+
     /***
      * Uses the current uploads to
      *
@@ -288,8 +289,7 @@ public class GenomeReleaseViewCreator {
         JPanel mainPanel = new JPanel(new BorderLayout());
 
         JLabel label = new JLabel();
-        /** TODO: set variable string! */
-        label.setText("Genome releases");
+        label.setText(SysStrings.GENOME_TEXT_LABEL);
 
         Border border = BorderFactory.createEmptyBorder(5, 5, 5, 5);
         label.setBorder(border);
@@ -299,7 +299,8 @@ public class GenomeReleaseViewCreator {
 
     private JPanel buildAddNewSpeciePanel() {
         JPanel mainPanel = new JPanel(new BorderLayout());
-        mainPanel.setBorder(BorderFactory.createTitledBorder("Add new species"));
+        mainPanel
+                .setBorder(BorderFactory.createTitledBorder("Add new species"));
 
         JPanel containerPanel = new JPanel();
 
@@ -317,10 +318,27 @@ public class GenomeReleaseViewCreator {
         JLabel specieLabel = new JLabel();
         specieLabel.setBorder(border);
         specieLabel.setText("Species");
-        JTextField specie = new JTextField(20);
+        final JTextField specie = new JTextField(20);
 
-        // TODO: These buttons do notthing!=!?
         JButton button = new JButton("Add");
+        button.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                // Add specie to combobox if not already there
+                String newSpecie = specie.getText();
+                if (!speciesContains(newSpecie)) {
+                    speciesText.addItem(newSpecie);
+                    speciesText.repaint();
+                }
+            }
+            private boolean speciesContains(String newspecie) {
+                int specieCount = speciesText.getItemCount();
+                for (int i = 0; i < specieCount; i++)
+                    if (speciesText.getItemAt(i) == newspecie) return true;
+                return false;
+            }
+
+        });
 
         textNButton.add(specie, BorderLayout.CENTER);
         textNButton.add(button, BorderLayout.EAST);
@@ -392,7 +410,7 @@ public class GenomeReleaseViewCreator {
         fileButton.addActionListener(buttonListener);
 
         FlowLayout flowLayout = new FlowLayout();
-        flowLayout.setAlignment(flowLayout.LEADING);
+        flowLayout.setAlignment(FlowLayout.LEADING);
 
         JPanel buttonPanel = new JPanel(flowLayout);
         JPanel buttonCeptionPanel = new JPanel(new BorderLayout());
@@ -482,7 +500,7 @@ public class GenomeReleaseViewCreator {
         if (selectedRow == -1) {
             selectedRow = 0;
         }
-        JTableHeader tableheader =grTable.getTableHeader();
+        JTableHeader tableheader = grTable.getTableHeader();
         TableColumnModel tcm = tableheader.getColumnModel();
         int columnIndex = tcm.getColumnIndex(SysStrings.GENOME_TABLE_VERSION);
 
