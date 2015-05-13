@@ -1,182 +1,161 @@
 package gui.sysadmin.annotationview;
 
+import gui.sysadmin.annotationview.panels.AnnotationValuePanel;
 import gui.sysadmin.strings.SysStrings;
 
-import javax.swing.*;
-
-import util.AnnotationDataType;
-
-import java.awt.*;
-import java.awt.event.ActionEvent;
+import java.awt.BorderLayout;
+import java.awt.Dimension;
 import java.awt.event.ActionListener;
-import java.awt.image.BufferedImage;
-import java.net.URL;
 import java.util.ArrayList;
+
+import javax.swing.JButton;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JTable;
+import javax.swing.JTextField;
+import util.AnnotationDataType;
 
 public class EditAnnotationPopup extends JPanel {
 
-    private static final long serialVersionUID = -626744436260839622L;
-    private static final int FREETEXT_TAB = 1;
-    private JPanel addCategoriesPanel;
-    private JButton addButton, removeButton;
-    private ButtonModel editAnnotationButtonModel;
-    private JTextField nameField;
-    private ArrayList<String> categories = new ArrayList<String>();
-    private boolean forced = false;
-    private JCheckBox forcedBox;
     private JTable table;
     private AnnotationDataType annotation;
-    private ArrayList<JTextField> valueTexts = new ArrayList<JTextField>();
-    private JTabbedPane optionsPane;
+    JButton cancelButton = new JButton(SysStrings.ANNOTATIONS_MODIFY_CANCEL);
+    private JButton activateNameChangeButton = new JButton(
+            SysStrings.ANNOTATIONS_RENAME_FINAL);;
+
+    private JButton renameButton;
+    private JTextField nameField;
+    private ArrayList<JButton> valueButtons = new ArrayList<JButton>();
+    private ArrayList<JTextField> valueFields = new ArrayList<JTextField>();
+    private JPanel centerpanel;
+    private ArrayList<AnnotationValuePanel> valuePanels = new ArrayList<AnnotationValuePanel>();
+    private ArrayList<EditAnnotationDocumentListener> docListeners = new ArrayList<EditAnnotationDocumentListener>();
 
     public EditAnnotationPopup(JTable table) {
         this.table = table;
-        // TODO: THIS IS IMPORTANT THAT WE FIX; REFACTOR POPUP AND EVERYTHING
-        // PLEASE!
         if (!setAnnotation()) {
             JOptionPane.showMessageDialog(null,
                     "Please select an annotation to edit");
             this.setEnabled(false);
         } else {
-
             this.setLayout(new BorderLayout());
-            optionsPane = new JTabbedPane();
-            nameField = new JTextField();
-            optionsPane.addTab("DropDownLists", buildFirstTab());
-            optionsPane.addTab("Free Text", buildSecondTab());
-            this.add(optionsPane, BorderLayout.CENTER);
+            createAnnotationNamePanel();
+            createValuesPanel();
+            createCancelPanel();
         }
     }
 
-    private JPanel buildSecondTab() {
-
-        JPanel secondTab = new JPanel(new GridLayout(0, 1));
-
-        /* Create the top panel for the second tab */
-        JPanel topPanelInSecondTab = new JPanel();
-
-        JLabel name = new JLabel("Name:");
-        JTextField nameField2 = new JTextField(nameField.getDocument(),
-                annotation.getName(), 0);
-        nameField2.setPreferredSize(new Dimension(250, 30));
-        topPanelInSecondTab.add(name);
-        topPanelInSecondTab.add(nameField2);
-
-        /* Create bottom panel for the second tab */
-        JPanel botPanelInSecondTab = buildBotPanelInFirstTab();
-
-        secondTab.add(topPanelInSecondTab);
-        secondTab.add(botPanelInSecondTab);
-        return secondTab;
+    /**
+     * Creates the panel holding the "close" button and sets it to the south
+     */
+    private void createCancelPanel() {
+        JPanel cancelPanel = new JPanel();
+        cancelPanel.add(cancelButton);
+        this.add(cancelPanel, BorderLayout.SOUTH);
     }
 
-    private JScrollPane buildFirstTab() {
+    /**
+     * Creates the panel which holds all of the annotation's values
+     */
+    private void createValuesPanel() {
 
-        JPanel firstTab = new JPanel(new BorderLayout());
-        JScrollPane scrollPane = new JScrollPane(firstTab);
-        scrollPane
-                .setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
-
-        JPanel topPanelInFirstTab = buildTopPanelInFirstTab();
-        JPanel midPanelInFirstTab = buildMidPanelInFirstTab();
-        JPanel botPanelInFirstTab = buildBotPanelInFirstTab();
-
-        /* Add all complete panels to the first tab */
-        firstTab.add(topPanelInFirstTab, BorderLayout.NORTH);
-        firstTab.add(midPanelInFirstTab, BorderLayout.CENTER);
-        firstTab.add(botPanelInFirstTab, BorderLayout.SOUTH);
-
-        return scrollPane;
-
-    }
-
-    private JPanel buildMidPanelInFirstTab() {
-
-        JPanel midPanelInFirstTab = new JPanel(new BorderLayout());
-        final JCheckBox catCheckBox = new JCheckBox("Add Categories", true);
-        catCheckBox.setFocusPainted(false);
-
-        final JPanel categoryPanel = new JPanel(new BorderLayout());
-
-        addCategoriesPanel = new JPanel(new GridLayout(0, 1));
-
-        JPanel baseCatPanel = createDeafultCategoryPanel(addCategoriesPanel, "");
-        addCategoriesPanel.add(baseCatPanel);
-
-        categoryPanel.add(addCategoriesPanel, BorderLayout.NORTH);
-
-        for (String value : annotation.getValues()) {
-            addAddedCategoryPanel(addCategoriesPanel, value);
+        centerpanel = new JPanel();
+        for (String annotationValue : annotation.getValues()) {
+            AnnotationValuePanel panel = createAnnotationValue(annotationValue);
+            valuePanels.add(panel);
+            centerpanel.add(panel);
         }
-
-        ComponentTitledBorder componentBorder = createDynamicBorder(
-                categoryPanel, catCheckBox);
-        categoryPanel.setBorder(componentBorder);
-
-        midPanelInFirstTab.add(categoryPanel, BorderLayout.CENTER);
-
-        return midPanelInFirstTab;
+        JPanel addValuePanel = createAddValuePanel();
+        centerpanel.add(addValuePanel);
+        JPanel scrollPanel = new JPanel();
+        scrollPanel.add(centerpanel);
+        this.add(centerpanel, BorderLayout.CENTER);
     }
 
-    private JPanel createDeafultCategoryPanel(final JPanel addCategoriesPanel,
-            String value) {
-        JPanel baseCatPanel = new JPanel();
-
-        JLabel categorylabel = new JLabel("Category:");
-        JTextField annotationTextField = new JTextField();
-        annotationTextField.setName("textField");
-        valueTexts.add(annotationTextField);
-        annotationTextField.setText(value);
-        annotationTextField.setPreferredSize(new Dimension(200, 30));
-
-        baseCatPanel.add(categorylabel);
-        baseCatPanel.add(annotationTextField);
-
-        createAddCategoryButton(addCategoriesPanel, baseCatPanel,
-                annotationTextField);
-        return baseCatPanel;
+    /**
+     * Creates a JPanel containing the text field and button required to create
+     * a new value for an annotations
+     *
+     * @return the JPanel containing the field and button
+     */
+    private JPanel createAddValuePanel() {
+        JPanel panel = new JPanel();
+        JButton addValueButton = new JButton(
+                SysStrings.ANNOTATIONS_MODIFY_ADD_VALUE);
+        addValueButton.setName(SysStrings.ANNOTATIONS_MODIFY_ADD_VALUE);
+        JTextField valueTextField = new JTextField("");
+        valueTextField.setName("addedTextField");
+        valueTextField.setPreferredSize(new Dimension(180, 30));
+        panel.add(valueTextField, 0);
+        panel.add(addValueButton);
+        
+        if(annotation.getValues().length > 0 && annotation.getValues()[0].equals("freetext")){
+            valueTextField.setEnabled(false);
+            addValueButton.setEnabled(false);
+        }
+        
+        valueButtons.add(addValueButton);
+        return panel;
     }
 
-    private void createAddCategoryButton(final JPanel categoryHolderPanel,
-            JPanel baseCatPanel, final JTextField annotationTextField) {
+    /**
+     * Adds a button to the EditAnnotationPopup's list of buttons
+     *
+     * @param button
+     *            is the button to be added
+     */
+    public void addButtonToButtonList(JButton button) {
+        valueButtons.add(button);
 
-        URL imageUrl = getClass().getResource("/icons/plus.png");
-        ImageIcon addIcon = new ImageIcon(imageUrl);
-        addIcon = new ImageIcon(addIcon.getImage().getScaledInstance(20, 20,
-                BufferedImage.SCALE_SMOOTH));
-        addButton = new JButton("");
-
-        addButton.setBorderPainted(false);
-        addButton.setContentAreaFilled(false);
-
-        addButton.setIcon(addIcon);
-
-        addButton.addActionListener(new ActionListener() {
-
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                if (!annotationTextField.getText().equals("")) {
-                    addAddedCategoryPanel(categoryHolderPanel,
-                            annotationTextField);
-                }
-            }
-
-        });
-        baseCatPanel.add(addButton);
     }
 
-    private void createRemoveCategoryButton(final JPanel categoryPanel) {
-        URL imageUrl = getClass().getResource("/icons/minus.png");
-        ImageIcon removeIcon = new ImageIcon(imageUrl);
-        removeIcon = new ImageIcon(removeIcon.getImage().getScaledInstance(15,
-                15, BufferedImage.SCALE_SMOOTH));
-        removeButton = new JButton("");
+    /**
+     * Adds a text field to the EditAnnotationPopup's list of text fields
+     *
+     * @param field
+     *            is the field to be added
+     */
+    public void addTextFieldToFieldList(JTextField field) {
+        valueFields.add(field);
+    }
 
-        removeButton.setBorderPainted(false);
-        removeButton.setContentAreaFilled(false);
+    /**
+     * Creates a panel holding an annotation value and the tools to rename and
+     * remove it.
+     *
+     * @param name
+     *            is the name of the annotation value
+     * @return the AnnotationValuePanel
+     */
+    private AnnotationValuePanel createAnnotationValue(String name) {
+        AnnotationValuePanel panel = new AnnotationValuePanel(this, name);
+        return panel;
+    }
 
-        removeButton.setIcon(removeIcon);
-        categoryPanel.add(removeButton);
+    /**
+     * Creates the panel holding the annotation name and the button which
+     * renames it
+     */
+    private void createAnnotationNamePanel() {
+        JPanel annotationNamePanel = new JPanel();
+
+        JLabel name = new JLabel("Name: ");
+        annotationNamePanel.add(name);
+
+        nameField = new JTextField(annotation.name);
+        nameField.setPreferredSize(new Dimension(200, 30));
+        annotationNamePanel.add(nameField);
+        renameButton = new JButton(SysStrings.ANNOTATIONS_RENAME);
+        renameButton.setMinimumSize(new Dimension(80, 10));
+        renameButton.setEnabled(true);
+        annotationNamePanel.add(renameButton);
+
+        // JButton forced = new JButton("set Required");
+        // forced.setMinimumSize(new Dimension(80, 10));
+        // annotationNamePanel.add(forced);
+        this.add(annotationNamePanel, BorderLayout.NORTH);
+        // valuePanels.add(annotationNamePanel);
     }
 
     /**
@@ -195,198 +174,129 @@ public class EditAnnotationPopup extends JPanel {
         }
     }
 
-    private JPanel buildBotPanelInFirstTab() {
-        JPanel botPanelInFirstTab = new JPanel();
-        JLabel forced = new JLabel("Forced Annotation:");
-        forcedBox = new JCheckBox("Yes");
-        forcedBox.setSelected(annotation.isForced());
-        forcedBox.addActionListener(new ActionListener() {
-
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                switchForced();
-
-            }
-        });
-        // JPanel checkboxPanel = createCheckBoxPanel();
-        botPanelInFirstTab.add(forced);
-        // botPanelInFirstTab.add(checkboxPanel);
-        botPanelInFirstTab.add(forcedBox);
-        buildEditAnnotationButton(botPanelInFirstTab);
-
-        return botPanelInFirstTab;
+    /**
+     * @return the annotation which is to be edited as an AnnotationDataType
+     */
+    public AnnotationDataType getAnnotation() {
+        return annotation;
     }
 
-    protected void switchForced() {
-        forced = (forced == true) ? false : true;
-    }
-
-    private void buildEditAnnotationButton(JPanel botPanelInFirstTab) {
-
-        JButton editAnnotationButton = new JButton(
-                SysStrings.ANNOTATIONS_MODIFY);
-
-        if (editAnnotationButtonModel == null) {
-            editAnnotationButtonModel = editAnnotationButton.getModel();
-        } else {
-            editAnnotationButton.setModel(editAnnotationButtonModel);
-        }
-        editAnnotationButtonModel
-                .setActionCommand(SysStrings.ANNOTATIONS_MODIFY);
-        botPanelInFirstTab.add(editAnnotationButton);
-    }
-
-    private JPanel buildTopPanelInFirstTab() {
-        JPanel topPanelInFirstTab = new JPanel(new BorderLayout());
-        JLabel name = new JLabel("Name:");
-
-        // nameField = new JTextField();
-        nameField.setPreferredSize(new Dimension(250, 30));
-
-        JPanel nameFieldPanel = new JPanel();
-        nameFieldPanel.add(name);
-        nameFieldPanel.add(nameField);
-
-        topPanelInFirstTab.add(nameFieldPanel);
-        JLabel infoLabel = new JLabel(
-                "Not adding any categories will result in a Yes/No/Unknown annotation");
-        topPanelInFirstTab.add(infoLabel, BorderLayout.SOUTH);
-        return topPanelInFirstTab;
-    }
-
-    private ComponentTitledBorder createDynamicBorder(
-            final JPanel categoryPanel, final JCheckBox catCheckBox) {
-
-        ComponentTitledBorder componentBorder = new ComponentTitledBorder(
-                catCheckBox, categoryPanel, BorderFactory.createEtchedBorder());
-
-        catCheckBox.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                setBorderEnabled(categoryPanel, catCheckBox);
-            }
-        });
-
-        return componentBorder;
-    }
-
-    private void setBorderEnabled(final JPanel categoryPanel,
-            final JCheckBox catCheckBox) {
-        boolean enable = catCheckBox.isSelected();
-        Component components[] = categoryPanel.getComponents();
-        for (int i = 0; i < components.length; i++) {
-            Component component = components[i];
-            component.setEnabled(enable);
-            if (component instanceof JPanel) {
-                setBorderEnabled((JPanel) component, catCheckBox);
-            }
-        }
-    }
-
-    public void addAddedCategoryPanel(JPanel categoryHolderPanel,
-            JTextField annotationTextField) {
-
-        JPanel newCategoryPanel = new JPanel();
-        JLabel categoryLabel = new JLabel("Category:");
-        final JTextField textField = new JTextField();
-        textField.setText(annotationTextField.getText());
-        textField.setEditable(false);
-        textField.setPreferredSize(new Dimension(200, 30));
-        textField.setName("textField");
-        newCategoryPanel.add(categoryLabel);
-        newCategoryPanel.add(textField);
-
-        // categories.add(textField.getText());
-        valueTexts.add(textField);
-
-        createRemoveCategoryButton(newCategoryPanel);
-        categoryHolderPanel.add(newCategoryPanel);
-        annotationTextField.setText("");
-        repaint();
-    }
-
-    private void addAddedCategoryPanel(JPanel categoryHolderPanel, String value) {
-        JPanel newCategoryPanel = new JPanel();
-        JLabel categoryLabel = new JLabel("Category:");
-        final JTextField textField = new JTextField();
-        textField.setText(value);
-        textField.setEditable(true);
-        textField.setPreferredSize(new Dimension(200, 30));
-        textField.setName("textField");
-        valueTexts.add(textField);
-        newCategoryPanel.add(categoryLabel);
-        newCategoryPanel.add(textField);
-
-        // categories.add(textField.getText());
-
-        createRemoveCategoryButton(newCategoryPanel);
-        categoryHolderPanel.add(newCategoryPanel);
-        repaint();
-    }
-
+    /**
+     * @return the name of the annotation to be edited as a String
+     */
     public String getNewAnnotationName() {
         return nameField.getText();
     }
 
+    public String getAnnotationName() {
+        return annotation.name;
+    }
+
     public Boolean getNewAnnotationForcedValue() {
-        return forced;
+        return annotation.isForced();
     }
 
     public String[] getNewAnnotationCategories() {
-
-        ArrayList<String> categories = new ArrayList<String>();
-
-        // TODO: make a model for popup? this should not be in a pure view
-        // class.
-
-        // TODO: also, I fear we will have to do something really ugly here to
-        // to get the top "un-plussed" field to be included when pressing modify
-
-        if (optionsPane.getSelectedIndex() == FREETEXT_TAB) {
-            return new String[] { "freetext" };
-        }
-
-        synchronized (valueTexts) {
-            categories = new ArrayList<>();
-            for (JTextField field : valueTexts) {
-                if (!field.getText().isEmpty()) {
-//                    System.out.println(field.getText());
-                    categories.add(field.getText());
-                }
-            }
-            if (isCategoriesEmpty(categories)) {
-                categories.clear();
-                categories.add("Yes");
-                categories.add("No");
-                categories.add("Unknown");
-            }
-        }
-
-        return categories.toArray(new String[categories.size()]);
+        return annotation.getValues();
     }
 
-    private boolean isCategoriesEmpty(ArrayList<String> categories) {
-        for (String s : categories) {
-            if (!s.isEmpty()) {
-                return false;
-            }
-        }
+    /**
+     * Creates the JPanel that holds the text field for renaming an annotation.
+     */
+    public void buildRenameAnnotationPanel() {
+        JPanel renameAnnotationPanel = new JPanel();
+        nameField = new JTextField();
+        nameField.setText(annotation.name);
+        nameField.setPreferredSize(new Dimension(200, 30));
 
-        return true;
+        renameAnnotationPanel.add(nameField);
+        renameAnnotationPanel.add(activateNameChangeButton);
+
+        this.add(renameAnnotationPanel);
+        revalidate();
+        validate();
     }
 
-    public void closeWindow() {
-        JFrame frame = (JFrame) SwingUtilities
-                .getWindowAncestor(addCategoriesPanel); // UGLY?!?
-        frame.setVisible(false);
-    }
-
+    /**
+     * Adds an ActionListener to the buttons in the current EditAnnotationPopup.
+     *
+     * @param listener
+     *            the ActionListener to be added
+     */
     public void addEditAnnotationListener(ActionListener listener) {
+        renameButton.addActionListener(listener);
+        activateNameChangeButton.addActionListener(listener);
+        cancelButton.addActionListener(listener);
 
-        editAnnotationButtonModel.addActionListener(listener);
+        for (JButton button : valueButtons) {
+            button.addActionListener(listener);
+        }
+
+        for (AnnotationValuePanel panel : valuePanels) {
+            EditAnnotationDocumentListener listen = new EditAnnotationDocumentListener(
+                    panel, this);
+            panel.getNameField().getDocument().addDocumentListener(listen);
+            docListeners.add(listen);
+        }
+
     }
 
-    public AnnotationDataType getAnnotation() {
-        return annotation;
+    /**
+     * Deactivates a JButton
+     *
+     * @param button
+     *            the button to be deactivated
+     */
+    protected void deactivateUpdateButton(JButton button) {
+        button.setEnabled(false);
+    }
+
+    /**
+     * Activates a JButton
+     *
+     * @param button
+     *            the button to be activated
+     */
+    public void activateUpdateButton(JButton button) {
+
+        button.setEnabled(true);
+
+    }
+
+    /**
+     * Updates the name panel of the EditAnnotationPopup
+     *
+     * @param name
+     *            the new name
+     */
+    public void updateAnnotation(String name) {
+        centerpanel.remove(centerpanel.getComponents().length - 1);
+        centerpanel.add(createAnnotationValue(name));
+        centerpanel.add(createAddValuePanel());
+        centerpanel.updateUI();
+        updateUI();
+        this.repaint();
+
+    }
+
+    /**
+     * Checks if the current string in the value text field is valid. Currently
+     * just makes sure that the string is not the same as the old value name.
+     *
+     * @param oldString
+     *            the old annotation value name
+     * @param newName
+     *            the current string in the text field
+     * @return true if they are different, otherwise false
+     */
+    public boolean valueRenameIsValid(String oldString, String newName) {
+        return (!(oldString.equals(newName)));
+    }
+
+    public void updateDocListeners() {
+        for (EditAnnotationDocumentListener listener : docListeners) {
+            listener.updateOldString();
+        }
     }
 
 }

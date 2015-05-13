@@ -13,7 +13,7 @@ public class EditAnnotationDocumentListener implements DocumentListener {
 
     private String oldString;
     private JButton button;
-    private EditAnnotationPopup2 edPop;
+    private EditAnnotationPopup edPop;
     private AnnotationValuePanel panel;
 
     /**
@@ -29,7 +29,7 @@ public class EditAnnotationDocumentListener implements DocumentListener {
      *            the EditAnnotationPopup holding the panel
      */
     public EditAnnotationDocumentListener(AnnotationValuePanel panel,
-            EditAnnotationPopup2 edPop) {
+            EditAnnotationPopup edPop) {
         this.panel = panel;
         this.oldString = panel.getNameField().getText();
 

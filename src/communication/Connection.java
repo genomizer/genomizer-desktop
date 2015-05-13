@@ -80,7 +80,6 @@ public class Connection {
             throws RequestException {
         try {
             connect(request, token, type);
-
             if (request.requestType.equals("DELETE")) {
                 responseCode = connection.getResponseCode();
                 fetchResponse(connection.getInputStream());
@@ -96,18 +95,18 @@ public class Connection {
                 outputStream.println(request.toJson());
                 outputStream.flush();
             }
+
             responseCode = connection.getResponseCode();
+
             fetchResponse(connection.getInputStream());
 
-            if (responseCode == 401 && !token.isEmpty()) {
-                connection.disconnect();
-                throw new RequestException(responseCode, responseBody);
-            }
-            if (responseCode >= 300) {
+
+            if (responseCode > 300) {
                 ErrorLogger.log(responseBody);
                 connection.disconnect();
                 throw new RequestException(responseCode, responseBody);
             }
+
             connection.disconnect();
         } catch (IOException e) {
 
@@ -116,13 +115,11 @@ public class Connection {
                 InputStream inputStream = connection.getErrorStream();
                 if (inputStream != null) {
                     fetchResponse(connection.getErrorStream());
+                    System.out.println(responseCode);
+                    System.out.println(responseBody);
 
                     //TODO Fixa så att man kan kasta meddelanden för alla koder >300
-                    if(responseCode==400){
-                        connection.disconnect();
-                        throw new RequestException(responseCode, responseBody);
-                    }
-                    if(responseCode==503){
+                    if(responseCode>=300){
                         connection.disconnect();
                         throw new RequestException(responseCode, responseBody);
                     }
