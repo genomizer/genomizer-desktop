@@ -229,14 +229,6 @@ public class UploadTabController {
                                 view.setStatusPanel(status);
                                 view.setStatusPanelColorSuccess();
 
-                            } else {
-
-                                // TODO: Fix the error dialog?
-                                new ErrorDialog("Couldn't create experiment",
-                                        "The experiment " + expName
-                                                + " could not be created.",
-                                        "singdudeldej").showDialog();
-
                             }
                         }
                     };
@@ -307,13 +299,6 @@ public class UploadTabController {
                                 view.setStatusPanel(status);
                                 view.setStatusPanelColorSuccess();
 
-                            } else {
-                                // TODO: Fix the error dialog?
-                                new ErrorDialog(
-                                        "Couldn't create new experiment",
-                                        "The experiment " + expName
-                                                + " could not be created.",
-                                        "singdudeldej").showDialog();
                             }
                         } else {
                             JOptionPane.showMessageDialog(null,

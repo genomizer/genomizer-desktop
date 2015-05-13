@@ -33,6 +33,13 @@ public class AnnotationNamePanel extends JPanel {
         modifyNameButton = new JButton(SysStrings.ANNOTATIONS_MODIFY_RENAME);
         modifyNameButton.setEnabled(false);
         
+        
+
+        if(valueTextField.getText().equals("freetext")){
+            valueTextField.setEnabled(false);
+        }
+
+        
         popup.addButtonToButtonList(modifyNameButton);
         popup.addTextFieldToFieldList(valueTextField);
         
