@@ -29,7 +29,7 @@ public class AddAnnotationValueRequestTest {
 
     @Test
     public void testType() {
-        assertEquals(r.type, "POST");
+        assertEquals(r.requestType, "POST");
     }
 
     @Test

@@ -26,7 +26,7 @@ public class RetrieveExperimentRequestTest {
 
     @Test
     public void testType() {
-        assertEquals(r.type, "GET");
+        assertEquals(r.requestType, "GET");
     }
 
     @Test

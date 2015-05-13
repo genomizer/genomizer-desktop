@@ -24,7 +24,7 @@ public class GetAnnotationRequestTest {
 
     @Test
     public void testType() {
-        assertEquals(r.type, "GET");
+        assertEquals(r.requestType, "GET");
     }
 
     @Test

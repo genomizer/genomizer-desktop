@@ -18,7 +18,7 @@ public class AddFileRequestTest {
     String type;
     String metaData;
     String grVersion;
-    
+
     @Before
     public void setUp() {
         expName = "DesktopTestExperiment";
@@ -30,27 +30,27 @@ public class AddFileRequestTest {
                 ExampleExperimentData.getTestUsername(),
                 ExampleExperimentData.getTestUsername(), false, grVersion);
     }
-    
+
     @Test
     public void testNull() {
         assertNotNull(r);
     }
-    
+
     @Test
     public void testType() {
-        assertEquals(r.type, "POST");
+        assertEquals(r.requestType, "POST");
     }
-    
+
     @Test
     public void testUrl() {
         assertEquals(r.url, "/file");
     }
-    
+
     @Test
     public void testRequestname() {
         assertEquals(r.requestName, "addfile");
     }
-    
+
     @Test
     public void testJSON() {
         assertEquals(r.toJson(), "{\"experimentID\":\""+expName+"\",\"fileName\":\""+fileName+"\",\"fileType\":\""+type+"\",\"metaData\":\""+metaData+"\",\"author\":\""+ExampleExperimentData.getTestUsername()+"\",\"uploader\":\""+ExampleExperimentData.getTestUsername()+"\",\"isPrivate\":false,\"grVersion\":\""+grVersion+"\"}");

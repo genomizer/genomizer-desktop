@@ -31,7 +31,7 @@ public class RenameAnnotationValueRequestTest {
 
     @Test
     public void testType() {
-        assertEquals(r.type, "PUT");
+        assertEquals(r.requestType, "PUT");
     }
 
     @Test

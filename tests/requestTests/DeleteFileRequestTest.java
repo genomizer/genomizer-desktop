@@ -27,7 +27,7 @@ public class DeleteFileRequestTest {
 
     @Test
     public void testType() {
-        assertEquals(r.type, "DELETE");
+        assertEquals(r.requestType, "DELETE");
     }
 
     @Test

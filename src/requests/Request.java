@@ -6,12 +6,12 @@ public class Request {
     //TODO Inte serialized, behöver inte transient CF
     public transient String requestName;
     public transient String url;
-    public transient String type;
+    public transient String requestType;
 
     public Request(String requestName, String url, String type) {
         this.requestName = requestName;
         this.url = url;
-        this.type = type;
+        this.requestType = type;
     }
 
     public String toJson() {

@@ -37,7 +37,7 @@ public class RawToProfileRequestTest {
 
     @Test
     public void testType() {
-        assertEquals(r.type, "PUT");
+        assertEquals(r.requestType, "PUT");
     }
 
     @Test
