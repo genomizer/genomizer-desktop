@@ -129,15 +129,18 @@ public class QuerySearchTabController {
                                     searchResults);
                             if(view.getSelectedIndex() == 0){
                                 view.setStatusPanel("Search successful!");
+                                view.setStatusPanelColorSuccess();
                             }
 
                             // If search results are null and the active panel
                             // is search
                         } else if (view.getQuerySearchTab().getActivePanel() == ActiveSearchPanel.SEARCH) {
+                            view.setStatusPanel("No search results!");
+                            view.setStatusPanelColorFail();
                             JOptionPane.showMessageDialog(null,
                                     "No search results!", "Search Warning",
                                     JOptionPane.WARNING_MESSAGE);
-                                    view.setStatusPanel("No search results!");
+                                    
 
                             // If search results are null and the active panel
                             // is table
@@ -186,9 +189,11 @@ public class QuerySearchTabController {
                             if(selectedData.size() == 1){
                                 view.setStatusPanel(selectedData.get(0).name
                                         + " was added to the workspace.");
+                                view.setStatusPanelColorSuccess();
                             } else if (selectedData.size() > 1) {
                                 view.setStatusPanel(selectedData.get(0).name +" + "+ selectedData.size()
                                         + " other experiments was added to the workspace.");
+                                view.setStatusPanelColorSuccess();
                             }
                             
                             view.getWorkSpaceTab().addExperimentsToTable(
@@ -196,6 +201,7 @@ public class QuerySearchTabController {
                             view.getWorkSpaceTab().changeTab(0);
                         } else {
                             view.setStatusPanel( "No data selected!");
+                            view.setStatusPanelColorFail();
                         }
                         view.getQuerySearchTab().clearSearchSelection();
                     };

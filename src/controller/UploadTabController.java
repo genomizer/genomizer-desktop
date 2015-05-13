@@ -183,7 +183,7 @@ public class UploadTabController {
                                 created = model.addNewExperiment(expName,
                                         annotations);
                             } else {
-                                // TODO Ska användas när edit annot
+                                // TODO Ska anvï¿½ndas nï¿½r edit annot
                                 // implementerats
                                 // created = model.changeExperiment(expName,
                                 // annotations);
@@ -213,7 +213,7 @@ public class UploadTabController {
 
                                     } else {
 
-                                        // TODO Behövs nog inte
+                                        // TODO Behï¿½vs nog inte
 
                                         JOptionPane.showMessageDialog(
                                                 null,
@@ -228,6 +228,7 @@ public class UploadTabController {
                                 String status = "Upload to experiment \""
                                         + expName + "\" complete.";
                                 view.setStatusPanel(status);
+                                view.setStatusPanelColorSuccess();
 
                             } else {
 
@@ -305,6 +306,7 @@ public class UploadTabController {
                                 String status = "Upload to new experiment \""
                                         + expName + "\" complete.";
                                 view.setStatusPanel(status);
+                                view.setStatusPanelColorSuccess();
 
                             } else {
                                 // TODO: Fix the error dialog?
