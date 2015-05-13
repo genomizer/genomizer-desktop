@@ -19,7 +19,7 @@ import static org.fest.assertions.api.Assertions.assertThat;
 public class TransferFileTest {
     String ip = ExampleExperimentData.getTestServerIP();
     Model m = new Model();
-    
+
     @Before
     public void setUp() throws Exception {
         m.setIP("https://" + ip);
@@ -33,7 +33,7 @@ public class TransferFileTest {
     }
 
     @Test
-    public void testSendFileReturns201() throws Exception {
+    public void testSendFileReturns200() throws Exception {
         String homeDir = System.getProperty("user.home");
         File file = new File(homeDir + "/.testupload.txt");
         BufferedWriter fout = new BufferedWriter(new FileWriter(file));
@@ -43,7 +43,7 @@ public class TransferFileTest {
         HTTPURLUpload upload = new HTTPURLUpload("http://private-anon-1ade64f50-genomizer.apiary-mock.com/file/.testupload.txt",
                 homeDir + "/.testupload.txt", ".testupload.txt");
         upload.sendFile("testuser");
-        assertThat(upload.getResponseCode()).isEqualTo(201);
+        assertThat(upload.getResponseCode()).isEqualTo(200);
         fout.close();
     }
 

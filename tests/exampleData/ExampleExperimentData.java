@@ -37,7 +37,7 @@ public final class ExampleExperimentData {
                 fileData.add(new FileData("" + i + j, "Experiment" + i,
                         fileType, "", names[rand.nextInt(5)], names[rand
                                 .nextInt(5)], false, "",
-                        dates[rand.nextInt(5)], "", "", "Exp" + i + "_file" + j));
+                        dates[rand.nextInt(5)], "", "", "Exp" + i + "_file" + j,"1000"));
             }
             ArrayList<AnnotationDataValue> annotationData = new ArrayList<AnnotationDataValue>();
             annotationData.add(new AnnotationDataValue("2", "Species",
