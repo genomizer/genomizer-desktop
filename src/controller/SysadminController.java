@@ -6,7 +6,6 @@ import gui.sysadmin.annotationview.AnnotationButtonsListener;
 import gui.sysadmin.annotationview.AnnotationTableModel;
 import gui.sysadmin.genomereleaseview.GenomeReleaseViewCreator;
 import gui.sysadmin.genomereleaseview.GenomereleaseTableModel;
-import gui.sysadmin.strings.SysStrings;
 
 import java.awt.event.ActionListener;
 import java.util.concurrent.CopyOnWriteArrayList;
@@ -14,13 +13,13 @@ import java.util.concurrent.CopyOnWriteArrayList;
 import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
 
-import communication.HTTPURLUpload;
-
 import model.DeleteAnnotationException;
 import model.ErrorLogger;
 import model.GenomizerModel;
 import util.AnnotationDataType;
 import util.GenomeReleaseData;
+
+import communication.HTTPURLUpload;
 
 /**
  * The controller for the admin part of the program.

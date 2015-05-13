@@ -21,7 +21,6 @@ import gui.ErrorDialog;
 import gui.GUI;
 import gui.UploadFileRow;
 import gui.UploadTab;
-import gui.UploadToExistingExpPanel;
 import model.ErrorLogger;
 import model.GenomizerModel;
 
@@ -31,21 +30,15 @@ public class UploadTabController {
     private final JFileChooser fileChooser;
     GUI view;
 
-
-    public UploadTabController(GUI view, GenomizerModel model, JFileChooser fileChooser) {
+    public UploadTabController(GUI view, GenomizerModel model,
+            JFileChooser fileChooser) {
         this.view = view;
         this.model = model;
         this.fileChooser = fileChooser;
         this.uploadTab = view.getUploadTab();
 
-
-
-        uploadTab.getExistExpPanel().addSelectFilesToUploadButtonListener(
-                SelectFilesToUploadButtonListener());
         uploadTab
                 .addAddToExistingExpButtonListener(AddToExistingExpButtonListener());
-        uploadTab.getExistExpPanel().addUploadToExperimentButtonListener(
-                UploadToExperimentButtonListener());
         uploadTab.addNewExpButtonListener(NewExpButtonListener());
         uploadTab.getNewExpPanel().addSelectButtonListener(
                 SelectFilesToNewExpListener());
@@ -55,38 +48,7 @@ public class UploadTabController {
                 UploadSelectedFilesListener());
         uploadTab.getNewExpPanel().addSpeciesSelectedListener(
                 SpeciesSelectedListener());
-
-
-
         updateProgress();
-    }
-
-    /**
-     * Display a fileChooser, and let the user enter the files to upload. Used
-     * for existingExp.
-     *
-     */
-    public ActionListener SelectFilesToUploadButtonListener() {
-        return new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                fileChooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
-                fileChooser.setMultiSelectionEnabled(true);
-                int ret = fileChooser.showOpenDialog(new JPanel());
-                File[] files;
-                if (ret == JFileChooser.APPROVE_OPTION) {
-                    files = fileChooser.getSelectedFiles();
-                } else {
-                    return;
-                }
-
-                UploadToExistingExpPanel uploadToExistingExpPanel = uploadTab
-                        .getExistExpPanel();
-                uploadToExistingExpPanel.createUploadFileRow(files);
-                uploadToExistingExpPanel.enableUploadButton();
-                uploadToExistingExpPanel.addFileDrop();
-            }
-        };
     }
 
     /**
@@ -169,60 +131,6 @@ public class UploadTabController {
         };
     }
 
-    public ActionListener UploadToExperimentButtonListener() {
-        return new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                new Thread() {
-                    @Override
-                    public void run() {
-                        ArrayList<File> files = uploadTab.getExistExpPanel()
-                                .getFilesToUpload();
-                        HashMap<String, String> types = uploadTab
-                                .getExistExpPanel().getTypes();
-
-                        ExperimentData ed = uploadTab.getExistExpPanel()
-                                .getExperiment();
-
-                        for (File f : files) {
-                            if (model.uploadFile(ed.getName(), f,
-                                    types.get(f.getName()), false,
-                                    uploadTab.getGenomeVersion(f))) {
-                                uploadTab.getExistExpPanel().deleteFileRow(f);
-                                if (uploadTab.getExistExpPanel().getFileRows()
-                                        .size() == 0) {
-                                    String status = "Upload to experiment \"" + ed.getName() + "\" complete.";
-                                    view.setStatusPanel(status);
-                                    JOptionPane.showMessageDialog(
-                                            null,status);
-
-                                    // TODO: Decide whether to refresh this view
-                                    // part -
-                                    // view.getQuerySearchTab().refresh();
-                                }
-                                for (HTTPURLUpload upload : model
-                                        .getOngoingUploads()) {
-                                    if (f.getName()
-                                            .equals(upload.getFileName())) {
-                                        model.getOngoingUploads()
-                                                .remove(upload);
-                                    }
-                                }
-                            } else {
-                                JOptionPane
-                                        .showMessageDialog(null, "Upload of "
-                                                + f.getName() + " failed.",
-                                                "Error",
-                                                JOptionPane.ERROR_MESSAGE);
-                            }
-                        }
-
-                    };
-                }.start();
-            }
-        };
-    }
-
     /**
      * Get the annotations and create a new NewExp Panel with them.
      *
@@ -274,9 +182,11 @@ public class UploadTabController {
                                 created = model.addNewExperiment(expName,
                                         annotations);
                             } else {
-                                //TODO Ska anv�ndas n�r edit annot implementerats
-//                                created = model.changeExperiment(expName,
-//                                        annotations);
+                                // TODO Ska anv�ndas n�r edit annot
+                                // implementerats
+                                // created = model.changeExperiment(expName,
+                                // annotations);
+
                                 created = true;
                             }
 
@@ -300,10 +210,9 @@ public class UploadTabController {
                                         // view part -
                                         // view.getQuerySearchTab().refresh();
 
-
                                     } else {
 
-                                        //TODO Beh�vs nog inte
+                                        // TODO Beh�vs nog inte
 
                                         JOptionPane.showMessageDialog(
                                                 null,
@@ -315,14 +224,14 @@ public class UploadTabController {
                                     }
                                 }
 
-                                String status = "Upload to experiment \"" + expName + "\" complete.";
+                                String status = "Upload to experiment \""
+                                        + expName + "\" complete.";
                                 view.setStatusPanel(status);
-
-                                //JOptionPane.showMessageDialog(null,status);
+                                view.setStatusPanelColorSuccess();
 
                             } else {
 
-//                                // TODO: Fix the error dialog?
+                                // TODO: Fix the error dialog?
                                 new ErrorDialog("Couldn't create experiment",
                                         "The experiment " + expName
                                                 + " could not be created.",
@@ -353,9 +262,7 @@ public class UploadTabController {
                                 && annotations != null && expName != null) {
                             HashMap<String, String> types = uploadTab
                                     .getNewExpPanel().getTypes();
-                            // Should be genome release from uploadTab
-                            // String release = "wk1m";
-                            // Test purpose
+
                             boolean created = model.addNewExperiment(expName,
                                     annotations);
                             if (created) {
@@ -391,24 +298,22 @@ public class UploadTabController {
                                 // experiment.
 
                                 // TODO: Here is status panel on other!
-//                                JOptionPane.showMessageDialog(null,"Upload to the new " + "experiment \""
-//                                        + expName + "\" complete");
+                                // JOptionPane.showMessageDialog(null,"Upload to the new "
+                                // + "experiment \""
+                                // + expName + "\" complete");
 
-                                String status = "Uploads to experiment \"" + expName + "\" complete.";
+                                String status = "Upload to new experiment \""
+                                        + expName + "\" complete.";
                                 view.setStatusPanel(status);
-
+                                view.setStatusPanelColorSuccess();
 
                             } else {
-//                                JOptionPane.showMessageDialog(null,
-//                                        "Couldn't create new experiment "
-//                                                + expName + ".", "Error",
-//                                        JOptionPane.ERROR_MESSAGE);
-
-//                              // TODO: Fix the error dialog?
-                              new ErrorDialog("Couldn't create new experiment",
-                                      "The experiment " + expName
-                                              + " could not be created.",
-                                      "singdudeldej").showDialog();
+                                // TODO: Fix the error dialog?
+                                new ErrorDialog(
+                                        "Couldn't create new experiment",
+                                        "The experiment " + expName
+                                                + " could not be created.",
+                                        "singdudeldej").showDialog();
                             }
                         } else {
                             JOptionPane.showMessageDialog(null,
@@ -432,9 +337,10 @@ public class UploadTabController {
                         String species = uploadTab.getNewExpPanel()
                                 .getSelectedSpecies();
 
-                        if (species.equals("")){
+                        if (species.equals("")) {
 
-                            uploadTab.setGenomeReleases(new GenomeReleaseData[] {});
+                            uploadTab
+                                    .setGenomeReleases(new GenomeReleaseData[] {});
 
                             return;
                         }
@@ -459,9 +365,6 @@ public class UploadTabController {
         Runnable task = new Runnable() {
             @Override
             public void run() {
-
-//                System.out.println("TICK: " + Thread.currentThread());
-
                 for (File key : uploadTab.getNewExpPanel().getFileRows()
                         .keySet()) {
                     UploadFileRow row = uploadTab.getNewExpPanel()
@@ -472,16 +375,7 @@ public class UploadTabController {
                         }
                     }
                 }
-                for (File key : uploadTab.getExistExpPanel().getFileRows()
-                        .keySet()) {
-                    UploadFileRow row = uploadTab.getExistExpPanel()
-                            .getFileRows().get(key);
-                    for (HTTPURLUpload upload : model.getOngoingUploads()) {
-                        if (upload.getFileName().equals(row.getFileName())) {
-                            row.updateProgressBar(upload.getCurrentProgress());
-                        }
-                    }
-                }
+
             }
         };
         model.addTickingTask(task);
