@@ -6,10 +6,9 @@ import static org.junit.Assert.assertNotNull;
 import org.junit.Before;
 import org.junit.Test;
 
-import exampleData.ExampleExperimentData;
-
 import requests.AddFileToExperiment;
 import requests.RequestFactory;
+import exampleData.ExampleExperimentData;
 
 public class AddFileRequestTest {
     AddFileToExperiment r;
@@ -53,6 +52,8 @@ public class AddFileRequestTest {
 
     @Test
     public void testJSON() {
-        assertEquals(r.toJson(), "{\"experimentID\":\""+expName+"\",\"fileName\":\""+fileName+"\",\"fileType\":\""+type+"\",\"metaData\":\""+metaData+"\",\"author\":\""+ExampleExperimentData.getTestUsername()+"\",\"uploader\":\""+ExampleExperimentData.getTestUsername()+"\",\"isPrivate\":false,\"grVersion\":\""+grVersion+"\"}");
+        assertEquals(
+                r.toJson(),
+                "{\"experimentID\":\"" + expName + "\",\"fileName\":\""+fileName+"\",\"type\":\""+type+"\",\"metaData\":\""+metaData+"\",\"author\":\""+ExampleExperimentData.getTestUsername()+"\",\"uploader\":\""+ExampleExperimentData.getTestUsername()+"\",\"isPrivate\":false,\"grVersion\":\""+grVersion+"\"}");
     }
 }
