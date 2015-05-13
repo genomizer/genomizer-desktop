@@ -6,7 +6,6 @@ import gui.sysadmin.annotationview.AnnotationButtonsListener;
 import gui.sysadmin.annotationview.AnnotationTableModel;
 import gui.sysadmin.genomereleaseview.GenomeReleaseViewCreator;
 import gui.sysadmin.genomereleaseview.GenomereleaseTableModel;
-import gui.sysadmin.strings.SysStrings;
 
 import java.awt.event.ActionListener;
 
@@ -238,7 +237,8 @@ public class SysadminController {
 
             updateGenomeReleaseTable();
             JOptionPane.showMessageDialog(null,
-                    "Added genom release " + gr.getSelectedVersion()
+                    "Added genom release "
+
                             + " for species " + gr.getSpeciesText());
         } else {
             JOptionPane.showMessageDialog(null, "Could not add genome release");
