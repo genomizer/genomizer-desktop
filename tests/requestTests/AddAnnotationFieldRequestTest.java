@@ -47,6 +47,6 @@ public class AddAnnotationFieldRequestTest {
     public void testJSON() {
         assertEquals(
                 r.toJson(),
-                "{\"name\":\"AnnotationName\",\"typeList\":[\"Yes\",\"No\",\"Unknown\"],\"default\":\"Unknown\",\"forced\":false}");
+                "{\"name\":\"AnnotationName\",\"type\":[\"Yes\",\"No\",\"Unknown\"],\"default\":\"Unknown\",\"forced\":false}");
     }
 }
