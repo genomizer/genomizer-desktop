@@ -5,8 +5,8 @@ import org.junit.runners.Suite;
 import org.junit.runners.Suite.SuiteClasses;
 
 @RunWith(Suite.class)
-@SuiteClasses({ GetAnnotationTest.class, AnnotationFieldTest.class,
-        AnnotationValueTest.class, RemoveAnnotationTest.class })
+@SuiteClasses({AnnotationFieldTest.class,
+        AnnotationValueTest.class})
 public class AnnotationTestSuite {
-    
+
 }
