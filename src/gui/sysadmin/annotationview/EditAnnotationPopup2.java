@@ -89,7 +89,6 @@ public class EditAnnotationPopup2 extends JPanel {
         valueTextField.setPreferredSize(new Dimension(180, 30));
         panel.add(valueTextField, 0);
         panel.add(addValueButton);
-        System.out.println("text = " + annotation.getValues().length);
         
         if(annotation.getValues().length > 0 && annotation.getValues()[0].equals("freetext")){
             valueTextField.setEnabled(false);
