@@ -81,6 +81,8 @@ public class SessionHandler {
                 throw new LoginException("Server not found");
             } else if(responseCode == 401) {
                 throw new LoginException("Incorrect username or password");
+            } else if(responseCode != 200) {
+                throw new LoginException("Connection Failed!");
             }
 
             LoginResponse loginResponse = ResponseParser.parseLoginResponse(conn.getResponseBody());
