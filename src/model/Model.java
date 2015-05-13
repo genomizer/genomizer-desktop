@@ -23,6 +23,7 @@ import requests.RemoveFileFromExperimentRequest;
 import requests.RemoveGenomeReleaseRequest;
 import requests.RenameAnnotationFieldRequest;
 import requests.RenameAnnotationValueRequest;
+import requests.Request;
 import requests.RequestFactory;
 import requests.RetrieveExperimentRequest;
 import requests.SearchRequest;

@@ -20,12 +20,8 @@ public class ExperimentNode extends AbstractMutableTreeTableNode implements
 
         super(experiment.getAnnotationValueList(headings).toArray());
         this.experiment = experiment;
-        
-        //Testning av utskrift av filstorlek
-        //Metod sätter konstant filstorlek på alla filer
-        //TODO: Filstorlek ska hämtas automagiskt från parserskiten (ResponseParser)
- 
-        experiment.testFileSioze();
+
+
         ArrayList<FileData> files = experiment.files;
         SupportNode rawNode = new SupportNode(new Object[] { "Raw Files" });
         rawNode.add(new SupportNode(fileHeaders));
