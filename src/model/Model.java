@@ -172,12 +172,12 @@ public class Model implements GenomizerModel {
         try {
             conn.sendRequest(request, User.getInstance().getToken(),
                     Constants.JSON);
-            if (conn.getResponseCode() == 201) {
+            if (conn.getResponseCode() == 200) {
                 return true;
             } else {
                 // TODO Ska det h�nda n�got h�r eller? CF
                 System.err
-                        .println("addAnnotaion FAILURE, did not recive 201 response");
+                        .println("addAnnotaion FAILURE, did not recive 200 response");
                 System.out.println("Response code: " + conn.getResponseCode()
                         + " " + conn.getResponseBody());
                 return false;
@@ -306,7 +306,7 @@ public class Model implements GenomizerModel {
         try {
             conn.sendRequest(request, User.getInstance().getToken(),
                     Constants.JSON);
-            if (conn.getResponseCode() == 201) {
+            if (conn.getResponseCode() == 200) {
                 AddGenomeReleaseResponse[] aGRR = ResponseParser
                         .parseGenomeUploadResponse(conn.getResponseBody());
                 for (int i = 0; i < files.length; i++) {
@@ -347,7 +347,7 @@ public class Model implements GenomizerModel {
             new ErrorDialog("Couldn't add new experiment", e).showDialog();
         }
         int responseCode = conn.getResponseCode();
-        return (responseCode == 201);
+        return (responseCode == 200);
     }
 
     public boolean changeExperiment(String expName,
@@ -365,7 +365,7 @@ public class Model implements GenomizerModel {
             new ErrorDialog("Couldn't update experiment", e).showDialog();
         }
         int responseCode = conn.getResponseCode();
-        return (responseCode == 201);
+        return (responseCode == 200);
     }
 
 
@@ -446,7 +446,7 @@ public class Model implements GenomizerModel {
         } catch (RequestException e) {
             ErrorDialog.showRequestErrorDialog("Couldn't add new annotation value", e);
         }
-        if (conn.getResponseCode() == 201) {
+        if (conn.getResponseCode() == 200) {
             return true;
         }
         return false;
