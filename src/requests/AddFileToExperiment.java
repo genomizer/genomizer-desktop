@@ -16,7 +16,7 @@ public class AddFileToExperiment extends Request {
      */
     public String experimentID;
     public String fileName;
-    public String fileType;
+    public String type;
     public String metaData;
     public String author;
     public String uploader;
@@ -49,7 +49,7 @@ public class AddFileToExperiment extends Request {
         super("addfile", "/file", "POST");
         this.experimentID = experimentId;
         this.fileName = fileName;
-        this.fileType = fileType;
+        this.type = fileType;
         this.metaData = metaData;
         this.author = author;
         this.uploader = uploader;
