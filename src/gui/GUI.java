@@ -3,6 +3,7 @@ package gui;
 import gui.sysadmin.SysadminTab;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Image;
 import java.awt.Toolkit;
@@ -114,6 +115,16 @@ public class GUI extends JFrame {
         statusPanel.add(statusLabel);
         mainPanel.repaint();
         mainPanel.revalidate();
+    }
+
+    public void setStatusPanelColorSuccess(){
+        Color color = new Color(153,255,153);
+        statusPanel.setBackground(color);
+    }
+
+    public void setStatusPanelColorFail(){
+        Color color = new Color(243,126,126);
+        statusPanel.setBackground(color);
     }
 
     /**
