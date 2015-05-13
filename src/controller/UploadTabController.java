@@ -183,16 +183,11 @@ public class UploadTabController {
                                 created = model.addNewExperiment(expName,
                                         annotations);
                             } else {
-<<<<<<< HEAD
                                 // TODO Ska användas när edit annot
                                 // implementerats
                                 // created = model.changeExperiment(expName,
                                 // annotations);
-=======
-                                //TODO Ska anvï¿½ndas nï¿½r edit annot implementerats
-//                                created = model.changeExperiment(expName,
-//                                        annotations);
->>>>>>> branch 'Tesktop' of https://github.com/genomizer/genomizer-desktop.git
+
                                 created = true;
                             }
 
@@ -218,11 +213,7 @@ public class UploadTabController {
 
                                     } else {
 
-<<<<<<< HEAD
                                         // TODO Behövs nog inte
-=======
-                                        //TODO Behï¿½vs nog inte
->>>>>>> branch 'Tesktop' of https://github.com/genomizer/genomizer-desktop.git
 
                                         JOptionPane.showMessageDialog(
                                                 null,
@@ -311,12 +302,8 @@ public class UploadTabController {
                                 // + "experiment \""
                                 // + expName + "\" complete");
 
-<<<<<<< HEAD
                                 String status = "Upload to new experiment \""
                                         + expName + "\" complete.";
-=======
-                                String status = "Uploads to experiment \"" + expName + "\" complete.";
->>>>>>> branch 'Tesktop' of https://github.com/genomizer/genomizer-desktop.git
                                 view.setStatusPanel(status);
 
                             } else {
