@@ -252,7 +252,7 @@ public class QueryBuilderRow extends JPanel {
             public void run() {
                 if (annotationNames.size() > 0) {
                     annotationBox = new JComboBox<String>(annotationNames
-                            .toArray(new String[annotationNames.size()]));
+                            .toArray(new String[annotationNames.size()])); // TODO Denna rad kastar exception ibland vid uppstart.
                 } else {
                     annotationBox = new JComboBox<String>();
                 }

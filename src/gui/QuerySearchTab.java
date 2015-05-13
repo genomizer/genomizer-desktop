@@ -274,10 +274,14 @@ public class QuerySearchTab extends JPanel {
     public synchronized void clearSearchFields() {
         SwingUtilities.invokeLater(new Runnable() {
             public void run() {
-                updateAnnotationsButton.doClick();
-                rowList = new CopyOnWriteArrayList<QueryBuilderRow>();
-                addRow();
-                searchArea.setText("");
+
+                if(queryBuilderButton.isSelected()){
+                    updateAnnotationsButton.doClick();
+                    rowList = new CopyOnWriteArrayList<QueryBuilderRow>();
+                    addRow(); // TODO denna rad kastar expception ibland vid uppstart.
+                    searchArea.setText("");
+                }
+
             }
         });
     }

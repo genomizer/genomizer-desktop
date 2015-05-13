@@ -5,10 +5,13 @@ import static org.fest.assertions.api.Assertions.fail;
 import exampleData.ExampleExperimentData;
 import gui.sysadmin.SysadminTab;
 import model.Model;
+import model.SessionHandler;
 
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+
+import communication.SSLTool;
 
 import util.AnnotationDataType;
 
@@ -17,15 +20,19 @@ public class AnnotationValueTest {
     public Model model;
     public SysadminTab sysadminTab;
     public String nameOfAnnotation;
+    SessionHandler s = SessionHandler.getInstance();
+    
 
     @Before
     public void setUp() throws Exception {
+        SSLTool.disableCertificateValidation();
         model = new Model();
         model.setIP(ExampleExperimentData.getTestServerIP());
-        model.loginUser(ExampleExperimentData.getTestUsername(), ExampleExperimentData.getTestPassword());
+        s.setIP(ExampleExperimentData.getTestServerIP());
+        s.loginUser(ExampleExperimentData.getTestUsername(), ExampleExperimentData.getTestPassword());
         sysadminTab = new SysadminTab();
         nameOfAnnotation = "AnnotationValueTest";
-
+        
     }
 
     @After
