@@ -1,42 +1,50 @@
 package requestTests;
 
-import static org.fest.assertions.api.Assertions.*;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 
 import org.junit.Before;
 import org.junit.Test;
 
 import requests.DownloadFileRequest;
+import requests.RequestFactory;
 
 public class DownloadFileRequestTest {
 
-    private DownloadFileRequest download;
+    DownloadFileRequest r;
+    String fileName;
+    String fileFormat;
 
     @Before
     public void setUp() {
-        download = new DownloadFileRequest("file1", "wig");
+        fileName = "Name";
+        fileFormat = "Format";
+        r = RequestFactory.makeDownloadFileRequest(fileName, fileFormat);
     }
 
     @Test
-    public void testCreateDownloadRequest() {
-        assertThat(download).isNotNull();
+    public void testNull() {
+        assertNotNull(r);
     }
 
     @Test
-    public void testGetFileName() {
-        // TODO: Does not test anything. OO
-        // assertEquals("file1", download.fileName);
+    public void testType() {
+        assertEquals(r.requestType, "GET");
     }
 
     @Test
-    public void testGetFileFormat() {
-        // TODO: Does not test anything. OO
-        // assertEquals("wig", download.fileFormat);
+    public void testUrl() {
+        assertEquals(r.url, "/file/" + fileName);
     }
 
     @Test
-    public void testGetRequestName() {
-        assertEquals("downloadfile", download.requestName);
+    public void testRequestname() {
+        assertEquals(r.requestName, "downloadfile");
+    }
+
+    @Test
+    public void testJSON() {
+        assertEquals(r.toJson(), "{}");
     }
 
 }

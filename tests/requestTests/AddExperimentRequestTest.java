@@ -31,7 +31,7 @@ public class AddExperimentRequestTest {
 
     @Test
     public void testType() {
-        assertEquals(r.type, "POST");
+        assertEquals(r.requestType, "POST");
     }
 
     @Test

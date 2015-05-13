@@ -6,17 +6,15 @@ import static org.junit.Assert.assertNotNull;
 import org.junit.Before;
 import org.junit.Test;
 
-import requests.RemoveExperimentRequest;
+import requests.GetAnnotationRequest;
 import requests.RequestFactory;
 
-public class RemoveExperimentRequestTest {
-    RemoveExperimentRequest r;
-    String expName;
+public class GetAnnotationRequestTest {
+    GetAnnotationRequest r;
 
     @Before
     public void setUp() {
-        expName = "DesktopTestExperiment";
-        r = RequestFactory.makeRemoveExperimentRequest(expName);
+        r = RequestFactory.makeGetAnnotationRequest();
     }
 
     @Test
@@ -26,17 +24,17 @@ public class RemoveExperimentRequestTest {
 
     @Test
     public void testType() {
-        assertEquals(r.requestType, "DELETE");
+        assertEquals(r.requestType, "GET");
     }
 
     @Test
     public void testUrl() {
-        assertEquals(r.url, "/experiment/" + expName);
+        assertEquals(r.url, "/annotation");
     }
 
     @Test
     public void testRequestname() {
-        assertEquals(r.requestName, "removeexperiment");
+        assertEquals(r.requestName, "getAnnotation");
     }
 
     @Test
