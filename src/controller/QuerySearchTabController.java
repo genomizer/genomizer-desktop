@@ -140,7 +140,7 @@ public class QuerySearchTabController {
                             JOptionPane.showMessageDialog(null,
                                     "No search results!", "Search Warning",
                                     JOptionPane.WARNING_MESSAGE);
-                                    
+
 
                             // If search results are null and the active panel
                             // is table
@@ -148,7 +148,7 @@ public class QuerySearchTabController {
                             // Go back to the query search
                             view.getBackButton().doClick();
                             view.getQuerySearchTab().getBackButton();
-                            
+
                         }
                     };
                 }.start();
@@ -191,11 +191,11 @@ public class QuerySearchTabController {
                                         + " was added to the workspace.");
                                 view.setStatusPanelColorSuccess();
                             } else if (selectedData.size() > 1) {
-                                view.setStatusPanel(selectedData.get(0).name +" + "+ selectedData.size()
+                                view.setStatusPanel(selectedData.get(0).name +" + "+ (selectedData.size()-1)
                                         + " other experiments was added to the workspace.");
                                 view.setStatusPanelColorSuccess();
                             }
-                            
+
                             view.getWorkSpaceTab().addExperimentsToTable(
                                     view.getQuerySearchTab().getSelectedData());
                             view.getWorkSpaceTab().changeTab(0);
