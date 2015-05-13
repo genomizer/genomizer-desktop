@@ -118,13 +118,13 @@ public class GUI extends JFrame {
     }
 
     public void setStatusPanelColorSuccess(){
-        //Color color = new Color(10,10,10);
-        statusPanel.setBackground(Color.GREEN);
+        Color color = new Color(153,255,153);
+        statusPanel.setBackground(color);
     }
 
     public void setStatusPanelColorFail(){
-       // Color color = new Color();
-        statusPanel.setBackground(Color.RED);
+        Color color = new Color(243,126,126);
+        statusPanel.setBackground(color);
     }
 
     /**
