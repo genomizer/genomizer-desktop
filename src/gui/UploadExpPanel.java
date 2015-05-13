@@ -29,7 +29,7 @@ import util.ExperimentData;
 import util.FileDrop;
 import util.GenomeReleaseData;
 
-public class UploadToNewExpPanel extends JPanel implements ExperimentPanel {
+public class UploadExpPanel extends JPanel implements ExperimentPanel {
 
     private static final long serialVersionUID = 7664913630434090250L;
     private HashMap<File, UploadFileRow> uploadFileRows;
@@ -51,7 +51,7 @@ public class UploadToNewExpPanel extends JPanel implements ExperimentPanel {
     /**
      * Constructor initiating the new experiment panel.
      */
-    public UploadToNewExpPanel() {
+    public UploadExpPanel() {
         setLayout(new BorderLayout());
         uploadFileRows = new HashMap<File, UploadFileRow>();
         annotationBoxes = new HashMap<String, JComboBox<String>>();
@@ -89,6 +89,7 @@ public class UploadToNewExpPanel extends JPanel implements ExperimentPanel {
      */
     public void createNewExpPanel(AnnotationDataType[] annotations,
             boolean isNewExp) {
+        clear();
         this.annotations = annotations;
         this.isNewExp = isNewExp;
         createNewExp();
@@ -271,109 +272,17 @@ public class UploadToNewExpPanel extends JPanel implements ExperimentPanel {
      * Method updating current annotations available at the server.
      */
     public void updateAnnotations(AnnotationDataType[] annotations) {
+        ArrayList<String> exists = new ArrayList<String>();
 
         if (!annotationHeaders.contains("UniqueExpID")) {
-            JPanel exp = new JPanel(new BorderLayout());
-            expNameLabel.setText("<html><b>Experiment ID</b></html>");
-            expNameLabel.setToolTipText("Bold indicates a forced annotation");
-            exp.add(expNameLabel, BorderLayout.NORTH);
-            exp.add(expID, BorderLayout.CENTER);
-            annotationHeaders.add("UniqueExpID");
-            currentAnnotations.put("UniqueExpID", exp);
+            createUniqueExpIDPanel();
         }
-        ArrayList<String> exists = new ArrayList<String>();
         exists.add("UniqueExpID");
         for (AnnotationDataType a : annotations) {
             if (annotationHeaders.contains(a.getName())) {
-                if (a.getValues()[0].equalsIgnoreCase("freetext")) {
-                    annotationFields.get(a.getName()).setEnabled(true);
-                    exists.add(a.getName());
-
-                } else if (annotationBoxes.containsKey(a.getName())) {
-
-                    JComboBox<String> currentBox = annotationBoxes.get(a
-                            .getName());
-                    currentBox.setEnabled(true);
-                    // +1 for emty item.
-                    if (a.getValues().length + 1 == currentBox.getItemCount()) {
-                        exists.add(a.getName());
-                    } else {
-
-                        currentBox.removeAllItems();
-                        String[] aCopy = new String[a.getValues().length + 1];
-                        aCopy[0] = "";
-                        for (int i = 1; i <= a.getValues().length; i++) {
-                            aCopy[i] = a.getValues()[i - 1];
-                        }
-                        for (String s : aCopy) {
-                            currentBox.addItem(s);
-                        }
-                    }
-
-                }
+                exists.add(addExcistingAnnotations(a));
             } else {
-                JPanel p = new JPanel(new BorderLayout());
-                JLabel annotationLabel = null;
-                if (a.isForced()) {
-                    annotationLabel = new JLabel("<html><b>" + a.getName()
-                            + "</b></html>");
-                    annotationLabel
-                            .setToolTipText("Bold indicates a forced annotation");
-                } else {
-                    annotationLabel = new JLabel(a.getName());
-                }
-                annotationHeaders.add(a.getName());
-                p.add(annotationLabel, BorderLayout.NORTH);
-                if (a.getValues()[0].equalsIgnoreCase("freetext")) {
-                    final JTextField textField = new JTextField();
-                    textField.setColumns(10);
-
-                    // Add listener for when the text in the textfield changes.
-                    textField.getDocument().addDocumentListener(
-                            new FreetextListener());
-
-                    annotationFields.put(a.getName(), textField);
-                    p.add(textField, BorderLayout.CENTER);
-                } else {
-
-                    final JComboBox<String> comboBox;
-                    String[] aCopy = new String[a.getValues().length + 1];
-                    aCopy[0] = "";
-                    for (int i = 1; i <= a.getValues().length; i++) {
-                        aCopy[i] = a.getValues()[i - 1];
-                    }
-
-                    if (a.getName().equalsIgnoreCase("species")) {
-                        comboBox = species;
-                        species.removeAllItems();
-                        for (String s : aCopy) {
-                            species.addItem(s);
-                        }
-                        species.setSelectedIndex(0);
-                    } else {
-                        comboBox = new JComboBox<String>(aCopy);
-
-                    }
-
-                    comboBox.setPreferredSize(new Dimension(120, 31));
-                    /*
-                     *
-                     * Listener for when the user chooses something in the
-                     * combobox.
-                     */
-                    comboBox.addActionListener(new ActionListener() {
-                        @Override
-                        public void actionPerformed(ActionEvent actionEvent) {
-                            enableUploadButton(forcedAnnotationCheck());
-                        }
-                    });
-
-                    annotationBoxes.put(a.getName(), comboBox);
-                    p.add(comboBox, BorderLayout.CENTER);
-
-                }
-                currentAnnotations.put(a.getName(), p);
-                exists.add(a.getName());
+                exists.add(addNewAnnotation(a));
             }
         }
 
@@ -393,6 +302,138 @@ public class UploadToNewExpPanel extends JPanel implements ExperimentPanel {
 
         buildAnnotationsMenu();
         this.annotations = annotations;
+    }
+
+    /**
+     * Method that creates and adds a new annotation
+     * @param a - Annotation to add
+     * @return Name of created annotation
+     */
+    private String addNewAnnotation(AnnotationDataType a) {
+        JPanel p = new JPanel(new BorderLayout());
+        JLabel annotationLabel = null;
+        if (a.isForced()) {
+            annotationLabel = new JLabel("<html><b>" + a.getName()
+                    + "</b></html>");
+            annotationLabel
+                    .setToolTipText("Bold indicates a forced annotation");
+        } else {
+            annotationLabel = new JLabel(a.getName());
+        }
+        annotationHeaders.add(a.getName());
+        p.add(annotationLabel, BorderLayout.NORTH);
+        if (a.getValues()[0].equalsIgnoreCase("freetext")) {
+            final JTextField textField = createAnnotationTextField();
+            annotationFields.put(a.getName(), textField);
+            p.add(textField, BorderLayout.CENTER);
+        } else {
+            final JComboBox<String> comboBox = createAnnotationComboBox(a);
+            annotationBoxes.put(a.getName(), comboBox);
+            p.add(comboBox, BorderLayout.CENTER);
+
+        }
+        currentAnnotations.put(a.getName(), p);
+        return a.getName();
+    }
+
+    /**
+     * Method that creates a new combo box for annotations and filles it with
+     * values and an empty row as first alternative. Enabled if isNewExp
+     * @param a - Annotation to create combo box for
+     * @return A JComboBox
+     */
+    private JComboBox<String> createAnnotationComboBox(AnnotationDataType a) {
+        final JComboBox<String> comboBox;
+        String[] aCopy = new String[a.getValues().length + 1];
+        aCopy[0] = "";
+        for (int i = 1; i <= a.getValues().length; i++) {
+            aCopy[i] = a.getValues()[i - 1];
+        }
+
+        if (a.getName().equalsIgnoreCase("species")) {
+            comboBox = species;
+            species.removeAllItems();
+            for (String s : aCopy) {
+                species.addItem(s);
+            }
+            species.setSelectedIndex(0);
+        } else {
+            comboBox = new JComboBox<String>(aCopy);
+        }
+
+        comboBox.setPreferredSize(new Dimension(120, 31));
+        // Listener for when the user chooses something in the combobox
+        comboBox.setEnabled(isNewExp);
+        comboBox.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent actionEvent) {
+                enableUploadButton(forcedAnnotationCheck());
+            }
+        });
+        return comboBox;
+    }
+
+    /**
+     * Creates an annotation text field. Enabled if isNewExp
+     * @return
+     */
+    private JTextField createAnnotationTextField() {
+        final JTextField textField = new JTextField();
+        textField.setColumns(10);
+
+        // Add listener for when the text in the textfield changes.
+        textField.getDocument().addDocumentListener(
+                new FreetextListener());
+        textField.setEnabled(isNewExp);
+        return textField;
+    }
+
+    /**
+     * Updates and adds an already known annotation
+     * @param a - Annotation to add
+     * @return Name of added annotation
+     */
+    private String addExcistingAnnotations(AnnotationDataType a) {
+        if (a.getValues()[0].equalsIgnoreCase("freetext")) {
+            annotationFields.get(a.getName()).setEnabled(isNewExp);
+            return a.getName();
+
+        } else if (annotationBoxes.containsKey(a.getName())) {
+
+            JComboBox<String> currentBox = annotationBoxes.get(a
+                    .getName());
+            currentBox.setEnabled(isNewExp);
+            // +1 for emty item.
+            if (a.getValues().length + 1 == currentBox.getItemCount()) {
+                return a.getName();
+            } else {
+                currentBox.removeAllItems();
+                String[] aCopy = new String[a.getValues().length + 1];
+                aCopy[0] = "";
+                for (int i = 1; i <= a.getValues().length; i++) {
+                    aCopy[i] = a.getValues()[i - 1];
+                }
+                for (String s : aCopy) {
+                    currentBox.addItem(s);
+                }
+                return a.getName();
+            }
+        } else {
+            return addNewAnnotation(a);
+        }
+    }
+
+    /**
+     * Creates a Experiment ID panel if non exist
+     */
+    private void createUniqueExpIDPanel() {
+        JPanel exp = new JPanel(new BorderLayout());
+        expNameLabel.setText("<html><b>Experiment ID</b></html>");
+        expNameLabel.setToolTipText("Bold indicates a forced annotation");
+        exp.add(expNameLabel, BorderLayout.NORTH);
+        exp.add(expID, BorderLayout.CENTER);
+        annotationHeaders.add("UniqueExpID");
+        currentAnnotations.put("UniqueExpID", exp);
     }
 
     /**
@@ -431,14 +472,10 @@ public class UploadToNewExpPanel extends JPanel implements ExperimentPanel {
     /**
      * Creates an uploadFileRow from the provided files. Checks if the files are
      * already in an uploadFileRow so there won't be duplicates. Displays an
-     * error message if it was selected and added previously. <br>
-     * OR <br>
-     * Add the selected files as UploadFileRow to the NewExp Panel.
+     * error message if it was selected and added previously.
      *
      * @param files
-     *            The files to make an uploadFileRow out of. <br>
-     *            OR <br>
-     *            [] for each to add
+     *            The files to make an uploadFileRow out of
      */
     public void createUploadFileRow(File[] files) {
         for (File f : files) {
@@ -478,6 +515,14 @@ public class UploadToNewExpPanel extends JPanel implements ExperimentPanel {
         }
     }
 
+    private void clear() {
+        uploadFileRows = new HashMap<File, UploadFileRow>();
+        annotationBoxes = new HashMap<String, JComboBox<String>>();
+        annotationFields = new HashMap<String, JTextField>();
+        annotationHeaders = new ArrayList<String>();
+        expID.setText("");
+    }
+
     /**
      * Checks if there are any uploadfilerows. Disables the uploadbutton if
      * there aren't, and adds them to the panel if there are. After these
@@ -501,11 +546,10 @@ public class UploadToNewExpPanel extends JPanel implements ExperimentPanel {
     }
 
     /**
-     *
+     * Method that modifies the view depending on new or existing experiment
      */
     private void setNewOrExistingView() {
         if (isNewExp) {
-            expID.setText("");
             expID.setEnabled(true);
             selectButton.setText("Browse files");
             uploadSelectedBtn.setVisible(true);
@@ -737,12 +781,8 @@ public class UploadToNewExpPanel extends JPanel implements ExperimentPanel {
             if (annotationBoxes.containsKey(data.getName())) {
                 annotationBoxes.get(data.getName()).setSelectedItem(
                         data.getValue());
-                // TODO Ta bort när edit annotation är implementerat
-                annotationBoxes.get(data.getName()).setEnabled(false);
             } else if (annotationFields.containsKey(data.getName())) {
                 annotationFields.get(data.getName()).setText(data.getValue());
-                // TODO Ta bort när edit annotation är implementerat
-                annotationFields.get(data.getName()).setEnabled(false);
             }
 
         }

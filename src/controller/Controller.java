@@ -44,7 +44,6 @@ public class Controller {
         userPanelUpdate();
         ratioCalcUpdate();
         tabbedPaneUpdate();
-        // unimplementedUpdate();
     }
 
     /**
@@ -60,12 +59,9 @@ public class Controller {
                 view, model);
         view.getProcessTab().setController(processTabController);
 
-        WorkspaceTabController workspaceTabController = new WorkspaceTabController(
-                view, model, fileChooser);
+        new WorkspaceTabController(view, model, fileChooser);
 
-        UploadTabController uploadTabController = new UploadTabController(view,
-                model, fileChooser);
-        view.getUploadTab().setController(uploadTabController);
+        new UploadTabController(view, model, fileChooser);
 
         SysadminController sysadminTabController = new SysadminController(model);
         view.getSysAdminTab().setController(sysadminTabController);
@@ -230,10 +226,9 @@ public class Controller {
 
 
                         } else {
-                            view.getLoginWindow()
-                                    .updateLoginFailed(
-                                            "Didn't enter username, " +
-                                            "password and/or server");
+                            view.getLoginWindow().updateLoginFailed(
+                                    "Didn't enter username, "
+                                            + "password and/or server");
                         }
                     };
                 }.start();
