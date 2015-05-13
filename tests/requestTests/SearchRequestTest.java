@@ -6,20 +6,17 @@ import static org.junit.Assert.assertNotNull;
 import org.junit.Before;
 import org.junit.Test;
 
-import requests.DownloadFileRequest;
 import requests.RequestFactory;
+import requests.SearchRequest;
 
-public class DownloadFileRequestTest {
-
-    DownloadFileRequest r;
-    String fileName;
-    String fileFormat;
+public class SearchRequestTest {
+    SearchRequest r;
+    String annotationString;
 
     @Before
     public void setUp() {
-        fileName = "Name";
-        fileFormat = "Format";
-        r = RequestFactory.makeDownloadFileRequest(fileName, fileFormat);
+        annotationString = "annotations";
+        r = RequestFactory.makeSearchRequest(annotationString);
     }
 
     @Test
@@ -34,17 +31,16 @@ public class DownloadFileRequestTest {
 
     @Test
     public void testUrl() {
-        assertEquals(r.url, "/file/" + fileName);
+        assertEquals(r.url, "/search/?annotations=" + annotationString);
     }
 
     @Test
     public void testRequestname() {
-        assertEquals(r.requestName, "downloadfile");
+        assertEquals(r.requestName, "search");
     }
 
     @Test
     public void testJSON() {
         assertEquals(r.toJson(), "{}");
     }
-
 }

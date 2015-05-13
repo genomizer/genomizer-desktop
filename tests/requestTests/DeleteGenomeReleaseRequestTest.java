@@ -6,20 +6,19 @@ import static org.junit.Assert.assertNotNull;
 import org.junit.Before;
 import org.junit.Test;
 
-import requests.DownloadFileRequest;
+import requests.RemoveGenomeReleaseRequest;
 import requests.RequestFactory;
 
-public class DownloadFileRequestTest {
-
-    DownloadFileRequest r;
-    String fileName;
-    String fileFormat;
+public class DeleteGenomeReleaseRequestTest {
+    RemoveGenomeReleaseRequest r;
+    String specie;
+    String version;
 
     @Before
     public void setUp() {
-        fileName = "Name";
-        fileFormat = "Format";
-        r = RequestFactory.makeDownloadFileRequest(fileName, fileFormat);
+        specie = "Rat";
+        version = "v1";
+        r = RequestFactory.makeRemoveGenomeReleaseRequest(specie, version);
     }
 
     @Test
@@ -29,22 +28,21 @@ public class DownloadFileRequestTest {
 
     @Test
     public void testType() {
-        assertEquals(r.type, "GET");
+        assertEquals(r.type, "DELETE");
     }
 
     @Test
     public void testUrl() {
-        assertEquals(r.url, "/file/" + fileName);
+        assertEquals(r.url, "/genomeRelease/" + specie + "/" + version);
     }
 
     @Test
     public void testRequestname() {
-        assertEquals(r.requestName, "downloadfile");
+        assertEquals(r.requestName, "deleteGenomeRelease");
     }
 
     @Test
     public void testJSON() {
         assertEquals(r.toJson(), "{}");
     }
-
 }

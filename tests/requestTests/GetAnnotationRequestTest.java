@@ -6,20 +6,15 @@ import static org.junit.Assert.assertNotNull;
 import org.junit.Before;
 import org.junit.Test;
 
-import requests.DownloadFileRequest;
+import requests.GetAnnotationRequest;
 import requests.RequestFactory;
 
-public class DownloadFileRequestTest {
-
-    DownloadFileRequest r;
-    String fileName;
-    String fileFormat;
+public class GetAnnotationRequestTest {
+    GetAnnotationRequest r;
 
     @Before
     public void setUp() {
-        fileName = "Name";
-        fileFormat = "Format";
-        r = RequestFactory.makeDownloadFileRequest(fileName, fileFormat);
+        r = RequestFactory.makeGetAnnotationRequest();
     }
 
     @Test
@@ -34,17 +29,16 @@ public class DownloadFileRequestTest {
 
     @Test
     public void testUrl() {
-        assertEquals(r.url, "/file/" + fileName);
+        assertEquals(r.url, "/annotation");
     }
 
     @Test
     public void testRequestname() {
-        assertEquals(r.requestName, "downloadfile");
+        assertEquals(r.requestName, "getAnnotation");
     }
 
     @Test
     public void testJSON() {
         assertEquals(r.toJson(), "{}");
     }
-
 }

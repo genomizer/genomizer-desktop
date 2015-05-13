@@ -6,20 +6,15 @@ import static org.junit.Assert.assertNotNull;
 import org.junit.Before;
 import org.junit.Test;
 
-import requests.DownloadFileRequest;
+import requests.ProcessFeedbackRequest;
 import requests.RequestFactory;
 
-public class DownloadFileRequestTest {
-
-    DownloadFileRequest r;
-    String fileName;
-    String fileFormat;
+public class GetProcessStatusRequestTest {
+    ProcessFeedbackRequest r;
 
     @Before
     public void setUp() {
-        fileName = "Name";
-        fileFormat = "Format";
-        r = RequestFactory.makeDownloadFileRequest(fileName, fileFormat);
+        r = RequestFactory.makeProcessFeedbackRequest();
     }
 
     @Test
@@ -34,17 +29,16 @@ public class DownloadFileRequestTest {
 
     @Test
     public void testUrl() {
-        assertEquals(r.url, "/file/" + fileName);
+        assertEquals(r.url, "/process");
     }
 
     @Test
     public void testRequestname() {
-        assertEquals(r.requestName, "downloadfile");
+        assertEquals(r.requestName, "processfeedback");
     }
 
     @Test
     public void testJSON() {
         assertEquals(r.toJson(), "{}");
     }
-
 }
