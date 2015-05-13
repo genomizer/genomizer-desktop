@@ -89,6 +89,7 @@ public class UploadExpPanel extends JPanel implements ExperimentPanel {
      */
     public void createNewExpPanel(AnnotationDataType[] annotations,
             boolean isNewExp) {
+        clear();
         this.annotations = annotations;
         this.isNewExp = isNewExp;
         createNewExp();
@@ -514,7 +515,7 @@ public class UploadExpPanel extends JPanel implements ExperimentPanel {
         }
     }
 
-    public void clear() {
+    private void clear() {
         uploadFileRows = new HashMap<File, UploadFileRow>();
         annotationBoxes = new HashMap<String, JComboBox<String>>();
         annotationFields = new HashMap<String, JTextField>();

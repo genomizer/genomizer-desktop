@@ -219,8 +219,4 @@ public class UploadTab extends JPanel {
         // TODO: Doesn't do anything (OO)
     }
 
-    public void clearExpPanel() {
-        uploadExpPanel.clear();
-    }
-
 }

@@ -145,7 +145,6 @@ public class UploadTabController {
                     public void run() {
                         AnnotationDataType[] annotations = model
                                 .getAnnotations();
-                        uploadTab.clearExpPanel();
                         uploadTab.addNewExpPanel(annotations);
                     };
                 }.start();

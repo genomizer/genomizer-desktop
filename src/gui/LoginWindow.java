@@ -97,7 +97,6 @@ public class LoginWindow extends JFrame {
         bottomPanel.add(usernameLabel);
 
         usernameField = new JTextField(20);
-        usernameField.setDocument(new JTextFieldLimit(32));
         usernameField.setBounds(90, 40, 170, 25);
         usernameField.setText(Constants.userName);
 
@@ -108,7 +107,6 @@ public class LoginWindow extends JFrame {
         bottomPanel.add(passwordLabel);
 
         passwordField = new JPasswordField(20);
-        passwordField.setDocument(new JTextFieldLimit(32));
         passwordField.setBounds(90, 70, 170, 25);
         passwordField.setText(Constants.password);
         bottomPanel.add(passwordField);
