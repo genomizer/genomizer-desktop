@@ -12,13 +12,11 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 
-import controller.ConvertTabController;
-import controller.UploadTabController;
-
 import util.ActivePanel;
 import util.AnnotationDataType;
 import util.ExperimentData;
 import util.GenomeReleaseData;
+
 /**
  * A class representing a upload view in an application for genome research.
  * This class allows the user to upload files to the database of the
@@ -29,19 +27,19 @@ public class UploadTab extends JPanel {
     private static final long serialVersionUID = -2830290705724588252L;
     private JButton existingExpButton, newExpButton;
     private JPanel northPanel, expNamePanel, uploadPanel;
-    private UploadToExistingExpPanel uploadToExistingExpPanel;
-    private UploadToNewExpPanel uploadToNewExpPanel;
+    private UploadExpPanel uploadExpPanel;
     private ActivePanel activePanel;
     private JLabel boldTextLabel;
     private JTextField experimentNameField;
     private JScrollPane uploadScroll;
-    private UploadTabController uploadTabController;
 
-    /**Gets the UploadToNewExpPanel
+    /**
+     * Gets the UploadToNewExpPanel
+     *
      * @return the uploadToNewExpPanel
      */
-    public UploadToNewExpPanel getUploadToNewExpPanel() {
-        return uploadToNewExpPanel;
+    public UploadExpPanel getUploadToNewExpPanel() {
+        return uploadExpPanel;
     }
 
     /**
@@ -51,9 +49,7 @@ public class UploadTab extends JPanel {
 
         activePanel = ActivePanel.NONE;
         setLayout(new BorderLayout());
-
-        uploadToExistingExpPanel = new UploadToExistingExpPanel();
-        uploadToNewExpPanel = new UploadToNewExpPanel();
+        uploadExpPanel = new UploadExpPanel();
 
         northPanel = new JPanel();
         expNamePanel = new JPanel();
@@ -89,11 +85,11 @@ public class UploadTab extends JPanel {
                 "<html><b>Bold text indicates a forced annotation.</b></html>");
         boldTextLabel.setOpaque(true);
 
-
     }
 
     /**
      * Method adding a listener to the "addToExistingExpButton".
+     *
      * @see controller.UploadTabController#AddToExistingExpButtonListener()
      * @param listener
      *            The listener to add file to existing experiment.
@@ -104,6 +100,7 @@ public class UploadTab extends JPanel {
 
     /**
      * Method adding a listener to the "newExpButton".
+     *
      * @see controller.UploadTabController#NewExpButtonListener()
      * @param listener
      *            The listener to create a experiment.
@@ -118,16 +115,17 @@ public class UploadTab extends JPanel {
      * @param ed
      *            The experiment data for the existing experiment.
      */
-    public void addExistingExpPanel(ExperimentData ed, AnnotationDataType[] annot) {
+    public void addExistingExpPanel(ExperimentData ed,
+            AnnotationDataType[] annot) {
         killContentsOfUploadPanel();
-        //TODO Rensa gammal implementation CF
-//        activePanel = ActivePanel.EXISTING;
-//        uploadToExistingExpPanel.build();
-//        uploadToExistingExpPanel.addExistingExp(ed);
-//        uploadPanel.add(uploadToExistingExpPanel, BorderLayout.CENTER);
-        uploadToNewExpPanel.createNewExpPanel(annot, false);
-        uploadToNewExpPanel.setExistingExp(ed);
-        uploadPanel.add(uploadToNewExpPanel, BorderLayout.CENTER);
+        // TODO Rensa gammal implementation CF
+        // activePanel = ActivePanel.EXISTING;
+        // uploadToExistingExpPanel.build();
+        // uploadToExistingExpPanel.addExistingExp(ed);
+        // uploadPanel.add(uploadToExistingExpPanel, BorderLayout.CENTER);
+        uploadExpPanel.createNewExpPanel(annot, false);
+        uploadExpPanel.setExistingExp(ed);
+        uploadPanel.add(uploadExpPanel, BorderLayout.CENTER);
         activePanel = ActivePanel.NEW;
         repaint();
         revalidate();
@@ -146,24 +144,15 @@ public class UploadTab extends JPanel {
      */
     public void addNewExpPanel(AnnotationDataType[] annotations) {
         killContentsOfUploadPanel();
-        uploadToNewExpPanel.createNewExpPanel(annotations, true);
-        uploadPanel.add(uploadToNewExpPanel, BorderLayout.CENTER);
+        uploadExpPanel.createNewExpPanel(annotations, true);
+        uploadPanel.add(uploadExpPanel, BorderLayout.CENTER);
         activePanel = ActivePanel.NEW;
         repaint();
         revalidate();
     }
 
-    /**
-     * Method returning a uploadToExistingExpPanel.
-     *
-     * @return a panel used when uploading file to a existing experiment.
-     */
-    public UploadToExistingExpPanel getExistExpPanel() {
-        return uploadToExistingExpPanel;
-    }
-
-    public UploadToNewExpPanel getNewExpPanel() {
-        return uploadToNewExpPanel;
+    public UploadExpPanel getNewExpPanel() {
+        return uploadExpPanel;
     }
 
     public boolean newExpStarted() {
@@ -188,30 +177,18 @@ public class UploadTab extends JPanel {
     }
 
     public String getGenomeVersion(File f) {
-        if (activePanel == ActivePanel.EXISTING) {
-            return uploadToExistingExpPanel.getGenomeVersion(f);
-        } else {
-            return uploadToNewExpPanel.getGenomeVersion(f);
-        }
+
+        return uploadExpPanel.getGenomeVersion(f);
+
     }
 
-    /**Ummm
-     * No idea, wrong sprint anyway, TODO
+    /**
+     * Ummm No idea, wrong sprint anyway, TODO
+     *
      * @param grd
      */
     public void setGenomeReleases(GenomeReleaseData[] grd) {
-        if (activePanel == ActivePanel.EXISTING) {
-            uploadToExistingExpPanel.setGenomeReleases(grd);
-        } else {
-            uploadToNewExpPanel.setGenomeReleases(grd);
-        }
-    }
-
-
-
-
-    public void setController(UploadTabController uploadTabController) {
-        this.uploadTabController = uploadTabController;
+        uploadExpPanel.setGenomeReleases(grd);
     }
 
     /**
@@ -224,31 +201,26 @@ public class UploadTab extends JPanel {
         switch (activePanel) {
             case NONE:
                 break;
-            case EXISTING:
-                uploadPanel.remove(uploadToExistingExpPanel);
-                uploadToExistingExpPanel.removeAll();
-                repaint();
-                revalidate();
-                activePanel = ActivePanel.NONE;
-                break;
-            case NEW:
-                uploadPanel.remove(uploadToNewExpPanel);
-                uploadToNewExpPanel.removeAll();
+            default:
+                uploadPanel.remove(uploadExpPanel);
+                uploadExpPanel.removeAll();
                 repaint();
                 revalidate();
                 activePanel = ActivePanel.NONE;
                 break;
         }
     }
-
-
     /**
      * NOT IMPLEMENTED AT ALL!
+     *
      * @param f
      */
     public void disableSelectedRow(File f) {
         // TODO: Doesn't do anything (OO)
     }
 
+    public void clearExpPanel() {
+        uploadExpPanel.clear();
+    }
 
 }

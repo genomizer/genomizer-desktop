@@ -53,8 +53,6 @@ public class ConvertTab extends JPanel {
     private JPanel upperPanel;
     private Dimension panelSize = new Dimension(200,110);
     private ArrayList<ExperimentData> experimentData;
-
-
     private JPanel convertPanel;
     private JPanel deletePanel;
     private JPanel convertFromPanel;
@@ -66,12 +64,10 @@ public class ConvertTab extends JPanel {
     private final JScrollPane scrollFiles = new JScrollPane();
     private ConvertTabController convertTabController;
 
-
     public final JRadioButton cFromFASTQ = new JRadioButton("FASTQ");
     public final JRadioButton cFromWIG = new JRadioButton("WIG");
     public final JRadioButton cFromSGR = new JRadioButton("SGR");
     public final JRadioButton cFromCHP = new JRadioButton("CHP");
-
     public final JRadioButton cToWIG = new JRadioButton("WIG");
     public final JRadioButton cToSGR = new JRadioButton("SGR");
     public final JRadioButton cToGFF = new JRadioButton("GFF");
