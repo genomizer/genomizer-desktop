@@ -23,8 +23,12 @@ public class AnnotationValuePanel extends AnnotationNamePanel {
     public AnnotationValuePanel(EditAnnotationPopup2 popup, String valueName) {
         
         super(popup, valueName);
-        
         removeButton = new JButton(SysStrings.ANNOTATIONS_MODIFY_REMOVE);
+        
+        if(valueName.equals("freetext")){
+            removeButton.setEnabled(false);
+        }
+        
         
         popup.addButtonToButtonList(removeButton);
         
