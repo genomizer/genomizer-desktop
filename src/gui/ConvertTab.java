@@ -50,29 +50,17 @@ public class ConvertTab extends JPanel {
 
     private static final long serialVersionUID = -2830290705724588252L;
     private JButton convertSelectedFiles, deleteSelectedFiles;
-    private JPanel upperPanel, lowerPanel;
-    private CopyOnWriteArrayList<HTTPURLUpload> ongoingUploads;
-    private ActivePanel activePanel;
-    private JLabel boldTextLabel;
-    private JTextField experimentNameField;
-  //  private JScrollPane uploadScroll;
+    private JPanel upperPanel;
     private Dimension panelSize = new Dimension(200,110);
     private ArrayList<ExperimentData> experimentData;
 
 
-
-    // Test purpose
-    private ArrayList<UploadToNewExpPanel> newExps = new ArrayList<UploadToNewExpPanel>();
     private JPanel convertPanel;
     private JPanel deletePanel;
     private JPanel convertFromPanel;
     private JPanel convertToPanel;
     private JPanel selectedFilesPanel;
-    private JPanel selectedFilesTopPanel;
-    private JPanel selectedFilesBotPanel;
     private JPanel queuedFilesPanel;
-    private JSplitPane splitPane;
-    private Dimension minimumSize;
     private JPanel emptySouthPanel;
     private JList<CheckListItem> fileList = new JList<CheckListItem>();
     private final JScrollPane scrollFiles = new JScrollPane();
@@ -91,12 +79,12 @@ public class ConvertTab extends JPanel {
     public final ButtonGroup radioGroupTo = new ButtonGroup();
     private String currentFileType = "";
 
+
     /**
      * Constructor creating a convert tab.
      */
     public ConvertTab() {
 
-        activePanel = ActivePanel.NONE;
         setPreferredSize(new Dimension(1225, 725));
         setLayout(new BorderLayout());
 
@@ -108,12 +96,13 @@ public class ConvertTab extends JPanel {
 
         setButtonListeners();
         check();
-        
-        
+
+
     }
 
     /**
      *
+     * Sets the listeners to the radiobuttons
      */
     private void setButtonListeners() {
 
@@ -133,16 +122,15 @@ public class ConvertTab extends JPanel {
         setRadioButtonListener(cToSGR);
         setRadioButtonListener(cToGFF);
 
-       // setCheckBoxListener();
-
-
-
         disableCToRadiobuttons();
 
     }
 
 
-
+    /**
+     * Returns a list of the files.
+     * @return
+     */
     public JList<CheckListItem> getFileList() {
         return fileList;
     }
@@ -159,13 +147,13 @@ public class ConvertTab extends JPanel {
 
 
 
-
+    /**
+     * Sets up panel in the panel at the top in the window.
+     */
     private void setupUpperPanel(){
-
 
         upperPanel = new JPanel();
         add(upperPanel, BorderLayout.NORTH);
-
 
         setupConvertPanel();
         setupDeletePanel();
@@ -178,9 +166,11 @@ public class ConvertTab extends JPanel {
         upperPanel.add(convertToPanel);
         upperPanel.setBorder(BorderFactory.createTitledBorder("Upload"));
 
-
     }
 
+    /**
+     * sets up the panel with the convertbutton.
+     */
     private void setupConvertPanel(){
         convertPanel = new JPanel();
         convertSelectedFiles = new JButton("Convert selected files");
@@ -188,6 +178,9 @@ public class ConvertTab extends JPanel {
         convertPanel.setBorder(BorderFactory.createTitledBorder("Convert"));
     }
 
+    /**
+     * sets up the panel with the delete buttons.
+     */
     private void setupDeletePanel(){
         deletePanel = new JPanel();
         deleteSelectedFiles = new JButton("Delete selected files");
@@ -195,6 +188,10 @@ public class ConvertTab extends JPanel {
         deletePanel.setBorder(BorderFactory.createTitledBorder("Delete"));
     }
 
+    /**
+     * sets up the panel that contains which filetype you want to
+     * convert from.
+     */
     private void setupConvertFromPanel(){
         convertFromPanel = new JPanel();
         convertFromPanel.setLayout(new GridLayout(0, 1, 0, 0));
@@ -208,6 +205,10 @@ public class ConvertTab extends JPanel {
 
     }
 
+    /**
+     * Sets up the panel that contains which filetype you want to
+     * convert to.
+     */
     private void setupConvertToPanel(){
         convertToPanel = new JPanel();
         convertToPanel.setLayout(new GridLayout(0, 1, 0, 0));
@@ -220,7 +221,9 @@ public class ConvertTab extends JPanel {
     }
 
 
-
+    /**
+     * Sets up the panel which contains the files.
+     */
     private void setupSelectedFilesPanel(){
 
         selectedFilesPanel = new JPanel();
@@ -239,6 +242,9 @@ public class ConvertTab extends JPanel {
     }
 
 
+    /**
+     * Sets u the panel which contains the queued files.
+     */
     private void setupQueuedFilesPanel(){
         queuedFilesPanel = new JPanel();
         queuedFilesPanel.setPreferredSize(new Dimension(1225/2,30));
@@ -247,16 +253,27 @@ public class ConvertTab extends JPanel {
 
     }
 
+    /**
+     * Sets up an empty panel at the bottom of the window, just for show.
+     */
     private void setupEmptySouthPanel() {
         emptySouthPanel = new JPanel();
         emptySouthPanel.setPreferredSize(new Dimension(1225,30));
         add(emptySouthPanel,BorderLayout.SOUTH);
     }
 
+    /**
+     * Add a listener to the deleteSelectedFiles button.
+     * @param listener
+     */
     public void deleteSelectedButtonListener(ActionListener listener) {
         deleteSelectedFiles.addActionListener(listener);
     }
 
+    /**
+     * Add a listener to the convertSelectedFiles button.
+     * @param listener
+     */
     public void convertSelectedButtonListener(ActionListener listener) {
         convertSelectedFiles.addActionListener(listener);
     }
@@ -294,8 +311,9 @@ public class ConvertTab extends JPanel {
 
 
     /**
-     * Checks which parameters should be enabled and set. Every button and
-     * textfield uses this method to be able to listen to eachothers events.
+     * Checks which parameters should be enabled and set. It is important
+     * how this method works to get the right dependency between the
+     * radiobuttons and the checklist.
      */
     public void check() {
         /* Check if there are valid genome releases */
@@ -349,6 +367,11 @@ public class ConvertTab extends JPanel {
 
 
 
+    /**
+     * Returns the current possible types to convert from. Should
+     * be updated as soon as a new filetype is added.
+     * @return
+     */
     public ArrayList<String> getPossibleConvertFromFileTypes(){
         ArrayList<String> fileTypeList = new ArrayList<String>();
         fileTypeList.add("FASTQ");
@@ -360,11 +383,18 @@ public class ConvertTab extends JPanel {
 
     }
 
+    /**
+     * Sets the name of the filetype of the current selected filetype.
+     * @param type
+     */
     public void setCurrentSelectedFileType(String type){
         currentFileType = type;
         check();
     }
 
+    /**
+     * resets the name of the filetype.
+     */
     public void resetCurrentSelectedFileType(){
         currentFileType = "";
         check();
@@ -372,7 +402,7 @@ public class ConvertTab extends JPanel {
 
 
     /**
-     * Disables all the buttons and textfields in the process tab
+     * Disables the ToRadioButtons in the convert tab.
      */
     private void disableCToRadiobuttons() {
         cToSGR.setEnabled(false);
@@ -387,7 +417,6 @@ public class ConvertTab extends JPanel {
      *
      * @return ArrayList<FileData> - List of all the files.
      */
-
     public ArrayList<FileData> getAllMarkedFiles() {
 
         ArrayList<FileData> arr = new ArrayList<FileData>();
@@ -399,13 +428,12 @@ public class ConvertTab extends JPanel {
         return arr;
     }
 
+
     /**
      * Checks if an item in a list is selected.
      *
-     * @param arr
-     *            - the list
-     * @param checkItem
-     *            - the item in the list
+     * @param arr - the list
+     * @param checkItem - the item in the list
      */
     private void checkItemIsSelected(ArrayList<FileData> arr, CheckListItem checkItem) {
         if (checkItem.isSelected()) {
@@ -414,23 +442,18 @@ public class ConvertTab extends JPanel {
     }
 
 
-
-
-
+    /**
+     * Sets the controller for this tab.
+     * @param convertTabController
+     */
     public void setController(ConvertTabController convertTabController) {
         this.convertTabController = convertTabController;
     }
 
 
-
-
-    public void addConvertFileListener(ActionListener listener) {
-        // TODO Auto-generated method stub
-
-    }
-
     /**
-     * Sets a cell renderer to fileList.
+     * Sets a cell renderer to fileList. OBS, it is useful.. Will not
+     * update the list if removed.
      */
     private void fileListSetCellRenderer() {
         fileList.setCellRenderer(new CheckListRenderer());
@@ -439,7 +462,9 @@ public class ConvertTab extends JPanel {
 
 
 
-
+    /**
+     * Parses the data from the experiments.
+     */
     private void parseFileData() {
 
         ArrayList<CheckListItem> itemList = new ArrayList<CheckListItem>();
@@ -455,10 +480,10 @@ public class ConvertTab extends JPanel {
                         break;
                     }
                 }
-                
+
                 fileName = fileData.filename.toUpperCase();
                 fileType = fileName.substring(fileName.lastIndexOf(".") + 1);
-                
+
                 if(getPossibleConvertFromFileTypes().contains(fileType)){
                     itemList.add(new CheckListItem(fileData, fileData.filename,
                             fileData.id, specie));
@@ -468,9 +493,9 @@ public class ConvertTab extends JPanel {
         }
         fileList.setListData(itemList.toArray(new CheckListItem[itemList.size()]));
         if(fileList.getModel().getSize() == 0){
-            JOptionPane.showMessageDialog(null,"No matching filetypes. \nPossible types to convert: \n" + 
+            JOptionPane.showMessageDialog(null,"No matching filetypes. \nPossible types to convert: \n" +
                     getPossibleConvertFromFileTypes().toString());
-          
+
         }
 
         this.revalidate();
@@ -498,9 +523,4 @@ public class ConvertTab extends JPanel {
         return this.experimentData;
     }
 
-
-
-//    public void setController(UploadTabController uploadTabController) {
- //       this.uploadTabController = uploadTabController;
- //   }
 }
