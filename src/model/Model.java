@@ -216,6 +216,7 @@ public class Model implements GenomizerModel {
             if (!(categories[i].equals(oldAnnotation.getValues()[i]))) {
                 // System.out
                 // .println("A change was made in annotation value! Calling renameAnnotationValue");
+
                 renameAnnotationValue(name, oldAnnotation.getValues()[i],
                         categories[i]);
             }

@@ -109,7 +109,7 @@ public class WorkspaceTabController {
                                             .showDialog();
                                 }
                             }
-                            // TODO L�gga filen i olika datatypsmappar?
+                            
                             model.downloadFile(data.url, data.id, directoryName
                                     + "/" + data.expId + "/" + data.type + "/"
                                     + data.filename, data.filename);

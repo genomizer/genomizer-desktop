@@ -3,11 +3,11 @@ package gui.sysadmin.strings;
 /***
  * This class holds all the names of all buttons and tab names, this is to avoid
  * spelling errors and to simplify name changes.
- * 
+ *
  * @author oi11ahn
- * 
- * 
- * 
+ *
+ *
+ *
  */
 public class SysStrings {
 
@@ -31,6 +31,8 @@ public class SysStrings {
     public final static String GENOME_BUTTON_CLEAR    = "Clear";
     public final static String GENOME_BUTTON_FILE     = "Browse files...";
     public static final String GENOME_BUTTON_CLOSE    = "Close";
+    public static final String GENOME_BUTTON_ADD_SPECIE = "Add Species";
+    public final static String GENOME_TEXT_LABEL      = "Genome releases";
 
     public final static String GENOME_POPUP_BUTTON_DELETE = "Delete genome";
     public final static String GENOME_POPUP_NAME          = "Delete genome release";

@@ -9,9 +9,12 @@ import gui.sysadmin.genomereleaseview.GenomereleaseTableModel;
 import gui.sysadmin.strings.SysStrings;
 
 import java.awt.event.ActionListener;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
+
+import communication.HTTPURLUpload;
 
 import model.DeleteAnnotationException;
 import model.ErrorLogger;
@@ -149,13 +152,14 @@ public class SysadminController {
     public util.GenomeReleaseData[] getGenomeReleases() {
 
         GenomeReleaseData[] grdarray = null;
-        //TODO BehÃ¶vs felmeddelandet? Det poppar upp nÃ¤r man loggar ut. mycket underligt
+        // TODO BehÃ¶vs felmeddelandet? Det poppar upp nÃ¤r man loggar ut.
+        // mycket underligt
         try {
             grdarray = model.getGenomeReleases();
             if (!(grdarray == null)) {
                 if (grdarray.length == 0) {
-//                    JOptionPane.showMessageDialog(null,
-//                            "Could not get genomereleases!");
+                    // JOptionPane.showMessageDialog(null,
+                    // "Could not get genomereleases!");
                 }
             }
 
@@ -210,8 +214,9 @@ public class SysadminController {
             }
         }.start();
     }
+
     public void updateGenomeReleaseTab() {
-        //TODO Behövs dessa trådar och runnable i invokeLater? CF
+        // TODO Behövs dessa trådar och runnable i invokeLater? CF
         new Thread() {
             public void run() {
                 // sysController.getGenomeReleases();
@@ -233,13 +238,14 @@ public class SysadminController {
 
     public void addGenomeRelease() {
         GenomeReleaseViewCreator gr = sysTab.getGenomeReleaseView();
-        if (model.addGenomeReleaseFile(gr.getFilenames(), gr.getSpeciesText(),
+        if (model.addGenomeReleaseFile(gr.getFilenames(), gr.getSpeciesItem(),
                 gr.getVersionText())) {
 
             updateGenomeReleaseTable();
             JOptionPane.showMessageDialog(null,
-                    "Added genom release " + gr.getSelectedVersion()
-                            + " for species " + gr.getSpeciesText());
+                    "Added genom release " + gr.getVersionText()
+                            + " for species " + gr.getSpeciesItem());
+            // TODO: Consider statusPanel, and make messages similar
         } else {
             JOptionPane.showMessageDialog(null, "Could not add genome release");
         }
@@ -276,6 +282,7 @@ public class SysadminController {
      */
     public boolean renameAnnotationValue(String name, String oldValue,
             String newValue) {
+        System.out.println(name + oldValue + newValue);
         return model.renameAnnotationValue(name, oldValue, newValue);
 
     }
@@ -319,8 +326,10 @@ public class SysadminController {
         return model.addGenomeRelease();
     }
 
+    /**
+     * Start a new thread updating the genome release view every 100ms.
+     */
     public void uploadGenomeReleaseProgress() {
-        // TODO: Is this thread stopped?
         new Thread(new Runnable() {
             private boolean running;
 
@@ -328,8 +337,15 @@ public class SysadminController {
             public void run() {
                 running = true;
                 while (running) {
-                    running = sysTab.getGenomeReleaseView()
-                            .updateUploadProgress(model.getOngoingUploads());
+                    SwingUtilities.invokeLater(new Runnable() {
+                        @Override
+                        public void run() {
+                            CopyOnWriteArrayList<HTTPURLUpload> ongoingUploads = model
+                                    .getOngoingUploads();
+                            running = sysTab.getGenomeReleaseView()
+                                    .updateUploadProgress(ongoingUploads);
+                        }
+                    });
                     try {
                         Thread.sleep(100);
                     } catch (InterruptedException e) {

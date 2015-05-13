@@ -16,7 +16,7 @@ public class AddFileToExperiment extends Request {
      */
     public String experimentID;
     public String fileName;
-    public String type;
+    public String fileType;
     public String metaData;
     public String author;
     public String uploader;
@@ -30,7 +30,7 @@ public class AddFileToExperiment extends Request {
      *            String representing the experiment id.
      * @param fileName
      *            String representing the file name.
-     * @param type
+     * @param fileType
      *            String representing the type of the file.
      * @param metaData
      *            String representing meta data.
@@ -44,12 +44,12 @@ public class AddFileToExperiment extends Request {
      *            String representing the genome version of the file.
      */
     public AddFileToExperiment(String experimentId, String fileName,
-            String type, String metaData, String author, String uploader,
+            String fileType, String metaData, String author, String uploader,
             boolean isPrivate, String grVersion) {
         super("addfile", "/file", "POST");
         this.experimentID = experimentId;
         this.fileName = fileName;
-        this.type = type;
+        this.fileType = fileType;
         this.metaData = metaData;
         this.author = author;
         this.uploader = uploader;

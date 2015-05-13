@@ -94,7 +94,6 @@ public class QuerySearchTabController {
             @Override
             public void actionPerformed(ActionEvent e) {
                 querySearchTab.getSearchArea().setEditable(false);
-
                 for (QueryBuilderRow row : querySearchTab.getRowList()) {
                     row.setEnabled(true);
                 }
@@ -128,12 +127,17 @@ public class QuerySearchTabController {
                         if (searchResults != null) {
                             view.getQuerySearchTab().updateSearchResults(
                                     searchResults);
+                            if(view.getSelectedIndex() == 0){
+                                view.setStatusPanel("Search successful!");
+                            }
+
                             // If search results are null and the active panel
                             // is search
                         } else if (view.getQuerySearchTab().getActivePanel() == ActiveSearchPanel.SEARCH) {
                             JOptionPane.showMessageDialog(null,
                                     "No search results!", "Search Warning",
                                     JOptionPane.WARNING_MESSAGE);
+                                    view.setStatusPanel("No search results!");
 
                             // If search results are null and the active panel
                             // is table
@@ -141,6 +145,7 @@ public class QuerySearchTabController {
                             // Go back to the query search
                             view.getBackButton().doClick();
                             view.getQuerySearchTab().getBackButton();
+                            
                         }
                     };
                 }.start();
@@ -178,8 +183,14 @@ public class QuerySearchTabController {
                         ArrayList<ExperimentData> selectedData = view
                                 .getQuerySearchTab().getSelectedData();
                         if (selectedData != null && selectedData.size() > 0) {
-                            view.setStatusPanel(selectedData.get(0).name
-                                    + " was added to the workspace.");
+                            if(selectedData.size() == 1){
+                                view.setStatusPanel(selectedData.get(0).name
+                                        + " was added to the workspace.");
+                            } else if (selectedData.size() > 1) {
+                                view.setStatusPanel(selectedData.get(0).name +" + "+ selectedData.size()
+                                        + " other experiments was added to the workspace.");
+                            }
+                            
                             view.getWorkSpaceTab().addExperimentsToTable(
                                     view.getQuerySearchTab().getSelectedData());
                             view.getWorkSpaceTab().changeTab(0);

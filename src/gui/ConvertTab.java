@@ -62,7 +62,7 @@ public class ConvertTab extends JPanel {
 
 
     // Test purpose
-    private ArrayList<UploadToNewExpPanel> newExps = new ArrayList<UploadToNewExpPanel>();
+    private ArrayList<UploadExpPanel> newExps = new ArrayList<UploadExpPanel>();
     private JPanel convertPanel;
     private JPanel deletePanel;
     private JPanel convertFromPanel;
@@ -108,8 +108,8 @@ public class ConvertTab extends JPanel {
 
         setButtonListeners();
         check();
-        
-        
+
+
     }
 
     /**
@@ -318,7 +318,6 @@ public class ConvertTab extends JPanel {
                 if(cToGFF.isSelected()){
                     cToWIG.setSelected(true);
                 }
-
             }
 
             if (cFromWIG.isSelected() && cFromWIG.isEnabled()) {
@@ -327,7 +326,6 @@ public class ConvertTab extends JPanel {
                 if(cToSGR.isSelected() || cToWIG.isSelected()){
                     cToGFF.setSelected(true);
                 }
-
             }
 
             if (cFromSGR.isSelected() && cFromSGR.isEnabled()) {
@@ -346,7 +344,6 @@ public class ConvertTab extends JPanel {
                 if(cToSGR.isSelected()){
                     cToWIG.setSelected(true);
                 }
-
             }
     }
 
@@ -458,10 +455,10 @@ public class ConvertTab extends JPanel {
                         break;
                     }
                 }
-                
+
                 fileName = fileData.filename.toUpperCase();
                 fileType = fileName.substring(fileName.lastIndexOf(".") + 1);
-                
+
                 if(getPossibleConvertFromFileTypes().contains(fileType)){
                     itemList.add(new CheckListItem(fileData, fileData.filename,
                             fileData.id, specie));
@@ -471,8 +468,9 @@ public class ConvertTab extends JPanel {
         }
         fileList.setListData(itemList.toArray(new CheckListItem[itemList.size()]));
         if(fileList.getModel().getSize() == 0){
-            JOptionPane.showMessageDialog(null,"No matching filetypes. \nPossible types to convert: \n" + 
+            JOptionPane.showMessageDialog(null,"No matching filetypes. \nPossible types to convert: \n" +
                     getPossibleConvertFromFileTypes().toString());
+
         }
 
         this.revalidate();
