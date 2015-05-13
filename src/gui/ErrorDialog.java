@@ -5,8 +5,12 @@ import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
+import java.awt.KeyEventDispatcher;
+import java.awt.KeyboardFocusManager;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 
 import javax.swing.JButton;
 import javax.swing.JDialog;
@@ -100,7 +104,7 @@ public class ErrorDialog extends JOptionPane {
 
     private void buildTopPanel() {
         JPanel topPanel = new JPanel(new GridLayout(2, 1));
-        JLabel simpleMessageLabel = new JLabel("<html>" + simpleMessage + "<html>");
+        JLabel simpleMessageLabel = new JLabel("<html>" + simpleMessage + "</html>");
         topPanel.add(simpleMessageLabel);
 
         /* Empty panel for vertical padding */
@@ -131,8 +135,8 @@ public class ErrorDialog extends JOptionPane {
         JPanel buttonPanel = new JPanel(new FlowLayout());
         moreInfoButton = new JButton("More info");
         okButton = new JButton("OK");
-        buttonPanel.add(moreInfoButton);
         buttonPanel.add(okButton);
+        buttonPanel.add(moreInfoButton);
         okButton.addActionListener(new OkButtonListener());
         moreInfoButton.addActionListener(new MoreButtonListener());
         bodyPanel.add(buttonPanel, BorderLayout.SOUTH);
