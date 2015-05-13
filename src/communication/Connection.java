@@ -81,7 +81,7 @@ public class Connection {
         try {
             connect(request, token, type);
 
-            if (request.type.equals("DELETE")) {
+            if (request.requestType.equals("DELETE")) {
                 responseCode = connection.getResponseCode();
                 fetchResponse(connection.getInputStream());
                 if (responseCode >= 300) {
@@ -148,7 +148,7 @@ public class Connection {
             connection.setDoOutput(true);
         }
         connection.setReadTimeout(TIME_OUT_MS);
-        connection.setRequestMethod(request.type);
+        connection.setRequestMethod(request.requestType);
         connection.setRequestProperty("Content-Type", type);
 
         if (!token.isEmpty()) {

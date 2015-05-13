@@ -57,7 +57,7 @@ public class ModelTest {
                 expName, values);
         assertNotNull(r);
         assertEquals(r.requestName, "addexperiment");
-        assertEquals(r.type, "POST");
+        assertEquals(r.requestType, "POST");
         assertEquals(r.url, "/experiment");
         assertEquals(r.name, expName);
         assertArrayEquals(r.annotations, values);
@@ -73,7 +73,7 @@ public class ModelTest {
                 .makeRetrieveExperimentRequest(expName);
         assertNotNull(r);
         assertEquals(r.requestName, "retrieveexperiment");
-        assertEquals(r.type, "GET");
+        assertEquals(r.requestType, "GET");
         assertEquals(r.url, "/experiment/" + expName);
         assertEquals(r.toJson(), "{}");
         

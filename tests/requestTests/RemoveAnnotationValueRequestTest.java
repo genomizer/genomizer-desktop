@@ -6,17 +6,20 @@ import static org.junit.Assert.assertNotNull;
 import org.junit.Before;
 import org.junit.Test;
 
-import requests.RemoveExperimentRequest;
+import requests.RemoveAnnotationValueRequest;
 import requests.RequestFactory;
 
-public class RemoveExperimentRequestTest {
-    RemoveExperimentRequest r;
-    String expName;
+public class RemoveAnnotationValueRequestTest {
+    RemoveAnnotationValueRequest r;
+    String annotationName;
+    String valueName;
 
     @Before
     public void setUp() {
-        expName = "DesktopTestExperiment";
-        r = RequestFactory.makeRemoveExperimentRequest(expName);
+        annotationName = "AnnotationName";
+        valueName = "Value";
+        r = RequestFactory.makeRemoveAnnotationValueRequest(annotationName,
+                valueName);
     }
 
     @Test
@@ -31,12 +34,13 @@ public class RemoveExperimentRequestTest {
 
     @Test
     public void testUrl() {
-        assertEquals(r.url, "/experiment/" + expName);
+        assertEquals(r.url, "/annotation/value/" + annotationName + "/"
+                + valueName);
     }
 
     @Test
     public void testRequestname() {
-        assertEquals(r.requestName, "removeexperiment");
+        assertEquals(r.requestName, "removeAnnotationValue");
     }
 
     @Test

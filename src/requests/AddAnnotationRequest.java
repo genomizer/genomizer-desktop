@@ -3,14 +3,14 @@ package requests;
 public class AddAnnotationRequest extends Request {
     
     public String name;
-    public String[] type;
+    public String[] typeList;
     public String defaultType;
     public Boolean forced;
     
     public AddAnnotationRequest(String name, String[] categories, Boolean forced) {
         super("addAnnotation", "/annotation/field", "POST");
         this.name = name;
-        this.type = categories;
+        this.typeList = categories;
         this.defaultType = "Unknown";
         this.forced = forced;
     }

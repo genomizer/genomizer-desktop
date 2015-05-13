@@ -6,17 +6,17 @@ import static org.junit.Assert.assertNotNull;
 import org.junit.Before;
 import org.junit.Test;
 
-import requests.RemoveExperimentRequest;
+import requests.GetGenomeSpecieReleasesRequest;
 import requests.RequestFactory;
 
-public class RemoveExperimentRequestTest {
-    RemoveExperimentRequest r;
-    String expName;
+public class GetAllGenomeReleasesForSpeciesRequestTest {
+    GetGenomeSpecieReleasesRequest r;
+    String specie;
 
     @Before
     public void setUp() {
-        expName = "DesktopTestExperiment";
-        r = RequestFactory.makeRemoveExperimentRequest(expName);
+        specie = "Rat";
+        r = RequestFactory.makeGetGenomeSpecieReleaseRequest(specie);
     }
 
     @Test
@@ -26,17 +26,17 @@ public class RemoveExperimentRequestTest {
 
     @Test
     public void testType() {
-        assertEquals(r.requestType, "DELETE");
+        assertEquals(r.requestType, "GET");
     }
 
     @Test
     public void testUrl() {
-        assertEquals(r.url, "/experiment/" + expName);
+        assertEquals(r.url, "/genomeRelease/" + specie);
     }
 
     @Test
     public void testRequestname() {
-        assertEquals(r.requestName, "removeexperiment");
+        assertEquals(r.requestName, "getGenomeSpecieReleases");
     }
 
     @Test
