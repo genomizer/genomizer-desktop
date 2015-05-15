@@ -33,6 +33,8 @@ import controller.SysadminController;
 
 public class GUI extends JFrame {
 
+
+
     private static final long serialVersionUID = 6659839768426124853L;
     private JPanel mainPanel;
     private JTabbedPane tabbedPane;

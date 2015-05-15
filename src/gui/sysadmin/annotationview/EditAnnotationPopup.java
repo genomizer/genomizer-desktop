@@ -89,12 +89,13 @@ public class EditAnnotationPopup extends JPanel {
         valueTextField.setPreferredSize(new Dimension(180, 30));
         panel.add(valueTextField, 0);
         panel.add(addValueButton);
-        
-        if(annotation.getValues().length > 0 && annotation.getValues()[0].equals("freetext")){
+
+        if(isFreetext()){
             valueTextField.setEnabled(false);
             addValueButton.setEnabled(false);
+            valuePanels.get(0).getRemoveButton().setEnabled(false);
         }
-        
+
         valueButtons.add(addValueButton);
         return panel;
     }
@@ -297,6 +298,15 @@ public class EditAnnotationPopup extends JPanel {
         for (EditAnnotationDocumentListener listener : docListeners) {
             listener.updateOldString();
         }
+    }
+
+    /**
+     * Return true if the annotation has only one value, being "freetext".
+     * For these some buttons should be disabled.
+     * @return
+     */
+    public boolean isFreetext() {
+        return (annotation.getValues().length == 1 && annotation.getValues()[0].equals("freetext"));
     }
 
 }

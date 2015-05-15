@@ -53,11 +53,13 @@ public class EditAnnotationDocumentListener implements DocumentListener {
     @Override
     public void insertUpdate(DocumentEvent ev) {
         String newString = panel.getNameField().getText();
-        if (edPop.valueRenameIsValid(oldString, newString)) {
-            edPop.activateUpdateButton(button);
+        if (!edPop.isFreetext()) {
+            if (edPop.valueRenameIsValid(oldString, newString)) {
+                edPop.activateUpdateButton(button);
 
-        } else {
-            edPop.deactivateUpdateButton(button);
+            } else {
+                edPop.deactivateUpdateButton(button);
+            }
         }
     }
 
@@ -72,11 +74,12 @@ public class EditAnnotationDocumentListener implements DocumentListener {
         try {
             String newString = ev.getDocument().getText(0,
                     ev.getDocument().getLength());
-
-            if (edPop.valueRenameIsValid(oldString, newString)) {
-                edPop.activateUpdateButton(button);
-            } else {
-                edPop.deactivateUpdateButton(button);
+            if (!edPop.isFreetext()) {
+                if (edPop.valueRenameIsValid(oldString, newString)) {
+                    edPop.activateUpdateButton(button);
+                } else {
+                    edPop.deactivateUpdateButton(button);
+                }
             }
         } catch (BadLocationException e) {
             ErrorLogger.log(e);

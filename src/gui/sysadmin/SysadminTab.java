@@ -1,5 +1,7 @@
 package gui.sysadmin;
 
+import genomizerdesktop.Genomizer;
+import gui.GUI;
 import gui.sysadmin.annotationview.AddAnnotationPopup;
 import gui.sysadmin.annotationview.AddAnnotationPopupListener;
 import gui.sysadmin.annotationview.AnnotationsViewCreator;
@@ -16,9 +18,12 @@ import gui.sysadmin.usersview.UsersViewCreator;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Dialog.ModalityType;
+import java.awt.Frame;
 import java.awt.event.ActionListener;
 
 import javax.swing.BorderFactory;
+import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -224,7 +229,6 @@ public class SysadminTab extends JPanel {
             ActionListener editPopupListener = new EditAnnotationPopupListener(
                     this);
             editPopup.addEditAnnotationListener(editPopupListener);
-
             JFrame popupFrame = new JFrame("Edit annotation");
             popupFrame.add(editPopup, BorderLayout.CENTER);
             popupFrame.pack();

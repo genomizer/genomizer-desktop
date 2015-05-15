@@ -68,6 +68,7 @@ public class Controller {
                 view, model, fileChooser);
         view.getConvertTab().setController(convertTabController);
 
+        view.getQuerySearchTab().clickUpdateAnnotations();
         sysadminTabController.updateAnnotationTable();
         sysadminTabController.updateGenomeReleaseTab();
     }

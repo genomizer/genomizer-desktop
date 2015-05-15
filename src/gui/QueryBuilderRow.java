@@ -272,7 +272,7 @@ public class QueryBuilderRow extends JPanel {
                             if (annotation.equals(dataType.getName())) {
                                 String[] values = dataType.getValues();
                                 if (values != null) {
-                                    if (!values[0].equals("freetext")) {
+                                    if (!values[0].equals("freetext") || values.length>1) {
                                         /* Dropdown annotation alternatives box */
                                         dropdown = true;
                                         setAnnotationAlternatives(values);
