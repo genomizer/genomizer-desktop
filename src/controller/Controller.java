@@ -27,13 +27,11 @@ public class Controller {
     private GUI view;
     private GenomizerModel model;
     private final JFileChooser fileChooser = new JFileChooser();
-    private boolean runonce;
 
     public Controller(GUI view, GenomizerModel model) {
         this.view = view;
         this.model = model;
         updateView();
-        runonce = true;
     }
 
     /**
@@ -70,6 +68,7 @@ public class Controller {
                 view, model, fileChooser);
         view.getConvertTab().setController(convertTabController);
 
+        view.getQuerySearchTab().clickUpdateAnnotations();
         sysadminTabController.updateAnnotationTable();
         sysadminTabController.updateGenomeReleaseTab();
     }
@@ -208,15 +207,12 @@ public class Controller {
                                 sessionHandler.loginUser(username, password);
                                 view.updateLoginAccepted(username, password,
                                         "Desktop User");
-                                if (runonce) {
                                     updateTabs();
-                                    runonce = false;
-                                } else {
                                     view.getSysAdminTab().getController()
                                             .updateAnnotationTable();
                                     view.getSysAdminTab().getController()
                                             .updateGenomeReleaseTab();
-                                }
+
                             } catch (LoginException e) {
                                 ErrorLogger.log("Login", username
                                         + " logged in");
@@ -257,10 +253,6 @@ public class Controller {
                             model.resetModel();
                             view.updateLogout();
                             view.resetGUI();
-                            // If only tabs are updated then only these methods
-                            // will be
-                            // needed.
-                            updateTabs();
                             ErrorLogger.log("Logout", "User logged out");
                         }
                     };

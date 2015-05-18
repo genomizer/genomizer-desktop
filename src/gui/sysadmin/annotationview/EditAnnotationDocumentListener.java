@@ -13,7 +13,7 @@ public class EditAnnotationDocumentListener implements DocumentListener {
 
     private String oldString;
     private JButton button;
-    private EditAnnotationPopup2 edPop;
+    private EditAnnotationPopup edPop;
     private AnnotationValuePanel panel;
 
     /**
@@ -29,7 +29,7 @@ public class EditAnnotationDocumentListener implements DocumentListener {
      *            the EditAnnotationPopup holding the panel
      */
     public EditAnnotationDocumentListener(AnnotationValuePanel panel,
-            EditAnnotationPopup2 edPop) {
+            EditAnnotationPopup edPop) {
         this.panel = panel;
         this.oldString = panel.getNameField().getText();
 
@@ -53,11 +53,13 @@ public class EditAnnotationDocumentListener implements DocumentListener {
     @Override
     public void insertUpdate(DocumentEvent ev) {
         String newString = panel.getNameField().getText();
-        if (edPop.valueRenameIsValid(oldString, newString)) {
-            edPop.activateUpdateButton(button);
+        if (!edPop.isFreetext()) {
+            if (edPop.valueRenameIsValid(oldString, newString)) {
+                edPop.activateUpdateButton(button);
 
-        } else {
-            edPop.deactivateUpdateButton(button);
+            } else {
+                edPop.deactivateUpdateButton(button);
+            }
         }
     }
 
@@ -72,11 +74,12 @@ public class EditAnnotationDocumentListener implements DocumentListener {
         try {
             String newString = ev.getDocument().getText(0,
                     ev.getDocument().getLength());
-
-            if (edPop.valueRenameIsValid(oldString, newString)) {
-                edPop.activateUpdateButton(button);
-            } else {
-                edPop.deactivateUpdateButton(button);
+            if (!edPop.isFreetext()) {
+                if (edPop.valueRenameIsValid(oldString, newString)) {
+                    edPop.activateUpdateButton(button);
+                } else {
+                    edPop.deactivateUpdateButton(button);
+                }
             }
         } catch (BadLocationException e) {
             ErrorLogger.log(e);

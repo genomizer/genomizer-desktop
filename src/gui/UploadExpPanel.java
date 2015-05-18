@@ -322,7 +322,7 @@ public class UploadExpPanel extends JPanel implements ExperimentPanel {
         }
         annotationHeaders.add(a.getName());
         p.add(annotationLabel, BorderLayout.NORTH);
-        if (a.getValues()[0].equalsIgnoreCase("freetext")) {
+        if (a.getValues()[0].equalsIgnoreCase("freetext") && a.getValues().length < 2) {
             final JTextField textField = createAnnotationTextField();
             annotationFields.put(a.getName(), textField);
             p.add(textField, BorderLayout.CENTER);
@@ -394,7 +394,7 @@ public class UploadExpPanel extends JPanel implements ExperimentPanel {
      * @return Name of added annotation
      */
     private String addExcistingAnnotations(AnnotationDataType a) {
-        if (a.getValues()[0].equalsIgnoreCase("freetext")) {
+        if (a.getValues()[0].equalsIgnoreCase("freetext") && a.getValues().length < 2) {
             annotationFields.get(a.getName()).setEnabled(isNewExp);
             return a.getName();
 

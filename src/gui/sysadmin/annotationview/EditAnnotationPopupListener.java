@@ -17,7 +17,7 @@ public class EditAnnotationPopupListener implements ActionListener {
 
     private SysadminTab sysTab;
     private SysadminController sysController;
-    private EditAnnotationPopup2 editPopup;
+    private EditAnnotationPopup editPopup;
 
     public EditAnnotationPopupListener(SysadminTab sysTab) {
         this.sysTab = sysTab;
@@ -55,8 +55,9 @@ public class EditAnnotationPopupListener implements ActionListener {
                     editPopup.deactivateUpdateButton((JButton) e.getSource());
                     editPopup.updateDocListeners();
                 } else {
-                    JOptionPane.showMessageDialog(editPopup,
-                            "Could not rename annotation value!");
+//                     TODO: Message already sent in model...
+//                    JOptionPane.showMessageDialog(editPopup,
+//                            "Could not rename annotation value!");
                 }
 
                 sysController.updateAnnotationTable();
@@ -69,8 +70,9 @@ public class EditAnnotationPopupListener implements ActionListener {
                         editPopup.getAnnotationName(), j2.getName())) {
                     panel.setVisible(false);
                 } else {
-                    JOptionPane.showMessageDialog(editPopup,
-                            "Could not remove annotation value!");
+//                  TODO: Message already sent in model...
+//                    JOptionPane.showMessageDialog(editPopup,
+//                            "Could not remove annotation value!");
                 }
                 sysController.updateAnnotationTable();
                 break;
@@ -85,8 +87,9 @@ public class EditAnnotationPopupListener implements ActionListener {
                         editPopup.addEditAnnotationListener(this);
                         editPopup.updateDocListeners();
                     } else {
-                        JOptionPane.showMessageDialog(editPopup,
-                                "Could not add annotation value!");
+//                      TODO: Message already sent in model...
+//                        JOptionPane.showMessageDialog(editPopup,
+//                                "Could not add annotation value!");
                     }
                 }
 

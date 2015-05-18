@@ -1,9 +1,11 @@
 package gui.sysadmin;
 
+import genomizerdesktop.Genomizer;
+import gui.GUI;
 import gui.sysadmin.annotationview.AddAnnotationPopup;
 import gui.sysadmin.annotationview.AddAnnotationPopupListener;
 import gui.sysadmin.annotationview.AnnotationsViewCreator;
-import gui.sysadmin.annotationview.EditAnnotationPopup2;
+import gui.sysadmin.annotationview.EditAnnotationPopup;
 import gui.sysadmin.annotationview.EditAnnotationPopupListener;
 import gui.sysadmin.genomereleaseview.GenomeButtonListener;
 import gui.sysadmin.genomereleaseview.GenomeReleaseViewCreator;
@@ -16,10 +18,14 @@ import gui.sysadmin.usersview.UsersViewCreator;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Dialog.ModalityType;
+import java.awt.Frame;
 import java.awt.event.ActionListener;
 
 import javax.swing.BorderFactory;
+import javax.swing.JDialog;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
 import javax.swing.JTable;
@@ -39,7 +45,7 @@ public class SysadminTab extends JPanel {
     private ProcessViewCreator processView;
     private GenomeReleaseViewCreator genomeReleaseView;
     private AddAnnotationPopup pop;
-    private EditAnnotationPopup2 editPopup;
+    private EditAnnotationPopup editPopup;
     private JFrame editFrame;
     private JFrame newAnnotationFrame;
 
@@ -67,7 +73,7 @@ public class SysadminTab extends JPanel {
                 sysController));
 
         sysadminTabPane.setTabPlacement(JTabbedPane.LEFT);
-        // TODO: Does this warning mean it does not work ? (OO)
+
         for (SysadminTabButtons button : SysadminTabButtons.values()) {
             switch (button) {
                 case ANNOTATIONS:
@@ -77,6 +83,11 @@ public class SysadminTab extends JPanel {
                 case GENOMES:
                     sysadminTabPane.addTab(button.getValue(),
                             buildGenomeReleaseView());
+                    break;
+                case USERS:
+                    //TODO: What is this?
+                    break;
+                default:
                     break;
             }
         }
@@ -213,12 +224,11 @@ public class SysadminTab extends JPanel {
      */
     public void editAnnotationPopup() {
 
-        editPopup = new EditAnnotationPopup2(annotationsView.getTable());
+        editPopup = new EditAnnotationPopup(annotationsView.getTable());
         if (editPopup.isEnabled()) {
             ActionListener editPopupListener = new EditAnnotationPopupListener(
                     this);
             editPopup.addEditAnnotationListener(editPopupListener);
-
             JFrame popupFrame = new JFrame("Edit annotation");
             popupFrame.add(editPopup, BorderLayout.CENTER);
             popupFrame.pack();
@@ -233,7 +243,7 @@ public class SysadminTab extends JPanel {
     /**
      * @return the frame of the edit popup
      */
-    public EditAnnotationPopup2 getEditPopup() {
+    public EditAnnotationPopup getEditPopup() {
         return editPopup;
     }
 

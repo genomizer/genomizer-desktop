@@ -109,6 +109,10 @@ public class QuerySearchTab extends JPanel {
         bottomPanel.removeAll();
         topPanel.add(searchPanel);
         bottomPanel.add(rowsPanel, BorderLayout.NORTH);
+
+//        topPanel.add(updateAnnotationsButton,BorderLayout.EAST);
+        // TODO never shown in a panel
+
         activePanel = ActiveSearchPanel.SEARCH;
         repaint();
         revalidate();
@@ -134,7 +138,8 @@ public class QuerySearchTab extends JPanel {
      * Set up the query search tab foundation
      */
     private void setUpQuerySearchTab() {
-        updateAnnotationsButton = new JButton();
+        updateAnnotationsButton = new JButton("Fetch Annotations");
+        //TODO: This button is never displayed
         annotationTypes = new AnnotationDataType[0];
         rowList = new CopyOnWriteArrayList<>();
         this.setLayout(new BorderLayout());
