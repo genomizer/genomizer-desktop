@@ -135,7 +135,6 @@ public class Connection {
             throws MalformedURLException, IOException, ProtocolException {
 
         URL url = new URL(ip + request.url);
-
         connection = (HttpsURLConnection) url.openConnection();
 
 
@@ -143,13 +142,14 @@ public class Connection {
             connection.setDoOutput(true);
         }
         connection.setReadTimeout(TIME_OUT_MS);
+        connection.setConnectTimeout(TIME_OUT_MS);
         connection.setRequestMethod(request.requestType);
         connection.setRequestProperty("Content-Type", type);
 
         if (!token.isEmpty()) {
             connection.setRequestProperty("Authorization", token);
         }
-
+        
         connection.connect();
 
     }
