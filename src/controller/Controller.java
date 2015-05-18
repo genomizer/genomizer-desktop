@@ -7,6 +7,7 @@ import gui.GUI;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import javax.swing.JButton;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.event.ChangeEvent;
@@ -189,10 +190,11 @@ public class Controller {
     public ActionListener LoginListener() {
         return new ActionListener() {
             @Override
-            public void actionPerformed(ActionEvent e) {
+            public void actionPerformed(final ActionEvent e) {
                 new Thread() {
                     @Override
                     public void run() {
+                        ((JButton) e.getSource()).setEnabled(false);
                         String ip = view.getLoginWindow().getIPInput();
                         String username = view.getLoginWindow()
                                 .getUsernameInput();
@@ -233,6 +235,7 @@ public class Controller {
                                     "Didn't enter username, "
                                             + "password and/or server");
                         }
+                        ((JButton) e.getSource()).setEnabled(true);
                     };
                 }.start();
             }
