@@ -117,6 +117,14 @@ public class ExperimentData {
         }
     }
 
+    public void updateFileSize() {
+        for (FileData data : files) {
+            if (data.fileSize != null && !data.fileSize.isEmpty()) {
+                data.fileSize = FileSizeFormatter.convertByteToString(Long.parseLong(data.fileSize));
+            }
+        }
+    }
+
     /**
      * Check equality on name field
      */
@@ -136,4 +144,5 @@ public class ExperimentData {
     public ArrayList<AnnotationDataValue> getAnnotations() {
         return annotations;
     }
+
 }
