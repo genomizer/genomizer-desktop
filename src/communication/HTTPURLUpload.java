@@ -94,7 +94,9 @@ public class HTTPURLUpload {
             e.printStackTrace();
         }
 
+        System.out.println(uploadPath);
         HttpPost httpPost = new HttpPost(uploadPath);
+        System.out.println(httpPost.toString());
 
         httpPost.addHeader("Authorization", userID);
         // HttpPost httpPost = new HttpPost(filePath);

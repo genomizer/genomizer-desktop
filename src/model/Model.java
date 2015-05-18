@@ -131,6 +131,7 @@ public class Model implements GenomizerModel {
                 if (searchResponses != null && searchResponses.length > 0) {
                     for (int i = 0; i < searchResponses.length; i++) {
                         searchResponses[i].convertToUTF8();
+                        searchResponses[i].updateFileSize();
                     }
                     return new ArrayList<>(Arrays.asList(searchResponses));
                 }
