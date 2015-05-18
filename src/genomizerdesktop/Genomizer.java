@@ -22,7 +22,6 @@ import controller.Controller;
  *
  */
 public class Genomizer {
-
     public static void main(String args[]) {
 
         // TODO

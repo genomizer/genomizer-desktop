@@ -115,8 +115,6 @@ public class Connection {
                 InputStream inputStream = connection.getErrorStream();
                 if (inputStream != null) {
                     fetchResponse(connection.getErrorStream());
-                    System.out.println(responseCode);
-                    System.out.println(responseBody);
 
                     //TODO Fixa så att man kan kasta meddelanden för alla koder >300
                     if(responseCode>=300){

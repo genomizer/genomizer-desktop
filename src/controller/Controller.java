@@ -119,17 +119,21 @@ public class Controller {
                         // If logged out
                         if (User.getInstance().getToken() == "") return;
 
-                        AnnotationDataType[] a;
+                        AnnotationDataType[] a = null;
+                        if (view.getSelectedIndex() == 1 ||
+                                view.getSelectedIndex() == 0 )
+                            a = model.getAnnotations();
+
                         if (view.getSelectedIndex() == 1) {
                             // uplod
-                            if (((a = model.getAnnotations()) != null)
+                            if (((a) != null)
                                     && view.getUploadTab().newExpStarted()) {
                                 view.getUploadTab().getNewExpPanel()
                                         .updateAnnotations(a);
                             }
                         } else if (view.getSelectedIndex() == 0) {
                             // Query
-                            if ((a = model.getAnnotations()) != null) {
+                            if ((a) != null) {
                                 view.getQuerySearchTab().setAnnotationTypes(a);
                                 view.getQuerySearchTab().refresh();
                             }
@@ -189,14 +193,17 @@ public class Controller {
                 new Thread() {
                     @Override
                     public void run() {
-                        String ip       = view.getLoginWindow().getIPInput();
-                        String username = view.getLoginWindow().getUsernameInput();
-                        String password = view.getLoginWindow().getPasswordInput();
+                        String ip = view.getLoginWindow().getIPInput();
+                        String username = view.getLoginWindow()
+                                .getUsernameInput();
+                        String password = view.getLoginWindow()
+                                .getPasswordInput();
 
+                        if (!ip.isEmpty() && !username.isEmpty()
+                                && !password.isEmpty()) {
 
-                        if (!ip.isEmpty() && !username.isEmpty() && !password.isEmpty()) {
-
-                            SessionHandler sessionHandler = SessionHandler.getInstance();
+                            SessionHandler sessionHandler = SessionHandler
+                                    .getInstance();
 
                             // TODO SessionHandler.setIP().........
                             model.setIP(ip);
@@ -207,19 +214,19 @@ public class Controller {
                                 sessionHandler.loginUser(username, password);
                                 view.updateLoginAccepted(username, password,
                                         "Desktop User");
-                                    updateTabs();
-                                    view.getSysAdminTab().getController()
-                                            .updateAnnotationTable();
-                                    view.getSysAdminTab().getController()
-                                            .updateGenomeReleaseTab();
+                                updateTabs();
+                                view.getSysAdminTab().getController()
+                                        .updateAnnotationTable();
+                                view.getSysAdminTab().getController()
+                                        .updateGenomeReleaseTab();
 
                             } catch (LoginException e) {
                                 ErrorLogger.log("Login", username
                                         + " logged in");
-                                view.getLoginWindow().updateLoginFailed(e.getMessage());
+                                view.getLoginWindow().updateLoginFailed(
+                                        e.getMessage());
                                 ErrorLogger.log(e.getMessage());
                             }
-
 
                         } else {
                             view.getLoginWindow().updateLoginFailed(
