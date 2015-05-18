@@ -76,6 +76,7 @@ public class QuerySearchTabController {
                             .getQuerySearchTab().getSelectedData().get(0);
 
                     UploadTab ut = view.getUploadTab();
+                    ut.getNewExpPanel().setSelectButtonEnabled(true);
                     view.getTabbedPane().setSelectedComponent(ut);
                     ut.getExperimentNameField().setText(
                             firstChosenExperiment.getName());

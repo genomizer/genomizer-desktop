@@ -143,6 +143,7 @@ public class UploadTabController {
                 new Thread() {
                     @Override
                     public void run() {
+                        uploadTab.getNewExpPanel().setSelectButtonEnabled(true);
                         AnnotationDataType[] annotations = model
                                 .getAnnotations();
                         uploadTab.addNewExpPanel(annotations);
@@ -191,8 +192,10 @@ public class UploadTabController {
                             }
 
                             if (created) {
+                                uploadTab.getUploadToNewExpPanel().setSelectButtonEnabled(false);
+                                uploadTab.getUploadToNewExpPanel().enableUploadButton(false);
+                                uploadTab.disableAllFileRows();
                                 for (File f : files) {
-                                    uploadTab.disableSelectedRow(f);
                                     if (model.uploadFile(expName, f,
                                             types.get(f.getName()), false,
                                             uploadTab.getGenomeVersion(f))) {
@@ -223,7 +226,7 @@ public class UploadTabController {
 
                                     }
                                 }
-
+                                uploadTab.getUploadToNewExpPanel().enableUploadButton(true);
                                 String status = "Upload to experiment \""
                                         + expName + "\" complete.";
                                 view.setStatusPanel(status);
@@ -258,8 +261,10 @@ public class UploadTabController {
                             boolean created = model.addNewExperiment(expName,
                                     annotations);
                             if (created) {
+                                uploadTab.getUploadToNewExpPanel().setSelectButtonEnabled(false);
+                                uploadTab.disableAllFileRows();
+                                uploadTab.getUploadToNewExpPanel().enableUploadButton(false);
                                 for (File f : files) {
-                                    uploadTab.disableSelectedRow(f);
                                     if (model.uploadFile(expName, f,
                                             types.get(f.getName()), false,
                                             uploadTab.getGenomeVersion(f))) {
@@ -293,7 +298,7 @@ public class UploadTabController {
                                 // JOptionPane.showMessageDialog(null,"Upload to the new "
                                 // + "experiment \""
                                 // + expName + "\" complete");
-
+                                uploadTab.getUploadToNewExpPanel().enableUploadButton(true);
                                 String status = "Upload to new experiment \""
                                         + expName + "\" complete.";
                                 view.setStatusPanel(status);

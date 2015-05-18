@@ -4,6 +4,7 @@ import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
+import java.util.Iterator;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
@@ -215,8 +216,13 @@ public class UploadTab extends JPanel {
      *
      * @param f
      */
-    public void disableSelectedRow(File f) {
-        // TODO: Doesn't do anything (OO)
+    public void disableAllFileRows() {
+        Iterator<UploadFileRow> i = uploadExpPanel.getFileRows().values().iterator();
+        while(i.hasNext()){
+            UploadFileRow currentRow = i.next();
+            currentRow.disableRow();
+        }
+
     }
 
 }

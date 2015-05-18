@@ -716,6 +716,7 @@ public class UploadExpPanel extends JPanel implements ExperimentPanel {
             if (!uploadFileRows.isEmpty() && forcedAnnotationCheck()) {
                 uploadSelectedBtn.setEnabled(true);
                 uploadButton.setEnabled(true);
+
             }
         } else {
             uploadSelectedBtn.setEnabled(false);
@@ -727,6 +728,11 @@ public class UploadExpPanel extends JPanel implements ExperimentPanel {
             }
         }
     }
+
+    public void setSelectButtonEnabled(boolean enabled){
+        selectButton.setEnabled(enabled);
+    }
+
 
     /**
      * Listener for when the text in a textfield changes.
