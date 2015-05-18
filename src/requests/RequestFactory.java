@@ -179,4 +179,8 @@ public class RequestFactory {
                 uploader, isPrivate, grVersion, url);
 
     }
+
+    public static CancelProcessRequest makeCancelProcessRequest(String PID) {
+        return new CancelProcessRequest(PID);
+    }
 }

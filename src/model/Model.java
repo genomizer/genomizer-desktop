@@ -479,7 +479,7 @@ public class Model implements GenomizerModel {
         try {
             conn.sendRequest(request, User.getInstance().getToken(),
                     Constants.JSON);
-            
+
             JOptionPane.showMessageDialog(null, "Succesfully removed "
                     + version);
             return true;

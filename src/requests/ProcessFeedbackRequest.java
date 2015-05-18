@@ -5,6 +5,6 @@ package requests;
  */
 public class ProcessFeedbackRequest extends Request {
     public ProcessFeedbackRequest() {
-        super("processfeedback", "/process", "GET");
+        super("processfeedback", "/process/dummy", "GET");
     }
 }

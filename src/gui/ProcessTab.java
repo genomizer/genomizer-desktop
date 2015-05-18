@@ -251,80 +251,52 @@ public class ProcessTab extends JPanel {
                 DefaultMutableTreeNode root = new DefaultMutableTreeNode(
                         "<html><b>Current processes</b></html>");
                 // create the child nodes
-                ArrayList<String> authors = new ArrayList<String>();
-                for (int i = 0; i < processFeedbackData.length; i++) {
-                    if (!authors.contains(processFeedbackData[i].author)) {
-                        authors.add(processFeedbackData[i].author);
+
+                for(ProcessFeedbackData p: processFeedbackData) {
+                    System.out.println(p.PID);
+                    DefaultMutableTreeNode processNode = new DefaultMutableTreeNode(
+                            "<html><b>ProcessID</b>: " + p.PID + "</html>");
+                    root.add(processNode);
+                    processNode.add(new DefaultMutableTreeNode(
+                            "<html><b>Author</b>: " + p.author + "</html>"));
+                    processNode.add(new DefaultMutableTreeNode(
+                            "<html><b>ExpID</b>: " + p.experimentName + "</html>"));
+                    
+                    DefaultMutableTreeNode fileNode = new DefaultMutableTreeNode(
+                            "<html><b>Files</b>: " + "Files" + "</html>");
+                    for(String s: p.outputFiles) {
+                        fileNode.add(new DefaultMutableTreeNode(
+                            "<html><b>File</b>: " + s + "</html>"));
                     }
-                }
-                for (String author : authors) {
-
-                    DefaultMutableTreeNode authorNode = new DefaultMutableTreeNode(
-                            "<html><b>Author</b>: " + author + "</html>");
-                    root.add(authorNode);
-                    DefaultMutableTreeNode finishedNode = new DefaultMutableTreeNode(
-                            "<html><b>Finished</b></html>");
-                    authorNode.add(finishedNode);
-                    DefaultMutableTreeNode crashedNode = new DefaultMutableTreeNode(
-                            "<html><b>Crashed</b></html>");
-                    authorNode.add(crashedNode);
-                    DefaultMutableTreeNode startedNode = new DefaultMutableTreeNode(
-                            "<html><b>Started</b></html>");
-                    authorNode.add(startedNode);
-                    DefaultMutableTreeNode waitingNode = new DefaultMutableTreeNode(
-                            "<html><b>Waiting</b></html>");
-                    authorNode.add(waitingNode);
-                    for (int i = 0; i < processFeedbackData.length; i++) {
-                        ProcessFeedbackData data = processFeedbackData[i];
-                        if (author.equals(data.author)) {
-                            Format format = new SimpleDateFormat(
-                                    "yyyy-MM-dd, HH:mm");
-                            String timeAdded = "Not added";
-                            String timeStarted = "Not started";
-                            String timeFinished = "Not finished";
-                            if (data.timeAdded != 0) {
-                                timeAdded = format.format(
-                                        new Date(data.timeAdded)).toString();
-                            }
-                            if (data.timeStarted != 0) {
-                                timeStarted = format.format(
-                                        new Date(data.timeStarted)).toString();
-                            }
-                            if (data.timeFinished != 0) {
-                                timeFinished = format.format(
-                                        new Date(data.timeFinished)).toString();
-                            }
-                            DefaultMutableTreeNode expNode = new DefaultMutableTreeNode(
-                                    "<html><b>ExpID</b>: "
-                                            + data.experimentName + "</html>");
-                            DefaultMutableTreeNode addedTimeNode = new DefaultMutableTreeNode(
-                                    "<html><u>Time Added</u>: " + timeAdded
-                                            + "</html>");
-                            DefaultMutableTreeNode startedTimeNode = new DefaultMutableTreeNode(
-                                    "<html><u>Time Started</u>: " + timeStarted
-                                            + "</html>");
-                            DefaultMutableTreeNode finishedTimeNode = new DefaultMutableTreeNode(
-                                    "<html><u>Time Finished</u>: "
-                                            + timeFinished + "</html>");
-
-                            expNode.add(addedTimeNode);
-                            expNode.add(startedTimeNode);
-                            expNode.add(finishedTimeNode);
-
-                            if (data.status.equals("Finished")) {
-                                finishedNode.add(expNode);
-                            } else if (data.status.equals("Waiting")) {
-                                waitingNode.add(expNode);
-                            } else if (data.status.equals("Crashed")) {
-                                crashedNode.add(expNode);
-                            } else if (data.status.equals("Started")) {
-                                startedNode.add(expNode);
-                            }
-
-                        }
-
+                    processNode.add(fileNode);
+                    processNode.add(new DefaultMutableTreeNode(
+                            "<html><b>Status</b>: " + p.status + "</html>"));
+                    Format format = new SimpleDateFormat(
+                            "yyyy-MM-dd, HH:mm");
+                    String timeAdded = "Not added";
+                    String timeStarted = "Not started";
+                    String timeFinished = "Not finished";
+                    if (p.timeAdded != 0) {
+                        timeAdded = format.format(
+                                new Date(p.timeAdded)).toString();
                     }
+                    if (p.timeStarted != 0) {
+                        timeStarted = format.format(
+                                new Date(p.timeStarted)).toString();
+                    }
+                    if (p.timeFinished != 0) {
+                        timeFinished = format.format(
+                                new Date(p.timeFinished)).toString();
+                    }
+                    processNode.add(new DefaultMutableTreeNode(
+                            "<html><b>TimeAdded</b>: " + timeAdded + "</html>"));
+                    processNode.add(new DefaultMutableTreeNode(
+                            "<html><b>TimeStarted</b>: " + timeStarted + "</html>"));
+                    processNode.add(new DefaultMutableTreeNode(
+                            "<html><b>TimeFinished</b>: " + timeFinished + "</html>"));
                 }
+
+
                 // create the tree by passing in the root node
                 JTree tree = new JTree(root);
                 tree.setRootVisible(false);

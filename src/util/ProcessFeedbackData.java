@@ -1,6 +1,5 @@
 package util;
 
-import java.util.Random;
 
 /**
  * @author 1337H4xx0r
@@ -9,6 +8,7 @@ import java.util.Random;
 public class ProcessFeedbackData {
 
     public String experimentName;
+    public String PID;
     public String status;
     public String author;
     public String[] outputFiles;
@@ -16,9 +16,10 @@ public class ProcessFeedbackData {
     public long timeStarted;
     public long timeFinished;
 
-    public ProcessFeedbackData(String experimentName, String status, String author
+    public ProcessFeedbackData(String experimentName,String PID, String status, String author
             , String[] outputFiles, long timeAdded, long timeFinished, long timeStarted) {
         this.experimentName = experimentName;
+        this.PID = PID;
         this.status = status;
         this.author = author;
         this.outputFiles = outputFiles;
