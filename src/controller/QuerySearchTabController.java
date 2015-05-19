@@ -130,14 +130,14 @@ public class QuerySearchTabController {
                                     searchResults);
                             if(view.getSelectedIndex() == 0){
                                 view.setStatusPanel("Search successful: " + searchResults.size() + " matches.");
-                                view.setStatusPanelColorSuccess();
+                                view.setStatusPanelColor("success");
                             }
 
                             // If search results are null and the active panel
                             // is search
                         } else if (view.getQuerySearchTab().getActivePanel() == ActiveSearchPanel.SEARCH) {
                             view.setStatusPanel("No search results!");
-                            view.setStatusPanelColorFail();
+                            view.setStatusPanelColor("fail");
 
                             // If search results are null and the active panel
                             // is table
@@ -186,11 +186,13 @@ public class QuerySearchTabController {
                             if(selectedData.size() == 1){
                                 view.setStatusPanel(selectedData.get(0).name
                                         + " was added to the workspace.");
-                                view.setStatusPanelColorSuccess();
+                                view.setStatusPanelColor("success");
+                                //view.setStatusPanelColorSuccess();
                             } else if (selectedData.size() > 1) {
                                 view.setStatusPanel(selectedData.get(0).name +" + "+ (selectedData.size()-1)
                                         + " other experiments was added to the workspace.");
-                                view.setStatusPanelColorSuccess();
+                                view.setStatusPanelColor("success");
+                                //view.setStatusPanelColorSuccess();
                             }
 
                             view.getWorkSpaceTab().addExperimentsToTable(
@@ -198,7 +200,8 @@ public class QuerySearchTabController {
                             view.getWorkSpaceTab().changeTab(0);
                         } else {
                             view.setStatusPanel( "No data selected!");
-                            view.setStatusPanelColorFail();
+                            view.setStatusPanelColor("fail");
+                            //view.setStatusPanelColorFail();
                         }
                         view.getQuerySearchTab().clearSearchSelection();
                     };
