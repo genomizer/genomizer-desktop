@@ -194,7 +194,7 @@ public class UploadTabController {
                             if (created) {
                                 uploadTab.getUploadToNewExpPanel().setSelectButtonEnabled(false);
                                 uploadTab.getUploadToNewExpPanel().enableUploadButton(false);
-                                uploadTab.disableAllFileRows();
+                                uploadTab.setFileRowsEnabled(false);
                                 for (File f : files) {
                                     if (model.uploadFile(expName, f,
                                             types.get(f.getName()), false,
@@ -227,6 +227,7 @@ public class UploadTabController {
                                     }
                                 }
                                 uploadTab.getUploadToNewExpPanel().enableUploadButton(true);
+                                uploadTab.setFileRowsEnabled(true);
                                 String status = "Upload to experiment \""
                                         + expName + "\" complete.";
                                 view.setStatusPanel(status);
@@ -262,7 +263,7 @@ public class UploadTabController {
                                     annotations);
                             if (created) {
                                 uploadTab.getUploadToNewExpPanel().setSelectButtonEnabled(false);
-                                uploadTab.disableAllFileRows();
+                                uploadTab.setFileRowsEnabled(false);
                                 uploadTab.getUploadToNewExpPanel().enableUploadButton(false);
                                 for (File f : files) {
                                     if (model.uploadFile(expName, f,
@@ -299,6 +300,7 @@ public class UploadTabController {
                                 // + "experiment \""
                                 // + expName + "\" complete");
                                 uploadTab.getUploadToNewExpPanel().enableUploadButton(true);
+                                uploadTab.setFileRowsEnabled(true);
                                 String status = "Upload to new experiment \""
                                         + expName + "\" complete.";
                                 view.setStatusPanel(status);

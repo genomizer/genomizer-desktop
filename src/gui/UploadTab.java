@@ -213,14 +213,14 @@ public class UploadTab extends JPanel {
     }
     /**
      * NOT IMPLEMENTED AT ALL!
-     *
+     * @param enabled TODO
      * @param f
      */
-    public void disableAllFileRows() {
+    public void setFileRowsEnabled(boolean enabled) {
         Iterator<UploadFileRow> i = uploadExpPanel.getFileRows().values().iterator();
         while(i.hasNext()){
             UploadFileRow currentRow = i.next();
-            currentRow.disableRow();
+            currentRow.setRowEnabled(enabled);
         }
 
     }
