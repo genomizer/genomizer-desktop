@@ -129,7 +129,7 @@ public class QuerySearchTabController {
                             view.getQuerySearchTab().updateSearchResults(
                                     searchResults);
                             if(view.getSelectedIndex() == 0){
-                                view.setStatusPanel("Search successful!");
+                                view.setStatusPanel("Search successful: " + searchResults.size() + " matches.");
                                 view.setStatusPanelColorSuccess();
                             }
 
@@ -138,10 +138,6 @@ public class QuerySearchTabController {
                         } else if (view.getQuerySearchTab().getActivePanel() == ActiveSearchPanel.SEARCH) {
                             view.setStatusPanel("No search results!");
                             view.setStatusPanelColorFail();
-                            JOptionPane.showMessageDialog(null,
-                                    "No search results!", "Search Warning",
-                                    JOptionPane.WARNING_MESSAGE);
-
 
                             // If search results are null and the active panel
                             // is table
