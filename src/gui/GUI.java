@@ -487,7 +487,7 @@ public class GUI extends JFrame {
     public void setConvertFileList(ArrayList<FileData> arrayList) {
         ArrayList<FileData> fileArray = arrayList;
 
-        tabbedPane.setSelectedIndex(5);
+        tabbedPane.setSelectedComponent(convertTab);
         convertTab.setFileInfo(workspaceTab.getSelectedData());
 
     }
