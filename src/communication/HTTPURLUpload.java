@@ -2,27 +2,17 @@ package communication;
 
 import java.io.*;
 import java.net.URLEncoder;
-import java.security.cert.X509Certificate;
-
-import javax.net.ssl.HostnameVerifier;
-import javax.net.ssl.SSLException;
-import javax.net.ssl.SSLSession;
-import javax.net.ssl.SSLSocket;
-
 import model.ErrorLogger;
 
-import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.client.protocol.HttpClientContext;
-import org.apache.http.conn.ssl.X509HostnameVerifier;
 import org.apache.http.entity.mime.HttpMultipartMode;
 import org.apache.http.entity.mime.MultipartEntityBuilder;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClientBuilder;
 import org.apache.http.impl.client.HttpClients;
-import org.apache.http.util.EntityUtils;
 
 // TODO: byt till vettigt namn.
 // TODO: not thread safe?
@@ -124,17 +114,10 @@ public class HTTPURLUpload {
         try {
             HttpResponse response;
             // execute HTTP post request
-
             response = httpClient.execute(httpPost, localContext);
-            HttpEntity resEntity = response.getEntity();
             responseCode = response.getStatusLine().getStatusCode();
             if (responseCode != 200) {
                 return false;
-            }
-            if (resEntity != null) {
-
-                // TODO: Anvï¿½nds ej
-                String responseStr = EntityUtils.toString(resEntity).trim();
             }
         } catch (ClientProtocolException e) {
             ErrorLogger.log(e);
@@ -147,13 +130,6 @@ public class HTTPURLUpload {
             e.printStackTrace();
         }
         return true;
-    }
-
-    // TODO: Används ej.
-    private String getFileNameFromUrl(String url) {
-        String[] urlSplit = url.split("/");
-        return urlSplit[urlSplit.length - 1];
-
     }
 
     /**

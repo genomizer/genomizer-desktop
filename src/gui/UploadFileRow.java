@@ -2,7 +2,6 @@ package gui;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
-import java.awt.FlowLayout;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
@@ -241,7 +240,6 @@ public class UploadFileRow extends JPanel {
             uploadBox.setEnabled(enabled);
         }
     }
-
 
     /**
      * Method used to reset the type combobox, when a new species is chosen in

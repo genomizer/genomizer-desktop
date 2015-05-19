@@ -17,7 +17,6 @@ import util.AnnotationDataValue;
 import util.ExperimentData;
 import util.GenomeReleaseData;
 
-import gui.ErrorDialog;
 import gui.GUI;
 import gui.UploadFileRow;
 import gui.UploadTab;
@@ -294,11 +293,6 @@ public class UploadTabController {
                                 }
                                 // Shown when all files have been uploaded to
                                 // experiment.
-
-                                // TODO: Here is status panel on other!
-                                // JOptionPane.showMessageDialog(null,"Upload to the new "
-                                // + "experiment \""
-                                // + expName + "\" complete");
                                 uploadTab.getUploadToNewExpPanel().enableUploadButton(true);
                                 uploadTab.setFileRowsEnabled(true);
                                 String status = "Upload to new experiment \""
