@@ -1,6 +1,5 @@
 package communication;
 
-import gui.GUI;
 
 // TODO: Helt on�dig och fel. F�ljer inte pattern. Ta bort?
 // ehh, test

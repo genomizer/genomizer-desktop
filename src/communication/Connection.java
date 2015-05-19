@@ -1,7 +1,5 @@
 package communication;
 
-import gui.GUI;
-
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
@@ -149,7 +147,7 @@ public class Connection {
         if (!token.isEmpty()) {
             connection.setRequestProperty("Authorization", token);
         }
-        
+
         connection.connect();
 
     }
