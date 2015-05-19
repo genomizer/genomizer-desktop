@@ -79,14 +79,6 @@ public class Connection {
             throws RequestException {
         try {
             connect(request, token, type);
-            if (request.requestType.equals("DELETE")) {
-                responseCode = connection.getResponseCode();
-                fetchResponse(connection.getInputStream());
-                if (responseCode >= 300) {
-                    connection.disconnect();
-                    throw new RequestException(responseCode, responseBody);
-                }
-            }
 
             if (type.equals("application/json")) {
                 PrintWriter outputStream = new PrintWriter(
@@ -96,11 +88,9 @@ public class Connection {
             }
 
             responseCode = connection.getResponseCode();
-
             fetchResponse(connection.getInputStream());
 
-
-            if (responseCode > 300) {
+            if (responseCode >= 300) {
                 ErrorLogger.log(responseBody);
                 connection.disconnect();
                 throw new RequestException(responseCode, responseBody);
@@ -170,9 +160,6 @@ public class Connection {
             output.append(buffer);
         }
         responseBody = output.toString();
-        if (responseCode >= 300) {
-            ErrorLogger.log(responseBody);
-        }
     }
 
     /**
