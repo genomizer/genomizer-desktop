@@ -27,7 +27,8 @@ import util.RequestException;
 public class Connection {
 
 
-    private static final int TIME_OUT_MS = 2000;
+    private static final int READ_TIMEOUT_MS = 2000;
+    private static final int CONNECTION_TIMEOUT_MS = 3000;
 
 
     /** The IP-adress to the Server */
@@ -141,15 +142,15 @@ public class Connection {
         if (type.equals("application/json")) {
             connection.setDoOutput(true);
         }
-        connection.setReadTimeout(TIME_OUT_MS);
-        connection.setConnectTimeout(TIME_OUT_MS);
+        connection.setReadTimeout(READ_TIMEOUT_MS);
+        connection.setConnectTimeout(CONNECTION_TIMEOUT_MS);
         connection.setRequestMethod(request.requestType);
         connection.setRequestProperty("Content-Type", type);
 
         if (!token.isEmpty()) {
             connection.setRequestProperty("Authorization", token);
         }
-        
+
         connection.connect();
 
     }
