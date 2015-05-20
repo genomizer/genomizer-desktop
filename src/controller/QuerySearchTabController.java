@@ -9,14 +9,13 @@ import model.ErrorLogger;
 import model.GenomizerModel;
 import util.ActiveSearchPanel;
 import util.AnnotationDataType;
-import util.AnnotationDataValue;
 import util.ExperimentData;
-import util.GenomeReleaseData;
+import util.RequestException;
+import gui.ErrorDialog;
 import gui.GUI;
 import gui.UploadTab;
 import gui.QueryBuilderRow;
 import gui.QuerySearchTab;
-import gui.sysadmin.annotationview.AnnotationButtonsListener;
 
 public class QuerySearchTabController {
     GUI view;
@@ -120,36 +119,44 @@ public class QuerySearchTabController {
                     public void run() {
                         String pubmed = view.getQuerySearchTab()
                                 .getSearchString();
-                        if(pubmed.isEmpty()) {
+                        if (pubmed.isEmpty()) {
                             pubmed = "[ExpID]";
                         }
-                        ArrayList<ExperimentData> searchResults = model
-                                .search(pubmed);
-                        if (searchResults != null) {
-                            view.getQuerySearchTab().updateSearchResults(
-                                    searchResults);
-                            if(view.getSelectedIndex() == 0){
-                                view.setStatusPanel("Search successful!");
-                                view.setStatusPanelColorSuccess();
+                        ArrayList<ExperimentData> searchResults;
+                        try {
+                            searchResults = model.search(pubmed);
+                            if (searchResults != null) {
+                                view.getQuerySearchTab().updateSearchResults(
+                                        searchResults);
+                                if (view.getSelectedIndex() == 0) {
+                                    view.setStatusPanel("Search successful!");
+                                    view.setStatusPanelColorSuccess();
+                                }
+
+                                // If search results are null and the active
+                                // panel
+                                // is search
+                            } else if (view.getQuerySearchTab()
+                                    .getActivePanel() == ActiveSearchPanel.SEARCH) {
+                                view.setStatusPanel("No search results!");
+                                view.setStatusPanelColorFail();
+                                JOptionPane.showMessageDialog(null,
+                                        "No search results!", "Search Warning",
+                                        JOptionPane.WARNING_MESSAGE);
+
+                                // If search results are null and the active
+                                // panel
+                                // is table
+                            } else if (view.getQuerySearchTab()
+                                    .getActivePanel() == ActiveSearchPanel.TABLE) {
+                                // Go back to the query search
+                                view.getBackButton().doClick();
+                                view.getQuerySearchTab().getBackButton();
+
                             }
-
-                            // If search results are null and the active panel
-                            // is search
-                        } else if (view.getQuerySearchTab().getActivePanel() == ActiveSearchPanel.SEARCH) {
-                            view.setStatusPanel("No search results!");
-                            view.setStatusPanelColorFail();
-                            JOptionPane.showMessageDialog(null,
-                                    "No search results!", "Search Warning",
-                                    JOptionPane.WARNING_MESSAGE);
-
-
-                            // If search results are null and the active panel
-                            // is table
-                        } else if (view.getQuerySearchTab().getActivePanel() == ActiveSearchPanel.TABLE) {
-                            // Go back to the query search
-                            view.getBackButton().doClick();
-                            view.getQuerySearchTab().getBackButton();
-
+                        } catch (RequestException e) {
+                            new ErrorDialog("Search failed", e).showDialog();
+                            ErrorLogger.log(e);
                         }
                     };
                 }.start();
@@ -165,7 +172,8 @@ public class QuerySearchTabController {
                     @Override
                     public void run() {
                         AnnotationDataType[] annotations = model
-                                .getAnnotations();
+                                    .getAnnotations();
+
                         if (annotations != null && annotations.length > 0) {
                             view.getQuerySearchTab().setAnnotationTypes(
                                     annotations);
@@ -187,12 +195,14 @@ public class QuerySearchTabController {
                         ArrayList<ExperimentData> selectedData = view
                                 .getQuerySearchTab().getSelectedData();
                         if (selectedData != null && selectedData.size() > 0) {
-                            if(selectedData.size() == 1){
+                            if (selectedData.size() == 1) {
                                 view.setStatusPanel(selectedData.get(0).name
                                         + " was added to the workspace.");
                                 view.setStatusPanelColorSuccess();
                             } else if (selectedData.size() > 1) {
-                                view.setStatusPanel(selectedData.get(0).name +" + "+ (selectedData.size()-1)
+                                view.setStatusPanel(selectedData.get(0).name
+                                        + " + "
+                                        + (selectedData.size() - 1)
                                         + " other experiments was added to the workspace.");
                                 view.setStatusPanelColorSuccess();
                             }
@@ -201,7 +211,7 @@ public class QuerySearchTabController {
                                     view.getQuerySearchTab().getSelectedData());
                             view.getWorkSpaceTab().changeTab(0);
                         } else {
-                            view.setStatusPanel( "No data selected!");
+                            view.setStatusPanel("No data selected!");
                             view.setStatusPanelColorFail();
                         }
                         view.getQuerySearchTab().clearSearchSelection();

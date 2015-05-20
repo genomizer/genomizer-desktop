@@ -1,5 +1,6 @@
 package gui.sysadmin.annotationview;
 
+import gui.ErrorDialog;
 import gui.sysadmin.SysadminTab;
 import gui.sysadmin.strings.SysStrings;
 
@@ -7,9 +8,10 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.JButton;
 
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
+
+import util.RequestException;
 
 import controller.SysadminController;
 
@@ -37,10 +39,13 @@ public class EditAnnotationPopupListener implements ActionListener {
 
             case SysStrings.ANNOTATIONS_RENAME:
                 String oldName = editPopup.getAnnotation().name;
-
                 String newName = editPopup.getNewAnnotationName();
-                if (sysController.renameAnnotationField(oldName, newName)) {
+                try {
+                    sysController.renameAnnotationField(oldName, newName);
                     editPopup.getAnnotation().name = newName;
+                } catch (RequestException e1) {
+                    new ErrorDialog("Couldn't rename annotation value", e1)
+                    .showDialog();
                 }
                 sysController.updateAnnotationTable();
                 break;
@@ -48,48 +53,46 @@ public class EditAnnotationPopupListener implements ActionListener {
             case SysStrings.ANNOTATIONS_MODIFY_RENAME:
                 // John was here:
                 JTextField j1 = getJTextFieldFromEvent(e);
-                if (sysController.renameAnnotationValue(
-                        editPopup.getAnnotationName(), j1.getName(),
-                        j1.getText())) {
-                    j1.setName(j1.getText());
-                    editPopup.deactivateUpdateButton((JButton) e.getSource());
-                    editPopup.updateDocListeners();
-                } else {
-//                     TODO: Message already sent in model...
-//                    JOptionPane.showMessageDialog(editPopup,
-//                            "Could not rename annotation value!");
+                try {
+                    sysController.renameAnnotationValue(
+                            editPopup.getAnnotationName(), j1.getName(),
+                            j1.getText());
+                } catch (RequestException e1) {
+                    new ErrorDialog("Couldn't rename annotation value", e1)
+                            .showDialog();
                 }
-
+                j1.setName(j1.getText());
+                editPopup.deactivateUpdateButton((JButton) e.getSource());
+                editPopup.updateDocListeners();
                 sysController.updateAnnotationTable();
                 break;
 
             case SysStrings.ANNOTATIONS_MODIFY_REMOVE:
                 JTextField j2 = getJTextFieldFromEvent(e);
                 JPanel panel = (JPanel) j2.getParent();
-                if (sysController.removeAnnotationValue(
-                        editPopup.getAnnotationName(), j2.getName())) {
+                try {
+                    sysController.removeAnnotationValue(editPopup.getAnnotationName(), j2.getName());
                     panel.setVisible(false);
-                } else {
-//                  TODO: Message already sent in model...
-//                    JOptionPane.showMessageDialog(editPopup,
-//                            "Could not remove annotation value!");
+                } catch(RequestException e1) {
+                    new ErrorDialog("Couldn't remove annotation value", e1);
                 }
+
                 sysController.updateAnnotationTable();
                 break;
 
             case SysStrings.ANNOTATIONS_MODIFY_ADD_VALUE:
                 JTextField j3 = getJTextFieldFromEvent(e);
                 if (!j3.getText().isEmpty()) {
-                    if (sysController.addAnnotationValue(
-                            editPopup.getAnnotationName(), j3.getText())) {
+                    try {
+                        sysController.addAnnotationValue(
+                            editPopup.getAnnotationName(), j3.getText());
                         sysController.updateAnnotationTable();
                         editPopup.updateAnnotation(j3.getText());
                         editPopup.addEditAnnotationListener(this);
                         editPopup.updateDocListeners();
-                    } else {
-//                      TODO: Message already sent in model...
-//                        JOptionPane.showMessageDialog(editPopup,
-//                                "Could not add annotation value!");
+                    } catch(RequestException e1) {
+                        new ErrorDialog("Couldn't add annotation value", e1)
+                        .showDialog();
                     }
                 }
 
@@ -110,9 +113,10 @@ public class EditAnnotationPopupListener implements ActionListener {
     }
 
     /**
-     * @param e the ActionEvent
-     * @return the JTextField connected to the JButton that the ActionEvent originated
-     * from
+     * @param e
+     *            the ActionEvent
+     * @return the JTextField connected to the JButton that the ActionEvent
+     *         originated from
      */
     private JTextField getJTextFieldFromEvent(ActionEvent e) {
         JButton b = (JButton) e.getSource();

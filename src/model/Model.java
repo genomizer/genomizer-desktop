@@ -1,12 +1,13 @@
 package model;
 
 import gui.ErrorDialog;
-import gui.GUI;
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.concurrent.CopyOnWriteArrayList;
 import javax.swing.JOptionPane;
+
 import requests.AddAnnotationRequest;
 import requests.AddExperimentRequest;
 import requests.AddGenomeReleaseRequest;
@@ -23,7 +24,6 @@ import requests.RemoveFileFromExperimentRequest;
 import requests.RemoveGenomeReleaseRequest;
 import requests.RenameAnnotationFieldRequest;
 import requests.RenameAnnotationValueRequest;
-import requests.Request;
 import requests.RequestFactory;
 import requests.RetrieveExperimentRequest;
 import requests.SearchRequest;
@@ -48,7 +48,6 @@ public class Model implements GenomizerModel {
     private UpdaterModel updateTabModel;
     private ConnectionFactory connFactory;
 
-
     public Model() {
         connFactory = new ConnectionFactory();
         searchHistory = new ArrayList<>();
@@ -60,21 +59,19 @@ public class Model implements GenomizerModel {
      * wants to create profile data from.
      * <p/>
      * Returns whether or not the server could create profile data or not.
+     *
+     * @throws RequestException
      */
-    public boolean rawToProfile(String expid, String[] parameters,
-            String metadata, String genomeRelease, String author) {
+    public void rawToProfile(String expid, String[] parameters,
+            String metadata, String genomeRelease, String author)
+            throws RequestException {
         rawToProfileRequest rawToProfilerequest = RequestFactory
                 .makeRawToProfileRequest(expid, parameters, metadata,
                         genomeRelease, author);
         Connection conn = connFactory.makeConnection();
-        try {
-            conn.sendRequest(rawToProfilerequest,
-                    User.getInstance().getToken(), Constants.JSON);
-        } catch (RequestException e) {
-            ErrorDialog.showRequestErrorDialog("Data process failed", e);
+        conn.sendRequest(rawToProfilerequest, User.getInstance().getToken(),
+                Constants.JSON);
 
-        }
-        return conn.getResponseCode() == 200;
     }
 
     @Override
@@ -90,20 +87,19 @@ public class Model implements GenomizerModel {
     }
 
     @Override
-    public boolean uploadFile(String expName, File f, String type,
-            boolean isPrivate, String release) {
+    public void uploadFile(String expName, File f, String type,
+            boolean isPrivate, String release) throws IllegalArgumentException,
+            RequestException, IOException {
         // TODO: Remove indirection when ready
-        return updateTabModel.uploadFile(expName, f, type, isPrivate, release);
+        updateTabModel.uploadFile(expName, f, type, isPrivate, release);
     }
 
     @Override
     public boolean downloadFile(final String url, String fileID,
             final String path, String fileName) {
         // TODO: Remove indirection when ready
-        return updateTabModel.downloadFile(url,fileID,path,fileName);
+        return updateTabModel.downloadFile(url, fileID, path, fileName);
     }
-
-
 
     public CopyOnWriteArrayList<DownloadHandler> getOngoingDownloads() {
         // TODO: Move to tabmodel when ready
@@ -115,46 +111,35 @@ public class Model implements GenomizerModel {
         return updateTabModel.getOngoingUploads();
     }
 
-
-
     @Override
-    public ArrayList<ExperimentData> search(String pubmedString) {
+    public ArrayList<ExperimentData> search(String pubmedString)
+            throws RequestException {
         searchHistory.add(pubmedString);
         SearchRequest request = RequestFactory.makeSearchRequest(pubmedString);
         Connection conn = connFactory.makeConnection();
-        try {
-            conn.sendRequest(request, User.getInstance().getToken(),
-                    Constants.TEXT_PLAIN);
-            if (conn.getResponseCode() == 200) {
-                ExperimentData[] searchResponses = ResponseParser
-                        .parseSearchResponse(conn.getResponseBody());
-                if (searchResponses != null && searchResponses.length > 0) {
-                    for (int i = 0; i < searchResponses.length; i++) {
-                        searchResponses[i].convertToUTF8();
-                        searchResponses[i].updateFileSize();
-                    }
-                    return new ArrayList<>(Arrays.asList(searchResponses));
-                }
+        conn.sendRequest(request, User.getInstance().getToken(),
+                Constants.TEXT_PLAIN);
+        ExperimentData[] searchResponses = ResponseParser
+                .parseSearchResponse(conn.getResponseBody());
+        if (searchResponses != null && searchResponses.length > 0) {
+            for (int i = 0; i < searchResponses.length; i++) {
+                searchResponses[i].convertToUTF8();
+                searchResponses[i].updateFileSize();
             }
-        } catch (RequestException e) {
-            ErrorDialog.showRequestErrorDialog("Search failed", e);
-
         }
-        return null;
+        return new ArrayList<>(Arrays.asList(searchResponses));
     }
 
-
-
     @Override
-    public boolean addNewAnnotation(String name, String[] categories,
-            boolean forced) throws IllegalArgumentException {
+    public void addNewAnnotation(String name, String[] categories,
+            boolean forced) throws IllegalArgumentException, RequestException {
         if (name.isEmpty()) {
             throw new IllegalArgumentException(
                     "Must have a name for the annotation!");
         }
         AnnotationDataType[] annotations = getAnnotations();
         if (annotations == null) {
-            return false;
+            throw new NullPointerException("Annotations not initialized");
         }
         for (int i = 0; i < annotations.length; i++) {
             AnnotationDataType a = annotations[i];
@@ -170,29 +155,13 @@ public class Model implements GenomizerModel {
         AddAnnotationRequest request = RequestFactory.makeAddAnnotationRequest(
                 name, categories, forced);
         Connection conn = connFactory.makeConnection();
-        try {
-            conn.sendRequest(request, User.getInstance().getToken(),
-                    Constants.JSON);
-            if (conn.getResponseCode() == 200) {
-                return true;
-            } else {
-                // TODO Ska det h�nda n�got h�r eller? CF
-                System.err
-                        .println("addAnnotaion FAILURE, did not recive 200 response");
-                System.out.println("Response code: " + conn.getResponseCode()
-                        + " " + conn.getResponseBody());
-                return false;
-            }
-        } catch (RequestException e) {
-            ErrorDialog.showRequestErrorDialog("Couldn't add annotation", e);
-
-        }
-        return false;
+        conn.sendRequest(request, User.getInstance().getToken(), Constants.JSON);
     }
 
     @Override
     public boolean editAnnotation(String name, String[] categories,
-            boolean forced, AnnotationDataType oldAnnotation) {
+            boolean forced, AnnotationDataType oldAnnotation)
+            throws RequestException {
         if (!(oldAnnotation.getName().equals(name))) {
             // System.out
             // .println("Name has been changed! Calling renameAnnotationField!");
@@ -227,74 +196,55 @@ public class Model implements GenomizerModel {
     }
 
     @Override
-    public boolean deleteAnnotation(String deleteAnnoationData)
-            throws DeleteAnnotationException {
+    public void deleteAnnotation(String deleteAnnoationData)
+            throws RequestException {
         RemoveAnnotationFieldRequest request = RequestFactory
                 .makeDeleteAnnotationRequest(deleteAnnoationData);
         Connection conn = connFactory.makeConnection();
-        try {
-            conn.sendRequest(request, User.getInstance().getToken(),
-                    Constants.JSON);
-        } catch (RequestException e) {
-            ErrorDialog.showRequestErrorDialog("Couldn't delete annotation", e);
+        conn.sendRequest(request, User.getInstance().getToken(), Constants.JSON);
 
-        }
-        if (conn.getResponseCode() == 200) {
-            return true;
-        } else {
-            // System.err.println("Could not delete annotation name "
-            // + deleteAnnoationData + "!");
-            throw new DeleteAnnotationException(conn.getResponseBody());
-            // return false;
-        }
     }
 
     public synchronized AnnotationDataType[] getAnnotations() {
-        if (connFactory.getIP() == null) {
-            return new AnnotationDataType[] {};
-        }
-        GetAnnotationRequest request = RequestFactory
-                .makeGetAnnotationRequest();
-        Connection conn = connFactory.makeConnection();
+        AnnotationDataType[] annotations;
         try {
+            GetAnnotationRequest request = RequestFactory
+                    .makeGetAnnotationRequest();
+            Connection conn = connFactory.makeConnection();
             conn.sendRequest(request, User.getInstance().getToken(),
                     Constants.TEXT_PLAIN);
+            annotations = ResponseParser.parseGetAnnotationResponse(conn
+                    .getResponseBody());
         } catch (RequestException e) {
-            ErrorDialog.showRequestErrorDialog("Couldn't get annotations", e);
-
+            new ErrorDialog("Couldn't get annotations", e).showDialog();
+            annotations = new AnnotationDataType[] {};
         }
-        if (conn.getResponseCode() == 200) {
-            AnnotationDataType[] annotations = ResponseParser
-                    .parseGetAnnotationResponse(conn.getResponseBody());
-            return annotations;
-        } else if (!User.getInstance().getToken().equals("")) {
-            JOptionPane.showMessageDialog(null, "Could not get annotations!");
-        }
-        return new AnnotationDataType[] {};
+        return annotations;
     }
 
     public GenomeReleaseData[] getGenomeReleases() {
-        GetGenomeReleasesRequest request = RequestFactory
-                .makeGetGenomeReleaseRequest();
-        Connection conn = connFactory.makeConnection();
+        GenomeReleaseData[] genomeReleases;
         try {
+            GetGenomeReleasesRequest request = RequestFactory
+                    .makeGetGenomeReleaseRequest();
+            Connection conn = connFactory.makeConnection();
             conn.sendRequest(request, User.getInstance().getToken(),
                     Constants.TEXT_PLAIN);
-        } catch (RequestException e) {
-            ErrorDialog.showRequestErrorDialog("Couldn't get genome releases", e);
+            genomeReleases = ResponseParser.parseGetGenomeReleaseResponse(conn
+                    .getResponseBody());
 
+        } catch (RequestException e) {
+            new ErrorDialog("Couldn't get genome releases", e).showDialog();
+            genomeReleases = new GenomeReleaseData[] {};
         }
-        if (conn.getResponseCode() == 200) {
-            GenomeReleaseData[] genomeReleases = ResponseParser
-                    .parseGetGenomeReleaseResponse(conn.getResponseBody());
-            return genomeReleases;
-        }
-        return new GenomeReleaseData[] {};
+
+        return genomeReleases;
     }
 
     @Override
-    public boolean addGenomeReleaseFile(String[] filePaths, String species,
-            String version) {
+    public void addGenomeReleaseFile(String[] filePaths, String species,
+            String version) throws RequestException, IllegalArgumentException,
+            IOException {
         File[] files = new File[filePaths.length];
         String[] names = new String[filePaths.length];
         for (int i = 0; i < filePaths.length; i++) {
@@ -304,153 +254,78 @@ public class Model implements GenomizerModel {
         AddGenomeReleaseRequest request = RequestFactory.makeAddGenomeRelease(
                 names, species, version);
         Connection conn = connFactory.makeConnection();
-        try {
-            conn.sendRequest(request, User.getInstance().getToken(),
-                    Constants.JSON);
-            if (conn.getResponseCode() == 200) {
-                AddGenomeReleaseResponse[] aGRR = ResponseParser
-                        .parseGenomeUploadResponse(conn.getResponseBody());
-                for (int i = 0; i < files.length; i++) {
-                    HTTPURLUpload upload = new HTTPURLUpload(aGRR[i].URLupload,
-                            files[i].getAbsolutePath(), files[i].getName());
-                    updateTabModel.addUpload(upload);
-                    if (upload.sendFile(User.getInstance().getToken())) {
-                        // TODO: This if part looks like a mess! (OO)
-                        // System.out
-                        // .println("Succefully added genome release file named "
-                        // + files[i].getName() + ".");
-                    } else {
-                        // System.err
-                        // .println("Could not add genome release file named "
-                        // + files[i].getName() + "!");
-                        return false;
-                    }
-                }
-                return true;
-            }
-        } catch (RequestException e) {
-            ErrorDialog.showRequestErrorDialog("Couldn't get genome releases", e);
+        conn.sendRequest(request, User.getInstance().getToken(), Constants.JSON);
+        AddGenomeReleaseResponse[] aGRR = ResponseParser
+                .parseGenomeUploadResponse(conn.getResponseBody());
+        for (int i = 0; i < files.length; i++) {
+            HTTPURLUpload upload = new HTTPURLUpload(aGRR[i].URLupload,
+                    files[i].getAbsolutePath(), files[i].getName());
+            updateTabModel.addUpload(upload);
+            upload.sendFile(User.getInstance().getToken());
         }
-        return false;
     }
 
     @Override
-    public boolean addNewExperiment(String expName,
-            AnnotationDataValue[] annotations) {
-
+    public void addNewExperiment(String expName,
+            AnnotationDataValue[] annotations) throws RequestException {
 
         AddExperimentRequest aER = RequestFactory.makeAddExperimentRequest(
                 expName, annotations);
         Connection conn = connFactory.makeConnection();
-        try {
-            conn.sendRequest(aER, User.getInstance().getToken(), Constants.JSON);
-        } catch (RequestException e) {
-            new ErrorDialog("Couldn't add new experiment", e).showDialog();
-        }
-        int responseCode = conn.getResponseCode();
-        return (responseCode == 200);
+        conn.sendRequest(aER, User.getInstance().getToken(), Constants.JSON);
     }
 
-    public boolean changeExperiment(String expName,
-            AnnotationDataValue[] annotations) {
-        ChangeExperimentRequest cER = RequestFactory.makeChangeExperimentRequest(
-                expName, annotations);
-
+    public void changeExperiment(String expName,
+            AnnotationDataValue[] annotations) throws RequestException {
+        ChangeExperimentRequest cER = RequestFactory
+                .makeChangeExperimentRequest(expName, annotations);
         Connection conn = connFactory.makeConnection();
-
-        // TODO: Trace printlns
-        System.out.println("code: "+conn.getResponseCode());
-        try {
-            conn.sendRequest(cER, User.getInstance().getToken(), Constants.JSON);
-        } catch (RequestException e) {
-            new ErrorDialog("Couldn't update experiment", e).showDialog();
-        }
-        int responseCode = conn.getResponseCode();
-        return (responseCode == 200);
+        conn.sendRequest(cER, User.getInstance().getToken(), Constants.JSON);
     }
-
-
 
     public ExperimentData retrieveExperiment(String expID) {
-        RetrieveExperimentRequest rER = RequestFactory
-                .makeRetrieveExperimentRequest(expID);
-        Connection conn = connFactory.makeConnection();
         try {
+            RetrieveExperimentRequest rER = RequestFactory
+                    .makeRetrieveExperimentRequest(expID);
+            Connection conn = connFactory.makeConnection();
             conn.sendRequest(rER, User.getInstance().getToken(), "plain/text");
-        } catch (RequestException e) {
-            ErrorDialog.showRequestErrorDialog("Couldn't retrieve experiment", e);
-        }
-        if (conn.getResponseCode() == 200) {
             return ResponseParser.parseRetrieveExp(conn.getResponseBody());
-        } else {
-            // JOptionPane.showMessageDialog(null,
-            // "Couldn't retrieve experiment",
-            // "ERROR", JOptionPane.ERROR_MESSAGE);
+        } catch (RequestException e) {
+            new ErrorDialog("Couldn't retrieve experiment", e).showDialog();
+            return new ExperimentData();
         }
-        return null;
     }
 
-
-    public boolean renameAnnotationField(String oldname, String newname) {
+    public void renameAnnotationField(String oldname, String newname)
+            throws RequestException {
         RenameAnnotationFieldRequest request = RequestFactory
                 .makeRenameAnnotationFieldRequest(oldname, newname);
         Connection conn = connFactory.makeConnection();
-        try {
-            conn.sendRequest(request, User.getInstance().getToken(),
-                    Constants.JSON);
-        } catch (RequestException e) {
-            ErrorDialog.showRequestErrorDialog("Couldn't rename annotation field", e);
-        }
-        return conn.getResponseCode() == 200;
+        conn.sendRequest(request, User.getInstance().getToken(), Constants.JSON);
     }
 
-    public boolean renameAnnotationValue(String name, String oldValue,
-            String newValue) {
+    public void renameAnnotationValue(String name, String oldValue,
+            String newValue) throws RequestException {
         RenameAnnotationValueRequest request = RequestFactory
                 .makeRenameAnnotationValueRequest(name, oldValue, newValue);
         Connection conn = connFactory.makeConnection();
-        try {
-            conn.sendRequest(request, User.getInstance().getToken(),
-                    Constants.JSON);
-        } catch (RequestException e) {
-            ErrorDialog.showRequestErrorDialog("Couldn't rename annotation value", e);
-        }
-        if (conn.getResponseCode() == 201 || conn.getResponseCode() == 200) {
-            return true;
-        }
-        return false;
+        conn.sendRequest(request, User.getInstance().getToken(), Constants.JSON);
     }
 
-    public boolean removeAnnotationValue(String annotationName, String valueName) {
+    public void removeAnnotationValue(String annotationName, String valueName)
+            throws RequestException {
         RemoveAnnotationValueRequest request = RequestFactory
                 .makeRemoveAnnotationValueRequest(annotationName, valueName);
         Connection conn = connFactory.makeConnection();
-        try {
-            conn.sendRequest(request, User.getInstance().getToken(),
-                    Constants.JSON);
-        } catch (RequestException e) {
-            ErrorDialog.showRequestErrorDialog("Couldn't remove annotation value", e);
-        }
-        if (conn.getResponseCode() == 200) {
-            return true;
-        }
-        return false;
+        conn.sendRequest(request, User.getInstance().getToken(), Constants.JSON);
     }
 
-    public boolean addNewAnnotationValue(String annotationName, String valueName) {
+    public void addNewAnnotationValue(String annotationName, String valueName)
+            throws RequestException {
         AddNewAnnotationValueRequest request = RequestFactory
                 .makeAddNewAnnotationValueRequest(annotationName, valueName);
         Connection conn = connFactory.makeConnection();
-        try {
-            conn.sendRequest(request, User.getInstance().getToken(),
-                    Constants.JSON);
-        } catch (RequestException e) {
-            ErrorDialog.showRequestErrorDialog("Couldn't add new annotation value", e);
-        }
-        if (conn.getResponseCode() == 200) {
-            return true;
-        }
-        return false;
+        conn.sendRequest(request, User.getInstance().getToken(), Constants.JSON);
     }
 
     public ProcessFeedbackData[] getProcessFeedback() {
@@ -460,33 +335,22 @@ public class Model implements GenomizerModel {
         try {
             conn.sendRequest(request, User.getInstance().getToken(),
                     Constants.TEXT_PLAIN);
-        } catch (RequestException e) {
-            ErrorDialog.showRequestErrorDialog("Couldn't get process feedback", e);
-        }
-        if (conn.getResponseCode() == 200) {
             return ResponseParser.parseProcessFeedbackResponse(conn
                     .getResponseBody());
-        } else {
+        } catch (RequestException e) {
+            new ErrorDialog("Couldn't get process feedback", e).showDialog();
             return null;
         }
     }
 
     @Override
-    public boolean deleteGenomeRelease(String specie, String version) {
+    public void deleteGenomeRelease(String specie, String version)
+            throws RequestException {
         RemoveGenomeReleaseRequest request = RequestFactory
                 .makeRemoveGenomeReleaseRequest(specie, version);
         Connection conn = connFactory.makeConnection();
-        try {
-            conn.sendRequest(request, User.getInstance().getToken(),
-                    Constants.JSON);
-
-            JOptionPane.showMessageDialog(null, "Succesfully removed "
-                    + version);
-            return true;
-        } catch (RequestException e) {
-            ErrorDialog.showRequestErrorDialog("Couldn't delete genome release", e);
-            return false;
-        }
+        conn.sendRequest(request, User.getInstance().getToken(), Constants.JSON);
+        JOptionPane.showMessageDialog(null, "Succesfully removed " + version);
     }
 
     public GenomeReleaseData[] getSpeciesGenomeReleases(String species) {
@@ -499,24 +363,18 @@ public class Model implements GenomizerModel {
             return ResponseParser.parseGetGenomeReleaseResponse(conn
                     .getResponseBody());
         } catch (RequestException e) {
-            ErrorDialog.showRequestErrorDialog("Couldn't get genome releases", e);
+            new ErrorDialog("Couldn't get genome releases", e).showDialog();
             return new GenomeReleaseData[] {};
         }
     }
 
     @Override
-    public boolean deleteFileFromExperiment(String id) {
+    public void deleteFileFromExperiment(String id) throws RequestException {
         RemoveFileFromExperimentRequest request = RequestFactory
                 .makeRemoveFileFromExperimentRequest(id);
         Connection conn = connFactory.makeConnection();
-        try {
-            conn.sendRequest(request, User.getInstance().getToken(),
-                    Constants.TEXT_PLAIN);
-            return true;
-        } catch (RequestException e) {
-            ErrorDialog.showRequestErrorDialog("Couldn't delete file from experiment", e);
-            return false;
-        }
+        conn.sendRequest(request, User.getInstance().getToken(),
+                Constants.TEXT_PLAIN);
     }
 
     @Override
@@ -529,11 +387,10 @@ public class Model implements GenomizerModel {
                     Constants.TEXT_PLAIN);
             return true;
         } catch (RequestException e) {
-            ErrorDialog.showRequestErrorDialog("Couldn't delete experiment", e);
+            new ErrorDialog("Couldn't delete experiment", e).showDialog();
             return false;
         }
     }
-
 
     public void resetModel() {
         User.getInstance().setToken("");
@@ -548,13 +405,12 @@ public class Model implements GenomizerModel {
         return false;
     }
 
-
     @Override
     public void setIP(String ip) {
         connFactory.setIP(ip);
     }
 
-    public void addTickingTask(Runnable task){
+    public void addTickingTask(Runnable task) {
         updateTabModel.addTickingTask(task);
     }
 
@@ -563,6 +419,3 @@ public class Model implements GenomizerModel {
     }
 
 }
-
-
-

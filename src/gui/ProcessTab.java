@@ -261,7 +261,7 @@ public class ProcessTab extends JPanel {
                             "<html><b>Author</b>: " + p.author + "</html>"));
                     processNode.add(new DefaultMutableTreeNode(
                             "<html><b>ExpID</b>: " + p.experimentName + "</html>"));
-                    
+
                     DefaultMutableTreeNode fileNode = new DefaultMutableTreeNode(
                             "<html><b>Files</b>: " + "Files" + "</html>");
                     for(String s: p.outputFiles) {

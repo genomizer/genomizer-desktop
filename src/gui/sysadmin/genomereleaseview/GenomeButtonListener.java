@@ -9,6 +9,8 @@ import java.awt.event.ActionListener;
 
 import javax.swing.JOptionPane;
 
+import util.RequestException;
+
 import controller.SysadminController;
 
 /**
@@ -57,14 +59,13 @@ public class GenomeButtonListener implements ActionListener {
                 break;
             case SysStrings.GENOME_BUTTON_ADD_SPECIE:
                 String specie = sysTab.getGenomeReleaseView().getSpecieText();
-                if (specie != null && !specie.equals("")){
-                    if (sysController.addAnnotationValue(
-                            "Species", specie)) {
+                if (specie != null && !specie.equals("")) {
+                    try {
+                        sysController.addAnnotationValue("Species", specie);
                         sysController.updateAnnotationTable();
                         sysController.updateGenomeReleaseTab();
-                    } else {
-                        new ErrorDialog( "Add Species Failure",
-                                "Could not add annotation value!", "Could not add "+specie).showDialog();
+                    } catch (RequestException e1) {
+                        new ErrorDialog("Add Species Failure", e1).showDialog();
                     }
                 }
                 break;

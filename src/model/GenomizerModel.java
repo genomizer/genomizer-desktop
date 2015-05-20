@@ -3,6 +3,7 @@ package model;
 import gui.GUI;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.concurrent.CopyOnWriteArrayList;
 
@@ -11,6 +12,7 @@ import util.AnnotationDataValue;
 import util.ExperimentData;
 import util.GenomeReleaseData;
 import util.ProcessFeedbackData;
+import util.RequestException;
 
 import communication.DownloadHandler;
 import communication.HTTPURLUpload;
@@ -22,8 +24,9 @@ public interface GenomizerModel {
     public boolean logoutUser();
 
     /**
-     * Try to upload a file, sending a normal Connection first with
-     * the passed data, and then a HTTPURLUpload with the response url.
+     * Try to upload a file, sending a normal Connection first with the passed
+     * data, and then a HTTPURLUpload with the response url.
+     *
      * @param expName
      * @param f
      * @param type
@@ -31,68 +34,78 @@ public interface GenomizerModel {
      * @param isPrivate
      * @param release
      * @return true if started without error.
+     * @throws IOException
+     * @throws RequestException
+     * @throws IllegalArgumentException
      */
-    public boolean uploadFile(String expName, File f, String type, boolean isPrivate, String release);
+    public void uploadFile(String expName, File f, String type,
+            boolean isPrivate, String release) throws IllegalArgumentException, RequestException, IOException;
 
-    public ArrayList<ExperimentData> search(String pubmedString);
+    public ArrayList<ExperimentData> search(String pubmedString)
+            throws RequestException;
 
-    public boolean rawToProfile(String expid, String[] parameters,
-            String metadata, String genomeRelease, String author);
+    public void rawToProfile(String expid, String[] parameters,
+            String metadata, String genomeRelease, String author)
+            throws RequestException;
 
     public boolean downloadFile(String url, String fileID, String path,
             String fileName);
 
     public void setIP(String ip);
 
-    public boolean addNewAnnotation(String name, String[] categories,
-            boolean forced);
+    public void addNewAnnotation(String name, String[] categories,
+            boolean forced) throws IllegalArgumentException, RequestException;
 
     public AnnotationDataType[] getAnnotations();
 
     public GenomeReleaseData[] getGenomeReleases();
 
-    boolean deleteAnnotation(String annotationName) throws DeleteAnnotationException;
+    void deleteAnnotation(String annotationName) throws RequestException;
 
-    public boolean addNewExperiment(String expName,
-            AnnotationDataValue[] annotations);
+    public void addNewExperiment(String expName,
+            AnnotationDataValue[] annotations) throws RequestException;
 
     boolean editAnnotation(String name, String[] categories, boolean forced,
-            AnnotationDataType oldAnnotation);
+            AnnotationDataType oldAnnotation) throws RequestException;
 
-    boolean renameAnnotationField(String oldname, String newname);
+    void renameAnnotationField(String oldname, String newname) throws RequestException;
 
     public CopyOnWriteArrayList<DownloadHandler> getOngoingDownloads();
 
     public ExperimentData retrieveExperiment(String expID);
 
-    public boolean renameAnnotationValue(String name, String oldValue,
-            String newValue);
+    public void renameAnnotationValue(String name, String oldValue,
+            String newValue) throws RequestException;
 
     public CopyOnWriteArrayList<HTTPURLUpload> getOngoingUploads();
 
-    public boolean removeAnnotationValue(String annotationName, String valueName);
+    public void removeAnnotationValue(String annotationName, String valueName)
+            throws RequestException;
 
     public ProcessFeedbackData[] getProcessFeedback();
 
-    public boolean deleteGenomeRelease(String gr, String specie);
+    public void deleteGenomeRelease(String gr, String specie)
+            throws RequestException;
 
     public GenomeReleaseData[] getSpeciesGenomeReleases(String species);
 
-    public boolean deleteFileFromExperiment(String id);
+    public void deleteFileFromExperiment(String id) throws RequestException;
 
     public boolean deleteExperimentFromDatabase(String name);
 
-    public boolean addGenomeReleaseFile(String[] filePaths, String specie,
-            String version);
+    public void addGenomeReleaseFile(String[] filePaths, String specie,
+            String version) throws RequestException, IllegalArgumentException,
+            IOException;
 
-    public boolean addNewAnnotationValue(String annotationName, String valueName);
+    public void addNewAnnotationValue(String annotationName, String valueName)
+            throws RequestException;
 
     public void resetModel();
 
     public boolean addGenomeRelease();
 
-    public boolean changeExperiment(String expName,
-            AnnotationDataValue[] annotations);
+    public void changeExperiment(String expName,
+            AnnotationDataValue[] annotations) throws RequestException;
 
     public void addTickingTask(Runnable task);
 

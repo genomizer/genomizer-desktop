@@ -14,6 +14,7 @@ import util.ExperimentData;
 import util.FileData;
 import util.GenomeReleaseData;
 import util.ProcessFeedbackData;
+import util.RequestException;
 import gui.CheckListItem;
 import gui.ErrorDialog;
 import gui.GUI;
@@ -40,14 +41,14 @@ public class ProcessTabController {
 
     }
 
-    private void fileListAddMouseListener(JList fileList) {
+    private void fileListAddMouseListener(JList<?> fileList) {
         fileList.addMouseListener(new MouseAdapter() {
             String species = "";
             int count = 0;
 
             @Override
             public void mouseClicked(MouseEvent event) {
-                JList list = (JList) event.getSource();
+                JList<?> list = (JList<?>) event.getSource();
 
 
                 if (deletedProcessFiles) {
@@ -109,7 +110,6 @@ public class ProcessTabController {
                         ArrayList<FileData> allMarked = view.getProcessTab()
                                 .getAllMarkedFiles();
                         String message;
-                        Boolean isConverted;
                         Boolean allRaw = false;
 
                         for (FileData raw : allMarked) {
@@ -163,25 +163,24 @@ public class ProcessTabController {
                                         // Sends a request to create profile
                                         // data from raw
                                         // files.
-                                        isConverted = model.rawToProfile(expid,
-                                                parameters, metadata,
-                                                genomeVersion, author);
-
-                                        if (isConverted) {
+                                        try {
+                                            model.rawToProfile(expid,
+                                                    parameters, metadata,
+                                                    genomeVersion, author);
                                             message = "The server has started process on file: "
                                                     + fileName
                                                     + " from experiment: "
                                                     + expid + "\n\n";
                                             view.getProcessTab()
                                                     .printToConsole(message);
-
-                                        } else {
+                                        } catch (RequestException e) {
                                             message = "WARNING - The server couldn't start processing on file: "
                                                     + fileName
                                                     + " from experiment: "
                                                     + expid + "\n\n";
                                             view.getProcessTab()
                                                     .printToConsole(message);
+                                            new ErrorDialog("Data process failed", e).showDialog();
                                         }
                                     }
                                 }

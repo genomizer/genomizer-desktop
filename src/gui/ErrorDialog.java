@@ -68,7 +68,7 @@ public class ErrorDialog extends JOptionPane {
     }
 
     /**
-     * Constucts a new ErrorDialog object with a title and a RequestException
+     * Constructs a new ErrorDialog object with a title and a RequestException
      *
      * @param title
      *            the title
@@ -87,6 +87,16 @@ public class ErrorDialog extends JOptionPane {
         buildBodyPanel();
     }
 
+    public ErrorDialog(String title, Throwable e) {
+        String extendedMessage = e.toString() + "\n\n At "
+                + e.getStackTrace()[0].toString();
+
+        this.title = title;
+        this.simpleMessage = e.getMessage();
+        this.extendedMessage = extendedMessage;
+        buildBodyPanel();
+    }
+
     private void buildBodyPanel() {
         bodyPanel = new JPanel(new BorderLayout());
 
@@ -100,7 +110,8 @@ public class ErrorDialog extends JOptionPane {
 
     private void buildTopPanel() {
         JPanel topPanel = new JPanel(new GridLayout(2, 1));
-        JLabel simpleMessageLabel = new JLabel("<html>" + simpleMessage + "</html>");
+        JLabel simpleMessageLabel = new JLabel("<html>" + simpleMessage
+                + "</html>");
         topPanel.add(simpleMessageLabel);
 
         /* Empty panel for vertical padding */
@@ -208,25 +219,5 @@ public class ErrorDialog extends JOptionPane {
             }
             dialog.pack();
         }
-
     }
-
-    /**
-     * Constucts and displays a new ErrorDialog with the given title, from the
-     * given RequestException
-     *
-     * @param title
-     *            the title
-     * @param e
-     *            the RequestException
-     */
-    public static void showRequestErrorDialog(String title, RequestException e) {
-        String responseBody = e.getResponseBody();
-        String message = ResponseParser.parseErrorResponse(responseBody).message;
-        String extendedMessage = e.getResponseCode() + ":\n" + responseBody;
-        ErrorDialog errorDialog = new ErrorDialog(title, message,
-                extendedMessage);
-        errorDialog.showDialog();
-    }
-
 }

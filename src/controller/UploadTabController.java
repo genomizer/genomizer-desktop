@@ -3,6 +3,7 @@ package controller;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -16,6 +17,7 @@ import util.AnnotationDataType;
 import util.AnnotationDataValue;
 import util.ExperimentData;
 import util.GenomeReleaseData;
+import util.RequestException;
 
 import gui.GUI;
 import gui.UploadFileRow;
@@ -177,61 +179,59 @@ public class UploadTabController {
                                     .getNewExpPanel().getTypes();
                             boolean created;
 
-                            if (uploadTab.getUploadToNewExpPanel()
-                                    .getIsNewExp()) {
-                                created = model.addNewExperiment(expName,
-                                        annotations);
-                            } else {
-                                // TODO Ska anv�ndas n�r edit annot
-                                // implementerats
-                                // created = model.changeExperiment(expName,
-                                // annotations);
+                            try {
+                                if (uploadTab.getUploadToNewExpPanel()
+                                        .getIsNewExp()) {
+                                    model.addNewExperiment(expName, annotations);
+                                } else {
+                                    // TODO Ska anv�ndas n�r edit annot
+                                    // implementerats
+                                    // model.changeExperiment(expName,
+                                    // annotations);
 
-                                created = true;
-                            }
+                                    created = true;
+                                }
 
-                            if (created) {
-                                uploadTab.getUploadToNewExpPanel().setSelectButtonEnabled(false);
-                                uploadTab.getUploadToNewExpPanel().enableUploadButton(false);
+                                uploadTab.getUploadToNewExpPanel()
+                                        .setSelectButtonEnabled(false);
+                                uploadTab.getUploadToNewExpPanel()
+                                        .enableUploadButton(false);
                                 uploadTab.setFileRowsEnabled(false);
                                 for (File f : files) {
-                                    if (model.uploadFile(expName, f,
+                                    model.uploadFile(expName, f,
                                             types.get(f.getName()), false,
-                                            uploadTab.getGenomeVersion(f))) {
-                                        uploadTab.getNewExpPanel()
-                                                .deleteFileRow(f);
-                                        for (HTTPURLUpload upload : model
-                                                .getOngoingUploads()) {
-                                            if (f.getName().equals(
-                                                    upload.getFileName())) {
-                                                model.getOngoingUploads()
-                                                        .remove(upload);
-                                            }
+                                            uploadTab.getGenomeVersion(f));
+                                    uploadTab.getNewExpPanel().deleteFileRow(f);
+                                    for (HTTPURLUpload upload : model
+                                            .getOngoingUploads()) {
+                                        if (f.getName().equals(
+                                                upload.getFileName())) {
+                                            model.getOngoingUploads().remove(
+                                                    upload);
                                         }
-                                        // TODO: Decide whether to refresh this
-                                        // view part -
-                                        // view.getQuerySearchTab().refresh();
-
-                                    } else {
-
-                                        // TODO Beh�vs nog inte
-
-                                        JOptionPane.showMessageDialog(
-                                                null,
-                                                "Couldn't upload "
-                                                        + f.getName() + ".",
-                                                "Error",
-                                                JOptionPane.ERROR_MESSAGE);
-
                                     }
+                                    // TODO: Decide whether to refresh this
+                                    // view part -
+                                    // view.getQuerySearchTab().refresh();
+
+                                    // TODO Beh�vs nog inte
                                 }
-                                uploadTab.getUploadToNewExpPanel().enableUploadButton(true);
+                                uploadTab.getUploadToNewExpPanel()
+                                        .enableUploadButton(true);
                                 uploadTab.setFileRowsEnabled(true);
                                 String status = "Upload to experiment \""
                                         + expName + "\" complete.";
                                 view.setStatusPanel(status);
                                 view.setStatusPanelColorSuccess();
-
+                            } catch (RequestException e) {
+                                // TODO Auto-generated catch block
+                                e.printStackTrace();
+                            } catch (IllegalArgumentException e) {
+                                // TODO Auto-generated catch block
+                                e.printStackTrace();
+                            } catch (IOException e) {
+                                // TODO Auto-generated catch block
+                                e.printStackTrace();
                             }
                         }
                     };
@@ -258,49 +258,47 @@ public class UploadTabController {
                             HashMap<String, String> types = uploadTab
                                     .getNewExpPanel().getTypes();
 
-                            boolean created = model.addNewExperiment(expName,
-                                    annotations);
-                            if (created) {
-                                uploadTab.getUploadToNewExpPanel().setSelectButtonEnabled(false);
+                            try {
+                                model.addNewExperiment(expName, annotations);
+                                uploadTab.getUploadToNewExpPanel()
+                                        .setSelectButtonEnabled(false);
                                 uploadTab.setFileRowsEnabled(false);
-                                uploadTab.getUploadToNewExpPanel().enableUploadButton(false);
+                                uploadTab.getUploadToNewExpPanel()
+                                        .enableUploadButton(false);
                                 for (File f : files) {
-                                    if (model.uploadFile(expName, f,
+                                    model.uploadFile(expName, f,
                                             types.get(f.getName()), false,
-                                            uploadTab.getGenomeVersion(f))) {
-                                        uploadTab.getNewExpPanel()
-                                                .deleteFileRow(f);
-                                        for (HTTPURLUpload upload : model
-                                                .getOngoingUploads()) {
-                                            if (f.getName().equals(
-                                                    upload.getFileName())) {
-                                                model.getOngoingUploads()
-                                                        .remove(upload);
-                                            }
+                                            uploadTab.getGenomeVersion(f));
+                                    uploadTab.getNewExpPanel().deleteFileRow(f);
+                                    for (HTTPURLUpload upload : model
+                                            .getOngoingUploads()) {
+                                        if (f.getName().equals(
+                                                upload.getFileName())) {
+                                            model.getOngoingUploads().remove(
+                                                    upload);
                                         }
-                                    } else {
-
-                                        // TODO: Fixa era felmeddelanden!
-                                        JOptionPane.showMessageDialog(
-                                                null,
-                                                "Couldn't upload "
-                                                        + f.getName() + ".",
-                                                "Error",
-                                                JOptionPane.ERROR_MESSAGE);
-                                        ErrorLogger.log("Couldn't upload",
-                                                "Upload");
                                     }
                                 }
                                 // Shown when all files have been uploaded to
                                 // experiment.
-                                uploadTab.getUploadToNewExpPanel().enableUploadButton(true);
+                                uploadTab.getUploadToNewExpPanel()
+                                        .enableUploadButton(true);
                                 uploadTab.setFileRowsEnabled(true);
                                 String status = "Upload to new experiment \""
                                         + expName + "\" complete.";
                                 view.setStatusPanel(status);
                                 view.setStatusPanelColorSuccess();
-
+                            } catch (RequestException e) {
+                                // TODO Auto-generated catch block
+                                e.printStackTrace();
+                            } catch (IllegalArgumentException e) {
+                                // TODO Auto-generated catch block
+                                e.printStackTrace();
+                            } catch (IOException e) {
+                                // TODO Auto-generated catch block
+                                e.printStackTrace();
                             }
+
                         } else {
                             JOptionPane.showMessageDialog(null,
                                     "No files selected.");

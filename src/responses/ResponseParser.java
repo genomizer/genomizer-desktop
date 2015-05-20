@@ -124,6 +124,7 @@ public class ResponseParser {
 
         ErrorResponse response;
         try {
+            System.out.println(json);
             response = gson.fromJson(json, ErrorResponse.class);
         } catch (JsonParseException e) {
             ErrorLogger.log(e);

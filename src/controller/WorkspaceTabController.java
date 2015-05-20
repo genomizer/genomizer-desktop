@@ -21,6 +21,7 @@ import communication.DownloadHandler;
 
 import util.ExperimentData;
 import util.FileData;
+import util.RequestException;
 import gui.ConvertTab;
 import gui.DeleteDataWindow;
 import gui.ErrorDialog;
@@ -109,7 +110,7 @@ public class WorkspaceTabController {
                                             .showDialog();
                                 }
                             }
-                            
+
                             model.downloadFile(data.url, data.id, directoryName
                                     + "/" + data.expId + "/" + data.type + "/"
                                     + data.filename, data.filename);
@@ -252,7 +253,13 @@ public class WorkspaceTabController {
                             for (ExperimentData data : selectedData) {
                                 for (FileData fileData : data.files) {
                                     if (!abortDeletion) {
-                                        model.deleteFileFromExperiment(fileData.id);
+                                        try {
+                                            model.deleteFileFromExperiment(fileData.id);
+                                        } catch (RequestException e1) {
+                                            new ErrorDialog(
+                                                    "Couldn't delete file from experiment",
+                                                    e1).showDialog();
+                                        }
                                     }
                                     i++;
                                 }

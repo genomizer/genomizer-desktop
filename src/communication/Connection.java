@@ -61,8 +61,6 @@ public class Connection {
         responseCode = 0;
     }
 
-    // TODO: returnera ett Response-objekt eller response code ist�llet f�r
-    // boolean, om det beh�vs.
     /**
      * Sends a REST-request to the connected server and processes the response.
      *
@@ -105,7 +103,6 @@ public class Connection {
                 if (inputStream != null) {
                     fetchResponse(connection.getErrorStream());
 
-                    //TODO Fixa så att man kan kasta meddelanden för alla koder >300
                     if(responseCode>=300){
                         connection.disconnect();
                         throw new RequestException(responseCode, responseBody);

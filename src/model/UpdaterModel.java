@@ -3,15 +3,13 @@ package model;
 import gui.ErrorDialog;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.concurrent.CopyOnWriteArrayList;
-
-import com.google.gson.Gson;
 
 import requests.AddFileToExperiment;
 import requests.DownloadFileRequest;
 import requests.RequestFactory;
 import responses.AddFileToExperimentResponse;
-import responses.DownloadFileResponse;
 import responses.ResponseParser;
 import util.Constants;
 import util.RequestException;
@@ -41,11 +39,12 @@ public class UpdaterModel {
 
     }
 
-    public boolean uploadFile(String expName, File f, String type,
-            boolean isPrivate, String release) {
+    public void uploadFile(String expName, File f, String type,
+            boolean isPrivate, String release) throws RequestException,
+            IllegalArgumentException, IOException {
 
         // TODO: Trace comments. also "metameta"
-//        System.out.println("ska uploada fil: " + f.getName());
+        // System.out.println("ska uploada fil: " + f.getName());
 
         String username = User.getInstance().getName();
 
@@ -55,32 +54,14 @@ public class UpdaterModel {
 
         Connection conn = connFactory.makeConnection();
 
+        conn.sendRequest(request, User.getInstance().getToken(), Constants.JSON);
+        AddFileToExperimentResponse aFTER = ResponseParser
+                .parseUploadResponse(conn.getResponseBody());
+        HTTPURLUpload upload = new HTTPURLUpload(aFTER.URLupload,
+                f.getAbsolutePath(), f.getName());
+        ongoingUploads.add(upload);
+        upload.sendFile(User.getInstance().getToken());
 
-        try {
-            conn.sendRequest(request, User.getInstance().getToken(),
-                    Constants.JSON);
-        } catch (RequestException e) {
-            ErrorDialog.showRequestErrorDialog("Couldn't upload file", e);
-        }
-
-        int responseCode = conn.getResponseCode();
-
-        if (responseCode == 200) {
-            AddFileToExperimentResponse aFTER = ResponseParser
-                    .parseUploadResponse(conn.getResponseBody());
-            HTTPURLUpload upload = new HTTPURLUpload(aFTER.URLupload,
-                    f.getAbsolutePath(), f.getName());
-
-            System.out.println(f.getAbsolutePath());
-
-            ongoingUploads.add(upload);
-            boolean ok = upload.sendFile(User.getInstance().getToken());
-
-            if (ok) {
-                return true;
-            }
-        }
-        return false;
     }
 
     public void addUpload(HTTPURLUpload upload) {
@@ -112,11 +93,6 @@ public class UpdaterModel {
         try {
             conn.sendRequest(request, User.getInstance().getToken(),
                     Constants.TEXT_PLAIN);
-            Gson gson = new Gson();
-
-            // TODO: Deprecated Downloadfilethingy
-            DownloadFileResponse response = gson.fromJson(
-                    conn.getResponseBody(), DownloadFileResponse.class);
 
             final DownloadHandler handler = new DownloadHandler(User
                     .getInstance().getToken(), fileName);
@@ -129,7 +105,7 @@ public class UpdaterModel {
                 }
             }).start();
         } catch (RequestException e) {
-            ErrorDialog.showRequestErrorDialog("Couldn't download file", e);
+            new ErrorDialog("Couldn't download file", e).showDialog();
         }
 
         return true;
@@ -159,9 +135,10 @@ public class UpdaterModel {
 
     /**
      * Add a new ticking task
+     *
      * @param task
      */
-    public void addTickingTask(Runnable task){
+    public void addTickingTask(Runnable task) {
         ticker.addTask(task);
         ticker.startTicking();
     }
@@ -204,20 +181,18 @@ public class UpdaterModel {
         }
 
         /**
-         * Start a new ticking thread.
-         * Does nothing if already running.
+         * Start a new ticking thread. Does nothing if already running.
          */
         public synchronized void startTicking() {
 
-            if ( ticker != null ) return;
+            if (ticker != null) return;
             isTicking = true;
             ticker = new Thread(tick);
             ticker.start();
         }
 
         /**
-         * Stop the ticker Thread, interrupting it and
-         * joining it to current.
+         * Stop the ticker Thread, interrupting it and joining it to current.
          */
         public synchronized void stopTicking() {
 
@@ -235,7 +210,9 @@ public class UpdaterModel {
 
         /**
          * Add a new task to be performed each tick.
-         * @param task to perform
+         *
+         * @param task
+         *            to perform
          */
         public void addTask(Runnable task) {
             tasks.add(task);
@@ -244,7 +221,7 @@ public class UpdaterModel {
         /**
          * Remove all tasks in the list, but keep ticking.
          */
-        public void clearTasks(){
+        public void clearTasks() {
             tasks.clear();
         }
 

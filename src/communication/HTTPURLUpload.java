@@ -5,7 +5,6 @@ import java.net.URLEncoder;
 import model.ErrorLogger;
 
 import org.apache.http.HttpResponse;
-import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.client.protocol.HttpClientContext;
 import org.apache.http.entity.mime.HttpMultipartMode;
@@ -51,8 +50,9 @@ public class HTTPURLUpload {
      * @param userID
      * @return
      * @throws IllegalArgumentException
+     * @throws IOException
      */
-    public boolean sendFile(String userID) throws IllegalArgumentException {
+    public void sendFile(String userID) throws IllegalArgumentException, IOException {
         uploadPath = uploadPath.replaceFirst("\\u003d", "=");
         String path;
         if (uploadPath.contains("=")) {
@@ -83,13 +83,8 @@ public class HTTPURLUpload {
             ErrorLogger.log(e);
             e.printStackTrace();
         }
-
-        System.out.println(uploadPath);
         HttpPost httpPost = new HttpPost(uploadPath);
-        System.out.println(httpPost.toString());
-
         httpPost.addHeader("Authorization", userID);
-        // HttpPost httpPost = new HttpPost(filePath);
 
         MultipartEntityBuilder reqEntity = MultipartEntityBuilder.create();
         reqEntity.setMode(HttpMultipartMode.BROWSER_COMPATIBLE);
@@ -116,20 +111,15 @@ public class HTTPURLUpload {
             // execute HTTP post request
             response = httpClient.execute(httpPost, localContext);
             responseCode = response.getStatusLine().getStatusCode();
-            if (responseCode != 200) {
-                return false;
+            if (responseCode >= 300) {
+                //TODO Skapa ett vettigare felmeddelande CF
+                throw new IOException("SKAPA ETT BÄTTRE FELMEDDELANDE");
             }
-        } catch (ClientProtocolException e) {
-            ErrorLogger.log(e);
-            e.printStackTrace();
-        } catch (FileNotFoundException e) {
-            ErrorLogger.log(e);
-            return false;
         } catch (IOException e) {
             ErrorLogger.log(e);
-            e.printStackTrace();
+            //TODO Fixa bättre felmeddelande CF
+            throw new IOException("",e);
         }
-        return true;
     }
 
     /**

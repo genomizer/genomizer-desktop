@@ -1,5 +1,6 @@
 package controller;
 
+import gui.ErrorDialog;
 import gui.sysadmin.SysadminTab;
 import gui.sysadmin.annotationview.AddAnnotationPopup;
 import gui.sysadmin.annotationview.AnnotationButtonsListener;
@@ -8,16 +9,17 @@ import gui.sysadmin.genomereleaseview.GenomeReleaseViewCreator;
 import gui.sysadmin.genomereleaseview.GenomereleaseTableModel;
 
 import java.awt.event.ActionListener;
+import java.io.IOException;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
 
-import model.DeleteAnnotationException;
 import model.ErrorLogger;
 import model.GenomizerModel;
 import util.AnnotationDataType;
 import util.GenomeReleaseData;
+import util.RequestException;
 
 import communication.HTTPURLUpload;
 
@@ -73,14 +75,15 @@ public class SysadminController {
                     popup.getNewAnnotationCategories(),
                     popup.getNewAnnotationForcedValue());
             updateAnnotationTable();
-        } catch (IllegalArgumentException e) {
+        } catch (Exception e) {
             ErrorLogger.log(e);
-            JOptionPane.showMessageDialog(null, e.getMessage());
+            new ErrorDialog("Couldn't add annotation", e).showDialog();
         }
     }
 
     /**
      * @return the list of current annotations from the database
+     * @throws RequestException
      */
     public util.AnnotationDataType[] getAnnotations() {
         return model.getAnnotations();
@@ -88,10 +91,11 @@ public class SysadminController {
 
     /**
      * @return a string array with the values of the "species"-annotation.
+     * @throws RequestException
      */
     public String[] getSpecies() {
 
-        AnnotationDataType[] annotations = model.getAnnotations();
+        AnnotationDataType[] annotations = getAnnotations();
 
         for (AnnotationDataType a : annotations) {
 
@@ -117,31 +121,27 @@ public class SysadminController {
             AnnotationDataType annotation = (AnnotationDataType) sysTab
                     .getAnnotationTable().getModel().getValueAt(row, col);
 
-            try {
-                if (JOptionPane.showConfirmDialog(null,
-                        "Are you sure you want to delete the "
-                                + annotation.name + " annotation?",
-                        "Remove annotation", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
-                    try {
-                        model.deleteAnnotation(annotation.name);
-                        JOptionPane.showMessageDialog(null, annotation.name
-                                + " has been removed!");
-                        SwingUtilities.invokeLater(new Runnable() {
+            if (JOptionPane.showConfirmDialog(null,
+                    "Are you sure you want to delete the " + annotation.name
+                            + " annotation?", "Remove annotation",
+                    JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
+                try {
+                    model.deleteAnnotation(annotation.name);
+                    JOptionPane.showMessageDialog(null, annotation.name
+                            + " has been removed!");
+                    SwingUtilities.invokeLater(new Runnable() {
 
-                            @Override
-                            public void run() {
-                                updateAnnotationTable();
-                            }
-                        });
+                        @Override
+                        public void run() {
+                            updateAnnotationTable();
+                        }
+                    });
 
-                    } catch (DeleteAnnotationException e) {
-                        ErrorLogger.log(e);
-                        JOptionPane.showMessageDialog(null, e.getMessage());
-                    }
+                } catch (RequestException e) {
+                    ErrorLogger.log(e);
+                    new ErrorDialog("Couldn't delete annotation", e)
+                            .showDialog();
                 }
-            } catch (IllegalArgumentException e) {
-                ErrorLogger.log(e);
-                JOptionPane.showMessageDialog(null, e.getMessage());
             }
         } else {
             JOptionPane.showMessageDialog(null, "No annotation selected!");
@@ -149,32 +149,15 @@ public class SysadminController {
     }
 
     public util.GenomeReleaseData[] getGenomeReleases() {
-
-        GenomeReleaseData[] grdarray = null;
-        // TODO Behövs felmeddelandet? Det poppar upp när man loggar ut.
-        // mycket underligt
-        try {
-            grdarray = model.getGenomeReleases();
-            if (!(grdarray == null)) {
-                if (grdarray.length == 0) {
-                    // JOptionPane.showMessageDialog(null,
-                    // "Could not get genomereleases!");
-                }
-            }
-
-        } catch (IllegalArgumentException e) {
-            ErrorLogger.log(e);
-            JOptionPane.showMessageDialog(null, e.getMessage());
-        }
-
-        return grdarray;
-
+        return model.getGenomeReleases();
     }
 
     public void deleteGenomeRelease(String version, String specie) {
-
-        if (model.deleteGenomeRelease(specie, version)) {
+        try {
+            model.deleteGenomeRelease(specie, version);
             updateGenomeReleaseTable();
+        } catch (RequestException e) {
+            new ErrorDialog("Couldn't delete genome release", e).showDialog();
         }
     }
 
@@ -237,16 +220,22 @@ public class SysadminController {
 
     public void addGenomeRelease() {
         GenomeReleaseViewCreator gr = sysTab.getGenomeReleaseView();
-        if (model.addGenomeReleaseFile(gr.getFilenames(), gr.getSpeciesItem(),
-                gr.getVersionText())) {
-
+        try {
+            model.addGenomeReleaseFile(gr.getFilenames(), gr.getSpeciesItem(),
+                    gr.getVersionText());
             updateGenomeReleaseTable();
             JOptionPane.showMessageDialog(null,
                     "Added genom release " + gr.getVersionText()
                             + " for species " + gr.getSpeciesItem());
+        } catch (IllegalArgumentException e) {
             // TODO: Consider statusPanel, and make messages similar
-        } else {
             JOptionPane.showMessageDialog(null, "Could not add genome release");
+        } catch (RequestException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
         }
     }
 
@@ -263,9 +252,11 @@ public class SysadminController {
      * @param newName
      *            is the new name
      * @return true if successfully renamed, otherwise false
+     * @throws RequestException
      */
-    public boolean renameAnnotationField(String oldName, String newName) {
-        return (model.renameAnnotationField(oldName, newName));
+    public void renameAnnotationField(String oldName, String newName)
+            throws RequestException {
+        model.renameAnnotationField(oldName, newName);
     }
 
     /**
@@ -279,11 +270,10 @@ public class SysadminController {
      *            is the new name for the value
      * @return true if successfully renamed, otherwise false
      */
-    public boolean renameAnnotationValue(String name, String oldValue,
-            String newValue) {
-        //TODO: test renameing System.out.println(name + oldValue + newValue);
-        return model.renameAnnotationValue(name, oldValue, newValue);
-
+    public void renameAnnotationValue(String name, String oldValue,
+            String newValue) throws RequestException {
+        // TODO: test renameing System.out.println(name + oldValue + newValue);
+        model.renameAnnotationValue(name, oldValue, newValue);
     }
 
     /**
@@ -294,11 +284,11 @@ public class SysadminController {
      * @param annotationValue
      *            is the value to be removed
      * @return true if successfully removed, otherwise false
+     * @throws RequestException
      */
-    public boolean removeAnnotationValue(String annotationName,
-            String annotationValue) {
-        return model.removeAnnotationValue(annotationName, annotationValue);
-
+    public void removeAnnotationValue(String annotationName,
+            String annotationValue) throws RequestException {
+        model.removeAnnotationValue(annotationName, annotationValue);
     }
 
     /**
@@ -309,9 +299,11 @@ public class SysadminController {
      * @param valueName
      *            the name of the new value
      * @return true if successfully created, otherwise false
+     * @throws RequestException
      */
-    public boolean addAnnotationValue(String annotationName, String valueName) {
-        return model.addNewAnnotationValue(annotationName, valueName);
+    public void addAnnotationValue(String annotationName, String valueName)
+            throws RequestException {
+        model.addNewAnnotationValue(annotationName, valueName);
     }
 
     /**

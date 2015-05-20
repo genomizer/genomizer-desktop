@@ -8,6 +8,7 @@ package model;
  *
  * @author oi12mlw, oi12pjn
  */
+import gui.ErrorDialog;
 import requests.LoginRequest;
 import requests.LogoutRequest;
 import requests.RequestFactory;
