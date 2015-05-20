@@ -12,19 +12,20 @@ import org.junit.Test;
 import util.AnnotationDataType;
 
 public class AnnotationFieldTest {
-
+    
     public Model model;
     public SysadminTab sysadminTab;
-
+    
     @Before
     public void setUp() throws Exception {
-
+        
         model = new Model();
         model.setIP(ExampleExperimentData.getTestServerIP());
-        model.loginUser(ExampleExperimentData.getTestUsername(), ExampleExperimentData.getTestPassword());
+        model.loginUser(ExampleExperimentData.getTestUsername(),
+                ExampleExperimentData.getTestPassword());
         sysadminTab = new SysadminTab();
     }
-
+    
     @Test
     public void shouldAddNewFreeTextAnnotation() throws Exception {
         String oldname = "FREETEXTTEST";
@@ -34,8 +35,10 @@ public class AnnotationFieldTest {
         assertThat(
                 model.addNewAnnotation("FREETEXTTEST",
                         new String[] { "freetext" }, false)).isTrue();
+        assertThat(
+                model.deleteAnnotation("FREETEXTTEST")).isTrue();
     }
-
+    
     @Test
     public void shouldAddNewAnnotation() throws Exception {
         String oldname = "SpeciesTEST";
@@ -45,9 +48,11 @@ public class AnnotationFieldTest {
         assertThat(
                 model.addNewAnnotation(oldname, new String[] { "manTEST",
                         "mouseTEST" }, false)).isTrue();
-
+        assertThat(
+                model.deleteAnnotation("SpeciesTEST")).isTrue();
+        
     }
-
+    
     @Test
     public void shouldNotAddNewAnnotation() {
         try {
@@ -60,7 +65,7 @@ public class AnnotationFieldTest {
                             "Annotations must have a unique name, SpeciesTEST already exists");
         }
     }
-
+    
     @Test
     public void shouldOnlyAddUniqueAnnotations() {
         String name = model.getAnnotations()[2].getName();
@@ -73,7 +78,7 @@ public class AnnotationFieldTest {
                             + " already exists");
         }
     }
-
+    
     @Test
     public void shouldNotAddNewAnnotationDueToEmptyString() {
         try {
@@ -84,7 +89,7 @@ public class AnnotationFieldTest {
             assertThat(e).hasMessage("Must have a name for the annotation!");
         }
     }
-
+    
     @Test
     public void shouldChangeNameOfAnnotation() throws Exception {
         String oldname = "SpeciesTEST";
@@ -95,12 +100,12 @@ public class AnnotationFieldTest {
         if (getSpecificAnnotationType(newname) != null) {
             model.deleteAnnotation(newname);
         }
-
+        
         model.addNewAnnotation(oldname,
                 new String[] { "manTEST", "mouseTEST" }, false);
         AnnotationDataType toBeRenamed = getSpecificAnnotationType(oldname);
         if (toBeRenamed != null) {
-
+            
             if (model.renameAnnotationField(oldname, newname)) {
                 AnnotationDataType renamed = getSpecificAnnotationType(newname);
                 assertThat(renamed).isNotNull();
@@ -108,9 +113,9 @@ public class AnnotationFieldTest {
                 fail("Does not rename Annotation");
             }
         }
-
+        
     }
-
+    
     @Test
     public void shouldRenameAnnotationField() throws Exception {
         String oldAnnotationName = "FREETEXTTEST";
@@ -128,9 +133,9 @@ public class AnnotationFieldTest {
         } else {
             fail("model does not complete operation.");
         }
-
+        
     }
-
+    
     protected AnnotationDataType getSpecificAnnotationType(String name) {
         AnnotationDataType[] annotations = model.getAnnotations();
         AnnotationDataType specificAnnotation = null;
@@ -141,5 +146,5 @@ public class AnnotationFieldTest {
         }
         return specificAnnotation;
     }
-
+    
 }
