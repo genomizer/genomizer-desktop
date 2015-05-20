@@ -99,6 +99,8 @@ public class Connection {
             connection.disconnect();
         } catch (IOException e) {
 
+            System.out.println("Code: " + responseCode);
+            System.out.println("Body: " + responseBody);
             ErrorLogger.log(e);
             try {
                 InputStream inputStream = connection.getErrorStream();
