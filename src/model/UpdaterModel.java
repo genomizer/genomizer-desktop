@@ -71,7 +71,6 @@ public class UpdaterModel {
             HTTPURLUpload upload = new HTTPURLUpload(aFTER.URLupload,
                     f.getAbsolutePath(), f.getName());
 
-            System.out.println(f.getAbsolutePath());
 
             ongoingUploads.add(upload);
             boolean ok = upload.sendFile(User.getInstance().getToken());
