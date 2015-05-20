@@ -65,9 +65,9 @@ public class Controller {
         SysadminController sysadminTabController = new SysadminController(model);
         view.getSysAdminTab().setController(sysadminTabController);
 
-        ConvertTabController convertTabController = new ConvertTabController(
-                view, model, fileChooser);
-        view.getConvertTab().setController(convertTabController);
+        //ConvertTabController convertTabController = new ConvertTabController(
+          //      view, model, fileChooser);
+        //view.getConvertTab().setController(convertTabController);
 
         view.getQuerySearchTab().clickUpdateAnnotations();
         sysadminTabController.updateAnnotationTable();
