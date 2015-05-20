@@ -18,6 +18,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
+import javax.swing.SwingConstants;
 
 import controller.Controller;
 
@@ -203,6 +204,7 @@ public class LoginWindow extends JFrame {
         message = message.replace(".", "");
         errorLabel = new JLabel("<html><b>" + message + "</b></html>");
         errorLabel.setBounds(73, 0, 150, 45);
+        errorLabel.setAlignmentX(CENTER_ALIGNMENT);
         bottomPanel.add(errorLabel);
         ErrorLogger.log(message);
         repaint();

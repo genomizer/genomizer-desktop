@@ -129,8 +129,10 @@ public class QuerySearchTabController {
                                 view.getQuerySearchTab().updateSearchResults(
                                         searchResults);
                                 if (view.getSelectedIndex() == 0) {
-                                    view.setStatusPanel("Search successful!");
-                                    view.setStatusPanelColorSuccess();
+                                    view.setStatusPanel("Search successful: "
+                                            + searchResults.size()
+                                            + " matches.");
+                                    view.setStatusPanelColor("success");
                                 }
 
                                 // If search results are null and the active
@@ -139,11 +141,7 @@ public class QuerySearchTabController {
                             } else if (view.getQuerySearchTab()
                                     .getActivePanel() == ActiveSearchPanel.SEARCH) {
                                 view.setStatusPanel("No search results!");
-                                view.setStatusPanelColorFail();
-                                JOptionPane.showMessageDialog(null,
-                                        "No search results!", "Search Warning",
-                                        JOptionPane.WARNING_MESSAGE);
-
+                                view.setStatusPanelColor("fail");
                                 // If search results are null and the active
                                 // panel
                                 // is table
@@ -152,7 +150,6 @@ public class QuerySearchTabController {
                                 // Go back to the query search
                                 view.getBackButton().doClick();
                                 view.getQuerySearchTab().getBackButton();
-
                             }
                         } catch (RequestException e) {
                             new ErrorDialog("Search failed", e).showDialog();
@@ -172,7 +169,7 @@ public class QuerySearchTabController {
                     @Override
                     public void run() {
                         AnnotationDataType[] annotations = model
-                                    .getAnnotations();
+                                .getAnnotations();
 
                         if (annotations != null && annotations.length > 0) {
                             view.getQuerySearchTab().setAnnotationTypes(
@@ -198,21 +195,24 @@ public class QuerySearchTabController {
                             if (selectedData.size() == 1) {
                                 view.setStatusPanel(selectedData.get(0).name
                                         + " was added to the workspace.");
-                                view.setStatusPanelColorSuccess();
+                                view.setStatusPanelColor("success");
+                                // view.setStatusPanelColorSuccess();
                             } else if (selectedData.size() > 1) {
                                 view.setStatusPanel(selectedData.get(0).name
                                         + " + "
                                         + (selectedData.size() - 1)
                                         + " other experiments was added to the workspace.");
-                                view.setStatusPanelColorSuccess();
+                                view.setStatusPanelColor("success");
+                                // view.setStatusPanelColorSuccess();
                             }
 
                             view.getWorkSpaceTab().addExperimentsToTable(
                                     view.getQuerySearchTab().getSelectedData());
                             view.getWorkSpaceTab().changeTab(0);
                         } else {
+
                             view.setStatusPanel("No data selected!");
-                            view.setStatusPanelColorFail();
+                            view.setStatusPanelColor("fail");
                         }
                         view.getQuerySearchTab().clearSearchSelection();
                     };

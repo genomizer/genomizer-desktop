@@ -252,49 +252,62 @@ public class ProcessTab extends JPanel {
                         "<html><b>Current processes</b></html>");
                 // create the child nodes
 
-                for(ProcessFeedbackData p: processFeedbackData) {
-                    System.out.println(p.PID);
-                    DefaultMutableTreeNode processNode = new DefaultMutableTreeNode(
-                            "<html><b>ProcessID</b>: " + p.PID + "</html>");
-                    root.add(processNode);
-                    processNode.add(new DefaultMutableTreeNode(
-                            "<html><b>Author</b>: " + p.author + "</html>"));
-                    processNode.add(new DefaultMutableTreeNode(
-                            "<html><b>ExpID</b>: " + p.experimentName + "</html>"));
+                ArrayList<String> experiments = new ArrayList<String>();
 
-                    DefaultMutableTreeNode fileNode = new DefaultMutableTreeNode(
-                            "<html><b>Files</b>: " + "Files" + "</html>");
-                    for(String s: p.outputFiles) {
-                        fileNode.add(new DefaultMutableTreeNode(
-                            "<html><b>File</b>: " + s + "</html>"));
+                for(ProcessFeedbackData p: processFeedbackData) {
+                    if(!experiments.contains(p.experimentName)) {
+                        experiments.add(p.experimentName);
                     }
-                    processNode.add(fileNode);
-                    processNode.add(new DefaultMutableTreeNode(
-                            "<html><b>Status</b>: " + p.status + "</html>"));
-                    Format format = new SimpleDateFormat(
-                            "yyyy-MM-dd, HH:mm");
-                    String timeAdded = "Not added";
-                    String timeStarted = "Not started";
-                    String timeFinished = "Not finished";
-                    if (p.timeAdded != 0) {
-                        timeAdded = format.format(
-                                new Date(p.timeAdded)).toString();
-                    }
-                    if (p.timeStarted != 0) {
-                        timeStarted = format.format(
-                                new Date(p.timeStarted)).toString();
-                    }
-                    if (p.timeFinished != 0) {
-                        timeFinished = format.format(
-                                new Date(p.timeFinished)).toString();
-                    }
-                    processNode.add(new DefaultMutableTreeNode(
-                            "<html><b>TimeAdded</b>: " + timeAdded + "</html>"));
-                    processNode.add(new DefaultMutableTreeNode(
-                            "<html><b>TimeStarted</b>: " + timeStarted + "</html>"));
-                    processNode.add(new DefaultMutableTreeNode(
-                            "<html><b>TimeFinished</b>: " + timeFinished + "</html>"));
                 }
+
+                for(String s: experiments) {
+                    DefaultMutableTreeNode experimentNode = new DefaultMutableTreeNode(
+                            "<html><b>ExpID</b>: " + s + "</html>");
+                    root.add(experimentNode);
+                    for(ProcessFeedbackData p: processFeedbackData) {
+                        if(p.experimentName.equals(s)) {
+                            DefaultMutableTreeNode processNode = new DefaultMutableTreeNode(
+                                    "<html><b>ProcessID</b>: " + p.PID + "</html>");
+                            experimentNode.add(processNode);
+                            processNode.add(new DefaultMutableTreeNode(
+                                    "<html><b>Author</b>: " + p.author + "</html>"));
+                            DefaultMutableTreeNode fileNode = new DefaultMutableTreeNode(
+                                    "<html><b>Files</b>: " + "Files" + "</html>");
+                            for(String files: p.outputFiles) {
+                                fileNode.add(new DefaultMutableTreeNode(
+                                    "<html><b>File</b>: " + files + "</html>"));
+                            }
+                            processNode.add(fileNode);
+                            processNode.add(new DefaultMutableTreeNode(
+                                    "<html><b>Status</b>: " + p.status + "</html>"));
+                            Format format = new SimpleDateFormat(
+                                    "yyyy-MM-dd, HH:mm");
+                            String timeAdded = "Not added";
+                            String timeStarted = "Not started";
+                            String timeFinished = "Not finished";
+                            if (p.timeAdded != 0) {
+                                timeAdded = format.format(
+                                        new Date(p.timeAdded)).toString();
+                            }
+                            if (p.timeStarted != 0) {
+                                timeStarted = format.format(
+                                        new Date(p.timeStarted)).toString();
+                            }
+                            if (p.timeFinished != 0) {
+                                timeFinished = format.format(
+                                        new Date(p.timeFinished)).toString();
+                            }
+                            processNode.add(new DefaultMutableTreeNode(
+                                    "<html><b>TimeAdded</b>: " + timeAdded + "</html>"));
+                            processNode.add(new DefaultMutableTreeNode(
+                                    "<html><b>TimeStarted</b>: " + timeStarted + "</html>"));
+                            processNode.add(new DefaultMutableTreeNode(
+                                    "<html><b>TimeFinished</b>: " + timeFinished + "</html>"));
+                        }
+                    }
+                }
+
+
 
 
                 // create the tree by passing in the root node

@@ -129,8 +129,8 @@ public class ResponseParser {
         } catch (JsonParseException e) {
             ErrorLogger.log(e);
             // TODO: StackTrace ;/
-            e.printStackTrace();
-            return null;
+            response = new ErrorResponse();
+            response.message = "Unknown error";
         }
         return response;
     }

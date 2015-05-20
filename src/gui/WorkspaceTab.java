@@ -149,7 +149,7 @@ public class WorkspaceTab extends JPanel {
 
         buttonPanel.add(Box.createHorizontalStrut(10));
 
-        buttonPanel.add(convertButton);
+        //buttonPanel.add(convertButton);
 
     }
 

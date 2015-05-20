@@ -97,6 +97,7 @@ public class Connection {
             connection.disconnect();
         } catch (IOException e) {
 
+
             ErrorLogger.log(e);
             try {
                 InputStream inputStream = connection.getErrorStream();

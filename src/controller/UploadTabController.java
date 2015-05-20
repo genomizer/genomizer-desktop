@@ -222,7 +222,7 @@ public class UploadTabController {
                                 String status = "Upload to experiment \""
                                         + expName + "\" complete.";
                                 view.setStatusPanel(status);
-                                view.setStatusPanelColorSuccess();
+                                view.setStatusPanelColor("success");
                             } catch (RequestException e) {
                                 // TODO Auto-generated catch block
                                 e.printStackTrace();
@@ -287,7 +287,7 @@ public class UploadTabController {
                                 String status = "Upload to new experiment \""
                                         + expName + "\" complete.";
                                 view.setStatusPanel(status);
-                                view.setStatusPanelColorSuccess();
+                                view.setStatusPanelColor("success");
                             } catch (RequestException e) {
                                 // TODO Auto-generated catch block
                                 e.printStackTrace();

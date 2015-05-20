@@ -61,7 +61,6 @@ public class UpdaterModel {
                 f.getAbsolutePath(), f.getName());
         ongoingUploads.add(upload);
         upload.sendFile(User.getInstance().getToken());
-
     }
 
     public void addUpload(HTTPURLUpload upload) {

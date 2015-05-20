@@ -50,6 +50,10 @@ public class GUI extends JFrame {
 
     private JPanel statusPanel;
     private ConvertTab convertTab;
+    private String status;
+    private Color color;
+    public int nrOfThreads = 0;
+    public int statusSuccessOrFail = 0;
 
     /**
      * Initiates the main view of the program.
@@ -119,15 +123,114 @@ public class GUI extends JFrame {
         mainPanel.revalidate();
     }
 
-    public void setStatusPanelColorSuccess(){
-        Color color = new Color(153,255,153);
-        statusPanel.setBackground(color);
+//    public void setStatusPanelColorSuccess(){
+//        Color color = new Color(153,255,153);
+//        statusPanel.setBackground(color);
+//    }
+//
+//    public void setStatusPanelColorFail(){
+//        Color color = new Color(243,126,126);
+//        statusPanel.setBackground(color);
+//    }
+
+
+
+    public class setStatusPanelColors implements Runnable{
+
+        private int firstTime = 0;
+
+
+      public setStatusPanelColors(String status){
+            setCurrentStatus(status);
+        }
+
+
+      @Override
+      public void run() {
+
+          nrOfThreads ++;
+          if(getCurrentStatus().equals("success")){
+              setColor(155,255,155);
+
+              if(nrOfThreads == 1){
+                  firstTime  = 1;
+              }
+
+              statusSuccessOrFail = 1;
+              for(int i = 0; i < 100;i++){
+                  if(statusSuccessOrFail == 2 || (firstTime == 1 && nrOfThreads > 1)){
+                      break;
+                  }
+                  if(nrOfThreads > 1){
+                      firstTime  = 1;
+                  }
+                  try {
+                      Thread.sleep(40);
+                  } catch (InterruptedException e) {
+                      e.printStackTrace();
+                  }
+                  setColor(155,255-i,155);
+                  statusPanel.setBackground(getColor());
+
+              }
+
+
+          } else if(getCurrentStatus().equals("fail")){
+              setColor(255,155,155);
+              if(nrOfThreads == 1){
+                  firstTime = 1;
+              }
+
+              statusSuccessOrFail = 2;
+              for(int i = 0; i < 100;i++){
+                  if(statusSuccessOrFail  == 1 || (firstTime == 1 && nrOfThreads > 1)){
+                      break;
+                  }
+                  if(nrOfThreads > 1){
+                      firstTime  = 1;
+                  }
+                  try {
+                      Thread.sleep(40);
+                  } catch (InterruptedException e) {
+                      e.printStackTrace();
+                  }
+                  setColor(255-i,155,155);
+                  statusPanel.setBackground(getColor());
+              }
+          }
+          firstTime = 0;
+          nrOfThreads--;
+
+      }
+
+
+      }
+
+    public void setStatusPanelColor(String status){
+        (new Thread(new setStatusPanelColors(status))).start();
     }
 
-    public void setStatusPanelColorFail(){
-        Color color = new Color(243,126,126);
-        statusPanel.setBackground(color);
-    }
+
+      private void setColor(int r, int g, int b){
+          color = new Color(r,g,b);
+      }
+
+      private Color getColor(){
+          return color;
+      }
+
+      private void setCurrentStatus(String statusString){
+          status = statusString;
+      }
+
+      private String getCurrentStatus(){
+          return status;
+      }
+
+
+
+
+
 
     /**
      * adds a ChangeListener to the tabbedPane not used...? TODO unuseds
