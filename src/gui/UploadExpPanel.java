@@ -349,21 +349,17 @@ public class UploadExpPanel extends JPanel implements ExperimentPanel {
      */
     private JComboBox<String> createAnnotationComboBox(AnnotationDataType a) {
         final JComboBox<String> comboBox;
-        String[] aCopy = new String[a.getValues().length + 1];
-        aCopy[0] = "";
-        for (int i = 1; i <= a.getValues().length; i++) {
-            aCopy[i] = a.getValues()[i - 1];
-        }
+
 
         if (a.getName().equalsIgnoreCase("species")) {
             comboBox = species;
             species.removeAllItems();
-            for (String s : aCopy) {
+            for (String s : a.getValues()) {
                 species.addItem(s);
             }
             species.setSelectedIndex(0);
         } else {
-            comboBox = new JComboBox<String>(aCopy);
+            comboBox = new JComboBox<String>(a.getValues());
         }
 
         comboBox.setPreferredSize(new Dimension(120, 31));
