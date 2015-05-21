@@ -96,6 +96,8 @@ public class WorkspaceTabController {
                             return;
                         }
 
+                        view.getWorkSpaceTab().changeTab(
+                                WorkspaceTab.DOWNLOADTABNUMBER);
                         for (FileData data : fileData) {
                             File theDir = new File(directoryName + "/"
                                     + data.expId + "/" + data.type);
@@ -115,8 +117,6 @@ public class WorkspaceTabController {
                                     + "/" + data.expId + "/" + data.type + "/"
                                     + data.filename, data.filename);
                         }
-                        view.getWorkSpaceTab().changeTab(
-                                WorkspaceTab.DOWNLOADTABNUMBER);
                     };
                 }.start();
             }
