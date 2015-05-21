@@ -220,12 +220,12 @@ public class TreeTable extends JPanel {
 
         /* Initiate the column sorting orders */
         sortingOrders = new HashMap<>();
+        headings = new ArrayList<>();
         /* If the input experiment data is not null or empty */
         if (experimentData != null && experimentData.size() > 0) {
             experiments = experimentData;
             /* Retreive the headings from the experiment data */
             int nrOfColumns = 1;
-            headings = new ArrayList<>();
             headings.add("ExpID");
             for (int i = 0; i < experiments.size(); i++) {
                 for (AnnotationDataValue annotation : experiments.get(i).annotations) {
