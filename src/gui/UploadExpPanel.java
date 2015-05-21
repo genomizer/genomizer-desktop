@@ -306,7 +306,9 @@ public class UploadExpPanel extends JPanel implements ExperimentPanel {
 
     /**
      * Method that creates and adds a new annotation
-     * @param a - Annotation to add
+     *
+     * @param a
+     *            - Annotation to add
      * @return Name of created annotation
      */
     private String addNewAnnotation(AnnotationDataType a) {
@@ -322,7 +324,8 @@ public class UploadExpPanel extends JPanel implements ExperimentPanel {
         }
         annotationHeaders.add(a.getName());
         p.add(annotationLabel, BorderLayout.NORTH);
-        if ( a.getValues().length == 1 && a.getValues()[0].equalsIgnoreCase("freetext")) {
+        if (a.getValues().length == 1
+                && a.getValues()[0].equalsIgnoreCase("freetext")) {
             final JTextField textField = createAnnotationTextField();
             annotationFields.put(a.getName(), textField);
             p.add(textField, BorderLayout.CENTER);
@@ -339,7 +342,9 @@ public class UploadExpPanel extends JPanel implements ExperimentPanel {
     /**
      * Method that creates a new combo box for annotations and filles it with
      * values and an empty row as first alternative. Enabled if isNewExp
-     * @param a - Annotation to create combo box for
+     *
+     * @param a
+     *            - Annotation to create combo box for
      * @return A JComboBox
      */
     private JComboBox<String> createAnnotationComboBox(AnnotationDataType a) {
@@ -371,6 +376,7 @@ public class UploadExpPanel extends JPanel implements ExperimentPanel {
 
     /**
      * Creates an annotation text field. Enabled if isNewExp
+     *
      * @return
      */
     private JTextField createAnnotationTextField() {
@@ -378,26 +384,27 @@ public class UploadExpPanel extends JPanel implements ExperimentPanel {
         textField.setColumns(10);
 
         // Add listener for when the text in the textfield changes.
-        textField.getDocument().addDocumentListener(
-                new FreetextListener());
+        textField.getDocument().addDocumentListener(new FreetextListener());
         textField.setEnabled(isNewExp);
         return textField;
     }
 
     /**
      * Updates and adds an already known annotation
-     * @param a - Annotation to add
+     *
+     * @param a
+     *            - Annotation to add
      * @return Name of added annotation
      */
     private String addExcistingAnnotations(AnnotationDataType a) {
-        if (a.getValues().length == 1 && a.getValues()[0].equalsIgnoreCase("freetext")) {
+        if (a.getValues().length == 1
+                && a.getValues()[0].equalsIgnoreCase("freetext")) {
             annotationFields.get(a.getName()).setEnabled(isNewExp);
             return a.getName();
 
         } else if (annotationBoxes.containsKey(a.getName())) {
 
-            JComboBox<String> currentBox = annotationBoxes.get(a
-                    .getName());
+            JComboBox<String> currentBox = annotationBoxes.get(a.getName());
             currentBox.setEnabled(isNewExp);
             // +1 for emty item.
             if (a.getValues().length + 1 == currentBox.getItemCount()) {
@@ -709,26 +716,31 @@ public class UploadExpPanel extends JPanel implements ExperimentPanel {
 
     public void enableUploadButton(boolean b) {
         if (b) {
-            if (!uploadFileRows.isEmpty() && forcedAnnotationCheck()) {
-                uploadSelectedBtn.setEnabled(true);
-                uploadButton.setEnabled(true);
-
+            if (isNewExp) {
+                if (!uploadFileRows.isEmpty() && forcedAnnotationCheck()) {
+                    uploadSelectedBtn.setEnabled(true);
+                    uploadButton.setEnabled(true);
+                }
+            } else {
+                if (!uploadFileRows.isEmpty()) {
+                    uploadButton.setEnabled(true);
+                }
             }
         } else {
             uploadSelectedBtn.setEnabled(false);
             if (isNewExp) {
                 uploadButton.setEnabled(false);
             } else {
-                // TODO Sätt till true när edit annotation är implementerat CF
+                // TODO Sätt till true när edit annotation är implementerat
+                // CF
                 uploadButton.setEnabled(false);
             }
         }
     }
 
-    public void setSelectButtonEnabled(boolean enabled){
+    public void setSelectButtonEnabled(boolean enabled) {
         selectButton.setEnabled(enabled);
     }
-
 
     /**
      * Listener for when the text in a textfield changes.

@@ -19,6 +19,7 @@ import util.ExperimentData;
 import util.GenomeReleaseData;
 import util.RequestException;
 
+import gui.ErrorDialog;
 import gui.GUI;
 import gui.UploadFileRow;
 import gui.UploadTab;
@@ -177,7 +178,6 @@ public class UploadTabController {
 
                             HashMap<String, String> types = uploadTab
                                     .getNewExpPanel().getTypes();
-                            boolean created;
 
                             try {
                                 if (uploadTab.getUploadToNewExpPanel()
@@ -188,8 +188,6 @@ public class UploadTabController {
                                     // implementerats
                                     // model.changeExperiment(expName,
                                     // annotations);
-
-                                    created = true;
                                 }
 
                                 uploadTab.getUploadToNewExpPanel()
@@ -224,8 +222,7 @@ public class UploadTabController {
                                 view.setStatusPanel(status);
                                 view.setStatusPanelColor("success");
                             } catch (RequestException e) {
-                                // TODO Auto-generated catch block
-                                e.printStackTrace();
+                                new ErrorDialog("Couldn't upload experiment", e);
                             } catch (IllegalArgumentException e) {
                                 // TODO Auto-generated catch block
                                 e.printStackTrace();
