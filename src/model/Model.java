@@ -95,10 +95,10 @@ public class Model implements GenomizerModel {
     }
 
     @Override
-    public boolean downloadFile(final String url, String fileID,
-            final String path, String fileName) {
+    public void downloadFile(final String url, String fileID,
+            final String path, String fileName) throws RequestException {
         // TODO: Remove indirection when ready
-        return updateTabModel.downloadFile(url, fileID, path, fileName);
+        updateTabModel.downloadFile(url, fileID, path, fileName);
     }
 
     public CopyOnWriteArrayList<DownloadHandler> getOngoingDownloads() {
@@ -378,18 +378,13 @@ public class Model implements GenomizerModel {
     }
 
     @Override
-    public boolean deleteExperimentFromDatabase(String name) {
+    public void deleteExperimentFromDatabase(String name)
+            throws RequestException {
         RemoveExperimentRequest request = RequestFactory
                 .makeRemoveExperimentRequest(name);
         Connection conn = connFactory.makeConnection();
-        try {
-            conn.sendRequest(request, User.getInstance().getToken(),
-                    Constants.TEXT_PLAIN);
-            return true;
-        } catch (RequestException e) {
-            new ErrorDialog("Couldn't delete experiment", e).showDialog();
-            return false;
-        }
+        conn.sendRequest(request, User.getInstance().getToken(),
+                Constants.TEXT_PLAIN);
     }
 
     public void resetModel() {

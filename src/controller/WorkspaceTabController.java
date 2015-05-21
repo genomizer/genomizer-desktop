@@ -113,9 +113,15 @@ public class WorkspaceTabController {
                                 }
                             }
 
-                            model.downloadFile(data.url, data.id, directoryName
-                                    + "/" + data.expId + "/" + data.type + "/"
-                                    + data.filename, data.filename);
+                            try {
+                                model.downloadFile(data.url, data.id,
+                                        directoryName + "/" + data.expId + "/"
+                                                + data.type + "/"
+                                                + data.filename, data.filename);
+                            } catch (RequestException e) {
+                                new ErrorDialog("Couldn't download file", e)
+                                        .showDialog();
+                            }
                         }
                     };
                 }.start();
@@ -268,7 +274,13 @@ public class WorkspaceTabController {
                             }
                             for (ExperimentData data : selectedExps) {
                                 if (!abortDeletion) {
-                                    model.deleteExperimentFromDatabase(data.name);
+                                    try {
+                                        model.deleteExperimentFromDatabase(data.name);
+                                    } catch (RequestException e1) {
+                                        new ErrorDialog(
+                                                "Couldn't delete experiment", e1)
+                                                .showDialog();
+                                    }
                                 }
                                 i++;
                                 progress++;

@@ -48,8 +48,8 @@ public interface GenomizerModel {
             String metadata, String genomeRelease, String author)
             throws RequestException;
 
-    public boolean downloadFile(String url, String fileID, String path,
-            String fileName);
+    public void downloadFile(String url, String fileID, String path,
+            String fileName) throws RequestException;
 
     public void setIP(String ip);
 
@@ -91,7 +91,7 @@ public interface GenomizerModel {
 
     public void deleteFileFromExperiment(String id) throws RequestException;
 
-    public boolean deleteExperimentFromDatabase(String name);
+    public void deleteExperimentFromDatabase(String name) throws RequestException;
 
     public void addGenomeReleaseFile(String[] filePaths, String specie,
             String version) throws RequestException, IllegalArgumentException,

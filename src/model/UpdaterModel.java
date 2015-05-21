@@ -1,7 +1,5 @@
 package model;
 
-import gui.ErrorDialog;
-
 import java.io.File;
 import java.io.IOException;
 import java.util.concurrent.CopyOnWriteArrayList;
@@ -82,32 +80,26 @@ public class UpdaterModel {
         return ongoingUploads;
     }
 
-    public boolean downloadFile(final String url, String fileID,
-            final String path, String fileName) {
+    public void downloadFile(final String url, String fileID,
+            final String path, String fileName) throws RequestException {
         // TODO: Use this until search works on the server
         DownloadFileRequest request = RequestFactory.makeDownloadFileRequest(
                 fileID, ".wig");
 
         Connection conn = connFactory.makeConnection();
-        try {
-            conn.sendRequest(request, User.getInstance().getToken(),
-                    Constants.TEXT_PLAIN);
+        conn.sendRequest(request, User.getInstance().getToken(),
+                Constants.TEXT_PLAIN);
 
-            final DownloadHandler handler = new DownloadHandler(User
-                    .getInstance().getToken(), fileName);
-            addDownload(handler);
+        final DownloadHandler handler = new DownloadHandler(User.getInstance()
+                .getToken(), fileName);
+        addDownload(handler);
 
-            new Thread(new Runnable() {
-                @Override
-                public void run() {
-                    handler.download(url, path);
-                }
-            }).start();
-        } catch (RequestException e) {
-            new ErrorDialog("Couldn't download file", e).showDialog();
-        }
-
-        return true;
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                handler.download(url, path);
+            }
+        }).start();
     }
 
     /**
