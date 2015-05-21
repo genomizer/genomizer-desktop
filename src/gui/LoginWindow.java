@@ -203,7 +203,7 @@ public class LoginWindow extends JFrame {
         removeErrorMessage();
         message = message.replace(".", "");
         errorLabel = new JLabel("<html><b>" + message + "</b></html>");
-        errorLabel.setBounds(73, 0, 150, 45);
+        errorLabel.setBounds(73, 0, 160, 60);
         errorLabel.setAlignmentX(CENTER_ALIGNMENT);
         bottomPanel.add(errorLabel);
         ErrorLogger.log(message);
