@@ -178,7 +178,6 @@ public class UploadTabController {
 
                             HashMap<String, String> types = uploadTab
                                     .getNewExpPanel().getTypes();
-                            boolean created;
 
                             try {
                                 if (uploadTab.getUploadToNewExpPanel()
@@ -189,8 +188,6 @@ public class UploadTabController {
                                     // implementerats
                                     // model.changeExperiment(expName,
                                     // annotations);
-
-                                    created = true;
                                 }
 
                                 uploadTab.getUploadToNewExpPanel()
@@ -226,7 +223,6 @@ public class UploadTabController {
                                 view.setStatusPanelColor("success");
                             } catch (RequestException e) {
                                 new ErrorDialog("Could not upload file to experiment",e).showDialog();
-
                             } catch (IllegalArgumentException e) {
                                 // TODO Auto-generated catch block
                                 e.printStackTrace();

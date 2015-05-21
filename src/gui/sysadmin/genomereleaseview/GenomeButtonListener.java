@@ -7,6 +7,7 @@ import gui.sysadmin.strings.SysStrings;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import javax.swing.JButton;
 import javax.swing.JOptionPane;
 
 import util.RequestException;
@@ -29,9 +30,10 @@ public class GenomeButtonListener implements ActionListener {
     /***
      * Receives the event, figures out what happened and acts accordingly.
      */
-    public void actionPerformed(ActionEvent actionEvent) {
+    public void actionPerformed(final ActionEvent actionEvent) {
         switch (actionEvent.getActionCommand()) {
             case SysStrings.GENOME_BUTTON_UPLOAD:
+                ((JButton) actionEvent.getSource()).setEnabled(false);
                 new Thread(new Runnable() {
 
                     @Override
@@ -39,9 +41,11 @@ public class GenomeButtonListener implements ActionListener {
                         sysController.addGenomeRelease();
                         sysTab.getGenomeReleaseView().clearTextFields();
                         sysTab.getGenomeReleaseView().updateFileProgressPanel();
+                        ((JButton) actionEvent.getSource()).setEnabled(true);
                     }
                 }).start();
                 sysController.uploadGenomeReleaseProgress();
+
                 break;
             case SysStrings.GENOME_BUTTON_CLEAR:
                 sysTab.getGenomeReleaseView().clearTextFields();
