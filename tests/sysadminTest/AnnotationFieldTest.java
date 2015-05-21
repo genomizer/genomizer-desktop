@@ -12,47 +12,63 @@ import org.junit.Test;
 import util.AnnotationDataType;
 
 public class AnnotationFieldTest {
-    
+
     public Model model;
     public SysadminTab sysadminTab;
-    
+
     @Before
     public void setUp() throws Exception {
-        
+
         model = new Model();
         model.setIP(ExampleExperimentData.getTestServerIP());
         model.loginUser(ExampleExperimentData.getTestUsername(),
                 ExampleExperimentData.getTestPassword());
         sysadminTab = new SysadminTab();
     }
-    
+
     @Test
     public void shouldAddNewFreeTextAnnotation() throws Exception {
         String oldname = "FREETEXTTEST";
         if (getSpecificAnnotationType(oldname) != null) {
             model.deleteAnnotation(oldname);
         }
-        assertThat(
-                model.addNewAnnotation("FREETEXTTEST",
-                        new String[] { "freetext" }, false)).isTrue();
-        assertThat(
-                model.deleteAnnotation("FREETEXTTEST")).isTrue();
+        try {
+            model.addNewAnnotation("FREETEXTTEST", new String[] { "freetext" },
+                    false);
+        } catch(Exception e) {
+            fail("Exception was thrown");
+        }
+        try {
+            model.deleteAnnotation("FREETEXTTEST");
+        } catch(Exception e) {
+            fail("Exception was thrown");
+        }
+
     }
-    
+
     @Test
     public void shouldAddNewAnnotation() throws Exception {
         String oldname = "SpeciesTEST";
         if (getSpecificAnnotationType(oldname) != null) {
             model.deleteAnnotation(oldname);
         }
-        assertThat(
-                model.addNewAnnotation(oldname, new String[] { "manTEST",
-                        "mouseTEST" }, false)).isTrue();
-        assertThat(
-                model.deleteAnnotation("SpeciesTEST")).isTrue();
-        
+        try {
+            model.addNewAnnotation(oldname, new String[] { "manTEST",
+            "mouseTEST" }, false);
+        } catch(Exception e) {
+            fail("Exception was thrown");
+        }
+        try {
+            model.deleteAnnotation("SpeciesTEST");
+        } catch(Exception e) {
+            fail("Exception was thrown");
+        }
+
+
+
+
     }
-    
+
     @Test
     public void shouldNotAddNewAnnotation() {
         try {
@@ -65,7 +81,7 @@ public class AnnotationFieldTest {
                             "Annotations must have a unique name, SpeciesTEST already exists");
         }
     }
-    
+
     @Test
     public void shouldOnlyAddUniqueAnnotations() {
         String name = model.getAnnotations()[2].getName();
@@ -76,9 +92,11 @@ public class AnnotationFieldTest {
             assertThat(e).hasMessage(
                     "Annotations must have a unique name, " + name
                             + " already exists");
+        } catch(Exception e) {
+            fail("Exception was thrown");
         }
     }
-    
+
     @Test
     public void shouldNotAddNewAnnotationDueToEmptyString() {
         try {
@@ -87,9 +105,11 @@ public class AnnotationFieldTest {
             fail("This should throw an illegalargumentexception");
         } catch (IllegalArgumentException e) {
             assertThat(e).hasMessage("Must have a name for the annotation!");
+        } catch(Exception e) {
+            fail("Exception was thrown");
         }
     }
-    
+
     @Test
     public void shouldChangeNameOfAnnotation() throws Exception {
         String oldname = "SpeciesTEST";
@@ -100,22 +120,24 @@ public class AnnotationFieldTest {
         if (getSpecificAnnotationType(newname) != null) {
             model.deleteAnnotation(newname);
         }
-        
+
         model.addNewAnnotation(oldname,
                 new String[] { "manTEST", "mouseTEST" }, false);
         AnnotationDataType toBeRenamed = getSpecificAnnotationType(oldname);
         if (toBeRenamed != null) {
-            
-            if (model.renameAnnotationField(oldname, newname)) {
+
+            try {
+                model.renameAnnotationField(oldname, newname);
                 AnnotationDataType renamed = getSpecificAnnotationType(newname);
                 assertThat(renamed).isNotNull();
-            } else {
+            } catch (Exception e) {
                 fail("Does not rename Annotation");
             }
+
         }
-        
+
     }
-    
+
     @Test
     public void shouldRenameAnnotationField() throws Exception {
         String oldAnnotationName = "FREETEXTTEST";
@@ -127,15 +149,17 @@ public class AnnotationFieldTest {
         if (annotation == null) {
             model.addNewAnnotation(oldAnnotationName, null, false);
         }
-        if (model.renameAnnotationField(oldAnnotationName, newAnnotationName)) {
+        try {
+            model.renameAnnotationField(oldAnnotationName, newAnnotationName);
             annotation = getSpecificAnnotationType(newAnnotationName);
             assertThat(annotation.name).isEqualTo(newAnnotationName);
-        } else {
+        } catch (Exception e) {
             fail("model does not complete operation.");
         }
-        
+
+
     }
-    
+
     protected AnnotationDataType getSpecificAnnotationType(String name) {
         AnnotationDataType[] annotations = model.getAnnotations();
         AnnotationDataType specificAnnotation = null;
@@ -146,5 +170,5 @@ public class AnnotationFieldTest {
         }
         return specificAnnotation;
     }
-    
+
 }
