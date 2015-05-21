@@ -74,7 +74,7 @@ public class EditAnnotationPopupListener implements ActionListener {
                     sysController.removeAnnotationValue(editPopup.getAnnotationName(), j2.getName());
                     panel.setVisible(false);
                 } catch(RequestException e1) {
-                    new ErrorDialog("Couldn't remove annotation value", e1);
+                    new ErrorDialog("Couldn't remove annotation value", e1).showDialog();
                 }
 
                 sysController.updateAnnotationTable();
