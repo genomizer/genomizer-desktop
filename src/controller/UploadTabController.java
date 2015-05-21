@@ -19,6 +19,7 @@ import util.ExperimentData;
 import util.GenomeReleaseData;
 import util.RequestException;
 
+import gui.ErrorDialog;
 import gui.GUI;
 import gui.UploadFileRow;
 import gui.UploadTab;
@@ -224,8 +225,8 @@ public class UploadTabController {
                                 view.setStatusPanel(status);
                                 view.setStatusPanelColor("success");
                             } catch (RequestException e) {
-                                // TODO Auto-generated catch block
-                                e.printStackTrace();
+                                new ErrorDialog("Could not upload file to experiment",e).showDialog();
+
                             } catch (IllegalArgumentException e) {
                                 // TODO Auto-generated catch block
                                 e.printStackTrace();
@@ -289,8 +290,7 @@ public class UploadTabController {
                                 view.setStatusPanel(status);
                                 view.setStatusPanelColor("success");
                             } catch (RequestException e) {
-                                // TODO Auto-generated catch block
-                                e.printStackTrace();
+                                new ErrorDialog("Could not upload file to experiment",e).showDialog();
                             } catch (IllegalArgumentException e) {
                                 // TODO Auto-generated catch block
                                 e.printStackTrace();
