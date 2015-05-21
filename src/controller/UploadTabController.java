@@ -222,7 +222,7 @@ public class UploadTabController {
                                 view.setStatusPanel(status);
                                 view.setStatusPanelColor("success");
                             } catch (RequestException e) {
-                                new ErrorDialog("Couldn't upload experiment", e);
+                                new ErrorDialog("Couldn't upload experiment", e).showDialog();
                             } catch (IllegalArgumentException e) {
                                 // TODO Auto-generated catch block
                                 e.printStackTrace();
