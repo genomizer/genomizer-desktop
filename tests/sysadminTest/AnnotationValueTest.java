@@ -14,6 +14,7 @@ import org.junit.Test;
 import communication.SSLTool;
 
 import util.AnnotationDataType;
+import util.RequestException;
 
 public class AnnotationValueTest {
 
@@ -21,7 +22,7 @@ public class AnnotationValueTest {
     public SysadminTab sysadminTab;
     public String nameOfAnnotation;
     SessionHandler s = SessionHandler.getInstance();
-    
+
 
     @Before
     public void setUp() throws Exception {
@@ -32,7 +33,7 @@ public class AnnotationValueTest {
         s.loginUser(ExampleExperimentData.getTestUsername(), ExampleExperimentData.getTestPassword());
         sysadminTab = new SysadminTab();
         nameOfAnnotation = "AnnotationValueTest";
-        
+
     }
 
     @After
@@ -42,29 +43,40 @@ public class AnnotationValueTest {
 
     @Test
     public void shouldChangeNameOfAnnotationValues() {
-        model.addNewAnnotation(nameOfAnnotation, new String[] {"Unchanged"} , false);
-        AnnotationDataType toBeChanged = getSpecificAnnotationType(nameOfAnnotation);
-        String oldValue = "Unchanged";
-        String newValue = "Changed";
-        model.renameAnnotationValue(toBeChanged.name, oldValue, newValue);
-        AnnotationDataType actual = getSpecificAnnotationType(nameOfAnnotation);
-        assertThat(actual.getValues()[0]).isEqualTo(newValue);
+        try {
+            model.addNewAnnotation(nameOfAnnotation, new String[] {"Unchanged"} , false);
+            AnnotationDataType toBeChanged = getSpecificAnnotationType(nameOfAnnotation);
+            String oldValue = "Unchanged";
+            String newValue = "Changed";
+            model.renameAnnotationValue(toBeChanged.name, oldValue, newValue);
+            AnnotationDataType actual = getSpecificAnnotationType(nameOfAnnotation);
+            assertThat(actual.getValues()[0]).isEqualTo(newValue);
+        } catch (Exception e) {
+
+        }
+
     }
 
     @Test
     public void shouldAddAnnotationValue() {
-        model.addNewAnnotation(nameOfAnnotation, new String[] {"1","2","3"} , false);
+        try {
+            model.addNewAnnotation(nameOfAnnotation, new String[] {"1","2","3"} , false);
+        } catch (Exception e1) {
+            fail("Exception were thrown");
+        }
         String valueName = "4";
         AnnotationDataType toBeEdited = getSpecificAnnotationType(nameOfAnnotation);
         int numberOfAnnotations = toBeEdited.getValues().length;
         if (toBeEdited != null) {
-            if (model.addNewAnnotationValue(nameOfAnnotation, valueName)) {
+            try {
+                model.addNewAnnotationValue(nameOfAnnotation, valueName);
                 toBeEdited = getSpecificAnnotationType(nameOfAnnotation);
                 assertThat(toBeEdited.getValues().length).isEqualTo(
                         numberOfAnnotations + 1);
-            } else {
+            } catch (Exception e) {
                 fail("Did not add new Annotationvalue!");
             }
+
         }
     }
 
@@ -72,17 +84,23 @@ public class AnnotationValueTest {
     public void shouldRemoveAnnotationValue() {
         // TODO: use AnnotationDataType.indexOf(String valueToBeremoved) and
         // remove a valueToBeRemoved!!!
-        model.addNewAnnotation(nameOfAnnotation, new String[] {"1","2","3"} , false);
+        try {
+            model.addNewAnnotation(nameOfAnnotation, new String[] {"1","2","3"} , false);
+        } catch (Exception e1) {
+            fail("Exception were thrown");
+        }
         AnnotationDataType toBeEdited = getSpecificAnnotationType(nameOfAnnotation);
         int numberOfAnnotationValues = toBeEdited.getValues().length;
         if (toBeEdited != null) {
-            if (model.removeAnnotationValue(toBeEdited.name, "2")) {
+            try {
+                model.removeAnnotationValue(toBeEdited.name, "2");
                 toBeEdited = getSpecificAnnotationType(nameOfAnnotation);
                 assertThat(toBeEdited.getValues().length).isEqualTo(
                         numberOfAnnotationValues - 1);
-            } else {
-                fail("could not do model.removeAnnotationField()");
+            } catch (Exception e) {
+                fail("Exception were thrown");
             }
+
         }
         assertThat(toBeEdited.getValues()[0].equals("1")).isTrue();
         assertThat(toBeEdited.getValues()[1].equals("3")).isTrue();
