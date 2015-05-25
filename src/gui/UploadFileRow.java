@@ -97,7 +97,7 @@ public class UploadFileRow extends JPanel {
         typeBox.setPreferredSize(new Dimension(120, 31));
         genome = new JComboBox<String>();
         genome.setPreferredSize(new Dimension(120, 31));
-        genome.addItem("No GR");
+        genome.addItem("NA");
         genome.setEnabled(false);
 
         // Add actionlistener which sets the GR-box correctly.

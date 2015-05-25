@@ -76,6 +76,7 @@ public class Connection {
     public void sendRequest(Request request, String token, String type)
             throws RequestException {
         try {
+            //System.out.println(request.requestType + " " + request.url);
             connect(request, token, type);
 
             if (type.equals("application/json")) {
