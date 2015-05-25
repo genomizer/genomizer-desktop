@@ -126,6 +126,8 @@ public class Model implements GenomizerModel {
                 searchResponses[i].updateFileSize();
             }
         }
+
+        if (searchResponses == null ) { return new ArrayList<>();  }
         return new ArrayList<>(Arrays.asList(searchResponses));
     }
 
@@ -205,7 +207,7 @@ public class Model implements GenomizerModel {
     }
 
     public synchronized AnnotationDataType[] getAnnotations() {
-        AnnotationDataType[] annotations;
+        AnnotationDataType[] annotations = null;
         try {
             GetAnnotationRequest request = RequestFactory
                     .makeGetAnnotationRequest();
@@ -216,8 +218,8 @@ public class Model implements GenomizerModel {
                     .getResponseBody());
         } catch (RequestException e) {
             new ErrorDialog("Couldn't get annotations", e).showDialog();
-            annotations = new AnnotationDataType[] {};
         }
+        if (annotations == null){ annotations = new AnnotationDataType[]{}; }
         return annotations;
     }
 
