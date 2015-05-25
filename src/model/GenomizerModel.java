@@ -111,4 +111,5 @@ public interface GenomizerModel {
 
     public void clearTickingTasks();
 
+    public void convertFile(String fileid, String toformat) throws RequestException;
 }

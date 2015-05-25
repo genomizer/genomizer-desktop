@@ -5,11 +5,17 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
+import java.util.Enumeration;
 import java.util.Iterator;
+
+import javax.swing.AbstractButton;
 import javax.swing.JFileChooser;
 import javax.swing.JList;
+import javax.swing.JRadioButton;
+
 import util.ExperimentData;
 import util.FileData;
+import util.RequestException;
 import gui.CheckListItem;
 import gui.ConvertTab;
 import gui.GUI;
@@ -22,6 +28,7 @@ public class ConvertTabController {
 
     /**
      * Constructor..
+     *
      * @param view
      * @param model
      * @param fileChooser
@@ -36,12 +43,10 @@ public class ConvertTabController {
         ct.deleteSelectedButtonListener(DeleteSelectedFileListener());
         fileListAddMouseListener(view.getConvertTab().getFileList());
 
-
     }
 
-
     /**
-     * 
+     *
      * @return
      */
     public ActionListener ConvertSelectedFileListener() {
@@ -52,17 +57,29 @@ public class ConvertTabController {
                     @Override
                     public void run() {
                         // TODO Skicka in filedata arrayen
+                        String toformat = null;
+                        ArrayList<CheckListItem> selectedFiles = view
+                                .getConvertTab().getFilesToConvert();
 
-                        ArrayList<FileData> selectedFiles = view.getConvertTab().getAllMarkedFiles();
+                        Iterator<CheckListItem> it = selectedFiles.iterator();
+                        while (it.hasNext()) {
 
-
-                        Iterator<FileData> it = selectedFiles.iterator();
-                        while(it.hasNext()){
-                            FileData data = it.next();
-                            System.out.println(data);
+                            for (Enumeration<AbstractButton> buttons = view.getConvertTab().radioGroupTo.getElements(); buttons.hasMoreElements();) {
+                                AbstractButton button = buttons.nextElement();
+                                if(button.isSelected()) {
+                                    toformat = button.getText();
+                                }
+                            }
+                            CheckListItem data = it.next();
+                            try {
+                                model.convertFile(it.next().fileId(), toformat);
+                            } catch (RequestException e) {
+                                // TODO Auto-generated catch block
+                                e.printStackTrace();
+                            }
                         }
 
-                       // view.setConvertFileList(selectedFiles);
+                        // view.setConvertFileList(selectedFiles);
                     };
                 }.start();
             }
@@ -76,9 +93,11 @@ public class ConvertTabController {
                 new Thread() {
                     @Override
                     public void run() {
-                        ArrayList<FileData> markedFiles = view.getConvertTab().getAllMarkedFiles();
+                        ArrayList<FileData> markedFiles = view.getConvertTab()
+                                .getAllMarkedFiles();
 
-                        ArrayList<ExperimentData> exData = view.getConvertTab().getFileInfo();
+                        ArrayList<ExperimentData> exData = view.getConvertTab()
+                                .getFileInfo();
 
                         if (exData != null && markedFiles != null) {
 
@@ -95,75 +114,71 @@ public class ConvertTabController {
         };
     }
 
+    private void fileListAddMouseListener(JList fileList) {
+        fileList.addMouseListener(new MouseAdapter() {
 
+            String species = "";
+            int count = 0;
+            String fileType1 = "";
+            String fileType2 = "";
+            ArrayList<String> fileTypeList = null;
 
-  private void fileListAddMouseListener(JList fileList) {
-      fileList.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent event) {
+                JList list = (JList) event.getSource();
 
-          String species = "";
-          int count = 0;
-          String fileType1 = "";
-          String fileType2 = "";
-          ArrayList<String> fileTypeList = null;
+                if (deletedProcessFiles) {
+                    species = "";
+                    count = 0;
+                    view.getConvertTab().resetCurrentSelectedFileType();
+                }
 
-          @Override
-          public void mouseClicked(MouseEvent event) {
-              JList list = (JList) event.getSource();
+                if (list.getModel().getSize() > 0) {
 
-              if (deletedProcessFiles) {
-                  species = "";
-                  count = 0;
-                  view.getConvertTab().resetCurrentSelectedFileType();
-              }
+                    int index = list.locationToIndex(event.getPoint());
 
-              if (list.getModel().getSize() > 0) {
+                    CheckListItem item = (CheckListItem) list.getModel()
+                            .getElementAt(index);
 
+                    // System.out.println("listans storlek = " +
+                    // list.getModel().getSize());
 
+                    String fileName = item.getfile().getName().toUpperCase();
+                    fileType1 = fileName.substring(fileName.lastIndexOf(".") + 1);
 
+                    if (count == 0) {
+                        fileType2 = "";
+                        view.getConvertTab().resetCurrentSelectedFileType();
+                    }
+                    if (fileType2.equals("") && count == 0) {
+                        fileName = item.getfile().getName().toUpperCase();
+                        fileType2 = fileName.substring(fileName
+                                .lastIndexOf(".") + 1);
+                    }
 
+                    // OBS vill använda och sätta alla checkboxes som inte
+                    // går att konvertera ifrån till not enabled!
+                    fileTypeList = view.getConvertTab()
+                            .getPossibleConvertFromFileTypes();
 
-                  int index = list.locationToIndex(event.getPoint());
+                    if (fileType1.equals(fileType2)) {
 
-                  CheckListItem item = (CheckListItem) list.getModel()
-                          .getElementAt(index);
+                        view.getConvertTab().setCurrentSelectedFileType(
+                                fileType1);
 
-          //        System.out.println("listans storlek = " + list.getModel().getSize());
+                        item.setSelected(!item.isSelected());
 
-                  String fileName = item.getfile().getName().toUpperCase();
-                  fileType1 = fileName.substring(fileName.lastIndexOf(".") + 1);
-
-
-                  if (count == 0) {
-                      fileType2 = "";
-                      view.getConvertTab().resetCurrentSelectedFileType();
-                  }
-                  if (fileType2.equals("") && count == 0) {
-                      fileName = item.getfile().getName().toUpperCase();
-                      fileType2 = fileName.substring(fileName.lastIndexOf(".") + 1);
-                  }
-
-                  // OBS vill använda och sätta alla checkboxes som inte går att konvertera ifrån till not enabled!
-                  fileTypeList = view.getConvertTab().getPossibleConvertFromFileTypes();
-
-                  if (fileType1.equals(fileType2)) {
-
-                      view.getConvertTab().setCurrentSelectedFileType(fileType1);
-
-                      item.setSelected(!item.isSelected());
-
-
-                      if (item.isSelected()) {
-                          count++;
-                      } else {
-                          count--;
-                      }
-                  }
-                  deletedProcessFiles = false;
-                  list.repaint(list.getCellBounds(index, index));
-              }
-          }
-      });
-  }
-
+                        if (item.isSelected()) {
+                            count++;
+                        } else {
+                            count--;
+                        }
+                    }
+                    deletedProcessFiles = false;
+                    list.repaint(list.getCellBounds(index, index));
+                }
+            }
+        });
+    }
 
 }

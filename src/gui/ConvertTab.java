@@ -424,9 +424,37 @@ public class ConvertTab extends JPanel {
         return arr;
     }
 
+    /**
+     * Gets all marked files in the fileList.
+     *
+     * @return ArrayList<CheckListItem> - List of all the files.
+     */
+    public ArrayList<CheckListItem> getFilesToConvert() {
+        ArrayList<CheckListItem> arr = new ArrayList<CheckListItem>();
+
+        for (int i = 0; i < fileList.getModel().getSize(); i++) {
+            CheckListItem checkItem = fileList.getModel().getElementAt(i);
+            checkItemIsSelected2(arr, checkItem);
+        }
+
+        return arr;
+    }
+    /**
+     * Checks if an item in a list is selected and add the file to the selected
+     * files list;
+     *
+     * @param arr - the list
+     * @param checkItem - the item in the list
+     */
+    private void checkItemIsSelected2(ArrayList<CheckListItem> arr, CheckListItem checkItem) {
+        if (checkItem.isSelected()) {
+            arr.add(checkItem);
+        }
+    }
 
     /**
-     * Checks if an item in a list is selected.
+     * Checks if an item in a list is selected and add the file to the selected
+     * files list;
      *
      * @param arr - the list
      * @param checkItem - the item in the list
