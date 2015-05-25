@@ -110,6 +110,7 @@ public class ConvertTab extends JPanel {
         radioGroupTo.add(cToWIG);
         radioGroupTo.add(cToSGR);
         radioGroupTo.add(cToGFF);
+        radioGroupTo.setSelected(cToWIG.getModel(), true);
         setRadioButtonListener(cFromFASTQ);
         setRadioButtonListener(cFromWIG);
         setRadioButtonListener(cFromCHP);

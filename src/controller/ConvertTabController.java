@@ -62,16 +62,18 @@ public class ConvertTabController {
                                 .getConvertTab().getFilesToConvert();
 
                         Iterator<CheckListItem> it = selectedFiles.iterator();
+                        for (Enumeration<AbstractButton> buttons = view.getConvertTab().radioGroupTo.getElements(); buttons.hasMoreElements();) {
+                            AbstractButton button = buttons.nextElement();
+                            if(button.isSelected()) {
+                                toformat = button.getText();
+                            }
+                        }
                         while (it.hasNext()) {
 
-                            for (Enumeration<AbstractButton> buttons = view.getConvertTab().radioGroupTo.getElements(); buttons.hasMoreElements();) {
-                                AbstractButton button = buttons.nextElement();
-                                if(button.isSelected()) {
-                                    toformat = button.getText();
-                                }
-                            }
+
                             CheckListItem data = it.next();
                             try {
+                                System.out.println(it.next().fileId() + " " + toformat);
                                 model.convertFile(it.next().fileId(), toformat);
                             } catch (RequestException e) {
                                 // TODO Auto-generated catch block
