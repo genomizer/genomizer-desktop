@@ -1,20 +1,20 @@
 package genomizerdesktop;
 
-import gui.ConvertTab;
 import gui.ErrorDialog;
 import gui.GUI;
-import gui.ProcessTab;
 import gui.QuerySearchTab;
 import gui.UploadTab;
 import gui.WorkspaceTab;
+import gui.processing.ProcessTab;
 import gui.sysadmin.SysadminTab;
 
 import javax.swing.SwingUtilities;
 
-import communication.SSLTool;
-
 import model.ErrorLogger;
 import model.Model;
+
+import communication.SSLTool;
+
 import controller.Controller;
 
 /**
