@@ -356,12 +356,6 @@ public class ConvertTab extends JPanel {
             setConvertButtonDisabled();
         }
         
-        
-    
-        
-        
-
-
     }
 
     public void setAllButtonsNotSelected(){
