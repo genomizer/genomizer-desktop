@@ -39,7 +39,7 @@ public class Genomizer {
             // (OO)
             SysadminTab sat = new SysadminTab();
             QuerySearchTab qst = new QuerySearchTab();
-            //ConvertTab ct = new ConvertTab();
+            ConvertTab ct = new ConvertTab();
 
             // Set tabs in GUI
             gui.setQuerySearchTab(qst);
@@ -48,7 +48,7 @@ public class Genomizer {
             gui.setWorkspaceTab(wt);
             // gui.setAnalyzeTab(at); // TODO: Analyze tab not used (OO)
             gui.setSysAdminTab(sat);
-            //gui.setConvertTab(ct);
+            gui.setConvertTab(ct);
 
             // Create model and controller
             Model model = new Model();
