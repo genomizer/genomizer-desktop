@@ -180,8 +180,11 @@ public class ConvertTabController {
                     }
                     if(count == 0){
                         view.getConvertTab().setAllButtonsNotSelected();
+                        view.getConvertTab().setConvertButtonDisabled();
                     } else {
                         view.getConvertTab().setAllFromButtonsEnabled();
+                        view.getConvertTab().setConvertButtonEnabled();
+                        
                     }
 
                     deletedProcessFiles = false;

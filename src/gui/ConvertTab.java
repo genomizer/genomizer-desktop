@@ -365,8 +365,14 @@ public class ConvertTab extends JPanel {
         cFromSGR.setEnabled(true);
         cFromWIG.setEnabled(true);
     }
+    
+    public void setConvertButtonDisabled(){
+        convertSelectedFiles.setEnabled(false);
+    }
 
-
+    public void setConvertButtonEnabled(){
+        convertSelectedFiles.setEnabled(true);
+    }
 
     /**
      * Returns the current possible types to convert from. Should
