@@ -421,17 +421,9 @@ public class Model implements GenomizerModel {
             throws RequestException {
         FileConversionRequest request = RequestFactory
                 .makeFileConversionRequest(fileid, toformat);
-        
         Connection conn = connFactory.makeConnection();
-
-        System.out.println(request.toJson());
-
         conn.sendRequest(request, User.getInstance().getToken(),
                 Constants.JSON);
-    
-        
-        System.out.println(conn.getResponseBody());
-
     }
 
 }
