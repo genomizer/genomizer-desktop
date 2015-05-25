@@ -422,10 +422,11 @@ public class Model implements GenomizerModel {
         FileConversionRequest request = RequestFactory
                 .makeFileConversionRequest(fileid, toformat);
         Connection conn = connFactory.makeConnection();
-        conn.sendRequest(request, User.getInstance().getToken(),
-                Constants.TEXT_PLAIN);
         System.out.println(request.toJson());
-        System.out.println(conn.getResponseBody());
+        conn.sendRequest(request, User.getInstance().getToken(),
+                Constants.JSON);
+
+        System.out.println(conn.getResponseCode() +" " +conn.getResponseBody());
 
     }
 
