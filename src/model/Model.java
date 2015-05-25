@@ -417,21 +417,15 @@ public class Model implements GenomizerModel {
         updateTabModel.clearTickingThread();
     }
 
-    public void convertFile(String fileid, String toformat)
+    public int convertFile(String fileid, String toformat)
             throws RequestException {
         FileConversionRequest request = RequestFactory
                 .makeFileConversionRequest(fileid, toformat);
-        
         Connection conn = connFactory.makeConnection();
-
-        System.out.println(request.toJson());
-
         conn.sendRequest(request, User.getInstance().getToken(),
                 Constants.JSON);
-    
-        
-        System.out.println(conn.getResponseBody());
 
+        return conn.getResponseCode();
     }
 
 }
