@@ -106,6 +106,11 @@ public class ConvertTabController {
                             for (ExperimentData data : exData) {
                                 data.files.removeAll(markedFiles);
                             }
+                            view.getConvertTab().setConvertButtonDisabled();
+                            view.getConvertTab().setDeleteButtonDisabled();
+                            view.getConvertTab().setAllButtonsNotSelected();
+                            
+                            
                             view.getConvertTab().setFileInfo(exData);
                             deletedProcessFiles = true;
                         }
