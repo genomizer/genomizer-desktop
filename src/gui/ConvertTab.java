@@ -64,13 +64,12 @@ public class ConvertTab extends JPanel {
     private final JScrollPane scrollFiles = new JScrollPane();
     private ConvertTabController convertTabController;
 
-    public final JRadioButton cFromFASTQ = new JRadioButton("FASTQ");
+    public final JRadioButton cFromGFF = new JRadioButton("GFF");
     public final JRadioButton cFromWIG = new JRadioButton("WIG");
     public final JRadioButton cFromSGR = new JRadioButton("SGR");
-    public final JRadioButton cFromCHP = new JRadioButton("CHP");
+    public final JRadioButton cFromBED = new JRadioButton("BED");
     public final JRadioButton cToWIG = new JRadioButton("WIG");
     public final JRadioButton cToSGR = new JRadioButton("SGR");
-    public final JRadioButton cToGFF = new JRadioButton("GFF");
     public final ButtonGroup radioGroupFrom = new ButtonGroup();
     public final ButtonGroup radioGroupTo = new ButtonGroup();
     private String currentFileType = "";
@@ -102,24 +101,22 @@ public class ConvertTab extends JPanel {
      */
     private void setButtonListeners() {
 
-        radioGroupFrom.add(cFromFASTQ);
+        radioGroupFrom.add(cFromBED);
+        radioGroupFrom.add(cFromGFF);
         radioGroupFrom.add(cFromSGR);
-        radioGroupFrom.add(cFromCHP);
         radioGroupFrom.add(cFromWIG);
-        radioGroupFrom.setSelected(cFromFASTQ.getModel(), true);
-        radioGroupTo.add(cToWIG);
+        //radioGroupFrom.setSelected(cFromBED.getModel(), true);
         radioGroupTo.add(cToSGR);
-        radioGroupTo.add(cToGFF);
-        radioGroupTo.setSelected(cToWIG.getModel(), true);
-        setRadioButtonListener(cFromFASTQ);
-        setRadioButtonListener(cFromWIG);
-        setRadioButtonListener(cFromCHP);
+        radioGroupTo.add(cToWIG);
+        //radioGroupTo.setSelected(cToSGR.getModel(), true);
+        setRadioButtonListener(cFromBED);
+        setRadioButtonListener(cFromGFF);
         setRadioButtonListener(cFromSGR);
+        setRadioButtonListener(cFromWIG);
         setRadioButtonListener(cToWIG);
         setRadioButtonListener(cToSGR);
-        setRadioButtonListener(cToGFF);
 
-        disableCToRadiobuttons();
+        //();
 
     }
 
@@ -195,9 +192,9 @@ public class ConvertTab extends JPanel {
         convertFromPanel.setPreferredSize(panelSize);
         convertFromPanel.setBorder(BorderFactory.createTitledBorder("Convert from"));
 
-        convertFromPanel.add(cFromFASTQ);
+        convertFromPanel.add(cFromBED);
+        convertFromPanel.add(cFromGFF);
         convertFromPanel.add(cFromSGR);
-        convertFromPanel.add(cFromCHP);
         convertFromPanel.add(cFromWIG);
 
     }
@@ -212,9 +209,9 @@ public class ConvertTab extends JPanel {
         convertToPanel.setPreferredSize(panelSize);
         convertToPanel.setBorder(BorderFactory.createTitledBorder("Convert to"));
 
-        convertToPanel.add(cToWIG);
         convertToPanel.add(cToSGR);
-        convertToPanel.add(cToGFF);
+        convertToPanel.add(cToWIG);
+
     }
 
 
@@ -314,52 +311,59 @@ public class ConvertTab extends JPanel {
      */
     public void check() {
         /* Check if there are valid genome releases */
-        disableCToRadiobuttons();
+     //   disableCToRadiobuttons();
 
-        if(currentFileType.equals("FASTQ")){
-            cFromFASTQ.setSelected(true);
-        } else if(currentFileType.equals("WIG")){
-            cFromWIG.setSelected(true);
+
+        if(currentFileType.equals("BED")){
+            cFromBED.setSelected(true);
+        } else if(currentFileType.equals("GFF")){
+            cFromGFF.setSelected(true);
         } else if(currentFileType.equals("SGR")){
             cFromSGR.setSelected(true);
-        } else if(currentFileType.equals("CHP")){
-            cFromCHP.setSelected(true);
+        } else if(currentFileType.equals("WIG")){
+            cFromWIG.setSelected(true);
         }
 
-            if (cFromFASTQ.isSelected() && cFromFASTQ.isEnabled()) {
-                cToWIG.setEnabled(true);
-                cToSGR.setEnabled(true);
+        if(cFromBED.isSelected()){
+            cToWIG.setEnabled(true);
+            cToSGR.setEnabled(true);
+        } else if (cFromGFF.isSelected()){
+            cToWIG.setEnabled(true);
+            cToSGR.setEnabled(true);
+        } else if(cFromSGR.isSelected()){
+            cToWIG.setSelected(true);
+            cToWIG.setEnabled(true);
+            cToSGR.setEnabled(false);
+        } else if (cFromWIG.isSelected()){
+            cToSGR.setSelected(true);
+            cToSGR.setEnabled(true);
+            cToWIG.setEnabled(false);
+        }
+        
+        
+    
+        
+        
 
-                if(cToGFF.isSelected()){
-                    cToWIG.setSelected(true);
-                }
-            }
 
-            if (cFromWIG.isSelected() && cFromWIG.isEnabled()) {
-                cToGFF.setEnabled(true);
+    }
 
-                if(cToSGR.isSelected() || cToWIG.isSelected()){
-                    cToGFF.setSelected(true);
-                }
-            }
-
-            if (cFromSGR.isSelected() && cFromSGR.isEnabled()) {
-                cToGFF.setEnabled(true);
-                cToWIG.setEnabled(true);
-
-                if(cToSGR.isSelected()){
-                    cToWIG.setSelected(true);
-                }
-            }
-
-            if (cFromCHP.isSelected() && cFromCHP.isEnabled()) {
-                cToGFF.setEnabled(true);
-                cToWIG.setEnabled(true);
-
-                if(cToSGR.isSelected()){
-                    cToWIG.setSelected(true);
-                }
-            }
+    public void setAllButtonsNotSelected(){
+        radioGroupFrom.clearSelection();
+        radioGroupTo.clearSelection();
+        cToWIG.setEnabled(false);
+        cToSGR.setEnabled(false);
+        cFromBED.setEnabled(false);
+        cFromGFF.setEnabled(false);
+        cFromSGR.setEnabled(false);
+        cFromWIG.setEnabled(false);
+    }
+    
+    public void setAllFromButtonsEnabled(){
+        cFromBED.setEnabled(true);
+        cFromGFF.setEnabled(true);
+        cFromSGR.setEnabled(true);
+        cFromWIG.setEnabled(true);
     }
 
 
@@ -371,10 +375,10 @@ public class ConvertTab extends JPanel {
      */
     public ArrayList<String> getPossibleConvertFromFileTypes(){
         ArrayList<String> fileTypeList = new ArrayList<String>();
-        fileTypeList.add("FASTQ");
-        fileTypeList.add("WIG");
+        fileTypeList.add("BED");
+        fileTypeList.add("GFF");
         fileTypeList.add("SGR");
-        fileTypeList.add("CHP");
+        fileTypeList.add("WIG");
 
         return fileTypeList;
 
@@ -403,7 +407,6 @@ public class ConvertTab extends JPanel {
      */
     private void disableCToRadiobuttons() {
         cToSGR.setEnabled(false);
-        cToGFF.setEnabled(false);
         cToWIG.setEnabled(false);
 
     }

@@ -151,6 +151,7 @@ public class ConvertTabController {
                     if (count == 0) {
                         fileType2 = "";
                         view.getConvertTab().resetCurrentSelectedFileType();
+
                     }
                     if (fileType2.equals("") && count == 0) {
                         fileName = item.getfile().getName().toUpperCase();
@@ -175,7 +176,14 @@ public class ConvertTabController {
                         } else {
                             count--;
                         }
+
                     }
+                    if(count == 0){
+                        view.getConvertTab().setAllButtonsNotSelected();
+                    } else {
+                        view.getConvertTab().setAllFromButtonsEnabled();
+                    }
+
                     deletedProcessFiles = false;
                     list.repaint(list.getCellBounds(index, index));
                 }
