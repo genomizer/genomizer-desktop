@@ -2,6 +2,7 @@ package gui.processing;
 
 import gui.CustomButtonFactory;
 
+import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
@@ -14,17 +15,21 @@ import javax.swing.JButton;
 import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import javax.swing.UIManager;
+import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.border.TitledBorder;
+
+import model.ErrorLogger;
 
 import util.IconFactory;
 
 @SuppressWarnings("serial")
-public class RawToProfileCommandComponent extends JComponent {    
+public class RawToProfileCommandComponent extends JComponent {
 
     private String commandName;
     private String[] fileNames;
     private String[] genomeReleases;
-    
+
     private JButton newFileRowButton;
 
     private HashMap<JButton, JPanel> removeButtonToPanelMap = new HashMap<JButton, JPanel>();
@@ -43,6 +48,15 @@ public class RawToProfileCommandComponent extends JComponent {
 
 
     public static void main(String[] args) {
+
+        try {
+            UIManager
+                    .setLookAndFeel("javax.swing.plaf.nimbus.NimbusLookAndFeel");
+        } catch (ClassNotFoundException | InstantiationException
+                | IllegalAccessException | UnsupportedLookAndFeelException e) {
+        }
+
+
         JFrame frame = new JFrame();
         String commandName = "Glass e gott";
         String[] fileNames = {"bild.png", "stinkern.txt", "hus.jpg"};
@@ -60,18 +74,28 @@ public class RawToProfileCommandComponent extends JComponent {
 
         RawToProfileFileRow fileRow = new RawToProfileFileRow(fileNames, genomeReleases);
 
+        
+        JPanel removeButtonPanel = new JPanel(new GridLayout(2,1));   
+        
         JButton removeButton = buildRemoveButton();
         removeButton.addActionListener(new RemoveButtonListener());
         removeButtonToPanelMap.put(removeButton, fileRowPanel);
+        
+        JPanel paddingPanel = new JPanel();
+        paddingPanel.setPreferredSize(new Dimension(17, 17));
+        removeButtonPanel.add(paddingPanel);
+        removeButtonPanel.add(removeButton);
 
         fileRowPanel.add(fileRow);
-        fileRowPanel.add(removeButton);
+        fileRowPanel.add(removeButtonPanel);
 
-        this.add(fileRowPanel);        
+        this.add(fileRowPanel);
         addNewFileRowButton();
         this.repaint();
+        this.revalidate();
 
     }
+    
 
     private JButton buildRemoveButton() {
         ImageIcon icon = IconFactory.getMinusIcon(15, 15);
@@ -96,6 +120,7 @@ public class RawToProfileCommandComponent extends JComponent {
         this.remove(fileRowToRemove);
         removeButtonToPanelMap.remove(source);
         this.repaint();
+        this.revalidate();
 
     }
 
