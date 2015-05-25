@@ -2,7 +2,6 @@
 // TODO WHY IS CONTROLLER EVEN A CLASS TO USE
 package controller;
 
-import gui.ErrorDialog;
 import gui.GUI;
 
 import java.awt.event.ActionEvent;
@@ -20,7 +19,6 @@ import model.SessionHandler;
 import model.User;
 import util.AnnotationDataType;
 import util.LoginException;
-import util.RequestException;
 
 /**
  * Controller class responsible for setting the correct actions to the listening
@@ -98,11 +96,12 @@ public class Controller {
     }
 
     /**
+     * TODO redo
      * Update the ratioCalcWindow listeners
      */
     private void ratioCalcUpdate() {
-        view.getRatioCalcPopup().addOkListener(OkListener());
-        view.getProcessTab().addRatioCalcListener(RatioCalcListener());
+//        view.getRatioCalcPopup().addOkListener(OkListener());
+//        view.getProcessTab().addRatioCalcListener(RatioCalcListener());
     }
 
     /**
