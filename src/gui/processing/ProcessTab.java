@@ -5,6 +5,7 @@ import java.awt.Dimension;
 
 import javax.swing.JPanel;
 
+import util.ExperimentData;
 import controller.ProcessTabController;
 
 public class ProcessTab  extends JPanel {
@@ -18,5 +19,10 @@ public class ProcessTab  extends JPanel {
 
     public void setController(ProcessTabController processTabController) {
         this.processTabController = processTabController;
+    }
+
+    public void setSelectedExperiment(ExperimentData experimentData) {
+        // TODO Auto-generated method stub
+
     }
 }

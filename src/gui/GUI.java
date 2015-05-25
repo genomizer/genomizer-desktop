@@ -27,6 +27,7 @@ import javax.swing.border.BevelBorder;
 import javax.swing.event.ChangeListener;
 
 import model.ErrorLogger;
+import util.ExperimentData;
 import util.FileData;
 import controller.SysadminController;
 
@@ -435,11 +436,12 @@ public class GUI extends JFrame {
      *
      * @param allFileData
      */
-    public void setProcessFileList(ArrayList<FileData> allFileData) {
+    public void setProcessFileList(ExperimentData experimentData) {
 
-        ArrayList<FileData> fileArray = allFileData;
+//        ArrayList<FileData> fileArray = allFileData;
 
         tabbedPane.setSelectedIndex(2);
+        processTab.setSelectedExperiment(experimentData);
 //        processTab.setFileInfo(workspaceTab.getSelectedData());
 
     }

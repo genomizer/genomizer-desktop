@@ -7,28 +7,20 @@ import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
-import java.util.concurrent.CopyOnWriteArrayList;
 
 import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
-import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.JProgressBar;
 import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
 import javax.swing.SwingUtilities;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
-import model.ErrorLogger;
-
 import util.ExperimentData;
 import util.TreeTable;
-
-import communication.DownloadHandler;
-import controller.WorkspaceTabController;
 
 /**
  * A class representing a workspace tab in a view part of an application used by
@@ -49,6 +41,7 @@ public class WorkspaceTab extends JPanel {
     private JPanel buttonPanel;
     private JButton deleteButton, removeButton, downloadButton;
     private JButton uploadToButton, processButton, ongoingDownloadsButton, convertButton;
+
     private JTabbedPane tabbedPane;
     private JPanel ongoingDownloadsPanel;
     private JPanel bottomPanel;
@@ -266,6 +259,8 @@ public class WorkspaceTab extends JPanel {
         return table.getSelectedData();
     }
 
+
+
     /**
      * Method returning the selected experiment(s).
      *
@@ -299,5 +294,11 @@ public class WorkspaceTab extends JPanel {
 
     public JPanel getOngoingDownloadsPanel() {
         return ongoingDownloadsPanel;
+    }
+    public TreeTable getTable() {
+        return table;
+    }
+    public JButton getProcessButton() {
+        return processButton;
     }
 }
