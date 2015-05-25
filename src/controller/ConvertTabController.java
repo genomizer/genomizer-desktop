@@ -73,8 +73,8 @@ public class ConvertTabController {
 
                             CheckListItem data = it.next();
                             try {
-                                System.out.println(it.next().fileId() + " " + toformat);
-                                model.convertFile(it.next().fileId(), toformat);
+                                System.out.println(data.fileId() + " " + toformat);
+                                model.convertFile(data.fileId(), toformat);
                             } catch (RequestException e) {
                                 // TODO Auto-generated catch block
                                 e.printStackTrace();
