@@ -8,7 +8,7 @@ public class JTextFieldLimit extends PlainDocument {
     private static final long serialVersionUID = 1L;
     private int limit;
 
-    JTextFieldLimit(int limit) {
+    public JTextFieldLimit(int limit) {
         super();
         this.limit = limit;
     }
