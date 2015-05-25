@@ -29,6 +29,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JViewport;
 import javax.swing.SwingUtilities;
+import javax.swing.event.TreeSelectionListener;
 import javax.swing.table.TableColumnModel;
 import javax.swing.tree.TreePath;
 
@@ -60,6 +61,10 @@ public class TreeTable extends JPanel {
     public TreeTable() {
         this.setLayout(new BorderLayout());
         initiateJXTreeTable();
+    }
+
+    public void addTreeSelectionListener(TreeSelectionListener tsl) {
+        table.addTreeSelectionListener(tsl);
     }
 
     /**
@@ -564,7 +569,7 @@ public class TreeTable extends JPanel {
             ErrorLogger.log(e);
             // TODO: Where does the Null come from ? (OO)
             // TODO Hantera exception CF
-//            System.out.println("Couldn't update visible headings");
+            // System.out.println("Couldn't update visible headings");
         }
     }
 
@@ -607,5 +612,8 @@ public class TreeTable extends JPanel {
             // TODO: Where does the Null come from ? (OO)
             // TODO Hantera exception CF
         }
+    }
+    public int getNumberOfSelected(){
+        return table.getSelectedRows().length;
     }
 }

@@ -1,5 +1,12 @@
 package controller;
 
+import gui.ConvertTab;
+import gui.DeleteDataWindow;
+import gui.ErrorDialog;
+import gui.GUI;
+import gui.UploadTab;
+import gui.WorkspaceTab;
+
 import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -16,20 +23,17 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JProgressBar;
+import javax.swing.event.TreeSelectionEvent;
+import javax.swing.event.TreeSelectionListener;
 
-import communication.DownloadHandler;
-
+import model.ErrorLogger;
+import model.GenomizerModel;
 import util.ExperimentData;
 import util.FileData;
 import util.RequestException;
-import gui.ConvertTab;
-import gui.DeleteDataWindow;
-import gui.ErrorDialog;
-import gui.GUI;
-import gui.UploadTab;
-import gui.WorkspaceTab;
-import model.ErrorLogger;
-import model.GenomizerModel;
+import util.TreeTable;
+
+import communication.DownloadHandler;
 
 public class WorkspaceTabController {
     GUI view;
@@ -37,14 +41,17 @@ public class WorkspaceTabController {
     private final JFileChooser fileChooser;
     private boolean abortDeletion;
     private WorkspaceTab workspaceTab;
+    private TreeTable treeTable;
 
     public WorkspaceTabController(GUI view, GenomizerModel model,
             JFileChooser fileChooser) {
-        this.view = (GUI) view;
+        this.view = view;
         this.model = model;
         this.fileChooser = fileChooser;
-
         workspaceTab = view.getWorkSpaceTab();
+        treeTable = workspaceTab.getTable();
+
+
         workspaceTab.addDownloadFileListener(DownloadFileListener());
         workspaceTab.addProcessFileListener(ProcessFileListener());
         workspaceTab.addUploadToListener(UploadToListener());
@@ -53,8 +60,27 @@ public class WorkspaceTabController {
 
         // view.addUploadToListener( UploadToListener());
         workspaceTab.addDeleteSelectedListener(DeleteFromDatabaseListener());
-
+        treeTable.addTreeSelectionListener(SelectionListener());
+        // workspaceTab.addListSelectionListener(SelectionListener());
         updateOngoingDownloadsPanel();
+    }
+
+    private TreeSelectionListener SelectionListener() {
+
+
+
+        return new TreeSelectionListener(){
+
+            @Override
+            public void valueChanged(TreeSelectionEvent arg0) {
+                System.out.println(treeTable.getNumberOfSelected());
+                if(treeTable.getNumberOfSelected() > 1){
+                    workspaceTab.getProcessButton().setEnabled(false);
+                } else {
+                    workspaceTab.getProcessButton().setEnabled(true);
+                }
+            }};
+
     }
 
     /**
@@ -174,7 +200,7 @@ public class WorkspaceTabController {
                                 }
                             }
                         }
-                        view.setProcessFileList(selectedFiles);
+                        // view.setProcessFileList(selectedFiles);
                     };
                 }.start();
             }
@@ -278,8 +304,8 @@ public class WorkspaceTabController {
                                         model.deleteExperimentFromDatabase(data.name);
                                     } catch (RequestException e1) {
                                         new ErrorDialog(
-                                                "Couldn't delete experiment", e1)
-                                                .showDialog();
+                                                "Couldn't delete experiment",
+                                                e1).showDialog();
                                     }
                                 }
                                 i++;
