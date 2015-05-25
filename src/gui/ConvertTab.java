@@ -169,6 +169,7 @@ public class ConvertTab extends JPanel {
         convertPanel = new JPanel();
         convertSelectedFiles = new JButton("Convert selected files");
         convertPanel.add(convertSelectedFiles);
+        convertSelectedFiles.setEnabled(false);
         convertPanel.setBorder(BorderFactory.createTitledBorder("Convert"));
     }
 
@@ -179,6 +180,7 @@ public class ConvertTab extends JPanel {
         deletePanel = new JPanel();
         deleteSelectedFiles = new JButton("Delete selected files");
         deletePanel.add(deleteSelectedFiles);
+        deleteSelectedFiles.setEnabled(false);
         deletePanel.setBorder(BorderFactory.createTitledBorder("Delete"));
     }
 
@@ -196,6 +198,11 @@ public class ConvertTab extends JPanel {
         convertFromPanel.add(cFromGFF);
         convertFromPanel.add(cFromSGR);
         convertFromPanel.add(cFromWIG);
+        
+        cFromBED.setEnabled(false);
+        cFromGFF.setEnabled(false);
+        cFromSGR.setEnabled(false);
+        cFromWIG.setEnabled(false);
 
     }
 
@@ -211,6 +218,9 @@ public class ConvertTab extends JPanel {
 
         convertToPanel.add(cToSGR);
         convertToPanel.add(cToWIG);
+        
+        cToSGR.setEnabled(false);
+        cToWIG.setEnabled(false);
 
     }
 
@@ -340,6 +350,12 @@ public class ConvertTab extends JPanel {
             cToWIG.setEnabled(false);
         }
         
+        if(cToSGR.isSelected() || cToWIG.isSelected()){
+            setConvertButtonEnabled();
+        } else {
+            setConvertButtonDisabled();
+        }
+        
         
     
         
@@ -372,6 +388,14 @@ public class ConvertTab extends JPanel {
 
     public void setConvertButtonEnabled(){
         convertSelectedFiles.setEnabled(true);
+    }
+    
+    public void setDeleteButtonDisabled(){
+        deleteSelectedFiles.setEnabled(false);
+    }
+
+    public void setDeleteButtonEnabled(){
+        deleteSelectedFiles.setEnabled(true);
     }
 
     /**

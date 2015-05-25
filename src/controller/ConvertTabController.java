@@ -181,9 +181,11 @@ public class ConvertTabController {
                     if(count == 0){
                         view.getConvertTab().setAllButtonsNotSelected();
                         view.getConvertTab().setConvertButtonDisabled();
+                        view.getConvertTab().setDeleteButtonDisabled();
                     } else {
                         view.getConvertTab().setAllFromButtonsEnabled();
                         view.getConvertTab().setConvertButtonEnabled();
+                        view.getConvertTab().setDeleteButtonEnabled();
                         
                     }
 
