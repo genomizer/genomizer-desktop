@@ -18,6 +18,7 @@ import util.FileData;
 import util.RequestException;
 import gui.CheckListItem;
 import gui.ConvertTab;
+import gui.ErrorDialog;
 import gui.GUI;
 import model.GenomizerModel;
 
@@ -73,11 +74,10 @@ public class ConvertTabController {
 
                             CheckListItem data = it.next();
                             try {
-                                System.out.println(data.fileId() + " " + toformat);
-                                model.convertFile(data.fileId(), toformat);
+                                System.out.println(data.fileId() + " " + toformat.toLowerCase());
+                                model.convertFile(data.fileId(), toformat.toLowerCase());
                             } catch (RequestException e) {
-                                // TODO Auto-generated catch block
-                                e.printStackTrace();
+                                new ErrorDialog("Convert", e).showDialog();
                             }
                         }
 

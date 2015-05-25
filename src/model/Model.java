@@ -424,6 +424,7 @@ public class Model implements GenomizerModel {
         Connection conn = connFactory.makeConnection();
         conn.sendRequest(request, User.getInstance().getToken(),
                 Constants.TEXT_PLAIN);
+        System.out.println(request.toJson());
         System.out.println(conn.getResponseBody());
 
     }
