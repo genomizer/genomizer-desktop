@@ -27,7 +27,6 @@ import requests.RenameAnnotationValueRequest;
 import requests.RequestFactory;
 import requests.RetrieveExperimentRequest;
 import requests.SearchRequest;
-import requests.rawToProfileRequest;
 import responses.ResponseParser;
 import responses.sysadmin.AddGenomeReleaseResponse;
 import util.AnnotationDataType;
@@ -65,12 +64,12 @@ public class Model implements GenomizerModel {
     public void rawToProfile(String expid, String[] parameters,
             String metadata, String genomeRelease, String author)
             throws RequestException {
-        rawToProfileRequest rawToProfilerequest = RequestFactory
-                .makeRawToProfileRequest(expid, parameters, metadata,
-                        genomeRelease, author);
-        Connection conn = connFactory.makeConnection();
-        conn.sendRequest(rawToProfilerequest, User.getInstance().getToken(),
-                Constants.JSON);
+//        rawToProfileRequest rawToProfilerequest = RequestFactory
+//                .makeRawToProfileRequest(expid, parameters, metadata,
+//                        genomeRelease, author);
+//        Connection conn = connFactory.makeConnection();
+//        conn.sendRequest(rawToProfilerequest, User.getInstance().getToken(),
+//                Constants.JSON);
 
     }
 
