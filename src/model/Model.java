@@ -1,11 +1,13 @@
 package model;
 
 import gui.ErrorDialog;
+
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.concurrent.CopyOnWriteArrayList;
+
 import javax.swing.JOptionPane;
 
 import requests.AddAnnotationRequest;
@@ -13,6 +15,7 @@ import requests.AddExperimentRequest;
 import requests.AddGenomeReleaseRequest;
 import requests.AddNewAnnotationValueRequest;
 import requests.ChangeExperimentRequest;
+import requests.FileConversionRequest;
 import requests.GetAnnotationRequest;
 import requests.GetGenomeReleasesRequest;
 import requests.GetGenomeSpecieReleasesRequest;
@@ -37,6 +40,7 @@ import util.ExperimentData;
 import util.GenomeReleaseData;
 import util.ProcessFeedbackData;
 import util.RequestException;
+
 import communication.Connection;
 import communication.ConnectionFactory;
 import communication.DownloadHandler;
@@ -411,6 +415,17 @@ public class Model implements GenomizerModel {
 
     public void clearTickingTasks() {
         updateTabModel.clearTickingThread();
+    }
+
+    public boolean convertFile(String fileid, String toformat)
+            throws RequestException {
+        FileConversionRequest request = RequestFactory
+                .makeFileConversionRequest(fileid, toformat);
+        Connection conn = connFactory.makeConnection();
+        conn.sendRequest(request, User.getInstance().getToken(),
+                Constants.JSON);
+
+        return conn.getResponseCode()==200;
     }
 
 }

@@ -114,7 +114,7 @@ public class GUI extends JFrame {
      *            New status
      * @author JH
      */
-    public void setStatusPanel(String status) {
+    public synchronized void setStatusPanel(String status) {
         statusPanel.removeAll();
         JLabel statusLabel = new JLabel(status);
         statusLabel.setHorizontalAlignment(SwingConstants.LEFT);
@@ -123,15 +123,6 @@ public class GUI extends JFrame {
         mainPanel.revalidate();
     }
 
-//    public void setStatusPanelColorSuccess(){
-//        Color color = new Color(153,255,153);
-//        statusPanel.setBackground(color);
-//    }
-//
-//    public void setStatusPanelColorFail(){
-//        Color color = new Color(243,126,126);
-//        statusPanel.setBackground(color);
-//    }
 
 
 
@@ -587,12 +578,12 @@ public class GUI extends JFrame {
         return convertTab;
     }
 
-    public void setConvertFileList(ArrayList<FileData> arrayList) {
-        ArrayList<FileData> fileArray = arrayList;
+    public void setConvertFileList() {
 
         tabbedPane.setSelectedComponent(convertTab);
         convertTab.setFileInfo(workspaceTab.getSelectedData());
 
     }
+
 
 }

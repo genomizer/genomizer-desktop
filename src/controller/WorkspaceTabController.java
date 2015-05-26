@@ -136,20 +136,15 @@ public class WorkspaceTabController {
                 new Thread() {
                     @Override
                     public void run() {
-                        // TODO Skicka in filedata arrayen
-                        ArrayList<ExperimentData> selectedData = view
-                                .getWorkSpaceTab().getSelectedData();
-                        ArrayList<FileData> selectedFiles = new ArrayList<>();
 
-                        for (ExperimentData experiment : selectedData) {
-                            for (FileData file : experiment.files) {
-                                if (!selectedFiles.contains(file)) {
-                                    selectedFiles.add(file);
-                                }
-                            }
-                        }
 
-                        view.setConvertFileList(selectedFiles);
+                        view.getConvertTab().setCount(0);
+
+                        view.getConvertTab().setConvertButtonDisabled();
+                        view.getConvertTab().setDeleteButtonDisabled();
+                        view.getConvertTab().setAllButtonsNotSelected();
+
+                        view.setConvertFileList();
                     };
                 }.start();
             }

@@ -183,4 +183,8 @@ public class RequestFactory {
     public static CancelProcessRequest makeCancelProcessRequest(String PID) {
         return new CancelProcessRequest(PID);
     }
+
+    public static FileConversionRequest makeFileConversionRequest(String fileid, String toformat) {
+        return new FileConversionRequest(fileid, toformat);
+    }
 }
