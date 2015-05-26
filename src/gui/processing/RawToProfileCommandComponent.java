@@ -2,12 +2,15 @@ package gui.processing;
 
 import gui.CustomButtonFactory;
 
+import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 
 import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
@@ -29,6 +32,7 @@ public class RawToProfileCommandComponent extends JComponent implements CommandC
     private int fileRowCount = 0;
 
     private HashMap<JButton, JPanel> removeButtonToPanelMap = new HashMap<JButton, JPanel>();
+    private ArrayList<RawToProfileFileRow> fileRowList;
 
     public RawToProfileCommandComponent(String commandName, String[] fileNames,
             String[] genomeReleases) {
@@ -40,6 +44,8 @@ public class RawToProfileCommandComponent extends JComponent implements CommandC
         this.setBorder(new TitledBorder(commandName));
         this.setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
 
+        fileRowList = new ArrayList<RawToProfileFileRow>();
+
         addFileRow();
     }
 
@@ -49,6 +55,7 @@ public class RawToProfileCommandComponent extends JComponent implements CommandC
         fileRowPanel.setLayout(new FlowLayout());
 
         RawToProfileFileRow fileRow = new RawToProfileFileRow(fileNames, genomeReleases);
+        fileRowList.add(fileRow);
 
         JPanel removeButtonPanel = new JPanel(new GridLayout(2, 1));
         JButton removeButton = buildRemoveButton();
@@ -98,6 +105,7 @@ public class RawToProfileCommandComponent extends JComponent implements CommandC
     private void removeFileRow(Object source) {
         JPanel fileRowToRemove = removeButtonToPanelMap.get(source);
         this.remove(fileRowToRemove);
+        fileRowList.remove(fileRowToRemove);
         removeButtonToPanelMap.remove(source);
         this.repaint();
         this.revalidate();
@@ -112,6 +120,33 @@ public class RawToProfileCommandComponent extends JComponent implements CommandC
         newFileRowButton = buildNewRowButton();
         newFileRowButton.addActionListener(new NewFileRowButtonListener());
         this.add(newFileRowButton);
+    }
+
+    @Override
+    public String getName() {
+        return commandName;
+    }
+
+    @Override
+    public ProcessParameters[] getProcessParameters() {
+
+        RawToProfileParameters[] parameters = new RawToProfileParameters[fileRowList.size()];
+        Iterator<RawToProfileFileRow> fileRowIterator = fileRowList.iterator();
+        for(int i = 0; fileRowIterator.hasNext(); i++) {
+            RawToProfileFileRow currentFileRow = fileRowIterator.next();
+            parameters[i] = buildProcessParameters(currentFileRow);
+        }
+
+        return parameters;
+    }
+
+    private RawToProfileParameters buildProcessParameters(RawToProfileFileRow fileRow) {
+        String infile = fileRow.getInFile();
+        String outfile = fileRow.getOutFile();
+        String flags = fileRow.getFlags();
+        String genomeRelease = fileRow.getGenomeRelease();
+        boolean saveSam = false;
+        return new RawToProfileParameters(infile, outfile, flags, genomeRelease, saveSam);
     }
 
     private class RemoveButtonListener implements ActionListener {
@@ -131,5 +166,8 @@ public class RawToProfileCommandComponent extends JComponent implements CommandC
         }
 
     }
+
+
+
 
 }

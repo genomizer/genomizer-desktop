@@ -1,28 +1,37 @@
 package gui.processing;
 
+import java.awt.BorderLayout;
 import java.awt.Component;
 import java.awt.Rectangle;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.AdjustmentEvent;
 import java.awt.event.AdjustmentListener;
+import java.util.ArrayList;
+import java.util.Iterator;
 
 import javax.swing.BoxLayout;
-import javax.swing.JComponent;
+import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 
+import requests.RequestFactory;
+
 @SuppressWarnings("serial")
 public class CommandScrollPane extends JScrollPane {
 
 
     private static final int SCROLL_SPEED = 16;
+
     private JPanel componentPanel;
+    private ArrayList<CommandComponent> commandList;
 
     public CommandScrollPane() {
         super(VERTICAL_SCROLLBAR_AS_NEEDED, HORIZONTAL_SCROLLBAR_NEVER);
-
+        commandList = new ArrayList<CommandComponent>();
         componentPanel = new JPanel();
         componentPanel.setLayout(new BoxLayout(componentPanel, BoxLayout.PAGE_AXIS));
         this.getViewport().add(componentPanel);
@@ -46,9 +55,46 @@ public class CommandScrollPane extends JScrollPane {
 
     public void addCommandComponent(CommandComponent commandComponent) {
         componentPanel.add((Component) commandComponent);
-        Rectangle bounds = new Rectangle(0, componentPanel.getHeight() - 1 , 1, 1);
+        commandList.add(commandComponent);
+
+        // Scroll to visible
+        Rectangle bounds = new Rectangle(0, ((Component) commandComponent).getHeight() - 1 , 1, 1);
         this.scrollRectToVisible(bounds);
         this.revalidate();
+    }
+
+    public void removeCommand(CommandComponent commandComponent) {
+
+    }
+
+    public ProcessCommand[] getCommandList() {
+
+        ProcessCommand[] commands = new ProcessCommand[commandList.size()];
+
+        Iterator<CommandComponent> componentIterator = commandList.iterator();
+        for(int i = 0; componentIterator.hasNext(); i++) {
+            System.out.println(i);
+            CommandComponent currentComponent = componentIterator.next();
+            commands[i] = buildProcessCommand(currentComponent);
+        }
+        return commands;
+
+    }
+
+    private ProcessCommand buildProcessCommand(CommandComponent component) {
+        String name = component.getName();
+        ProcessParameters[] parameters = component.getProcessParameters();
+        ProcessCommand command = new ProcessCommand(name, parameters);
+        return command;
+    }
+
+    public void empty() {
+        Iterator<CommandComponent> componentIterator = commandList.iterator();
+        while(componentIterator.hasNext()) {
+            CommandComponent currentComponent = componentIterator.next();
+            this.remove((Component)currentComponent);
+            commandList.remove(currentComponent);
+        }
     }
 
     public static void main(String[] args) {
@@ -61,6 +107,7 @@ public class CommandScrollPane extends JScrollPane {
         }
 
         JFrame frame = new JFrame();
+        frame.setLayout(new BorderLayout());
         String commandName = "Glass e gott";
         String[] fileNames = { "bild.png", "stinkern.txt", "hus.jpg" };
         String[] genomeReleases = { "hg37", "hg38", "rat" };
@@ -73,10 +120,35 @@ public class CommandScrollPane extends JScrollPane {
         CommandScrollPane c = new CommandScrollPane();
         c.addCommandComponent(comp1);
         c.addCommandComponent(comp2);
-        frame.add(c);
+        JButton knappen = new JButton("KÖR!!!");
+        knappen.addActionListener(new ProcessButtonListener(c));
+        frame.add(c, BorderLayout.CENTER);
+        frame.add(knappen, BorderLayout.SOUTH);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.pack();
         frame.setVisible(true);
+    }
+
+    private static class ProcessButtonListener implements ActionListener {
+
+
+        private CommandScrollPane scrollPane;
+
+        public ProcessButtonListener(CommandScrollPane scrollPane) {
+            this.scrollPane = scrollPane;
+        }
+
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            ProcessCommand[] commandList = scrollPane.getCommandList();
+            for(int i = 0; i < commandList.length; i++) {
+
+                System.out.println(RequestFactory.makeProcessCommandRequest("0", commandList).toJson());
+                
+            }
+
+        }
+
     }
 
 }

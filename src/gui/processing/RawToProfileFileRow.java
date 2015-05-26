@@ -6,7 +6,6 @@ import java.awt.GridLayout;
 
 import javax.swing.JComboBox;
 import javax.swing.JComponent;
-import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
 
@@ -64,5 +63,19 @@ public class RawToProfileFileRow extends JComponent {
         this.add(genomeReleaseComboBox);
     }
 
+    public String getInFile() {
+        return inFileComboBox.getSelectedItem().toString();
+    }
 
+    public String getOutFile() {
+        return outFileTextField.getText();
+    }
+
+    public String getFlags() {
+        return flagsTextField.getText();
+    }
+
+    public String getGenomeRelease() {
+        return genomeReleaseComboBox.getSelectedItem().toString();
+    }
 }
