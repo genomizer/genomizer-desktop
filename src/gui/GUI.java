@@ -328,6 +328,9 @@ public class GUI extends JFrame {
         this.processTab = processTab;
         tabbedPane.addTab("PROCESS", null, processTab, "Process");
 
+        // TODO: Do not enable until an experiment is selected
+        // tabbedPane.setEnabledAt(tabbedPane.getTabCount()-1, false);
+
     }
 
     /**

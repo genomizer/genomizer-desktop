@@ -120,7 +120,7 @@ public class UploadFileRow extends JPanel {
                         genome.setEnabled(false);
                     }
                 } else if (typeBox.getSelectedItem().toString().equals("Raw")) {
-                    genome.addItem("No GR");
+                    genome.addItem("NA");
                     genome.setEnabled(false);
                 }
             }

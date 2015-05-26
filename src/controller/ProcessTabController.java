@@ -2,6 +2,7 @@ package controller;
 
 import gui.ErrorDialog;
 import gui.GUI;
+import gui.processing.ProcessTab;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -9,14 +10,15 @@ import java.awt.event.ActionListener;
 import model.GenomizerModel;
 
 public class ProcessTabController {
-    GUI view;
-    GenomizerModel model;
+
+    private ProcessTab tab;
+    private GenomizerModel model;
     private boolean deletedProcessFiles = false;
 
-    public ProcessTabController(GUI view, GenomizerModel model) {
+    public ProcessTabController(ProcessTab tab, GenomizerModel model) {
         this.model = model;
-        this.view = view;
-        gui.processing.ProcessTab processTab = view.getProcessTab();
+        this.tab = tab;
+
 //        processTab.addRawToProfileDataListener(RawToProfileDataListener());
 
 //        fileListAddMouseListener(view.getProcessTab().getFileList());
@@ -27,7 +29,33 @@ public class ProcessTabController {
 
 
 
+        // ChooseCommand
+        tab.addChooserListener( chooserListener() );
+
+
+        // Entries
+        // Start Process
+        // Check Process
+        // Abort Process
+
     }
+
+
+
+
+private ActionListener chooserListener() {
+        return new ActionListener() {
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                tab.addCommand( tab.getSelectedCommand() );
+            }
+        };
+    }
+
+
+
+
 //
 //    private void fileListAddMouseListener(JList<?> fileList) {
 //        fileList.addMouseListener(new MouseAdapter() {

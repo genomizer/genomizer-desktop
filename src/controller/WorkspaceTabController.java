@@ -71,12 +71,21 @@ public class WorkspaceTabController {
             @Override
             public void valueChanged(TreeSelectionEvent arg0) {
                 System.out.println(treeTable.getNumberOfSelected());
-                if (treeTable.getNumberOfSelected() > 1) {
-                    workspaceTab.getProcessButton().setEnabled(false);
-                    workspaceTab.getUploadToButton().setEnabled(false);
-                } else {
+                if (treeTable.getNumberOfSelected() == 1) {
                     workspaceTab.getProcessButton().setEnabled(true);
                     workspaceTab.getUploadToButton().setEnabled(true);
+                } else {
+                    workspaceTab.getProcessButton().setEnabled(false);
+                    workspaceTab.getUploadToButton().setEnabled(false);
+                }
+                if (treeTable.getNumberOfSelected() > 0) {
+                    workspaceTab.getRemoveButton().setEnabled(true);
+                    workspaceTab.getDownloadButton().setEnabled(true);
+                    workspaceTab.getConvertButton().setEnabled(true);
+                } else {
+                    workspaceTab.getRemoveButton().setEnabled(false);
+                    workspaceTab.getDownloadButton().setEnabled(false);
+                    workspaceTab.getConvertButton().setEnabled(false);
                 }
             }
         };
@@ -186,12 +195,9 @@ public class WorkspaceTabController {
         return new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-
-                        // TODO Skicka in filedata arrayen
-                        ExperimentData selecteddata = workspaceTab.getTable().getSelectedExperiment();
-
-                        view.setSelectedExperiment(selecteddata);
-
+                ExperimentData selecteddata = workspaceTab.getTable()
+                        .getSelectedExperiment();
+                view.setSelectedExperiment(selecteddata);
             }
         };
     }
@@ -202,8 +208,8 @@ public class WorkspaceTabController {
             public void actionPerformed(ActionEvent e) {
 
                 try {
-                    ExperimentData firstChosenExperiment = view
-                            .getWorkSpaceTab().getSelectedExperiments().get(0);
+                    ExperimentData firstChosenExperiment = workspaceTab
+                            .getTable().getSelectedExperiment();
                     UploadTab ut = view.getUploadTab();
                     view.getTabbedPane().setSelectedComponent(ut);
                     ut.getExperimentNameField().setText(

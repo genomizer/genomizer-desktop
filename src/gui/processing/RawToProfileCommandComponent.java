@@ -22,9 +22,8 @@ import javax.swing.border.TitledBorder;
 import util.IconFactory;
 
 @SuppressWarnings("serial")
-public class RawToProfileCommandComponent extends JComponent implements CommandComponent {
+public class RawToProfileCommandComponent extends  CommandComponent {
 
-    private String commandName;
     private String[] fileNames;
     private String[] genomeReleases;
 
@@ -37,7 +36,8 @@ public class RawToProfileCommandComponent extends JComponent implements CommandC
     public RawToProfileCommandComponent(String commandName, String[] fileNames,
             String[] genomeReleases) {
 
-        this.commandName = commandName;
+        super(commandName);
+
         this.fileNames = fileNames;
         this.genomeReleases = genomeReleases;
 
@@ -123,11 +123,6 @@ public class RawToProfileCommandComponent extends JComponent implements CommandC
     }
 
     @Override
-    public String getName() {
-        return commandName;
-    }
-
-    @Override
     public ProcessParameters[] getProcessParameters() {
 
         RawToProfileParameters[] parameters = new RawToProfileParameters[fileRowList.size()];
@@ -148,6 +143,7 @@ public class RawToProfileCommandComponent extends JComponent implements CommandC
         boolean saveSam = false;
         return new RawToProfileParameters(infile, outfile, flags, genomeRelease, saveSam);
     }
+
 
     private class RemoveButtonListener implements ActionListener {
 
