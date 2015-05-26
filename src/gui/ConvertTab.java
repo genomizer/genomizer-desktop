@@ -198,7 +198,7 @@ public class ConvertTab extends JPanel {
         convertFromPanel.add(cFromGFF);
         convertFromPanel.add(cFromSGR);
         convertFromPanel.add(cFromWIG);
-        
+
         cFromBED.setEnabled(false);
         cFromGFF.setEnabled(false);
         cFromSGR.setEnabled(false);
@@ -218,7 +218,7 @@ public class ConvertTab extends JPanel {
 
         convertToPanel.add(cToSGR);
         convertToPanel.add(cToWIG);
-        
+
         cToSGR.setEnabled(false);
         cToWIG.setEnabled(false);
 
@@ -233,7 +233,7 @@ public class ConvertTab extends JPanel {
         selectedFilesPanel = new JPanel();
 
         selectedFilesPanel.setMinimumSize(new Dimension(1225/2,0));
-        selectedFilesPanel.setBorder(BorderFactory.createTitledBorder("selectedFilesPanel"));
+        selectedFilesPanel.setBorder(BorderFactory.createTitledBorder("Convert from"));
         add(selectedFilesPanel, BorderLayout.CENTER);
 
         scrollFiles.setPreferredSize(new Dimension(560,480));
@@ -252,7 +252,7 @@ public class ConvertTab extends JPanel {
     private void setupQueuedFilesPanel(){
         queuedFilesPanel = new JPanel();
         queuedFilesPanel.setPreferredSize(new Dimension(1225/2,30));
-        queuedFilesPanel.setBorder(BorderFactory.createTitledBorder("queuedFilesPanel"));
+        queuedFilesPanel.setBorder(BorderFactory.createTitledBorder("Convert to"));
         add(queuedFilesPanel, BorderLayout.EAST);
 
     }
@@ -349,13 +349,13 @@ public class ConvertTab extends JPanel {
             cToSGR.setEnabled(true);
             cToWIG.setEnabled(false);
         }
-        
+
         if(cToSGR.isSelected() || cToWIG.isSelected()){
             setConvertButtonEnabled();
         } else {
             setConvertButtonDisabled();
         }
-        
+
     }
 
     public void setAllButtonsNotSelected(){
@@ -368,14 +368,14 @@ public class ConvertTab extends JPanel {
         cFromSGR.setEnabled(false);
         cFromWIG.setEnabled(false);
     }
-    
+
     public void setAllFromButtonsEnabled(){
         cFromBED.setEnabled(true);
         cFromGFF.setEnabled(true);
         cFromSGR.setEnabled(true);
         cFromWIG.setEnabled(true);
     }
-    
+
     public void setConvertButtonDisabled(){
         convertSelectedFiles.setEnabled(false);
     }
@@ -383,7 +383,7 @@ public class ConvertTab extends JPanel {
     public void setConvertButtonEnabled(){
         convertSelectedFiles.setEnabled(true);
     }
-    
+
     public void setDeleteButtonDisabled(){
         deleteSelectedFiles.setEnabled(false);
     }
