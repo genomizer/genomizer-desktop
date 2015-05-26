@@ -4,7 +4,6 @@ import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
-import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
@@ -21,20 +20,16 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.SwingUtilities;
-import javax.swing.border.Border;
-import javax.swing.border.EtchedBorder;
-import javax.swing.border.TitledBorder;
-
-import org.apache.http.conn.ssl.AllowAllHostnameVerifier;
-
-import controller.QueryRowController;
-import controller.QuerySearchTabController;
+import javax.swing.event.TreeSelectionEvent;
+import javax.swing.event.TreeSelectionListener;
 
 import util.ActiveSearchPanel;
 import util.AnnotationDataType;
 import util.ExperimentData;
 import util.IconFactory;
 import util.TreeTable;
+import controller.QueryRowController;
+import controller.QuerySearchTabController;
 
 /**
  * Class representing the search tab of the gui
@@ -90,6 +85,8 @@ public class QuerySearchTab extends JPanel {
         showSearchView();
         clearSearchFields();
         activePanel = ActiveSearchPanel.SEARCH;
+        addToWorkspaceButton.setEnabled(false);
+        addToUploadButton.setEnabled(false);
     }
 
     private void setQueryRowController(QueryRowController queryRowController) {
