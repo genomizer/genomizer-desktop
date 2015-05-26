@@ -15,6 +15,7 @@ public class ProcessTab extends JPanel {
     private ProcessTabController processTabController;
     private ExperimentData selectedExperiment;
     private CommandChooser chooser;
+    private CommandScrollPane scrollPane;
 
     public ProcessTab() {
         setPreferredSize(new Dimension(1225, 725));
@@ -24,6 +25,10 @@ public class ProcessTab extends JPanel {
         this.chooser = new CommandChooser(Constants.commands,
                 "<no selected experiment>");
         this.add(chooser, BorderLayout.NORTH);
+
+        this.scrollPane = new CommandScrollPane();
+        this.add(scrollPane, BorderLayout.CENTER);
+
     }
 
     public void setController(ProcessTabController processTabController) {
@@ -32,11 +37,9 @@ public class ProcessTab extends JPanel {
 
     public void reset(ExperimentData experiment) {
 
-        this.removeAll();
+        this.scrollPane.reset();
 
-        this.chooser = new CommandChooser(Constants.commands,
-                experiment.getName());
-        this.add(chooser, BorderLayout.NORTH);
+        this.chooser.setExperiment(experiment.getName());
 
         this.revalidate();
         this.repaint();
@@ -49,11 +52,15 @@ public class ProcessTab extends JPanel {
 
     public void addCommand(String selectedCommand) {
 
+        System.out.println("ADD NEW COMMAND: "+ selectedCommand);
+
         // Check for multiple similiar command
+
+
 
         // Add new command tab
         String []s = {"abc"};
-        this.add( new RawToProfileCommandComponent("AF", s,  s));
+        this.scrollPane.addCommandComponent( new RawToProfileCommandComponent( selectedCommand, s,  s));
 
     }
 

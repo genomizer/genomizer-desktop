@@ -4,6 +4,7 @@ import java.awt.Component;
 import java.awt.Rectangle;
 import java.awt.event.AdjustmentEvent;
 import java.awt.event.AdjustmentListener;
+import java.util.Arrays;
 
 import javax.swing.BoxLayout;
 import javax.swing.JComponent;
@@ -13,9 +14,10 @@ import javax.swing.JScrollPane;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 
+import org.hamcrest.internal.ArrayIterator;
+
 @SuppressWarnings("serial")
 public class CommandScrollPane extends JScrollPane {
-
 
     private static final int SCROLL_SPEED = 16;
     private JPanel componentPanel;
@@ -24,7 +26,8 @@ public class CommandScrollPane extends JScrollPane {
         super(VERTICAL_SCROLLBAR_AS_NEEDED, HORIZONTAL_SCROLLBAR_NEVER);
 
         componentPanel = new JPanel();
-        componentPanel.setLayout(new BoxLayout(componentPanel, BoxLayout.PAGE_AXIS));
+        componentPanel.setLayout(new BoxLayout(componentPanel,
+                BoxLayout.PAGE_AXIS));
         this.getViewport().add(componentPanel);
         this.getVerticalScrollBar().setUnitIncrement(SCROLL_SPEED);
 
@@ -33,22 +36,48 @@ public class CommandScrollPane extends JScrollPane {
     }
 
     private void setUpAutoScrollBehaviour() {
-        this.getVerticalScrollBar().addAdjustmentListener(new AdjustmentListener() {
-            int prevMax = 0;
-            public void adjustmentValueChanged(AdjustmentEvent e) {
-                if(e.getAdjustable().getMaximum() != prevMax) {
-                    prevMax = e.getAdjustable().getMaximum();
-                    e.getAdjustable().setValue(prevMax);
-                }
-            }
-        });
+        this.getVerticalScrollBar().addAdjustmentListener(
+                new AdjustmentListener() {
+                    int prevMax = 0;
+
+                    public void adjustmentValueChanged(AdjustmentEvent e) {
+                        if (e.getAdjustable().getMaximum() != prevMax) {
+                            prevMax = e.getAdjustable().getMaximum();
+                            e.getAdjustable().setValue(prevMax);
+                        }
+                    }
+                });
     }
 
     public void addCommandComponent(CommandComponent commandComponent) {
-        componentPanel.add((Component) commandComponent);
-        Rectangle bounds = new Rectangle(0, componentPanel.getHeight() - 1 , 1, 1);
+
+        if ( containsCommand(commandComponent) ) return;
+
+        componentPanel.add(commandComponent);
+        Rectangle bounds = new Rectangle(0, componentPanel.getHeight() - 1, 1,
+                1);
         this.scrollRectToVisible(bounds);
         this.revalidate();
+
+    }
+
+    private boolean containsCommand(CommandComponent commandComponent) {
+
+        Component[] components = componentPanel.getComponents();
+        for (Component c : components) {
+            if ( !CommandComponent.class.isAssignableFrom( c.getClass() )) continue;
+            if (((CommandComponent) c).getCommandName().equals(
+                    commandComponent.getCommandName())) return true;
+        }
+        return false;
+
+    }
+
+    public void reset() {
+        componentPanel.removeAll();
+        componentPanel.revalidate();
+        componentPanel.repaint();
+
     }
 
     public static void main(String[] args) {
