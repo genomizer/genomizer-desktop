@@ -186,27 +186,12 @@ public class WorkspaceTabController {
         return new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                new Thread() {
-                    @Override
-                    public void run() {
+
                         // TODO Skicka in filedata arrayen
                         ExperimentData selecteddata = workspaceTab.getTable().getSelectedExperiment();
-//                        System.out.println(selecteddata.name);
-                        ArrayList<ExperimentData> selectedData = view
-                                .getWorkSpaceTab().getSelectedData();
-                        ArrayList<FileData> selectedFiles = new ArrayList<>();
-                        for (ExperimentData experiment : selectedData) {
-                            for (FileData file : experiment.files) {
-                                if (!selectedFiles.contains(file)) {
-                                    selectedFiles.add(file);
-                                }
-                            }
-                        }
-                        
-//                        view.getProcessTab().setSelectedExperiment(selecteddata);
-                        view.setProcessFileList(selecteddata);
-                    };
-                }.start();
+
+                        view.setSelectedExperiment(selecteddata);
+
             }
         };
     }

@@ -6,7 +6,6 @@ import java.awt.Dimension;
 import javax.swing.JPanel;
 
 import util.Constants;
-
 import util.ExperimentData;
 import controller.ProcessTabController;
 
@@ -28,9 +27,6 @@ public class ProcessTab extends JPanel {
         this.processTabController = processTabController;
     }
 
-    public void setSelectedExperiment(ExperimentData experimentData) {
-        selectedExperiment = experimentData;
-    }
 
     public void reset(ExperimentData experiment) {
 
