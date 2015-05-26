@@ -26,4 +26,8 @@ public class Constants {
     // Alternative: testuser: test: 213.21.81.248:7000
     public static final String TEXT_PLAIN = "text/plain";
     public static final String JSON = "application/json";
+
+    public static final String[] commands = {"RawToProf", "Ratio"};
+
+
 }

@@ -27,17 +27,21 @@ public class CommandChooser extends JPanel {
 
     public CommandChooser( String[] commandNames, String expID ) {
         super();
+
+        this.setBorder(BorderFactory.createTitledBorder("Choose Command"));
+
         this.commands = new JComboBox<String>(commandNames);
+        this.commands.setPreferredSize(new Dimension(240,30));
+
         this.addCommandBoxButton = CustomButtonFactory
                 .makeCustomButton(IconFactory.getPlusIcon(15, 15),
                         IconFactory.getPlusIcon(17, 17), 17, 25,
                         "Add new command");
-        this.commands.setPreferredSize(new Dimension(240,30));
 
-        this.setBorder(BorderFactory.createTitledBorder("Choose Command"));
         JTextField tf = new JTextField(expID);
         tf.setEditable(false);
         tf.setPreferredSize(new Dimension(240,30));
+
         this.add(new JLabel("<html><b>Experiment ID</b></html>"));
         this.add(tf);
         this.add(this.commands);

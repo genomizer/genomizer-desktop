@@ -6,6 +6,7 @@ import gui.ErrorDialog;
 import gui.GUI;
 import gui.UploadTab;
 import gui.WorkspaceTab;
+import gui.processing.ProcessTab;
 
 import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
@@ -51,7 +52,6 @@ public class WorkspaceTabController {
         workspaceTab = view.getWorkSpaceTab();
         treeTable = workspaceTab.getTable();
 
-
         workspaceTab.addDownloadFileListener(DownloadFileListener());
         workspaceTab.addProcessFileListener(ProcessFileListener());
         workspaceTab.addUploadToListener(UploadToListener());
@@ -67,21 +67,20 @@ public class WorkspaceTabController {
 
     private TreeSelectionListener SelectionListener() {
 
-
-
-        return new TreeSelectionListener(){
+        return new TreeSelectionListener() {
 
             @Override
             public void valueChanged(TreeSelectionEvent arg0) {
                 System.out.println(treeTable.getNumberOfSelected());
-                if(treeTable.getNumberOfSelected() > 1){
+                if (treeTable.getNumberOfSelected() > 1) {
                     workspaceTab.getProcessButton().setEnabled(false);
                     workspaceTab.getUploadToButton().setEnabled(false);
                 } else {
                     workspaceTab.getProcessButton().setEnabled(true);
                     workspaceTab.getUploadToButton().setEnabled(true);
                 }
-            }};
+            }
+        };
 
     }
 
@@ -188,23 +187,20 @@ public class WorkspaceTabController {
         return new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                new Thread() {
-                    @Override
-                    public void run() {
-                        // TODO Skicka in filedata arrayen
-                        ArrayList<ExperimentData> selectedData = view
-                                .getWorkSpaceTab().getSelectedData();
-                        ArrayList<FileData> selectedFiles = new ArrayList<>();
-                        for (ExperimentData experiment : selectedData) {
-                            for (FileData file : experiment.files) {
-                                if (!selectedFiles.contains(file)) {
-                                    selectedFiles.add(file);
-                                }
-                            }
-                        }
-                        // view.setProcessFileList(selectedFiles);
-                    };
-                }.start();
+                // TODO Skicka in filedata arrayen
+                ArrayList<ExperimentData> selectedData = view.getWorkSpaceTab()
+                        .getSelectedData();
+
+                if (selectedData.size() != 1) {
+                    return;
+                }
+
+                ExperimentData experiment = selectedData.get(0);
+
+                ProcessTab tab = view.getProcessTab();
+                tab.reset( experiment );
+
+                view.getTabbedPane().setSelectedComponent(tab);
             }
         };
     }

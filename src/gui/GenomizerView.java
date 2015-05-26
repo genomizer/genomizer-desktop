@@ -272,6 +272,8 @@ public interface GenomizerView {
 
     public int getSelectedIndex(); // unused commented~
 
+    public Class<?> getSelectedTabClass();
+
     public void addChangedTabListener(ChangeListener listener); // unused N/A
 
     public void addAddToExistingExpButtonListenerInSearch(
