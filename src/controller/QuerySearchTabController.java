@@ -1,9 +1,17 @@
 package controller;
 
+import gui.ErrorDialog;
+import gui.GUI;
+import gui.QueryBuilderRow;
+import gui.QuerySearchTab;
+import gui.UploadTab;
+
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
-import javax.swing.JOptionPane;
+
+import javax.swing.event.TreeSelectionEvent;
+import javax.swing.event.TreeSelectionListener;
 
 import model.ErrorLogger;
 import model.GenomizerModel;
@@ -11,11 +19,7 @@ import util.ActiveSearchPanel;
 import util.AnnotationDataType;
 import util.ExperimentData;
 import util.RequestException;
-import gui.ErrorDialog;
-import gui.GUI;
-import gui.UploadTab;
-import gui.QueryBuilderRow;
-import gui.QuerySearchTab;
+import util.TreeTable;
 
 public class QuerySearchTabController {
     GUI view;
@@ -24,7 +28,7 @@ public class QuerySearchTabController {
     private QuerySearchTab querySearchTab;
 
     public QuerySearchTabController(GUI view, GenomizerModel model) {
-        this.view = (GUI) view;
+        this.view = view;
         this.querySearchTab = view.getQuerySearchTab();
         this.model = model;
         // querySearchTab.addDownloadButtonListener(listener)
@@ -39,6 +43,28 @@ public class QuerySearchTabController {
         // view.addSearchToWorkspaceListener( SearchToWorkspaceListener());
         querySearchTab.addUploadToListener(SearchUploadToListener());
         // view.addUploadToListenerSearchTab( SearchUploadToListener());
+        querySearchTab.getResultsTable().addTreeSelectionListener(
+                SelectionListener());
+    }
+
+    public TreeSelectionListener SelectionListener() {
+
+        return new TreeSelectionListener() {
+
+            @Override
+            public void valueChanged(TreeSelectionEvent arg0) {
+                System.out.println("test");
+                TreeTable treeTable = querySearchTab.getResultsTable();
+                System.out.println(treeTable.getNumberOfSelected());
+                if (treeTable.getNumberOfSelected() > 0) {
+                    querySearchTab.getAddToWorkspaceButton().setEnabled(true);
+                    querySearchTab.getAddToUploadButton().setEnabled(true);
+                } else {
+                    querySearchTab.getAddToWorkspaceButton().setEnabled(false);
+                    querySearchTab.getAddToUploadButton().setEnabled(false);
+                }
+            }
+        };
 
     }
 
@@ -70,21 +96,15 @@ public class QuerySearchTabController {
         return new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                try {
-                    ExperimentData firstChosenExperiment = view
-                            .getQuerySearchTab().getSelectedData().get(0);
+                ExperimentData firstChosenExperiment = view.getQuerySearchTab()
+                        .getSelectedData().get(0);
 
-                    UploadTab ut = view.getUploadTab();
-                    ut.getNewExpPanel().setSelectButtonEnabled(true);
-                    view.getTabbedPane().setSelectedComponent(ut);
-                    ut.getExperimentNameField().setText(
-                            firstChosenExperiment.getName());
-                    ut.getExistingExpButton().doClick();
-                } catch (IndexOutOfBoundsException ee) {
-                    ErrorLogger.log(ee);
-                    JOptionPane.showMessageDialog(null,
-                            "No experiment was selected.");
-                }
+                UploadTab ut = view.getUploadTab();
+                ut.getNewExpPanel().setSelectButtonEnabled(true);
+                view.getTabbedPane().setSelectedComponent(ut);
+                ut.getExperimentNameField().setText(
+                        firstChosenExperiment.getName());
+                ut.getExistingExpButton().doClick();
             }
         };
     }
@@ -155,8 +175,11 @@ public class QuerySearchTabController {
                             new ErrorDialog("Search failed", e).showDialog();
                             ErrorLogger.log(e);
                         }
+                        querySearchTab.getResultsTable()
+                                .addTreeSelectionListener(SelectionListener());
                     };
                 }.start();
+
             }
         };
     }
@@ -191,7 +214,6 @@ public class QuerySearchTabController {
                     public void run() {
                         ArrayList<ExperimentData> selectedData = view
                                 .getQuerySearchTab().getSelectedData();
-                        if (selectedData != null && selectedData.size() > 0) {
                             if (selectedData.size() == 1) {
                                 view.setStatusPanel(selectedData.get(0).name
                                         + " was added to the workspace.");
@@ -209,11 +231,6 @@ public class QuerySearchTabController {
                             view.getWorkSpaceTab().addExperimentsToTable(
                                     view.getQuerySearchTab().getSelectedData());
                             view.getWorkSpaceTab().changeTab(0);
-                        } else {
-
-                            view.setStatusPanel("No data selected!");
-                            view.setStatusPanelColor("fail");
-                        }
                         view.getQuerySearchTab().clearSearchSelection();
                     };
                 }.start();
