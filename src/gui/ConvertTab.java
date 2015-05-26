@@ -50,7 +50,7 @@ import controller.UploadTabController;
 public class ConvertTab extends JPanel {
 
     private static final long serialVersionUID = -2830290705724588252L;
-    public JButton convertSelectedFiles, deleteSelectedFiles;
+    public JButton convertSelectedFiles, deleteSelectedFiles,removeAllConvertedFiles;
     private JPanel upperPanel;
     private Dimension panelSize = new Dimension(200,110);
     private ArrayList<ExperimentData> experimentData;
@@ -192,10 +192,13 @@ public class ConvertTab extends JPanel {
     private void setupDeletePanel(){
         deletePanel = new JPanel();
         deleteSelectedFiles = new JButton("Delete selected files");
+        removeAllConvertedFiles = new JButton("Clear converted files");
         deletePanel.add(deleteSelectedFiles);
+        deletePanel.add(removeAllConvertedFiles);
         deleteSelectedFiles.setEnabled(false);
         deletePanel.setBorder(BorderFactory.createTitledBorder("Delete"));
     }
+    
 
     /**
      * sets up the panel that contains which filetype you want to
@@ -265,7 +268,7 @@ public class ConvertTab extends JPanel {
     private void setupQueuedFilesPanel(){
         queuedFilesPanel = new JPanel();
         queuedFilesPanel.setPreferredSize(new Dimension(1225/2,30));
-        queuedFilesPanel.setBorder(BorderFactory.createTitledBorder("Converted to"));
+        queuedFilesPanel.setBorder(BorderFactory.createTitledBorder("Converted files"));
         add(queuedFilesPanel, BorderLayout.EAST);
 
         convertedFiles.setPreferredSize(new Dimension(560,480));
@@ -291,6 +294,14 @@ public class ConvertTab extends JPanel {
     public void deleteSelectedButtonListener(ActionListener listener) {
         deleteSelectedFiles.addActionListener(listener);
     }
+    
+    /**
+     * Add a listener to the deleteAllConvertedFiles button.
+     * @param listener
+     */
+    public void removeAllConvertedFileListener(ActionListener listener) {
+        removeAllConvertedFiles.addActionListener(listener);
+    }
 
     /**
      * Add a listener to the convertSelectedFiles button.
@@ -299,6 +310,8 @@ public class ConvertTab extends JPanel {
     public void convertSelectedButtonListener(ActionListener listener) {
         convertSelectedFiles.addActionListener(listener);
     }
+    
+    
 
 
     /**
@@ -606,6 +619,13 @@ public class ConvertTab extends JPanel {
         ConvertedfilesList = new JList<String>(convertedListModel);
         convertedFiles.setViewportView(ConvertedfilesList);
         queuedFilesPanel.add(convertedFiles);
+        this.revalidate();
+        this.repaint();
+    }
+    
+    public void emptyConvertedFilesList(){
+        ConvertedfilesList = new JList<String>();
+        convertedFiles.setViewportView(ConvertedfilesList);
         this.revalidate();
         this.repaint();
     }

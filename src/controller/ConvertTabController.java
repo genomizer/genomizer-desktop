@@ -43,6 +43,7 @@ public class ConvertTabController {
         ConvertTab ct = view.getConvertTab();
         ct.convertSelectedButtonListener(ConvertSelectedFileListener());
         ct.deleteSelectedButtonListener(DeleteSelectedFileListener());
+        ct.removeAllConvertedFileListener(RemoveAllConvertedFileListener());
         fileListAddMouseListener(view.getConvertTab().getFileList());
 
     }
@@ -77,8 +78,6 @@ public class ConvertTabController {
 
                             CheckListItem data = it.next();
                             try {
-                                System.out.println(data.fileId() + " "
-                                        + toformat.toLowerCase());
                                 if (model.convertFile(data.fileId(),
                                         toformat.toLowerCase())) {
                                     view.getConvertTab().addConvertedFile(
@@ -126,6 +125,22 @@ public class ConvertTabController {
                             view.getConvertTab().setFileInfo(exData);
                             deletedProcessFiles = true;
                         }
+
+                    };
+                }.start();
+            }
+        };
+    }
+
+    public ActionListener RemoveAllConvertedFileListener() {
+        return new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                new Thread() {
+                    @Override
+                    public void run() {
+
+                        view.getConvertTab().emptyConvertedFilesList();
 
                     };
                 }.start();

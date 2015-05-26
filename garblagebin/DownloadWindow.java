@@ -191,7 +191,7 @@ public class DownloadWindow extends JFrame {
 
                 running = true;
                 while (running) {
-                    System.out.println("Tick: " + this);
+                    //System.out.println("Tick: " + this);
 
                     ongoingPanel.removeAll();
                     if (ongoingDownloads != null) {
