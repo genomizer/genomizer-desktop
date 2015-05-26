@@ -61,7 +61,9 @@ public class ConvertTab extends JPanel {
     private JPanel queuedFilesPanel;
     private JPanel emptySouthPanel;
     private JList<CheckListItem> fileList = new JList<CheckListItem>();
+    private JList<String> ConvertedfilesList = new JList<String>();
     private final JScrollPane scrollFiles = new JScrollPane();
+    private final JScrollPane convertedFiles = new JScrollPane();
     private ConvertTabController convertTabController;
 
     public final JRadioButton cFromGFF = new JRadioButton("GFF");
@@ -254,6 +256,11 @@ public class ConvertTab extends JPanel {
         queuedFilesPanel.setPreferredSize(new Dimension(1225/2,30));
         queuedFilesPanel.setBorder(BorderFactory.createTitledBorder("Converted to"));
         add(queuedFilesPanel, BorderLayout.EAST);
+
+        convertedFiles.setPreferredSize(new Dimension(560,480));
+        queuedFilesPanel.add(convertedFiles,BorderLayout.CENTER);
+
+        convertedFiles.setViewportView(ConvertedfilesList);
 
     }
 
@@ -573,6 +580,15 @@ public class ConvertTab extends JPanel {
      */
     public ArrayList<ExperimentData> getFileInfo() {
         return this.experimentData;
+    }
+    /**
+     * Add a file to the converted files panel
+     * @param s
+     */
+    public void addConvertedFile(String s) {
+        ConvertedfilesList.add(new JLabel(s));
+        this.revalidate();
+        this.repaint();
     }
 
 }

@@ -75,7 +75,10 @@ public class ConvertTabController {
                             CheckListItem data = it.next();
                             try {
                                 System.out.println(data.fileId() + " " + toformat.toLowerCase());
-                                model.convertFile(data.fileId(), toformat.toLowerCase());
+                                if(model.convertFile(data.fileId(), toformat.toLowerCase())) {
+                                    view.getConvertTab().addConvertedFile(data.getfile().filename);
+                                }
+                                
                             } catch (RequestException e) {
                                 new ErrorDialog("Convert", e).showDialog();
                             }
