@@ -195,12 +195,9 @@ public class WorkspaceTabController {
         return new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-
-                        // TODO Skicka in filedata arrayen
-                        ExperimentData selecteddata = workspaceTab.getTable().getSelectedExperiment();
-
-                        view.setSelectedExperiment(selecteddata);
-
+                ExperimentData selecteddata = workspaceTab.getTable()
+                        .getSelectedExperiment();
+                view.setSelectedExperiment(selecteddata);
             }
         };
     }
@@ -211,8 +208,8 @@ public class WorkspaceTabController {
             public void actionPerformed(ActionEvent e) {
 
                 try {
-                    ExperimentData firstChosenExperiment =
-                            workspaceTab.getTable().getSelectedExperiment();
+                    ExperimentData firstChosenExperiment = workspaceTab
+                            .getTable().getSelectedExperiment();
                     UploadTab ut = view.getUploadTab();
                     view.getTabbedPane().setSelectedComponent(ut);
                     ut.getExperimentNameField().setText(
