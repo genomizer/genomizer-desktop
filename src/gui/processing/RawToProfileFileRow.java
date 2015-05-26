@@ -37,18 +37,6 @@ public class RawToProfileFileRow extends JComponent {
         addInputFields();
     }
 
-//    public static void main(String[] args) {
-//        JFrame frame = new JFrame();
-//
-//        String[] fileNames = {"bild.png", "stinkern.txt", "hus.jpg"};
-//        String[] genomeReleases = {"hg37", "hg38", "rat"};
-//
-//        frame.add(new RawToProfileFileRow(fileNames, genomeReleases));
-//        frame.pack();
-//        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-//        frame.setVisible(true);
-//    }
-
     private void addLabels() {
         inFileLabel = new JLabel("Infile");
         outFileLabel = new JLabel("Outfile");
@@ -65,8 +53,8 @@ public class RawToProfileFileRow extends JComponent {
         inFileComboBox = new JComboBox<String>(fileNames);
         outFileTextField = new JTextField();
         flagsTextField = new JTextField();
-        genomeReleaseComboBox = new JComboBox<String>(genomeReleases);       
-        
+        genomeReleaseComboBox = new JComboBox<String>(genomeReleases);
+
         outFileTextField.setDocument(new JTextFieldLimit(32));
         flagsTextField.setDocument(new JTextFieldLimit(32));
 

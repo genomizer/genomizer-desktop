@@ -3,6 +3,9 @@
 package controller;
 
 import gui.GUI;
+import gui.QuerySearchTab;
+import gui.UploadTab;
+import gui.processing.ProcessTab;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -48,7 +51,7 @@ public class Controller {
     /**
      * Update all the actionlisteners in the tabs.
      */
-    public void updateTabs() {
+    public void createTabControllers() {
 
         QuerySearchTabController querySearchTabController = new QuerySearchTabController(
                 view, model);
@@ -120,26 +123,36 @@ public class Controller {
                         // If logged out
                         if (User.getInstance().getToken() == "") return;
 
+                        Class<?> tab = view.getSelectedTabClass();
+
                         AnnotationDataType[] a = null;
-                        if (view.getSelectedIndex() == 1
-                                || view.getSelectedIndex() == 0) {
+                        if (tab == UploadTab.class
+                                || tab == QuerySearchTab.class) {
                                 a = model.getAnnotations();
                         }
 
-                        if (view.getSelectedIndex() == 1) {
+                        if (tab == UploadTab.class) {
                             // uplod
                             if (((a) != null)
                                     && view.getUploadTab().newExpStarted()) {
                                 view.getUploadTab().getNewExpPanel()
                                         .updateAnnotations(a);
                             }
-                        } else if (view.getSelectedIndex() == 0) {
+                        } else if (tab == QuerySearchTab.class) {
                             // Query
                             if ((a) != null) {
                                 view.getQuerySearchTab().setAnnotationTypes(a);
                                 view.getQuerySearchTab().refresh();
                             }
                         }
+
+                        if (tab == ProcessTab.class ){
+
+                            // TODO
+                            System.out.println("SELECTED PROCESS TAB");
+
+                        }
+
                     };
                 }.start();
             }
@@ -217,7 +230,7 @@ public class Controller {
                                 sessionHandler.loginUser(username, password);
                                 view.updateLoginAccepted(username, password,
                                         "Desktop User");
-                                updateTabs();
+                                createTabControllers();
                                 view.getSysAdminTab().getController()
                                         .updateAnnotationTable();
                                 view.getSysAdminTab().getController()

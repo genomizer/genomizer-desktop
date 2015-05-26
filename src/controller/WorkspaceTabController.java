@@ -202,6 +202,7 @@ public class WorkspaceTabController {
                                 }
                             }
                         }
+                        
 //                        view.getProcessTab().setSelectedExperiment(selecteddata);
                         view.setProcessFileList(selecteddata);
                     };
