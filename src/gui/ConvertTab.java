@@ -99,11 +99,11 @@ public class ConvertTab extends JPanel {
 
 
     }
-    
+
     public void setCount(int c){
         count = c;
     }
-    
+
     public int getCount(){
         return count;
     }
@@ -198,7 +198,7 @@ public class ConvertTab extends JPanel {
         deleteSelectedFiles.setEnabled(false);
         deletePanel.setBorder(BorderFactory.createTitledBorder("Delete"));
     }
-    
+
 
     /**
      * sets up the panel that contains which filetype you want to
@@ -294,7 +294,7 @@ public class ConvertTab extends JPanel {
     public void deleteSelectedButtonListener(ActionListener listener) {
         deleteSelectedFiles.addActionListener(listener);
     }
-    
+
     /**
      * Add a listener to the deleteAllConvertedFiles button.
      * @param listener
@@ -310,8 +310,8 @@ public class ConvertTab extends JPanel {
     public void convertSelectedButtonListener(ActionListener listener) {
         convertSelectedFiles.addActionListener(listener);
     }
-    
-    
+
+
 
 
     /**
@@ -482,7 +482,7 @@ public class ConvertTab extends JPanel {
         }
         return arr;
     }
-    
+
     public void resetFileList(){
         fileList.removeAll();
     }
@@ -622,9 +622,10 @@ public class ConvertTab extends JPanel {
         this.revalidate();
         this.repaint();
     }
-    
+
     public void emptyConvertedFilesList(){
-        ConvertedfilesList = new JList<String>();
+        convertedListModel = new DefaultListModel<String>();
+        ConvertedfilesList = new JList<String>(convertedListModel);
         convertedFiles.setViewportView(ConvertedfilesList);
         this.revalidate();
         this.repaint();
