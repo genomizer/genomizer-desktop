@@ -19,9 +19,8 @@ import javax.swing.border.TitledBorder;
 import util.IconFactory;
 
 @SuppressWarnings("serial")
-public class RawToProfileCommandComponent extends JComponent implements CommandComponent {
+public class RawToProfileCommandComponent extends  CommandComponent {
 
-    private String commandName;
     private String[] fileNames;
     private String[] genomeReleases;
 
@@ -33,7 +32,8 @@ public class RawToProfileCommandComponent extends JComponent implements CommandC
     public RawToProfileCommandComponent(String commandName, String[] fileNames,
             String[] genomeReleases) {
 
-        this.commandName = commandName;
+        super(commandName);
+
         this.fileNames = fileNames;
         this.genomeReleases = genomeReleases;
 
@@ -113,6 +113,7 @@ public class RawToProfileCommandComponent extends JComponent implements CommandC
         newFileRowButton.addActionListener(new NewFileRowButtonListener());
         this.add(newFileRowButton);
     }
+
 
     private class RemoveButtonListener implements ActionListener {
 
