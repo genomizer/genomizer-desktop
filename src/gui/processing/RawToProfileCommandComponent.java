@@ -15,6 +15,7 @@ import javax.swing.JButton;
 import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.border.TitledBorder;
@@ -47,26 +48,6 @@ public class RawToProfileCommandComponent extends JComponent {
     }
 
 
-    public static void main(String[] args) {
-
-        try {
-            UIManager
-                    .setLookAndFeel("javax.swing.plaf.nimbus.NimbusLookAndFeel");
-        } catch (ClassNotFoundException | InstantiationException
-                | IllegalAccessException | UnsupportedLookAndFeelException e) {
-        }
-
-
-        JFrame frame = new JFrame();
-        String commandName = "Glass e gott";
-        String[] fileNames = {"bild.png", "stinkern.txt", "hus.jpg"};
-        String[] genomeReleases = {"hg37", "hg38", "rat"};
-        frame.add(new RawToProfileCommandComponent(commandName, fileNames, genomeReleases));
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.pack();
-        frame.setVisible(true);
-    }
-
     private void addFileRow() {
 
         JPanel fileRowPanel = new JPanel();
@@ -74,13 +55,13 @@ public class RawToProfileCommandComponent extends JComponent {
 
         RawToProfileFileRow fileRow = new RawToProfileFileRow(fileNames, genomeReleases);
 
-        
-        JPanel removeButtonPanel = new JPanel(new GridLayout(2,1));   
-        
+
+        JPanel removeButtonPanel = new JPanel(new GridLayout(2,1));
+
         JButton removeButton = buildRemoveButton();
         removeButton.addActionListener(new RemoveButtonListener());
         removeButtonToPanelMap.put(removeButton, fileRowPanel);
-        
+
         JPanel paddingPanel = new JPanel();
         paddingPanel.setPreferredSize(new Dimension(17, 17));
         removeButtonPanel.add(paddingPanel);
@@ -95,7 +76,7 @@ public class RawToProfileCommandComponent extends JComponent {
         this.revalidate();
 
     }
-    
+
 
     private JButton buildRemoveButton() {
         ImageIcon icon = IconFactory.getMinusIcon(15, 15);
