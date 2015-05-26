@@ -71,12 +71,21 @@ public class WorkspaceTabController {
             @Override
             public void valueChanged(TreeSelectionEvent arg0) {
                 System.out.println(treeTable.getNumberOfSelected());
-                if (treeTable.getNumberOfSelected() > 1) {
-                    workspaceTab.getProcessButton().setEnabled(false);
-                    workspaceTab.getUploadToButton().setEnabled(false);
-                } else {
+                if (treeTable.getNumberOfSelected() == 1) {
                     workspaceTab.getProcessButton().setEnabled(true);
                     workspaceTab.getUploadToButton().setEnabled(true);
+                } else {
+                    workspaceTab.getProcessButton().setEnabled(false);
+                    workspaceTab.getUploadToButton().setEnabled(false);
+                }
+                if (treeTable.getNumberOfSelected() > 0) {
+                    workspaceTab.getRemoveButton().setEnabled(true);
+                    workspaceTab.getDownloadButton().setEnabled(true);
+                    workspaceTab.getConvertButton().setEnabled(true);
+                } else {
+                    workspaceTab.getRemoveButton().setEnabled(false);
+                    workspaceTab.getDownloadButton().setEnabled(false);
+                    workspaceTab.getConvertButton().setEnabled(false);
                 }
             }
         };

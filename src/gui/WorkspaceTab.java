@@ -305,4 +305,16 @@ public class WorkspaceTab extends JPanel {
     public JButton getUploadToButton() {
         return uploadToButton;
     }
+
+    public JButton getRemoveButton() {
+        return removeButton;
+    }
+
+    public JButton getDownloadButton() {
+        return downloadButton;
+    }
+
+    public JButton getConvertButton() {
+        return convertButton;
+    }
 }
