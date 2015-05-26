@@ -376,6 +376,29 @@ public class TreeTable extends JPanel {
 
     }
 
+    public ExperimentData getSelectedExperiment() {
+        int row = table.getSelectedRow();
+        TreePath path = table.getPathForRow(row);
+        // if (nodeObject instanceof ExperimentNode) {
+        // System.out.println("ExperimentNode");
+        // } else if (nodeObject instanceof FileNode) {
+        // System.out.println("FileNode");
+        // }
+
+        while (path.getParentPath().getParentPath() != null) {
+            path = path.getParentPath();
+//            System.out.println(path.getPathCount());
+        }
+        Object nodeObject = path.getLastPathComponent();
+        if (nodeObject instanceof ExperimentNode) {
+            System.out.println("ExperimentNode");
+        }
+        ExperimentNode expNode = (ExperimentNode) nodeObject;
+        ExperimentData exp = expNode.getExperiment();
+        return exp;
+
+    }
+
     /**
      * Return the selected data in the tree table
      *
@@ -613,12 +636,9 @@ public class TreeTable extends JPanel {
             // TODO Hantera exception CF
         }
     }
-    public int getNumberOfSelected(){
+
+    public int getNumberOfSelected() {
         return table.getSelectedRows().length;
     }
-    public ExperimentData getSelectedExperiment(){
 
-        return null;
-
-    }
 }

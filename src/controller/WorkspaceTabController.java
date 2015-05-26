@@ -51,7 +51,6 @@ public class WorkspaceTabController {
         workspaceTab = view.getWorkSpaceTab();
         treeTable = workspaceTab.getTable();
 
-
         workspaceTab.addDownloadFileListener(DownloadFileListener());
         workspaceTab.addProcessFileListener(ProcessFileListener());
         workspaceTab.addUploadToListener(UploadToListener());
@@ -67,21 +66,20 @@ public class WorkspaceTabController {
 
     private TreeSelectionListener SelectionListener() {
 
-
-
-        return new TreeSelectionListener(){
+        return new TreeSelectionListener() {
 
             @Override
             public void valueChanged(TreeSelectionEvent arg0) {
                 System.out.println(treeTable.getNumberOfSelected());
-                if(treeTable.getNumberOfSelected() > 1){
+                if (treeTable.getNumberOfSelected() > 1) {
                     workspaceTab.getProcessButton().setEnabled(false);
                     workspaceTab.getUploadToButton().setEnabled(false);
                 } else {
                     workspaceTab.getProcessButton().setEnabled(true);
                     workspaceTab.getUploadToButton().setEnabled(true);
                 }
-            }};
+            }
+        };
 
     }
 
@@ -192,6 +190,8 @@ public class WorkspaceTabController {
                     @Override
                     public void run() {
                         // TODO Skicka in filedata arrayen
+                        ExperimentData selecteddata = workspaceTab.getTable().getSelectedExperiment();
+//                        System.out.println(selecteddata.name);
                         ArrayList<ExperimentData> selectedData = view
                                 .getWorkSpaceTab().getSelectedData();
                         ArrayList<FileData> selectedFiles = new ArrayList<>();
@@ -202,7 +202,8 @@ public class WorkspaceTabController {
                                 }
                             }
                         }
-                        // view.setProcessFileList(selectedFiles);
+//                        view.getProcessTab().setSelectedExperiment(selecteddata);
+                        view.setProcessFileList(selecteddata);
                     };
                 }.start();
             }
