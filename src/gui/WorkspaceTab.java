@@ -42,6 +42,7 @@ public class WorkspaceTab extends JPanel {
     private JButton deleteButton, removeButton, downloadButton;
     private JButton uploadToButton, processButton, ongoingDownloadsButton, convertButton;
 
+
     private JTabbedPane tabbedPane;
     private JPanel ongoingDownloadsPanel;
     private JPanel bottomPanel;
@@ -300,5 +301,8 @@ public class WorkspaceTab extends JPanel {
     }
     public JButton getProcessButton() {
         return processButton;
+    }
+    public JButton getUploadToButton() {
+        return uploadToButton;
     }
 }
