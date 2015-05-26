@@ -3,21 +3,19 @@ package gui.processing;
 import gui.CustomButtonFactory;
 
 import java.awt.Component;
-import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Stack;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
-import javax.swing.JComponent;
 import javax.swing.JPanel;
 import javax.swing.border.TitledBorder;
 
@@ -34,7 +32,7 @@ public class RawToProfileCommandComponent extends  CommandComponent {
     private int fileRowCount = 0;
 
     private HashMap<JButton, JPanel> removeButtonToPanelMap = new HashMap<JButton, JPanel>();
-    private ArrayList<RawToProfileFileRow> fileRowList;
+    private CopyOnWriteArrayList<RawToProfileFileRow> fileRowList;
     private Stack<JPanel> buttonPanelStack = new Stack<JPanel>();
 
     public RawToProfileCommandComponent(String commandName, String[] fileNames,
@@ -48,7 +46,7 @@ public class RawToProfileCommandComponent extends  CommandComponent {
         this.setBorder(new TitledBorder(commandName));
         this.setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
 
-        fileRowList = new ArrayList<RawToProfileFileRow>();
+        fileRowList = new CopyOnWriteArrayList<RawToProfileFileRow>();
 
         addFileRow();
     }
@@ -112,9 +110,9 @@ public class RawToProfileCommandComponent extends  CommandComponent {
 
 
     private void removeFileRow(Object source) {
-        JPanel fileRowToRemove = removeButtonToPanelMap.get(source);
-        this.remove(fileRowToRemove);
-        fileRowList.remove(fileRowToRemove);
+        JPanel fileRowPanelToRemove = removeButtonToPanelMap.get(source);
+        this.remove(fileRowPanelToRemove);
+        removeFileRowWithParent(fileRowPanelToRemove);
 
         if (buttonPanelStack.peek().isAncestorOf((Component) source) ||  buttonPanelStack.size()==1) {
             removeButtonToPanelMap.remove(source);
@@ -133,6 +131,16 @@ public class RawToProfileCommandComponent extends  CommandComponent {
         this.revalidate();
         fileRowCount--;
 
+    }
+
+    private void removeFileRowWithParent(JPanel parent) {
+        Iterator<RawToProfileFileRow> fileRowIterator = fileRowList.iterator();
+        while(fileRowIterator.hasNext()) {
+            RawToProfileFileRow currentRow = fileRowIterator.next();
+            if(parent.isAncestorOf(currentRow)) {
+                fileRowList.remove(currentRow);
+            }
+        }
     }
 
     private static JButton buildNewRowButton() {
@@ -170,7 +178,7 @@ public class RawToProfileCommandComponent extends  CommandComponent {
     private class RemoveButtonListener implements ActionListener {
 
         @Override
-        public void actionPerformed(ActionEvent e) {
+        public void actionPerformed( ActionEvent e) {
             removeFileRow(e.getSource());
         }
 
