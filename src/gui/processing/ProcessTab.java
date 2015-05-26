@@ -6,13 +6,13 @@ import java.awt.Dimension;
 import javax.swing.JPanel;
 
 import util.Constants;
-
 import util.ExperimentData;
 import controller.ProcessTabController;
 
 public class ProcessTab extends JPanel {
 
     private ProcessTabController processTabController;
+    private ExperimentData selectedExperiment;
 
     public ProcessTab() {
         setPreferredSize(new Dimension(1225, 725));
@@ -27,10 +27,6 @@ public class ProcessTab extends JPanel {
         this.processTabController = processTabController;
     }
 
-    public void setSelectedExperiment(ExperimentData experimentData) {
-        // TODO Auto-generated method stub
-
-    }
 
     public void reset(ExperimentData experiment) {
 

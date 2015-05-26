@@ -6,7 +6,6 @@ import gui.ErrorDialog;
 import gui.GUI;
 import gui.UploadTab;
 import gui.WorkspaceTab;
-import gui.processing.ProcessTab;
 
 import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
@@ -187,20 +186,12 @@ public class WorkspaceTabController {
         return new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                // TODO Skicka in filedata arrayen
-                ArrayList<ExperimentData> selectedData = view.getWorkSpaceTab()
-                        .getSelectedData();
 
-                if (selectedData.size() != 1) {
-                    return;
-                }
+                        // TODO Skicka in filedata arrayen
+                        ExperimentData selecteddata = workspaceTab.getTable().getSelectedExperiment();
 
-                ExperimentData experiment = selectedData.get(0);
+                        view.setSelectedExperiment(selecteddata);
 
-                ProcessTab tab = view.getProcessTab();
-                tab.reset( experiment );
-
-                view.getTabbedPane().setSelectedComponent(tab);
             }
         };
     }
