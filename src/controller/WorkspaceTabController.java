@@ -202,8 +202,8 @@ public class WorkspaceTabController {
             public void actionPerformed(ActionEvent e) {
 
                 try {
-                    ExperimentData firstChosenExperiment = view
-                            .getWorkSpaceTab().getSelectedExperiments().get(0);
+                    ExperimentData firstChosenExperiment =
+                            workspaceTab.getTable().getSelectedExperiment();
                     UploadTab ut = view.getUploadTab();
                     view.getTabbedPane().setSelectedComponent(ut);
                     ut.getExperimentNameField().setText(
