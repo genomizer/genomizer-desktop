@@ -48,6 +48,7 @@ public class WorkspaceTabController {
         this.view = view;
         this.model = model;
         this.fileChooser = fileChooser;
+        fileChooser.setApproveButtonText("Select");
         workspaceTab = view.getWorkSpaceTab();
         treeTable = workspaceTab.getTable();
 
@@ -115,8 +116,7 @@ public class WorkspaceTabController {
                                     "No files were selected.");
                             return;
                         }
-                        fileChooser
-                                .setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+                        fileChooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
                         int ret = fileChooser.showOpenDialog(new JPanel());
                         String directoryName = "";
                         if (ret == JFileChooser.APPROVE_OPTION) {

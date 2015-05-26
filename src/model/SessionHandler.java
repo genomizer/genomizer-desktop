@@ -26,11 +26,12 @@ public class SessionHandler {
     private ConnectionFactory connFactory = new ConnectionFactory();
 
     /** The SessionHandler instance */
-    private static SessionHandler instance = new SessionHandler();
+    private static final SessionHandler instance = new SessionHandler();
 
     /** Private constructor (class is singleton, there can be only one instance) */
     private SessionHandler() {
     }
+
 
     /**
      * Returns the instance of the SessionHandler
