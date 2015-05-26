@@ -52,7 +52,7 @@ public class WorkspaceTabController {
         treeTable = workspaceTab.getTable();
 
         workspaceTab.addDownloadFileListener(DownloadFileListener());
-        workspaceTab.addProcessFileListener(ProcessFileListener());
+        workspaceTab.addProcessFileListener(processExperimentListener());
         workspaceTab.addUploadToListener(UploadToListener());
 
         workspaceTab.addConvertFileListener(ConvertFileListener());
@@ -191,15 +191,16 @@ public class WorkspaceTabController {
         };
     }
 
-    public ActionListener ProcessFileListener() {
+    public ActionListener processExperimentListener() {
         return new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
 
-                        // TODO Skicka in filedata arrayen
-                        ExperimentData selecteddata = workspaceTab.getTable().getSelectedExperiment();
+                // TODO Skicka in filedata arrayen
+                ExperimentData selecteddata = workspaceTab.getTable()
+                        .getSelectedExperiment();
 
-                        view.setSelectedExperiment(selecteddata);
+                view.setSelectedExperiment(selecteddata);
 
             }
         };
