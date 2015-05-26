@@ -76,8 +76,10 @@ public class WorkspaceTabController {
                 System.out.println(treeTable.getNumberOfSelected());
                 if(treeTable.getNumberOfSelected() > 1){
                     workspaceTab.getProcessButton().setEnabled(false);
+                    workspaceTab.getUploadToButton().setEnabled(false);
                 } else {
                     workspaceTab.getProcessButton().setEnabled(true);
+                    workspaceTab.getUploadToButton().setEnabled(true);
                 }
             }};
 

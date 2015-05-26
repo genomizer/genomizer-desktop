@@ -617,6 +617,7 @@ public class TreeTable extends JPanel {
         return table.getSelectedRows().length;
     }
     public ExperimentData getSelectedExperiment(){
+
         return null;
 
     }
