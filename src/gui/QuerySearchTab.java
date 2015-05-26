@@ -132,6 +132,18 @@ public class QuerySearchTab extends JPanel {
         activePanel = ActiveSearchPanel.TABLE;
         repaint();
         revalidate();
+        resultsTable.addTreeSelectionListener(new TreeSelectionListener() {
+            @Override
+            public void valueChanged(TreeSelectionEvent arg0) {
+                if (resultsTable.getNumberOfSelected() > 0) {
+                    addToWorkspaceButton.setEnabled(true);
+                    addToUploadButton.setEnabled(true);
+                } else {
+                    addToWorkspaceButton.setEnabled(false);
+                    addToUploadButton.setEnabled(false);
+                }
+            }
+        });
     }
 
     /**
