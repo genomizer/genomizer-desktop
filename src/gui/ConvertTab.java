@@ -50,7 +50,7 @@ import controller.UploadTabController;
 public class ConvertTab extends JPanel {
 
     private static final long serialVersionUID = -2830290705724588252L;
-    private JButton convertSelectedFiles, deleteSelectedFiles;
+    public JButton convertSelectedFiles, deleteSelectedFiles;
     private JPanel upperPanel;
     private Dimension panelSize = new Dimension(200,110);
     private ArrayList<ExperimentData> experimentData;
@@ -61,6 +61,7 @@ public class ConvertTab extends JPanel {
     private JPanel selectedFilesPanel;
     private JPanel queuedFilesPanel;
     private JPanel emptySouthPanel;
+    private int count = 0;
     private JList<CheckListItem> fileList = new JList<CheckListItem>();
     private JList<String> ConvertedfilesList = new JList<String>();
     private final JScrollPane scrollFiles = new JScrollPane();
@@ -97,6 +98,14 @@ public class ConvertTab extends JPanel {
         check();
 
 
+    }
+    
+    public void setCount(int c){
+        count = c;
+    }
+    
+    public int getCount(){
+        return count;
     }
 
     /**
@@ -459,6 +468,10 @@ public class ConvertTab extends JPanel {
             checkItemIsSelected(arr, checkItem);
         }
         return arr;
+    }
+    
+    public void resetFileList(){
+        fileList.removeAll();
     }
 
     /**

@@ -26,6 +26,7 @@ public class ConvertTabController {
     GUI view;
     GenomizerModel model;
     private boolean deletedProcessFiles = false;
+    private int count = 0;
 
     /**
      * Constructor..
@@ -57,6 +58,7 @@ public class ConvertTabController {
                 new Thread() {
                     @Override
                     public void run() {
+
                         // TODO Skicka in filedata arrayen
                         String toformat = null;
                         ArrayList<CheckListItem> selectedFiles = view
@@ -120,6 +122,7 @@ public class ConvertTabController {
                             view.getConvertTab().setDeleteButtonDisabled();
                             view.getConvertTab().setAllButtonsNotSelected();
 
+
                             view.getConvertTab().setFileInfo(exData);
                             deletedProcessFiles = true;
                         }
@@ -131,10 +134,12 @@ public class ConvertTabController {
     }
 
     private void fileListAddMouseListener(JList fileList) {
+        view.getConvertTab().setCount(0);
+
         fileList.addMouseListener(new MouseAdapter() {
 
             String species = "";
-            int count = 0;
+
             String fileType1 = "";
             String fileType2 = "";
             ArrayList<String> fileTypeList = null;
@@ -145,7 +150,7 @@ public class ConvertTabController {
 
                 if (deletedProcessFiles) {
                     species = "";
-                    count = 0;
+                    view.getConvertTab().setCount(0);
                     view.getConvertTab().resetCurrentSelectedFileType();
                 }
 
@@ -162,12 +167,12 @@ public class ConvertTabController {
                     String fileName = item.getfile().getName().toUpperCase();
                     fileType1 = fileName.substring(fileName.lastIndexOf(".") + 1);
 
-                    if (count == 0) {
+                    if (view.getConvertTab().getCount() == 0) {
                         fileType2 = "";
                         view.getConvertTab().resetCurrentSelectedFileType();
 
                     }
-                    if (fileType2.equals("") && count == 0) {
+                    if (fileType2.equals("") && view.getConvertTab().getCount() == 0) {
                         fileName = item.getfile().getName().toUpperCase();
                         fileType2 = fileName.substring(fileName
                                 .lastIndexOf(".") + 1);
@@ -186,13 +191,13 @@ public class ConvertTabController {
                         item.setSelected(!item.isSelected());
 
                         if (item.isSelected()) {
-                            count++;
+                            view.getConvertTab().setCount(view.getConvertTab().getCount() + 1);
                         } else {
-                            count--;
+                            view.getConvertTab().setCount(view.getConvertTab().getCount() - 1);
                         }
 
                     }
-                    if (count == 0) {
+                    if (view.getConvertTab().getCount() == 0) {
                         view.getConvertTab().setAllButtonsNotSelected();
                         view.getConvertTab().setConvertButtonDisabled();
                         view.getConvertTab().setDeleteButtonDisabled();

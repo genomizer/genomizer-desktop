@@ -587,12 +587,12 @@ public class GUI extends JFrame {
         return convertTab;
     }
 
-    public void setConvertFileList(ArrayList<FileData> arrayList) {
-        ArrayList<FileData> fileArray = arrayList;
+    public void setConvertFileList() {
 
         tabbedPane.setSelectedComponent(convertTab);
         convertTab.setFileInfo(workspaceTab.getSelectedData());
 
     }
+
 
 }
