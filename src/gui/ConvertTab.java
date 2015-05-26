@@ -14,6 +14,7 @@ import java.util.concurrent.CopyOnWriteArrayList;
 
 import javax.swing.BorderFactory;
 import javax.swing.ButtonGroup;
+import javax.swing.DefaultListModel;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
@@ -65,6 +66,7 @@ public class ConvertTab extends JPanel {
     private final JScrollPane scrollFiles = new JScrollPane();
     private final JScrollPane convertedFiles = new JScrollPane();
     private ConvertTabController convertTabController;
+    private DefaultListModel<String> convertedListModel = new DefaultListModel<String>();
 
     public final JRadioButton cFromGFF = new JRadioButton("GFF");
     public final JRadioButton cFromWIG = new JRadioButton("WIG");
@@ -586,7 +588,11 @@ public class ConvertTab extends JPanel {
      * @param s
      */
     public void addConvertedFile(String s) {
-        ConvertedfilesList.add(new JLabel(s));
+        convertedListModel.addElement(s);
+        queuedFilesPanel.remove(convertedFiles);
+        ConvertedfilesList = new JList<String>(convertedListModel);
+        convertedFiles.setViewportView(ConvertedfilesList);
+        queuedFilesPanel.add(convertedFiles);
         this.revalidate();
         this.repaint();
     }
