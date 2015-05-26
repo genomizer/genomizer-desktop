@@ -16,6 +16,8 @@ public class ProcessTab extends JPanel {
     private ExperimentData selectedExperiment;
     private CommandChooser chooser;
     private CommandScrollPane scrollPane;
+    private ProcessInfoPanel infoPanel;
+    private ProcessSouthPanel southPanel;
 
     public ProcessTab() {
         setPreferredSize(new Dimension(1225, 725));
@@ -28,6 +30,12 @@ public class ProcessTab extends JPanel {
 
         this.scrollPane = new CommandScrollPane();
         this.add(scrollPane, BorderLayout.CENTER);
+
+        this.infoPanel = new ProcessInfoPanel();
+        this.add(infoPanel, BorderLayout.EAST);
+
+        this.southPanel = new ProcessSouthPanel();
+        this.add(southPanel, BorderLayout.SOUTH);
 
     }
 
@@ -61,6 +69,8 @@ public class ProcessTab extends JPanel {
         // Add new command tab
         String []s = {"abc"};
         this.scrollPane.addCommandComponent( new RawToProfileCommandComponent( selectedCommand, s,  s));
+        this.revalidate();
+        this.repaint();
 
     }
 
