@@ -417,7 +417,7 @@ public class Model implements GenomizerModel {
         updateTabModel.clearTickingThread();
     }
 
-    public int convertFile(String fileid, String toformat)
+    public boolean convertFile(String fileid, String toformat)
             throws RequestException {
         FileConversionRequest request = RequestFactory
                 .makeFileConversionRequest(fileid, toformat);
@@ -425,7 +425,7 @@ public class Model implements GenomizerModel {
         conn.sendRequest(request, User.getInstance().getToken(),
                 Constants.JSON);
 
-        return conn.getResponseCode();
+        return conn.getResponseCode()==200;
     }
 
 }

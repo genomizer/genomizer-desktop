@@ -111,5 +111,5 @@ public interface GenomizerModel {
 
     public void clearTickingTasks();
 
-    public int convertFile(String fileid, String toformat) throws RequestException;
+    public boolean convertFile(String fileid, String toformat) throws RequestException;
 }

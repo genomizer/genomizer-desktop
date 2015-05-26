@@ -252,7 +252,7 @@ public class ConvertTab extends JPanel {
     private void setupQueuedFilesPanel(){
         queuedFilesPanel = new JPanel();
         queuedFilesPanel.setPreferredSize(new Dimension(1225/2,30));
-        queuedFilesPanel.setBorder(BorderFactory.createTitledBorder("Convert to"));
+        queuedFilesPanel.setBorder(BorderFactory.createTitledBorder("Converted to"));
         add(queuedFilesPanel, BorderLayout.EAST);
 
     }
