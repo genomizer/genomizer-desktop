@@ -551,4 +551,16 @@ public class QuerySearchTab extends JPanel {
         return (rowList.indexOf(queryRow) == (size - 1));
     }
 
+    public TreeTable getResultsTable() {
+        return resultsTable;
+    }
+
+    public JButton getAddToWorkspaceButton() {
+        return addToWorkspaceButton;
+    }
+
+    public JButton getAddToUploadButton() {
+        return addToUploadButton;
+    }
+
 }
