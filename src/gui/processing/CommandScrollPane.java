@@ -142,7 +142,7 @@ public class CommandScrollPane extends JScrollPane {
         CommandScrollPane c = new CommandScrollPane();
         c.addCommandComponent(comp1);
         c.addCommandComponent(comp2);
-        JButton knappen = new JButton("KÖR!!!");
+        JButton knappen = new JButton("KÃ–R!!!");
         knappen.addActionListener(new ProcessButtonListener(c));
         frame.add(c, BorderLayout.CENTER);
         frame.add(knappen, BorderLayout.SOUTH);
