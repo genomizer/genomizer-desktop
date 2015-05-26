@@ -204,7 +204,7 @@ public class QuerySearchTabController {
             }
         };
     }
-
+//TODO improve the "if one selected", making a new arraylist isn't that good
     public ActionListener SearchToWorkspaceListener() {
         return new ActionListener() {
             @Override
@@ -212,8 +212,21 @@ public class QuerySearchTabController {
                 new Thread() {
                     @Override
                     public void run() {
-                        ArrayList<ExperimentData> selectedData = view
-                                .getQuerySearchTab().getSelectedData();
+                        if (querySearchTab.getResultsTable()
+                                .getNumberOfSelected() == 1) {
+                            ExperimentData selectedData = querySearchTab
+                                    .getResultsTable().getSelectedExperiment();
+                            view.setStatusPanel(selectedData.name
+                                    + " was added to the workspace.");
+                            view.setStatusPanelColor("success");
+                            ArrayList<ExperimentData> exDataAL = new ArrayList<ExperimentData>();
+                            exDataAL.add(selectedData);
+                            view.getWorkSpaceTab().addExperimentsToTable(exDataAL);
+                            view.getWorkSpaceTab().changeTab(0);
+                            view.getQuerySearchTab().clearSearchSelection();
+                        } else {
+                            ArrayList<ExperimentData> selectedData = view
+                                    .getQuerySearchTab().getSelectedData();
                             if (selectedData.size() == 1) {
                                 view.setStatusPanel(selectedData.get(0).name
                                         + " was added to the workspace.");
@@ -231,7 +244,9 @@ public class QuerySearchTabController {
                             view.getWorkSpaceTab().addExperimentsToTable(
                                     view.getQuerySearchTab().getSelectedData());
                             view.getWorkSpaceTab().changeTab(0);
-                        view.getQuerySearchTab().clearSearchSelection();
+                            view.getQuerySearchTab().clearSearchSelection();
+                        }
+
                     };
                 }.start();
 
