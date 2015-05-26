@@ -63,22 +63,29 @@ public class ConvertTabController {
                                 .getConvertTab().getFilesToConvert();
 
                         Iterator<CheckListItem> it = selectedFiles.iterator();
-                        for (Enumeration<AbstractButton> buttons = view.getConvertTab().radioGroupTo.getElements(); buttons.hasMoreElements();) {
+                        for (Enumeration<AbstractButton> buttons = view
+                                .getConvertTab().radioGroupTo.getElements(); buttons
+                                .hasMoreElements();) {
                             AbstractButton button = buttons.nextElement();
-                            if(button.isSelected()) {
+                            if (button.isSelected()) {
                                 toformat = button.getText();
                             }
                         }
                         while (it.hasNext()) {
 
-
                             CheckListItem data = it.next();
                             try {
-                                System.out.println(data.fileId() + " " + toformat.toLowerCase());
-                                if(model.convertFile(data.fileId(), toformat.toLowerCase())) {
-                                    view.getConvertTab().addConvertedFile(data.getfile().filename);
+                                System.out.println(data.fileId() + " "
+                                        + toformat.toLowerCase());
+                                if (model.convertFile(data.fileId(),
+                                        toformat.toLowerCase())) {
+                                    view.getConvertTab().addConvertedFile(
+                                            data.getfile().filename.substring(
+                                                    0, data.getfile().filename
+                                                            .length() - 3)
+                                                    + toformat.toLowerCase());
                                 }
-                                
+
                             } catch (RequestException e) {
                                 new ErrorDialog("Convert", e).showDialog();
                             }
@@ -112,8 +119,7 @@ public class ConvertTabController {
                             view.getConvertTab().setConvertButtonDisabled();
                             view.getConvertTab().setDeleteButtonDisabled();
                             view.getConvertTab().setAllButtonsNotSelected();
-                            
-                            
+
                             view.getConvertTab().setFileInfo(exData);
                             deletedProcessFiles = true;
                         }
@@ -186,15 +192,15 @@ public class ConvertTabController {
                         }
 
                     }
-                    if(count == 0){
+                    if (count == 0) {
                         view.getConvertTab().setAllButtonsNotSelected();
                         view.getConvertTab().setConvertButtonDisabled();
                         view.getConvertTab().setDeleteButtonDisabled();
                     } else {
                         view.getConvertTab().setAllFromButtonsEnabled();
-                       // view.getConvertTab().setConvertButtonEnabled();
+                        // view.getConvertTab().setConvertButtonEnabled();
                         view.getConvertTab().setDeleteButtonEnabled();
-                        
+
                     }
 
                     deletedProcessFiles = false;
