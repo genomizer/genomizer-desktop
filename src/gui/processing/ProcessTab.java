@@ -15,6 +15,9 @@ public class ProcessTab  extends JPanel {
         setPreferredSize(new Dimension(1225, 725));
         setMinimumSize(new Dimension(20000, 20000));
         this.setLayout(new BorderLayout());
+
+        String[] s = {"RawToProf", "Ratio"};
+        this.add(new CommandChooser(s,"123"),BorderLayout.NORTH);
     }
 
     public void setController(ProcessTabController processTabController) {

@@ -229,6 +229,7 @@ public class Controller {
                                 view.getLoginWindow().updateLoginFailed(
                                         e.getMessage());
                                 ErrorLogger.log(e.getMessage());
+
                             }
 
                         } else {

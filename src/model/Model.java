@@ -27,7 +27,6 @@ import requests.RenameAnnotationValueRequest;
 import requests.RequestFactory;
 import requests.RetrieveExperimentRequest;
 import requests.SearchRequest;
-import requests.rawToProfileRequest;
 import responses.ResponseParser;
 import responses.sysadmin.AddGenomeReleaseResponse;
 import util.AnnotationDataType;
@@ -65,12 +64,12 @@ public class Model implements GenomizerModel {
     public void rawToProfile(String expid, String[] parameters,
             String metadata, String genomeRelease, String author)
             throws RequestException {
-        rawToProfileRequest rawToProfilerequest = RequestFactory
-                .makeRawToProfileRequest(expid, parameters, metadata,
-                        genomeRelease, author);
-        Connection conn = connFactory.makeConnection();
-        conn.sendRequest(rawToProfilerequest, User.getInstance().getToken(),
-                Constants.JSON);
+//        rawToProfileRequest rawToProfilerequest = RequestFactory
+//                .makeRawToProfileRequest(expid, parameters, metadata,
+//                        genomeRelease, author);
+//        Connection conn = connFactory.makeConnection();
+//        conn.sendRequest(rawToProfilerequest, User.getInstance().getToken(),
+//                Constants.JSON);
 
     }
 
@@ -127,6 +126,8 @@ public class Model implements GenomizerModel {
                 searchResponses[i].updateFileSize();
             }
         }
+
+        if (searchResponses == null ) { return new ArrayList<>();  }
         return new ArrayList<>(Arrays.asList(searchResponses));
     }
 
@@ -206,7 +207,7 @@ public class Model implements GenomizerModel {
     }
 
     public synchronized AnnotationDataType[] getAnnotations() {
-        AnnotationDataType[] annotations;
+        AnnotationDataType[] annotations = null;
         try {
             GetAnnotationRequest request = RequestFactory
                     .makeGetAnnotationRequest();
@@ -217,8 +218,8 @@ public class Model implements GenomizerModel {
                     .getResponseBody());
         } catch (RequestException e) {
             new ErrorDialog("Couldn't get annotations", e).showDialog();
-            annotations = new AnnotationDataType[] {};
         }
+        if (annotations == null){ annotations = new AnnotationDataType[]{}; }
         return annotations;
     }
 

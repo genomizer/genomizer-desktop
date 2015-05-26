@@ -4,9 +4,6 @@ import javax.swing.table.AbstractTableModel;
 
 import util.AnnotationDataType;
 
-
-
-
 /***
  * This class is the Model for the search table
  *
@@ -32,7 +29,6 @@ public class AnnotationTableModel extends AbstractTableModel {
     public int getColumnCount() {
         return numberOfColumns;
     }
-
 
     /***
      * Sets the different columns of the table.
@@ -80,11 +76,8 @@ public class AnnotationTableModel extends AbstractTableModel {
      * @param annotations
      *            the new array of annotations.
      */
-
-    public void setAnnotations(AnnotationDataType[] annotations) {
-        synchronized (this.annotations) {
-            this.annotations = annotations;
-        }
+    public synchronized void setAnnotations(AnnotationDataType[] annotations) {
+        this.annotations = annotations;
         fireTableDataChanged();
     }
 
