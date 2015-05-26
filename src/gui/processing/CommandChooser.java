@@ -27,19 +27,23 @@ public class CommandChooser extends JPanel {
     private JButton addCommandBoxButton;
     private JTextField expName;
 
-    public CommandChooser(String[] commandNames, String expID) {
+    private final String defaultString =  "<no selected experiment>";
+
+    public CommandChooser(String[] commandNames ) {
         super();
 
         this.setBorder(BorderFactory.createTitledBorder("Choose Command"));
 
         this.commands = new JComboBox<String>(commandNames);
         this.commands.setPreferredSize(new Dimension(240, 30));
+        this.commands.setEnabled(false);
 
         this.addCommandBoxButton = CustomButtonFactory.makeCustomButton(
-                IconFactory.getPlusIcon(15, 15),
-                IconFactory.getPlusIcon(17, 17), 17, 25, "Add new command");
+                IconFactory.getPlusIcon(20, 20),
+                IconFactory.getPlusIcon(24, 24), 25, 25, "Add new command");
+        this.addCommandBoxButton.setEnabled(false);
 
-        expName = new JTextField(expID);
+        expName = new JTextField( defaultString );
         expName.setEditable(false);
         expName.setPreferredSize(new Dimension(240, 30));
 
@@ -61,7 +65,14 @@ public class CommandChooser extends JPanel {
 
     public void setExperiment(String name) {
         expName.setText(name);
+        this.addCommandBoxButton.setEnabled(true);
+        this.commands.setEnabled(true);
+    }
 
+    public void resetChooser(){
+        this.commands.setEnabled(false);
+        this.expName.setEditable(false);
+        this.expName.setText(defaultString);
     }
 
 }
