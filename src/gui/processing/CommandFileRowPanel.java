@@ -14,6 +14,7 @@ import javax.swing.JPanel;
 
 import util.IconFactory;
 
+@SuppressWarnings("serial")
 public class CommandFileRowPanel extends JPanel {
 
     private static final int BUTTON_WIDTH = 17;
@@ -80,7 +81,7 @@ public class CommandFileRowPanel extends JPanel {
         if(enabled) {
             buttonPanel.add(removeButton);
         } else {
-            
+
             buttonPanel.remove(removeButton);
             JPanel removeButtonPaddingPanel = new JPanel();
             Dimension paddingSize = new Dimension(BUTTON_WIDTH, BUTTON_HEIGHT);

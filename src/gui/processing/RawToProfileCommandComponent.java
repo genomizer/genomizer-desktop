@@ -1,25 +1,6 @@
 package gui.processing;
 
-import gui.CustomButtonFactory;
-
-import java.awt.Component;
-import java.awt.Dimension;
-import java.awt.FlowLayout;
-import java.awt.GridLayout;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.util.HashMap;
 import java.util.Iterator;
-import java.util.Stack;
-import java.util.concurrent.CopyOnWriteArrayList;
-
-import javax.swing.BoxLayout;
-import javax.swing.ImageIcon;
-import javax.swing.JButton;
-import javax.swing.JPanel;
-import javax.swing.border.TitledBorder;
-
-import util.IconFactory;
 
 @SuppressWarnings("serial")
 public class RawToProfileCommandComponent extends CommandComponent {
