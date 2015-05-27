@@ -12,10 +12,12 @@ import requests.AddAnnotationRequest;
 import requests.AddExperimentRequest;
 import requests.AddGenomeReleaseRequest;
 import requests.AddNewAnnotationValueRequest;
+import requests.CancelProcessRequest;
 import requests.ChangeExperimentRequest;
 import requests.GetAnnotationRequest;
 import requests.GetGenomeReleasesRequest;
 import requests.GetGenomeSpecieReleasesRequest;
+import requests.LoginRequest;
 import requests.ProcessFeedbackRequest;
 import requests.RemoveAnnotationFieldRequest;
 import requests.RemoveAnnotationValueRequest;
@@ -64,12 +66,12 @@ public class Model implements GenomizerModel {
     public void rawToProfile(String expid, String[] parameters,
             String metadata, String genomeRelease, String author)
             throws RequestException {
-//        rawToProfileRequest rawToProfilerequest = RequestFactory
-//                .makeRawToProfileRequest(expid, parameters, metadata,
-//                        genomeRelease, author);
-//        Connection conn = connFactory.makeConnection();
-//        conn.sendRequest(rawToProfilerequest, User.getInstance().getToken(),
-//                Constants.JSON);
+        // rawToProfileRequest rawToProfilerequest = RequestFactory
+        // .makeRawToProfileRequest(expid, parameters, metadata,
+        // genomeRelease, author);
+        // Connection conn = connFactory.makeConnection();
+        // conn.sendRequest(rawToProfilerequest, User.getInstance().getToken(),
+        // Constants.JSON);
 
     }
 
@@ -127,7 +129,9 @@ public class Model implements GenomizerModel {
             }
         }
 
-        if (searchResponses == null ) { return new ArrayList<>();  }
+        if (searchResponses == null) {
+            return new ArrayList<>();
+        }
         return new ArrayList<>(Arrays.asList(searchResponses));
     }
 
@@ -219,7 +223,9 @@ public class Model implements GenomizerModel {
         } catch (RequestException e) {
             new ErrorDialog("Couldn't get annotations", e).showDialog();
         }
-        if (annotations == null){ annotations = new AnnotationDataType[]{}; }
+        if (annotations == null) {
+            annotations = new AnnotationDataType[] {};
+        }
         return annotations;
     }
 
@@ -342,6 +348,19 @@ public class Model implements GenomizerModel {
             new ErrorDialog("Couldn't get process feedback", e).showDialog();
             return null;
         }
+    }
+
+    public void abortProcess(String PID) throws RequestException {
+
+        // TODO: Remove print
+        System.out.println( "ABORTING: " + PID);
+
+        CancelProcessRequest request = RequestFactory
+                .makeCancelProcessRequest(PID);
+        Connection conn = connFactory.makeConnection();
+        conn.sendRequest(request, User.getInstance().getToken(),
+                Constants.TEXT_PLAIN);
+
     }
 
     @Override

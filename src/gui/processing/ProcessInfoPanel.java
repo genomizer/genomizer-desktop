@@ -15,8 +15,12 @@ import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTree;
+import javax.swing.SwingUtilities;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeCellRenderer;
+import javax.swing.tree.TreePath;
+
+import org.jdesktop.swingx.treetable.AbstractMutableTreeTableNode;
 
 import util.ProcessFeedbackData;
 
@@ -67,8 +71,7 @@ public class ProcessInfoPanel extends JPanel {
             root.add(experimentNode);
             for (ProcessFeedbackData p : processFeedbackData) {
                 if (p.experimentName.equals(s)) {
-                    DefaultMutableTreeNode processNode = new DefaultMutableTreeNode(
-                            "<html><b>ProcessID</b>: " + p.PID + "</html>");
+                    DefaultMutableTreeNode processNode = new ProcessNode(p);
                     experimentNode.add(processNode);
                     processNode.add(new DefaultMutableTreeNode(
                             "<html><b>Author</b>: " + p.author + "</html>"));
@@ -160,10 +163,48 @@ public class ProcessInfoPanel extends JPanel {
 
     }
 
-    // public ProcessFeedbackData getSelectedProcess() {
-    //
-    // TreePaththis.tree.getSelectionPaths();
-    //
-    // }
+    public ProcessFeedbackData getSelectedProcess() {
 
+        TreePath[] tps = this.tree.getSelectionPaths();
+
+        if (tps.length != 1) {
+            return null;
+        }
+
+        TreePath tp = tps[0];
+
+        Object nod = tp.getLastPathComponent();
+
+        while ( nod != null ){
+            if ( nod instanceof ProcessNode ) {
+                return ((ProcessNode)nod).getProcessFeedbackData();
+            }
+            nod = ((DefaultMutableTreeNode)nod).getParent();
+        }
+
+        return null;
+
+    }
+
+
+    private class ProcessNode extends DefaultMutableTreeNode{
+        /**
+         *
+         */
+        private static final long serialVersionUID = -8248950057225139957L;
+
+        private ProcessFeedbackData p;
+
+        private ProcessNode(ProcessFeedbackData p){
+            super("<html><b>ProcessID</b>: " + p.PID
+                    + "</html>");
+            this.p = p;
+        }
+
+        public ProcessFeedbackData getProcessFeedbackData(){
+            return p;
+        }
+    }
 }
+
+

@@ -9,7 +9,13 @@ import java.awt.event.ActionListener;
 
 import javax.swing.SwingUtilities;
 
+import communication.ConnectionFactory;
+
+import requests.Request;
+import requests.RequestFactory;
+
 import util.ProcessFeedbackData;
+import util.RequestException;
 
 import model.GenomizerModel;
 
@@ -256,14 +262,43 @@ public class ProcessTabController {
             public void actionPerformed(ActionEvent e) {
                 // TODO skicka request till server att avbryta processen som
                 // �r markerad
-                new ErrorDialog("NOT IMPLEMENTED",
-                        "Aborting processes is not yet supported", "...")
-                        .showDialog();
+
+                final ProcessFeedbackData data = tab
+                        .getSelectedProcessFeedback();
+
+                if (data == null) {
+                    new ErrorDialog(
+                            "Invalid selection",
+                            "Make sure you have selected your process correctly",
+                            "Select a single process, and make sure the selection is above or at the 'Process ID' value.")
+                            .showDialog();
+                }
+
+                new Thread() {
+                    @Override
+                    public void run() {
+
+                        try {
+                            model.abortProcess(data.PID);
+                        } catch (RequestException e) {
+
+                            final RequestException e2 = e;
+                            SwingUtilities.invokeLater(new Runnable() {
+
+                                public void run() {
+                                    new ErrorDialog(
+                                            "Couldn't abort process!", e2)
+                                            .showDialog();
+                                }
+                            });
+                        }
+                    }
+
+                }.start();
 
             }
         };
     }
-
     // public ActionListener DeleteSelectedListener() {
     // return new ActionListener() {
     // @Override

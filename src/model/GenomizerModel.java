@@ -111,4 +111,6 @@ public interface GenomizerModel {
 
     public void clearTickingTasks();
 
+    public void abortProcess(String pID) throws RequestException;
+
 }

@@ -99,4 +99,8 @@ public class ProcessTab extends JPanel {
     public void addAbortProcessListener( ActionListener abortListener ){
         infoPanel.addAbortProcessListener(abortListener);
     }
+
+    public ProcessFeedbackData getSelectedProcessFeedback() {
+        return infoPanel.getSelectedProcess();
+    }
 }
