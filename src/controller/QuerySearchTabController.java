@@ -119,9 +119,7 @@ public class QuerySearchTabController {
                     public void run() {
                         String pubmed = view.getQuerySearchTab()
                                 .getSearchString();
-                        if (pubmed.isEmpty()) {
-                            pubmed = "[ExpID]";
-                        }
+                        
                         ArrayList<ExperimentData> searchResults;
                         try {
                             searchResults = model.search(pubmed);
