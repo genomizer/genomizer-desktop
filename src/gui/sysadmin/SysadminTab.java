@@ -85,7 +85,8 @@ public class SysadminTab extends JPanel {
                             buildGenomeReleaseView());
                     break;
                 case USERS:
-                    //TODO: What is this?
+                    sysadminTabPane.addTab(button.getValue(),
+                            buildUsersView());
                     break;
                 default:
                     break;
@@ -124,6 +125,10 @@ public class SysadminTab extends JPanel {
         return genomeReleaseView.buildGenomeReleaseView(listener, textListener,
                 tableListener, tableListener);
     }
+    
+    
+
+    
 
     /**
      * Sets the controller connected to the SysadminTab
