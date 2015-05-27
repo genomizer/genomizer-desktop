@@ -9,8 +9,7 @@ public class RatioCommandComponent extends CommandComponent {
     private String[] fileNames;
 
     /**
-     * Constructs a new RawToProfileCommandComponent with the given command
-     * name, available file names and available genome releases.
+     * Constructs a new RatioCommandComponent with available file names.
      *
      * @param commandName
      *            the command name
@@ -19,7 +18,7 @@ public class RatioCommandComponent extends CommandComponent {
      * @param genomeReleases
      *            the genome releases
      */
-    public RatioCommandComponent( String[] fileNames ) {
+    public RatioCommandComponent(String[] fileNames) {
 
         super(commandName);
 
@@ -37,28 +36,28 @@ public class RatioCommandComponent extends CommandComponent {
     @Override
     public ProcessParameters[] getProcessParameters() {
 
-        RawToProfileParameters[] parameters = new RawToProfileParameters[commandFileRowPanelStack.size()];
-        Iterator<CommandFileRowPanel> fileRowIterator = commandFileRowPanelStack.iterator();
-        for(int i = 0; fileRowIterator.hasNext(); i++) {
+        RatioParameters[] parameters = new RatioParameters[commandFileRowPanelStack
+                .size()];
+        Iterator<CommandFileRowPanel> fileRowIterator = commandFileRowPanelStack
+                .iterator();
+        for (int i = 0; fileRowIterator.hasNext(); i++) {
 
-            RawToProfileFileRow currentFileRow = (RawToProfileFileRow) fileRowIterator.next().getFileRow();
+            RatioFileRow currentFileRow = (RatioFileRow) fileRowIterator.next()
+                    .getFileRow();
             parameters[i] = buildProcessParameters(currentFileRow);
         }
 
         return parameters;
     }
 
-    private RawToProfileParameters buildProcessParameters(RawToProfileFileRow fileRow) {
-        String infile = fileRow.getInFile();
-        String outfile = fileRow.getOutFile();
-        String flags = fileRow.getFlags();
-        String genomeRelease = fileRow.getGenomeRelease();
-        boolean keepSam = fileRow.getKeepSam();
-        return new RawToProfileParameters(infile, outfile, flags, genomeRelease, keepSam);
+    private RatioParameters buildProcessParameters(RatioFileRow fr) {
+        return new RatioParameters(fr.getpreChipFile(), fr.getpostChipFile(),
+                fr.getOutFile(), fr.getMean(), fr.getReadsCutoff(),
+                fr.getChromosomeText());
     }
 
     /**
-     * Constructs a new RawToProfileFileRow
+     * Constructs a new RatioFileRow
      */
     @Override
     protected CommandFileRow buildCommandFileRow() {

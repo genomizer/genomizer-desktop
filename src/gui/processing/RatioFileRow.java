@@ -1,42 +1,43 @@
-
 package gui.processing;
 
 import gui.JTextFieldLimit;
 
 import java.awt.GridLayout;
 
-import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
+import javax.swing.JSpinner;
 import javax.swing.JTextField;
+import javax.swing.SpinnerModel;
+import javax.swing.SpinnerNumberModel;
 
 /**
- * CommandFileRow for a {@link RawToProfileCommandComponent}.
- * @author oi12mlw, oi12pjn
+ * CommandFileRow for a {@link RatioCommandComponent}.
+ *
  *
  */
 @SuppressWarnings("serial")
 public class RatioFileRow extends CommandFileRow {
 
-    private JComboBox<String> inFileComboBox;
+    private JComboBox<String> preChipFileComboBox;
+    private JComboBox<String> postChipFileComboBox;
     private JTextField outFileTextField;
-    private JTextField flagsTextField;
-    private JComboBox<String> genomeReleaseComboBox;
+    private JComboBox<String> meanComboBox;
+    private JSpinner readsCutoffSpinner;
+    private JTextField chromosomeTextField;
 
-    private JLabel inFileLabel;
+    private JLabel preChipFileLabel;
+    private JLabel postChipFileLabel;
     private JLabel outFileLabel;
-    private JLabel flagsLabel;
-    private JLabel genomeReleaseLabel;
+    private JLabel meanLabel;
+    private JLabel readsCutoffLabel;
+    private JLabel chromosomeLabel;
 
     private String[] fileNames;
-    private String[] genomeReleases;
-    private JLabel keepSamLabel;
-    private JCheckBox keepSamCheckBox;
 
     /**
-     * Constructs a new RawToProfileFileRow object with the available file names
-     * and genome releases. The file names and genome releases will be added to
-     * combo boxes.
+     * Constructs a new RatioFileRow object with the available file names. The
+     * file names will be added to combo boxes.
      *
      * @param fileNames
      *            the files names
@@ -44,82 +45,73 @@ public class RatioFileRow extends CommandFileRow {
     public RatioFileRow(String[] fileNames) {
         this.fileNames = fileNames;
 
-        this.setLayout(new GridLayout(2,5));
+        this.setLayout(new GridLayout(2, 6));
 
         addLabels();
         addInputFields();
     }
 
-    private void addLabels() {
-        inFileLabel = new JLabel("Infile");
+    @Override
+    protected void addLabels() {
+        preChipFileLabel = new JLabel("PreChipName");
+        postChipFileLabel = new JLabel("PostChipName");
         outFileLabel = new JLabel("Outfile");
-        flagsLabel = new JLabel("Flags");
-        genomeReleaseLabel = new JLabel("GR");
-        keepSamLabel = new JLabel("Keep .SAM?");
-        keepSamLabel.setHorizontalAlignment(JLabel.CENTER);
+        meanLabel = new JLabel("Mean");
+        readsCutoffLabel = new JLabel("ReadsCutoff");
+        chromosomeLabel = new JLabel("Chromosome");
 
-        this.add(inFileLabel);
+        this.add(preChipFileLabel);
+        this.add(postChipFileLabel);
         this.add(outFileLabel);
-        this.add(flagsLabel);
-        this.add(genomeReleaseLabel);
-        this.add(keepSamLabel);
+        this.add(meanLabel);
+        this.add(readsCutoffLabel);
+        this.add(chromosomeLabel);
     }
 
-    private void addInputFields() {
-        inFileComboBox = new JComboBox<String>(fileNames);
+    @Override
+    protected void addInputFields() {
+        preChipFileComboBox = new JComboBox<String>(fileNames);
+        postChipFileComboBox = new JComboBox<String>(fileNames);
         outFileTextField = new JTextField();
-        flagsTextField = new JTextField();
-        genomeReleaseComboBox = new JComboBox<String>(genomeReleases);
-        keepSamCheckBox = new JCheckBox();
-        keepSamCheckBox.setHorizontalAlignment(JCheckBox.CENTER);
+        meanComboBox = new JComboBox<String>(
+                new String[] { "single", "double" });
+        SpinnerModel windowSizeSpinnerModel = new SpinnerNumberModel(1, 1,
+                1000, 1);
+        readsCutoffSpinner = new JSpinner(windowSizeSpinnerModel);
+        chromosomeTextField = new JTextField();
 
         outFileTextField.setDocument(new JTextFieldLimit(512));
-        flagsTextField.setDocument(new JTextFieldLimit(256));
+        chromosomeTextField.setDocument(new JTextFieldLimit(512));
 
-        this.add(inFileComboBox);
+        this.add(preChipFileComboBox);
+        this.add(postChipFileComboBox);
         this.add(outFileTextField);
-        this.add(flagsTextField);
-        this.add(genomeReleaseComboBox);
-        this.add(keepSamCheckBox);
+        this.add(meanComboBox);
+        this.add(readsCutoffSpinner);
+        this.add(chromosomeTextField);
     }
 
-    /**
-     * Returns the in file parameter
-     * @return the in file parameter
-     */
-    public String getInFile() {
-        return inFileComboBox.getSelectedItem().toString();
+    public String getpreChipFile() {
+        return preChipFileComboBox.getSelectedItem().toString();
     }
 
-    /**
-     * Returns the out file parameter
-     * @return the out file parameter
-     */
+    public String getpostChipFile() {
+        return postChipFileComboBox.getSelectedItem().toString();
+    }
+
     public String getOutFile() {
         return outFileTextField.getText();
     }
 
-    /**
-     * Returns the flags parameter
-     * @return the flags parameter
-     */
-    public String getFlags() {
-        return flagsTextField.getText();
+    public String getMean() {
+        return (String) meanComboBox.getSelectedItem();
     }
 
-    /**
-     * Returns the genome release parameter
-     * @return the genome release parameter
-     */
-    public String getGenomeRelease() {
-        return genomeReleaseComboBox.getSelectedItem().toString();
+    public int getReadsCutoff() {
+        return (int) readsCutoffSpinner.getValue();
     }
 
-    /**
-     * Returns the keep .SAM parameter
-     * @return the keep .SAM parameter
-     */
-    public boolean getKeepSam() {
-        return keepSamCheckBox.isSelected();
+    public String getChromosomeText() {
+        return chromosomeTextField.getText();
     }
 }

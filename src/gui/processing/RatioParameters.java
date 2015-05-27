@@ -1,31 +1,30 @@
-
 package gui.processing;
 
-public class RatioParameters implements ProcessParameters{
+public class RatioParameters implements ProcessParameters {
 
-    public String infile;
+    public String preChipFile;
+    public String postChipFile;
     public String outfile;
-    public String params;
-    public String genomeVersion;
-    public boolean keepSam;
+    public String mean;
+    public int readsCutoff;
+    public String chromosome;
 
-
-    public RatioParameters(String infile, String outfile, String params,
-            String genomeVersion, boolean keepSam) {
-        this.infile = infile;
+    public RatioParameters(String preChipFile, String postChipFile,
+            String outfile, String mean, int readsCutoff, String chromosome) {
+        this.preChipFile = preChipFile;
+        this.postChipFile = postChipFile;
         this.outfile = outfile;
-        this.params = params;
-        this.genomeVersion = genomeVersion;
-        this.keepSam = keepSam;
+        this.mean = mean;
+        this.readsCutoff = readsCutoff;
+        this.chromosome = chromosome;
     }
 
     @Override
     public String toString() {
-        return "infile: " + infile + "\n" +
-               "outfile: " + outfile + "\n" +
-               "params: " + params + "\n" +
-               "gr: " + genomeVersion + "\n" +
-               "keepSam: " + keepSam;
+        return "preChipFile: " + preChipFile + "\n" + "postChipFile: "
+                + postChipFile + "\n" + "outfile: " + outfile + "\n" + "mean: "
+                + mean + "\n" + "readsCutoff: " + readsCutoff + "\n"
+                + "chromosome: " + chromosome;
     }
 
 }
