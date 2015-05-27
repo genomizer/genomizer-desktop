@@ -9,8 +9,8 @@ import java.awt.event.AdjustmentEvent;
 import java.awt.event.AdjustmentListener;
 import java.util.ArrayList;
 import java.util.Iterator;
-import java.util.Arrays;
 
+import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -37,6 +37,7 @@ public class CommandScrollPane extends JScrollPane {
                 BoxLayout.PAGE_AXIS));
         this.getViewport().add(componentPanel);
         this.getVerticalScrollBar().setUnitIncrement(SCROLL_SPEED);
+        this.setBorder(BorderFactory.createTitledBorder("Commands"));
 
         setUpAutoScrollBehaviour();
 

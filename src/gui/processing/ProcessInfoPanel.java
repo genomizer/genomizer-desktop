@@ -15,7 +15,6 @@ import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTree;
-import javax.swing.SwingUtilities;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeCellRenderer;
 
@@ -28,7 +27,6 @@ public class ProcessInfoPanel extends JPanel {
     private final JButton processFeedbackButton = new JButton(
             "Get process feedback");
     private final JButton abortProcessButton = new JButton("Abort process");
-
 
     /**
      * Initiates the east panel in the process tabs borderlayout.
@@ -55,7 +53,8 @@ public class ProcessInfoPanel extends JPanel {
 
     }
 
-    private JTree createFeedbackTree(ArrayList<String> experiments, ProcessFeedbackData[] processFeedbackData) {
+    private JTree createFeedbackTree(ArrayList<String> experiments,
+            ProcessFeedbackData[] processFeedbackData) {
 
         // create the root node
         DefaultMutableTreeNode root = new DefaultMutableTreeNode(
@@ -161,10 +160,10 @@ public class ProcessInfoPanel extends JPanel {
 
     }
 
-//    public ProcessFeedbackData getSelectedProcess() {
-//
-//        TreePaththis.tree.getSelectionPaths();
-//
-//    }
+    // public ProcessFeedbackData getSelectedProcess() {
+    //
+    // TreePaththis.tree.getSelectionPaths();
+    //
+    // }
 
 }
