@@ -317,4 +317,7 @@ public class WorkspaceTab extends JPanel {
     public JButton getConvertButton() {
         return convertButton;
     }
+    public JButton getDeleteButton(){
+        return deleteButton;
+    }
 }
