@@ -45,7 +45,7 @@ public class ProcessTab extends JPanel {
 
     public void reset(ExperimentData experiment) {
 
-        this.scrollPane.reset();
+        this.scrollPane.empty();
 
         this.chooser.setExperiment(experiment.getName());
 
@@ -84,7 +84,7 @@ public class ProcessTab extends JPanel {
     }
 
     public void clearCommands() {
-        this.scrollPane.reset();
+        this.scrollPane.empty();
 
     }
 
