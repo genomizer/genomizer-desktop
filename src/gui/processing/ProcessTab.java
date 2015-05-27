@@ -51,6 +51,7 @@ public class ProcessTab extends JPanel {
         this.scrollPane.empty();
 
         this.chooser.setExperiment(experiment.getName());
+        this.selectedExperiment = experiment;
 
         this.revalidate();
         this.repaint();
@@ -86,7 +87,9 @@ public class ProcessTab extends JPanel {
                 genomeReleaseList.add(genomeRelease);
             }
         }
-        return (String[]) genomeReleaseList.toArray();
+        String[] genomeReleases = new String[genomeReleaseList.size()];
+        genomeReleases = (String[]) genomeReleaseList.toArray(genomeReleases);
+        return genomeReleases;
     }
 
     private String[] getFileNames() {
