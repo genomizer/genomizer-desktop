@@ -4,7 +4,7 @@ import java.util.Iterator;
 
 public class RatioCommandComponent extends CommandComponent {
 
-    private static final String commandName = "ratio";
+    public static final String commandName = "ratio";
 
     private String[] fileNames;
 

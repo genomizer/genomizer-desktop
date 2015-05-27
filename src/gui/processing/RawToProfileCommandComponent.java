@@ -10,7 +10,7 @@ import java.util.Iterator;
 @SuppressWarnings("serial")
 public class RawToProfileCommandComponent extends CommandComponent {
 
-    private static final String commandName = "rawToProfile";
+    public static final String commandName = "rawToProfile";
 
     private String[] fileNames;
     private String[] genomeReleases;

@@ -22,7 +22,7 @@ import javax.swing.border.TitledBorder;
 @SuppressWarnings("serial")
 public abstract class CommandComponent extends JComponent {
 
-    private String commandName;
+    public String commandName;
     protected Stack<CommandFileRowPanel> commandFileRowPanelStack;
 
     /**

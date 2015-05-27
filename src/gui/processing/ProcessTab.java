@@ -71,7 +71,22 @@ public class ProcessTab extends JPanel {
         // Add new command tabs
         String[] fileNames = getFileNames();
         String[] genomeReleases = getGenomeReleases();
-        this.scrollPane.addCommandComponent(new RawToProfileCommandComponent(fileNames, genomeReleases));
+        CommandComponent commandComponent = null;
+
+        if (selectedCommand
+                .equalsIgnoreCase(RawToProfileCommandComponent.commandName)) commandComponent = new RawToProfileCommandComponent(
+                fileNames, genomeReleases);
+
+        if (selectedCommand.equalsIgnoreCase(RatioCommandComponent.commandName)) commandComponent = new RatioCommandComponent(
+                fileNames);
+
+        if (selectedCommand
+                .equalsIgnoreCase(SmoothingCommandComponent.commandName)) commandComponent = new SmoothingCommandComponent(
+                fileNames);
+
+        if (commandComponent == null) return;
+
+        this.scrollPane.addCommandComponent(commandComponent);
         this.revalidate();
         this.repaint();
 
@@ -81,9 +96,9 @@ public class ProcessTab extends JPanel {
 
         ArrayList<String> genomeReleaseList = new ArrayList<String>();
         Iterator<FileData> fileIterator = selectedExperiment.files.iterator();
-        for(int i = 0; fileIterator.hasNext(); i++) {
+        for (int i = 0; fileIterator.hasNext(); i++) {
             String genomeRelease = fileIterator.next().grVersion;
-            if(!genomeReleaseList.contains(genomeRelease)) {
+            if (!genomeReleaseList.contains(genomeRelease)) {
                 genomeReleaseList.add(genomeRelease);
             }
         }
@@ -96,7 +111,7 @@ public class ProcessTab extends JPanel {
 
         String[] fileNames = new String[selectedExperiment.files.size()];
         Iterator<FileData> fileIterator = selectedExperiment.files.iterator();
-        for(int i = 0; fileIterator.hasNext(); i++) {
+        for (int i = 0; fileIterator.hasNext(); i++) {
             fileNames[i] = fileIterator.next().filename;
         }
         return fileNames;
