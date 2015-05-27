@@ -365,7 +365,7 @@ public class SysadminController {
         try {
             model.createUser(uName, pass, role, rName, mail);
         } catch (RequestException e) {
-           new ErrorDialog("Create user", e);
+           new ErrorDialog("Create user", e).showDialog();
         }
         // TODO
     }
@@ -374,7 +374,7 @@ public class SysadminController {
         try {
             model.deleteUser(uName);
         } catch (RequestException e) {
-            new ErrorDialog("Delete user", e);
+            new ErrorDialog("Delete user", e).showDialog();
         }
         // TODO
     }
@@ -383,7 +383,7 @@ public class SysadminController {
         try {
             model.updateUser(uName, pass, role, rName, mail);
         } catch (RequestException e) {
-            new ErrorDialog("Update user", e);
+            new ErrorDialog("Update user", e).showDialog();
         }
         // TODO
     }
