@@ -18,4 +18,13 @@ public class RawToProfileParameters implements ProcessParameters{
         this.keepSam = keepSam;
     }
 
+    @Override
+    public String toString() {
+        return "infile: " + infile + "\n" +
+               "outfile: " + outfile + "\n" +
+               "params: " + params + "\n" +
+               "gr: " + genomeVersion + "\n" +
+               "keepSam: " + keepSam;
+    }
+
 }

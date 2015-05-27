@@ -4,6 +4,7 @@ import gui.CustomButtonFactory;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
+import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
 import javax.swing.BorderFactory;
@@ -24,36 +25,54 @@ public class CommandChooser extends JPanel {
 
     private JComboBox<String> commands;
     private JButton addCommandBoxButton;
+    private JTextField expName;
 
-    public CommandChooser( String[] commandNames, String expID ) {
+    private final String defaultString =  "<no selected experiment>";
+
+    public CommandChooser(String[] commandNames ) {
         super();
 
         this.setBorder(BorderFactory.createTitledBorder("Choose Command"));
 
         this.commands = new JComboBox<String>(commandNames);
-        this.commands.setPreferredSize(new Dimension(240,30));
+        this.commands.setPreferredSize(new Dimension(240, 30));
+        this.commands.setEnabled(false);
 
-        this.addCommandBoxButton = CustomButtonFactory
-                .makeCustomButton(IconFactory.getPlusIcon(15, 15),
-                        IconFactory.getPlusIcon(17, 17), 17, 25,
-                        "Add new command");
+        this.addCommandBoxButton = CustomButtonFactory.makeCustomButton(
+                IconFactory.getPlusIcon(20, 20),
+                IconFactory.getPlusIcon(24, 24), 25, 25, "Add new command");
+        this.addCommandBoxButton.setEnabled(false);
 
-        JTextField tf = new JTextField(expID);
-        tf.setEditable(false);
-        tf.setPreferredSize(new Dimension(240,30));
+        expName = new JTextField( defaultString );
+        expName.setEditable(false);
+        expName.setPreferredSize(new Dimension(240, 30));
 
         this.add(new JLabel("<html><b>Experiment ID</b></html>"));
-        this.add(tf);
+        this.add(expName);
         this.add(this.commands);
         this.add(addCommandBoxButton);
 
     }
 
-    public String getSelectedCommand(){
+    public String getSelectedCommand() {
         return (String) commands.getSelectedItem();
     }
 
+    public void addChoiceListener(ActionListener chooserListener) {
+        addCommandBoxButton.addActionListener(chooserListener);
 
+    }
 
+    public void setExperiment(String name) {
+        expName.setText(name);
+        this.addCommandBoxButton.setEnabled(true);
+        this.commands.setEnabled(true);
+    }
+
+    public void resetChooser(){
+        this.commands.setEnabled(false);
+        this.expName.setEditable(false);
+        this.expName.setText(defaultString);
+    }
 
 }

@@ -10,4 +10,11 @@ public class ProcessCommand {
         this.files = files;
     }
 
+    @Override
+    public String toString() {
+
+        return "type: " + type + "\n"+
+               "files: (" + files.toString() + ")";
+    }
+
 }

@@ -48,6 +48,7 @@ public class WorkspaceTabController {
         this.view = view;
         this.model = model;
         this.fileChooser = fileChooser;
+        fileChooser.setApproveButtonText("Select");
         workspaceTab = view.getWorkSpaceTab();
         treeTable = workspaceTab.getTable();
 
@@ -115,8 +116,7 @@ public class WorkspaceTabController {
                                     "No files were selected.");
                             return;
                         }
-                        fileChooser
-                                .setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+                        fileChooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
                         int ret = fileChooser.showOpenDialog(new JPanel());
                         String directoryName = "";
                         if (ret == JFileChooser.APPROVE_OPTION) {
@@ -195,12 +195,9 @@ public class WorkspaceTabController {
         return new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-
-                        // TODO Skicka in filedata arrayen
-                        ExperimentData selecteddata = workspaceTab.getTable().getSelectedExperiment();
-
-                        view.setSelectedExperiment(selecteddata);
-
+                ExperimentData selecteddata = workspaceTab.getTable()
+                        .getSelectedExperiment();
+                view.setSelectedExperiment(selecteddata);
             }
         };
     }
@@ -211,8 +208,8 @@ public class WorkspaceTabController {
             public void actionPerformed(ActionEvent e) {
 
                 try {
-                    ExperimentData firstChosenExperiment =
-                            workspaceTab.getTable().getSelectedExperiment();
+                    ExperimentData firstChosenExperiment = workspaceTab
+                            .getTable().getSelectedExperiment();
                     UploadTab ut = view.getUploadTab();
                     view.getTabbedPane().setSelectedComponent(ut);
                     ut.getExperimentNameField().setText(
