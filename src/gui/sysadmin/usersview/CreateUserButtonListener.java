@@ -42,12 +42,16 @@ public class CreateUserButtonListener implements ActionListener {
 
                 break;
             case "Delete User":
-                System.out.println("klick på delete");
                 sysTab.getSysController().deleteUser(sysTab.getUserView().getDeleteUserName());
 
                 break;
             case "Update User":
-
+                String uuName = sysTab.getUserView().getUpdateUserName();
+                String upass = sysTab.getUserView().getUpdatePassword();
+                String urole = sysTab.getUserView().getUpdateRole();
+                String urName = sysTab.getUserView().getUpdateRealName();
+                String umail = sysTab.getUserView().getUpdateMail();
+                sysTab.getSysController().updateUser(uuName, upass, urole, urName, umail);
                 break;
 
         }

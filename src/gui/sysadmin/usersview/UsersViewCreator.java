@@ -20,6 +20,11 @@ public class UsersViewCreator {
     private JTextPane newRealName;
     private JTextPane newMail;
     private JTextPane deleteUserName;
+    private JTextPane newUpdateUserName;
+    private JTextPane newUpdatePassword;
+    private JTextPane newUpdateRole;
+    private JTextPane newUpdateRealName;
+    private JTextPane newUpdateMail;
     private JButton deleteUserButton;
 
     public UsersViewCreator() {
@@ -174,6 +179,26 @@ public class UsersViewCreator {
 
     public String getDeleteUserName() {
         return deleteUserName.getText();
+    }
+
+    public String getUpdateUserName() {
+        return newUpdateUserName.getText();
+    }
+
+    public String getUpdatePassword() {
+        return newUpdatePassword.getText();
+    }
+
+    public String getUpdateRole() {
+        return newUpdateRole.getText();
+    }
+
+    public String getUpdateRealName() {
+        return newUpdateRealName.getText();
+    }
+
+    public String getUpdateMail() {
+        return newUpdateMail.getText();
     }
 
 }

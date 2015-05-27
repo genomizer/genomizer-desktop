@@ -379,7 +379,7 @@ public class SysadminController {
         // TODO
     }
 
-    public void UpdateUser(String uName, String pass, String role, String rName, String mail){
+    public void updateUser(String uName, String pass, String role, String rName, String mail){
         try {
             model.updateUser(uName, pass, role, rName, mail);
         } catch (RequestException e) {
