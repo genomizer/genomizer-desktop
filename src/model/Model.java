@@ -436,9 +436,7 @@ public class Model implements GenomizerModel {
         CreateUserRequest request = RequestFactory.makeCreateUserRequest(
                 username, password, privileges, name, email);
         Connection conn = connFactory.makeConnection();
-        System.out.println("JSOOOOOOOOOOOON "+request.toJson());
         conn.sendRequest(request, User.getInstance().getToken(), Constants.JSON);
-        System.out.println(conn.getResponseBody() +" + " + conn.getResponseCode());
     }
 
     public void updateUser(String username, String password, String privileges,
@@ -453,7 +451,7 @@ public class Model implements GenomizerModel {
         DeleteUserRequest request = RequestFactory
                 .makeDeleteUserRequest(username);
         Connection conn = connFactory.makeConnection();
-        conn.sendRequest(request, User.getInstance().getToken(), Constants.JSON);
+        conn.sendRequest(request, User.getInstance().getToken(), Constants.TEXT_PLAIN);
     }
 
 }

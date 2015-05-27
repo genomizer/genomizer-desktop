@@ -365,9 +365,7 @@ public class SysadminController {
         try {
             model.createUser(uName, pass, role, rName, mail);
         } catch (RequestException e) {
-            // TODO Auto-generated catch block
-            System.out.println("vill inte ha något!");
-            e.printStackTrace();
+           new ErrorDialog("Create user", e);
         }
         // TODO
     }
@@ -376,9 +374,16 @@ public class SysadminController {
         try {
             model.deleteUser(uName);
         } catch (RequestException e) {
-            // TODO Auto-generated catch block
-            System.out.println("vill inte ha något!");
-            e.printStackTrace();
+            new ErrorDialog("Delete user", e);
+        }
+        // TODO
+    }
+
+    public void UpdateUser(String uName, String pass, String role, String rName, String mail){
+        try {
+            model.updateUser(uName, pass, role, rName, mail);
+        } catch (RequestException e) {
+            new ErrorDialog("Update user", e);
         }
         // TODO
     }

@@ -1,23 +1,15 @@
 package gui.sysadmin.usersview;
 
 import java.awt.BorderLayout;
-import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.FlowLayout;
-import java.awt.GridLayout;
 import java.awt.event.ActionListener;
 
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JLabel;
-import javax.swing.JList;
 import javax.swing.JPanel;
-import javax.swing.JScrollPane;
 import javax.swing.JTextPane;
-import javax.swing.ListSelectionModel;
-import javax.swing.SpringLayout;
-import javax.swing.SwingUtilities;
 
 public class UsersViewCreator {
 
@@ -37,13 +29,12 @@ public class UsersViewCreator {
     public JPanel buildUsersView() {
 
         JPanel mainPanel = new JPanel(new BorderLayout());
-      //  mainPanel.setBackground(new Color(255, 250, 250));
-       // mainPanel.add(buildUsersList(), BorderLayout.WEST);
+        // mainPanel.setBackground(new Color(255, 250, 250));
+        // mainPanel.add(buildUsersList(), BorderLayout.WEST);
         mainPanel.add(buildCreateUserBar(), BorderLayout.NORTH);
         mainPanel.add(buildDeleteUserBar(), BorderLayout.SOUTH);
         return mainPanel;
     }
-
 
     private JPanel buildCreateUserBar() {
 
@@ -53,8 +44,8 @@ public class UsersViewCreator {
         JPanel textPanel = new JPanel();
         JPanel buttonPanel = new JPanel();
 
-        BoxLayout nameLayout = new BoxLayout(namePanel,BoxLayout.PAGE_AXIS);
-        BoxLayout textLayout = new BoxLayout(textPanel,BoxLayout.PAGE_AXIS);
+        BoxLayout nameLayout = new BoxLayout(namePanel, BoxLayout.PAGE_AXIS);
+        BoxLayout textLayout = new BoxLayout(textPanel, BoxLayout.PAGE_AXIS);
         BorderLayout buttonLayout = new BorderLayout();
 
         buttonPanel.setBorder(BorderFactory.createEtchedBorder());
@@ -63,28 +54,24 @@ public class UsersViewCreator {
         textPanel.setLayout(textLayout);
         buttonPanel.setLayout(buttonLayout);
 
-
         JLabel newUserNameLabel = new JLabel("Username   ");
         newUserName = new JTextPane();
-        newUserName.setPreferredSize(new Dimension(120,20));
+        newUserName.setPreferredSize(new Dimension(120, 20));
         JLabel newPasswordLabel = new JLabel("Password   ");
         newPassword = new JTextPane();
-        newPassword.setPreferredSize(new Dimension(120,20));
+        newPassword.setPreferredSize(new Dimension(120, 20));
         JLabel newRoleLabel = new JLabel("Role       ");
         newRole = new JTextPane();
-        newRole.setPreferredSize(new Dimension(120,20));
+        newRole.setPreferredSize(new Dimension(120, 20));
         JLabel newRealNameLabel = new JLabel("Real name   ");
         newRealName = new JTextPane();
-        newRealName.setPreferredSize(new Dimension(120,20));
+        newRealName.setPreferredSize(new Dimension(120, 20));
         JLabel newMailLabel = new JLabel("Mail       ");
         newMail = new JTextPane();
-        newMail.setPreferredSize(new Dimension(120,20));
-
+        newMail.setPreferredSize(new Dimension(120, 20));
 
         createUserButton = new JButton("Create User");
-        createUserButton.setPreferredSize(new Dimension(120,40));
-
-
+        createUserButton.setPreferredSize(new Dimension(120, 40));
 
         namePanel.add(newUserNameLabel);
         namePanel.add(new JPanel());
@@ -108,12 +95,9 @@ public class UsersViewCreator {
 
         buttonPanel.add(createUserButton);
 
-
         creatorPanel.add(namePanel, BorderLayout.WEST);
         creatorPanel.add(textPanel, BorderLayout.CENTER);
         creatorPanel.add(buttonPanel, BorderLayout.EAST);
-
-
 
         return creatorPanel;
     }
@@ -126,8 +110,8 @@ public class UsersViewCreator {
         JPanel textPanel = new JPanel();
         JPanel buttonPanel = new JPanel();
 
-        BoxLayout nameLayout = new BoxLayout(namePanel,BoxLayout.PAGE_AXIS);
-        BoxLayout textLayout = new BoxLayout(textPanel,BoxLayout.PAGE_AXIS);
+        BoxLayout nameLayout = new BoxLayout(namePanel, BoxLayout.PAGE_AXIS);
+        BoxLayout textLayout = new BoxLayout(textPanel, BoxLayout.PAGE_AXIS);
         BorderLayout buttonLayout = new BorderLayout();
 
         buttonPanel.setBorder(BorderFactory.createEtchedBorder());
@@ -136,31 +120,22 @@ public class UsersViewCreator {
         textPanel.setLayout(textLayout);
         buttonPanel.setLayout(buttonLayout);
 
-
         JLabel deleteUserNameLabel = new JLabel("Username   ");
         deleteUserName = new JTextPane();
-        deleteUserName.setPreferredSize(new Dimension(120,20));
-
-
+        deleteUserName.setPreferredSize(new Dimension(120, 20));
 
         deleteUserButton = new JButton("Delete User");
-        deleteUserButton.setPreferredSize(new Dimension(120,40));
-
-
+        deleteUserButton.setPreferredSize(new Dimension(120, 40));
 
         namePanel.add(deleteUserNameLabel);
-
 
         textPanel.add(deleteUserName);
 
         buttonPanel.add(deleteUserButton);
 
-
         deleterPanel.add(namePanel, BorderLayout.WEST);
         deleterPanel.add(textPanel, BorderLayout.CENTER);
         deleterPanel.add(buttonPanel, BorderLayout.EAST);
-
-
 
         return deleterPanel;
     }
@@ -177,30 +152,28 @@ public class UsersViewCreator {
 
     }
 
-    public String getUserName(){
+    public String getUserName() {
         return newUserName.getText();
     }
 
-    public String getPassword(){
+    public String getPassword() {
         return newPassword.getText();
     }
 
-    public String getRole(){
+    public String getRole() {
         return newRole.getText();
     }
 
-    public String getRealName(){
+    public String getRealName() {
         return newRealName.getText();
     }
 
-    public String getMail(){
+    public String getMail() {
         return newMail.getText();
     }
 
-    public String getDeleteUserName(){
+    public String getDeleteUserName() {
         return deleteUserName.getText();
     }
-
-
 
 }
