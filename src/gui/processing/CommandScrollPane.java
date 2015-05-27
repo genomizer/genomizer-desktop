@@ -21,6 +21,12 @@ import javax.swing.UnsupportedLookAndFeelException;
 
 import requests.RequestFactory;
 
+/**
+ * Scroll pane containing CommandComponents
+ *
+ * @author oi12mlw, oi12pjn
+ * @see CommandComponent
+ */
 @SuppressWarnings("serial")
 public class CommandScrollPane extends JScrollPane {
 
@@ -29,12 +35,17 @@ public class CommandScrollPane extends JScrollPane {
     private JPanel componentPanel;
     private ArrayList<CommandComponent> commandList;
 
+    /**
+     * Constructs a new instance of a CommandScrollPane
+     */
     public CommandScrollPane() {
+
         super(VERTICAL_SCROLLBAR_AS_NEEDED, HORIZONTAL_SCROLLBAR_NEVER);
+
         commandList = new ArrayList<CommandComponent>();
         componentPanel = new JPanel();
-        componentPanel.setLayout(new BoxLayout(componentPanel,
-                BoxLayout.PAGE_AXIS));
+
+        componentPanel.setLayout(new BoxLayout(componentPanel, BoxLayout.PAGE_AXIS));
         this.getViewport().add(componentPanel);
         this.getVerticalScrollBar().setUnitIncrement(SCROLL_SPEED);
         this.setBorder(BorderFactory.createTitledBorder("Commands"));
@@ -57,6 +68,10 @@ public class CommandScrollPane extends JScrollPane {
                 });
     }
 
+    /**
+     * Adds the CommandComponent to this scroll pane
+     * @param commandComponent the CommandComponent
+     */
     public void addCommandComponent(CommandComponent commandComponent) {
         if ( containsCommand(commandComponent) ) return;
         componentPanel.add((Component) commandComponent);
@@ -68,17 +83,26 @@ public class CommandScrollPane extends JScrollPane {
         this.revalidate();
     }
 
+    // TODO: to be used?
+    /**
+     * Removes the given CommandComponent from this scroll pane
+     * @param commandComponent the given CommandComponent
+     */
     public void removeCommand(CommandComponent commandComponent) {
-
+        commandList.remove(commandComponent);
+        this.remove(commandComponent);
     }
 
+    /**
+     * Returns the list of ProcessCommands represented by the CommandComponents in this scroll pane
+     * @return the list of ProcessCommands
+     */
     public ProcessCommand[] getCommandList() {
 
         ProcessCommand[] commands = new ProcessCommand[commandList.size()];
 
         Iterator<CommandComponent> componentIterator = commandList.iterator();
         for(int i = 0; componentIterator.hasNext(); i++) {
-            System.out.println(i);
             CommandComponent currentComponent = componentIterator.next();
             commands[i] = buildProcessCommand(currentComponent);
         }
@@ -93,13 +117,14 @@ public class CommandScrollPane extends JScrollPane {
         return command;
     }
 
+    /**
+     * Removes all CommandComponents from this scroll pane
+     */
     public void empty() {
-        Iterator<CommandComponent> componentIterator = commandList.iterator();
-        while(componentIterator.hasNext()) {
-            CommandComponent currentComponent = componentIterator.next();
-            this.remove((Component)currentComponent);
-            commandList.remove(currentComponent);
-        }
+        this.removeAll();
+        commandList.clear();
+        componentPanel.revalidate();
+        componentPanel.repaint();
     }
 
     private boolean containsCommand(CommandComponent commandComponent) {
@@ -114,44 +139,39 @@ public class CommandScrollPane extends JScrollPane {
 
     }
 
-    public void reset() {
-        componentPanel.removeAll();
-        componentPanel.revalidate();
-        componentPanel.repaint();
-    }
+//    public static void main(String[] args) {
+//
+//        try {
+//            UIManager
+//                    .setLookAndFeel("javax.swing.plaf.nimbus.NimbusLookAndFeel");
+//        } catch (ClassNotFoundException | InstantiationException
+//                | IllegalAccessException | UnsupportedLookAndFeelException e) {
+//        }
+//
+//        JFrame frame = new JFrame();
+//        frame.setLayout(new BorderLayout());
+//        String commandName = "Glass e gott";
+//        String[] fileNames = { "bild.png", "stinkern.txt", "hus.jpg" };
+//        String[] genomeReleases = { "hg37", "hg38", "rat" };
+//
+//        RawToProfileCommandComponent comp1 = new RawToProfileCommandComponent(
+//                commandName, fileNames, genomeReleases);
+//        RawToProfileCommandComponent comp2 = new RawToProfileCommandComponent(
+//                commandName, fileNames, genomeReleases);
+//
+//        CommandScrollPane c = new CommandScrollPane();
+//        c.addCommandComponent(comp1);
+//        c.addCommandComponent(comp2);
+//        JButton knappen = new JButton("KÖR!!!");
+//        knappen.addActionListener(new ProcessButtonListener(c));
+//        frame.add(c, BorderLayout.CENTER);
+//        frame.add(knappen, BorderLayout.SOUTH);
+//        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+//        frame.pack();
+//        frame.setVisible(true);
+//    }
 
-    public static void main(String[] args) {
-
-        try {
-            UIManager
-                    .setLookAndFeel("javax.swing.plaf.nimbus.NimbusLookAndFeel");
-        } catch (ClassNotFoundException | InstantiationException
-                | IllegalAccessException | UnsupportedLookAndFeelException e) {
-        }
-
-        JFrame frame = new JFrame();
-        frame.setLayout(new BorderLayout());
-        String commandName = "Glass e gott";
-        String[] fileNames = { "bild.png", "stinkern.txt", "hus.jpg" };
-        String[] genomeReleases = { "hg37", "hg38", "rat" };
-
-        RawToProfileCommandComponent comp1 = new RawToProfileCommandComponent(
-                commandName, fileNames, genomeReleases);
-        RawToProfileCommandComponent comp2 = new RawToProfileCommandComponent(
-                commandName, fileNames, genomeReleases);
-
-        CommandScrollPane c = new CommandScrollPane();
-        c.addCommandComponent(comp1);
-        c.addCommandComponent(comp2);
-        JButton knappen = new JButton("KÖR!!!");
-        knappen.addActionListener(new ProcessButtonListener(c));
-        frame.add(c, BorderLayout.CENTER);
-        frame.add(knappen, BorderLayout.SOUTH);
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.pack();
-        frame.setVisible(true);
-    }
-
+    // TODO: refactor, move
     private static class ProcessButtonListener implements ActionListener {
 
 

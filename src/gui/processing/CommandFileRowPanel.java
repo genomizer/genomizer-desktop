@@ -14,6 +14,11 @@ import javax.swing.JPanel;
 
 import util.IconFactory;
 
+/**
+ * Class for containing command file row and buttons for removal and adding of new file row panels.
+ * @author oi12mlw, oi12pjn
+ * @see CommandFileRow
+ */
 @SuppressWarnings("serial")
 public class CommandFileRowPanel extends JPanel {
 
@@ -24,6 +29,10 @@ public class CommandFileRowPanel extends JPanel {
     private CommandFileRow commandFileRow;
     private JPanel buttonPanel;
 
+    /**
+     * Constructs a new CommandFileRowPanel instance from a given CommandFileRow
+     * @param commandFileRow the CommandFileRow
+     */
     public CommandFileRowPanel(CommandFileRow commandFileRow) {
         super();
         this.commandFileRow = commandFileRow;
@@ -37,6 +46,9 @@ public class CommandFileRowPanel extends JPanel {
         this.add(buttonPanel);
     }
 
+    /**
+     * Builds a padded button panel for the add and remove buttons
+     */
     private void buildButtonPanel() {
 
         removeButton = buildRemoveButton();
@@ -69,6 +81,10 @@ public class CommandFileRowPanel extends JPanel {
         return CustomButtonFactory.makeCustomButton(icon, hoverIcon, BUTTON_WIDTH, 25, tooltip);
     }
 
+    /**
+     * Enables or disables (adds or removes) the add button from this panel
+     * @param enabled enables if true, disables otherwise
+     */
     public void setAddButtonEnabled(boolean enabled) {
         if(enabled) {
             buttonPanel.add(addButton);
@@ -77,6 +93,10 @@ public class CommandFileRowPanel extends JPanel {
         }
     }
 
+    /**
+     * Enables or disables (adds or removes) the remove button from this panel
+     * @param enabled enables if true, disables otherwise
+     */
     public void setRemoveButtonEnabled(boolean enabled) {
         if(enabled) {
             buttonPanel.add(removeButton);
@@ -90,16 +110,28 @@ public class CommandFileRowPanel extends JPanel {
         }
     }
 
+    /**
+     * Adds an action listener to the remove button
+     * @param al the action listener
+     */
     public void addRemoveButtonActionListener(ActionListener al) {
         removeButton.addActionListener(al);
     }
 
+    /**
+     * Adds an action listener to the add button
+     * @param al the action listener
+     */
     public void addAddButtonActionListener(ActionListener al) {
         addButton.addActionListener(al);
     }
 
+    /**
+     * Returns the CommandFileRow contained by this panel
+     * @return the CommandFileRow contained by this panel
+     */
     public CommandFileRow getFileRow() {
-        // TODO Auto-generated method stub
+
         return commandFileRow;
     }
 }

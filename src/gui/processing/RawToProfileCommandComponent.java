@@ -2,12 +2,28 @@ package gui.processing;
 
 import java.util.Iterator;
 
+/**
+ * CommandComponent for Raw-to-profile-processing.
+ * @author oi12mlw, oi12pjn
+ *
+ */
 @SuppressWarnings("serial")
 public class RawToProfileCommandComponent extends CommandComponent {
 
     private String[] fileNames;
     private String[] genomeReleases;
 
+    /**
+     * Constructs a new RawToProfileCommandComponent with the given command
+     * name, available file names and available genome releases.
+     *
+     * @param commandName
+     *            the command name
+     * @param fileNames
+     *            the file names
+     * @param genomeReleases
+     *            the genome releases
+     */
     public RawToProfileCommandComponent(String commandName, String[] fileNames,
             String[] genomeReleases) {
 
@@ -19,6 +35,12 @@ public class RawToProfileCommandComponent extends CommandComponent {
 
     }
 
+    /**
+     * Returns the parameters put in by the user in the file rows contained by
+     * this CommandComponent.
+     *
+     * @return the input parameters of the CommandComponent
+     */
     @Override
     public ProcessParameters[] getProcessParameters() {
 
@@ -42,6 +64,9 @@ public class RawToProfileCommandComponent extends CommandComponent {
         return new RawToProfileParameters(infile, outfile, flags, genomeRelease, saveSam);
     }
 
+    /**
+     * Constructs a new RawToProfileFileRow
+     */
     @Override
     protected CommandFileRow buildCommandFileRow() {
 
