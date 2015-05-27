@@ -2,6 +2,7 @@ package genomeReleaseTest;
 
 import static org.fest.assertions.api.Assertions.assertThat;
 import model.Model;
+import model.SessionHandler;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -20,7 +21,7 @@ public class GetAllGenomeReleasesTest {
     public void setUp() throws Exception {
         model = new Model();
         model.setIP(ExampleExperimentData.getTestServerIP());
-        model.loginUser(ExampleExperimentData.getTestUsername(), ExampleExperimentData.getTestPassword());
+        SessionHandler.getInstance().loginUser(ExampleExperimentData.getTestUsername(), ExampleExperimentData.getTestPassword());
         controller = new SysadminController(model);
     }
 

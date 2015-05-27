@@ -27,7 +27,7 @@ import util.ProcessFeedbackData;
 public class ProcessInfoPanel extends JPanel {
 
     private JScrollPane scrollProcessList = new JScrollPane();
-    private JTree tree;
+    private JTree tree = null;
     private final JButton processFeedbackButton = new JButton(
             "Get process feedback");
     private final JButton abortProcessButton = new JButton("Abort process");
@@ -164,6 +164,10 @@ public class ProcessInfoPanel extends JPanel {
     }
 
     public ProcessFeedbackData getSelectedProcess() {
+
+        if ( this.tree == null ){
+            return null;
+        }
 
         TreePath[] tps = this.tree.getSelectionPaths();
 

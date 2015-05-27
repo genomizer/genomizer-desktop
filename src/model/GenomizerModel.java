@@ -19,10 +19,6 @@ import communication.HTTPURLUpload;
 
 public interface GenomizerModel {
 
-    public String loginUser(String username, String password);
-
-    public boolean logoutUser();
-
     /**
      * Try to upload a file, sending a normal Connection first with the passed
      * data, and then a HTTPURLUpload with the response url.
@@ -44,9 +40,6 @@ public interface GenomizerModel {
     public ArrayList<ExperimentData> search(String pubmedString)
             throws RequestException;
 
-    public void rawToProfile(String expid, String[] parameters,
-            String metadata, String genomeRelease, String author)
-            throws RequestException;
 
     public void downloadFile(String url, String fileID, String path,
             String fileName) throws RequestException;
@@ -82,7 +75,6 @@ public interface GenomizerModel {
     public void removeAnnotationValue(String annotationName, String valueName)
             throws RequestException;
 
-    public ProcessFeedbackData[] getProcessFeedback();
 
     public void deleteGenomeRelease(String gr, String specie)
             throws RequestException;
@@ -110,7 +102,5 @@ public interface GenomizerModel {
     public void addTickingTask(Runnable task);
 
     public void clearTickingTasks();
-
-    public void abortProcess(String pID) throws RequestException;
 
 }

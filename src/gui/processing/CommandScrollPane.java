@@ -74,13 +74,14 @@ public class CommandScrollPane extends JScrollPane {
      */
     public void addCommandComponent(CommandComponent commandComponent) {
         if ( containsCommand(commandComponent) ) return;
-        componentPanel.add((Component) commandComponent);
+        componentPanel.add( commandComponent);
         commandList.add(commandComponent);
 
         // Scroll to visible
-        Rectangle bounds = new Rectangle(0, ((Component) commandComponent).getHeight() - 1 , 1, 1);
+        Rectangle bounds = new Rectangle(0,  commandComponent.getHeight() - 1 , 1, 1);
         this.scrollRectToVisible(bounds);
         this.revalidate();
+        this.repaint();
     }
 
     // TODO: to be used?
@@ -90,7 +91,7 @@ public class CommandScrollPane extends JScrollPane {
      */
     public void removeCommand(CommandComponent commandComponent) {
         commandList.remove(commandComponent);
-        this.remove(commandComponent);
+        this.componentPanel.remove(commandComponent);
     }
 
     /**
@@ -111,9 +112,9 @@ public class CommandScrollPane extends JScrollPane {
     }
 
     private ProcessCommand buildProcessCommand(CommandComponent component) {
-        String name = component.getName();
+        String type = component.getCommandName();
         ProcessParameters[] parameters = component.getProcessParameters();
-        ProcessCommand command = new ProcessCommand(name, parameters);
+        ProcessCommand command = new ProcessCommand(type, parameters);
         return command;
     }
 
@@ -121,7 +122,7 @@ public class CommandScrollPane extends JScrollPane {
      * Removes all CommandComponents from this scroll pane
      */
     public void empty() {
-        this.removeAll();
+        this.componentPanel.removeAll();
         commandList.clear();
         componentPanel.revalidate();
         componentPanel.repaint();
@@ -172,20 +173,16 @@ public class CommandScrollPane extends JScrollPane {
     private static class ProcessButtonListener implements ActionListener {
 
 
+
         private CommandScrollPane scrollPane;
 
-        public ProcessButtonListener(CommandScrollPane scrollPane) {
-            this.scrollPane = scrollPane;
+        public ProcessButtonListener(CommandScrollPane c) {
+            this.scrollPane = c;
         }
 
         @Override
         public void actionPerformed(ActionEvent e) {
-            ProcessCommand[] commandList = scrollPane.getCommandList();
-            for(int i = 0; i < commandList.length; i++) {
-
-                System.out.println(RequestFactory.makeProcessCommandRequest("0", commandList).toJson());
-
-            }
+            scrollPane.getCommandList();
 
         }
 
