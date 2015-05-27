@@ -2,18 +2,11 @@ package gui.processing;
 
 import java.util.Iterator;
 
-/**
- * CommandComponent for Raw-to-profile-processing.
- * @author oi12mlw, oi12pjn
- *
- */
-@SuppressWarnings("serial")
-public class RawToProfileCommandComponent extends CommandComponent {
+public class RatioCommandComponent extends CommandComponent {
 
-    private static final String commandName = "rawToProfile";
+    private static final String commandName = "ratio";
 
     private String[] fileNames;
-    private String[] genomeReleases;
 
     /**
      * Constructs a new RawToProfileCommandComponent with the given command
@@ -26,13 +19,11 @@ public class RawToProfileCommandComponent extends CommandComponent {
      * @param genomeReleases
      *            the genome releases
      */
-    public RawToProfileCommandComponent( String[] fileNames,
-            String[] genomeReleases) {
+    public RatioCommandComponent( String[] fileNames ) {
 
         super(commandName);
 
         this.fileNames = fileNames;
-        this.genomeReleases = genomeReleases;
         addInitialFileRowPanel();
 
     }
@@ -72,7 +63,7 @@ public class RawToProfileCommandComponent extends CommandComponent {
     @Override
     protected CommandFileRow buildCommandFileRow() {
 
-        return new RawToProfileFileRow(fileNames, genomeReleases);
+        return new RatioFileRow(fileNames);
 
     }
 
