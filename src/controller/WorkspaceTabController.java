@@ -83,10 +83,12 @@ public class WorkspaceTabController {
                     workspaceTab.getRemoveButton().setEnabled(true);
                     workspaceTab.getDownloadButton().setEnabled(true);
                     workspaceTab.getConvertButton().setEnabled(true);
+                    workspaceTab.getDeleteButton().setEnabled(true);
                 } else {
                     workspaceTab.getRemoveButton().setEnabled(false);
                     workspaceTab.getDownloadButton().setEnabled(false);
                     workspaceTab.getConvertButton().setEnabled(false);
+                    workspaceTab.getDeleteButton().setEnabled(false);
                 }
             }
         };
