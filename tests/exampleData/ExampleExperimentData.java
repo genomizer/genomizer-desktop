@@ -7,8 +7,6 @@ import util.AnnotationDataValue;
 import util.ExperimentData;
 import util.FileData;
 
-import com.google.gson.Gson;
-
 /**
  * Extracted example ExperimentData from ExperimentData class.
  * @author c12oor
@@ -23,11 +21,9 @@ public final class ExampleExperimentData {
         String[] dates = { "2012-04-30", "2013-02-02", "2008-02-20",
                 "2014-12-24", "2012-12-12" };
         String[] species = { "Human", "Rat", "Fly", "Unknown", "Cat" };
-        String[] fileSizes = { "12GB", "1GB", "3GB", "100MB", "10GB" };
         String[] fileTypes = { "Raw", "Profile", "Region" };
         String[] sexTypes = { "Male", "Female", "Unknown" };
         Random rand = new Random();
-        Gson gson = new Gson();
 
         ExperimentData[] searchResponses = new ExperimentData[20];
         for (int i = 0; i < 20; i++) {

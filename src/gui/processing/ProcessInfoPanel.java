@@ -23,12 +23,12 @@ import util.ProcessFeedbackData;
 
 public class ProcessInfoPanel extends JPanel {
 
-    JScrollPane scrollProcessList = new JScrollPane();
-    ProcessFeedbackData[] processFeedbackData = {};
-
+    private JScrollPane scrollProcessList = new JScrollPane();
+    private JTree tree;
     private final JButton processFeedbackButton = new JButton(
             "Get process feedback");
     private final JButton abortProcessButton = new JButton("Abort process");
+
 
     /**
      * Initiates the east panel in the process tabs borderlayout.
@@ -48,18 +48,6 @@ public class ProcessInfoPanel extends JPanel {
         scrollProcessList.setPreferredSize(new Dimension(300, 700));
         procInfoCenterPanel.add(scrollProcessList, BorderLayout.CENTER);
 
-        ArrayList<String> experiments = new ArrayList<String>();
-
-        for (ProcessFeedbackData p : processFeedbackData) {
-            if (!experiments.contains(p.experimentName)) {
-                experiments.add(p.experimentName);
-            }
-        }
-
-        JTree tree = createFeedbackTree(experiments);
-
-        scrollProcessList.setViewportView(tree);
-
         procInfoSouthPanel.add(Box.createHorizontalStrut(35));
         procInfoSouthPanel.add(processFeedbackButton);
         procInfoSouthPanel.add(abortProcessButton);
@@ -67,7 +55,7 @@ public class ProcessInfoPanel extends JPanel {
 
     }
 
-    private JTree createFeedbackTree(ArrayList<String> experiments) {
+    private JTree createFeedbackTree(ArrayList<String> experiments, ProcessFeedbackData[] processFeedbackData) {
 
         // create the root node
         DefaultMutableTreeNode root = new DefaultMutableTreeNode(
@@ -132,13 +120,14 @@ public class ProcessInfoPanel extends JPanel {
         renderer.setLeafIcon(null);
         renderer.setClosedIcon(null);
         renderer.setOpenIcon(null);
+
         return tree;
     }
 
     /**
      * Adds button listener to processFeedbackButton.
      *
-     * @see controller.ProcessTabController#ProcessFeedbackListener()
+     * @see controller.ProcessTabController#processFeedbackListener()
      * @param listener
      */
     public void addProcessFeedbackListener(ActionListener listener) {
@@ -154,5 +143,28 @@ public class ProcessInfoPanel extends JPanel {
     public void addAbortProcessListener(ActionListener listener) {
         abortProcessButton.addActionListener(listener);
     }
+
+    public void showProcessFeedback(ProcessFeedbackData[] processFeedbackData) {
+
+        System.out.println(processFeedbackData);
+        ArrayList<String> experiments = new ArrayList<String>();
+
+        for (ProcessFeedbackData p : processFeedbackData) {
+            if (!experiments.contains(p.experimentName)) {
+                experiments.add(p.experimentName);
+            }
+        }
+
+        this.tree = createFeedbackTree(experiments, processFeedbackData);
+
+        scrollProcessList.setViewportView(tree);
+
+    }
+
+//    public ProcessFeedbackData getSelectedProcess() {
+//
+//        TreePaththis.tree.getSelectionPaths();
+//
+//    }
 
 }

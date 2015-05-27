@@ -8,6 +8,7 @@ import javax.swing.JPanel;
 
 import util.Constants;
 import util.ExperimentData;
+import util.ProcessFeedbackData;
 import controller.ProcessTabController;
 
 public class ProcessTab extends JPanel {
@@ -24,8 +25,7 @@ public class ProcessTab extends JPanel {
         setMinimumSize(new Dimension(20000, 20000));
         this.setLayout(new BorderLayout());
 
-        this.chooser = new CommandChooser(Constants.commands,
-                "<no selected experiment>");
+        this.chooser = new CommandChooser(Constants.commands);
         this.add(chooser, BorderLayout.NORTH);
 
         this.scrollPane = new CommandScrollPane();
@@ -60,15 +60,14 @@ public class ProcessTab extends JPanel {
 
     public void addCommand(String selectedCommand) {
 
-        System.out.println("ADD NEW COMMAND: "+ selectedCommand);
+        System.out.println("ADD NEW COMMAND: " + selectedCommand);
 
         // Check for multiple similiar command
 
-
-
-        // Add new command tab
-        String []s = {"abc"};
-        this.scrollPane.addCommandComponent( new RawToProfileCommandComponent( selectedCommand, s,  s));
+        // Add new command tabs
+        String[] s = { "abc" };
+        this.scrollPane.addCommandComponent(new RawToProfileCommandComponent(
+                selectedCommand, s, s));
         this.revalidate();
         this.repaint();
 
@@ -77,5 +76,27 @@ public class ProcessTab extends JPanel {
     public void addChooserListener(ActionListener chooserListener) {
         chooser.addChoiceListener(chooserListener);
 
+    }
+
+    public void addClearListener(ActionListener clearListener) {
+        southPanel.addClearButtonListener(clearListener);
+
+    }
+
+    public void clearCommands() {
+        this.scrollPane.reset();
+
+    }
+
+    public void showProcessFeedback(ProcessFeedbackData[] processFeedbackData) {
+        infoPanel.showProcessFeedback(processFeedbackData);
+    }
+
+    public void addFeedbackListener(ActionListener processFeedbackListener) {
+        infoPanel.addProcessFeedbackListener( processFeedbackListener);
+    }
+
+    public void addAbortProcessListener( ActionListener abortListener ){
+        infoPanel.addAbortProcessListener(abortListener);
     }
 }
