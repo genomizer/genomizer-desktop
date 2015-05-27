@@ -58,7 +58,7 @@ public class Controller {
         view.getQuerySearchTab().setController(querySearchTabController);
 
         ProcessTabController processTabController = new ProcessTabController(
-                view.getProcessTab(), model);
+                view.getProcessTab());
         view.getProcessTab().setController(processTabController);
         new WorkspaceTabController(view, model, fileChooser);
 

@@ -103,4 +103,14 @@ public class ProcessTab extends JPanel {
     public ProcessFeedbackData getSelectedProcessFeedback() {
         return infoPanel.getSelectedProcess();
     }
+
+    public CommandScrollPane getScrollPane() {
+        return this.scrollPane;
+    }
+
+    public void addProcessButtonListener(
+            ActionListener processButtonListener) {
+        this.southPanel.addStartButtonListener(processButtonListener);
+
+    }
 }

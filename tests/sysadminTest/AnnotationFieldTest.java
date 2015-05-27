@@ -5,6 +5,7 @@ import static org.fest.assertions.api.Assertions.fail;
 import exampleData.ExampleExperimentData;
 import gui.sysadmin.SysadminTab;
 import model.Model;
+import model.SessionHandler;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -21,7 +22,7 @@ public class AnnotationFieldTest {
 
         model = new Model();
         model.setIP(ExampleExperimentData.getTestServerIP());
-        model.loginUser(ExampleExperimentData.getTestUsername(),
+        SessionHandler.getInstance().loginUser(ExampleExperimentData.getTestUsername(),
                 ExampleExperimentData.getTestPassword());
         sysadminTab = new SysadminTab();
     }

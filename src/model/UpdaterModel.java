@@ -22,16 +22,14 @@ public class UpdaterModel {
     private CopyOnWriteArrayList<DownloadHandler> ongoingDownloads;
     private CopyOnWriteArrayList<HTTPURLUpload> ongoingUploads;
 
-    private ConnectionFactory connFactory;
 
     private TickingThread ticker;
 
-    public UpdaterModel(ConnectionFactory connFactory) {
+    public UpdaterModel() {
 
         this.ongoingDownloads = new CopyOnWriteArrayList<>();
         this.ongoingUploads = new CopyOnWriteArrayList<>();
 
-        this.connFactory = connFactory;
 
         this.ticker = new TickingThread();
 
@@ -50,7 +48,7 @@ public class UpdaterModel {
                 f.getName(), type, "metameta", username, username, isPrivate,
                 release);
 
-        Connection conn = connFactory.makeConnection();
+        Connection conn = SessionHandler.getInstance().makeConnection();
 
         conn.sendRequest(request, User.getInstance().getToken(), Constants.JSON);
         AddFileToExperimentResponse aFTER = ResponseParser
@@ -86,7 +84,7 @@ public class UpdaterModel {
         DownloadFileRequest request = RequestFactory.makeDownloadFileRequest(
                 fileID, ".wig");
 
-        Connection conn = connFactory.makeConnection();
+        Connection conn = SessionHandler.getInstance().makeConnection();
         conn.sendRequest(request, User.getInstance().getToken(),
                 Constants.TEXT_PLAIN);
 

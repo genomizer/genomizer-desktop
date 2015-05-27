@@ -2,6 +2,8 @@ package controller;
 
 import gui.ErrorDialog;
 import gui.GUI;
+import gui.processing.CommandScrollPane;
+import gui.processing.ProcessCommand;
 import gui.processing.ProcessTab;
 
 import java.awt.event.ActionEvent;
@@ -18,41 +20,46 @@ import util.ProcessFeedbackData;
 import util.RequestException;
 
 import model.GenomizerModel;
+import model.ProcessModel;
 
 public class ProcessTabController {
-
+    
     private ProcessTab tab;
-    private GenomizerModel model;
+    private ProcessModel model;
     private boolean deletedProcessFiles = false;
-
-    public ProcessTabController(ProcessTab tab, GenomizerModel model) {
-        this.model = model;
+    
+    public ProcessTabController(ProcessTab tab) {
         this.tab = tab;
-
+        
+        model = new ProcessModel();
+        
         // processTab.addRawToProfileDataListener(RawToProfileDataListener());
-
+        
         // fileListAddMouseListener(view.getProcessTab().getFileList());
-
+        
         // processTab.addProcessFeedbackListener(ProcessFeedbackListener());
-
+        
         // processTab.addDeleteSelectedListener(DeleteSelectedListener());
-
+        
         // ChooseCommand
         tab.addChooserListener(chooserListener());
-
+        
         // Clear command
         tab.addClearListener(clearListener());
-
+        
         // Entries
         // Start Process
+        tab.addProcessButtonListener(new ProcessButtonListener(tab
+                .getScrollPane()));
+        
         // Check Process
         tab.addFeedbackListener(processFeedbackListener());
-
+        
         // Abort Process
         tab.addAbortProcessListener(abortProcessListener());
-
+        
     }
-
+    
     private ActionListener clearListener() {
         return new ActionListener() {
             @Override
@@ -61,17 +68,36 @@ public class ProcessTabController {
             }
         };
     }
-
+    
     private ActionListener chooserListener() {
         return new ActionListener() {
-
+            
             @Override
             public void actionPerformed(ActionEvent e) {
                 tab.addCommand(tab.getSelectedCommand());
             }
         };
     }
-
+    
+    // TODO: refactor, move
+    private class ProcessButtonListener implements ActionListener {
+        
+        private CommandScrollPane scrollPane;
+        
+        public ProcessButtonListener(CommandScrollPane scrollPane) {
+            this.scrollPane = scrollPane;
+        }
+        
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            ProcessCommand[] commandList = scrollPane.getCommandList();
+            System.out.println(RequestFactory.makeProcessCommandRequest("0",
+                    commandList).toJson());
+            
+        }
+        
+    }
+    
     //
     // private void fileListAddMouseListener(JList<?> fileList) {
     // fileList.addMouseListener(new MouseAdapter() {
@@ -123,11 +149,11 @@ public class ProcessTabController {
     // }
     // });
     // }
-
+    
     /**
      * The listener to create profile data, Sends a request to the server for
      * every RAW-file that the user wants to create profile data.
-     *
+     * 
      * @author c11ann
      */
     // public ActionListener RawToProfileDataListener() {
@@ -227,7 +253,7 @@ public class ProcessTabController {
     // }
     // };
     // }
-
+    
     public ActionListener processFeedbackListener() {
         return new ActionListener() {
             @Override
@@ -239,63 +265,63 @@ public class ProcessTabController {
                                 .getProcessFeedback();
                         if (processFeedbackData != null
                                 && processFeedbackData.length > 0) {
-
+                            
                             SwingUtilities.invokeLater(new Runnable() {
-
+                                
                                 @Override
                                 public void run() {
-
+                                    
                                     tab.showProcessFeedback(processFeedbackData);
                                 }
                             });
                         }
-
+                        
                     };
                 }.start();
             }
         };
     }
-
+    
     public ActionListener abortProcessListener() {
         return new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 // TODO skicka request till server att avbryta processen som
                 // �r markerad
-
+                
                 final ProcessFeedbackData data = tab
                         .getSelectedProcessFeedback();
-
+                
                 if (data == null) {
                     new ErrorDialog(
                             "Invalid selection",
                             "Make sure you have selected your process correctly",
                             "Select a single process, and make sure the selection is above or at the 'Process ID' value.")
                             .showDialog();
+                    return;
                 }
-
+                
                 new Thread() {
                     @Override
                     public void run() {
-
+                        
                         try {
                             model.abortProcess(data.PID);
                         } catch (RequestException e) {
-
+                            
                             final RequestException e2 = e;
                             SwingUtilities.invokeLater(new Runnable() {
-
+                                
                                 public void run() {
-                                    new ErrorDialog(
-                                            "Couldn't abort process!", e2)
-                                            .showDialog();
+                                    new ErrorDialog("Couldn't abort process!",
+                                            e2).showDialog();
                                 }
                             });
                         }
                     }
-
+                    
                 }.start();
-
+                
             }
         };
     }

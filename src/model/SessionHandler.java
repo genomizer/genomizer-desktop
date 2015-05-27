@@ -118,4 +118,9 @@ public class SessionHandler {
             return false;
         }
     }
+
+
+    public Connection makeConnection(){
+        return connFactory.makeConnection();
+    }
 }
