@@ -148,7 +148,14 @@ public class GUI extends JFrame {
               }
 
               statusSuccessOrFail = 1;
-              for(int i = 0; i < 100;i++){
+              
+              try {
+                  Thread.sleep(2000);
+              } catch (InterruptedException e) {
+                  e.printStackTrace();
+              }
+              
+              for(int i = 0; i < 60;i++){
                   if(statusSuccessOrFail == 2 || (firstTime == 1 && nrOfThreads > 1)){
                       break;
                   }
@@ -156,7 +163,7 @@ public class GUI extends JFrame {
                       firstTime  = 1;
                   }
                   try {
-                      Thread.sleep(40);
+                      Thread.sleep(60);
                   } catch (InterruptedException e) {
                       e.printStackTrace();
                   }
@@ -173,7 +180,14 @@ public class GUI extends JFrame {
               }
 
               statusSuccessOrFail = 2;
-              for(int i = 0; i < 100;i++){
+              
+              try {
+                  Thread.sleep(2000);
+              } catch (InterruptedException e) {
+                  e.printStackTrace();
+              }
+              
+              for(int i = 0; i < 60;i++){
                   if(statusSuccessOrFail  == 1 || (firstTime == 1 && nrOfThreads > 1)){
                       break;
                   }
@@ -181,10 +195,11 @@ public class GUI extends JFrame {
                       firstTime  = 1;
                   }
                   try {
-                      Thread.sleep(40);
+                      Thread.sleep(60);
                   } catch (InterruptedException e) {
                       e.printStackTrace();
                   }
+
                   setColor(255-i,155,155);
                   statusPanel.setBackground(getColor());
               }
