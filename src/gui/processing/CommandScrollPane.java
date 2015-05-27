@@ -150,14 +150,11 @@ public class CommandScrollPane extends JScrollPane {
 
         JFrame frame = new JFrame();
         frame.setLayout(new BorderLayout());
-        String commandName = "Glass e gott";
         String[] fileNames = { "bild.png", "stinkern.txt", "hus.jpg" };
         String[] genomeReleases = { "hg37", "hg38", "rat" };
 
-        RawToProfileCommandComponent comp1 = new RawToProfileCommandComponent(
-                commandName, fileNames, genomeReleases);
-        RawToProfileCommandComponent comp2 = new RawToProfileCommandComponent(
-                commandName, fileNames, genomeReleases);
+        RawToProfileCommandComponent comp1 = new RawToProfileCommandComponent(fileNames, genomeReleases);
+        SmoothingCommandComponent comp2 = new SmoothingCommandComponent(fileNames);
 
         CommandScrollPane c = new CommandScrollPane();
         c.addCommandComponent(comp1);

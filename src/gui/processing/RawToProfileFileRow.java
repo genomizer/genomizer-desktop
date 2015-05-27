@@ -21,16 +21,16 @@ public class RawToProfileFileRow extends CommandFileRow {
     private JTextField outFileTextField;
     private JTextField flagsTextField;
     private JComboBox<String> genomeReleaseComboBox;
+    private JCheckBox keepSamCheckBox;
 
     private JLabel inFileLabel;
     private JLabel outFileLabel;
     private JLabel flagsLabel;
     private JLabel genomeReleaseLabel;
+    private JLabel keepSamLabel;
 
     private String[] fileNames;
     private String[] genomeReleases;
-    private JLabel keepSamLabel;
-    private JCheckBox keepSamCheckBox;
 
     /**
      * Constructs a new RawToProfileFileRow object with the available file names
@@ -52,12 +52,13 @@ public class RawToProfileFileRow extends CommandFileRow {
         addInputFields();
     }
 
-    private void addLabels() {
+    @Override
+    protected void addLabels() {
         inFileLabel = new JLabel("Infile");
         outFileLabel = new JLabel("Outfile");
         flagsLabel = new JLabel("Flags");
         genomeReleaseLabel = new JLabel("GR");
-        keepSamLabel = new JLabel("Keep .SAM?");
+        keepSamLabel = new JLabel("Keep .SAM");
         keepSamLabel.setHorizontalAlignment(JLabel.CENTER);
 
         this.add(inFileLabel);
@@ -67,7 +68,8 @@ public class RawToProfileFileRow extends CommandFileRow {
         this.add(keepSamLabel);
     }
 
-    private void addInputFields() {
+    @Override
+    protected void addInputFields() {
         inFileComboBox = new JComboBox<String>(fileNames);
         outFileTextField = new JTextField();
         flagsTextField = new JTextField();

@@ -66,8 +66,7 @@ public class ProcessTab extends JPanel {
 
         // Add new command tabs
         String[] s = { "abc" };
-        this.scrollPane.addCommandComponent(new RawToProfileCommandComponent(
-                selectedCommand, s, s));
+        this.scrollPane.addCommandComponent(new RawToProfileCommandComponent(s, s));
         this.revalidate();
         this.repaint();
 

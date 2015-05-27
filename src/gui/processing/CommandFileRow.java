@@ -11,4 +11,7 @@ import javax.swing.JComponent;
 @SuppressWarnings("serial")
 public abstract class CommandFileRow extends JComponent {
 
+    protected abstract void addInputFields();
+    protected abstract void addLabels();
+
 }
