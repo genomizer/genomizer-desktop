@@ -140,37 +140,37 @@ public class CommandScrollPane extends JScrollPane {
 
     }
 
-    public static void main(String[] args) {
-
-        try {
-            UIManager
-                    .setLookAndFeel("javax.swing.plaf.nimbus.NimbusLookAndFeel");
-        } catch (ClassNotFoundException | InstantiationException
-                | IllegalAccessException | UnsupportedLookAndFeelException e) {
-        }
-
-        JFrame frame = new JFrame();
-        frame.setLayout(new BorderLayout());
-        String commandName = "Glass e gott";
-        String[] fileNames = { "bild.png", "stinkern.txt", "hus.jpg" };
-        String[] genomeReleases = { "hg37", "hg38", "rat" };
-
-        RawToProfileCommandComponent comp1 = new RawToProfileCommandComponent(
-                commandName, fileNames, genomeReleases);
-        RawToProfileCommandComponent comp2 = new RawToProfileCommandComponent(
-                commandName, fileNames, genomeReleases);
-
-        CommandScrollPane c = new CommandScrollPane();
-        c.addCommandComponent(comp1);
-        c.addCommandComponent(comp2);
-        JButton knappen = new JButton("KÖR!!!");
-        knappen.addActionListener(new ProcessButtonListener(c));
-        frame.add(c, BorderLayout.CENTER);
-        frame.add(knappen, BorderLayout.SOUTH);
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.pack();
-        frame.setVisible(true);
-    }
+//    public static void main(String[] args) {
+//
+//        try {
+//            UIManager
+//                    .setLookAndFeel("javax.swing.plaf.nimbus.NimbusLookAndFeel");
+//        } catch (ClassNotFoundException | InstantiationException
+//                | IllegalAccessException | UnsupportedLookAndFeelException e) {
+//        }
+//
+//        JFrame frame = new JFrame();
+//        frame.setLayout(new BorderLayout());
+//        String commandName = "Glass e gott";
+//        String[] fileNames = { "bild.png", "stinkern.txt", "hus.jpg" };
+//        String[] genomeReleases = { "hg37", "hg38", "rat" };
+//
+//        RawToProfileCommandComponent comp1 = new RawToProfileCommandComponent(
+//                commandName, fileNames, genomeReleases);
+//        RawToProfileCommandComponent comp2 = new RawToProfileCommandComponent(
+//                commandName, fileNames, genomeReleases);
+//
+//        CommandScrollPane c = new CommandScrollPane();
+//        c.addCommandComponent(comp1);
+//        c.addCommandComponent(comp2);
+//        JButton knappen = new JButton("KÖR!!!");
+//        knappen.addActionListener(new ProcessButtonListener(c));
+//        frame.add(c, BorderLayout.CENTER);
+//        frame.add(knappen, BorderLayout.SOUTH);
+//        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+//        frame.pack();
+//        frame.setVisible(true);
+//    }
 
 
 

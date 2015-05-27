@@ -1,7 +1,9 @@
 package model;
 
 import gui.ErrorDialog;
+import gui.processing.ProcessCommand;
 import requests.CancelProcessRequest;
+import requests.ProcessCommandRequest;
 import requests.ProcessFeedbackRequest;
 import requests.RequestFactory;
 import responses.ResponseParser;
@@ -13,8 +15,6 @@ import communication.Connection;
 import communication.ConnectionFactory;
 
 public class ProcessModel {
-
-
 
     public ProcessModel() {
     }
@@ -36,9 +36,6 @@ public class ProcessModel {
 
     public void abortProcess(String PID) throws RequestException {
 
-        // TODO: Remove print
-        System.out.println( "ABORTING: " + PID);
-
         CancelProcessRequest request = RequestFactory
                 .makeCancelProcessRequest(PID);
         Connection conn = SessionHandler.getInstance().makeConnection();
@@ -48,23 +45,23 @@ public class ProcessModel {
     }
 
     /**
-     * Sends a rawToProfile request to the server, with which file the user
-     * wants to create profile data from.
-     * <p/>
-     * Returns whether or not the server could create profile data or not.
+     * Sends a processing request to the server, with which file the user wants
+     * to create profile data from. All the commants will get sent.
+     *
+     * @param commandList
      *
      * @throws RequestException
      */
-    public void rawToProfile(String expid, String[] parameters,
-            String metadata, String genomeRelease, String author)
+    public void startProcessing(String pid, ProcessCommand[] commandList)
             throws RequestException {
-        // rawToProfileRequest rawToProfilerequest = RequestFactory
-        // .makeRawToProfileRequest(expid, parameters, metadata,
-        // genomeRelease, author);
-        // Connection conn = connFactory.makeConnection();
-        // conn.sendRequest(rawToProfilerequest, User.getInstance().getToken(),
-        // Constants.JSON);
+        // TODO Auto-generated method stub
 
+        ProcessCommandRequest request = RequestFactory
+                .makeProcessCommandRequest(pid, commandList);
+        Connection conn = SessionHandler.getInstance().makeConnection();
+
+        conn.sendRequest(request, User.getInstance().getToken(),
+                Constants.TEXT_PLAIN);
     }
 
 }

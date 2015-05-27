@@ -93,10 +93,10 @@ public class ProcessTab extends JPanel {
     }
 
     public void addFeedbackListener(ActionListener processFeedbackListener) {
-        infoPanel.addProcessFeedbackListener( processFeedbackListener);
+        infoPanel.addProcessFeedbackListener(processFeedbackListener);
     }
 
-    public void addAbortProcessListener( ActionListener abortListener ){
+    public void addAbortProcessListener(ActionListener abortListener) {
         infoPanel.addAbortProcessListener(abortListener);
     }
 
@@ -108,9 +108,12 @@ public class ProcessTab extends JPanel {
         return this.scrollPane;
     }
 
-    public void addProcessButtonListener(
-            ActionListener processButtonListener) {
+    public void addProcessButtonListener(ActionListener processButtonListener) {
         this.southPanel.addStartButtonListener(processButtonListener);
 
+    }
+
+    public String getSelectedExperiment() {
+        return selectedExperiment.getName();
     }
 }
