@@ -10,7 +10,7 @@ import javax.swing.JLabel;
 import javax.swing.JTextField;
 
 @SuppressWarnings("serial")
-public class RawToProfileFileRow extends JComponent {
+public class RawToProfileFileRow extends CommandFileRow {
 
     private JComboBox<String> inFileComboBox;
     private JTextField outFileTextField;
