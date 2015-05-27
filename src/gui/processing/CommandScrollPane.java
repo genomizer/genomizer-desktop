@@ -156,10 +156,13 @@ public class CommandScrollPane extends JScrollPane {
 
         RawToProfileCommandComponent comp1 = new RawToProfileCommandComponent(fileNames, genomeReleases);
         SmoothingCommandComponent comp2 = new SmoothingCommandComponent(fileNames);
+        RatioCommandComponent comp3 = new RatioCommandComponent(fileNames);
+
 
         CommandScrollPane c = new CommandScrollPane();
         c.addCommandComponent(comp1);
         c.addCommandComponent(comp2);
+        c.addCommandComponent(comp3);
         JButton knappen = new JButton("KÖR!!!");
         knappen.addActionListener(new ProcessButtonListener(c));
         frame.add(c, BorderLayout.CENTER);
@@ -182,7 +185,12 @@ public class CommandScrollPane extends JScrollPane {
 
         @Override
         public void actionPerformed(ActionEvent e) {
-            scrollPane.getCommandList();
+            for ( ProcessCommand a : scrollPane.getCommandList() ) {
+                System.out.println(a);
+                for ( ProcessParameters f : a.files ){
+                    System.out.println(f);
+                }
+            }
 
         }
 
