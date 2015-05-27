@@ -3,11 +3,14 @@ package gui.processing;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
+import java.util.Iterator;
 
 import javax.swing.JPanel;
 
 import util.Constants;
 import util.ExperimentData;
+import util.FileData;
 import util.ProcessFeedbackData;
 import controller.ProcessTabController;
 
@@ -65,11 +68,35 @@ public class ProcessTab extends JPanel {
         // Check for multiple similiar command
 
         // Add new command tabs
-        String[] s = { "abc" };
-        this.scrollPane.addCommandComponent(new RawToProfileCommandComponent(s, s));
+        String[] fileNames = getFileNames();
+        String[] genomeReleases = getGenomeReleases();
+        this.scrollPane.addCommandComponent(new RawToProfileCommandComponent(fileNames, genomeReleases));
         this.revalidate();
         this.repaint();
 
+    }
+
+    private String[] getGenomeReleases() {
+
+        ArrayList<String> genomeReleaseList = new ArrayList<String>();
+        Iterator<FileData> fileIterator = selectedExperiment.files.iterator();
+        for(int i = 0; fileIterator.hasNext(); i++) {
+            String genomeRelease = fileIterator.next().grVersion;
+            if(!genomeReleaseList.contains(genomeRelease)) {
+                genomeReleaseList.add(genomeRelease);
+            }
+        }
+        return (String[]) genomeReleaseList.toArray();
+    }
+
+    private String[] getFileNames() {
+
+        String[] fileNames = new String[selectedExperiment.files.size()];
+        Iterator<FileData> fileIterator = selectedExperiment.files.iterator();
+        for(int i = 0; fileIterator.hasNext(); i++) {
+            fileNames[i] = fileIterator.next().filename;
+        }
+        return fileNames;
     }
 
     public void addChooserListener(ActionListener chooserListener) {
