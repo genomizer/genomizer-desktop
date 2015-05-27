@@ -125,10 +125,10 @@ public class SysadminTab extends JPanel {
         return genomeReleaseView.buildGenomeReleaseView(listener, textListener,
                 tableListener, tableListener);
     }
-    
-    
 
-    
+
+
+
 
     /**
      * Sets the controller connected to the SysadminTab
@@ -142,6 +142,7 @@ public class SysadminTab extends JPanel {
         createSysadminTabs();
 
         createAnnotationListeners();
+        createUserButtonListeners();
 
     }
 
@@ -153,11 +154,27 @@ public class SysadminTab extends JPanel {
                 .createAnnotationButtonListener());
     }
 
+
+    /**
+     * Adds AnnotationButtonListener to the User view
+     */
+    public void createUserButtonListeners() {
+        usersView.createUserButtonListener(sysController.createUserButtonListener());
+    }
+
+
     /**
      * @return the AnnotationsViewCreate connected to the SysadminTab
      */
     public AnnotationsViewCreator getAnnotationsView() {
         return annotationsView;
+    }
+
+    /**
+     * @return the UsersViewCreate connected to the SysadminTab
+     */
+    public UsersViewCreator getUserView() {
+        return usersView;
     }
 
     /**

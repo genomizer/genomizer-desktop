@@ -22,6 +22,11 @@ import javax.swing.SwingUtilities;
 public class UsersViewCreator {
 
     private JButton createButton;
+    private JTextPane newUserName;
+    private JTextPane newPassword;
+    private JTextPane newRole;
+    private JTextPane newRealName;
+    private JTextPane newMail;
 
     public UsersViewCreator() {
 
@@ -80,26 +85,26 @@ public class UsersViewCreator {
 
 
         JLabel newUserNameLabel = new JLabel("Username   ");
-        JTextPane newUserName = new JTextPane();
+        newUserName = new JTextPane();
         newUserName.setPreferredSize(new Dimension(120,20));
         JLabel newPasswordLabel = new JLabel("Password   ");
-        JTextPane newPassword = new JTextPane();
+        newPassword = new JTextPane();
         newPassword.setPreferredSize(new Dimension(120,20));
         JLabel newRoleLabel = new JLabel("Role       ");
-        JTextPane newRole = new JTextPane();
+        newRole = new JTextPane();
         newRole.setPreferredSize(new Dimension(120,20));
         JLabel newRealNameLabel = new JLabel("Real name   ");
-        JTextPane newRealName = new JTextPane();
+        newRealName = new JTextPane();
         newRealName.setPreferredSize(new Dimension(120,20));
         JLabel newMailLabel = new JLabel("Mail       ");
-        JTextPane newMail = new JTextPane();
+        newMail = new JTextPane();
         newMail.setPreferredSize(new Dimension(120,20));
 
 
         createButton = new JButton("Create User");
         createButton.setPreferredSize(new Dimension(120,40));
-        
-        
+
+
 
         namePanel.add(newUserNameLabel);
         namePanel.add(new JPanel());
@@ -132,7 +137,7 @@ public class UsersViewCreator {
 
         return searchPanel;
     }
-    
+
     /***
      * Sets the same listener to all the buttons.
      *
@@ -143,5 +148,27 @@ public class UsersViewCreator {
         createButton.addActionListener(actionListener);
 
     }
+
+    public String getUserName(){
+        return newUserName.getText();
+    }
+
+    public String getPassword(){
+        return newPassword.getText();
+    }
+
+    public String getRole(){
+        return newRole.getText();
+    }
+
+    public String getRealName(){
+        return newRealName.getText();
+    }
+
+    public String getMail(){
+        return newMail.getText();
+    }
+
+
 
 }
