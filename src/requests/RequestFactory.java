@@ -70,13 +70,6 @@ public class RequestFactory {
         return new RemoveExperimentRequest(urlExperimentID);
     }
 
-    public static UpdateExperimentRequest makeUpdateExperimentRequest(
-            String experimentID, String name, String createdBy,
-            HashMap<String, String> annotations) {
-        return new UpdateExperimentRequest(experimentID, name, createdBy,
-                annotations);
-    }
-
     public static SearchRequest makeSearchRequest(String annotationString) {
         String urlEncodedAnnotationString = annotationString;
         urlEncodedAnnotationString = decodeToURL(annotationString);
