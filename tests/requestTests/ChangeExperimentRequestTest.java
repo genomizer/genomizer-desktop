@@ -4,12 +4,8 @@ import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
-import java.util.ArrayList;
-
 import org.junit.Before;
 import org.junit.Test;
-
-import exampleData.ExampleExperimentData;
 
 import requests.ChangeExperimentRequest;
 import requests.RequestFactory;
