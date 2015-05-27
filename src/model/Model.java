@@ -432,13 +432,16 @@ public class Model implements GenomizerModel {
 
     public void createUser(String username, String password, String privileges,
             String name, String email) throws RequestException {
+
         CreateUserRequest request = RequestFactory.makeCreateUserRequest(
                 username, password, privileges, name, email);
         Connection conn = connFactory.makeConnection();
+        System.out.println("JSOOOOOOOOOOOON "+request.toJson());
         conn.sendRequest(request, User.getInstance().getToken(), Constants.JSON);
+        System.out.println(conn.getResponseBody() +" + " + conn.getResponseCode());
     }
 
-    public void UpdateUser(String username, String password, String privileges,
+    public void updateUser(String username, String password, String privileges,
             String name, String email) throws RequestException {
         UpdateUserRequest request = RequestFactory.makeUpdateUserRequest(
                 username, password, privileges, name, email);
@@ -446,7 +449,7 @@ public class Model implements GenomizerModel {
         conn.sendRequest(request, User.getInstance().getToken(), Constants.JSON);
     }
 
-    public void DeleteUser(String username) throws RequestException {
+    public void deleteUser(String username) throws RequestException {
         DeleteUserRequest request = RequestFactory
                 .makeDeleteUserRequest(username);
         Connection conn = connFactory.makeConnection();

@@ -362,6 +362,24 @@ public class SysadminController {
 
 
     public void createNewUser(String uName, String pass, String role, String rName, String mail){
+        try {
+            model.createUser(uName, pass, role, rName, mail);
+        } catch (RequestException e) {
+            // TODO Auto-generated catch block
+            System.out.println("vill inte ha något!");
+            e.printStackTrace();
+        }
+        // TODO
+    }
+
+    public void deleteUser(String uName){
+        try {
+            model.deleteUser(uName);
+        } catch (RequestException e) {
+            // TODO Auto-generated catch block
+            System.out.println("vill inte ha något!");
+            e.printStackTrace();
+        }
         // TODO
     }
 

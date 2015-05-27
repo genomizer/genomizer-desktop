@@ -21,12 +21,14 @@ import javax.swing.SwingUtilities;
 
 public class UsersViewCreator {
 
-    private JButton createButton;
+    private JButton createUserButton;
     private JTextPane newUserName;
     private JTextPane newPassword;
     private JTextPane newRole;
     private JTextPane newRealName;
     private JTextPane newMail;
+    private JTextPane deleteUserName;
+    private JButton deleteUserButton;
 
     public UsersViewCreator() {
 
@@ -34,44 +36,22 @@ public class UsersViewCreator {
 
     public JPanel buildUsersView() {
 
-        JPanel mainPanel = new JPanel(new FlowLayout());
+        JPanel mainPanel = new JPanel(new BorderLayout());
       //  mainPanel.setBackground(new Color(255, 250, 250));
        // mainPanel.add(buildUsersList(), BorderLayout.WEST);
-        mainPanel.add(buildCreateUserBar());
+        mainPanel.add(buildCreateUserBar(), BorderLayout.NORTH);
+        mainPanel.add(buildDeleteUserBar(), BorderLayout.SOUTH);
         return mainPanel;
     }
-//
-//    private JScrollPane buildUsersList() {
-//
-//        // TODO: Read the data from somwhere instead? (OO)
-//        /** Example data only */
-//        Object[] testers = { "Max Bågling", "Jonas Hedin",
-//                "Marcus Lööw", "Petter Johansson", "Oskar Ottander","Christoffer Fladvad", "Viktor Bengtsson"};
-//
-//
-//        JList<Object> usersList = new JList<Object>(testers);
-//        usersList.setSelectionMode(ListSelectionModel.SINGLE_INTERVAL_SELECTION);
-//        usersList.setLayoutOrientation(JList.VERTICAL);
-//
-//
-//
-//        JScrollPane scrollPane = new JScrollPane(usersList);
-//        scrollPane.setPreferredSize(new Dimension(250, 80));
-//
-//        return scrollPane;
-//    }
 
 
     private JPanel buildCreateUserBar() {
 
         // TODO: Search panel not implemented (OO)
-        JPanel searchPanel = new JPanel(new BorderLayout());
+        JPanel creatorPanel = new JPanel(new BorderLayout());
         JPanel namePanel = new JPanel();
         JPanel textPanel = new JPanel();
         JPanel buttonPanel = new JPanel();
-        JPanel spacePanel = new JPanel();
-
-        spacePanel.setPreferredSize(new Dimension(120,5));
 
         BoxLayout nameLayout = new BoxLayout(namePanel,BoxLayout.PAGE_AXIS);
         BoxLayout textLayout = new BoxLayout(textPanel,BoxLayout.PAGE_AXIS);
@@ -101,8 +81,8 @@ public class UsersViewCreator {
         newMail.setPreferredSize(new Dimension(120,20));
 
 
-        createButton = new JButton("Create User");
-        createButton.setPreferredSize(new Dimension(120,40));
+        createUserButton = new JButton("Create User");
+        createUserButton.setPreferredSize(new Dimension(120,40));
 
 
 
@@ -126,16 +106,63 @@ public class UsersViewCreator {
         textPanel.add(new JPanel());
         textPanel.add(newMail);
 
-        buttonPanel.add(createButton);
+        buttonPanel.add(createUserButton);
 
 
-        searchPanel.add(namePanel, BorderLayout.WEST);
-        searchPanel.add(textPanel, BorderLayout.CENTER);
-        searchPanel.add(buttonPanel, BorderLayout.EAST);
+        creatorPanel.add(namePanel, BorderLayout.WEST);
+        creatorPanel.add(textPanel, BorderLayout.CENTER);
+        creatorPanel.add(buttonPanel, BorderLayout.EAST);
 
 
 
-        return searchPanel;
+        return creatorPanel;
+    }
+
+    private JPanel buildDeleteUserBar() {
+
+        // TODO: Search panel not implemented (OO)
+        JPanel deleterPanel = new JPanel(new BorderLayout());
+        JPanel namePanel = new JPanel();
+        JPanel textPanel = new JPanel();
+        JPanel buttonPanel = new JPanel();
+
+        BoxLayout nameLayout = new BoxLayout(namePanel,BoxLayout.PAGE_AXIS);
+        BoxLayout textLayout = new BoxLayout(textPanel,BoxLayout.PAGE_AXIS);
+        BorderLayout buttonLayout = new BorderLayout();
+
+        buttonPanel.setBorder(BorderFactory.createEtchedBorder());
+
+        namePanel.setLayout(nameLayout);
+        textPanel.setLayout(textLayout);
+        buttonPanel.setLayout(buttonLayout);
+
+
+        JLabel deleteUserNameLabel = new JLabel("Username   ");
+        deleteUserName = new JTextPane();
+        deleteUserName.setPreferredSize(new Dimension(120,20));
+
+
+
+        deleteUserButton = new JButton("Delete User");
+        deleteUserButton.setPreferredSize(new Dimension(120,40));
+
+
+
+        namePanel.add(deleteUserNameLabel);
+
+
+        textPanel.add(deleteUserName);
+
+        buttonPanel.add(deleteUserButton);
+
+
+        deleterPanel.add(namePanel, BorderLayout.WEST);
+        deleterPanel.add(textPanel, BorderLayout.CENTER);
+        deleterPanel.add(buttonPanel, BorderLayout.EAST);
+
+
+
+        return deleterPanel;
     }
 
     /***
@@ -145,7 +172,8 @@ public class UsersViewCreator {
      *            the listener.
      */
     public void createUserButtonListener(ActionListener actionListener) {
-        createButton.addActionListener(actionListener);
+        createUserButton.addActionListener(actionListener);
+        deleteUserButton.addActionListener(actionListener);
 
     }
 
@@ -167,6 +195,10 @@ public class UsersViewCreator {
 
     public String getMail(){
         return newMail.getText();
+    }
+
+    public String getDeleteUserName(){
+        return deleteUserName.getText();
     }
 
 

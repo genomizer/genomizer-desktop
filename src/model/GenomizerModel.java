@@ -112,4 +112,12 @@ public interface GenomizerModel {
     public void clearTickingTasks();
 
     public boolean convertFile(String fileid, String toformat) throws RequestException;
+
+    public void createUser(String username, String password, String privileges,
+            String name, String email) throws RequestException;
+
+    public void updateUser(String username, String password, String privileges,
+            String name, String email) throws RequestException;
+
+    public void deleteUser(String username) throws RequestException;
 }
