@@ -4,6 +4,7 @@ import gui.JTextFieldLimit;
 
 import java.awt.GridLayout;
 
+import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
@@ -28,6 +29,8 @@ public class RawToProfileFileRow extends CommandFileRow {
 
     private String[] fileNames;
     private String[] genomeReleases;
+    private JLabel keepSamLabel;
+    private JCheckBox keepSamCheckBox;
 
     /**
      * Constructs a new RawToProfileFileRow object with the available file names
@@ -43,7 +46,7 @@ public class RawToProfileFileRow extends CommandFileRow {
         this.fileNames = fileNames;
         this.genomeReleases = genomeReleases;
 
-        this.setLayout(new GridLayout(2,4));
+        this.setLayout(new GridLayout(2,5));
 
         addLabels();
         addInputFields();
@@ -54,11 +57,14 @@ public class RawToProfileFileRow extends CommandFileRow {
         outFileLabel = new JLabel("Outfile");
         flagsLabel = new JLabel("Flags");
         genomeReleaseLabel = new JLabel("GR");
+        keepSamLabel = new JLabel("Keep .SAM?");
+        keepSamLabel.setHorizontalAlignment(JLabel.CENTER);
 
         this.add(inFileLabel);
         this.add(outFileLabel);
         this.add(flagsLabel);
         this.add(genomeReleaseLabel);
+        this.add(keepSamLabel);
     }
 
     private void addInputFields() {
@@ -66,14 +72,17 @@ public class RawToProfileFileRow extends CommandFileRow {
         outFileTextField = new JTextField();
         flagsTextField = new JTextField();
         genomeReleaseComboBox = new JComboBox<String>(genomeReleases);
+        keepSamCheckBox = new JCheckBox();
+        keepSamCheckBox.setHorizontalAlignment(JCheckBox.CENTER);
 
-        outFileTextField.setDocument(new JTextFieldLimit(32));
-        flagsTextField.setDocument(new JTextFieldLimit(32));
+        outFileTextField.setDocument(new JTextFieldLimit(512));
+        flagsTextField.setDocument(new JTextFieldLimit(256));
 
         this.add(inFileComboBox);
         this.add(outFileTextField);
         this.add(flagsTextField);
         this.add(genomeReleaseComboBox);
+        this.add(keepSamCheckBox);
     }
 
     /**
@@ -106,5 +115,13 @@ public class RawToProfileFileRow extends CommandFileRow {
      */
     public String getGenomeRelease() {
         return genomeReleaseComboBox.getSelectedItem().toString();
+    }
+
+    /**
+     * Returns the keep .SAM parameter
+     * @return the keep .SAM parameter
+     */
+    public boolean getKeepSam() {
+        return keepSamCheckBox.isSelected();
     }
 }

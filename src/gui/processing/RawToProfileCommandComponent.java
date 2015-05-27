@@ -60,8 +60,8 @@ public class RawToProfileCommandComponent extends CommandComponent {
         String outfile = fileRow.getOutFile();
         String flags = fileRow.getFlags();
         String genomeRelease = fileRow.getGenomeRelease();
-        boolean saveSam = false;
-        return new RawToProfileParameters(infile, outfile, flags, genomeRelease, saveSam);
+        boolean keepSam = fileRow.getKeepSam();
+        return new RawToProfileParameters(infile, outfile, flags, genomeRelease, keepSam);
     }
 
     /**
