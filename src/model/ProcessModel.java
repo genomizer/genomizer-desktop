@@ -71,7 +71,7 @@ public class ProcessModel {
                 Constants.TEXT_PLAIN);
     }
 
-    public void setSelectedExperiment( ExperimentData selectedExperiment){
+    public void setSelectedExperiment(ExperimentData selectedExperiment) {
         this.selectedExperiment = selectedExperiment;
     }
 
@@ -90,14 +90,41 @@ public class ProcessModel {
         return genomeReleases;
     }
 
+    /**
+     * Get the names of all files in the current experiment. Also provide type
+     * argument to filter for this.
+     *
+     * @return array of String filenames
+     */
     public String[] getFileNames() {
 
-        String[] fileNames = new String[selectedExperiment.files.size()];
-        Iterator<FileData> fileIterator = selectedExperiment.files.iterator();
-        for (int i = 0; fileIterator.hasNext(); i++) {
-            fileNames[i] = fileIterator.next().filename;
+        ArrayList<String> fileNames = new ArrayList<String>();
+        for (FileData file : selectedExperiment.files) {
+            fileNames.add(file.getName());
         }
-        return fileNames;
+        return fileNames.toArray(new String[fileNames.size()]);
+    }
+
+    /**
+     * Get the names of all files in the current experiment. Also provide type
+     * argument to filter for this.
+     *
+     * @param type String to fileter for ("all" or null filter allows all)
+     * @return array of String filenames
+     */
+    public String[] getFileNames(String type) {
+
+        ArrayList<String> fileNames = new ArrayList<String>();
+        Iterator<FileData> fileIterator = selectedExperiment.files.iterator();
+
+        for (FileData file : selectedExperiment.files) {
+            if (type == null || type.equalsIgnoreCase("all")
+                    || type.equalsIgnoreCase(file.type)) {
+                fileNames.add(file.getName());
+            }
+        }
+
+        return fileNames.toArray(new String[fileNames.size()]);
     }
 
     public String getSelectedExperimentName() {
