@@ -2,3 +2,7 @@ bin/
 .classpath
 /.idea
 /errorLog.txt
+out
+*.iml
+genomizerv1.0.1.jar
+desktop.jar
