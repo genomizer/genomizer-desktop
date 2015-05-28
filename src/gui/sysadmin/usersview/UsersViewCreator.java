@@ -10,6 +10,7 @@ import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextPane;
@@ -19,13 +20,15 @@ public class UsersViewCreator {
 
     private JTextPane newUserName;
     private JTextPane newPassword;
-    private JTextPane newRole;
+    @SuppressWarnings("rawtypes")
+    private JComboBox newRole;
     private JTextPane newRealName;
     private JTextPane newMail;
     private JTextPane deleteUserName;
     private JTextPane updateUserName;
     private JTextPane updatePassword;
-    private JTextPane updateRole;
+    @SuppressWarnings("rawtypes")
+    private JComboBox updateRole;
     private JTextPane updateRealName;
     private JTextPane updateMail;
     private JButton createUserButton;
@@ -40,10 +43,10 @@ public class UsersViewCreator {
 
         JPanel mainPanel = new JPanel();
         JPanel megaMainPanel = new JPanel();
-    
-        
 
-        
+
+
+
         BoxLayout layout = new BoxLayout(mainPanel, BoxLayout.Y_AXIS);
         mainPanel.setLayout(layout);
         // mainPanel.setBackground(new Color(255, 250, 250));
@@ -51,19 +54,20 @@ public class UsersViewCreator {
         mainPanel.add(buildCreateUserBar());
         mainPanel.add(buildUpdateUserBar());
         mainPanel.add(buildDeleteUserBar());
-        
-        
+
+
         megaMainPanel.add(mainPanel, BoxLayout.X_AXIS);
-        
-        
+
+
         JPanel extraPanel = new JPanel();
         extraPanel.setPreferredSize(new Dimension(700,500));
-        
-        
+
+
         megaMainPanel.add(extraPanel);
         return megaMainPanel;
     }
 
+    @SuppressWarnings("unchecked")
     private JPanel buildCreateUserBar() {
 
         // TODO: Search panel not implemented (OO)
@@ -90,7 +94,10 @@ public class UsersViewCreator {
         newPassword = new JTextPane();
         newPassword.setPreferredSize(new Dimension(120, 20));
         JLabel newRoleLabel = new JLabel("Role       ");
-        newRole = new JTextPane();
+        newRole = new JComboBox<String>();
+        newRole.addItem(new String("USER"));
+        newRole.addItem(new String("ADMIN"));
+        newRole.addItem(new String("GUEST"));
         newRole.setPreferredSize(new Dimension(120, 20));
         JLabel newRealNameLabel = new JLabel("Real name   ");
         newRealName = new JTextPane();
@@ -106,21 +113,21 @@ public class UsersViewCreator {
         namePanel.add(new JPanel());
         namePanel.add(newPasswordLabel);
         namePanel.add(new JPanel());
-        namePanel.add(newRoleLabel);
-        namePanel.add(new JPanel());
         namePanel.add(newRealNameLabel);
         namePanel.add(new JPanel());
         namePanel.add(newMailLabel);
+        namePanel.add(new JPanel());
+        namePanel.add(newRoleLabel);
 
         textPanel.add(newUserName);
         textPanel.add(new JPanel());
         textPanel.add(newPassword);
         textPanel.add(new JPanel());
-        textPanel.add(newRole);
-        textPanel.add(new JPanel());
         textPanel.add(newRealName);
         textPanel.add(new JPanel());
         textPanel.add(newMail);
+        textPanel.add(new JPanel());
+        textPanel.add(newRole);
 
         buttonPanel.add(createUserButton);
 
@@ -130,8 +137,9 @@ public class UsersViewCreator {
 
         return creatorPanel;
     }
-    
-    
+
+
+    @SuppressWarnings("unchecked")
     private JPanel buildUpdateUserBar() {
 
         // TODO: Search panel not implemented (OO)
@@ -158,7 +166,10 @@ public class UsersViewCreator {
         updatePassword = new JTextPane();
         updatePassword.setPreferredSize(new Dimension(120, 20));
         JLabel newRoleLabel = new JLabel("Role       ");
-        updateRole = new JTextPane();
+        updateRole = new JComboBox<String>();
+        updateRole.addItem(new String("USER"));
+        updateRole.addItem(new String("ADMIN"));
+        updateRole.addItem(new String("GUEST"));
         updateRole.setPreferredSize(new Dimension(120, 20));
         JLabel newRealNameLabel = new JLabel("Real name   ");
         updateRealName = new JTextPane();
@@ -174,21 +185,21 @@ public class UsersViewCreator {
         namePanel.add(new JPanel());
         namePanel.add(newPasswordLabel);
         namePanel.add(new JPanel());
-        namePanel.add(newRoleLabel);
-        namePanel.add(new JPanel());
         namePanel.add(newRealNameLabel);
         namePanel.add(new JPanel());
         namePanel.add(newMailLabel);
+        namePanel.add(new JPanel());
+        namePanel.add(newRoleLabel);
 
         textPanel.add(updateUserName);
         textPanel.add(new JPanel());
         textPanel.add(updatePassword);
         textPanel.add(new JPanel());
-        textPanel.add(updateRole);
-        textPanel.add(new JPanel());
         textPanel.add(updateRealName);
         textPanel.add(new JPanel());
         textPanel.add(updateMail);
+        textPanel.add(new JPanel());
+        textPanel.add(updateRole);
 
         buttonPanel.add(updateUserButton);
 
@@ -198,8 +209,8 @@ public class UsersViewCreator {
 
         return updaterPanel;
     }
-    
-    
+
+
 
     private JPanel buildDeleteUserBar() {
 
@@ -262,7 +273,7 @@ public class UsersViewCreator {
     }
 
     public String getRole() {
-        return newRole.getText();
+        return (String) newRole.getSelectedItem();
     }
 
     public String getRealName() {
@@ -286,7 +297,7 @@ public class UsersViewCreator {
     }
 
     public String getUpdateRole() {
-        return updateRole.getText();
+        return (String) updateRole.getSelectedItem();
     }
 
     public String getUpdateRealName() {
