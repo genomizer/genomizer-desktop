@@ -1,7 +1,10 @@
 package communication;
 
-import java.io.*;
+import java.io.File;
+import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
+
 import model.ErrorLogger;
 
 import org.apache.http.HttpResponse;
@@ -112,8 +115,52 @@ public class HTTPURLUpload {
             response = httpClient.execute(httpPost, localContext);
             responseCode = response.getStatusLine().getStatusCode();
             if (responseCode >= 300) {
+                System.out.println(responseCode);
                 //TODO Skapa ett vettigare felmeddelande CF
-                throw new IOException("SKAPA ETT BÄTTRE FELMEDDELANDE");
+
+                String error = String.valueOf(responseCode);
+                switch (responseCode) {
+                    case 300:
+                        error = error + " Multiple Choices";
+                        break;
+                    case 301:
+                        error = error + " Moved Permanently";
+                        break;
+                    case 302:
+                        error = error + " Found";
+                        break;
+                    case 303:
+                        error = error + " See Other";
+                        break;
+                    case 304:
+                        error = error + " Not Modified";
+                        break;
+                    case 305:
+                        error = error + " Use Proxy";
+                        break;
+                    case 306:
+                        error = error + " Unused";
+                        break;
+                    case 307:
+                        error = error + " Temporary Redirect";
+                        break;
+                    case 308:
+                        error = error + " Permanent Redirect";
+                        break;
+                    case 400:
+                        error = error + " Bad Request";
+                        break;
+                    case 401:
+                        error = error + " Unauthorized";
+                        break;
+                    case 403:
+                        error = error + " Forbidden";
+                        break;
+                    case 404:
+                        error = error + " Not Found";
+                        break;
+                }
+                throw new IOException("SKAPA ETT BÄTTRE FELMEDDELANDE: "+error);
             }
         } catch (IOException e) {
             ErrorLogger.log(e);
