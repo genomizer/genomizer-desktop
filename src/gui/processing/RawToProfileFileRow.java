@@ -2,12 +2,15 @@ package gui.processing;
 
 import gui.JTextFieldLimit;
 
+import java.awt.Dimension;
 import java.awt.GridLayout;
 
 import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
+
+import net.miginfocom.swing.MigLayout;
 
 /**
  * CommandFileRow for a {@link RawToProfileCommandComponent}.
@@ -16,7 +19,7 @@ import javax.swing.JTextField;
  */
 @SuppressWarnings("serial")
 public class RawToProfileFileRow extends CommandFileRow {
-
+    
     private JComboBox<String> inFileComboBox;
     private JTextField outFileTextField;
     private JTextField flagsTextField;
@@ -46,7 +49,7 @@ public class RawToProfileFileRow extends CommandFileRow {
         this.fileNames = fileNames;
         this.genomeReleases = genomeReleases;
 
-        this.setLayout(new GridLayout(2,5));
+        this.setLayout(new MigLayout());
 
         addLabels();
         addInputFields();
@@ -62,10 +65,10 @@ public class RawToProfileFileRow extends CommandFileRow {
         keepSamLabel.setHorizontalAlignment(JLabel.CENTER);
 
         this.add(inFileLabel);
-        this.add(outFileLabel);
-        this.add(flagsLabel);
-        this.add(genomeReleaseLabel);
-        this.add(keepSamLabel);
+        this.add(outFileLabel, "w 80:120:160");
+        this.add(flagsLabel, "w 80:100:120");
+        this.add(genomeReleaseLabel, "w 60:80:100");
+        this.add(keepSamLabel, "wrap");
     }
 
     @Override
@@ -81,10 +84,10 @@ public class RawToProfileFileRow extends CommandFileRow {
         flagsTextField.setDocument(new JTextFieldLimit(256));
 
         this.add(inFileComboBox);
-        this.add(outFileTextField);
-        this.add(flagsTextField);
-        this.add(genomeReleaseComboBox);
-        this.add(keepSamCheckBox);
+        this.add(outFileTextField, "w 80:120:160");
+        this.add(flagsTextField, "w 80:100:120");
+        this.add(genomeReleaseComboBox, "w 60:80:100");
+        this.add(keepSamCheckBox, "wrap");
     }
 
     /**
