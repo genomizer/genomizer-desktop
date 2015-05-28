@@ -452,11 +452,15 @@ public class Model implements GenomizerModel {
         DeleteUserRequest request = RequestFactory
                 .makeDeleteUserRequest(username);
         Connection conn = connFactory.makeConnection();
-        conn.sendRequest(request, User.getInstance().getToken(), Constants.TEXT_PLAIN);
+        conn.sendRequest(request, User.getInstance().getToken(),
+                Constants.TEXT_PLAIN);
     }
 
-    public void updateUserSettings(String oldPass, String newPass, String name, String email ) throws RequestException{
-        ChangePasswordRequest request = RequestFactory.makeChangePasswordRequest(oldPass, newPass, name, email);
+    public void updateUserSettings(String oldPass, String newPass, String name,
+            String email) throws RequestException {
+        ChangePasswordRequest request = RequestFactory
+                .makeChangePasswordRequest(oldPass, newPass, name, email);
+
         Connection conn = connFactory.makeConnection();
         conn.sendRequest(request, User.getInstance().getToken(), Constants.JSON);
     }
