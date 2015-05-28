@@ -41,8 +41,9 @@ import controller.WorkspaceTabController;
 public class WorkspaceTab extends JPanel {
 
     private static final long serialVersionUID = -7278768268151806081L;
-
+    private static final int SCROLL_SPEED = 16;
     public static final int DOWNLOADTABNUMBER = 1;
+
 
 
     private TreeTable table;
@@ -68,6 +69,7 @@ public class WorkspaceTab extends JPanel {
         bottomPanel = new JPanel(new BorderLayout());
         bottomScroll = new JScrollPane(bottomPanel);
         bottomScroll.setBorder(BorderFactory.createEmptyBorder());
+        bottomScroll.getVerticalScrollBar().setUnitIncrement(SCROLL_SPEED);
         ongoingDownloadsPanel = new JPanel(new GridLayout(0, 1));
         buttonPanel.setLayout(new FlowLayout());
         createButtons();
