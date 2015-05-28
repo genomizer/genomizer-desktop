@@ -431,38 +431,42 @@ public class Model implements GenomizerModel {
         return conn.getResponseCode() == 200;
     }
 
-    public void createUser(String username, String password, String privileges,
+    public boolean createUser(String username, String password, String privileges,
             String name, String email) throws RequestException {
 
         CreateUserRequest request = RequestFactory.makeCreateUserRequest(
                 username, password, privileges, name, email);
         Connection conn = connFactory.makeConnection();
         conn.sendRequest(request, User.getInstance().getToken(), Constants.JSON);
+        return conn.getResponseCode() == 200;
     }
 
-    public void updateUser(String username, String password, String privileges,
+    public boolean updateUser(String username, String password, String privileges,
             String name, String email) throws RequestException {
         UpdateUserRequest request = RequestFactory.makeUpdateUserRequest(
                 username, password, privileges, name, email);
         Connection conn = connFactory.makeConnection();
         conn.sendRequest(request, User.getInstance().getToken(), Constants.JSON);
+        return conn.getResponseCode() == 200;
     }
 
-    public void deleteUser(String username) throws RequestException {
+    public boolean deleteUser(String username) throws RequestException {
         DeleteUserRequest request = RequestFactory
                 .makeDeleteUserRequest(username);
         Connection conn = connFactory.makeConnection();
         conn.sendRequest(request, User.getInstance().getToken(),
                 Constants.TEXT_PLAIN);
+        return conn.getResponseCode() == 200;
     }
 
-    public void updateUserSettings(String oldPass, String newPass, String name,
+    public boolean updateUserSettings(String oldPass, String newPass, String name,
             String email) throws RequestException {
         ChangePasswordRequest request = RequestFactory
                 .makeChangePasswordRequest(oldPass, newPass, name, email);
 
         Connection conn = connFactory.makeConnection();
         conn.sendRequest(request, User.getInstance().getToken(), Constants.JSON);
+        return conn.getResponseCode() == 200;
     }
 
 }

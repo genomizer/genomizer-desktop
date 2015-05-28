@@ -117,14 +117,14 @@ public interface GenomizerModel {
     public boolean convertFile(String fileid, String toformat)
             throws RequestException;
 
-    public void createUser(String username, String password, String privileges,
+    public boolean createUser(String username, String password, String privileges,
             String name, String email) throws RequestException;
 
-    public void updateUser(String username, String password, String privileges,
+    public boolean updateUser(String username, String password, String privileges,
             String name, String email) throws RequestException;
 
-    public void deleteUser(String username) throws RequestException;
+    public boolean deleteUser(String username) throws RequestException;
 
-    public void updateUserSettings(String oldPass, String newPass, String name,
+    public boolean updateUserSettings(String oldPass, String newPass, String name,
             String email) throws RequestException;
 }
