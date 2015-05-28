@@ -237,6 +237,7 @@ public class UploadFileRow extends JPanel {
      */
     public void setRowEnabled(boolean enabled) {
         typeBox.setEnabled(enabled);
+        genome.setEnabled(enabled);
         closeButton.setEnabled(enabled);
         if(uploadBox != null) {
             uploadBox.setEnabled(enabled);
