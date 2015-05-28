@@ -376,7 +376,7 @@ public class GUI extends JFrame {
      */
     public void setWorkspaceTab(WorkspaceTab workspaceTab) {
         this.workspaceTab = workspaceTab;
-        tabbedPane.addTab("WORKSPACE", null, workspaceTab, "Settings");
+        tabbedPane.addTab("WORKSPACE", null, workspaceTab, "Workspace");
     }
 
     /**
@@ -388,7 +388,7 @@ public class GUI extends JFrame {
      */
     public void setSettingsTab(SettingsTab settingsTab) {
         this.settingsTab = settingsTab;
-        tabbedPane.addTab("SETTINGSTAB", null, settingsTab, "Workspace");
+        tabbedPane.addTab("SETTINGS", null, settingsTab, "Settings");
     }
 
     public SettingsTab getSettingsTab() {

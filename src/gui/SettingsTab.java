@@ -45,6 +45,11 @@ public class SettingsTab extends JPanel {
         JPanel textPanel = new JPanel();
         JPanel buttonPanel = new JPanel();
         JPanel p = new JPanel();
+        p.setPreferredSize(new Dimension(500,200));
+        JPanel southPanel = new JPanel();
+        southPanel.setPreferredSize(new Dimension(500,700));
+
+        p.setBorder(BorderFactory.createTitledBorder("User Settings"));
         BoxLayout nameLayout = new BoxLayout(namePanel, BoxLayout.PAGE_AXIS);
         BoxLayout textLayout = new BoxLayout(textPanel, BoxLayout.PAGE_AXIS);
         BorderLayout buttonLayout = new BorderLayout();
@@ -69,7 +74,7 @@ public class SettingsTab extends JPanel {
         updateUserButton = new JButton("Update settings");
         updateUserButton.setPreferredSize(new Dimension(150, 40));
 
-        namePanel.add(Box.createRigidArea(new Dimension(5, 50)));
+        namePanel.add(Box.createRigidArea(new Dimension(5, 30)));
         namePanel.add(oldPasswordLabel);
         namePanel.add(Box.createRigidArea(new Dimension(5, 10)));
         namePanel.add(newPasswordLabel);
@@ -79,11 +84,11 @@ public class SettingsTab extends JPanel {
         namePanel.add(emailLabel);
 
         textPanel.add(oldPassword);
-        namePanel.add(Box.createRigidArea(new Dimension(5, 20)));
+        namePanel.add(Box.createRigidArea(new Dimension(5, 10)));
         textPanel.add(newPassword);
-        namePanel.add(Box.createRigidArea(new Dimension(5, 20)));
+        namePanel.add(Box.createRigidArea(new Dimension(5, 10)));
         textPanel.add(namefield);
-        namePanel.add(Box.createRigidArea(new Dimension(5, 20)));
+        namePanel.add(Box.createRigidArea(new Dimension(5, 10)));
         textPanel.add(email);
 
         buttonPanel.add(updateUserButton);
@@ -92,6 +97,7 @@ public class SettingsTab extends JPanel {
         p.add(textPanel, BorderLayout.CENTER);
         p.add(buttonPanel, BorderLayout.EAST);
         mainPanel.add(p, BorderLayout.WEST);
+        mainPanel.add(southPanel, BorderLayout.SOUTH);
     }
 
     public void updateUserButtonListener(ActionListener listener) {
