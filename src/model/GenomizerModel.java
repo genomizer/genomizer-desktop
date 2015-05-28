@@ -103,4 +103,8 @@ public interface GenomizerModel {
 
     public void clearTickingTasks();
 
+    public void setProcessingExperiment(ExperimentData selecteddata);
+
+    public ProcessModel getProcessingModel();
+
 }

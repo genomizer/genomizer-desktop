@@ -62,6 +62,7 @@ public class WorkspaceTab extends JPanel {
         bottomPanel = new JPanel(new BorderLayout());
         bottomScroll = new JScrollPane(bottomPanel);
         bottomScroll.setBorder(BorderFactory.createEmptyBorder());
+        bottomScroll.getVerticalScrollBar().setUnitIncrement(16);
         ongoingDownloadsPanel = new JPanel(new GridLayout(0, 1));
         buttonPanel.setLayout(new FlowLayout());
         createButtons();

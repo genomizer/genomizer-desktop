@@ -94,11 +94,15 @@ public class RatioFileRow extends CommandFileRow {
     }
 
     public String getpreChipFile() {
-        return preChipFileComboBox.getSelectedItem().toString();
+        Object o = preChipFileComboBox.getSelectedItem();
+        if( o == null) return "null";
+        return o.toString();
     }
 
     public String getpostChipFile() {
-        return postChipFileComboBox.getSelectedItem().toString();
+        Object o = postChipFileComboBox.getSelectedItem();
+        if( o == null) return "null";
+        return o.toString();
     }
 
     public String getOutFile() {
