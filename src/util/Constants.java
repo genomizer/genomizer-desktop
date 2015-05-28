@@ -1,8 +1,5 @@
 package util;
 
-import gui.processing.RatioCommandComponent;
-import gui.processing.RawToProfileCommandComponent;
-import gui.processing.SmoothingCommandComponent;
 
 /**
  * A class containing constants for test purposes
@@ -30,10 +27,5 @@ public class Constants {
     // Alternative: testuser: test: 213.21.81.248:7000
     public static final String TEXT_PLAIN = "text/plain";
     public static final String JSON = "application/json";
-
-    public static final String[] commands = {
-            RawToProfileCommandComponent.commandName,
-            RatioCommandComponent.commandName,
-            SmoothingCommandComponent.COMMAND_NAME };
 
 }

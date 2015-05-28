@@ -9,6 +9,8 @@ import javax.swing.JButton;
 import javax.swing.JComponent;
 import javax.swing.border.TitledBorder;
 
+import net.miginfocom.swing.MigLayout;
+
 /**
  *
  * Abstract class representing a process command GUI component. A
@@ -35,7 +37,8 @@ public abstract class CommandComponent extends JComponent {
     public CommandComponent( String commandName ){
         this.commandName = commandName;
         this.setBorder(new TitledBorder(commandName));
-        this.setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
+        this.setLayout(new MigLayout());
+        //this.setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
         commandFileRowPanelStack = new Stack<CommandFileRowPanel>();
 
     }
@@ -66,7 +69,7 @@ public abstract class CommandComponent extends JComponent {
         fileRowPanel.setRemoveButtonEnabled(false);
 
         commandFileRowPanelStack.push(fileRowPanel);
-        this.add(fileRowPanel);
+        this.add(fileRowPanel, "wrap");
 
     }
 
@@ -111,7 +114,7 @@ public abstract class CommandComponent extends JComponent {
         topPanel.repaint();
 
         commandFileRowPanelStack.push(fileRowPanel);
-        this.add(fileRowPanel);
+        this.add(fileRowPanel, "wrap");
     }
 
     /**

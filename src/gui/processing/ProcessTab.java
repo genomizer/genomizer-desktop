@@ -8,7 +8,6 @@ import java.util.Iterator;
 
 import javax.swing.JPanel;
 
-import util.Constants;
 import util.ExperimentData;
 import util.FileData;
 import util.ProcessFeedbackData;
@@ -28,7 +27,7 @@ public class ProcessTab extends JPanel {
         setMinimumSize(new Dimension(20000, 20000));
         this.setLayout(new BorderLayout());
 
-        this.chooser = new CommandChooser(Constants.commands);
+        this.chooser = new CommandChooser(CommandStrings.COMMAND_NAMES);
         this.add(chooser, BorderLayout.NORTH);
 
         this.scrollPane = new CommandScrollPane();
@@ -63,25 +62,29 @@ public class ProcessTab extends JPanel {
 
     public void addCommand(String selectedCommand, String[] fileNames,  String[] genomeReleases ) {
 
-
         CommandComponent commandComponent = null;
-
-        if (selectedCommand
-                .equalsIgnoreCase(RawToProfileCommandComponent.commandName)) {
-            commandComponent = new RawToProfileCommandComponent(fileNames,
-                    genomeReleases);
-        }
-
-        if (selectedCommand.equalsIgnoreCase(RatioCommandComponent.commandName)) {
+        
+        if (selectedCommand .equalsIgnoreCase(RawToProfileCommandComponent.COMMAND_NAME)) {
+            
+            commandComponent = new RawToProfileCommandComponent(fileNames, genomeReleases);
+            
+        } else if (selectedCommand.equalsIgnoreCase(RatioCommandComponent.COMMAND_NAME)) {
+            
             commandComponent = new RatioCommandComponent(fileNames);
-        }
-
-        if (selectedCommand
-                .equalsIgnoreCase(SmoothingCommandComponent.COMMAND_NAME)) {
+            
+        } else if (selectedCommand.equalsIgnoreCase(SmoothingCommandComponent.COMMAND_NAME)) {
+            
             commandComponent = new SmoothingCommandComponent(fileNames);
+            
+        } else if (selectedCommand.equalsIgnoreCase(StepCommandComponent.COMMAND_NAME)) {
+            
+            commandComponent = new StepCommandComponent(fileNames);
+            
+        } else if (commandComponent == null) {
+            
+            return;
+            
         }
-
-        if (commandComponent == null) return;
 
         this.scrollPane.addCommandComponent(commandComponent);
         this.revalidate();
