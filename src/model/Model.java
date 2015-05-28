@@ -47,11 +47,14 @@ import communication.HTTPURLUpload;
 public class Model implements GenomizerModel {
     private ArrayList<String> searchHistory;
     private UpdaterModel updateTabModel;
+    private ProcessModel processingModel;
 
     public Model() {
 
         searchHistory = new ArrayList<>();
         updateTabModel = new UpdaterModel();
+        processingModel = new ProcessModel();
+
     }
 
 
@@ -374,5 +377,14 @@ public class Model implements GenomizerModel {
     public void clearTickingTasks() {
         updateTabModel.clearTickingThread();
     }
+
+    public void setProcessingExperiment( ExperimentData selectedExperiment){
+        processingModel.setSelectedExperiment( selectedExperiment );
+    }
+
+    public ProcessModel getProcessingModel(){
+        return this.processingModel;
+    }
+
 
 }

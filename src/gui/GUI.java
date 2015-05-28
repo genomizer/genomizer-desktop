@@ -444,12 +444,12 @@ public class GUI extends JFrame {
      *
      * @param allFileData
      */
-    public void setSelectedExperiment(ExperimentData experimentData) {
+    public void setProcessingTab(String experimentName) {
 
 //        ArrayList<FileData> fileArray = allFileData;
 
         tabbedPane.setSelectedIndex(2);
-        processTab.reset(experimentData);
+        processTab.reset(experimentName);
 //        processTab.setSelectedExperiment(experimentData);
 //        processTab.setFileInfo(workspaceTab.getSelectedData());
 

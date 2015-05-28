@@ -1,5 +1,8 @@
 package model;
 
+import java.util.ArrayList;
+import java.util.Iterator;
+
 import gui.ErrorDialog;
 import gui.processing.ProcessCommand;
 import requests.CancelProcessRequest;
@@ -8,6 +11,8 @@ import requests.ProcessFeedbackRequest;
 import requests.RequestFactory;
 import responses.ResponseParser;
 import util.Constants;
+import util.ExperimentData;
+import util.FileData;
 import util.ProcessFeedbackData;
 import util.RequestException;
 
@@ -15,6 +20,8 @@ import communication.Connection;
 import communication.ConnectionFactory;
 
 public class ProcessModel {
+
+    ExperimentData selectedExperiment;
 
     public ProcessModel() {
     }
@@ -62,6 +69,39 @@ public class ProcessModel {
 
         conn.sendRequest(request, User.getInstance().getToken(),
                 Constants.TEXT_PLAIN);
+    }
+
+    public void setSelectedExperiment( ExperimentData selectedExperiment){
+        this.selectedExperiment = selectedExperiment;
+    }
+
+    public String[] getGenomeReleases() {
+
+        ArrayList<String> genomeReleaseList = new ArrayList<String>();
+        Iterator<FileData> fileIterator = selectedExperiment.files.iterator();
+        for (int i = 0; fileIterator.hasNext(); i++) {
+            String genomeRelease = fileIterator.next().grVersion;
+            if (!genomeReleaseList.contains(genomeRelease)) {
+                genomeReleaseList.add(genomeRelease);
+            }
+        }
+        String[] genomeReleases = new String[genomeReleaseList.size()];
+        genomeReleases = (String[]) genomeReleaseList.toArray(genomeReleases);
+        return genomeReleases;
+    }
+
+    public String[] getFileNames() {
+
+        String[] fileNames = new String[selectedExperiment.files.size()];
+        Iterator<FileData> fileIterator = selectedExperiment.files.iterator();
+        for (int i = 0; fileIterator.hasNext(); i++) {
+            fileNames[i] = fileIterator.next().filename;
+        }
+        return fileNames;
+    }
+
+    public String getSelectedExperimentName() {
+        return selectedExperiment.getName();
     }
 
 }

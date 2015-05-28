@@ -95,7 +95,9 @@ public class RawToProfileFileRow extends CommandFileRow {
      * @return the in file parameter
      */
     public String getInFile() {
-        return inFileComboBox.getSelectedItem().toString();
+        Object o = inFileComboBox.getSelectedItem();
+        if( o == null) return "null";
+        return o.toString();
     }
 
     /**
@@ -119,7 +121,9 @@ public class RawToProfileFileRow extends CommandFileRow {
      * @return the genome release parameter
      */
     public String getGenomeRelease() {
-        return genomeReleaseComboBox.getSelectedItem().toString();
+        Object o =  genomeReleaseComboBox.getSelectedItem();
+        if( o == null) return "null";
+        return o.toString();
     }
 
     /**

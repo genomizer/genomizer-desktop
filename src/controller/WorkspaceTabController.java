@@ -199,7 +199,8 @@ public class WorkspaceTabController {
             public void actionPerformed(ActionEvent e) {
                 ExperimentData selecteddata = workspaceTab.getTable()
                         .getSelectedExperiment();
-                view.setSelectedExperiment(selecteddata);
+                model.setProcessingExperiment(selecteddata);
+                view.setProcessingTab( selecteddata.getName() );
             }
         };
     }

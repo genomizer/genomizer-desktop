@@ -76,7 +76,9 @@ public class SmoothingFileRow extends CommandFileRow {
     }
 
     public String getInFile() {
-        return inFileComboBox.getSelectedItem().toString();
+        Object o = inFileComboBox.getSelectedItem();
+        if( o == null) return "null";
+        return o.toString();
     }
 
     public String getOutFile() {
@@ -88,7 +90,9 @@ public class SmoothingFileRow extends CommandFileRow {
     }
 
     public String getMeanOrMedian() {
-        return meanOrMedianComboBox.getSelectedItem().toString();
+        Object o = meanOrMedianComboBox.getSelectedItem();
+        if( o == null) return "null";
+        return o.toString();
     }
 
     public int getMinSmooth() {

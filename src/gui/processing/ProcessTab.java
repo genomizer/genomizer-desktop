@@ -46,12 +46,11 @@ public class ProcessTab extends JPanel {
         this.processTabController = processTabController;
     }
 
-    public void reset(ExperimentData experiment) {
+    public void reset(String experimentName) {
 
         this.scrollPane.empty();
 
-        this.chooser.setExperiment(experiment.getName());
-        this.selectedExperiment = experiment;
+        this.chooser.setExperiment(experimentName);
 
         this.revalidate();
         this.repaint();
@@ -62,22 +61,25 @@ public class ProcessTab extends JPanel {
         return chooser.getSelectedCommand();
     }
 
-    public void addCommand(String selectedCommand) {
+    public void addCommand(String selectedCommand, String[] fileNames,  String[] genomeReleases ) {
 
-        String[] fileNames = getFileNames();
-        String[] genomeReleases = getGenomeReleases();
+
         CommandComponent commandComponent = null;
 
         if (selectedCommand
-                .equalsIgnoreCase(RawToProfileCommandComponent.commandName)) commandComponent = new RawToProfileCommandComponent(
-                fileNames, genomeReleases);
+                .equalsIgnoreCase(RawToProfileCommandComponent.commandName)) {
+            commandComponent = new RawToProfileCommandComponent(fileNames,
+                    genomeReleases);
+        }
 
-        if (selectedCommand.equalsIgnoreCase(RatioCommandComponent.commandName)) commandComponent = new RatioCommandComponent(
-                fileNames);
+        if (selectedCommand.equalsIgnoreCase(RatioCommandComponent.commandName)) {
+            commandComponent = new RatioCommandComponent(fileNames);
+        }
 
         if (selectedCommand
-                .equalsIgnoreCase(SmoothingCommandComponent.commandName)) commandComponent = new SmoothingCommandComponent(
-                fileNames);
+                .equalsIgnoreCase(SmoothingCommandComponent.commandName)) {
+            commandComponent = new SmoothingCommandComponent(fileNames);
+        }
 
         if (commandComponent == null) return;
 
@@ -87,30 +89,6 @@ public class ProcessTab extends JPanel {
 
     }
 
-    private String[] getGenomeReleases() {
-
-        ArrayList<String> genomeReleaseList = new ArrayList<String>();
-        Iterator<FileData> fileIterator = selectedExperiment.files.iterator();
-        for (int i = 0; fileIterator.hasNext(); i++) {
-            String genomeRelease = fileIterator.next().grVersion;
-            if (!genomeReleaseList.contains(genomeRelease)) {
-                genomeReleaseList.add(genomeRelease);
-            }
-        }
-        String[] genomeReleases = new String[genomeReleaseList.size()];
-        genomeReleases = (String[]) genomeReleaseList.toArray(genomeReleases);
-        return genomeReleases;
-    }
-
-    private String[] getFileNames() {
-
-        String[] fileNames = new String[selectedExperiment.files.size()];
-        Iterator<FileData> fileIterator = selectedExperiment.files.iterator();
-        for (int i = 0; fileIterator.hasNext(); i++) {
-            fileNames[i] = fileIterator.next().filename;
-        }
-        return fileNames;
-    }
 
     public void addChooserListener(ActionListener chooserListener) {
         chooser.addChoiceListener(chooserListener);
@@ -152,7 +130,5 @@ public class ProcessTab extends JPanel {
 
     }
 
-    public String getSelectedExperiment() {
-        return selectedExperiment.getName();
-    }
+
 }
