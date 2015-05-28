@@ -64,11 +64,6 @@ public class ProcessTab extends JPanel {
 
     public void addCommand(String selectedCommand) {
 
-        System.out.println("ADD NEW COMMAND: " + selectedCommand);
-
-        // Check for multiple similiar command
-
-        // Add new command tabs
         String[] fileNames = getFileNames();
         String[] genomeReleases = getGenomeReleases();
         CommandComponent commandComponent = null;
