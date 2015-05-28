@@ -19,5 +19,7 @@
 	<classpathentry kind="lib" path="lib/fest-assert-2.1.0/fest-assert-core-2.0M8.jar"/>
 	<classpathentry kind="lib" path="lib/fest-assert-2.1.0/fest-test-2.1.0.jar"/>
 	<classpathentry kind="lib" path="lib/fest-assert-2.1.0/fest-util-1.2.5.jar"/>
+	<classpathentry kind="lib" path="lib/external-libs/miglayout-4.0-javadoc.jar"/>
+	<classpathentry kind="lib" path="lib/external-libs/miglayout-4.0.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
