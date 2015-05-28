@@ -20,7 +20,6 @@ import javax.swing.JScrollPane;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 
-import requests.RequestFactory;
 
 /**
  * Scroll pane containing CommandComponents
@@ -158,12 +157,13 @@ public class CommandScrollPane extends JScrollPane {
         RawToProfileCommandComponent comp1 = new RawToProfileCommandComponent(fileNames, genomeReleases);
         SmoothingCommandComponent comp2 = new SmoothingCommandComponent(fileNames);
         RatioCommandComponent comp3 = new RatioCommandComponent(fileNames);
-
+        StepCommandComponent comp4 = new StepCommandComponent(fileNames);
 
         CommandScrollPane c = new CommandScrollPane();
         c.addCommandComponent(comp1);
         c.addCommandComponent(comp2);
         c.addCommandComponent(comp3);
+        c.addCommandComponent(comp4);
         JButton knappen = new JButton("KÖR!!!");
         knappen.addActionListener(new ProcessButtonListener(c));
         frame.add(c, BorderLayout.CENTER);

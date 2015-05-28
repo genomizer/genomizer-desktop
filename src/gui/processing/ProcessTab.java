@@ -77,7 +77,7 @@ public class ProcessTab extends JPanel {
         }
 
         if (selectedCommand
-                .equalsIgnoreCase(SmoothingCommandComponent.commandName)) {
+                .equalsIgnoreCase(SmoothingCommandComponent.COMMAND_NAME)) {
             commandComponent = new SmoothingCommandComponent(fileNames);
         }
 

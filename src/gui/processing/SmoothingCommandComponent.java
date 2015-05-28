@@ -6,11 +6,11 @@ import java.util.Iterator;
 public class SmoothingCommandComponent extends CommandComponent {
 
 
-    public static final String commandName = "smoothing";
+    public static final String COMMAND_NAME = "smoothing";
     private String[] fileNames;
 
     public SmoothingCommandComponent(String[] fileNames) {
-        super(commandName);
+        super(COMMAND_NAME);
         this.fileNames = fileNames;
         addInitialFileRowPanel();
     }

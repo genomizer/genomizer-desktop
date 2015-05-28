@@ -2,16 +2,12 @@ package gui.processing;
 
 import gui.JTextFieldLimit;
 
-import java.awt.GridLayout;
-
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JSpinner;
 import javax.swing.JTextField;
 import javax.swing.SpinnerModel;
 import javax.swing.SpinnerNumberModel;
-
-import com.sun.org.apache.bcel.internal.Constants;
 
 import net.miginfocom.swing.MigLayout;
 

@@ -19,7 +19,7 @@ public class RawToProfileCommandComponent extends CommandComponent {
      * Constructs a new RawToProfileCommandComponent with the given command
      * name, available file names and available genome releases.
      *
-     * @param commandName
+     * @param COMMAND_NAME
      *            the command name
      * @param fileNames
      *            the file names

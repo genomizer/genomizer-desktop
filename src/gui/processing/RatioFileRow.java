@@ -2,8 +2,6 @@ package gui.processing;
 
 import gui.JTextFieldLimit;
 
-import java.awt.GridLayout;
-
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JSpinner;

@@ -11,7 +11,7 @@ public class RatioCommandComponent extends CommandComponent {
     /**
      * Constructs a new RatioCommandComponent with available file names.
      *
-     * @param commandName
+     * @param COMMAND_NAME
      *            the command name
      * @param fileNames
      *            the file names

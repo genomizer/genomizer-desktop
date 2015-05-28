@@ -34,6 +34,6 @@ public class Constants {
     public static final String[] commands = {
             RawToProfileCommandComponent.commandName,
             RatioCommandComponent.commandName,
-            SmoothingCommandComponent.commandName };
+            SmoothingCommandComponent.COMMAND_NAME };
 
 }
