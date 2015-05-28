@@ -10,6 +10,7 @@ import java.awt.event.ActionListener;
 
 import javax.swing.SwingUtilities;
 
+import util.ExperimentData;
 import util.ProcessFeedbackData;
 import util.RequestException;
 
@@ -20,10 +21,11 @@ public class ProcessTabController {
     private ProcessTab tab;
     private ProcessModel model;
 
-    public ProcessTabController(ProcessTab tab) {
-        this.tab = tab;
+    public ProcessTabController(ProcessTab tab, ProcessModel model) {
 
-        model = new ProcessModel();
+        this.tab = tab;
+        this.model = model;
+
         // ChooseCommand
         tab.addChooserListener(chooserListener());
 
@@ -56,7 +58,8 @@ public class ProcessTabController {
 
             @Override
             public void actionPerformed(ActionEvent e) {
-                tab.addCommand(tab.getSelectedCommand());
+                tab.addCommand(tab.getSelectedCommand(), model.getFileNames(),
+                        model.getGenomeReleases());
             }
         };
     }
@@ -70,7 +73,7 @@ public class ProcessTabController {
                 CommandScrollPane scrollPane = tab.getScrollPane();
                 final ProcessCommand[] commandList = scrollPane
                         .getCommandList();
-                final String pid = tab.getSelectedExperiment();
+                final String pid = model.getSelectedExperimentName();
 
                 new Thread() {
                     @Override

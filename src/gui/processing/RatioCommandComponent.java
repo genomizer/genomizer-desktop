@@ -4,14 +4,14 @@ import java.util.Iterator;
 
 public class RatioCommandComponent extends CommandComponent {
 
-    public static final String commandName = "ratio";
+    public static final String COMMAND_NAME = "ratio";
 
     private String[] fileNames;
 
     /**
      * Constructs a new RatioCommandComponent with available file names.
      *
-     * @param commandName
+     * @param COMMAND_NAME
      *            the command name
      * @param fileNames
      *            the file names
@@ -20,7 +20,7 @@ public class RatioCommandComponent extends CommandComponent {
      */
     public RatioCommandComponent(String[] fileNames) {
 
-        super(commandName);
+        super(COMMAND_NAME);
 
         this.fileNames = fileNames;
         addInitialFileRowPanel();

@@ -2,9 +2,6 @@ package gui.processing;
 
 import gui.JTextFieldLimit;
 
-import java.awt.Dimension;
-import java.awt.GridLayout;
-
 import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
@@ -19,7 +16,8 @@ import net.miginfocom.swing.MigLayout;
  */
 @SuppressWarnings("serial")
 public class RawToProfileFileRow extends CommandFileRow {
-    
+
+    private static final String FLAGS_DEFAULT = " -a -m 1 --best -p 10 -v 2 -q -S--phred33";
     private JComboBox<String> inFileComboBox;
     private JTextField outFileTextField;
     private JTextField flagsTextField;
@@ -65,9 +63,9 @@ public class RawToProfileFileRow extends CommandFileRow {
         keepSamLabel.setHorizontalAlignment(JLabel.CENTER);
 
         this.add(inFileLabel);
-        this.add(outFileLabel, "w 80:120:160");
-        this.add(flagsLabel, "w 80:100:120");
-        this.add(genomeReleaseLabel, "w 60:80:100");
+        this.add(outFileLabel, CommandFileRow.WIDE);
+        this.add(flagsLabel, CommandFileRow.WIDE);
+        this.add(genomeReleaseLabel, CommandFileRow.NARROW);
         this.add(keepSamLabel, "wrap");
     }
 
@@ -84,10 +82,12 @@ public class RawToProfileFileRow extends CommandFileRow {
         flagsTextField.setDocument(new JTextFieldLimit(256));
 
         this.add(inFileComboBox);
-        this.add(outFileTextField, "w 80:120:160");
-        this.add(flagsTextField, "w 80:100:120");
-        this.add(genomeReleaseComboBox, "w 60:80:100");
+        this.add(outFileTextField, CommandFileRow.WIDE);
+        this.add(flagsTextField, CommandFileRow.WIDE);
+        this.add(genomeReleaseComboBox, CommandFileRow.NARROW);
         this.add(keepSamCheckBox, "wrap");
+        
+        flagsTextField.setText(FLAGS_DEFAULT);
     }
 
     /**
@@ -95,7 +95,9 @@ public class RawToProfileFileRow extends CommandFileRow {
      * @return the in file parameter
      */
     public String getInFile() {
-        return inFileComboBox.getSelectedItem().toString();
+        Object o = inFileComboBox.getSelectedItem();
+        if( o == null) return "null";
+        return o.toString();
     }
 
     /**
@@ -119,7 +121,9 @@ public class RawToProfileFileRow extends CommandFileRow {
      * @return the genome release parameter
      */
     public String getGenomeRelease() {
-        return genomeReleaseComboBox.getSelectedItem().toString();
+        Object o =  genomeReleaseComboBox.getSelectedItem();
+        if( o == null) return "null";
+        return o.toString();
     }
 
     /**

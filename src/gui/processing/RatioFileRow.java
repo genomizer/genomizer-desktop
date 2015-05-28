@@ -2,14 +2,14 @@ package gui.processing;
 
 import gui.JTextFieldLimit;
 
-import java.awt.GridLayout;
-
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JSpinner;
 import javax.swing.JTextField;
 import javax.swing.SpinnerModel;
 import javax.swing.SpinnerNumberModel;
+
+import net.miginfocom.swing.MigLayout;
 
 /**
  * CommandFileRow for a {@link RatioCommandComponent}.
@@ -45,7 +45,7 @@ public class RatioFileRow extends CommandFileRow {
     public RatioFileRow(String[] fileNames) {
         this.fileNames = fileNames;
 
-        this.setLayout(new GridLayout(2, 6));
+        this.setLayout(new MigLayout());
 
         addLabels();
         addInputFields();
@@ -60,12 +60,12 @@ public class RatioFileRow extends CommandFileRow {
         readsCutoffLabel = new JLabel("ReadsCutoff");
         chromosomeLabel = new JLabel("Chromosome");
 
-        this.add(preChipFileLabel);
-        this.add(postChipFileLabel);
-        this.add(outFileLabel);
-        this.add(meanLabel);
-        this.add(readsCutoffLabel);
-        this.add(chromosomeLabel);
+        this.add(preChipFileLabel, CommandFileRow.WIDE);
+        this.add(postChipFileLabel, CommandFileRow.WIDE);
+        this.add(outFileLabel, CommandFileRow.MEDIUM);
+        this.add(meanLabel, CommandFileRow.NARROW);
+        this.add(readsCutoffLabel, CommandFileRow.MEDIUM);
+        this.add(chromosomeLabel, "wrap");
     }
 
     @Override
@@ -83,20 +83,24 @@ public class RatioFileRow extends CommandFileRow {
         outFileTextField.setDocument(new JTextFieldLimit(512));
         chromosomeTextField.setDocument(new JTextFieldLimit(512));
 
-        this.add(preChipFileComboBox);
-        this.add(postChipFileComboBox);
-        this.add(outFileTextField);
-        this.add(meanComboBox);
-        this.add(readsCutoffSpinner);
-        this.add(chromosomeTextField);
+        this.add(preChipFileComboBox, CommandFileRow.WIDE);
+        this.add(postChipFileComboBox, CommandFileRow.WIDE);
+        this.add(outFileTextField, CommandFileRow.MEDIUM);
+        this.add(meanComboBox, CommandFileRow.NARROW);
+        this.add(readsCutoffSpinner, CommandFileRow.MEDIUM);
+        this.add(chromosomeTextField, CommandFileRow.NARROW);
     }
 
     public String getpreChipFile() {
-        return preChipFileComboBox.getSelectedItem().toString();
+        Object o = preChipFileComboBox.getSelectedItem();
+        if( o == null) return "null";
+        return o.toString();
     }
 
     public String getpostChipFile() {
-        return postChipFileComboBox.getSelectedItem().toString();
+        Object o = postChipFileComboBox.getSelectedItem();
+        if( o == null) return "null";
+        return o.toString();
     }
 
     public String getOutFile() {

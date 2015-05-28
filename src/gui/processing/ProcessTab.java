@@ -3,14 +3,10 @@ package gui.processing;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.event.ActionListener;
-import java.util.ArrayList;
-import java.util.Iterator;
 
 import javax.swing.JPanel;
 
-import util.Constants;
 import util.ExperimentData;
-import util.FileData;
 import util.ProcessFeedbackData;
 import controller.ProcessTabController;
 
@@ -28,7 +24,7 @@ public class ProcessTab extends JPanel {
         setMinimumSize(new Dimension(20000, 20000));
         this.setLayout(new BorderLayout());
 
-        this.chooser = new CommandChooser(Constants.commands);
+        this.chooser = new CommandChooser(CommandStrings.COMMAND_NAMES);
         this.add(chooser, BorderLayout.NORTH);
 
         this.scrollPane = new CommandScrollPane();
@@ -46,12 +42,11 @@ public class ProcessTab extends JPanel {
         this.processTabController = processTabController;
     }
 
-    public void reset(ExperimentData experiment) {
+    public void reset(String experimentName) {
 
         this.scrollPane.empty();
 
-        this.chooser.setExperiment(experiment.getName());
-        this.selectedExperiment = experiment;
+        this.chooser.setExperiment(experimentName);
 
         this.revalidate();
         this.repaint();
@@ -62,59 +57,35 @@ public class ProcessTab extends JPanel {
         return chooser.getSelectedCommand();
     }
 
-    public void addCommand(String selectedCommand) {
+    public void addCommand(String selectedCommand, String[] fileNames,  String[] genomeReleases ) {
 
-        System.out.println("ADD NEW COMMAND: " + selectedCommand);
-
-        // Check for multiple similiar command
-
-        // Add new command tabs
-        String[] fileNames = getFileNames();
-        String[] genomeReleases = getGenomeReleases();
         CommandComponent commandComponent = null;
 
-        if (selectedCommand
-                .equalsIgnoreCase(RawToProfileCommandComponent.commandName)) commandComponent = new RawToProfileCommandComponent(
-                fileNames, genomeReleases);
+        if (selectedCommand .equalsIgnoreCase(RawToProfileCommandComponent.COMMAND_NAME)) {
 
-        if (selectedCommand.equalsIgnoreCase(RatioCommandComponent.commandName)) commandComponent = new RatioCommandComponent(
-                fileNames);
+            commandComponent = new RawToProfileCommandComponent(fileNames, genomeReleases);
 
-        if (selectedCommand
-                .equalsIgnoreCase(SmoothingCommandComponent.commandName)) commandComponent = new SmoothingCommandComponent(
-                fileNames);
+        } else if (selectedCommand.equalsIgnoreCase(RatioCommandComponent.COMMAND_NAME)) {
 
-        if (commandComponent == null) return;
+            commandComponent = new RatioCommandComponent(fileNames);
+
+        } else if (selectedCommand.equalsIgnoreCase(SmoothingCommandComponent.COMMAND_NAME)) {
+
+            commandComponent = new SmoothingCommandComponent(fileNames);
+
+        } else if (selectedCommand.equalsIgnoreCase(StepCommandComponent.COMMAND_NAME)) {
+
+            commandComponent = new StepCommandComponent(fileNames);
+
+        } else if (commandComponent == null) {
+
+            return;
+        }
 
         this.scrollPane.addCommandComponent(commandComponent);
         this.revalidate();
         this.repaint();
 
-    }
-
-    private String[] getGenomeReleases() {
-
-        ArrayList<String> genomeReleaseList = new ArrayList<String>();
-        Iterator<FileData> fileIterator = selectedExperiment.files.iterator();
-        for (int i = 0; fileIterator.hasNext(); i++) {
-            String genomeRelease = fileIterator.next().grVersion;
-            if (!genomeReleaseList.contains(genomeRelease)) {
-                genomeReleaseList.add(genomeRelease);
-            }
-        }
-        String[] genomeReleases = new String[genomeReleaseList.size()];
-        genomeReleases = (String[]) genomeReleaseList.toArray(genomeReleases);
-        return genomeReleases;
-    }
-
-    private String[] getFileNames() {
-
-        String[] fileNames = new String[selectedExperiment.files.size()];
-        Iterator<FileData> fileIterator = selectedExperiment.files.iterator();
-        for (int i = 0; fileIterator.hasNext(); i++) {
-            fileNames[i] = fileIterator.next().filename;
-        }
-        return fileNames;
     }
 
     public void addChooserListener(ActionListener chooserListener) {
@@ -157,7 +128,4 @@ public class ProcessTab extends JPanel {
 
     }
 
-    public String getSelectedExperiment() {
-        return selectedExperiment.getName();
-    }
 }

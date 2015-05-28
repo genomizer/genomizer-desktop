@@ -2,6 +2,7 @@ package gui.processing;
 
 import java.awt.BorderLayout;
 import java.awt.Component;
+import java.awt.Dimension;
 import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -19,7 +20,6 @@ import javax.swing.JScrollPane;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 
-import requests.RequestFactory;
 
 /**
  * Scroll pane containing CommandComponents
@@ -45,11 +45,11 @@ public class CommandScrollPane extends JScrollPane {
         commandList = new ArrayList<CommandComponent>();
         componentPanel = new JPanel();
 
-        componentPanel.setLayout(new BoxLayout(componentPanel, BoxLayout.PAGE_AXIS));
+        componentPanel.setLayout(new BoxLayout(componentPanel, BoxLayout.PAGE_AXIS ));
         this.getViewport().add(componentPanel);
         this.getVerticalScrollBar().setUnitIncrement(SCROLL_SPEED);
         this.setBorder(BorderFactory.createTitledBorder("Commands"));
-
+        this.setPreferredSize(new Dimension(600, 1000));
         setUpAutoScrollBehaviour();
 
     }
@@ -74,7 +74,7 @@ public class CommandScrollPane extends JScrollPane {
      */
     public void addCommandComponent(CommandComponent commandComponent) {
         if ( containsCommand(commandComponent) ) return;
-        componentPanel.add( commandComponent);
+        componentPanel.add( commandComponent );
         commandList.add(commandComponent);
 
         // Scroll to visible
@@ -157,12 +157,13 @@ public class CommandScrollPane extends JScrollPane {
         RawToProfileCommandComponent comp1 = new RawToProfileCommandComponent(fileNames, genomeReleases);
         SmoothingCommandComponent comp2 = new SmoothingCommandComponent(fileNames);
         RatioCommandComponent comp3 = new RatioCommandComponent(fileNames);
-
+        StepCommandComponent comp4 = new StepCommandComponent(fileNames);
 
         CommandScrollPane c = new CommandScrollPane();
         c.addCommandComponent(comp1);
         c.addCommandComponent(comp2);
         c.addCommandComponent(comp3);
+        c.addCommandComponent(comp4);
         JButton knappen = new JButton("KÖR!!!");
         knappen.addActionListener(new ProcessButtonListener(c));
         frame.add(c, BorderLayout.CENTER);

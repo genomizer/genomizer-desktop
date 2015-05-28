@@ -2,14 +2,14 @@ package gui.processing;
 
 import gui.JTextFieldLimit;
 
-import java.awt.GridLayout;
-
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JSpinner;
 import javax.swing.JTextField;
 import javax.swing.SpinnerModel;
 import javax.swing.SpinnerNumberModel;
+
+import net.miginfocom.swing.MigLayout;
 
 @SuppressWarnings("serial")
 public class SmoothingFileRow extends CommandFileRow {
@@ -31,7 +31,7 @@ public class SmoothingFileRow extends CommandFileRow {
     public SmoothingFileRow(String[] fileNames) {
         this.fileNames = fileNames;
 
-        this.setLayout(new GridLayout(2,5));
+        this.setLayout(new MigLayout());
 
         addLabels();
         addInputFields();
@@ -44,13 +44,12 @@ public class SmoothingFileRow extends CommandFileRow {
         windowSizeLabel = new JLabel("Window size");
         meanOrMedianLabel = new JLabel("Mean/median");
         minSmoothLabel = new JLabel("Min smoothing");
-        //minSmoothLabel.setHorizontalAlignment(JLabel.CENTER);
 
         this.add(inFileLabel);
-        this.add(outFileLabel);
-        this.add(windowSizeLabel);
-        this.add(meanOrMedianLabel);
-        this.add(minSmoothLabel);
+        this.add(outFileLabel, CommandFileRow.WIDE);
+        this.add(windowSizeLabel, CommandFileRow.NARROW);
+        this.add(meanOrMedianLabel, CommandFileRow.MEDIUM);
+        this.add(minSmoothLabel, "wrap");
 
     }
 
@@ -68,15 +67,17 @@ public class SmoothingFileRow extends CommandFileRow {
         outFileTextField.setDocument(new JTextFieldLimit(512));
 
         this.add(inFileComboBox);
-        this.add(outFileTextField);
-        this.add(windowSizeSpinner);
-        this.add(meanOrMedianComboBox);
+        this.add(outFileTextField, CommandFileRow.WIDE);
+        this.add(windowSizeSpinner, CommandFileRow.NARROW);
+        this.add(meanOrMedianComboBox, CommandFileRow.MEDIUM);
         this.add(minSmoothSpinner);
 
     }
 
     public String getInFile() {
-        return inFileComboBox.getSelectedItem().toString();
+        Object o = inFileComboBox.getSelectedItem();
+        if( o == null) return "null";
+        return o.toString();
     }
 
     public String getOutFile() {
@@ -88,7 +89,9 @@ public class SmoothingFileRow extends CommandFileRow {
     }
 
     public String getMeanOrMedian() {
-        return meanOrMedianComboBox.getSelectedItem().toString();
+        Object o = meanOrMedianComboBox.getSelectedItem();
+        if( o == null) return "null";
+        return o.toString();
     }
 
     public int getMinSmooth() {
