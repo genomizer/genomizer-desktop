@@ -64,7 +64,6 @@ public class SysadminController {
         return new CreateUserButtonListener(sysTab);
     }
 
-
     /**
      * Sets the tab which the controller is connected to
      *
@@ -360,32 +359,45 @@ public class SysadminController {
 
     }
 
+    public void createNewUser(final String uName, final String pass,
+            final String role, final String rName, final String mail) {
 
-    public void createNewUser(String uName, String pass, String role, String rName, String mail){
-        try {
-            model.createUser(uName, pass, role, rName, mail);
-        } catch (RequestException e) {
-           new ErrorDialog("Create user", e).showDialog();
-        }
+        new Thread(new Runnable() {
+            public void run() {
+                try {
+                    model.createUser(uName, pass, role, rName, mail);
+                } catch (RequestException e) {
+                    new ErrorDialog("Create user", e).showDialog();
+                }
+            }
+        }).start();
+
         // TODO
     }
 
-    public void deleteUser(String uName){
-        try {
-            model.deleteUser(uName);
-        } catch (RequestException e) {
-            new ErrorDialog("Delete user", e).showDialog();
-        }
-        // TODO
+    public void deleteUser(final String uName) {
+        new Thread(new Runnable() {
+            public void run() {
+                try {
+                    model.deleteUser(uName);
+                } catch (RequestException e) {
+                    new ErrorDialog("Delete user", e).showDialog();
+                }
+            }
+        }).start();
     }
 
-    public void updateUser(String uName, String pass, String role, String rName, String mail){
-        try {
-            model.updateUser(uName, pass, role, rName, mail);
-        } catch (RequestException e) {
-            new ErrorDialog("Update user", e).showDialog();
-        }
-        // TODO
+    public void updateUser(final String uName,final String pass,final String role,
+            final String rName,final String mail) {
+        new Thread(new Runnable() {
+            public void run() {
+                try {
+                    model.updateUser(uName, pass, role, rName, mail);
+                } catch (RequestException e) {
+                    new ErrorDialog("Update user", e).showDialog();
+                }
+            }
+        }).start();
     }
 
 }
