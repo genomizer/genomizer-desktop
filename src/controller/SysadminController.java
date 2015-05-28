@@ -10,6 +10,7 @@ import gui.sysadmin.genomereleaseview.GenomeReleaseViewCreator;
 import gui.sysadmin.genomereleaseview.GenomereleaseTableModel;
 import gui.sysadmin.usersview.CreateUserButtonListener;
 
+import java.awt.Color;
 import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.util.concurrent.CopyOnWriteArrayList;
@@ -351,7 +352,7 @@ public class SysadminController {
                         }
                     });
                     try {
-                        Thread.sleep(100);
+                        Thread.sleep(10);
                     } catch (InterruptedException e) {
                         ErrorLogger.log(e);
                         running = false;
@@ -369,10 +370,12 @@ public class SysadminController {
             public void run() {
                 try {
                     model.createUser(uName, pass, role, rName, mail);
+                    view.setInstantStatusPanelColor(new Color(155,255,155));
                     view.setStatusPanelColor("success");
                     view.setStatusPanel("Creation of User : " + uName
                             + " succesful!");
                 } catch (RequestException e) {
+                    view.setInstantStatusPanelColor(new Color(255,155,155));
                     view.setStatusPanelColor("fail");
                     view.setStatusPanel("Creation of User : " + uName
                             + " failed!");
@@ -391,11 +394,13 @@ public class SysadminController {
             public void run() {
                 try {
                     model.deleteUser(uName);
+                    view.setInstantStatusPanelColor(new Color(155,255,155));
                     view.setStatusPanelColor("success");
                     view.setStatusPanel("Deletion of User : " + uName
                             + " succesful!");
                 } catch (RequestException e) {
                     view.setStatusPanelColor("fail");
+                    view.setInstantStatusPanelColor(new Color(255,155,155));
                     view.setStatusPanel("Deletion of User : " + uName
                             + " failed!");
                     view.setStatusPanelColor("fail");
@@ -412,10 +417,12 @@ public class SysadminController {
             public void run() {
                 try {
                     model.updateUser(uName, pass, role, rName, mail);
+                    view.setInstantStatusPanelColor(new Color(155,255,155));
                     view.setStatusPanelColor("success");
                     view.setStatusPanel("Update of User : " + uName
                             + " succesful!");
                 } catch (RequestException e) {
+                    view.setInstantStatusPanelColor(new Color(255,155,155));
                     view.setStatusPanelColor("fail");
                     view.setStatusPanel("Update of User : " + uName
                             + " failed!");

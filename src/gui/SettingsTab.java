@@ -34,11 +34,13 @@ public class SettingsTab extends JPanel {
     private JTextField namefield;
     private JTextField email;
     private JButton updateUserButton;
-    private SettingsTabController st;
+    private SettingsTabController settingsTabController;
 
     public SettingsTab() {
+
+        setPreferredSize(new Dimension(1225, 725));
         setLayout(new BorderLayout());
-        JPanel mainPanel = new JPanel(new BorderLayout());
+        mainPanel = new JPanel(new BorderLayout());
         add(mainPanel);
 
         JPanel namePanel = new JPanel();
@@ -116,24 +118,27 @@ public class SettingsTab extends JPanel {
         return email.getText();
     }
 
-    public void updateUser(final GenomizerModel model) {
-        new Thread(new Runnable() {
-            public void run() {
-        try {
-            model.updateUserSettings(getOld(), getNew(), namefield.getText(),
-                    getEmail());
-            st.getGui().setStatusPanel("User update succeful");
-            st.getGui().setStatusPanelColor("success");
-        } catch (RequestException e) {
-            new ErrorDialog("Update settings failed", e).showDialog();
-            st.getGui().setStatusPanel("User update failed");
-            st.getGui().setStatusPanelColor("fail");
-        }
-            }
-        }).start();
+    public String getRealName() {
+        return namefield.getText();
     }
 
+//    public void updateUser(GenomizerModel model) {
+//
+//        try {
+//            model.updateUserSettings(getOld(), getNew(), namefield.getText(),
+//                    getEmail());
+//            st.getGui().setStatusPanel("User update succeful");
+//            st.getGui().setStatusPanelColor("success");
+//        } catch (RequestException e) {
+//
+//            st.getGui().setStatusPanel("User update failed");
+//            st.getGui().setStatusPanelColor("fail");
+//            new ErrorDialog("Update settings failed", e).showDialog();
+//        }
+//
+//    }
+
     public void setController(SettingsTabController st) {
-        this.st = st;
+        this.settingsTabController = st;
     }
 }

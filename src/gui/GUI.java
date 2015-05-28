@@ -55,6 +55,8 @@ public class GUI extends JFrame {
     private Color color;
     public int nrOfThreads = 0;
     public int statusSuccessOrFail = 0;
+    private boolean interruptedColorGreen;
+    private boolean interruptedColorRed;
 
     /**
      * Initiates the main view of the program.
@@ -127,12 +129,12 @@ public class GUI extends JFrame {
 
 
 
-    public class setStatusPanelColors implements Runnable{
+    public class SetStatusPanelColors implements Runnable{
 
         private int firstTime = 0;
 
 
-      public setStatusPanelColors(String status){
+      public SetStatusPanelColors(String status){
             setCurrentStatus(status);
         }
 
@@ -201,12 +203,22 @@ public class GUI extends JFrame {
                       e.printStackTrace();
                   }
 
-                  setColor(255-i,155,155);
+                  if(interruptedColorGreen){
+                      setColor(155,255,155);
+                  } else if (interruptedColorRed){
+                      setColor(255,155,155);
+                  } else if (!(interruptedColorGreen && interruptedColorRed)){
+                      setColor(255-i,155,155);
+                  }
+                  
                   statusPanel.setBackground(getColor());
               }
           }
           firstTime = 0;
           nrOfThreads--;
+          
+          interruptedColorGreen = false;
+          interruptedColorRed = false;
 
       }
 
@@ -214,7 +226,17 @@ public class GUI extends JFrame {
       }
 
     public void setStatusPanelColor(String status){
-        (new Thread(new setStatusPanelColors(status))).start();
+        (new Thread(new SetStatusPanelColors(status))).start();
+    }
+    public void setInstantStatusPanelColor(Color color){
+        if(color.getGreen() == 255){
+            interruptedColorGreen = true;
+            interruptedColorRed = false;
+        } else if (color.getRed() == 255){
+            interruptedColorRed = true;
+            interruptedColorGreen = false;
+        }
+        statusPanel.setBackground(color);
     }
 
 
@@ -226,7 +248,7 @@ public class GUI extends JFrame {
           return color;
       }
 
-      private void setCurrentStatus(String statusString){
+      private synchronized void setCurrentStatus(String statusString){
           status = statusString;
       }
 

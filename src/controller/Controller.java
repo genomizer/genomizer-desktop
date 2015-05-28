@@ -73,8 +73,8 @@ public class Controller {
 
         view.getQuerySearchTab().clickUpdateAnnotations();
 
-        SettingsTabController st = new SettingsTabController(view, model);
-        view.getSettingsTab().setController(st);
+        SettingsTabController settingsTabController = new SettingsTabController(view, model);
+        view.getSettingsTab().setController(settingsTabController);
         sysadminTabController.updateAnnotationTable();
         sysadminTabController.updateGenomeReleaseTab();
     }
