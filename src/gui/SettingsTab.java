@@ -47,7 +47,7 @@ public class SettingsTab extends JPanel {
         JPanel p = new JPanel();
         p.setPreferredSize(new Dimension(500,200));
         JPanel southPanel = new JPanel();
-        southPanel.setPreferredSize(new Dimension(500,700));
+        southPanel.setPreferredSize(new Dimension(500,500));
 
         p.setBorder(BorderFactory.createTitledBorder("User Settings"));
         BoxLayout nameLayout = new BoxLayout(namePanel, BoxLayout.PAGE_AXIS);
