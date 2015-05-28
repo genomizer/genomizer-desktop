@@ -5,6 +5,7 @@ import gui.ErrorDialog;
 import gui.GUI;
 import gui.ProcessTab;
 import gui.QuerySearchTab;
+import gui.SettingsTab;
 import gui.UploadTab;
 import gui.WorkspaceTab;
 import gui.sysadmin.SysadminTab;
@@ -19,7 +20,7 @@ import controller.Controller;
 
 /**
  * Main Genomizer desktop startup class
- * 
+ *
  */
 public class Genomizer {
     public static void main(String args[]) {
@@ -29,9 +30,9 @@ public class Genomizer {
                 SSLTool.disableCertificateValidation();
                 // Create GUI
                 final GUI gui = new GUI();
-                
+
                 ErrorDialog.setParentComponent(gui);
-                
+
                 try {
                     // Create Tabs
                     UploadTab ut = new UploadTab();
@@ -43,7 +44,7 @@ public class Genomizer {
                     SysadminTab sat = new SysadminTab();
                     QuerySearchTab qst = new QuerySearchTab();
                     ConvertTab ct = new ConvertTab();
-                    
+                    SettingsTab st = new SettingsTab();
                     // Set tabs in GUI
                     gui.setQuerySearchTab(qst);
                     gui.setUploadTab(ut);
@@ -52,11 +53,11 @@ public class Genomizer {
                     // gui.setAnalyzeTab(at); // TODO: Analyze tab not used (OO)
                     gui.setSysAdminTab(sat);
                     gui.setConvertTab(ct);
-                    
+                    gui.setSettingsTab(st);
                     // Create model and controller
                     Model model = new Model();
                     Controller controller = new Controller(gui, model);
-                    
+
                     // Start the GUI
                     // TODO: Maybe put EDT on other parts?
                     SwingUtilities.invokeLater(new Runnable() {
@@ -68,9 +69,9 @@ public class Genomizer {
                 } catch (Exception e) {
                     ErrorLogger.log(e);
                 }
-                
+
             }
         });
-        
+
     }
 }

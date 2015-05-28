@@ -39,7 +39,8 @@ public interface GenomizerModel {
      * @throws IllegalArgumentException
      */
     public void uploadFile(String expName, File f, String type,
-            boolean isPrivate, String release) throws IllegalArgumentException, RequestException, IOException;
+            boolean isPrivate, String release) throws IllegalArgumentException,
+            RequestException, IOException;
 
     public ArrayList<ExperimentData> search(String pubmedString)
             throws RequestException;
@@ -68,7 +69,8 @@ public interface GenomizerModel {
     boolean editAnnotation(String name, String[] categories, boolean forced,
             AnnotationDataType oldAnnotation) throws RequestException;
 
-    void renameAnnotationField(String oldname, String newname) throws RequestException;
+    void renameAnnotationField(String oldname, String newname)
+            throws RequestException;
 
     public CopyOnWriteArrayList<DownloadHandler> getOngoingDownloads();
 
@@ -91,7 +93,8 @@ public interface GenomizerModel {
 
     public void deleteFileFromExperiment(String id) throws RequestException;
 
-    public void deleteExperimentFromDatabase(String name) throws RequestException;
+    public void deleteExperimentFromDatabase(String name)
+            throws RequestException;
 
     public void addGenomeReleaseFile(String[] filePaths, String specie,
             String version) throws RequestException, IllegalArgumentException,
@@ -111,5 +114,17 @@ public interface GenomizerModel {
 
     public void clearTickingTasks();
 
-    public boolean convertFile(String fileid, String toformat) throws RequestException;
+    public boolean convertFile(String fileid, String toformat)
+            throws RequestException;
+
+    public void createUser(String username, String password, String privileges,
+            String name, String email) throws RequestException;
+
+    public void updateUser(String username, String password, String privileges,
+            String name, String email) throws RequestException;
+
+    public void deleteUser(String username) throws RequestException;
+
+    public void updateUserSettings(String oldPass, String newPass, String name,
+            String email) throws RequestException;
 }

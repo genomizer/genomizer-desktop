@@ -7,6 +7,7 @@ import gui.sysadmin.annotationview.AnnotationButtonsListener;
 import gui.sysadmin.annotationview.AnnotationTableModel;
 import gui.sysadmin.genomereleaseview.GenomeReleaseViewCreator;
 import gui.sysadmin.genomereleaseview.GenomereleaseTableModel;
+import gui.sysadmin.usersview.CreateUserButtonListener;
 
 import java.awt.event.ActionListener;
 import java.io.IOException;
@@ -53,6 +54,16 @@ public class SysadminController {
     public ActionListener createAnnotationButtonListener() {
         return new AnnotationButtonsListener(sysTab);
     }
+
+    /**
+     * Creates a listener for the buttons in the sysadmin tab.
+     *
+     * @return a new AnnotationButtonsListener
+     */
+    public ActionListener createUserButtonListener() {
+        return new CreateUserButtonListener(sysTab);
+    }
+
 
     /**
      * Sets the tab which the controller is connected to
@@ -198,7 +209,7 @@ public class SysadminController {
     }
 
     public void updateGenomeReleaseTab() {
-        // TODO Behövs dessa trådar och runnable i invokeLater? CF
+        // TODO Behï¿½vs dessa trï¿½dar och runnable i invokeLater? CF
         new Thread() {
             public void run() {
                 // sysController.getGenomeReleases();
@@ -348,4 +359,33 @@ public class SysadminController {
         }).start();
 
     }
+
+
+    public void createNewUser(String uName, String pass, String role, String rName, String mail){
+        try {
+            model.createUser(uName, pass, role, rName, mail);
+        } catch (RequestException e) {
+           new ErrorDialog("Create user", e).showDialog();
+        }
+        // TODO
+    }
+
+    public void deleteUser(String uName){
+        try {
+            model.deleteUser(uName);
+        } catch (RequestException e) {
+            new ErrorDialog("Delete user", e).showDialog();
+        }
+        // TODO
+    }
+
+    public void updateUser(String uName, String pass, String role, String rName, String mail){
+        try {
+            model.updateUser(uName, pass, role, rName, mail);
+        } catch (RequestException e) {
+            new ErrorDialog("Update user", e).showDialog();
+        }
+        // TODO
+    }
+
 }

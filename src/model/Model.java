@@ -15,6 +15,9 @@ import requests.AddExperimentRequest;
 import requests.AddGenomeReleaseRequest;
 import requests.AddNewAnnotationValueRequest;
 import requests.ChangeExperimentRequest;
+import requests.ChangePasswordRequest;
+import requests.CreateUserRequest;
+import requests.DeleteUserRequest;
 import requests.FileConversionRequest;
 import requests.GetAnnotationRequest;
 import requests.GetGenomeReleasesRequest;
@@ -30,6 +33,7 @@ import requests.RenameAnnotationValueRequest;
 import requests.RequestFactory;
 import requests.RetrieveExperimentRequest;
 import requests.SearchRequest;
+import requests.UpdateUserRequest;
 import requests.rawToProfileRequest;
 import responses.ResponseParser;
 import responses.sysadmin.AddGenomeReleaseResponse;
@@ -422,10 +426,43 @@ public class Model implements GenomizerModel {
         FileConversionRequest request = RequestFactory
                 .makeFileConversionRequest(fileid, toformat);
         Connection conn = connFactory.makeConnection();
-        conn.sendRequest(request, User.getInstance().getToken(),
-                Constants.JSON);
+        conn.sendRequest(request, User.getInstance().getToken(), Constants.JSON);
 
-        return conn.getResponseCode()==200;
+        return conn.getResponseCode() == 200;
+    }
+
+    public void createUser(String username, String password, String privileges,
+            String name, String email) throws RequestException {
+
+        CreateUserRequest request = RequestFactory.makeCreateUserRequest(
+                username, password, privileges, name, email);
+        Connection conn = connFactory.makeConnection();
+        conn.sendRequest(request, User.getInstance().getToken(), Constants.JSON);
+    }
+
+    public void updateUser(String username, String password, String privileges,
+            String name, String email) throws RequestException {
+        UpdateUserRequest request = RequestFactory.makeUpdateUserRequest(
+                username, password, privileges, name, email);
+        Connection conn = connFactory.makeConnection();
+        conn.sendRequest(request, User.getInstance().getToken(), Constants.JSON);
+    }
+
+    public void deleteUser(String username) throws RequestException {
+        DeleteUserRequest request = RequestFactory
+                .makeDeleteUserRequest(username);
+        Connection conn = connFactory.makeConnection();
+        conn.sendRequest(request, User.getInstance().getToken(),
+                Constants.TEXT_PLAIN);
+    }
+
+    public void updateUserSettings(String oldPass, String newPass, String name,
+            String email) throws RequestException {
+        ChangePasswordRequest request = RequestFactory
+                .makeChangePasswordRequest(oldPass, newPass, name, email);
+
+        Connection conn = connFactory.makeConnection();
+        conn.sendRequest(request, User.getInstance().getToken(), Constants.JSON);
     }
 
 }
