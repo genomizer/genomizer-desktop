@@ -68,7 +68,7 @@ public class ProcessModel {
         Connection conn = SessionHandler.getInstance().makeConnection();
 
         conn.sendRequest(request, User.getInstance().getToken(),
-                Constants.TEXT_PLAIN);
+                Constants.JSON);
     }
 
     public void setSelectedExperiment(ExperimentData selectedExperiment) {
