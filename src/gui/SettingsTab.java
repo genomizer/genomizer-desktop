@@ -122,8 +122,12 @@ public class SettingsTab extends JPanel {
         try {
             model.updateUserSettings(getOld(), getNew(), namefield.getText(),
                     getEmail());
+            st.getGui().setStatusPanel("User update succeful");
+            st.getGui().setStatusPanelColor("success");
         } catch (RequestException e) {
             new ErrorDialog("Update settings failed", e).showDialog();
+            st.getGui().setStatusPanel("User update failed");
+            st.getGui().setStatusPanelColor("fail");
         }
             }
         }).start();

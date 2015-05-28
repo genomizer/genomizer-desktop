@@ -21,7 +21,7 @@ public class GetAllGenomeReleasesTest {
         model = new Model();
         model.setIP(ExampleExperimentData.getTestServerIP());
         model.loginUser(ExampleExperimentData.getTestUsername(), ExampleExperimentData.getTestPassword());
-        controller = new SysadminController(model);
+        controller = new SysadminController(model,null);
     }
 
     @Test

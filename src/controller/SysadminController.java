@@ -1,6 +1,7 @@
 package controller;
 
 import gui.ErrorDialog;
+import gui.GUI;
 import gui.sysadmin.SysadminTab;
 import gui.sysadmin.annotationview.AddAnnotationPopup;
 import gui.sysadmin.annotationview.AnnotationButtonsListener;
@@ -31,6 +32,7 @@ public class SysadminController {
 
     private SysadminTab sysTab;
     private GenomizerModel model;
+    private GUI view;
 
     public SysadminController() {
 
@@ -42,8 +44,9 @@ public class SysadminController {
      * @param model
      *            is the model with which the controller communicates
      */
-    public SysadminController(GenomizerModel model) {
+    public SysadminController(GenomizerModel model, GUI view) {
         this.model = model;
+        this.view = view;
     }
 
     /**
@@ -366,8 +369,16 @@ public class SysadminController {
             public void run() {
                 try {
                     model.createUser(uName, pass, role, rName, mail);
+                    view.setStatusPanelColor("success");
+                    view.setStatusPanel("Creation of User : " + uName
+                            + " succesful!");
                 } catch (RequestException e) {
+                    view.setStatusPanelColor("fail");
+                    view.setStatusPanel("Creation of User : " + uName
+                            + " failed!");
+                    view.setStatusPanelColor("fail");
                     new ErrorDialog("Create user", e).showDialog();
+
                 }
             }
         }).start();
@@ -380,20 +391,34 @@ public class SysadminController {
             public void run() {
                 try {
                     model.deleteUser(uName);
+                    view.setStatusPanelColor("success");
+                    view.setStatusPanel("Deletion of User : " + uName
+                            + " succesful!");
                 } catch (RequestException e) {
+                    view.setStatusPanelColor("fail");
+                    view.setStatusPanel("Deletion of User : " + uName
+                            + " failed!");
+                    view.setStatusPanelColor("fail");
                     new ErrorDialog("Delete user", e).showDialog();
+
                 }
             }
         }).start();
     }
 
-    public void updateUser(final String uName,final String pass,final String role,
-            final String rName,final String mail) {
+    public void updateUser(final String uName, final String pass,
+            final String role, final String rName, final String mail) {
         new Thread(new Runnable() {
             public void run() {
                 try {
                     model.updateUser(uName, pass, role, rName, mail);
+                    view.setStatusPanelColor("success");
+                    view.setStatusPanel("Update of User : " + uName
+                            + " succesful!");
                 } catch (RequestException e) {
+                    view.setStatusPanelColor("fail");
+                    view.setStatusPanel("Update of User : " + uName
+                            + " failed!");
                     new ErrorDialog("Update user", e).showDialog();
                 }
             }

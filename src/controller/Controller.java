@@ -64,7 +64,7 @@ public class Controller {
 
         new UploadTabController(view, model, fileChooser);
 
-        SysadminController sysadminTabController = new SysadminController(model);
+        SysadminController sysadminTabController = new SysadminController(model,view);
         view.getSysAdminTab().setController(sysadminTabController);
 
         ConvertTabController convertTabController = new ConvertTabController(
@@ -72,7 +72,7 @@ public class Controller {
         view.getConvertTab().setController(convertTabController);
 
         view.getQuerySearchTab().clickUpdateAnnotations();
-        
+
         SettingsTabController st = new SettingsTabController(view, model);
         view.getSettingsTab().setController(st);
         sysadminTabController.updateAnnotationTable();

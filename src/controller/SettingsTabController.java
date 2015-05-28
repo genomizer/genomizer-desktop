@@ -43,4 +43,7 @@ public class SettingsTabController {
             }
         };
     }
+    public GUI getGui() {
+        return view;
+    }
 }
