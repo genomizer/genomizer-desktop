@@ -61,24 +61,30 @@ public class ProcessTab extends JPanel {
         return chooser.getSelectedCommand();
     }
 
-    public void addCommand(String selectedCommand, String[] fileNames,  String[] genomeReleases ) {
-
+    public void addCommand(String selectedCommand, String[] fileNames,
+            String[] genomeReleases) {
 
         CommandComponent commandComponent = null;
 
         if (selectedCommand
-                .equalsIgnoreCase(RawToProfileCommandComponent.commandName)) {
+                .equalsIgnoreCase(RawToProfileCommandComponent.COMMAND_NAME)) {
             commandComponent = new RawToProfileCommandComponent(fileNames,
                     genomeReleases);
         }
 
-        if (selectedCommand.equalsIgnoreCase(RatioCommandComponent.commandName)) {
+        if (selectedCommand
+                .equalsIgnoreCase(RatioCommandComponent.COMMAND_NAME)) {
             commandComponent = new RatioCommandComponent(fileNames);
         }
 
         if (selectedCommand
                 .equalsIgnoreCase(SmoothingCommandComponent.COMMAND_NAME)) {
             commandComponent = new SmoothingCommandComponent(fileNames);
+        }
+
+        if (selectedCommand.equalsIgnoreCase(StepCommandComponent.COMMAND_NAME)) {
+
+            commandComponent = new StepCommandComponent(fileNames);
         }
 
         if (commandComponent == null) return;
@@ -88,7 +94,6 @@ public class ProcessTab extends JPanel {
         this.repaint();
 
     }
-
 
     public void addChooserListener(ActionListener chooserListener) {
         chooser.addChoiceListener(chooserListener);
@@ -129,6 +134,5 @@ public class ProcessTab extends JPanel {
         this.southPanel.addStartButtonListener(processButtonListener);
 
     }
-
 
 }

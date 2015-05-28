@@ -3,6 +3,7 @@ package util;
 import gui.processing.RatioCommandComponent;
 import gui.processing.RawToProfileCommandComponent;
 import gui.processing.SmoothingCommandComponent;
+import gui.processing.StepCommandComponent;
 
 /**
  * A class containing constants for test purposes
@@ -32,8 +33,9 @@ public class Constants {
     public static final String JSON = "application/json";
 
     public static final String[] commands = {
-            RawToProfileCommandComponent.commandName,
-            RatioCommandComponent.commandName,
-            SmoothingCommandComponent.COMMAND_NAME };
+            RawToProfileCommandComponent.COMMAND_NAME,
+            RatioCommandComponent.COMMAND_NAME,
+            SmoothingCommandComponent.COMMAND_NAME,
+            StepCommandComponent.COMMAND_NAME};
 
 }
