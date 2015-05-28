@@ -1,6 +1,7 @@
 package gui.sysadmin.usersview;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -13,24 +14,25 @@ import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JTextField;
 import javax.swing.JTextPane;
 
 public class UsersViewCreator {
 
 
-    private JTextPane newUserName;
-    private JTextPane newPassword;
+    private JTextField newUserName;
+    private JTextField newPassword;
     @SuppressWarnings("rawtypes")
     private JComboBox newRole;
-    private JTextPane newRealName;
-    private JTextPane newMail;
-    private JTextPane deleteUserName;
-    private JTextPane updateUserName;
-    private JTextPane updatePassword;
+    private JTextField newRealName;
+    private JTextField newMail;
+    private JTextField deleteUserName;
+    private JTextField updateUserName;
+    private JTextField updatePassword;
     @SuppressWarnings("rawtypes")
     private JComboBox updateRole;
-    private JTextPane updateRealName;
-    private JTextPane updateMail;
+    private JTextField updateRealName;
+    private JTextField updateMail;
     private JButton createUserButton;
     private JButton updateUserButton;
     private JButton deleteUserButton;
@@ -81,42 +83,41 @@ public class UsersViewCreator {
         BoxLayout textLayout = new BoxLayout(textPanel, BoxLayout.PAGE_AXIS);
         BorderLayout buttonLayout = new BorderLayout();
 
-        buttonPanel.setBorder(BorderFactory.createEtchedBorder());
-
         namePanel.setLayout(nameLayout);
         textPanel.setLayout(textLayout);
         buttonPanel.setLayout(buttonLayout);
+        buttonPanel.setBorder(null);
 
         JLabel newUserNameLabel = new JLabel("Username   ");
-        newUserName = new JTextPane();
-        newUserName.setPreferredSize(new Dimension(120, 20));
+        newUserName = new JTextField();
+        newUserName.setPreferredSize(new Dimension(120, 25));
         JLabel newPasswordLabel = new JLabel("Password   ");
-        newPassword = new JTextPane();
-        newPassword.setPreferredSize(new Dimension(120, 20));
+        newPassword = new JTextField();
+        newPassword.setPreferredSize(new Dimension(120, 25));
         JLabel newRoleLabel = new JLabel("Role       ");
         newRole = new JComboBox<String>();
         newRole.addItem(new String("USER"));
         newRole.addItem(new String("ADMIN"));
         newRole.addItem(new String("GUEST"));
-        newRole.setPreferredSize(new Dimension(120, 20));
+        newRole.setPreferredSize(new Dimension(120, 25));
         JLabel newRealNameLabel = new JLabel("Real name   ");
-        newRealName = new JTextPane();
-        newRealName.setPreferredSize(new Dimension(120, 20));
+        newRealName = new JTextField();
+        newRealName.setPreferredSize(new Dimension(120, 25));
         JLabel newMailLabel = new JLabel("Mail       ");
-        newMail = new JTextPane();
-        newMail.setPreferredSize(new Dimension(120, 20));
+        newMail = new JTextField();
+        newMail.setPreferredSize(new Dimension(120, 25));
 
         createUserButton = new JButton("Create User");
         createUserButton.setPreferredSize(new Dimension(120, 40));
 
         namePanel.add(newUserNameLabel);
-        namePanel.add(new JPanel());
+        namePanel.add(Box.createRigidArea(new Dimension(5,20)));
         namePanel.add(newPasswordLabel);
-        namePanel.add(new JPanel());
+        namePanel.add(Box.createRigidArea(new Dimension(5,20)));
         namePanel.add(newRealNameLabel);
-        namePanel.add(new JPanel());
+        namePanel.add(Box.createRigidArea(new Dimension(5,20)));
         namePanel.add(newMailLabel);
-        namePanel.add(new JPanel());
+        namePanel.add(Box.createRigidArea(new Dimension(5,20)));
         namePanel.add(newRoleLabel);
 
         textPanel.add(newUserName);
@@ -153,42 +154,43 @@ public class UsersViewCreator {
         BoxLayout textLayout = new BoxLayout(textPanel, BoxLayout.PAGE_AXIS);
         BorderLayout buttonLayout = new BorderLayout();
 
-        buttonPanel.setBorder(BorderFactory.createEtchedBorder());
 
         namePanel.setLayout(nameLayout);
         textPanel.setLayout(textLayout);
         buttonPanel.setLayout(buttonLayout);
+        buttonPanel.setBorder(null);
+        
 
         JLabel newUserNameLabel = new JLabel("Username   ");
-        updateUserName = new JTextPane();
-        updateUserName.setPreferredSize(new Dimension(120, 20));
+        updateUserName = new JTextField();
+        updateUserName.setPreferredSize(new Dimension(120, 25));
         JLabel newPasswordLabel = new JLabel("Password   ");
-        updatePassword = new JTextPane();
-        updatePassword.setPreferredSize(new Dimension(120, 20));
+        updatePassword = new JTextField();
+        updatePassword.setPreferredSize(new Dimension(120, 25));
         JLabel newRoleLabel = new JLabel("Role       ");
         updateRole = new JComboBox<String>();
         updateRole.addItem(new String("USER"));
         updateRole.addItem(new String("ADMIN"));
         updateRole.addItem(new String("GUEST"));
-        updateRole.setPreferredSize(new Dimension(120, 20));
+        updateRole.setPreferredSize(new Dimension(120, 25));
         JLabel newRealNameLabel = new JLabel("Real name   ");
-        updateRealName = new JTextPane();
-        updateRealName.setPreferredSize(new Dimension(120, 20));
+        updateRealName = new JTextField();
+        updateRealName.setPreferredSize(new Dimension(120, 25));
         JLabel newMailLabel = new JLabel("Mail       ");
-        updateMail = new JTextPane();
-        updateMail.setPreferredSize(new Dimension(120, 20));
+        updateMail = new JTextField();
+        updateMail.setPreferredSize(new Dimension(120, 25));
 
         updateUserButton = new JButton("Update User");
         updateUserButton.setPreferredSize(new Dimension(120, 40));
 
         namePanel.add(newUserNameLabel);
-        namePanel.add(new JPanel());
+        namePanel.add(Box.createRigidArea(new Dimension(5,20)));
         namePanel.add(newPasswordLabel);
-        namePanel.add(new JPanel());
+        namePanel.add(Box.createRigidArea(new Dimension(5,20)));
         namePanel.add(newRealNameLabel);
-        namePanel.add(new JPanel());
+        namePanel.add(Box.createRigidArea(new Dimension(5,20)));
         namePanel.add(newMailLabel);
-        namePanel.add(new JPanel());
+        namePanel.add(Box.createRigidArea(new Dimension(5,20)));
         namePanel.add(newRoleLabel);
 
         textPanel.add(updateUserName);
@@ -220,20 +222,21 @@ public class UsersViewCreator {
         JPanel namePanel = new JPanel();
         JPanel textPanel = new JPanel();
         JPanel buttonPanel = new JPanel();
+        
 
         BoxLayout nameLayout = new BoxLayout(namePanel, BoxLayout.PAGE_AXIS);
         BoxLayout textLayout = new BoxLayout(textPanel, BoxLayout.PAGE_AXIS);
         BorderLayout buttonLayout = new BorderLayout();
 
-        buttonPanel.setBorder(BorderFactory.createEtchedBorder());
 
         namePanel.setLayout(nameLayout);
         textPanel.setLayout(textLayout);
         buttonPanel.setLayout(buttonLayout);
+        buttonPanel.setBorder(null);
 
         JLabel deleteUserNameLabel = new JLabel("Username   ");
-        deleteUserName = new JTextPane();
-        deleteUserName.setPreferredSize(new Dimension(120, 20));
+        deleteUserName = new JTextField();
+        deleteUserName.setPreferredSize(new Dimension(120, 25));
 
         deleteUserButton = new JButton("Delete User");
         deleteUserButton.setPreferredSize(new Dimension(120, 40));
