@@ -72,6 +72,8 @@ public class RawToProfileFileRow extends CommandFileRow {
     @Override
     protected void addInputFields() {
         inFileComboBox = new JComboBox<String>(fileNames);
+        inFileComboBox.setEditable(true);
+
         outFileTextField = new JTextField();
         flagsTextField = new JTextField();
         genomeReleaseComboBox = new JComboBox<String>(genomeReleases);
@@ -86,7 +88,7 @@ public class RawToProfileFileRow extends CommandFileRow {
         this.add(flagsTextField, CommandFileRow.WIDE);
         this.add(genomeReleaseComboBox, CommandFileRow.NARROW);
         this.add(keepSamCheckBox, "wrap");
-        
+
         flagsTextField.setText(FLAGS_DEFAULT);
     }
 

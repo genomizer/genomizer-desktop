@@ -52,6 +52,8 @@ public class StepFileRow extends CommandFileRow {
     protected void addInputFields() {
 
         inFileComboBox = new JComboBox<String>(fileNames);
+        inFileComboBox.setEditable(true);
+
         outFileTextField = new JTextField();
         SpinnerModel stepSizeSpinnerModel = new SpinnerNumberModel(1, 1, 1000, 1);
         stepSizeSpinner = new JSpinner(stepSizeSpinnerModel);

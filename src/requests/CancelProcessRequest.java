@@ -16,7 +16,7 @@ public class CancelProcessRequest extends Request {
      *          Process-ID
      */
     public CancelProcessRequest(String PID) {
-        super("cancelprocess","/process/cancelProcess" , "PUT");
+        super("cancelprocess","/process" , "DELETE");
         this.PID = PID;
     }
 

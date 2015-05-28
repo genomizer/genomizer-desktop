@@ -47,7 +47,7 @@ public class ProcessModel {
                 .makeCancelProcessRequest(PID);
         Connection conn = SessionHandler.getInstance().makeConnection();
         conn.sendRequest(request, User.getInstance().getToken(),
-                Constants.TEXT_PLAIN);
+                Constants.JSON);
 
     }
 

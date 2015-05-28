@@ -57,6 +57,8 @@ public class SmoothingFileRow extends CommandFileRow {
     protected void addInputFields() {
 
         inFileComboBox = new JComboBox<String>(fileNames);
+        inFileComboBox.setEditable(true);
+
         outFileTextField = new JTextField();
         SpinnerModel windowSizeSpinnerModel = new SpinnerNumberModel(1, 1, 1000, 1);
         windowSizeSpinner = new JSpinner(windowSizeSpinnerModel);
