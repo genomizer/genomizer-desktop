@@ -204,4 +204,10 @@ public class RequestFactory {
     public static DeleteUserRequest makeDeleteUserRequest(String User) {
         return new DeleteUserRequest(User);
     }
+
+    public static ChangePasswordRequest makeChangePasswordRequest(String oldPassword,
+            String newPassword, String name, String email) {
+        return new ChangePasswordRequest(oldPassword, newPassword, name,
+                email);
+    }
 }
