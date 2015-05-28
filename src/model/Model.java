@@ -15,6 +15,7 @@ import requests.AddExperimentRequest;
 import requests.AddGenomeReleaseRequest;
 import requests.AddNewAnnotationValueRequest;
 import requests.ChangeExperimentRequest;
+import requests.ChangePasswordRequest;
 import requests.CreateUserRequest;
 import requests.DeleteUserRequest;
 import requests.FileConversionRequest;
@@ -452,6 +453,12 @@ public class Model implements GenomizerModel {
                 .makeDeleteUserRequest(username);
         Connection conn = connFactory.makeConnection();
         conn.sendRequest(request, User.getInstance().getToken(), Constants.TEXT_PLAIN);
+    }
+    
+    public void updateUserSettings(String oldPass, String newPass, String name, String email ) throws RequestException{
+        ChangePasswordRequest request = RequestFactory.makeChangePasswordRequest(oldPass, newPass, name, email);
+        Connection conn = connFactory.makeConnection();
+        conn.sendRequest(request, User.getInstance().getToken(), Constants.JSON);
     }
 
 }
