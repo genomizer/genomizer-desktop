@@ -19,7 +19,7 @@ import net.miginfocom.swing.MigLayout;
  */
 @SuppressWarnings("serial")
 public class RawToProfileFileRow extends CommandFileRow {
-    
+
     private JComboBox<String> inFileComboBox;
     private JTextField outFileTextField;
     private JTextField flagsTextField;
@@ -65,9 +65,9 @@ public class RawToProfileFileRow extends CommandFileRow {
         keepSamLabel.setHorizontalAlignment(JLabel.CENTER);
 
         this.add(inFileLabel);
-        this.add(outFileLabel, "w 80:120:160");
-        this.add(flagsLabel, "w 80:100:120");
-        this.add(genomeReleaseLabel, "w 60:80:100");
+        this.add(outFileLabel, CommandFileRow.WIDE);
+        this.add(flagsLabel, CommandFileRow.MEDIUM);
+        this.add(genomeReleaseLabel, CommandFileRow.NARROW);
         this.add(keepSamLabel, "wrap");
     }
 
@@ -84,9 +84,9 @@ public class RawToProfileFileRow extends CommandFileRow {
         flagsTextField.setDocument(new JTextFieldLimit(256));
 
         this.add(inFileComboBox);
-        this.add(outFileTextField, "w 80:120:160");
-        this.add(flagsTextField, "w 80:100:120");
-        this.add(genomeReleaseComboBox, "w 60:80:100");
+        this.add(outFileTextField, CommandFileRow.WIDE);
+        this.add(flagsTextField, CommandFileRow.MEDIUM);
+        this.add(genomeReleaseComboBox, CommandFileRow.NARROW);
         this.add(keepSamCheckBox, "wrap");
     }
 

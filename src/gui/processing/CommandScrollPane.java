@@ -2,6 +2,7 @@ package gui.processing;
 
 import java.awt.BorderLayout;
 import java.awt.Component;
+import java.awt.Dimension;
 import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -49,7 +50,7 @@ public class CommandScrollPane extends JScrollPane {
         this.getViewport().add(componentPanel);
         this.getVerticalScrollBar().setUnitIncrement(SCROLL_SPEED);
         this.setBorder(BorderFactory.createTitledBorder("Commands"));
-
+        this.setPreferredSize(new Dimension(600, 1000));
         setUpAutoScrollBehaviour();
 
     }

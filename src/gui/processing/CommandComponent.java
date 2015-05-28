@@ -37,6 +37,7 @@ public abstract class CommandComponent extends JComponent {
         this.setBorder(new TitledBorder(commandName));
         this.setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
         commandFileRowPanelStack = new Stack<CommandFileRowPanel>();
+
     }
 
     /**

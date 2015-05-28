@@ -28,15 +28,13 @@ public class CommandFileRowPanel extends JPanel {
     private JButton addButton;
     private CommandFileRow commandFileRow;
     private JPanel buttonPanel;
-
     /**
      * Constructs a new CommandFileRowPanel instance from a given CommandFileRow
      * @param commandFileRow the CommandFileRow
      */
     public CommandFileRowPanel(CommandFileRow commandFileRow) {
-        super();
+        super(new FlowLayout(FlowLayout.LEFT));
         this.commandFileRow = commandFileRow;
-        this.setLayout(new FlowLayout());
         addComponents();
     }
 
