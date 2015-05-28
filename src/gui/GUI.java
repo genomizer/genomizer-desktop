@@ -41,6 +41,7 @@ public class GUI extends JFrame {
     private UserPanel userPanel;
     private UploadTab uploadTab;
     private WorkspaceTab workspaceTab;
+    private SettingsTab settingsTab;
     private LoginWindow loginWindow;
     private ProcessTab processTab;
     private SysadminTab sysadminTab;
@@ -148,13 +149,13 @@ public class GUI extends JFrame {
               }
 
               statusSuccessOrFail = 1;
-              
+
               try {
                   Thread.sleep(2000);
               } catch (InterruptedException e) {
                   e.printStackTrace();
               }
-              
+
               for(int i = 0; i < 60;i++){
                   if(statusSuccessOrFail == 2 || (firstTime == 1 && nrOfThreads > 1)){
                       break;
@@ -180,13 +181,13 @@ public class GUI extends JFrame {
               }
 
               statusSuccessOrFail = 2;
-              
+
               try {
                   Thread.sleep(2000);
               } catch (InterruptedException e) {
                   e.printStackTrace();
               }
-              
+
               for(int i = 0; i < 60;i++){
                   if(statusSuccessOrFail  == 1 || (firstTime == 1 && nrOfThreads > 1)){
                       break;
@@ -379,6 +380,22 @@ public class GUI extends JFrame {
     }
 
     /**
+     * Sets the settingsTab of the GUI. Also sets the name of the tab in the
+     * tabbedPane.
+     *
+     * @param settingsTab
+     *            The SettingsTab to set the attribute to.
+     */
+    public void setSettingsTab(SettingsTab settingsTab) {
+        this.settingsTab = settingsTab;
+        tabbedPane.addTab("SETTINGS", null, settingsTab, "Settings");
+    }
+
+    public SettingsTab getSettingsTab() {
+        return settingsTab;
+    }
+
+    /**
      * Returns the WorkspaceTab, used by controller
      *
      * @return workspaceTab The WorkspaceTab
@@ -551,6 +568,7 @@ public class GUI extends JFrame {
         SysadminTab sat = new SysadminTab();
         QuerySearchTab qst = new QuerySearchTab();
         ConvertTab ct = new ConvertTab();
+        SettingsTab st = new SettingsTab();
         // TODO: Maybe analyse too (OO)
 
         // Set tabs
@@ -560,6 +578,7 @@ public class GUI extends JFrame {
         setWorkspaceTab(wt);
         setSysAdminTab(sat);
         setConvertTab(ct);
+        setSettingsTab(st);
         // Maybe analyse too (OO)
 
         repaint();
