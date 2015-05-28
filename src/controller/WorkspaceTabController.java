@@ -151,6 +151,36 @@ public class WorkspaceTabController {
                             }
 
                             try {
+                                String totalpath = directoryName + "/"
+                                        + data.expId + "/" + data.type + "/"
+                                        + data.filename;
+                                System.out.println(totalpath);
+                                System.out.println(totalpath.length());
+                                if (totalpath.length() > 259) {
+                                    // c:\[256 chars]<NUL>, över det dampar
+                                    // windows
+                                    String pathOnly = directoryName + "/"
+                                            + data.expId + "/" + data.type
+                                            + "/";
+                                    String minlength = data.filename
+                                            .substring(data.filename
+                                                    .lastIndexOf('.') - 1);
+                                    if ((pathOnly.length() + minlength.length()) > 259) {
+                                        // TODO cancel or inform the user or
+                                        // something
+                                    } else {
+
+                                        String extension = data.filename
+                                                .substring(data.filename
+                                                        .lastIndexOf('.'));
+                                        int allowedlength = 259
+                                                - pathOnly.length()
+                                                - extension.length();
+                                        String filename = data.filename.substring(0,
+                                                data.filename.lastIndexOf('.')+allowedlength);
+                                        filename = filename+extension;
+                                    }
+                                }
                                 model.downloadFile(data.url, data.id,
                                         directoryName + "/" + data.expId + "/"
                                                 + data.type + "/"
