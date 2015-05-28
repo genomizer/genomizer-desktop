@@ -45,7 +45,7 @@ public class CommandScrollPane extends JScrollPane {
         commandList = new ArrayList<CommandComponent>();
         componentPanel = new JPanel();
 
-        componentPanel.setLayout(new BoxLayout(componentPanel, BoxLayout.PAGE_AXIS));
+        componentPanel.setLayout(new BoxLayout(componentPanel, BoxLayout.PAGE_AXIS ));
         this.getViewport().add(componentPanel);
         this.getVerticalScrollBar().setUnitIncrement(SCROLL_SPEED);
         this.setBorder(BorderFactory.createTitledBorder("Commands"));
@@ -74,7 +74,7 @@ public class CommandScrollPane extends JScrollPane {
      */
     public void addCommandComponent(CommandComponent commandComponent) {
         if ( containsCommand(commandComponent) ) return;
-        componentPanel.add( commandComponent);
+        componentPanel.add( commandComponent );
         commandList.add(commandComponent);
 
         // Scroll to visible
