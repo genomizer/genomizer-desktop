@@ -252,20 +252,14 @@ public class WorkspaceTabController {
         return new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-
-                try {
-                    ExperimentData firstChosenExperiment = workspaceTab
-                            .getTable().getSelectedExperiment();
-                    UploadTab ut = view.getUploadTab();
-                    view.getTabbedPane().setSelectedComponent(ut);
-                    ut.getExperimentNameField().setText(
-                            firstChosenExperiment.getName());
-                    ut.getExistingExpButton().doClick();
-                } catch (IndexOutOfBoundsException ee) {
-                    ErrorLogger.log(ee);
-                    JOptionPane.showMessageDialog(null,
-                            "No experiment was selected.");
-                }
+                //button only active if experiment is selected
+                ExperimentData firstChosenExperiment = workspaceTab.getTable()
+                        .getSelectedExperiment();
+                UploadTab ut = view.getUploadTab();
+                view.getTabbedPane().setSelectedComponent(ut);
+                ut.getExperimentNameField().setText(
+                        firstChosenExperiment.getName());
+                ut.getExistingExpButton().doClick();
             }
         };
     }
