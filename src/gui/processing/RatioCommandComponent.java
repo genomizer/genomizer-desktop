@@ -2,6 +2,7 @@ package gui.processing;
 
 import java.util.Iterator;
 
+@SuppressWarnings("serial")
 public class RatioCommandComponent extends CommandComponent {
 
     public static final String COMMAND_NAME = "ratio";

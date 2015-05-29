@@ -10,6 +10,7 @@ import util.ExperimentData;
 import util.ProcessFeedbackData;
 import controller.ProcessTabController;
 
+@SuppressWarnings("serial")
 public class ProcessTab extends JPanel {
 
     private ProcessTabController processTabController;
