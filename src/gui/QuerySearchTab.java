@@ -78,6 +78,7 @@ public class QuerySearchTab extends JPanel {
     private JRadioButton queryBuilderButton;
     private JRadioButton manualEditButton;
     private QueryRowController queryRowController;
+    private JPanel eastPanel;
 
     /**
      * Create a query search tab
@@ -228,7 +229,7 @@ public class QuerySearchTab extends JPanel {
         // TODO Change text when edit annotation is implemented CF
         addToUploadButton = new JButton("Upload to experiment");
 
-        JPanel eastPanel = new JPanel();
+        eastPanel = new JPanel();
         eastPanel.add(addToWorkspaceButton);
 
         eastPanel.add(addToUploadButton);
@@ -544,6 +545,9 @@ public class QuerySearchTab extends JPanel {
         int size = rowList.size();
 
         return (rowList.indexOf(queryRow) == (size - 1));
+    }
+    public void removeUploadButton(){
+        eastPanel.remove(addToUploadButton);
     }
 
 }

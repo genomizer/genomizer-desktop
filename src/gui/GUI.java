@@ -289,6 +289,11 @@ public class GUI extends JFrame {
      */
     public void updateLoginAccepted(String username, String pwd, String name) {
         userPanel.setUserInfo(username, name, false);
+        if(User.getInstance().getRole().equalsIgnoreCase("GUEST")) {
+            removetab();
+            workspaceTab.removeButtonsforGuest();
+            querySearchTab.removeUploadButton();
+        }
         refreshGUI();
         this.setVisible(true);
         loginWindow.removeErrorMessage();
@@ -543,7 +548,7 @@ public class GUI extends JFrame {
      * Remove and re-add each tab in the GUI. For now **ONLY TABS** are reset:
      * If this changes some other methods will need updating (logoutlistener)
      */
-    public void resetGUI() {
+    public synchronized void resetGUI() {
 
         // Remove tabs
         while (tabbedPane.getTabCount() > 0) {
@@ -562,14 +567,19 @@ public class GUI extends JFrame {
 
         // Set tabs
         setQuerySearchTab(qst);
-        setUploadTab(ut);
-        setProcessTab(pt);
+        if(!User.getInstance().getRole().equalsIgnoreCase("GUEST")) {
+            setUploadTab(ut);
+            setProcessTab(pt);
+        }
+
         setWorkspaceTab(wt);
-        setSysAdminTab(sat);
-        setConvertTab(ct);
+        if(!User.getInstance().getRole().equalsIgnoreCase("GUEST")) {
+            setSysAdminTab(sat);
+            setConvertTab(ct);
+        }
+
         setSettingsTab(st);
         // Maybe analyse too (OO)
-
         repaint();
         revalidate();
     }
@@ -610,9 +620,13 @@ public class GUI extends JFrame {
 
     }
 
-    public void removetab(JPanel p) {
-        this.remove(p);
-
+    public void removetab() {
+        tabbedPane.remove(convertTab);
+        tabbedPane.remove(processTab);
+        tabbedPane.remove(sysadminTab);
+        tabbedPane.remove(uploadTab);
+        repaint();
+        revalidate();
     }
 
 }

@@ -131,10 +131,12 @@ public class WorkspaceTab extends JPanel {
     private void addToButtonPanel() {
 
 
-
             buttonPanel.add(deleteButton);
 
             buttonPanel.add(Box.createHorizontalStrut(10));
+
+
+
 
 
         buttonPanel.add(removeButton);
@@ -303,5 +305,12 @@ public class WorkspaceTab extends JPanel {
 
     public JPanel getOngoingDownloadsPanel() {
         return ongoingDownloadsPanel;
+    }
+
+    public void removeButtonsforGuest(){
+        buttonPanel.remove(uploadToButton);
+        buttonPanel.remove(convertButton);
+        buttonPanel.remove(processButton);
+        buttonPanel.remove(deleteButton);
     }
 }
