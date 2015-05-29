@@ -18,9 +18,6 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
-import javax.swing.SwingConstants;
-
-import controller.Controller;
 
 import model.ErrorLogger;
 
@@ -68,7 +65,7 @@ public class LoginWindow extends JFrame {
 
         setTitle("Genomizer Login");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setSize(270, 280);
+        setSize(270, 340);
         setResizable(false);
         this.setLocationRelativeTo(parent.getFrame());
 
@@ -94,31 +91,30 @@ public class LoginWindow extends JFrame {
         bottomPanel.setLayout(null);
 
         JLabel usernameLabel = new JLabel("Name");
-        usernameLabel.setBounds(10, 40, 80, 25);
+        usernameLabel.setBounds(10, 40 + 60, 80, 25);
         bottomPanel.add(usernameLabel);
 
         usernameField = new JTextField(20);
-        usernameField.setBounds(90, 40, 170, 25);
+        usernameField.setBounds(90, 40 + 60, 170, 25);
         usernameField.setText(Constants.userName);
 
         bottomPanel.add(usernameField);
 
         JLabel passwordLabel = new JLabel("Password");
-        passwordLabel.setBounds(10, 70, 80, 25);
+        passwordLabel.setBounds(10, 70 + 60, 80, 25);
         bottomPanel.add(passwordLabel);
 
         passwordField = new JPasswordField(20);
-        passwordField.setBounds(90, 70, 170, 25);
+        passwordField.setBounds(90, 70 + 60, 170, 25);
         passwordField.setText(Constants.password);
         bottomPanel.add(passwordField);
 
-        JLabel ipLabel = new JLabel("IP");
-        ipLabel.setBounds(10, 100, 80, 25);
+        JLabel ipLabel = new JLabel("Server");
+        ipLabel.setBounds(10, 100 + 60, 80, 25);
         bottomPanel.add(ipLabel);
 
-        // TODO: Hard coded IP stuff should at least be updated. OO
         ipField = new JTextField(20);
-        ipField.setBounds(90, 100, 170, 25);
+        ipField.setBounds(90, 100 + 60, 170, 25);
         ipField.setText(Constants.serverAddress);
         bottomPanel.add(ipField);
 
@@ -203,7 +199,7 @@ public class LoginWindow extends JFrame {
         removeErrorMessage();
         message = message.replace(".", "");
         errorLabel = new JLabel("<html><b>" + message + "</b></html>");
-        errorLabel.setBounds(73, 0, 160, 60);
+        errorLabel.setBounds(73, 0, 160, 100);
         errorLabel.setAlignmentX(CENTER_ALIGNMENT);
         bottomPanel.add(errorLabel);
         ErrorLogger.log(message);
