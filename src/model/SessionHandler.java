@@ -90,6 +90,7 @@ public class SessionHandler {
             if (loginResponse != null) {
                 User.getInstance().setToken(loginResponse.token);
                 User.getInstance().setName(username);
+                User.getInstance().setRole(loginResponse.role);
             }
 
         } catch (RequestException e) {

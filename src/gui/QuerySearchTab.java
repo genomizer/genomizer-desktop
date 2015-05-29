@@ -25,6 +25,8 @@ import javax.swing.border.Border;
 import javax.swing.border.EtchedBorder;
 import javax.swing.border.TitledBorder;
 
+import model.User;
+
 import org.apache.http.conn.ssl.AllowAllHostnameVerifier;
 
 import controller.QueryRowController;
@@ -110,7 +112,7 @@ public class QuerySearchTab extends JPanel {
         topPanel.add(searchPanel);
         bottomPanel.add(rowsPanel, BorderLayout.NORTH);
 
-//        topPanel.add(updateAnnotationsButton,BorderLayout.EAST);
+        // topPanel.add(updateAnnotationsButton,BorderLayout.EAST);
         // TODO never shown in a panel
 
         activePanel = ActiveSearchPanel.SEARCH;
@@ -139,7 +141,7 @@ public class QuerySearchTab extends JPanel {
      */
     private void setUpQuerySearchTab() {
         updateAnnotationsButton = new JButton("Fetch Annotations");
-        //TODO: This button is never displayed
+        // TODO: This button is never displayed
         annotationTypes = new AnnotationDataType[0];
         rowList = new CopyOnWriteArrayList<>();
         this.setLayout(new BorderLayout());
@@ -223,12 +225,14 @@ public class QuerySearchTab extends JPanel {
                 IconFactory.getBackIcon(27, 27), 25, 25, "Back to search view");
 
         addToWorkspaceButton = new JButton("Add to workspace");
-        //TODO Change text when edit annotation is implemented CF
+        // TODO Change text when edit annotation is implemented CF
         addToUploadButton = new JButton("Upload to experiment");
 
         JPanel eastPanel = new JPanel();
         eastPanel.add(addToWorkspaceButton);
+
         eastPanel.add(addToUploadButton);
+
         eastPanel.add(backButton);
 
         downloadButton = new JButton("Download Selected Files");
@@ -280,10 +284,11 @@ public class QuerySearchTab extends JPanel {
         SwingUtilities.invokeLater(new Runnable() {
             public void run() {
 
-                if(queryBuilderButton.isSelected()){
+                if (queryBuilderButton.isSelected()) {
                     updateAnnotationsButton.doClick();
                     rowList = new CopyOnWriteArrayList<QueryBuilderRow>();
-                    addRow(); // TODO denna rad kastar expception ibland vid uppstart.
+                    addRow(); // TODO denna rad kastar expception ibland vid
+                              // uppstart.
                     searchArea.setText("");
                 }
 
@@ -358,22 +363,22 @@ public class QuerySearchTab extends JPanel {
         String searchString = "";
         int i = 0;
         for (QueryBuilderRow row : rowList) {
-            //if (!row.getText().isEmpty()) {
-                String logic;
-                String endParenthesis = "";
-                if (i == 0) {
-                    logic = "";
-                } else {
-                    logic = row.getLogic() + " ";
-                    searchString = "(" + searchString;
-                    endParenthesis = ") ";
-                }
-                String text = row.getText();
-                String annotation = row.getAnnotation();
-                searchString = searchString + endParenthesis + logic + text
-                        + "[" + annotation + "]";
-                i++;
-            //}
+            // if (!row.getText().isEmpty()) {
+            String logic;
+            String endParenthesis = "";
+            if (i == 0) {
+                logic = "";
+            } else {
+                logic = row.getLogic() + " ";
+                searchString = "(" + searchString;
+                endParenthesis = ") ";
+            }
+            String text = row.getText();
+            String annotation = row.getAnnotation();
+            searchString = searchString + endParenthesis + logic + text + "["
+                    + annotation + "]";
+            i++;
+            // }
         }
         if (searchString.isEmpty()) {
             searchArea.setText("");
@@ -468,7 +473,9 @@ public class QuerySearchTab extends JPanel {
     }
 
     /**
-     * @return The text where the built query is displayed<br>OR<br>The querySearchTab's searchString.
+     * @return The text where the built query is displayed<br>
+     *         OR<br>
+     *         The querySearchTab's searchString.
      *
      */
     public String getSearchString() {

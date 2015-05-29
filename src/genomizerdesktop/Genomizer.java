@@ -16,6 +16,7 @@ import communication.SSLTool;
 
 import model.ErrorLogger;
 import model.Model;
+import model.User;
 import controller.Controller;
 
 /**
@@ -57,13 +58,16 @@ public class Genomizer {
                     // Create model and controller
                     Model model = new Model();
                     Controller controller = new Controller(gui, model);
-
+                    
                     // Start the GUI
                     // TODO: Maybe put EDT on other parts?
                     SwingUtilities.invokeLater(new Runnable() {
                         public void run() {
                             gui.showLoginWindow();
+                            // Set tabs in GUI
+                            gui.resetGUI();
                             gui.pack();
+                            
                         }
                     });
                 } catch (Exception e) {

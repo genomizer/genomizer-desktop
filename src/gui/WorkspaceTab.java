@@ -23,6 +23,7 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
 import model.ErrorLogger;
+import model.User;
 
 import util.ExperimentData;
 import util.TreeTable;
@@ -44,11 +45,11 @@ public class WorkspaceTab extends JPanel {
 
     public static final int DOWNLOADTABNUMBER = 1;
 
-
     private TreeTable table;
     private JPanel buttonPanel;
     private JButton deleteButton, removeButton, downloadButton;
-    private JButton uploadToButton, processButton, ongoingDownloadsButton, convertButton;
+    private JButton uploadToButton, processButton, ongoingDownloadsButton,
+            convertButton;
     private JTabbedPane tabbedPane;
     private JPanel ongoingDownloadsPanel;
     private JPanel bottomPanel;
@@ -124,14 +125,17 @@ public class WorkspaceTab extends JPanel {
         convertButton.setPreferredSize(new Dimension(150, 40));
     }
 
-
     /**
      * Method adding the buttons to the button panel.
      */
     private void addToButtonPanel() {
-        buttonPanel.add(deleteButton);
 
-        buttonPanel.add(Box.createHorizontalStrut(10));
+
+
+            buttonPanel.add(deleteButton);
+
+            buttonPanel.add(Box.createHorizontalStrut(10));
+
 
         buttonPanel.add(removeButton);
 
@@ -141,18 +145,18 @@ public class WorkspaceTab extends JPanel {
 
         buttonPanel.add(Box.createHorizontalStrut(10));
 
-        buttonPanel.add(uploadToButton);
 
-        buttonPanel.add(Box.createHorizontalStrut(10));
+            buttonPanel.add(uploadToButton);
 
-        buttonPanel.add(processButton);
+            buttonPanel.add(Box.createHorizontalStrut(10));
 
-        buttonPanel.add(Box.createHorizontalStrut(10));
+            buttonPanel.add(processButton);
 
-        buttonPanel.add(convertButton);
+            buttonPanel.add(Box.createHorizontalStrut(10));
+
+            buttonPanel.add(convertButton);
 
     }
-
 
     /**
      * Returns an ImageIcon, or null if the path was invalid.
@@ -257,8 +261,9 @@ public class WorkspaceTab extends JPanel {
     /**
      * Method returning the data of selected experiment(s).
      *
-     * @return an array with data of the current selected experiment(s).<br> OR<br> The
-     *         selected data in the workspace in the form of an arrayList
+     * @return an array with data of the current selected experiment(s).<br>
+     *         OR<br>
+     *         The selected data in the workspace in the form of an arrayList
      *         containing the ExperimentData.
      */
 
@@ -295,7 +300,6 @@ public class WorkspaceTab extends JPanel {
     public void changeTab(int tabIndex) {
         tabbedPane.setSelectedIndex(tabIndex);
     }
-
 
     public JPanel getOngoingDownloadsPanel() {
         return ongoingDownloadsPanel;
