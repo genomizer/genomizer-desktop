@@ -1,6 +1,7 @@
 package gui.processing;
 
 import gui.JTextFieldLimit;
+import gui.processing.CommandFileRow.InfileActionListener;
 
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
@@ -73,6 +74,9 @@ public class SmoothingFileRow extends CommandFileRow {
         this.add(windowSizeSpinner, CommandFileRow.NARROW);
         this.add(meanOrMedianComboBox, CommandFileRow.MEDIUM);
         this.add(minSmoothSpinner);
+
+        inFileComboBox.addActionListener(new InfileActionListener(outFileTextField, ".wig"));
+        inFileComboBox.setSelectedIndex(0);
 
     }
 

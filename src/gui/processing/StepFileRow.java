@@ -1,6 +1,7 @@
 package gui.processing;
 
 import gui.JTextFieldLimit;
+import gui.processing.CommandFileRow.InfileActionListener;
 
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
@@ -63,6 +64,9 @@ public class StepFileRow extends CommandFileRow {
         this.add(inFileComboBox);
         this.add(outFileTextField, CommandFileRow.WIDE);
         this.add(stepSizeSpinner, CommandFileRow.MEDIUM);
+
+        inFileComboBox.addActionListener(new InfileActionListener(outFileTextField, ".wig"));
+        inFileComboBox.setSelectedIndex(0);
 
     }
 

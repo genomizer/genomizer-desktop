@@ -1,6 +1,7 @@
 package gui.processing;
 
 import gui.JTextFieldLimit;
+import gui.processing.CommandFileRow.InfileActionListener;
 
 import javax.swing.JComboBox;
 import javax.swing.JLabel;

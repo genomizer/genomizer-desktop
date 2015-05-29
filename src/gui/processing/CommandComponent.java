@@ -166,4 +166,10 @@ public abstract class CommandComponent extends JComponent {
         }
 
     }
+    
+    public void addOutFileListener(ActionListener listener) {
+        
+        
+        
+    }
 }
