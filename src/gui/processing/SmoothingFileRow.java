@@ -91,7 +91,7 @@ public class SmoothingFileRow extends CommandFileRow {
     public String getMeanOrMedian() {
         Object o = meanOrMedianComboBox.getSelectedItem();
         if( o == null) return "null";
-        return o.toString();
+        return o.toString().toLowerCase();
     }
 
     public int getMinSmooth() {
