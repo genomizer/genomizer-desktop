@@ -29,9 +29,8 @@ import util.RequestException;
  * @author oi12mlw & oi12pjn
  *
  */
-public class ErrorDialog extends JOptionPane {
+public class ErrorDialog  {
 
-    private static final long serialVersionUID = 1L;
     private static final int SCROLL_PANE_WIDTH = 300;
     private static final int SCROLL_PANE_HEIGHT = 150;
 
@@ -155,8 +154,8 @@ public class ErrorDialog extends JOptionPane {
      */
     public void showDialog() {
 
-        JOptionPane optionPane = new JOptionPane(bodyPanel, ERROR_MESSAGE,
-                DEFAULT_OPTION, null, new Object[] {}, null);
+        JOptionPane optionPane = new JOptionPane(bodyPanel, JOptionPane.ERROR_MESSAGE,
+                JOptionPane.DEFAULT_OPTION, null, new Object[] {}, null);
         dialog = new JDialog();
         dialog.setTitle(title);
         dialog.setModal(true);
