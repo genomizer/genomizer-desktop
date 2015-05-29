@@ -151,40 +151,53 @@ public class WorkspaceTabController {
                             }
 
                             try {
-                                String totalpath = directoryName + "/"
-                                        + data.expId + "/" + data.type + "/"
-                                        + data.filename;
-                                System.out.println(totalpath);
-                                System.out.println(totalpath.length());
-                                if (totalpath.length() > 259) {
-                                    // c:\[256 chars]<NUL>, över det dampar
-                                    // windows
-                                    String pathOnly = directoryName + "/"
+                                String filename = data.filename;
+                                if (System.getProperty("os.name").contains(
+                                        "Windows")) {
+                                    String totalpath = directoryName + "/"
                                             + data.expId + "/" + data.type
-                                            + "/";
-                                    String minlength = data.filename
-                                            .substring(data.filename
-                                                    .lastIndexOf('.') - 1);
-                                    if ((pathOnly.length() + minlength.length()) > 259) {
-                                        // TODO cancel or inform the user or
-                                        // something
-                                    } else {
-
-                                        String extension = data.filename
+                                            + "/" + filename;
+                                    if (totalpath.length() > 259) {
+                                        // c:\[256 chars]<NUL>, över det dampar
+                                        // windows
+                                        String pathOnly = directoryName + "/"
+                                                + data.expId + "/" + data.type
+                                                + "/";
+                                        String minlength = data.filename
                                                 .substring(data.filename
-                                                        .lastIndexOf('.'));
-                                        int allowedlength = 259
-                                                - pathOnly.length()
-                                                - extension.length();
-                                        String filename = data.filename.substring(0,
-                                                data.filename.lastIndexOf('.')+allowedlength);
-                                        filename = filename+extension;
+                                                        .lastIndexOf('.') - 1);
+                                        if ((pathOnly.length() + minlength
+                                                .length()) > 259) {
+                                            new ErrorDialog(
+                                                    "Error",
+                                                    "too long path, download to higher folder",
+                                                    "windows is limited to c:\\[256 chars]<end sign>, " +
+                                                    "you're trying to download to a place so the " +
+                                                    "total path would be over 260, change it")
+                                                    .showDialog();
+                                            return;
+                                        } else {
+
+                                            String extension = data.filename
+                                                    .substring(data.filename
+                                                            .lastIndexOf('.'));
+                                            int allowedlength = 259
+                                                    - pathOnly.length()
+                                                    - extension.length();
+                                            filename = filename
+                                                    .substring(
+                                                            0,
+                                                            filename.lastIndexOf('.')
+                                                                    + (259 - allowedlength));
+                                            filename = filename + extension;
+                                        }
                                     }
                                 }
+
                                 model.downloadFile(data.url, data.id,
                                         directoryName + "/" + data.expId + "/"
                                                 + data.type + "/"
-                                                + data.filename, data.filename);
+                                                + filename, data.filename);
                             } catch (RequestException e) {
                                 new ErrorDialog("Couldn't download file", e)
                                         .showDialog();
