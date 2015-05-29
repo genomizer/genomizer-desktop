@@ -29,6 +29,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JViewport;
 import javax.swing.SwingUtilities;
+import javax.swing.event.TreeSelectionListener;
 import javax.swing.table.TableColumnModel;
 import javax.swing.tree.TreePath;
 
@@ -60,6 +61,10 @@ public class TreeTable extends JPanel {
     public TreeTable() {
         this.setLayout(new BorderLayout());
         initiateJXTreeTable();
+    }
+
+    public void addTreeSelectionListener(TreeSelectionListener tsl) {
+        table.addTreeSelectionListener(tsl);
     }
 
     /**
@@ -371,6 +376,29 @@ public class TreeTable extends JPanel {
 
     }
 
+    public ExperimentData getSelectedExperiment() {
+        int row = table.getSelectedRow();
+        TreePath path = table.getPathForRow(row);
+        // if (nodeObject instanceof ExperimentNode) {
+        // System.out.println("ExperimentNode");
+        // } else if (nodeObject instanceof FileNode) {
+        // System.out.println("FileNode");
+        // }
+
+        while (path.getParentPath().getParentPath() != null) {
+            path = path.getParentPath();
+//            System.out.println(path.getPathCount());
+        }
+        Object nodeObject = path.getLastPathComponent();
+        if (nodeObject instanceof ExperimentNode) {
+            System.out.println("ExperimentNode");
+        }
+        ExperimentNode expNode = (ExperimentNode) nodeObject;
+        ExperimentData exp = expNode.getExperiment();
+        return exp;
+
+    }
+
     /**
      * Return the selected data in the tree table
      *
@@ -564,7 +592,7 @@ public class TreeTable extends JPanel {
             ErrorLogger.log(e);
             // TODO: Where does the Null come from ? (OO)
             // TODO Hantera exception CF
-//            System.out.println("Couldn't update visible headings");
+            // System.out.println("Couldn't update visible headings");
         }
     }
 
@@ -608,4 +636,9 @@ public class TreeTable extends JPanel {
             // TODO Hantera exception CF
         }
     }
+
+    public int getNumberOfSelected() {
+        return table.getSelectedRows().length;
+    }
+
 }

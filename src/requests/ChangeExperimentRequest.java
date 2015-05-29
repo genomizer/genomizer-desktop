@@ -30,7 +30,7 @@ public class ChangeExperimentRequest extends Request {
      */
     public ChangeExperimentRequest(String experimentName,
             AnnotationDataValue[] annotations) {
-        super("addexperiment", "/experiment/"+experimentName, "PUT");
+        super("changeexperiment", "/experiment/"+experimentName, "PUT");
         this.name = experimentName;
         //this.annotations = annotations;
         int i = 0;

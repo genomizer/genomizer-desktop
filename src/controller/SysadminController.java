@@ -89,7 +89,7 @@ public class SysadminController {
                     popup.getNewAnnotationCategories(),
                     popup.getNewAnnotationForcedValue());
             updateAnnotationTable();
-        } catch (Exception e) {
+        } catch (RequestException e) {
             ErrorLogger.log(e);
             new ErrorDialog("Couldn't add annotation", e).showDialog();
         }

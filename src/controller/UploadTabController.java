@@ -1,5 +1,10 @@
 package controller;
 
+import gui.ErrorDialog;
+import gui.GUI;
+import gui.UploadFileRow;
+import gui.UploadTab;
+
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
@@ -11,20 +16,15 @@ import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
-import communication.HTTPURLUpload;
-
+import model.ErrorLogger;
+import model.GenomizerModel;
 import util.AnnotationDataType;
 import util.AnnotationDataValue;
 import util.ExperimentData;
 import util.GenomeReleaseData;
 import util.RequestException;
 
-import gui.ErrorDialog;
-import gui.GUI;
-import gui.UploadFileRow;
-import gui.UploadTab;
-import model.ErrorLogger;
-import model.GenomizerModel;
+import communication.HTTPURLUpload;
 
 public class UploadTabController {
     private final GenomizerModel model;
@@ -262,11 +262,13 @@ public class UploadTabController {
                                 uploadTab.setFileRowsEnabled(false);
                                 uploadTab.getUploadToNewExpPanel()
                                         .enableUploadButton(false);
+                                int count = 0;
                                 for (File f : files) {
                                     model.uploadFile(expName, f,
                                             types.get(f.getName()), false,
                                             uploadTab.getGenomeVersion(f));
                                     uploadTab.getNewExpPanel().deleteFileRow(f);
+                                    view.setStatusPanel("Upload "+count+"/"+files.size()+" done.");
                                     for (HTTPURLUpload upload : model
                                             .getOngoingUploads()) {
                                         if (f.getName().equals(

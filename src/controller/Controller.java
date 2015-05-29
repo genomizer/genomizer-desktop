@@ -2,8 +2,10 @@
 // TODO WHY IS CONTROLLER EVEN A CLASS TO USE
 package controller;
 
-import gui.ErrorDialog;
 import gui.GUI;
+import gui.QuerySearchTab;
+import gui.UploadTab;
+import gui.processing.ProcessTab;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -20,7 +22,6 @@ import model.SessionHandler;
 import model.User;
 import util.AnnotationDataType;
 import util.LoginException;
-import util.RequestException;
 
 /**
  * Controller class responsible for setting the correct actions to the listening
@@ -50,16 +51,15 @@ public class Controller {
     /**
      * Update all the actionlisteners in the tabs.
      */
-    public void updateTabs() {
+    public void createTabControllers() {
 
         QuerySearchTabController querySearchTabController = new QuerySearchTabController(
                 view, model);
         view.getQuerySearchTab().setController(querySearchTabController);
 
         ProcessTabController processTabController = new ProcessTabController(
-                view, model);
+                view.getProcessTab(), model.getProcessingModel());
         view.getProcessTab().setController(processTabController);
-
         new WorkspaceTabController(view, model, fileChooser);
 
         new UploadTabController(view, model, fileChooser);
@@ -101,11 +101,12 @@ public class Controller {
     }
 
     /**
+     * TODO redo
      * Update the ratioCalcWindow listeners
      */
     private void ratioCalcUpdate() {
-        view.getRatioCalcPopup().addOkListener(OkListener());
-        view.getProcessTab().addRatioCalcListener(RatioCalcListener());
+//        view.getRatioCalcPopup().addOkListener(OkListener());
+//        view.getProcessTab().addRatioCalcListener(RatioCalcListener());
     }
 
     /**
@@ -125,26 +126,36 @@ public class Controller {
                         // If logged out
                         if (User.getInstance().getToken() == "") return;
 
+                        Class<?> tab = view.getSelectedTabClass();
+
                         AnnotationDataType[] a = null;
-                        if (view.getSelectedIndex() == 1
-                                || view.getSelectedIndex() == 0) {
+                        if (tab == UploadTab.class
+                                || tab == QuerySearchTab.class) {
                                 a = model.getAnnotations();
                         }
 
-                        if (view.getSelectedIndex() == 1) {
+                        if (tab == UploadTab.class) {
                             // uplod
                             if (((a) != null)
                                     && view.getUploadTab().newExpStarted()) {
                                 view.getUploadTab().getNewExpPanel()
                                         .updateAnnotations(a);
                             }
-                        } else if (view.getSelectedIndex() == 0) {
+                        } else if (tab == QuerySearchTab.class) {
                             // Query
                             if ((a) != null) {
                                 view.getQuerySearchTab().setAnnotationTypes(a);
                                 view.getQuerySearchTab().refresh();
                             }
                         }
+
+                        if (tab == ProcessTab.class ){
+
+                            // TODO
+                            System.out.println("SELECTED PROCESS TAB");
+
+                        }
+
                     };
                 }.start();
             }
@@ -213,16 +224,13 @@ public class Controller {
                             SessionHandler sessionHandler = SessionHandler
                                     .getInstance();
 
-                            // TODO SessionHandler.setIP().........
-                            model.setIP(ip);
-
                             sessionHandler.setIP(ip);
 
                             try {
                                 sessionHandler.loginUser(username, password);
                                 view.updateLoginAccepted(username, password,
                                         "Desktop User");
-                                updateTabs();
+                                createTabControllers();
                                 view.getSysAdminTab().getController()
                                         .updateAnnotationTable();
                                 view.getSysAdminTab().getController()
@@ -234,6 +242,7 @@ public class Controller {
                                 view.getLoginWindow().updateLoginFailed(
                                         e.getMessage());
                                 ErrorLogger.log(e.getMessage());
+
                             }
 
                         } else {

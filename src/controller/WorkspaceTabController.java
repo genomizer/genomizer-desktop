@@ -1,5 +1,12 @@
 package controller;
 
+import gui.ConvertTab;
+import gui.DeleteDataWindow;
+import gui.ErrorDialog;
+import gui.GUI;
+import gui.UploadTab;
+import gui.WorkspaceTab;
+
 import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -16,20 +23,17 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JProgressBar;
+import javax.swing.event.TreeSelectionEvent;
+import javax.swing.event.TreeSelectionListener;
 
-import communication.DownloadHandler;
-
+import model.ErrorLogger;
+import model.GenomizerModel;
 import util.ExperimentData;
 import util.FileData;
 import util.RequestException;
-import gui.ConvertTab;
-import gui.DeleteDataWindow;
-import gui.ErrorDialog;
-import gui.GUI;
-import gui.UploadTab;
-import gui.WorkspaceTab;
-import model.ErrorLogger;
-import model.GenomizerModel;
+import util.TreeTable;
+
+import communication.DownloadHandler;
 
 public class WorkspaceTabController {
     GUI view;
@@ -37,14 +41,17 @@ public class WorkspaceTabController {
     private final JFileChooser fileChooser;
     private boolean abortDeletion;
     private WorkspaceTab workspaceTab;
+    private TreeTable treeTable;
 
     public WorkspaceTabController(GUI view, GenomizerModel model,
             JFileChooser fileChooser) {
-        this.view = (GUI) view;
+        this.view = view;
         this.model = model;
         this.fileChooser = fileChooser;
-
+        fileChooser.setApproveButtonText("Select");
         workspaceTab = view.getWorkSpaceTab();
+        treeTable = workspaceTab.getTable();
+
         workspaceTab.addDownloadFileListener(DownloadFileListener());
         workspaceTab.addProcessFileListener(ProcessFileListener());
         workspaceTab.addUploadToListener(UploadToListener());
@@ -53,8 +60,39 @@ public class WorkspaceTabController {
 
         // view.addUploadToListener( UploadToListener());
         workspaceTab.addDeleteSelectedListener(DeleteFromDatabaseListener());
-
+        treeTable.addTreeSelectionListener(SelectionListener());
+        // workspaceTab.addListSelectionListener(SelectionListener());
         updateOngoingDownloadsPanel();
+    }
+
+    private TreeSelectionListener SelectionListener() {
+
+        return new TreeSelectionListener() {
+
+            @Override
+            public void valueChanged(TreeSelectionEvent arg0) {
+                System.out.println(treeTable.getNumberOfSelected());
+                if (treeTable.getNumberOfSelected() == 1) {
+                    workspaceTab.getProcessButton().setEnabled(true);
+                    workspaceTab.getUploadToButton().setEnabled(true);
+                } else {
+                    workspaceTab.getProcessButton().setEnabled(false);
+                    workspaceTab.getUploadToButton().setEnabled(false);
+                }
+                if (treeTable.getNumberOfSelected() > 0) {
+                    workspaceTab.getRemoveButton().setEnabled(true);
+                    workspaceTab.getDownloadButton().setEnabled(true);
+                    workspaceTab.getConvertButton().setEnabled(true);
+                    workspaceTab.getDeleteButton().setEnabled(true);
+                } else {
+                    workspaceTab.getRemoveButton().setEnabled(false);
+                    workspaceTab.getDownloadButton().setEnabled(false);
+                    workspaceTab.getConvertButton().setEnabled(false);
+                    workspaceTab.getDeleteButton().setEnabled(false);
+                }
+            }
+        };
+
     }
 
     /**
@@ -80,8 +118,7 @@ public class WorkspaceTabController {
                                     "No files were selected.");
                             return;
                         }
-                        fileChooser
-                                .setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+                        fileChooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
                         int ret = fileChooser.showOpenDialog(new JPanel());
                         String directoryName = "";
                         if (ret == JFileChooser.APPROVE_OPTION) {
@@ -114,6 +151,36 @@ public class WorkspaceTabController {
                             }
 
                             try {
+                                String totalpath = directoryName + "/"
+                                        + data.expId + "/" + data.type + "/"
+                                        + data.filename;
+                                System.out.println(totalpath);
+                                System.out.println(totalpath.length());
+                                if (totalpath.length() > 259) {
+                                    // c:\[256 chars]<NUL>, över det dampar
+                                    // windows
+                                    String pathOnly = directoryName + "/"
+                                            + data.expId + "/" + data.type
+                                            + "/";
+                                    String minlength = data.filename
+                                            .substring(data.filename
+                                                    .lastIndexOf('.') - 1);
+                                    if ((pathOnly.length() + minlength.length()) > 259) {
+                                        // TODO cancel or inform the user or
+                                        // something
+                                    } else {
+
+                                        String extension = data.filename
+                                                .substring(data.filename
+                                                        .lastIndexOf('.'));
+                                        int allowedlength = 259
+                                                - pathOnly.length()
+                                                - extension.length();
+                                        String filename = data.filename.substring(0,
+                                                data.filename.lastIndexOf('.')+allowedlength);
+                                        filename = filename+extension;
+                                    }
+                                }
                                 model.downloadFile(data.url, data.id,
                                         directoryName + "/" + data.expId + "/"
                                                 + data.type + "/"
@@ -155,23 +222,10 @@ public class WorkspaceTabController {
         return new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                new Thread() {
-                    @Override
-                    public void run() {
-                        // TODO Skicka in filedata arrayen
-                        ArrayList<ExperimentData> selectedData = view
-                                .getWorkSpaceTab().getSelectedData();
-                        ArrayList<FileData> selectedFiles = new ArrayList<>();
-                        for (ExperimentData experiment : selectedData) {
-                            for (FileData file : experiment.files) {
-                                if (!selectedFiles.contains(file)) {
-                                    selectedFiles.add(file);
-                                }
-                            }
-                        }
-                        view.setProcessFileList(selectedFiles);
-                    };
-                }.start();
+                ExperimentData selecteddata = workspaceTab.getTable()
+                        .getSelectedExperiment();
+                model.setProcessingExperiment(selecteddata);
+                view.setProcessingTab( selecteddata.getName() );
             }
         };
     }
@@ -182,8 +236,8 @@ public class WorkspaceTabController {
             public void actionPerformed(ActionEvent e) {
 
                 try {
-                    ExperimentData firstChosenExperiment = view
-                            .getWorkSpaceTab().getSelectedExperiments().get(0);
+                    ExperimentData firstChosenExperiment = workspaceTab
+                            .getTable().getSelectedExperiment();
                     UploadTab ut = view.getUploadTab();
                     view.getTabbedPane().setSelectedComponent(ut);
                     ut.getExperimentNameField().setText(
@@ -273,8 +327,8 @@ public class WorkspaceTabController {
                                         model.deleteExperimentFromDatabase(data.name);
                                     } catch (RequestException e1) {
                                         new ErrorDialog(
-                                                "Couldn't delete experiment", e1)
-                                                .showDialog();
+                                                "Couldn't delete experiment",
+                                                e1).showDialog();
                                     }
                                 }
                                 i++;

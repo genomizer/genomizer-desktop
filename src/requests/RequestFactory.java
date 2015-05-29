@@ -1,5 +1,7 @@
 package requests;
 
+import gui.processing.ProcessCommand;
+
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.util.HashMap;
@@ -68,24 +70,15 @@ public class RequestFactory {
         return new RemoveExperimentRequest(urlExperimentID);
     }
 
-    public static UpdateExperimentRequest makeUpdateExperimentRequest(
-            String experimentID, String name, String createdBy,
-            HashMap<String, String> annotations) {
-        return new UpdateExperimentRequest(experimentID, name, createdBy,
-                annotations);
-    }
-
     public static SearchRequest makeSearchRequest(String annotationString) {
         String urlEncodedAnnotationString = annotationString;
         urlEncodedAnnotationString = decodeToURL(annotationString);
         return new SearchRequest(urlEncodedAnnotationString);
     }
 
-    public static rawToProfileRequest makeRawToProfileRequest(String expid,
-            String[] parameters, String metadata, String genomeRelease,
-            String author) {
-        return new rawToProfileRequest(expid, parameters, metadata,
-                genomeRelease, author);
+    public static ProcessCommandRequest makeProcessCommandRequest(String expId,
+            ProcessCommand[] processCommands) {
+        return new ProcessCommandRequest(expId, processCommands);
     }
 
     public static AddAnnotationRequest makeAddAnnotationRequest(String name,

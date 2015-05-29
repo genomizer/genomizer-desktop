@@ -75,8 +75,17 @@ public class Connection {
      */
     public void sendRequest(Request request, String token, String type)
             throws RequestException {
+
+
+
         try {
-            //System.out.println(request.requestType + " " + request.url);
+
+            // TODO: utskrifter
+            System.out.println( "CONNECTION line 84!");
+            System.out.println(request.requestType + " " + request.url);
+            System.out.println(request.toJson());
+            System.out.println(type);
+
             connect(request, token, type);
 
             if (type.equals("application/json")) {

@@ -81,6 +81,8 @@ public class UploadTab extends JPanel {
         northPanel.add(newExpButton, BorderLayout.EAST);
         uploadPanel = new JPanel(new BorderLayout());
         uploadScroll = new JScrollPane(uploadPanel);
+        uploadScroll.getVerticalScrollBar().setUnitIncrement(16);
+        uploadScroll.getHorizontalScrollBar().setUnitIncrement(16);
         add(uploadScroll, BorderLayout.CENTER);
         boldTextLabel = new JLabel(
                 "<html><b>Bold text indicates a forced annotation.</b></html>");

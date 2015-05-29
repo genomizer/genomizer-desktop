@@ -14,6 +14,7 @@ import requests.AddAnnotationRequest;
 import requests.AddExperimentRequest;
 import requests.AddGenomeReleaseRequest;
 import requests.AddNewAnnotationValueRequest;
+import requests.CancelProcessRequest;
 import requests.ChangeExperimentRequest;
 import requests.ChangePasswordRequest;
 import requests.CreateUserRequest;
@@ -22,6 +23,7 @@ import requests.FileConversionRequest;
 import requests.GetAnnotationRequest;
 import requests.GetGenomeReleasesRequest;
 import requests.GetGenomeSpecieReleasesRequest;
+import requests.LoginRequest;
 import requests.ProcessFeedbackRequest;
 import requests.RemoveAnnotationFieldRequest;
 import requests.RemoveAnnotationValueRequest;
@@ -34,7 +36,6 @@ import requests.RequestFactory;
 import requests.RetrieveExperimentRequest;
 import requests.SearchRequest;
 import requests.UpdateUserRequest;
-import requests.rawToProfileRequest;
 import responses.ResponseParser;
 import responses.sysadmin.AddGenomeReleaseResponse;
 import util.AnnotationDataType;
@@ -54,45 +55,17 @@ import communication.HTTPURLUpload;
 public class Model implements GenomizerModel {
     private ArrayList<String> searchHistory;
     private UpdaterModel updateTabModel;
-    private ConnectionFactory connFactory;
+    private ProcessModel processingModel;
 
     public Model() {
-        connFactory = new ConnectionFactory();
+
         searchHistory = new ArrayList<>();
-        updateTabModel = new UpdaterModel(connFactory);
-    }
-
-    /**
-     * Sends a rawToProfile request to the server, with which file the user
-     * wants to create profile data from.
-     * <p/>
-     * Returns whether or not the server could create profile data or not.
-     *
-     * @throws RequestException
-     */
-    public void rawToProfile(String expid, String[] parameters,
-            String metadata, String genomeRelease, String author)
-            throws RequestException {
-        rawToProfileRequest rawToProfilerequest = RequestFactory
-                .makeRawToProfileRequest(expid, parameters, metadata,
-                        genomeRelease, author);
-        Connection conn = connFactory.makeConnection();
-        conn.sendRequest(rawToProfilerequest, User.getInstance().getToken(),
-                Constants.JSON);
+        updateTabModel = new UpdaterModel();
+        processingModel = new ProcessModel();
 
     }
 
-    @Override
-    public String loginUser(String username, String password) {
-        // TODO: This doesn't look right
-        return "";
-    }
 
-    @Override
-    public boolean logoutUser() {
-        // TODO: This doesn't look right
-        return false;
-    }
 
     @Override
     public void uploadFile(String expName, File f, String type,
@@ -124,7 +97,7 @@ public class Model implements GenomizerModel {
             throws RequestException {
         searchHistory.add(pubmedString);
         SearchRequest request = RequestFactory.makeSearchRequest(pubmedString);
-        Connection conn = connFactory.makeConnection();
+        Connection conn = SessionHandler.getInstance().makeConnection();
         conn.sendRequest(request, User.getInstance().getToken(),
                 Constants.TEXT_PLAIN);
         ExperimentData[] searchResponses = ResponseParser
@@ -134,6 +107,10 @@ public class Model implements GenomizerModel {
                 searchResponses[i].convertToUTF8();
                 searchResponses[i].updateFileSize();
             }
+        }
+
+        if (searchResponses == null) {
+            return new ArrayList<>();
         }
         return new ArrayList<>(Arrays.asList(searchResponses));
     }
@@ -162,7 +139,7 @@ public class Model implements GenomizerModel {
         }
         AddAnnotationRequest request = RequestFactory.makeAddAnnotationRequest(
                 name, categories, forced);
-        Connection conn = connFactory.makeConnection();
+        Connection conn = SessionHandler.getInstance().makeConnection();
         conn.sendRequest(request, User.getInstance().getToken(), Constants.JSON);
     }
 
@@ -208,23 +185,25 @@ public class Model implements GenomizerModel {
             throws RequestException {
         RemoveAnnotationFieldRequest request = RequestFactory
                 .makeDeleteAnnotationRequest(deleteAnnoationData);
-        Connection conn = connFactory.makeConnection();
+        Connection conn = SessionHandler.getInstance().makeConnection();
         conn.sendRequest(request, User.getInstance().getToken(), Constants.JSON);
 
     }
 
     public synchronized AnnotationDataType[] getAnnotations() {
-        AnnotationDataType[] annotations;
+        AnnotationDataType[] annotations = null;
         try {
             GetAnnotationRequest request = RequestFactory
                     .makeGetAnnotationRequest();
-            Connection conn = connFactory.makeConnection();
+            Connection conn = SessionHandler.getInstance().makeConnection();
             conn.sendRequest(request, User.getInstance().getToken(),
                     Constants.TEXT_PLAIN);
             annotations = ResponseParser.parseGetAnnotationResponse(conn
                     .getResponseBody());
         } catch (RequestException e) {
             new ErrorDialog("Couldn't get annotations", e).showDialog();
+        }
+        if (annotations == null) {
             annotations = new AnnotationDataType[] {};
         }
         return annotations;
@@ -235,7 +214,7 @@ public class Model implements GenomizerModel {
         try {
             GetGenomeReleasesRequest request = RequestFactory
                     .makeGetGenomeReleaseRequest();
-            Connection conn = connFactory.makeConnection();
+            Connection conn = SessionHandler.getInstance().makeConnection();
             conn.sendRequest(request, User.getInstance().getToken(),
                     Constants.TEXT_PLAIN);
             genomeReleases = ResponseParser.parseGetGenomeReleaseResponse(conn
@@ -261,7 +240,7 @@ public class Model implements GenomizerModel {
         }
         AddGenomeReleaseRequest request = RequestFactory.makeAddGenomeRelease(
                 names, species, version);
-        Connection conn = connFactory.makeConnection();
+        Connection conn = SessionHandler.getInstance().makeConnection();
         conn.sendRequest(request, User.getInstance().getToken(), Constants.JSON);
         AddGenomeReleaseResponse[] aGRR = ResponseParser
                 .parseGenomeUploadResponse(conn.getResponseBody());
@@ -279,7 +258,7 @@ public class Model implements GenomizerModel {
 
         AddExperimentRequest aER = RequestFactory.makeAddExperimentRequest(
                 expName, annotations);
-        Connection conn = connFactory.makeConnection();
+        Connection conn = SessionHandler.getInstance().makeConnection();
         conn.sendRequest(aER, User.getInstance().getToken(), Constants.JSON);
     }
 
@@ -287,7 +266,7 @@ public class Model implements GenomizerModel {
             AnnotationDataValue[] annotations) throws RequestException {
         ChangeExperimentRequest cER = RequestFactory
                 .makeChangeExperimentRequest(expName, annotations);
-        Connection conn = connFactory.makeConnection();
+        Connection conn = SessionHandler.getInstance().makeConnection();
         conn.sendRequest(cER, User.getInstance().getToken(), Constants.JSON);
     }
 
@@ -295,7 +274,7 @@ public class Model implements GenomizerModel {
         try {
             RetrieveExperimentRequest rER = RequestFactory
                     .makeRetrieveExperimentRequest(expID);
-            Connection conn = connFactory.makeConnection();
+            Connection conn = SessionHandler.getInstance().makeConnection();
             conn.sendRequest(rER, User.getInstance().getToken(), "plain/text");
             return ResponseParser.parseRetrieveExp(conn.getResponseBody());
         } catch (RequestException e) {
@@ -308,7 +287,7 @@ public class Model implements GenomizerModel {
             throws RequestException {
         RenameAnnotationFieldRequest request = RequestFactory
                 .makeRenameAnnotationFieldRequest(oldname, newname);
-        Connection conn = connFactory.makeConnection();
+        Connection conn = SessionHandler.getInstance().makeConnection();
         conn.sendRequest(request, User.getInstance().getToken(), Constants.JSON);
     }
 
@@ -316,7 +295,7 @@ public class Model implements GenomizerModel {
             String newValue) throws RequestException {
         RenameAnnotationValueRequest request = RequestFactory
                 .makeRenameAnnotationValueRequest(name, oldValue, newValue);
-        Connection conn = connFactory.makeConnection();
+        Connection conn = SessionHandler.getInstance().makeConnection();
         conn.sendRequest(request, User.getInstance().getToken(), Constants.JSON);
     }
 
@@ -324,7 +303,7 @@ public class Model implements GenomizerModel {
             throws RequestException {
         RemoveAnnotationValueRequest request = RequestFactory
                 .makeRemoveAnnotationValueRequest(annotationName, valueName);
-        Connection conn = connFactory.makeConnection();
+        Connection conn = SessionHandler.getInstance().makeConnection();
         conn.sendRequest(request, User.getInstance().getToken(), Constants.JSON);
     }
 
@@ -332,31 +311,17 @@ public class Model implements GenomizerModel {
             throws RequestException {
         AddNewAnnotationValueRequest request = RequestFactory
                 .makeAddNewAnnotationValueRequest(annotationName, valueName);
-        Connection conn = connFactory.makeConnection();
+        Connection conn = SessionHandler.getInstance().makeConnection();
         conn.sendRequest(request, User.getInstance().getToken(), Constants.JSON);
     }
 
-    public ProcessFeedbackData[] getProcessFeedback() {
-        ProcessFeedbackRequest request = RequestFactory
-                .makeProcessFeedbackRequest();
-        Connection conn = connFactory.makeConnection();
-        try {
-            conn.sendRequest(request, User.getInstance().getToken(),
-                    Constants.TEXT_PLAIN);
-            return ResponseParser.parseProcessFeedbackResponse(conn
-                    .getResponseBody());
-        } catch (RequestException e) {
-            new ErrorDialog("Couldn't get process feedback", e).showDialog();
-            return null;
-        }
-    }
 
     @Override
     public void deleteGenomeRelease(String specie, String version)
             throws RequestException {
         RemoveGenomeReleaseRequest request = RequestFactory
                 .makeRemoveGenomeReleaseRequest(specie, version);
-        Connection conn = connFactory.makeConnection();
+        Connection conn = SessionHandler.getInstance().makeConnection();
         conn.sendRequest(request, User.getInstance().getToken(), Constants.JSON);
         JOptionPane.showMessageDialog(null, "Succesfully removed " + version);
     }
@@ -364,7 +329,7 @@ public class Model implements GenomizerModel {
     public GenomeReleaseData[] getSpeciesGenomeReleases(String species) {
         GetGenomeSpecieReleasesRequest request = RequestFactory
                 .makeGetGenomeSpecieReleaseRequest(species);
-        Connection conn = connFactory.makeConnection();
+        Connection conn = SessionHandler.getInstance().makeConnection();
         try {
             conn.sendRequest(request, User.getInstance().getToken(),
                     Constants.TEXT_PLAIN);
@@ -380,7 +345,7 @@ public class Model implements GenomizerModel {
     public void deleteFileFromExperiment(String id) throws RequestException {
         RemoveFileFromExperimentRequest request = RequestFactory
                 .makeRemoveFileFromExperimentRequest(id);
-        Connection conn = connFactory.makeConnection();
+        Connection conn = SessionHandler.getInstance().makeConnection();
         conn.sendRequest(request, User.getInstance().getToken(),
                 Constants.TEXT_PLAIN);
     }
@@ -390,7 +355,7 @@ public class Model implements GenomizerModel {
             throws RequestException {
         RemoveExperimentRequest request = RequestFactory
                 .makeRemoveExperimentRequest(name);
-        Connection conn = connFactory.makeConnection();
+        Connection conn = SessionHandler.getInstance().makeConnection();
         conn.sendRequest(request, User.getInstance().getToken(),
                 Constants.TEXT_PLAIN);
     }
@@ -410,7 +375,7 @@ public class Model implements GenomizerModel {
 
     @Override
     public void setIP(String ip) {
-        connFactory.setIP(ip);
+        SessionHandler.getInstance().setIP(ip);
     }
 
     public void addTickingTask(Runnable task) {
@@ -421,11 +386,19 @@ public class Model implements GenomizerModel {
         updateTabModel.clearTickingThread();
     }
 
+    public void setProcessingExperiment( ExperimentData selectedExperiment){
+        processingModel.setSelectedExperiment( selectedExperiment );
+    }
+
+    public ProcessModel getProcessingModel(){
+        return this.processingModel;
+    }
+
     public boolean convertFile(String fileid, String toformat)
             throws RequestException {
         FileConversionRequest request = RequestFactory
                 .makeFileConversionRequest(fileid, toformat);
-        Connection conn = connFactory.makeConnection();
+        Connection conn = SessionHandler.getInstance().makeConnection();
         conn.sendRequest(request, User.getInstance().getToken(), Constants.JSON);
 
         return conn.getResponseCode() == 200;
@@ -436,7 +409,7 @@ public class Model implements GenomizerModel {
 
         CreateUserRequest request = RequestFactory.makeCreateUserRequest(
                 username, password, privileges, name, email);
-        Connection conn = connFactory.makeConnection();
+        Connection conn = SessionHandler.getInstance().makeConnection();
         conn.sendRequest(request, User.getInstance().getToken(), Constants.JSON);
         return conn.getResponseCode() == 200;
     }
@@ -445,7 +418,7 @@ public class Model implements GenomizerModel {
             String name, String email) throws RequestException {
         UpdateUserRequest request = RequestFactory.makeUpdateUserRequest(
                 username, password, privileges, name, email);
-        Connection conn = connFactory.makeConnection();
+        Connection conn = SessionHandler.getInstance().makeConnection();
         conn.sendRequest(request, User.getInstance().getToken(), Constants.JSON);
         return conn.getResponseCode() == 200;
     }
@@ -453,7 +426,7 @@ public class Model implements GenomizerModel {
     public boolean deleteUser(String username) throws RequestException {
         DeleteUserRequest request = RequestFactory
                 .makeDeleteUserRequest(username);
-        Connection conn = connFactory.makeConnection();
+        Connection conn = SessionHandler.getInstance().makeConnection();
         conn.sendRequest(request, User.getInstance().getToken(),
                 Constants.TEXT_PLAIN);
         return conn.getResponseCode() == 200;
@@ -464,7 +437,7 @@ public class Model implements GenomizerModel {
         ChangePasswordRequest request = RequestFactory
                 .makeChangePasswordRequest(oldPass, newPass, name, email);
 
-        Connection conn = connFactory.makeConnection();
+        Connection conn = SessionHandler.getInstance().makeConnection();
         conn.sendRequest(request, User.getInstance().getToken(), Constants.JSON);
         return conn.getResponseCode() == 200;
     }

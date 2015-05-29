@@ -759,7 +759,7 @@ public class ProcessTab extends JPanel {
 
     /**
      * Adds button listener to processFeedbackButton.
-     * @see controller.ProcessTabController#ProcessFeedbackListener()
+     * @see controller.ProcessTabController#processFeedbackListener()
      * @param listener
      */
     public void addProcessFeedbackListener(ActionListener listener) {

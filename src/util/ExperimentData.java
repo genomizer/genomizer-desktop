@@ -1,9 +1,6 @@
 package util;
 
 import java.util.ArrayList;
-import java.util.Random;
-
-import com.google.gson.Gson;
 
 /**
  * Class representing experiment data
@@ -79,6 +76,17 @@ public class ExperimentData {
             if (!files.contains(newFile)) {
                 files.add(newFile);
             }
+        }
+    }
+
+    /**
+     * Adds a new file to the experiment
+     *
+     * @param newFile the new file
+     */
+    public void addFile(FileData newFile){
+        if(!files.contains(newFile)){
+            files.add(newFile);
         }
     }
 

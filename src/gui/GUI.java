@@ -1,9 +1,11 @@
 package gui;
 
+import gui.processing.ProcessTab;
 import gui.sysadmin.SysadminTab;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Image;
 import java.awt.Toolkit;
@@ -12,6 +14,7 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.net.URL;
 import java.util.ArrayList;
+
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -21,14 +24,12 @@ import javax.swing.JTabbedPane;
 import javax.swing.SwingConstants;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
-
 import javax.swing.border.BevelBorder;
 import javax.swing.event.ChangeListener;
 
 import model.ErrorLogger;
-
+import util.ExperimentData;
 import util.FileData;
-import util.Process;
 import controller.SysadminController;
 
 public class GUI extends JFrame {
@@ -277,6 +278,10 @@ public class GUI extends JFrame {
         return tabbedPane.getSelectedIndex();
     }
 
+    public Class<? extends Component> getSelectedTabClass() {
+        return tabbedPane.getSelectedComponent().getClass();
+    }
+
     public LoginWindow getLoginWindow() {
         return loginWindow;
     }
@@ -351,6 +356,9 @@ public class GUI extends JFrame {
     public void setProcessTab(ProcessTab processTab) {
         this.processTab = processTab;
         tabbedPane.addTab("PROCESS", null, processTab, "Process");
+
+        // TODO: Do not enable until an experiment is selected
+        // tabbedPane.setEnabledAt(tabbedPane.getTabCount()-1, false);
 
     }
 
@@ -481,12 +489,14 @@ public class GUI extends JFrame {
      *
      * @param allFileData
      */
-    public void setProcessFileList(ArrayList<FileData> allFileData) {
+    public void setProcessingTab(String experimentName) {
 
-        ArrayList<FileData> fileArray = allFileData;
+//        ArrayList<FileData> fileArray = allFileData;
 
         tabbedPane.setSelectedIndex(2);
-        processTab.setFileInfo(workspaceTab.getSelectedData());
+        processTab.reset(experimentName);
+//        processTab.setSelectedExperiment(experimentData);
+//        processTab.setFileInfo(workspaceTab.getSelectedData());
 
     }
 
@@ -543,11 +553,12 @@ public class GUI extends JFrame {
      *
      */
     public boolean isCorrectToProcess() {
-        boolean sgrFormat = processTab.radioGroup
-                .isSelected(processTab.outputSGR.getModel());
-        return Process.isCorrectToProcess(processTab.smoothWindowSize,
-                processTab.stepPosition, processTab.stepSize, sgrFormat,
-                processTab.useSmoothing, processTab.stepSizeBox);
+        return false;
+//        boolean sgrFormat = processTab.radioGroup
+//                .isSelected(processTab.outputSGR.getModel());
+//        return Process.isCorrectToProcess(processTab.smoothWindowSize,
+//                processTab.stepPosition, processTab.stepSize, sgrFormat,
+//                processTab.useSmoothing, processTab.stepSizeBox);
     }
 
     /**
@@ -555,11 +566,12 @@ public class GUI extends JFrame {
      *
      */
     public boolean isRatioCorrectToProcess() {
-        return !processTab.useRatio()
-                || Process.isRatioCorrectToProcess(
-                        ratioCalcPopup.ratioWindowSize,
-                        ratioCalcPopup.inputReads, ratioCalcPopup.chromosome,
-                        ratioCalcPopup.ratioStepPosition);
+        return false;
+//        return !processTab.useRatio()
+//                || Process.isRatioCorrectToProcess(
+//                        ratioCalcPopup.ratioWindowSize,
+//                        ratioCalcPopup.inputReads, ratioCalcPopup.chromosome,
+//                        ratioCalcPopup.ratioStepPosition);
     }
 
     public void setProfileButton(boolean bool) {

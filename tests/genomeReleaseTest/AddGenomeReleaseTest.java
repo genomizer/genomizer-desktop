@@ -2,6 +2,7 @@ package genomeReleaseTest;
 
 import static org.junit.Assert.fail;
 import model.Model;
+import model.SessionHandler;
 
 import org.junit.After;
 import org.junit.Before;
@@ -23,7 +24,7 @@ public class AddGenomeReleaseTest {
     public void setUp() throws Exception {
         model = new Model();
         model.setIP(ExampleExperimentData.getTestServerIP());
-        model.loginUser(ExampleExperimentData.getTestUsername(),
+        SessionHandler.getInstance().loginUser(ExampleExperimentData.getTestUsername(),
                 ExampleExperimentData.getTestPassword());
         controller = new SysadminController(model,null);
     }
