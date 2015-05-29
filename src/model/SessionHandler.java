@@ -81,10 +81,6 @@ public class SessionHandler {
 
             if (responseCode == 0) {
                 throw new LoginException("Server not found");
-            } else if(responseCode == 401) {
-                throw new LoginException("Incorrect username or password");
-            } else if(responseCode != 200) {
-                throw new LoginException("Connection Failed!");
             }
 
             LoginResponse loginResponse = ResponseParser.parseLoginResponse(conn.getResponseBody());
@@ -94,10 +90,9 @@ public class SessionHandler {
             }
 
         } catch (RequestException e) {
-            ErrorResponse response = ResponseParser.parseErrorResponse(conn.getResponseBody());
-            String message = response == null ? "Server not found" : response.message;
-            throw new LoginException(message);
+            throw new LoginException("Incorrect username or password");
         }
+
     }
 
     // TODO Should not return boolean. Throw exception?
