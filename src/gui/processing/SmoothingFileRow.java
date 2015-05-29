@@ -74,7 +74,7 @@ public class SmoothingFileRow extends CommandFileRow {
         this.add(meanOrMedianComboBox, CommandFileRow.MEDIUM);
         this.add(minSmoothSpinner);
 
-        inFileComboBox.addActionListener(new InfileActionListener(outFileTextField, ".wig"));
+        inFileComboBox.addActionListener(new InfileActionListener(outFileTextField, ".sgr"));
         inFileComboBox.setSelectedIndex(0);
 
     }

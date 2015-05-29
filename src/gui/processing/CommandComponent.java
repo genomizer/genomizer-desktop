@@ -1,12 +1,17 @@
 package gui.processing;
 
+import gui.CustomButtonFactory;
+
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Stack;
 
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComponent;
 import javax.swing.border.TitledBorder;
+
+import util.IconFactory;
 
 import net.miginfocom.swing.MigLayout;
 
@@ -23,7 +28,11 @@ import net.miginfocom.swing.MigLayout;
 @SuppressWarnings("serial")
 public abstract class CommandComponent extends JComponent {
 
+    private static final int BUTTON_WIDTH = 20;
+    private static final int BUTTON_HEIGHT = 20;
+
     public String commandName;
+    private JButton removeButton;
     protected Stack<CommandFileRowPanel> commandFileRowPanelStack;
 
     /**
@@ -39,6 +48,22 @@ public abstract class CommandComponent extends JComponent {
         this.setLayout(new MigLayout());
         commandFileRowPanelStack = new Stack<CommandFileRowPanel>();
 
+        addRemoveButton();
+
+    }
+
+    private void addRemoveButton() {
+        removeButton = buildRemoveButton();
+        this.add(removeButton, "wrap");
+
+    }
+
+
+    private JButton buildRemoveButton() {
+        ImageIcon icon = IconFactory.getClearIcon(BUTTON_WIDTH - 2 , BUTTON_HEIGHT - 2);
+        ImageIcon hoverIcon = IconFactory.getClearIcon(BUTTON_WIDTH, BUTTON_HEIGHT);
+        String tooltip = "Remove this command";
+        return CustomButtonFactory.makeCustomButton(icon, hoverIcon, BUTTON_WIDTH, 25, tooltip);
     }
 
     /**
@@ -164,4 +189,11 @@ public abstract class CommandComponent extends JComponent {
         }
 
     }
+
+    public void addRemoveButtonListener(ActionListener removeButtonListener) {
+        removeButton.addActionListener(removeButtonListener);
+
+    }
+
+
 }

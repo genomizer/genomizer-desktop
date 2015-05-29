@@ -3,6 +3,8 @@ package gui.processing;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Rectangle;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.AdjustmentEvent;
 import java.awt.event.AdjustmentListener;
 import java.util.ArrayList;
@@ -21,6 +23,8 @@ import javax.swing.JScrollPane;
  */
 @SuppressWarnings("serial")
 public class CommandScrollPane extends JScrollPane {
+
+
 
     private static final int SCROLL_SPEED = 16;
 
@@ -73,11 +77,12 @@ public class CommandScrollPane extends JScrollPane {
         commandList.add(commandComponent);
 
         // Scroll to visible
-        Rectangle bounds = new Rectangle(0, commandComponent.getHeight() - 1,
-                1, 1);
+        Rectangle bounds = new Rectangle(0, commandComponent.getHeight() - 1, 1, 1);
         this.scrollRectToVisible(bounds);
         this.revalidate();
         this.repaint();
+
+        commandComponent.addRemoveButtonListener(new RemoveButtonListener(commandComponent));
     }
 
     // TODO: to be used?
@@ -90,6 +95,8 @@ public class CommandScrollPane extends JScrollPane {
     public void removeCommand(CommandComponent commandComponent) {
         commandList.remove(commandComponent);
         this.componentPanel.remove(commandComponent);
+        this.revalidate();
+        this.repaint();
     }
 
     /**
@@ -137,6 +144,22 @@ public class CommandScrollPane extends JScrollPane {
                     commandComponent.getCommandName())) return true;
         }
         return false;
+
+    }
+
+    private class RemoveButtonListener implements ActionListener {
+
+        private CommandComponent commandComponent;
+
+        public RemoveButtonListener(CommandComponent commandComponent) {
+            this.commandComponent = commandComponent;
+        }
+
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            CommandScrollPane.this.removeCommand(commandComponent);
+
+        }
 
     }
 
