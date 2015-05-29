@@ -57,10 +57,12 @@ public class SmoothingFileRow extends CommandFileRow {
     protected void addInputFields() {
 
         inFileComboBox = new JComboBox<String>(fileNames);
+        inFileComboBox.setEditable(true);
+
         outFileTextField = new JTextField();
         SpinnerModel windowSizeSpinnerModel = new SpinnerNumberModel(1, 1, 1000, 1);
         windowSizeSpinner = new JSpinner(windowSizeSpinnerModel);
-        meanOrMedianComboBox = new JComboBox<String>(new String[]{"Mean", "Median"});
+        meanOrMedianComboBox = new JComboBox<String>(new String[]{"mean", "median"});
         SpinnerModel minSmoothSpinnerModel = new SpinnerNumberModel(1, 1, 1000, 1);
         minSmoothSpinner = new JSpinner(minSmoothSpinnerModel);
 

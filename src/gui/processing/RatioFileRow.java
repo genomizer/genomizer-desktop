@@ -70,8 +70,14 @@ public class RatioFileRow extends CommandFileRow {
 
     @Override
     protected void addInputFields() {
+
         preChipFileComboBox = new JComboBox<String>(fileNames);
+        preChipFileComboBox.setEditable(true);
+
         postChipFileComboBox = new JComboBox<String>(fileNames);
+        preChipFileComboBox.setEditable(true);
+
+
         outFileTextField = new JTextField();
         meanComboBox = new JComboBox<String>(
                 new String[] { "single", "double" });

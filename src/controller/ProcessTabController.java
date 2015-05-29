@@ -58,7 +58,15 @@ public class ProcessTabController {
 
             @Override
             public void actionPerformed(ActionEvent e) {
-                tab.addCommand(tab.getSelectedCommand(), model.getFileNames(),
+
+                String []files = model.getFileNames();
+                String [] filenames = new String[files.length+1];
+
+                for( int i = 0; i < files.length; i++ )
+                    filenames[i+1] = files[i];
+                filenames[0] = "";
+
+                tab.addCommand(tab.getSelectedCommand(), filenames,
                         model.getGenomeReleases());
             }
         };
@@ -162,6 +170,23 @@ public class ProcessTabController {
 
                         try {
                             model.abortProcess(data.PID);
+
+                            // Also update the feedback
+                            final ProcessFeedbackData[] processFeedbackData = model
+                                    .getProcessFeedback();
+                            if (processFeedbackData != null
+                                    && processFeedbackData.length > 0) {
+
+                                SwingUtilities.invokeLater(new Runnable() {
+
+                                    @Override
+                                    public void run() {
+
+                                        tab.showProcessFeedback(processFeedbackData);
+                                    }
+                                });
+                            }
+
                         } catch (RequestException e) {
 
                             final RequestException e2 = e;

@@ -1,8 +1,11 @@
 package gui.processing;
 
+import gui.JTextFieldLimit;
+
 import java.awt.BorderLayout;
 import java.awt.Component;
 import java.awt.Dimension;
+import java.awt.GridLayout;
 import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -10,16 +13,21 @@ import java.awt.event.AdjustmentEvent;
 import java.awt.event.AdjustmentListener;
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.Vector;
 
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.JTextField;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
-
+import javax.swing.text.BadLocationException;
+import javax.swing.text.Document;
 
 /**
  * Scroll pane containing CommandComponents
@@ -45,7 +53,8 @@ public class CommandScrollPane extends JScrollPane {
         commandList = new ArrayList<CommandComponent>();
         componentPanel = new JPanel();
 
-        componentPanel.setLayout(new BoxLayout(componentPanel, BoxLayout.PAGE_AXIS ));
+        componentPanel.setLayout(new BoxLayout(componentPanel,
+                BoxLayout.PAGE_AXIS));
         this.getViewport().add(componentPanel);
         this.getVerticalScrollBar().setUnitIncrement(SCROLL_SPEED);
         this.setBorder(BorderFactory.createTitledBorder("Commands"));
@@ -70,15 +79,18 @@ public class CommandScrollPane extends JScrollPane {
 
     /**
      * Adds the CommandComponent to this scroll pane
-     * @param commandComponent the CommandComponent
+     *
+     * @param commandComponent
+     *            the CommandComponent
      */
     public void addCommandComponent(CommandComponent commandComponent) {
-        if ( containsCommand(commandComponent) ) return;
-        componentPanel.add( commandComponent );
+        if (containsCommand(commandComponent)) return;
+        componentPanel.add(commandComponent);
         commandList.add(commandComponent);
 
         // Scroll to visible
-        Rectangle bounds = new Rectangle(0,  commandComponent.getHeight() - 1 , 1, 1);
+        Rectangle bounds = new Rectangle(0, commandComponent.getHeight() - 1,
+                1, 1);
         this.scrollRectToVisible(bounds);
         this.revalidate();
         this.repaint();
@@ -87,7 +99,9 @@ public class CommandScrollPane extends JScrollPane {
     // TODO: to be used?
     /**
      * Removes the given CommandComponent from this scroll pane
-     * @param commandComponent the given CommandComponent
+     *
+     * @param commandComponent
+     *            the given CommandComponent
      */
     public void removeCommand(CommandComponent commandComponent) {
         commandList.remove(commandComponent);
@@ -95,7 +109,9 @@ public class CommandScrollPane extends JScrollPane {
     }
 
     /**
-     * Returns the list of ProcessCommands represented by the CommandComponents in this scroll pane
+     * Returns the list of ProcessCommands represented by the CommandComponents
+     * in this scroll pane
+     *
      * @return the list of ProcessCommands
      */
     public ProcessCommand[] getCommandList() {
@@ -103,7 +119,7 @@ public class CommandScrollPane extends JScrollPane {
         ProcessCommand[] commands = new ProcessCommand[commandList.size()];
 
         Iterator<CommandComponent> componentIterator = commandList.iterator();
-        for(int i = 0; componentIterator.hasNext(); i++) {
+        for (int i = 0; componentIterator.hasNext(); i++) {
             CommandComponent currentComponent = componentIterator.next();
             commands[i] = buildProcessCommand(currentComponent);
         }
@@ -132,7 +148,7 @@ public class CommandScrollPane extends JScrollPane {
 
         Component[] components = componentPanel.getComponents();
         for (Component c : components) {
-            if ( !CommandComponent.class.isAssignableFrom( c.getClass() )) continue;
+            if (!CommandComponent.class.isAssignableFrom(c.getClass())) continue;
             if (((CommandComponent) c).getCommandName().equals(
                     commandComponent.getCommandName())) return true;
         }
@@ -154,8 +170,10 @@ public class CommandScrollPane extends JScrollPane {
         String[] fileNames = { "bild.png", "stinkern.txt", "hus.jpg" };
         String[] genomeReleases = { "hg37", "hg38", "rat" };
 
-        RawToProfileCommandComponent comp1 = new RawToProfileCommandComponent(fileNames, genomeReleases);
-        SmoothingCommandComponent comp2 = new SmoothingCommandComponent(fileNames);
+        RawToProfileCommandComponent comp1 = new RawToProfileCommandComponent(
+                fileNames, genomeReleases);
+        SmoothingCommandComponent comp2 = new SmoothingCommandComponent(
+                fileNames);
         RatioCommandComponent comp3 = new RatioCommandComponent(fileNames);
         StepCommandComponent comp4 = new StepCommandComponent(fileNames);
 
@@ -168,6 +186,12 @@ public class CommandScrollPane extends JScrollPane {
         knappen.addActionListener(new ProcessButtonListener(c));
         frame.add(c, BorderLayout.CENTER);
         frame.add(knappen, BorderLayout.SOUTH);
+
+        JPanel jonny = new JPanel(new GridLayout());
+        jonny.setPreferredSize(new Dimension(1000, 100));
+
+        String[] cats = { "mittens", "sushi", "tom", "behemoth" };
+
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.pack();
         frame.setVisible(true);
@@ -175,8 +199,6 @@ public class CommandScrollPane extends JScrollPane {
 
     // TODO: refactor, move
     private static class ProcessButtonListener implements ActionListener {
-
-
 
         private CommandScrollPane scrollPane;
 
@@ -186,9 +208,9 @@ public class CommandScrollPane extends JScrollPane {
 
         @Override
         public void actionPerformed(ActionEvent e) {
-            for ( ProcessCommand a : scrollPane.getCommandList() ) {
+            for (ProcessCommand a : scrollPane.getCommandList()) {
                 System.out.println(a);
-                for ( ProcessParameters f : a.files ){
+                for (ProcessParameters f : a.files) {
                     System.out.println(f);
                 }
             }
