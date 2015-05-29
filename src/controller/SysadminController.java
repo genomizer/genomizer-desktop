@@ -1,13 +1,16 @@
 package controller;
 
 import gui.ErrorDialog;
+import gui.GUI;
 import gui.sysadmin.SysadminTab;
 import gui.sysadmin.annotationview.AddAnnotationPopup;
 import gui.sysadmin.annotationview.AnnotationButtonsListener;
 import gui.sysadmin.annotationview.AnnotationTableModel;
 import gui.sysadmin.genomereleaseview.GenomeReleaseViewCreator;
 import gui.sysadmin.genomereleaseview.GenomereleaseTableModel;
+import gui.sysadmin.usersview.CreateUserButtonListener;
 
+import java.awt.Color;
 import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.util.concurrent.CopyOnWriteArrayList;
@@ -30,6 +33,7 @@ public class SysadminController {
 
     private SysadminTab sysTab;
     private GenomizerModel model;
+    private GUI view;
 
     public SysadminController() {
 
@@ -41,8 +45,9 @@ public class SysadminController {
      * @param model
      *            is the model with which the controller communicates
      */
-    public SysadminController(GenomizerModel model) {
+    public SysadminController(GenomizerModel model, GUI view) {
         this.model = model;
+        this.view = view;
     }
 
     /**
@@ -52,6 +57,15 @@ public class SysadminController {
      */
     public ActionListener createAnnotationButtonListener() {
         return new AnnotationButtonsListener(sysTab);
+    }
+
+    /**
+     * Creates a listener for the buttons in the sysadmin tab.
+     *
+     * @return a new AnnotationButtonsListener
+     */
+    public ActionListener createUserButtonListener() {
+        return new CreateUserButtonListener(sysTab);
     }
 
     /**
@@ -198,7 +212,7 @@ public class SysadminController {
     }
 
     public void updateGenomeReleaseTab() {
-        // TODO Behövs dessa trådar och runnable i invokeLater? CF
+        // TODO Behï¿½vs dessa trï¿½dar och runnable i invokeLater? CF
         new Thread() {
             public void run() {
                 // sysController.getGenomeReleases();
@@ -338,7 +352,7 @@ public class SysadminController {
                         }
                     });
                     try {
-                        Thread.sleep(100);
+                        Thread.sleep(10);
                     } catch (InterruptedException e) {
                         ErrorLogger.log(e);
                         running = false;
@@ -348,4 +362,74 @@ public class SysadminController {
         }).start();
 
     }
+
+    public void createNewUser(final String uName, final String pass,
+            final String role, final String rName, final String mail) {
+
+        new Thread(new Runnable() {
+            public void run() {
+                try {
+                    model.createUser(uName, pass, role, rName, mail);
+                    view.setInstantStatusPanelColor(new Color(155,255,155));
+                    view.setStatusPanelColor("success");
+                    view.setStatusPanel("Creation of User : " + uName
+                            + " succesful!");
+                } catch (RequestException e) {
+                    view.setInstantStatusPanelColor(new Color(255,155,155));
+                    view.setStatusPanelColor("fail");
+                    view.setStatusPanel("Creation of User : " + uName
+                            + " failed!");
+                    view.setStatusPanelColor("fail");
+                    new ErrorDialog("Create user", e).showDialog();
+
+                }
+            }
+        }).start();
+
+        // TODO
+    }
+
+    public void deleteUser(final String uName) {
+        new Thread(new Runnable() {
+            public void run() {
+                try {
+                    model.deleteUser(uName);
+                    view.setInstantStatusPanelColor(new Color(155,255,155));
+                    view.setStatusPanelColor("success");
+                    view.setStatusPanel("Deletion of User : " + uName
+                            + " succesful!");
+                } catch (RequestException e) {
+                    view.setStatusPanelColor("fail");
+                    view.setInstantStatusPanelColor(new Color(255,155,155));
+                    view.setStatusPanel("Deletion of User : " + uName
+                            + " failed!");
+                    view.setStatusPanelColor("fail");
+                    new ErrorDialog("Delete user", e).showDialog();
+
+                }
+            }
+        }).start();
+    }
+
+    public void updateUser(final String uName, final String pass,
+            final String role, final String rName, final String mail) {
+        new Thread(new Runnable() {
+            public void run() {
+                try {
+                    model.updateUser(uName, pass, role, rName, mail);
+                    view.setInstantStatusPanelColor(new Color(155,255,155));
+                    view.setStatusPanelColor("success");
+                    view.setStatusPanel("Update of User : " + uName
+                            + " succesful!");
+                } catch (RequestException e) {
+                    view.setInstantStatusPanelColor(new Color(255,155,155));
+                    view.setStatusPanelColor("fail");
+                    view.setStatusPanel("Update of User : " + uName
+                            + " failed!");
+                    new ErrorDialog("Update user", e).showDialog();
+                }
+            }
+        }).start();
+    }
+
 }

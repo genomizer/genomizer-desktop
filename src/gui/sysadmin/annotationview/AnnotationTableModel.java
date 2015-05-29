@@ -46,9 +46,11 @@ public class AnnotationTableModel extends AbstractTableModel {
                 StringBuilder string = new StringBuilder("");
                 String[] values = annotations[rowIndex].getValues();
                 if (values != null) {
-                    string = new StringBuilder(values[0]);
-                    for (int i = 1; i < values.length; i++) {
-                        string.append(',').append(values[i]);
+                    string = new StringBuilder();
+                    for (int i = 0; i < values.length; i++) {
+                        if(values[i].equals("")) continue;
+                        string.append(values[i]);
+                        if (i != values.length-1 ) string.append(',');
                     }
                 } else {
                     System.err.println("Annotation[" + rowIndex

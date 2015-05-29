@@ -1,11 +1,13 @@
 package model;
 
 import gui.ErrorDialog;
+
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.concurrent.CopyOnWriteArrayList;
+
 import javax.swing.JOptionPane;
 
 import requests.AddAnnotationRequest;
@@ -14,6 +16,10 @@ import requests.AddGenomeReleaseRequest;
 import requests.AddNewAnnotationValueRequest;
 import requests.CancelProcessRequest;
 import requests.ChangeExperimentRequest;
+import requests.ChangePasswordRequest;
+import requests.CreateUserRequest;
+import requests.DeleteUserRequest;
+import requests.FileConversionRequest;
 import requests.GetAnnotationRequest;
 import requests.GetGenomeReleasesRequest;
 import requests.GetGenomeSpecieReleasesRequest;
@@ -29,6 +35,7 @@ import requests.RenameAnnotationValueRequest;
 import requests.RequestFactory;
 import requests.RetrieveExperimentRequest;
 import requests.SearchRequest;
+import requests.UpdateUserRequest;
 import responses.ResponseParser;
 import responses.sysadmin.AddGenomeReleaseResponse;
 import util.AnnotationDataType;
@@ -38,6 +45,7 @@ import util.ExperimentData;
 import util.GenomeReleaseData;
 import util.ProcessFeedbackData;
 import util.RequestException;
+
 import communication.Connection;
 import communication.ConnectionFactory;
 import communication.DownloadHandler;
@@ -386,5 +394,52 @@ public class Model implements GenomizerModel {
         return this.processingModel;
     }
 
+    public boolean convertFile(String fileid, String toformat)
+            throws RequestException {
+        FileConversionRequest request = RequestFactory
+                .makeFileConversionRequest(fileid, toformat);
+        Connection conn = SessionHandler.getInstance().makeConnection();
+        conn.sendRequest(request, User.getInstance().getToken(), Constants.JSON);
+
+        return conn.getResponseCode() == 200;
+    }
+
+    public boolean createUser(String username, String password, String privileges,
+            String name, String email) throws RequestException {
+
+        CreateUserRequest request = RequestFactory.makeCreateUserRequest(
+                username, password, privileges, name, email);
+        Connection conn = SessionHandler.getInstance().makeConnection();
+        conn.sendRequest(request, User.getInstance().getToken(), Constants.JSON);
+        return conn.getResponseCode() == 200;
+    }
+
+    public boolean updateUser(String username, String password, String privileges,
+            String name, String email) throws RequestException {
+        UpdateUserRequest request = RequestFactory.makeUpdateUserRequest(
+                username, password, privileges, name, email);
+        Connection conn = SessionHandler.getInstance().makeConnection();
+        conn.sendRequest(request, User.getInstance().getToken(), Constants.JSON);
+        return conn.getResponseCode() == 200;
+    }
+
+    public boolean deleteUser(String username) throws RequestException {
+        DeleteUserRequest request = RequestFactory
+                .makeDeleteUserRequest(username);
+        Connection conn = SessionHandler.getInstance().makeConnection();
+        conn.sendRequest(request, User.getInstance().getToken(),
+                Constants.TEXT_PLAIN);
+        return conn.getResponseCode() == 200;
+    }
+
+    public boolean updateUserSettings(String oldPass, String newPass, String name,
+            String email) throws RequestException {
+        ChangePasswordRequest request = RequestFactory
+                .makeChangePasswordRequest(oldPass, newPass, name, email);
+
+        Connection conn = SessionHandler.getInstance().makeConnection();
+        conn.sendRequest(request, User.getInstance().getToken(), Constants.JSON);
+        return conn.getResponseCode() == 200;
+    }
 
 }

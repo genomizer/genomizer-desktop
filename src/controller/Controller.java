@@ -64,14 +64,17 @@ public class Controller {
 
         new UploadTabController(view, model, fileChooser);
 
-        SysadminController sysadminTabController = new SysadminController(model);
+        SysadminController sysadminTabController = new SysadminController(model,view);
         view.getSysAdminTab().setController(sysadminTabController);
 
-        //ConvertTabController convertTabController = new ConvertTabController(
-          //      view, model, fileChooser);
-        //view.getConvertTab().setController(convertTabController);
+        ConvertTabController convertTabController = new ConvertTabController(
+                view, model, fileChooser);
+        view.getConvertTab().setController(convertTabController);
 
         view.getQuerySearchTab().clickUpdateAnnotations();
+
+        SettingsTabController settingsTabController = new SettingsTabController(view, model);
+        view.getSettingsTab().setController(settingsTabController);
         sysadminTabController.updateAnnotationTable();
         sysadminTabController.updateGenomeReleaseTab();
     }
@@ -220,9 +223,6 @@ public class Controller {
 
                             SessionHandler sessionHandler = SessionHandler
                                     .getInstance();
-
-                            // TODO SessionHandler.setIP().........
-                            model.setIP(ip);
 
                             sessionHandler.setIP(ip);
 
