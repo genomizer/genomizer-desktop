@@ -4,7 +4,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Stack;
 
-import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JComponent;
 import javax.swing.border.TitledBorder;
@@ -38,7 +37,6 @@ public abstract class CommandComponent extends JComponent {
         this.commandName = commandName;
         this.setBorder(new TitledBorder(commandName));
         this.setLayout(new MigLayout());
-        //this.setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
         commandFileRowPanelStack = new Stack<CommandFileRowPanel>();
 
     }
@@ -165,11 +163,5 @@ public abstract class CommandComponent extends JComponent {
             addFileRowPanel();
         }
 
-    }
-    
-    public void addOutFileListener(ActionListener listener) {
-        
-        
-        
     }
 }

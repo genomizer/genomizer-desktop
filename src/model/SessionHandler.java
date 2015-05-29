@@ -8,11 +8,9 @@ package model;
  *
  * @author oi12mlw, oi12pjn
  */
-import gui.ErrorDialog;
 import requests.LoginRequest;
 import requests.LogoutRequest;
 import requests.RequestFactory;
-import responses.ErrorResponse;
 import responses.LoginResponse;
 import responses.ResponseParser;
 import util.Constants;
@@ -72,8 +70,7 @@ public class SessionHandler {
      * @throws RequestException if the log in failed
      */
     public void loginUser(String username, String password) throws LoginException {
-        LoginRequest request = RequestFactory.makeLoginRequest(username,
-                password);
+        LoginRequest request = RequestFactory.makeLoginRequest(username, password);
         Connection conn = connFactory.makeConnection();
         try {
             conn.sendRequest(request, "", Constants.JSON);
