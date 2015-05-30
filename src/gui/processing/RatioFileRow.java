@@ -75,14 +75,14 @@ public class RatioFileRow extends CommandFileRow {
         preChipFileComboBox.setEditable(true);
 
         postChipFileComboBox = new JComboBox<String>(fileNames);
-        preChipFileComboBox.setEditable(true);
+        postChipFileComboBox.setEditable(true);
 
 
         outFileTextField = new JTextField();
         meanComboBox = new JComboBox<String>(
                 new String[] { "single", "double" });
-        SpinnerModel windowSizeSpinnerModel = new SpinnerNumberModel(1, 1,
-                1000, 1);
+        SpinnerModel windowSizeSpinnerModel = new SpinnerNumberModel(1, 0,
+                Integer.MAX_VALUE, 1);
         readsCutoffSpinner = new JSpinner(windowSizeSpinnerModel);
         chromosomeTextField = new JTextField();
 

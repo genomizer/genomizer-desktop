@@ -84,7 +84,9 @@ public class CommandScrollPane extends JScrollPane {
      *            the CommandComponent
      */
     public void addCommandComponent(CommandComponent commandComponent) {
-        if (containsCommand(commandComponent)) return;
+
+        //        if (containsCommand(commandComponent)) return; // Niklas says let them run however many of the same after eachother.
+
         componentPanel.add(commandComponent);
         commandList.add(commandComponent);
 
@@ -106,6 +108,8 @@ public class CommandScrollPane extends JScrollPane {
     public void removeCommand(CommandComponent commandComponent) {
         commandList.remove(commandComponent);
         this.componentPanel.remove(commandComponent);
+        this.revalidate();
+        this.repaint();
     }
 
     /**

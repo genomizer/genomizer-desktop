@@ -1,11 +1,15 @@
 package gui.processing;
 
+import java.awt.BorderLayout;
+import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Stack;
 
 import javax.swing.JButton;
 import javax.swing.JComponent;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
 import javax.swing.border.TitledBorder;
 
 import net.miginfocom.swing.MigLayout;
@@ -33,11 +37,18 @@ public abstract class CommandComponent extends JComponent {
      * @param commandName
      *            the command name
      */
-    public CommandComponent( String commandName ){
+    public CommandComponent(String commandName) {
         this.commandName = commandName;
         this.setBorder(new TitledBorder(commandName));
-        this.setLayout(new MigLayout());
+        this.setLayout(new MigLayout("wrap 1"));
         commandFileRowPanelStack = new Stack<CommandFileRowPanel>();
+
+        JPanel removalPane = new JPanel(new BorderLayout());
+        JButton jb = new JButton("X");
+        jb.addActionListener(new RemoveCommandComponentListener());
+        removalPane.add(new JLabel("Remove Command:"),BorderLayout.CENTER);
+        removalPane.add(jb,BorderLayout.EAST);
+        this.add(removalPane, "gapleft 500");
 
     }
 
@@ -46,7 +57,7 @@ public abstract class CommandComponent extends JComponent {
      *
      * @return the command name
      */
-    public String getCommandName(){
+    public String getCommandName() {
         return commandName;
     }
 
@@ -59,10 +70,12 @@ public abstract class CommandComponent extends JComponent {
     protected void addInitialFileRowPanel() {
 
         CommandFileRow commandFileRow = buildCommandFileRow();
-        CommandFileRowPanel fileRowPanel = new CommandFileRowPanel(commandFileRow);
+        CommandFileRowPanel fileRowPanel = new CommandFileRowPanel(
+                commandFileRow);
 
         fileRowPanel.addAddButtonActionListener(new AddFileRowButtonListener());
-        fileRowPanel.addRemoveButtonActionListener(new RemoveFileRowButtonListener());
+        fileRowPanel
+                .addRemoveButtonActionListener(new RemoveFileRowButtonListener());
 
         fileRowPanel.setRemoveButtonEnabled(false);
 
@@ -80,7 +93,7 @@ public abstract class CommandComponent extends JComponent {
     private void removeFileRowPanel(CommandFileRowPanel fileRowPanel) {
 
         CommandFileRowPanel topPanel = commandFileRowPanelStack.peek();
-        if(fileRowPanel.equals(topPanel)) {
+        if (fileRowPanel.equals(topPanel)) {
             commandFileRowPanelStack.pop();
             this.remove(fileRowPanel);
 
@@ -102,9 +115,11 @@ public abstract class CommandComponent extends JComponent {
     private void addFileRowPanel() {
 
         CommandFileRow commandFileRow = buildCommandFileRow();
-        CommandFileRowPanel fileRowPanel = new CommandFileRowPanel(commandFileRow);
+        CommandFileRowPanel fileRowPanel = new CommandFileRowPanel(
+                commandFileRow);
         fileRowPanel.addAddButtonActionListener(new AddFileRowButtonListener());
-        fileRowPanel.addRemoveButtonActionListener(new RemoveFileRowButtonListener());
+        fileRowPanel
+                .addRemoveButtonActionListener(new RemoveFileRowButtonListener());
 
         CommandFileRowPanel topPanel = commandFileRowPanelStack.peek();
         topPanel.setAddButtonEnabled(false);
@@ -116,7 +131,9 @@ public abstract class CommandComponent extends JComponent {
     }
 
     /**
-     * Abstract method for building the correct CommandFileRow used by the inheriting class
+     * Abstract method for building the correct CommandFileRow used by the
+     * inheriting class
+     *
      * @return the built CommandFileRow
      */
     protected abstract CommandFileRow buildCommandFileRow();
@@ -143,7 +160,8 @@ public abstract class CommandComponent extends JComponent {
             JButton sourceButton = (JButton) e.getSource();
 
             /* The parent of the parent of the button is the file row panel. */
-            CommandFileRowPanel parentPanel = (CommandFileRowPanel) sourceButton.getParent().getParent();
+            CommandFileRowPanel parentPanel = (CommandFileRowPanel) sourceButton
+                    .getParent().getParent();
 
             removeFileRowPanel(parentPanel);
         }
@@ -164,4 +182,22 @@ public abstract class CommandComponent extends JComponent {
         }
 
     }
+
+    private class RemoveCommandComponentListener implements ActionListener {
+
+        @Override
+        public void actionPerformed(ActionEvent e) {
+
+            JButton sourceButton = (JButton) e.getSource();
+
+            /* The parent of the parent*5 of the button is the file scrollpanel. */
+            CommandScrollPane parentPanel = (CommandScrollPane) sourceButton
+                    .getParent().getParent().getParent().getParent().getParent();
+
+            parentPanel.removeCommand((CommandComponent) sourceButton
+                    .getParent().getParent());
+
+        }
+    }
+
 }

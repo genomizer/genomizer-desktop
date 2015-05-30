@@ -55,7 +55,7 @@ public class StepFileRow extends CommandFileRow {
         inFileComboBox.setEditable(true);
 
         outFileTextField = new JTextField();
-        SpinnerModel stepSizeSpinnerModel = new SpinnerNumberModel(1, 1, 1000, 1);
+        SpinnerModel stepSizeSpinnerModel = new SpinnerNumberModel(1, 0, Integer.MAX_VALUE, 1);
         stepSizeSpinner = new JSpinner(stepSizeSpinnerModel);
 
         outFileTextField.setDocument(new JTextFieldLimit(512));
@@ -64,7 +64,7 @@ public class StepFileRow extends CommandFileRow {
         this.add(outFileTextField, CommandFileRow.WIDE);
         this.add(stepSizeSpinner, CommandFileRow.MEDIUM);
 
-        inFileComboBox.addActionListener(new InfileActionListener(outFileTextField, ".wig"));
+        inFileComboBox.addActionListener(new InfileActionListener(outFileTextField, ".sgr"));
         inFileComboBox.setSelectedIndex(0);
 
     }
