@@ -66,8 +66,6 @@ public class Model implements GenomizerModel {
 
     }
 
-
-
     @Override
     public void uploadFile(String expName, File f, String type,
             boolean isPrivate, String release) throws IllegalArgumentException,
@@ -316,7 +314,6 @@ public class Model implements GenomizerModel {
         conn.sendRequest(request, User.getInstance().getToken(), Constants.JSON);
     }
 
-
     @Override
     public void deleteGenomeRelease(String specie, String version)
             throws RequestException {
@@ -387,11 +384,11 @@ public class Model implements GenomizerModel {
         updateTabModel.clearTickingThread();
     }
 
-    public void setProcessingExperiment( ExperimentData selectedExperiment){
-        processingModel.setSelectedExperiment( selectedExperiment );
+    public void setProcessingExperiment(ExperimentData selectedExperiment) {
+        processingModel.setSelectedExperiment(selectedExperiment);
     }
 
-    public ProcessModel getProcessingModel(){
+    public ProcessModel getProcessingModel() {
         return this.processingModel;
     }
 
@@ -405,8 +402,9 @@ public class Model implements GenomizerModel {
         return conn.getResponseCode() == 200;
     }
 
-    public boolean createUser(String username, String password, String privileges,
-            String name, String email) throws RequestException {
+    public boolean createUser(String username, String password,
+            String privileges, String name, String email)
+            throws RequestException {
 
         CreateUserRequest request = RequestFactory.makeCreateUserRequest(
                 username, password, privileges, name, email);
@@ -415,8 +413,9 @@ public class Model implements GenomizerModel {
         return conn.getResponseCode() == 200;
     }
 
-    public boolean updateUser(String username, String password, String privileges,
-            String name, String email) throws RequestException {
+    public boolean updateUser(String username, String password,
+            String privileges, String name, String email)
+            throws RequestException {
         UpdateUserRequest request = RequestFactory.makeUpdateUserRequest(
                 username, password, privileges, name, email);
         Connection conn = SessionHandler.getInstance().makeConnection();
@@ -433,8 +432,8 @@ public class Model implements GenomizerModel {
         return conn.getResponseCode() == 200;
     }
 
-    public boolean updateUserSettings(String oldPass, String newPass, String name,
-            String email) throws RequestException {
+    public boolean updateUserSettings(String oldPass, String newPass,
+            String name, String email) throws RequestException {
         ChangePasswordRequest request = RequestFactory
                 .makeChangePasswordRequest(oldPass, newPass, name, email);
 
@@ -443,13 +442,14 @@ public class Model implements GenomizerModel {
         return conn.getResponseCode() == 200;
     }
 
-    public String[] getUserNames() throws RequestException{
+    public String[] getUserNames() throws RequestException {
 
         GetUserNamesRequest request = RequestFactory.getUserNamesRequest();
 
         Connection conn = SessionHandler.getInstance().makeConnection();
         conn.sendRequest(request, User.getInstance().getToken(), Constants.JSON);
-        return null;
+
+        return ResponseParser.getUserNamesResponse(conn.getResponseBody());
 
     }
 

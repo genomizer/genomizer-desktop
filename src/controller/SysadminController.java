@@ -439,6 +439,9 @@ public class SysadminController {
 
                     final String[] names = model.getUserNames();
 
+                    if (names == null) throw new RequestException(200,
+                            "No result returned!");
+
                     SwingUtilities.invokeLater(new Runnable() {
 
                         @Override

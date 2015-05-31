@@ -120,6 +120,12 @@ public class ResponseParser {
         return processFeedbackData;
     }
 
+    // TODO: Not implemented get
+    public static String[] getUserNamesResponse(String json) {
+        String[] names = null;
+        return names;
+    }
+
     public static ErrorResponse parseErrorResponse(String json) {
 
         ErrorResponse response;
