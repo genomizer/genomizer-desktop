@@ -198,9 +198,13 @@ public class RequestFactory {
         return new DeleteUserRequest(User);
     }
 
-    public static ChangePasswordRequest makeChangePasswordRequest(String oldPassword,
-            String newPassword, String name, String email) {
-        return new ChangePasswordRequest(oldPassword, newPassword, name,
-                email);
+    public static ChangePasswordRequest makeChangePasswordRequest(
+            String oldPassword, String newPassword, String name, String email) {
+        return new ChangePasswordRequest(oldPassword, newPassword, name, email);
     }
+
+    public static GetUserNamesRequest getUserNamesRequest() {
+        return new GetUserNamesRequest();
+    }
+
 }

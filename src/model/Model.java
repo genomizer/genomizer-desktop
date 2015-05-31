@@ -23,6 +23,7 @@ import requests.FileConversionRequest;
 import requests.GetAnnotationRequest;
 import requests.GetGenomeReleasesRequest;
 import requests.GetGenomeSpecieReleasesRequest;
+import requests.GetUserNamesRequest;
 import requests.LoginRequest;
 import requests.ProcessFeedbackRequest;
 import requests.RemoveAnnotationFieldRequest;
@@ -440,6 +441,16 @@ public class Model implements GenomizerModel {
         Connection conn = SessionHandler.getInstance().makeConnection();
         conn.sendRequest(request, User.getInstance().getToken(), Constants.JSON);
         return conn.getResponseCode() == 200;
+    }
+
+    public String[] getUserNames() throws RequestException{
+
+        GetUserNamesRequest request = RequestFactory.getUserNamesRequest();
+
+        Connection conn = SessionHandler.getInstance().makeConnection();
+        conn.sendRequest(request, User.getInstance().getToken(), Constants.JSON);
+        return null;
+
     }
 
 }
