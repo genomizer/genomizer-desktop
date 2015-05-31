@@ -321,4 +321,9 @@ public class UsersViewCreator {
         return updateMail.getText();
     }
 
+    public void setNameList(String[] names) {
+        userNameList.setListData(names);
+
+    }
+
 }
