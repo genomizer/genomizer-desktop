@@ -1,13 +1,11 @@
 package gui.processing;
 
-import gui.CustomButtonFactory;
-
-import java.awt.Dimension;
 import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
 import javax.swing.JPanel;
 
+@SuppressWarnings("serial")
 public class ProcessSouthPanel extends JPanel {
 
     private JButton clearButton;

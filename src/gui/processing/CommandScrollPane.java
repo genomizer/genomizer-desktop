@@ -1,11 +1,7 @@
 package gui.processing;
 
-import gui.JTextFieldLimit;
-
-import java.awt.BorderLayout;
 import java.awt.Component;
 import java.awt.Dimension;
-import java.awt.GridLayout;
 import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -13,21 +9,11 @@ import java.awt.event.AdjustmentEvent;
 import java.awt.event.AdjustmentListener;
 import java.util.ArrayList;
 import java.util.Iterator;
-import java.util.Vector;
 
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
-import javax.swing.DefaultComboBoxModel;
-import javax.swing.JButton;
-import javax.swing.JComboBox;
-import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
-import javax.swing.JTextField;
-import javax.swing.UIManager;
-import javax.swing.UnsupportedLookAndFeelException;
-import javax.swing.text.BadLocationException;
-import javax.swing.text.Document;
 
 /**
  * Scroll pane containing CommandComponents
@@ -37,6 +23,8 @@ import javax.swing.text.Document;
  */
 @SuppressWarnings("serial")
 public class CommandScrollPane extends JScrollPane {
+
+
 
     private static final int SCROLL_SPEED = 16;
 
@@ -91,11 +79,12 @@ public class CommandScrollPane extends JScrollPane {
         commandList.add(commandComponent);
 
         // Scroll to visible
-        Rectangle bounds = new Rectangle(0, commandComponent.getHeight() - 1,
-                1, 1);
+        Rectangle bounds = new Rectangle(0, commandComponent.getHeight() - 1, 1, 1);
         this.scrollRectToVisible(bounds);
         this.revalidate();
         this.repaint();
+
+        commandComponent.addRemoveButtonListener(new RemoveButtonListener(commandComponent));
     }
 
     // TODO: to be used?
@@ -160,64 +149,17 @@ public class CommandScrollPane extends JScrollPane {
 
     }
 
-    public static void main(String[] args) {
+    private class RemoveButtonListener implements ActionListener {
 
-        try {
-            UIManager
-                    .setLookAndFeel("javax.swing.plaf.nimbus.NimbusLookAndFeel");
-        } catch (ClassNotFoundException | InstantiationException
-                | IllegalAccessException | UnsupportedLookAndFeelException e) {
-        }
+        private CommandComponent commandComponent;
 
-        JFrame frame = new JFrame();
-        frame.setLayout(new BorderLayout());
-        String[] fileNames = { "bild.png", "stinkern.txt", "hus.jpg" };
-        String[] genomeReleases = { "hg37", "hg38", "rat" };
-
-        RawToProfileCommandComponent comp1 = new RawToProfileCommandComponent(
-                fileNames, genomeReleases);
-        SmoothingCommandComponent comp2 = new SmoothingCommandComponent(
-                fileNames);
-        RatioCommandComponent comp3 = new RatioCommandComponent(fileNames);
-        StepCommandComponent comp4 = new StepCommandComponent(fileNames);
-
-        CommandScrollPane c = new CommandScrollPane();
-        c.addCommandComponent(comp1);
-        c.addCommandComponent(comp2);
-        c.addCommandComponent(comp3);
-        c.addCommandComponent(comp4);
-        JButton knappen = new JButton("KÖR!!!");
-        knappen.addActionListener(new ProcessButtonListener(c));
-        frame.add(c, BorderLayout.CENTER);
-        frame.add(knappen, BorderLayout.SOUTH);
-
-        JPanel jonny = new JPanel(new GridLayout());
-        jonny.setPreferredSize(new Dimension(1000, 100));
-
-        String[] cats = { "mittens", "sushi", "tom", "behemoth" };
-
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.pack();
-        frame.setVisible(true);
-    }
-
-    // TODO: refactor, move
-    private static class ProcessButtonListener implements ActionListener {
-
-        private CommandScrollPane scrollPane;
-
-        public ProcessButtonListener(CommandScrollPane c) {
-            this.scrollPane = c;
+        public RemoveButtonListener(CommandComponent commandComponent) {
+            this.commandComponent = commandComponent;
         }
 
         @Override
         public void actionPerformed(ActionEvent e) {
-            for (ProcessCommand a : scrollPane.getCommandList()) {
-                System.out.println(a);
-                for (ProcessParameters f : a.files) {
-                    System.out.println(f);
-                }
-            }
+            CommandScrollPane.this.removeCommand(commandComponent);
 
         }
 
