@@ -238,8 +238,6 @@ public class UploadTabController {
                             e.printStackTrace();
                         }
                         newExpButton.setEnabled(true);
-                        uploadTab.getUploadToNewExpPanel()
-                        .enableUploadButton(true);
                         uploadTab.getUploadToNewExpPanel().toggleFields(true);
                     };
                 }.start();
@@ -254,6 +252,9 @@ public class UploadTabController {
                 new Thread() {
                     @Override
                     public void run() {
+                        JButton newExpButton = uploadTab.getNewExpButton();
+                        newExpButton.setEnabled(false);
+                        uploadTab.getUploadToNewExpPanel().toggleFields(false);
                         String expName = uploadTab.getNewExpPanel()
                                 .getNewExpID();
                         AnnotationDataValue[] annotations = uploadTab
@@ -318,7 +319,8 @@ public class UploadTabController {
                             JOptionPane.showMessageDialog(null,
                                     "No files selected.");
                         }
-
+                        newExpButton.setEnabled(true);
+                        uploadTab.getUploadToNewExpPanel().toggleFields(true);
                     };
                 }.start();
             }
