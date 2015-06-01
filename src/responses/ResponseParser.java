@@ -130,6 +130,7 @@ public class ResponseParser {
             // TODO: StackTrace ;/
             response = new ErrorResponse();
             response.message = "Unknown error";
+
         }
         return response;
     }
