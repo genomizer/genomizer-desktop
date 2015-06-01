@@ -286,4 +286,9 @@ public class SysadminTab extends JPanel {
         return sysController;
 
     }
+
+    public void setNameList(String[] names) {
+        usersView.setNameList(names);
+
+    }
 }

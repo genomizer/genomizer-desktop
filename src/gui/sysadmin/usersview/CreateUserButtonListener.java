@@ -53,6 +53,9 @@ public class CreateUserButtonListener implements ActionListener {
                 String umail = sysTab.getUserView().getUpdateMail();
                 sysTab.getSysController().updateUser(uuName, upass, urole, urName, umail);
                 break;
+            case "Get Names":
+                sysTab.getSysController().updateNames();
+                break;
 
         }
     }
