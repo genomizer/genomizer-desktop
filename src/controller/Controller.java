@@ -91,6 +91,7 @@ public class Controller {
      */
     private void loginWindowUpdate() {
         view.getLoginWindow().addLoginListener(LoginListener());
+        
     }
 
     /**
@@ -236,6 +237,8 @@ public class Controller {
                                         .updateAnnotationTable();
                                 view.getSysAdminTab().getController()
                                         .updateGenomeReleaseTab();
+                                view.setStatusPanel("Login successful");
+                                view.setStatusPanelColor("success");
 
 
 

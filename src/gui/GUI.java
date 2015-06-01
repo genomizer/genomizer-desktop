@@ -105,7 +105,7 @@ public class GUI extends JFrame {
         mainPanel.add(statusPanel, BorderLayout.SOUTH);
         statusPanel.setPreferredSize(new Dimension(mainPanel.getWidth(), 16));
         statusPanel.setLayout(new BoxLayout(statusPanel, BoxLayout.X_AXIS));
-        setStatusPanel("Login successful");
+        
 
         this.setLocationRelativeTo(null);
     }
