@@ -350,7 +350,6 @@ public class UploadExpPanel extends JPanel implements ExperimentPanel {
     private JComboBox<String> createAnnotationComboBox(AnnotationDataType a) {
         final JComboBox<String> comboBox;
 
-
         if (a.getName().equalsIgnoreCase("species")) {
             comboBox = species;
             species.removeAllItems();
@@ -406,15 +405,15 @@ public class UploadExpPanel extends JPanel implements ExperimentPanel {
 
             JComboBox<String> currentBox = annotationBoxes.get(a.getName());
             currentBox.setEnabled(isNewExp);
-            // +1 for emty item.
-            if (a.getValues().length + 1 == currentBox.getItemCount()) {
+
+            if (a.getValues().length == currentBox.getItemCount()) {
                 return a.getName();
             } else {
                 currentBox.removeAllItems();
-                String[] aCopy = new String[a.getValues().length + 1];
-                aCopy[0] = "";
-                for (int i = 1; i <= a.getValues().length; i++) {
-                    aCopy[i] = a.getValues()[i - 1];
+                String[] aCopy = new String[a.getValues().length];
+
+                for (int i = 0; i < a.getValues().length; i++) {
+                    aCopy[i] = a.getValues()[i];
                 }
                 for (String s : aCopy) {
                     currentBox.addItem(s);
