@@ -48,7 +48,6 @@ public abstract class CommandComponent extends JComponent {
         this.setLayout(new MigLayout());
         commandFileRowPanelStack = new Stack<CommandFileRowPanel>();
 
-        addRemoveButton();
 
     }
 
@@ -92,7 +91,9 @@ public abstract class CommandComponent extends JComponent {
         fileRowPanel.setRemoveButtonEnabled(false);
 
         commandFileRowPanelStack.push(fileRowPanel);
-        this.add(fileRowPanel, "wrap");
+        this.add(fileRowPanel);
+
+        addRemoveButton();
 
     }
 
