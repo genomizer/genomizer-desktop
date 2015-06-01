@@ -62,6 +62,7 @@ public class EditAnnotationPopup extends JPanel {
 
         centerpanel = new JPanel();
         for (String annotationValue : annotation.getValues()) {
+            if ( annotationValue.equals("") ) continue;
             AnnotationValuePanel panel = createAnnotationValue(annotationValue);
             valuePanels.add(panel);
             centerpanel.add(panel);

@@ -89,7 +89,10 @@ public class RawToProfileFileRow extends CommandFileRow {
         this.add(genomeReleaseComboBox, CommandFileRow.NARROW);
         this.add(keepSamCheckBox, "wrap");
 
+        inFileComboBox.addActionListener(new InfileActionListener(outFileTextField, ".wig"));
+        inFileComboBox.setSelectedIndex(0);
         flagsTextField.setText(FLAGS_DEFAULT);
+
     }
 
     /**

@@ -26,7 +26,7 @@ public class AddGenomeReleaseTest {
         model.setIP(ExampleExperimentData.getTestServerIP());
         SessionHandler.getInstance().loginUser(ExampleExperimentData.getTestUsername(),
                 ExampleExperimentData.getTestPassword());
-        controller = new SysadminController(model);
+        controller = new SysadminController(model,null);
     }
 
     // TODO: Not implemented (JH)

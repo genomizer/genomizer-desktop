@@ -177,4 +177,30 @@ public class RequestFactory {
         return new CancelProcessRequest(PID);
     }
 
+    public static FileConversionRequest makeFileConversionRequest(
+            String fileid, String toformat) {
+        return new FileConversionRequest(fileid, toformat);
+    }
+
+    public static CreateUserRequest makeCreateUserRequest(String username,
+            String password, String privileges, String name, String email) {
+        return new CreateUserRequest(username, password, privileges, name,
+                email);
+    }
+
+    public static UpdateUserRequest makeUpdateUserRequest(String username,
+            String password, String privileges, String name, String email) {
+        return new UpdateUserRequest(username, password, privileges, name,
+                email);
+    }
+
+    public static DeleteUserRequest makeDeleteUserRequest(String User) {
+        return new DeleteUserRequest(User);
+    }
+
+    public static ChangePasswordRequest makeChangePasswordRequest(String oldPassword,
+            String newPassword, String name, String email) {
+        return new ChangePasswordRequest(oldPassword, newPassword, name,
+                email);
+    }
 }

@@ -20,9 +20,9 @@ public class GetAllGenomeReleasesTest {
     @Before
     public void setUp() throws Exception {
         model = new Model();
-        model.setIP(ExampleExperimentData.getTestServerIP());
+        SessionHandler.getInstance().setIP(ExampleExperimentData.getTestServerIP());
         SessionHandler.getInstance().loginUser(ExampleExperimentData.getTestUsername(), ExampleExperimentData.getTestPassword());
-        controller = new SysadminController(model);
+        controller = new SysadminController(model,null);
     }
 
     @Test

@@ -8,11 +8,9 @@ package model;
  *
  * @author oi12mlw, oi12pjn
  */
-import gui.ErrorDialog;
 import requests.LoginRequest;
 import requests.LogoutRequest;
 import requests.RequestFactory;
-import responses.ErrorResponse;
 import responses.LoginResponse;
 import responses.ResponseParser;
 import util.Constants;
@@ -72,19 +70,17 @@ public class SessionHandler {
      * @throws RequestException if the log in failed
      */
     public void loginUser(String username, String password) throws LoginException {
-        LoginRequest request = RequestFactory.makeLoginRequest(username,
-                password);
+        LoginRequest request = RequestFactory.makeLoginRequest(username, password);
         Connection conn = connFactory.makeConnection();
         try {
+            System.out.println(this.connFactory.getIP());
             conn.sendRequest(request, "", Constants.JSON);
             int responseCode = conn.getResponseCode();
-
+            System.out.println("resp code: " + responseCode);
+            System.out.println("resp body: " + conn.getResponseBody());
+            
             if (responseCode == 0) {
                 throw new LoginException("Server not found");
-            } else if(responseCode == 401) {
-                throw new LoginException("Incorrect username or password");
-            } else if(responseCode != 200) {
-                throw new LoginException("Connection Failed!");
             }
 
             LoginResponse loginResponse = ResponseParser.parseLoginResponse(conn.getResponseBody());
@@ -94,10 +90,9 @@ public class SessionHandler {
             }
 
         } catch (RequestException e) {
-            ErrorResponse response = ResponseParser.parseErrorResponse(conn.getResponseBody());
-            String message = response == null ? "Server not found" : response.message;
-            throw new LoginException(message);
+            throw new LoginException("Incorrect username or password");
         }
+
     }
 
     // TODO Should not return boolean. Throw exception?

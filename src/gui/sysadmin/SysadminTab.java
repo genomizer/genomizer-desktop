@@ -1,7 +1,5 @@
 package gui.sysadmin;
 
-import genomizerdesktop.Genomizer;
-import gui.GUI;
 import gui.sysadmin.annotationview.AddAnnotationPopup;
 import gui.sysadmin.annotationview.AddAnnotationPopupListener;
 import gui.sysadmin.annotationview.AnnotationsViewCreator;
@@ -18,14 +16,10 @@ import gui.sysadmin.usersview.UsersViewCreator;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.Dialog.ModalityType;
-import java.awt.Frame;
 import java.awt.event.ActionListener;
 
 import javax.swing.BorderFactory;
-import javax.swing.JDialog;
 import javax.swing.JFrame;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
 import javax.swing.JTable;
@@ -34,7 +28,7 @@ import javax.swing.table.TableModel;
 import controller.SysadminController;
 import controller.SysadminTabChangeListener;
 
-//TODO: fixa varningar!
+// TODO: fixa varningar!
 
 public class SysadminTab extends JPanel {
 
@@ -85,7 +79,7 @@ public class SysadminTab extends JPanel {
                             buildGenomeReleaseView());
                     break;
                 case USERS:
-                    //TODO: What is this?
+                    sysadminTabPane.addTab(button.getValue(), buildUsersView());
                     break;
                 default:
                     break;
@@ -137,6 +131,7 @@ public class SysadminTab extends JPanel {
         createSysadminTabs();
 
         createAnnotationListeners();
+        createUserButtonListeners();
 
     }
 
@@ -149,10 +144,25 @@ public class SysadminTab extends JPanel {
     }
 
     /**
+     * Adds AnnotationButtonListener to the User view
+     */
+    public void createUserButtonListeners() {
+        usersView.createUserButtonListener(sysController
+                .createUserButtonListener());
+    }
+
+    /**
      * @return the AnnotationsViewCreate connected to the SysadminTab
      */
     public AnnotationsViewCreator getAnnotationsView() {
         return annotationsView;
+    }
+
+    /**
+     * @return the UsersViewCreate connected to the SysadminTab
+     */
+    public UsersViewCreator getUserView() {
+        return usersView;
     }
 
     /**

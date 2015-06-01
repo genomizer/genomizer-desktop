@@ -1,45 +1,29 @@
 package gui;
 
 import java.awt.BorderLayout;
-import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
-import java.io.File;
 import java.util.ArrayList;
-import java.util.concurrent.CopyOnWriteArrayList;
-
 
 import javax.swing.BorderFactory;
 import javax.swing.ButtonGroup;
+import javax.swing.DefaultListModel;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
-import javax.swing.JComboBox;
-import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.JScrollPane;
-import javax.swing.JSplitPane;
-import javax.swing.JTextField;
 import javax.swing.ListSelectionModel;
 
-import model.ErrorLogger;
-
-import util.ActivePanel;
-import util.AnnotationDataType;
 import util.AnnotationDataValue;
 import util.ExperimentData;
 import util.FileData;
-import util.GenomeReleaseData;
-
-import communication.HTTPURLUpload;
 import controller.ConvertTabController;
-import controller.ProcessTabController;
-import controller.UploadTabController;
 
 /**
  * A class representing a upload view in an application for genome research.
@@ -49,9 +33,10 @@ import controller.UploadTabController;
 public class ConvertTab extends JPanel {
 
     private static final long serialVersionUID = -2830290705724588252L;
-    private JButton convertSelectedFiles, deleteSelectedFiles;
+    public JButton convertSelectedFiles, deleteSelectedFiles,
+            removeAllConvertedFiles;
     private JPanel upperPanel;
-    private Dimension panelSize = new Dimension(200,110);
+    private Dimension panelSize = new Dimension(200, 110);
     private ArrayList<ExperimentData> experimentData;
     private JPanel convertPanel;
     private JPanel deletePanel;
@@ -60,21 +45,23 @@ public class ConvertTab extends JPanel {
     private JPanel selectedFilesPanel;
     private JPanel queuedFilesPanel;
     private JPanel emptySouthPanel;
+    private int count = 0;
     private JList<CheckListItem> fileList = new JList<CheckListItem>();
+    private JList<String> ConvertedfilesList = new JList<String>();
     private final JScrollPane scrollFiles = new JScrollPane();
+    private final JScrollPane convertedFiles = new JScrollPane();
     private ConvertTabController convertTabController;
+    private DefaultListModel<String> convertedListModel = new DefaultListModel<String>();
 
-    public final JRadioButton cFromFASTQ = new JRadioButton("FASTQ");
+    public final JRadioButton cFromGFF = new JRadioButton("GFF");
     public final JRadioButton cFromWIG = new JRadioButton("WIG");
     public final JRadioButton cFromSGR = new JRadioButton("SGR");
-    public final JRadioButton cFromCHP = new JRadioButton("CHP");
+    public final JRadioButton cFromBED = new JRadioButton("BED");
     public final JRadioButton cToWIG = new JRadioButton("WIG");
     public final JRadioButton cToSGR = new JRadioButton("SGR");
-    public final JRadioButton cToGFF = new JRadioButton("GFF");
     public final ButtonGroup radioGroupFrom = new ButtonGroup();
     public final ButtonGroup radioGroupTo = new ButtonGroup();
     private String currentFileType = "";
-
 
     /**
      * Constructor creating a convert tab.
@@ -93,7 +80,14 @@ public class ConvertTab extends JPanel {
         setButtonListeners();
         check();
 
+    }
 
+    public void setCount(int c) {
+        count = c;
+    }
+
+    public int getCount() {
+        return count;
     }
 
     /**
@@ -102,35 +96,33 @@ public class ConvertTab extends JPanel {
      */
     private void setButtonListeners() {
 
-        radioGroupFrom.add(cFromFASTQ);
+        radioGroupFrom.add(cFromBED);
+        radioGroupFrom.add(cFromGFF);
         radioGroupFrom.add(cFromSGR);
-        radioGroupFrom.add(cFromCHP);
         radioGroupFrom.add(cFromWIG);
-        radioGroupFrom.setSelected(cFromFASTQ.getModel(), true);
-        radioGroupTo.add(cToWIG);
+        // radioGroupFrom.setSelected(cFromBED.getModel(), true);
         radioGroupTo.add(cToSGR);
-        radioGroupTo.add(cToGFF);
-        setRadioButtonListener(cFromFASTQ);
-        setRadioButtonListener(cFromWIG);
-        setRadioButtonListener(cFromCHP);
+        radioGroupTo.add(cToWIG);
+        // radioGroupTo.setSelected(cToSGR.getModel(), true);
+        setRadioButtonListener(cFromBED);
+        setRadioButtonListener(cFromGFF);
         setRadioButtonListener(cFromSGR);
+        setRadioButtonListener(cFromWIG);
         setRadioButtonListener(cToWIG);
         setRadioButtonListener(cToSGR);
-        setRadioButtonListener(cToGFF);
 
-        disableCToRadiobuttons();
+        // ();
 
     }
 
-
     /**
      * Returns a list of the files.
+     *
      * @return
      */
     public JList<CheckListItem> getFileList() {
         return fileList;
     }
-
 
     /**
      * Adds listener to the fileList.
@@ -141,12 +133,10 @@ public class ConvertTab extends JPanel {
         fileList.addMouseListener(mouseAdapter);
     }
 
-
-
     /**
      * Sets up panel in the panel at the top in the window.
      */
-    private void setupUpperPanel(){
+    private void setupUpperPanel() {
 
         upperPanel = new JPanel();
         add(upperPanel, BorderLayout.NORTH);
@@ -167,85 +157,100 @@ public class ConvertTab extends JPanel {
     /**
      * sets up the panel with the convertbutton.
      */
-    private void setupConvertPanel(){
+    private void setupConvertPanel() {
         convertPanel = new JPanel();
         convertSelectedFiles = new JButton("Convert selected files");
         convertPanel.add(convertSelectedFiles);
+        convertSelectedFiles.setEnabled(false);
         convertPanel.setBorder(BorderFactory.createTitledBorder("Convert"));
     }
 
     /**
      * sets up the panel with the delete buttons.
      */
-    private void setupDeletePanel(){
+    private void setupDeletePanel() {
         deletePanel = new JPanel();
         deleteSelectedFiles = new JButton("Delete selected files");
+        removeAllConvertedFiles = new JButton("Clear converted files");
         deletePanel.add(deleteSelectedFiles);
+        deletePanel.add(removeAllConvertedFiles);
+        deleteSelectedFiles.setEnabled(false);
         deletePanel.setBorder(BorderFactory.createTitledBorder("Delete"));
     }
 
     /**
-     * sets up the panel that contains which filetype you want to
-     * convert from.
+     * sets up the panel that contains which filetype you want to convert from.
      */
-    private void setupConvertFromPanel(){
+    private void setupConvertFromPanel() {
         convertFromPanel = new JPanel();
         convertFromPanel.setLayout(new GridLayout(0, 1, 0, 0));
         convertFromPanel.setPreferredSize(panelSize);
-        convertFromPanel.setBorder(BorderFactory.createTitledBorder("Convert from"));
+        convertFromPanel.setBorder(BorderFactory
+                .createTitledBorder("Convert from"));
 
-        convertFromPanel.add(cFromFASTQ);
+        convertFromPanel.add(cFromBED);
+        convertFromPanel.add(cFromGFF);
         convertFromPanel.add(cFromSGR);
-        convertFromPanel.add(cFromCHP);
         convertFromPanel.add(cFromWIG);
+
+        cFromBED.setEnabled(false);
+        cFromGFF.setEnabled(false);
+        cFromSGR.setEnabled(false);
+        cFromWIG.setEnabled(false);
 
     }
 
     /**
-     * Sets up the panel that contains which filetype you want to
-     * convert to.
+     * Sets up the panel that contains which filetype you want to convert to.
      */
-    private void setupConvertToPanel(){
+    private void setupConvertToPanel() {
         convertToPanel = new JPanel();
         convertToPanel.setLayout(new GridLayout(0, 1, 0, 0));
         convertToPanel.setPreferredSize(panelSize);
-        convertToPanel.setBorder(BorderFactory.createTitledBorder("Convert to"));
+        convertToPanel
+                .setBorder(BorderFactory.createTitledBorder("Convert to"));
 
-        convertToPanel.add(cToWIG);
         convertToPanel.add(cToSGR);
-        convertToPanel.add(cToGFF);
-    }
+        convertToPanel.add(cToWIG);
 
+        cToSGR.setEnabled(false);
+        cToWIG.setEnabled(false);
+
+    }
 
     /**
      * Sets up the panel which contains the files.
      */
-    private void setupSelectedFilesPanel(){
+    private void setupSelectedFilesPanel() {
 
         selectedFilesPanel = new JPanel();
 
-        selectedFilesPanel.setMinimumSize(new Dimension(1225/2,0));
-        selectedFilesPanel.setBorder(BorderFactory.createTitledBorder("selectedFilesPanel"));
+        selectedFilesPanel.setMinimumSize(new Dimension(1225 / 2, 0));
+        selectedFilesPanel.setBorder(BorderFactory
+                .createTitledBorder("Convert from"));
         add(selectedFilesPanel, BorderLayout.CENTER);
 
-        scrollFiles.setPreferredSize(new Dimension(560,480));
+        scrollFiles.setPreferredSize(new Dimension(560, 480));
         selectedFilesPanel.add(scrollFiles, BorderLayout.CENTER);
 
         scrollFiles.setViewportView(fileList);
 
-
-
     }
-
 
     /**
      * Sets u the panel which contains the queued files.
      */
-    private void setupQueuedFilesPanel(){
+    private void setupQueuedFilesPanel() {
         queuedFilesPanel = new JPanel();
-        queuedFilesPanel.setPreferredSize(new Dimension(1225/2,30));
-        queuedFilesPanel.setBorder(BorderFactory.createTitledBorder("queuedFilesPanel"));
+        queuedFilesPanel.setPreferredSize(new Dimension(1225 / 2, 30));
+        queuedFilesPanel.setBorder(BorderFactory
+                .createTitledBorder("Converted files"));
         add(queuedFilesPanel, BorderLayout.EAST);
+
+        convertedFiles.setPreferredSize(new Dimension(560, 480));
+        queuedFilesPanel.add(convertedFiles, BorderLayout.CENTER);
+
+        convertedFiles.setViewportView(ConvertedfilesList);
 
     }
 
@@ -254,12 +259,13 @@ public class ConvertTab extends JPanel {
      */
     private void setupEmptySouthPanel() {
         emptySouthPanel = new JPanel();
-        emptySouthPanel.setPreferredSize(new Dimension(1225,30));
-        add(emptySouthPanel,BorderLayout.SOUTH);
+        emptySouthPanel.setPreferredSize(new Dimension(1225, 30));
+        add(emptySouthPanel, BorderLayout.SOUTH);
     }
 
     /**
      * Add a listener to the deleteSelectedFiles button.
+     *
      * @param listener
      */
     public void deleteSelectedButtonListener(ActionListener listener) {
@@ -267,13 +273,22 @@ public class ConvertTab extends JPanel {
     }
 
     /**
+     * Add a listener to the deleteAllConvertedFiles button.
+     *
+     * @param listener
+     */
+    public void removeAllConvertedFileListener(ActionListener listener) {
+        removeAllConvertedFiles.addActionListener(listener);
+    }
+
+    /**
      * Add a listener to the convertSelectedFiles button.
+     *
      * @param listener
      */
     public void convertSelectedButtonListener(ActionListener listener) {
         convertSelectedFiles.addActionListener(listener);
     }
-
 
     /**
      * Sets a button listener to a selected JRadioButton.
@@ -303,77 +318,95 @@ public class ConvertTab extends JPanel {
         });
     }
 
-
-
-
     /**
-     * Checks which parameters should be enabled and set. It is important
-     * how this method works to get the right dependency between the
-     * radiobuttons and the checklist.
+     * Checks which parameters should be enabled and set. It is important how
+     * this method works to get the right dependency between the radiobuttons
+     * and the checklist.
      */
     public void check() {
         /* Check if there are valid genome releases */
-        disableCToRadiobuttons();
+        // disableCToRadiobuttons();
 
-        if(currentFileType.equals("FASTQ")){
-            cFromFASTQ.setSelected(true);
-        } else if(currentFileType.equals("WIG")){
-            cFromWIG.setSelected(true);
-        } else if(currentFileType.equals("SGR")){
+        if (currentFileType.equals("BED")) {
+            cFromBED.setSelected(true);
+        } else if (currentFileType.equals("GFF")) {
+            cFromGFF.setSelected(true);
+        } else if (currentFileType.equals("SGR")) {
             cFromSGR.setSelected(true);
-        } else if(currentFileType.equals("CHP")){
-            cFromCHP.setSelected(true);
+        } else if (currentFileType.equals("WIG")) {
+            cFromWIG.setSelected(true);
         }
 
-            if (cFromFASTQ.isSelected() && cFromFASTQ.isEnabled()) {
-                cToWIG.setEnabled(true);
-                cToSGR.setEnabled(true);
+        if (cFromBED.isSelected()) {
+            cToWIG.setEnabled(true);
+            cToSGR.setEnabled(true);
+        } else if (cFromGFF.isSelected()) {
+            cToWIG.setEnabled(true);
+            cToSGR.setEnabled(true);
+        } else if (cFromSGR.isSelected()) {
+            cToWIG.setSelected(true);
+            cToWIG.setEnabled(true);
+            cToSGR.setEnabled(false);
+        } else if (cFromWIG.isSelected()) {
+            cToSGR.setSelected(true);
+            cToSGR.setEnabled(true);
+            cToWIG.setEnabled(false);
+        }
 
-                if(cToGFF.isSelected()){
-                    cToWIG.setSelected(true);
-                }
-            }
+        if (cToSGR.isSelected() || cToWIG.isSelected()) {
+            setConvertButtonEnabled();
+        } else {
+            setConvertButtonDisabled();
+        }
 
-            if (cFromWIG.isSelected() && cFromWIG.isEnabled()) {
-                cToGFF.setEnabled(true);
-
-                if(cToSGR.isSelected() || cToWIG.isSelected()){
-                    cToGFF.setSelected(true);
-                }
-            }
-
-            if (cFromSGR.isSelected() && cFromSGR.isEnabled()) {
-                cToGFF.setEnabled(true);
-                cToWIG.setEnabled(true);
-
-                if(cToSGR.isSelected()){
-                    cToWIG.setSelected(true);
-                }
-            }
-
-            if (cFromCHP.isSelected() && cFromCHP.isEnabled()) {
-                cToGFF.setEnabled(true);
-                cToWIG.setEnabled(true);
-
-                if(cToSGR.isSelected()){
-                    cToWIG.setSelected(true);
-                }
-            }
     }
 
+    public void setAllButtonsNotSelected() {
+        radioGroupFrom.clearSelection();
+        radioGroupTo.clearSelection();
+        cToWIG.setEnabled(false);
+        cToSGR.setEnabled(false);
+        cFromBED.setEnabled(false);
+        cFromGFF.setEnabled(false);
+        cFromSGR.setEnabled(false);
+        cFromWIG.setEnabled(false);
+    }
 
+    public void setAllFromButtonsEnabled() {
+        cFromBED.setEnabled(true);
+        cFromGFF.setEnabled(true);
+        cFromSGR.setEnabled(true);
+        cFromWIG.setEnabled(true);
+    }
+
+    public void setConvertButtonDisabled() {
+        convertSelectedFiles.setEnabled(false);
+    }
+
+    public void setConvertButtonEnabled() {
+        convertSelectedFiles.setEnabled(true);
+    }
+
+    public void setDeleteButtonDisabled() {
+        deleteSelectedFiles.setEnabled(false);
+    }
+
+    public void setDeleteButtonEnabled() {
+        deleteSelectedFiles.setEnabled(true);
+    }
 
     /**
-     * Returns the current possible types to convert from. Should
-     * be updated as soon as a new filetype is added.
+     * Returns the current possible types to convert from. Should be updated as
+     * soon as a new filetype is added.
+     *
      * @return
      */
-    public ArrayList<String> getPossibleConvertFromFileTypes(){
+    public ArrayList<String> getPossibleConvertFromFileTypes() {
         ArrayList<String> fileTypeList = new ArrayList<String>();
-        fileTypeList.add("FASTQ");
-        fileTypeList.add("WIG");
+        fileTypeList.add("BED");
+        fileTypeList.add("GFF");
         fileTypeList.add("SGR");
-        fileTypeList.add("CHP");
+        fileTypeList.add("WIG");
 
         return fileTypeList;
 
@@ -381,9 +414,10 @@ public class ConvertTab extends JPanel {
 
     /**
      * Sets the name of the filetype of the current selected filetype.
+     *
      * @param type
      */
-    public void setCurrentSelectedFileType(String type){
+    public void setCurrentSelectedFileType(String type) {
         currentFileType = type;
         check();
     }
@@ -391,22 +425,19 @@ public class ConvertTab extends JPanel {
     /**
      * resets the name of the filetype.
      */
-    public void resetCurrentSelectedFileType(){
+    public void resetCurrentSelectedFileType() {
         currentFileType = "";
         check();
     }
-
 
     /**
      * Disables the ToRadioButtons in the convert tab.
      */
     private void disableCToRadiobuttons() {
         cToSGR.setEnabled(false);
-        cToGFF.setEnabled(false);
         cToWIG.setEnabled(false);
 
     }
-
 
     /**
      * Gets all marked files in the fileList.
@@ -424,39 +455,75 @@ public class ConvertTab extends JPanel {
         return arr;
     }
 
+    public void resetFileList() {
+        fileList.removeAll();
+    }
 
     /**
-     * Checks if an item in a list is selected.
+     * Gets all marked files in the fileList.
      *
-     * @param arr - the list
-     * @param checkItem - the item in the list
+     * @return ArrayList<CheckListItem> - List of all the files.
      */
-    private void checkItemIsSelected(ArrayList<FileData> arr, CheckListItem checkItem) {
+    public ArrayList<CheckListItem> getFilesToConvert() {
+        ArrayList<CheckListItem> arr = new ArrayList<CheckListItem>();
+
+        for (int i = 0; i < fileList.getModel().getSize(); i++) {
+            CheckListItem checkItem = fileList.getModel().getElementAt(i);
+            checkItemIsSelected2(arr, checkItem);
+        }
+
+        return arr;
+    }
+
+    /**
+     * Checks if an item in a list is selected and add the file to the selected
+     * files list;
+     *
+     * @param arr
+     *            - the list
+     * @param checkItem
+     *            - the item in the list
+     */
+    private void checkItemIsSelected2(ArrayList<CheckListItem> arr,
+            CheckListItem checkItem) {
+        if (checkItem.isSelected()) {
+            arr.add(checkItem);
+        }
+    }
+
+    /**
+     * Checks if an item in a list is selected and add the file to the selected
+     * files list;
+     *
+     * @param arr
+     *            - the list
+     * @param checkItem
+     *            - the item in the list
+     */
+    private void checkItemIsSelected(ArrayList<FileData> arr,
+            CheckListItem checkItem) {
         if (checkItem.isSelected()) {
             arr.add(checkItem.getfile());
         }
     }
 
-
     /**
      * Sets the controller for this tab.
+     *
      * @param convertTabController
      */
     public void setController(ConvertTabController convertTabController) {
         this.convertTabController = convertTabController;
     }
 
-
     /**
-     * Sets a cell renderer to fileList. OBS, it is useful.. Will not
-     * update the list if removed.
+     * Sets a cell renderer to fileList. OBS, it is useful.. Will not update the
+     * list if removed.
      */
     private void fileListSetCellRenderer() {
         fileList.setCellRenderer(new CheckListRenderer());
         fileList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
     }
-
-
 
     /**
      * Parses the data from the experiments.
@@ -480,7 +547,7 @@ public class ConvertTab extends JPanel {
                 fileName = fileData.filename.toUpperCase();
                 fileType = fileName.substring(fileName.lastIndexOf(".") + 1);
 
-                if(getPossibleConvertFromFileTypes().contains(fileType)){
+                if (getPossibleConvertFromFileTypes().contains(fileType)) {
                     itemList.add(new CheckListItem(fileData, fileData.filename,
                             fileData.id, specie));
                 }
@@ -488,9 +555,10 @@ public class ConvertTab extends JPanel {
             }
         }
         fileList.setListData(itemList.toArray(new CheckListItem[itemList.size()]));
-        if(fileList.getModel().getSize() == 0){
-            JOptionPane.showMessageDialog(null,"No matching filetypes. \nPossible types to convert: \n" +
-                    getPossibleConvertFromFileTypes().toString());
+        if (fileList.getModel().getSize() == 0) {
+            JOptionPane.showMessageDialog(null,
+                    "No matching filetypes. \nPossible types to convert: \n"
+                            + getPossibleConvertFromFileTypes().toString());
 
         }
 
@@ -517,6 +585,29 @@ public class ConvertTab extends JPanel {
      */
     public ArrayList<ExperimentData> getFileInfo() {
         return this.experimentData;
+    }
+
+    /**
+     * Add a file to the converted files panel
+     *
+     * @param s
+     */
+    public void addConvertedFile(String s) {
+        convertedListModel.addElement(s);
+        queuedFilesPanel.remove(convertedFiles);
+        ConvertedfilesList = new JList<String>(convertedListModel);
+        convertedFiles.setViewportView(ConvertedfilesList);
+        queuedFilesPanel.add(convertedFiles);
+        this.revalidate();
+        this.repaint();
+    }
+
+    public void emptyConvertedFilesList() {
+        convertedListModel = new DefaultListModel<String>();
+        ConvertedfilesList = new JList<String>(convertedListModel);
+        convertedFiles.setViewportView(ConvertedfilesList);
+        this.revalidate();
+        this.repaint();
     }
 
 }

@@ -121,8 +121,9 @@ public class UploadFileRow extends JPanel {
                     }
                 } else if (typeBox.getSelectedItem().toString().equals("Raw")) {
                     genome.removeAllItems();
-                    genome.addItem("NA");
-                    genome.setSelectedItem(new String("NA"));
+                    String genomeString = new String("NA");
+                    genome.addItem(genomeString);
+                    genome.setSelectedItem(genomeString);
                     genome.setEnabled(false);
                 }
             }

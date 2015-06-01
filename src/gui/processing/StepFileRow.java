@@ -64,6 +64,9 @@ public class StepFileRow extends CommandFileRow {
         this.add(outFileTextField, CommandFileRow.WIDE);
         this.add(stepSizeSpinner, CommandFileRow.MEDIUM);
 
+        inFileComboBox.addActionListener(new InfileActionListener(outFileTextField, ".wig"));
+        inFileComboBox.setSelectedIndex(0);
+
     }
 
     public String getInFile() {

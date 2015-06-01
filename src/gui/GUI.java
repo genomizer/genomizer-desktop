@@ -42,6 +42,7 @@ public class GUI extends JFrame {
     private UserPanel userPanel;
     private UploadTab uploadTab;
     private WorkspaceTab workspaceTab;
+    private SettingsTab settingsTab;
     private LoginWindow loginWindow;
     private ProcessTab processTab;
     private SysadminTab sysadminTab;
@@ -55,6 +56,8 @@ public class GUI extends JFrame {
     private Color color;
     public int nrOfThreads = 0;
     public int statusSuccessOrFail = 0;
+    private boolean interruptedColorGreen;
+    private boolean interruptedColorRed;
 
     /**
      * Initiates the main view of the program.
@@ -115,7 +118,7 @@ public class GUI extends JFrame {
      *            New status
      * @author JH
      */
-    public void setStatusPanel(String status) {
+    public synchronized void setStatusPanel(String status) {
         statusPanel.removeAll();
         JLabel statusLabel = new JLabel(status);
         statusLabel.setHorizontalAlignment(SwingConstants.LEFT);
@@ -124,24 +127,15 @@ public class GUI extends JFrame {
         mainPanel.revalidate();
     }
 
-//    public void setStatusPanelColorSuccess(){
-//        Color color = new Color(153,255,153);
-//        statusPanel.setBackground(color);
-//    }
-//
-//    public void setStatusPanelColorFail(){
-//        Color color = new Color(243,126,126);
-//        statusPanel.setBackground(color);
-//    }
 
 
 
-    public class setStatusPanelColors implements Runnable{
+    public class SetStatusPanelColors implements Runnable{
 
         private int firstTime = 0;
 
 
-      public setStatusPanelColors(String status){
+      public SetStatusPanelColors(String status){
             setCurrentStatus(status);
         }
 
@@ -158,7 +152,14 @@ public class GUI extends JFrame {
               }
 
               statusSuccessOrFail = 1;
-              for(int i = 0; i < 100;i++){
+
+              try {
+                  Thread.sleep(2000);
+              } catch (InterruptedException e) {
+                  e.printStackTrace();
+              }
+
+              for(int i = 0; i < 60;i++){
                   if(statusSuccessOrFail == 2 || (firstTime == 1 && nrOfThreads > 1)){
                       break;
                   }
@@ -166,7 +167,7 @@ public class GUI extends JFrame {
                       firstTime  = 1;
                   }
                   try {
-                      Thread.sleep(40);
+                      Thread.sleep(60);
                   } catch (InterruptedException e) {
                       e.printStackTrace();
                   }
@@ -183,7 +184,14 @@ public class GUI extends JFrame {
               }
 
               statusSuccessOrFail = 2;
-              for(int i = 0; i < 100;i++){
+
+              try {
+                  Thread.sleep(2000);
+              } catch (InterruptedException e) {
+                  e.printStackTrace();
+              }
+
+              for(int i = 0; i < 60;i++){
                   if(statusSuccessOrFail  == 1 || (firstTime == 1 && nrOfThreads > 1)){
                       break;
                   }
@@ -191,16 +199,27 @@ public class GUI extends JFrame {
                       firstTime  = 1;
                   }
                   try {
-                      Thread.sleep(40);
+                      Thread.sleep(60);
                   } catch (InterruptedException e) {
                       e.printStackTrace();
                   }
-                  setColor(255-i,155,155);
+
+                  if(interruptedColorGreen){
+                      setColor(155,255,155);
+                  } else if (interruptedColorRed){
+                      setColor(255,155,155);
+                  } else if (!(interruptedColorGreen && interruptedColorRed)){
+                      setColor(255-i,155,155);
+                  }
+                  
                   statusPanel.setBackground(getColor());
               }
           }
           firstTime = 0;
           nrOfThreads--;
+          
+          interruptedColorGreen = false;
+          interruptedColorRed = false;
 
       }
 
@@ -208,7 +227,17 @@ public class GUI extends JFrame {
       }
 
     public void setStatusPanelColor(String status){
-        (new Thread(new setStatusPanelColors(status))).start();
+        (new Thread(new SetStatusPanelColors(status))).start();
+    }
+    public void setInstantStatusPanelColor(Color color){
+        if(color.getGreen() == 255){
+            interruptedColorGreen = true;
+            interruptedColorRed = false;
+        } else if (color.getRed() == 255){
+            interruptedColorRed = true;
+            interruptedColorGreen = false;
+        }
+        statusPanel.setBackground(color);
     }
 
 
@@ -220,7 +249,7 @@ public class GUI extends JFrame {
           return color;
       }
 
-      private void setCurrentStatus(String statusString){
+      private synchronized void setCurrentStatus(String statusString){
           status = statusString;
       }
 
@@ -378,6 +407,22 @@ public class GUI extends JFrame {
     public void setWorkspaceTab(WorkspaceTab workspaceTab) {
         this.workspaceTab = workspaceTab;
         tabbedPane.addTab("WORKSPACE", null, workspaceTab, "Workspace");
+    }
+
+    /**
+     * Sets the settingsTab of the GUI. Also sets the name of the tab in the
+     * tabbedPane.
+     *
+     * @param settingsTab
+     *            The SettingsTab to set the attribute to.
+     */
+    public void setSettingsTab(SettingsTab settingsTab) {
+        this.settingsTab = settingsTab;
+        tabbedPane.addTab("SETTINGS", null, settingsTab, "Settings");
+    }
+
+    public SettingsTab getSettingsTab() {
+        return settingsTab;
     }
 
     /**
@@ -557,6 +602,7 @@ public class GUI extends JFrame {
         SysadminTab sat = new SysadminTab();
         QuerySearchTab qst = new QuerySearchTab();
         ConvertTab ct = new ConvertTab();
+        SettingsTab st = new SettingsTab();
         // TODO: Maybe analyse too (OO)
 
         // Set tabs
@@ -566,6 +612,7 @@ public class GUI extends JFrame {
         setWorkspaceTab(wt);
         setSysAdminTab(sat);
         setConvertTab(ct);
+        setSettingsTab(st);
         // Maybe analyse too (OO)
 
         repaint();
@@ -599,12 +646,12 @@ public class GUI extends JFrame {
         return convertTab;
     }
 
-    public void setConvertFileList(ArrayList<FileData> arrayList) {
-        ArrayList<FileData> fileArray = arrayList;
+    public void setConvertFileList() {
 
         tabbedPane.setSelectedComponent(convertTab);
         convertTab.setFileInfo(workspaceTab.getSelectedData());
 
     }
+
 
 }

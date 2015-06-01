@@ -74,6 +74,9 @@ public class SmoothingFileRow extends CommandFileRow {
         this.add(meanOrMedianComboBox, CommandFileRow.MEDIUM);
         this.add(minSmoothSpinner);
 
+        inFileComboBox.addActionListener(new InfileActionListener(outFileTextField, ".wig"));
+        inFileComboBox.setSelectedIndex(0);
+
     }
 
     public String getInFile() {
@@ -93,7 +96,7 @@ public class SmoothingFileRow extends CommandFileRow {
     public String getMeanOrMedian() {
         Object o = meanOrMedianComboBox.getSelectedItem();
         if( o == null) return "null";
-        return o.toString();
+        return o.toString().toLowerCase();
     }
 
     public int getMinSmooth() {
