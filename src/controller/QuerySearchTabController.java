@@ -53,9 +53,7 @@ public class QuerySearchTabController {
 
             @Override
             public void valueChanged(TreeSelectionEvent arg0) {
-                System.out.println("test");
                 TreeTable treeTable = querySearchTab.getResultsTable();
-                System.out.println(treeTable.getNumberOfSelected());
                 if (treeTable.getNumberOfSelected() > 0) {
                     querySearchTab.getAddToWorkspaceButton().setEnabled(true);
                     querySearchTab.getAddToUploadButton().setEnabled(true);

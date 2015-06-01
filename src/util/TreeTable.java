@@ -391,7 +391,7 @@ public class TreeTable extends JPanel {
         }
         Object nodeObject = path.getLastPathComponent();
         if (nodeObject instanceof ExperimentNode) {
-            System.out.println("ExperimentNode");
+            //System.out.println("ExperimentNode");
         }
         ExperimentNode expNode = (ExperimentNode) nodeObject;
         ExperimentData exp = expNode.getExperiment();

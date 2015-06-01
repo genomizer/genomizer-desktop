@@ -71,7 +71,7 @@ public class WorkspaceTabController {
 
             @Override
             public void valueChanged(TreeSelectionEvent arg0) {
-                System.out.println(treeTable.getNumberOfSelected());
+
                 if (treeTable.getNumberOfSelected() == 1) {
                     workspaceTab.getProcessButton().setEnabled(true);
                     workspaceTab.getUploadToButton().setEnabled(true);

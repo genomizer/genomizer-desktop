@@ -11,7 +11,7 @@ import java.security.cert.X509Certificate;
 
 /**
  * Class neccessary for our https communication connections.
- * Will provide tools, and set defaults, so to skip the certificate
+ * Will provide tools, and set defaults, so as to skip the certificate
  * verification part of SSL communication. ( Server currently does not
  * use a validated certificate. )
  * As inspired by: https://code.google.com/p/misc-utils/wiki/JavaHttpsUrl

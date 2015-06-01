@@ -91,7 +91,7 @@ public class Controller {
      */
     private void loginWindowUpdate() {
         view.getLoginWindow().addLoginListener(LoginListener());
-        
+
     }
 
     /**
@@ -153,7 +153,6 @@ public class Controller {
                         if (tab == ProcessTab.class ){
 
                             // TODO
-                            System.out.println("SELECTED PROCESS TAB");
 
                         }
 

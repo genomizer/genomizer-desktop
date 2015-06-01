@@ -146,7 +146,6 @@ public class ProcessInfoPanel extends JPanel {
 
     public void showProcessFeedback(ProcessFeedbackData[] processFeedbackData) {
 
-        System.out.println(processFeedbackData);
         ArrayList<String> experiments = new ArrayList<String>();
 
         for (ProcessFeedbackData p : processFeedbackData) {

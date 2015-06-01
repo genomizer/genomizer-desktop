@@ -115,7 +115,6 @@ public class HTTPURLUpload {
             response = httpClient.execute(httpPost, localContext);
             responseCode = response.getStatusLine().getStatusCode();
             if (responseCode >= 300) {
-                System.out.println(responseCode);
                 //TODO Skapa ett vettigare felmeddelande CF
 
                 String error = String.valueOf(responseCode);

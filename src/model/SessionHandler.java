@@ -73,11 +73,9 @@ public class SessionHandler {
         LoginRequest request = RequestFactory.makeLoginRequest(username, password);
         Connection conn = connFactory.makeConnection();
         try {
-            System.out.println(this.connFactory.getIP());
+
             conn.sendRequest(request, "", Constants.JSON);
             int responseCode = conn.getResponseCode();
-            System.out.println("resp code: " + responseCode);
-            System.out.println("resp body: " + conn.getResponseBody());
 
             if (responseCode == 0) {
                 throw new LoginException("Server not found");

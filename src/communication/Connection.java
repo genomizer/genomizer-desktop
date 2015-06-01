@@ -80,12 +80,6 @@ public class Connection {
 
         try {
 
-            // TODO: utskrifter
-            System.out.println( "CONNECTION line 84!");
-            System.out.println(request.requestType + " " + request.url);
-            System.out.println(request.toJson());
-            System.out.println(type);
-
             connect(request, token, type);
 
             if (type.equals("application/json")) {
