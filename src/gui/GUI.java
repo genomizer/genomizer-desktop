@@ -140,6 +140,7 @@ public class GUI extends JFrame {
             nrOfThreads++;
             if (getCurrentStatus().equals("success")) {
                 setColor(155, 255, 155);
+                setInstantStatusPanelColor(new Color(155, 255, 155));
 
                 if (nrOfThreads == 1) {
                     firstTime = 1;
@@ -147,11 +148,6 @@ public class GUI extends JFrame {
 
                 statusSuccessOrFail = 1;
 
-                try {
-                    Thread.sleep(2000);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
 
                 for (int i = 0; i < 60; i++) {
                     if (statusSuccessOrFail == 2
@@ -173,17 +169,14 @@ public class GUI extends JFrame {
 
             } else if (getCurrentStatus().equals("fail")) {
                 setColor(255, 155, 155);
+                setInstantStatusPanelColor(new Color(255, 155, 155));
                 if (nrOfThreads == 1) {
                     firstTime = 1;
                 }
 
                 statusSuccessOrFail = 2;
 
-                try {
-                    Thread.sleep(2000);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
+         
 
                 for (int i = 0; i < 60; i++) {
                     if (statusSuccessOrFail == 1
