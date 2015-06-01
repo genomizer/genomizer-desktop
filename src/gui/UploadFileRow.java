@@ -229,7 +229,9 @@ public class UploadFileRow extends JPanel {
      * @return String representing the genome release.
      */
     public String getGenomeRelease() {
-        return genome.getSelectedItem().toString();
+        Object o = genome.getSelectedItem();
+        if (o == null) return null;
+        return o.toString();
     }
 
     /**
