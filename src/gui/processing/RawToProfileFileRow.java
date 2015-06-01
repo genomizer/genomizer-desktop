@@ -85,7 +85,7 @@ public class RawToProfileFileRow extends CommandFileRow {
 
         this.add(inFileComboBox);
         this.add(outFileTextField, CommandFileRow.WIDE);
-        this.add(flagsTextField, CommandFileRow.WIDE);
+        this.add(flagsTextField, CommandFileRow.EXTRA_WIDE);
         this.add(genomeReleaseComboBox, CommandFileRow.NARROW);
         this.add(keepSamCheckBox, "wrap");
 

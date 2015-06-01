@@ -16,6 +16,7 @@ import javax.swing.JTextField;
 @SuppressWarnings("serial")
 public abstract class CommandFileRow extends JComponent {
 
+    public static final String EXTRA_WIDE =   "w 140:210:240";
     public static final String WIDE =   "w 80:120:160";
     public static final String NARROW = "w 60:80:100";
     public static final String MEDIUM = "w 80:100:120";
