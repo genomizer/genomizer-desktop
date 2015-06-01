@@ -193,7 +193,7 @@ public class UploadTabController {
                             uploadTab.setFileRowsEnabled(false);
                             int count = 0;
                             for (File f : files) {
-                                System.out.println("testasdasd");
+
                                 model.uploadFile(expName, f,
                                         types.get(f.getName()), false,
                                         uploadTab.getGenomeVersion(f));
@@ -217,9 +217,11 @@ public class UploadTabController {
                             }
                             uploadTab.getUploadToNewExpPanel()
                                     .enableUploadButton(true);
+                            uploadTab.getUploadToNewExpPanel()
+                            .setSelectButtonEnabled(true);
                             uploadTab.setFileRowsEnabled(true);
-                            String status = "Upload to experiment \"" + expName
-                                    + "\" complete.";
+                            String status = "Changes to experiment \"" + expName
+                                    + "\" completed.";
                             view.setStatusPanel(status);
                             view.setStatusPanelColor("success");
                         } catch (RequestException e) {
@@ -288,6 +290,8 @@ public class UploadTabController {
                                 // experiment.
                                 uploadTab.getUploadToNewExpPanel()
                                         .enableUploadButton(true);
+                                uploadTab.getUploadToNewExpPanel()
+                                .setSelectButtonEnabled(true);
                                 uploadTab.setFileRowsEnabled(true);
                                 String status = "Upload to new experiment \""
                                         + expName + "\" complete.";
