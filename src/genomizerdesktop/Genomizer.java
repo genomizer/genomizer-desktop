@@ -19,6 +19,7 @@ import communication.SSLTool;
 
 import model.ErrorLogger;
 import model.Model;
+import model.SessionHandler;
 import model.User;
 import controller.Controller;
 
@@ -30,6 +31,22 @@ public class Genomizer {
     public static void main(String args[]) {
         SwingUtilities.invokeLater(new Runnable() {
             public void run() {
+
+                Runtime.getRuntime().addShutdownHook(new Thread() {
+
+                    @Override
+                    public void run() {
+
+                        if(User.getInstance().isLoggedIn()) {
+
+                            SessionHandler.getInstance().logoutUser();
+
+                        }
+
+                    }
+
+                });
+
                 // TODO
                 SSLTool.disableCertificateValidation();
                 // Create GUI
@@ -49,7 +66,7 @@ public class Genomizer {
                     QuerySearchTab qst = new QuerySearchTab();
                     ConvertTab ct = new ConvertTab();
                     SettingsTab st = new SettingsTab();
-       
+
                     // Set tabs in GUI
                     gui.setQuerySearchTab(qst);
                     gui.setUploadTab(ut);

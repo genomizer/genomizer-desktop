@@ -17,6 +17,8 @@ public class User {
 
     private String role;
 
+    private boolean loggedIn = false;
+
     private User() { }
 
     /**
@@ -65,6 +67,14 @@ public class User {
 
     public void setRole(String role) {
         this.role = role;
+    }
+
+    public boolean isLoggedIn() {
+        return loggedIn;
+    }
+
+    public void setLoggedIn(boolean loggedIn) {
+        this.loggedIn = loggedIn;
     }
 
 }

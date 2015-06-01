@@ -92,30 +92,30 @@ public class LoginWindow extends JFrame {
         bottomPanel.setLayout(null);
 
         JLabel usernameLabel = new JLabel("Name");
-        usernameLabel.setBounds(10, 40+60, 80, 25);
+        usernameLabel.setBounds(10, 40+60, 80, 28);
         bottomPanel.add(usernameLabel);
 
         usernameField = new JTextField(20);
-        usernameField.setBounds(90, 40+60, 170, 25);
+        usernameField.setBounds(90, 40+60, 170, 28);
         usernameField.setText(Constants.userName);
 
         bottomPanel.add(usernameField);
 
         JLabel passwordLabel = new JLabel("Password");
-        passwordLabel.setBounds(10, 70+60, 80, 25);
+        passwordLabel.setBounds(10, 70+60, 80, 28);
         bottomPanel.add(passwordLabel);
 
         passwordField = new JPasswordField(20);
-        passwordField.setBounds(90, 70+60, 170, 25);
+        passwordField.setBounds(90, 70+60, 170, 28);
         passwordField.setText(Constants.password);
         bottomPanel.add(passwordField);
 
         JLabel ipLabel = new JLabel("Server");
-        ipLabel.setBounds(10, 100+60, 80, 25);
+        ipLabel.setBounds(10, 100+60, 80, 28);
         bottomPanel.add(ipLabel);
 
         ipField = new JTextField(20);
-        ipField.setBounds(90, 100+60, 170, 25);
+        ipField.setBounds(90, 100+60, 170, 28);
         ipField.setText(Constants.serverAddress);
         bottomPanel.add(ipField);
 
