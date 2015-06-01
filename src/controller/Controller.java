@@ -227,6 +227,7 @@ public class Controller {
                             sessionHandler.setIP(ip);
 
                             try {
+
                                 sessionHandler.loginUser(username, password);
                                 view.updateLoginAccepted(username, password,
                                         "Desktop User");
@@ -235,6 +236,8 @@ public class Controller {
                                         .updateAnnotationTable();
                                 view.getSysAdminTab().getController()
                                         .updateGenomeReleaseTab();
+
+
 
                             } catch (LoginException e) {
                                 ErrorLogger.log("Login", username

@@ -25,6 +25,8 @@ import javax.swing.JTabbedPane;
 import javax.swing.JTable;
 import javax.swing.table.TableModel;
 
+import model.User;
+
 import controller.SysadminController;
 import controller.SysadminTabChangeListener;
 
@@ -79,7 +81,9 @@ public class SysadminTab extends JPanel {
                             buildGenomeReleaseView());
                     break;
                 case USERS:
-                    sysadminTabPane.addTab(button.getValue(), buildUsersView());
+                    if(User.getInstance().getRole().equalsIgnoreCase("ADMIN")) {
+                        sysadminTabPane.addTab(button.getValue(), buildUsersView());
+                    }
                     break;
                 default:
                     break;

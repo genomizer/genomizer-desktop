@@ -17,6 +17,8 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.JTextPane;
 
+import model.User;
+
 public class UsersViewCreator {
 
 
@@ -159,7 +161,7 @@ public class UsersViewCreator {
         textPanel.setLayout(textLayout);
         buttonPanel.setLayout(buttonLayout);
         buttonPanel.setBorder(null);
-        
+
 
         JLabel newUserNameLabel = new JLabel("Username   ");
         updateUserName = new JTextField();
@@ -222,7 +224,7 @@ public class UsersViewCreator {
         JPanel namePanel = new JPanel();
         JPanel textPanel = new JPanel();
         JPanel buttonPanel = new JPanel();
-        
+
 
         BoxLayout nameLayout = new BoxLayout(namePanel, BoxLayout.PAGE_AXIS);
         BoxLayout textLayout = new BoxLayout(textPanel, BoxLayout.PAGE_AXIS);
@@ -261,9 +263,13 @@ public class UsersViewCreator {
      *            the listener.
      */
     public void createUserButtonListener(ActionListener actionListener) {
-        createUserButton.addActionListener(actionListener);
-        deleteUserButton.addActionListener(actionListener);
-        updateUserButton.addActionListener(actionListener);
+        if(User.getInstance().getRole().equalsIgnoreCase("ADMIN")) {
+            createUserButton.addActionListener(actionListener);
+            deleteUserButton.addActionListener(actionListener);
+            updateUserButton.addActionListener(actionListener);
+        }
+
+
 
     }
 

@@ -1,11 +1,17 @@
 package responses;
 
+import com.google.gson.annotations.Expose;
+
 public class LoginResponse extends Response {
 
+   
     public String token;
+    
+    public String role;
 
-    public LoginResponse(String userID) {
+    public LoginResponse(String UserID,String role) {
         super("login");
-        this.token = userID;
+        this.token = UserID;
+        this.role = role;
     }
 }
