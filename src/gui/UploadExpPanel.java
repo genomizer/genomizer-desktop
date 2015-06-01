@@ -565,7 +565,6 @@ public class UploadExpPanel extends JPanel implements ExperimentPanel {
         } else {
             uploadSelectedBtn.setVisible(false);
             selectButton.setText("Add files");
-            uploadButton.setText("Save changes");
         }
     }
 
@@ -736,8 +735,7 @@ public class UploadExpPanel extends JPanel implements ExperimentPanel {
             if (isNewExp) {
                 uploadButton.setEnabled(false);
             } else {
-                // TODO Sätt till true när edit annotation är implementerat
-                // CF
+                uploadButton.setText("Save changes");
                 uploadButton.setEnabled(true);
             }
         }
