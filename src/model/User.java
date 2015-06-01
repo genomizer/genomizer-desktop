@@ -15,6 +15,10 @@ public class User {
     /** The user name */
     private String name;
 
+    private String role;
+
+    private boolean loggedIn = false;
+
     private User() { }
 
     /**
@@ -55,6 +59,22 @@ public class User {
      */
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getRole() {
+        return role;
+    }
+
+    public void setRole(String role) {
+        this.role = role;
+    }
+
+    public boolean isLoggedIn() {
+        return loggedIn;
+    }
+
+    public void setLoggedIn(boolean loggedIn) {
+        this.loggedIn = loggedIn;
     }
 
 }

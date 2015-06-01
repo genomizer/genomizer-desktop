@@ -28,13 +28,12 @@ import javax.swing.border.BevelBorder;
 import javax.swing.event.ChangeListener;
 
 import model.ErrorLogger;
-import util.ExperimentData;
+import model.User;
+
 import util.FileData;
 import controller.SysadminController;
 
 public class GUI extends JFrame {
-
-
 
     private static final long serialVersionUID = 6659839768426124853L;
     private JPanel mainPanel;
@@ -127,21 +126,78 @@ public class GUI extends JFrame {
         mainPanel.revalidate();
     }
 
-
-
-
-    public class SetStatusPanelColors implements Runnable{
+    public class SetStatusPanelColors implements Runnable {
 
         private int firstTime = 0;
 
-
-      public SetStatusPanelColors(String status){
+        public SetStatusPanelColors(String status) {
             setCurrentStatus(status);
         }
 
+        @Override
+        public void run() {
 
-      @Override
-      public void run() {
+            nrOfThreads++;
+            if (getCurrentStatus().equals("success")) {
+                setColor(155, 255, 155);
+                setInstantStatusPanelColor(new Color(155, 255, 155));
+
+                if (nrOfThreads == 1) {
+                    firstTime = 1;
+                }
+
+                statusSuccessOrFail = 1;
+
+
+                for (int i = 0; i < 60; i++) {
+                    if (statusSuccessOrFail == 2
+                            || (firstTime == 1 && nrOfThreads > 1)) {
+                        break;
+                    }
+                    if (nrOfThreads > 1) {
+                        firstTime = 1;
+                    }
+                    try {
+                        Thread.sleep(60);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                    setColor(155, 255 - i, 155);
+                    statusPanel.setBackground(getColor());
+
+                }
+
+            } else if (getCurrentStatus().equals("fail")) {
+                setColor(255, 155, 155);
+                setInstantStatusPanelColor(new Color(255, 155, 155));
+                if (nrOfThreads == 1) {
+                    firstTime = 1;
+                }
+
+                statusSuccessOrFail = 2;
+
+         
+
+                for (int i = 0; i < 60; i++) {
+                    if (statusSuccessOrFail == 1
+                            || (firstTime == 1 && nrOfThreads > 1)) {
+                        break;
+                    }
+                    if (nrOfThreads > 1) {
+                        firstTime = 1;
+                    }
+                    try {
+                        Thread.sleep(60);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+
+                    setColor(255 - i, 155, 155);
+                    statusPanel.setBackground(getColor());
+                }
+            }
+            firstTime = 0;
+            nrOfThreads--;
 
           nrOfThreads ++;
           if(getCurrentStatus().equals("success")){
@@ -211,23 +267,22 @@ public class GUI extends JFrame {
                   } else if (!(interruptedColorGreen && interruptedColorRed)){
                       setColor(255-i,155,155);
                   }
-                  
+
                   statusPanel.setBackground(getColor());
               }
           }
           firstTime = 0;
           nrOfThreads--;
-          
+
           interruptedColorGreen = false;
           interruptedColorRed = false;
 
       }
 
-
-      }
+    }
 
     public void setStatusPanelColor(String status){
-        (new Thread(new SetStatusPanelColors(status))).start();
+        new Thread(new SetStatusPanelColors(status)).start();
     }
     public void setInstantStatusPanelColor(Color color){
         if(color.getGreen() == 255){
@@ -237,30 +292,26 @@ public class GUI extends JFrame {
             interruptedColorRed = true;
             interruptedColorGreen = false;
         }
-        statusPanel.setBackground(color);
+
     }
 
 
-      private void setColor(int r, int g, int b){
-          color = new Color(r,g,b);
-      }
 
-      private Color getColor(){
-          return color;
-      }
+    private void setColor(int r, int g, int b) {
+        color = new Color(r, g, b);
+    }
 
-      private synchronized void setCurrentStatus(String statusString){
-          status = statusString;
-      }
+    private Color getColor() {
+        return color;
+    }
 
-      private String getCurrentStatus(){
-          return status;
-      }
+    private void setCurrentStatus(String statusString) {
+        status = statusString;
+    }
 
-
-
-
-
+    private String getCurrentStatus() {
+        return status;
+    }
 
     /**
      * adds a ChangeListener to the tabbedPane not used...? TODO unuseds
@@ -315,8 +366,6 @@ public class GUI extends JFrame {
         return this;
     }
 
-
-
     /**
      * Is run when the user has logged in, makes the GUI visible, hides the
      * loginWindow
@@ -330,6 +379,11 @@ public class GUI extends JFrame {
      */
     public void updateLoginAccepted(String username, String pwd, String name) {
         userPanel.setUserInfo(username, name, false);
+        if(User.getInstance().getRole().equalsIgnoreCase("GUEST")) {
+            removetab();
+            workspaceTab.removeButtonsforGuest();
+            querySearchTab.removeUploadButton();
+        }
         refreshGUI();
         this.setVisible(true);
         loginWindow.removeErrorMessage();
@@ -387,7 +441,9 @@ public class GUI extends JFrame {
      */
     public void setUploadTab(UploadTab uploadTab) {
         this.uploadTab = uploadTab;
+
         tabbedPane.addTab("UPLOAD", null, uploadTab, "Upload");
+
     }
 
     // TODO: Setup Analyze tab (OO)
@@ -443,6 +499,7 @@ public class GUI extends JFrame {
      */
     public void setSysAdminTab(SysadminTab sat) {
         this.sysadminTab = sat;
+
         tabbedPane.addTab("ADMINISTRATION", null, sysadminTab,
                 "System Administration");
 
@@ -520,7 +577,6 @@ public class GUI extends JFrame {
 
     }
 
-
     // TODO: They removed Cancel button from RatioCalcPopup, but left half of it
     // (OO)
     // public void addCancelListener(ActionListener listener) {
@@ -588,7 +644,7 @@ public class GUI extends JFrame {
      * Remove and re-add each tab in the GUI. For now **ONLY TABS** are reset:
      * If this changes some other methods will need updating (logoutlistener)
      */
-    public void resetGUI() {
+    public synchronized void resetGUI() {
 
         // Remove tabs
         while (tabbedPane.getTabCount() > 0) {
@@ -607,14 +663,19 @@ public class GUI extends JFrame {
 
         // Set tabs
         setQuerySearchTab(qst);
-        setUploadTab(ut);
-        setProcessTab(pt);
+        if(!User.getInstance().getRole().equalsIgnoreCase("GUEST")) {
+            setUploadTab(ut);
+            setProcessTab(pt);
+        }
+
         setWorkspaceTab(wt);
-        setSysAdminTab(sat);
-        setConvertTab(ct);
+        if(!User.getInstance().getRole().equalsIgnoreCase("GUEST")) {
+            setSysAdminTab(sat);
+            setConvertTab(ct);
+        }
+
         setSettingsTab(st);
         // Maybe analyse too (OO)
-
         repaint();
         revalidate();
     }
@@ -639,7 +700,9 @@ public class GUI extends JFrame {
 
     public void setConvertTab(ConvertTab ct) {
         this.convertTab = ct;
+
         tabbedPane.addTab("CONVERT", null, convertTab, "Convert");
+
     }
 
     public ConvertTab getConvertTab() {
@@ -653,5 +716,13 @@ public class GUI extends JFrame {
 
     }
 
+    public void removetab() {
+        tabbedPane.remove(convertTab);
+        tabbedPane.remove(processTab);
+        tabbedPane.remove(sysadminTab);
+        tabbedPane.remove(uploadTab);
+        repaint();
+        revalidate();
+    }
 
 }

@@ -11,6 +11,7 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 import javax.swing.JTextPane;
 
@@ -29,8 +30,8 @@ public class SettingsTab extends JPanel {
 
     private JPanel mainPanel;
 
-    private JTextField oldPassword;
-    private JTextField newPassword;
+    private JPasswordField oldPassword;
+    private JPasswordField newPassword;
     private JTextField namefield;
     private JTextField email;
     private JButton updateUserButton;
@@ -61,10 +62,10 @@ public class SettingsTab extends JPanel {
         buttonPanel.setLayout(buttonLayout);
 
         JLabel oldPasswordLabel = new JLabel("Old Password   ");
-        oldPassword = new JTextField();
+        oldPassword = new JPasswordField();
         oldPassword.setPreferredSize(new Dimension(120, 25));
         JLabel newPasswordLabel = new JLabel("New Password   ");
-        newPassword = new JTextField();
+        newPassword = new JPasswordField();
         newPassword.setPreferredSize(new Dimension(120, 25));
         JLabel nameLabel = new JLabel("Name       ");
         namefield = new JTextField();
@@ -107,11 +108,11 @@ public class SettingsTab extends JPanel {
     }
 
     public String getOld() {
-        return oldPassword.getText();
+        return new String(oldPassword.getPassword());
     }
 
     public String getNew() {
-        return newPassword.getText();
+        return new String(newPassword.getPassword());
     }
 
     public String getEmail() {

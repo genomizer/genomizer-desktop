@@ -18,6 +18,8 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.JTextPane;
 
+import model.User;
+
 public class UsersViewCreator {
 
     private JTextField newUserName;
@@ -270,10 +272,14 @@ public class UsersViewCreator {
      *            the listener.
      */
     public void createUserButtonListener(ActionListener actionListener) {
-        createUserButton.addActionListener(actionListener);
-        deleteUserButton.addActionListener(actionListener);
-        updateUserButton.addActionListener(actionListener);
-        getNamesButton.addActionListener(actionListener);
+        if(User.getInstance().getRole().equalsIgnoreCase("ADMIN")) {
+            createUserButton.addActionListener(actionListener);
+            deleteUserButton.addActionListener(actionListener);
+            updateUserButton.addActionListener(actionListener);
+            getNamesButton.addActionListener(actionListener);
+        }
+
+
 
     }
 
@@ -327,3 +333,4 @@ public class UsersViewCreator {
     }
 
 }
+
