@@ -123,4 +123,6 @@ public interface GenomizerModel {
 
     public boolean updateUserSettings(String oldPass, String newPass, String name,
             String email) throws RequestException;
+
+    public String[] getUserNames() throws RequestException;
 }

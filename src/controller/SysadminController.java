@@ -369,12 +369,12 @@ public class SysadminController {
             public void run() {
                 try {
                     model.createUser(uName, pass, role, rName, mail);
-                    view.setInstantStatusPanelColor(new Color(155,255,155));
+                    view.setInstantStatusPanelColor(new Color(155, 255, 155));
                     view.setStatusPanelColor("success");
                     view.setStatusPanel("Creation of User : " + uName
                             + " succesful!");
                 } catch (RequestException e) {
-                    view.setInstantStatusPanelColor(new Color(255,155,155));
+                    view.setInstantStatusPanelColor(new Color(255, 155, 155));
                     view.setStatusPanelColor("fail");
                     view.setStatusPanel("Creation of User : " + uName
                             + " failed!");
@@ -393,13 +393,13 @@ public class SysadminController {
             public void run() {
                 try {
                     model.deleteUser(uName);
-                    view.setInstantStatusPanelColor(new Color(155,255,155));
+                    view.setInstantStatusPanelColor(new Color(155, 255, 155));
                     view.setStatusPanelColor("success");
                     view.setStatusPanel("Deletion of User : " + uName
                             + " succesful!");
                 } catch (RequestException e) {
                     view.setStatusPanelColor("fail");
-                    view.setInstantStatusPanelColor(new Color(255,155,155));
+                    view.setInstantStatusPanelColor(new Color(255, 155, 155));
                     view.setStatusPanel("Deletion of User : " + uName
                             + " failed!");
                     view.setStatusPanelColor("fail");
@@ -416,12 +416,12 @@ public class SysadminController {
             public void run() {
                 try {
                     model.updateUser(uName, pass, role, rName, mail);
-                    view.setInstantStatusPanelColor(new Color(155,255,155));
+                    view.setInstantStatusPanelColor(new Color(155, 255, 155));
                     view.setStatusPanelColor("success");
                     view.setStatusPanel("Update of User : " + uName
                             + " succesful!");
                 } catch (RequestException e) {
-                    view.setInstantStatusPanelColor(new Color(255,155,155));
+                    view.setInstantStatusPanelColor(new Color(255, 155, 155));
                     view.setStatusPanelColor("fail");
                     view.setStatusPanel("Update of User : " + uName
                             + " failed!");
@@ -429,6 +429,51 @@ public class SysadminController {
                 }
             }
         }).start();
+    }
+
+    public void updateNames() {
+        new Thread(new Runnable() {
+            public void run() {
+                try {
+
+                    final String[] names = model.getUserNames();
+
+                    if (names == null) throw new RequestException(200,
+                            "No result returned!");
+
+                    SwingUtilities.invokeLater(new Runnable() {
+
+                        @Override
+                        public void run() {
+
+                            sysTab.setNameList(names);
+
+                            view.setInstantStatusPanelColor(new Color(155, 255,
+                                    155));
+                            view.setStatusPanelColor("success");
+                            view.setStatusPanel("Fetch of usernames succesful!");
+
+                        }
+                    });
+                } catch (final RequestException e) {
+
+                    SwingUtilities.invokeLater(new Runnable() {
+
+                        @Override
+                        public void run() {
+
+                            view.setInstantStatusPanelColor(new Color(255, 155,
+                                    155));
+                            view.setStatusPanelColor("fail");
+                            view.setStatusPanel("Fetch of usernames failed!");
+                            new ErrorDialog("Get UserNames", e).showDialog();
+
+                        }
+                    });
+                }
+            }
+        }).start();
+
     }
 
 }
