@@ -253,6 +253,8 @@ public class QuerySearchTab extends JPanel {
         if (activePanel == ActiveSearchPanel.TABLE) {
             searchButton.doClick();
         }
+        addToWorkspaceButton.setEnabled(false);
+        addToUploadButton.setEnabled(false);
     }
 
     /**
