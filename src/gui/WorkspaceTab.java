@@ -74,6 +74,13 @@ public class WorkspaceTab extends JPanel {
         bottomPanel.add(ongoingDownloadsPanel, BorderLayout.NORTH);
         add(buttonPanel, BorderLayout.NORTH);
         setTabbedPane();
+        deleteButton.setEnabled(false);
+        removeButton.setEnabled(false);
+        processButton.setEnabled(false);
+        convertButton.setEnabled(false);
+        uploadToButton.setEnabled(false);
+        downloadButton.setEnabled(false);
+
         setVisible(true);
     }
 
