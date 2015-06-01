@@ -12,6 +12,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import javax.swing.JButton;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -45,9 +46,9 @@ public class UploadTabController {
         uploadTab.getNewExpPanel().addSelectButtonListener(
                 SelectFilesToNewExpListener());
         uploadTab.getNewExpPanel().addUploadButtonListener(
-                UploadNewExpListener());
+                uploadExpListener());
         uploadTab.getNewExpPanel().addUploadSelectedFilesListener(
-                UploadSelectedFilesListener());
+                uploadSelectedFilesListener());
         uploadTab.getNewExpPanel().addSpeciesSelectedListener(
                 SpeciesSelectedListener());
         updateProgress();
@@ -155,13 +156,16 @@ public class UploadTabController {
         };
     }
 
-    public ActionListener UploadNewExpListener() {
+    public ActionListener uploadExpListener() {
         return new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 new Thread() {
                     @Override
                     public void run() {
+                        JButton newExpButton = uploadTab.getNewExpButton();
+                        newExpButton.setEnabled(false);
+//                        uploadTab
                         String expName = uploadTab.getNewExpPanel()
                                 .getNewExpID();
                         AnnotationDataValue[] annotations = uploadTab
@@ -235,13 +239,14 @@ public class UploadTabController {
                                 e.printStackTrace();
                             }
                         }
+                        newExpButton.setEnabled(true);
                     };
                 }.start();
             }
         };
     }
 
-    public ActionListener UploadSelectedFilesListener() {
+    public ActionListener uploadSelectedFilesListener() {
         return new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -272,7 +277,7 @@ public class UploadTabController {
                                             types.get(f.getName()), false,
                                             uploadTab.getGenomeVersion(f));
                                     uploadTab.getNewExpPanel().deleteFileRow(f);
-                                    
+
                                     for (HTTPURLUpload upload : model
                                             .getOngoingUploads()) {
                                         if (f.getName().equals(

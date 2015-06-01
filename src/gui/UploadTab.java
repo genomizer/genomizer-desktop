@@ -226,5 +226,7 @@ public class UploadTab extends JPanel {
         }
 
     }
-
+public JButton getNewExpButton(){
+    return newExpButton;
+}
 }
