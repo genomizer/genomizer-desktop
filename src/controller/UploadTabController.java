@@ -195,7 +195,9 @@ public class UploadTabController {
                                 uploadTab.getUploadToNewExpPanel()
                                         .enableUploadButton(false);
                                 uploadTab.setFileRowsEnabled(false);
+                                int count = 0;
                                 for (File f : files) {
+                                    System.out.println("testasdasd");
                                     model.uploadFile(expName, f,
                                             types.get(f.getName()), false,
                                             uploadTab.getGenomeVersion(f));
@@ -208,6 +210,8 @@ public class UploadTabController {
                                                     upload);
                                         }
                                     }
+                                    count++;
+                                    view.setStatusPanel("Upload "+count+"/"+files.size()+" done.");
                                     // TODO: Decide whether to refresh this
                                     // view part -
                                     // view.getQuerySearchTab().refresh();
@@ -268,7 +272,7 @@ public class UploadTabController {
                                             types.get(f.getName()), false,
                                             uploadTab.getGenomeVersion(f));
                                     uploadTab.getNewExpPanel().deleteFileRow(f);
-                                    view.setStatusPanel("Upload "+count+"/"+files.size()+" done.");
+                                    
                                     for (HTTPURLUpload upload : model
                                             .getOngoingUploads()) {
                                         if (f.getName().equals(
@@ -277,6 +281,8 @@ public class UploadTabController {
                                                     upload);
                                         }
                                     }
+                                    count++;
+                                    view.setStatusPanel("Upload "+count+"/"+files.size()+" done.");
                                 }
                                 // Shown when all files have been uploaded to
                                 // experiment.
