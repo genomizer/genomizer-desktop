@@ -12,6 +12,7 @@ import java.awt.event.ActionListener;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
+
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
@@ -22,7 +23,6 @@ import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 
 import model.ErrorLogger;
-
 import util.AnnotationDataType;
 import util.AnnotationDataValue;
 import util.ExperimentData;
@@ -47,6 +47,19 @@ public class UploadExpPanel extends JPanel implements ExperimentPanel {
     private ArrayList<String> genome;
     private GridBagConstraints gbc;
     private boolean isNewExp;
+
+
+    public void toggleFields(boolean bool) {
+        expID.setEnabled(bool);
+        for (String string : annotationHeaders) {
+            if (annotationBoxes.containsKey(string)) {
+                annotationBoxes.get(string).setEnabled(bool);
+            } else if(annotationFields.containsKey(string)){
+                annotationFields.get(string).setEnabled(bool);
+            }
+
+        }
+    }
 
     /**
      * Constructor initiating the new experiment panel.

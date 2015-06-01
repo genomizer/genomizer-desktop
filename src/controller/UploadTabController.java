@@ -164,6 +164,8 @@ public class UploadTabController {
                     public void run() {
                         JButton newExpButton = uploadTab.getNewExpButton();
                         newExpButton.setEnabled(false);
+                        uploadTab.getUploadToNewExpPanel().toggleFields(false);
+
                         // uploadTab
                         String expName = uploadTab.getNewExpPanel()
                                 .getNewExpID();
@@ -234,6 +236,9 @@ public class UploadTabController {
                             e.printStackTrace();
                         }
                         newExpButton.setEnabled(true);
+                        uploadTab.getUploadToNewExpPanel()
+                        .enableUploadButton(true);
+                        uploadTab.getUploadToNewExpPanel().toggleFields(true);
                     };
                 }.start();
             }
