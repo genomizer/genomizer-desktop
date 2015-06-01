@@ -447,7 +447,7 @@ public class Model implements GenomizerModel {
         GetUserNamesRequest request = RequestFactory.getUserNamesRequest();
 
         Connection conn = SessionHandler.getInstance().makeConnection();
-        conn.sendRequest(request, User.getInstance().getToken(), Constants.JSON);
+        conn.sendRequest(request, User.getInstance().getToken(), Constants.TEXT_PLAIN);
 
         return ResponseParser.getUserNamesResponse(conn.getResponseBody());
 

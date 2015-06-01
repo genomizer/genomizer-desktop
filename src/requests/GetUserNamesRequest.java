@@ -3,6 +3,6 @@ package requests;
 public class GetUserNamesRequest extends Request {
 
     public GetUserNamesRequest() {
-        super("getuserlist", "/admin/user", "GET");
+        super("getuserlist", "/admin/userlist", "GET");
     }
 }

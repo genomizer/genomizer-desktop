@@ -69,7 +69,7 @@ public class ResponseParser {
 
         } catch (JsonParseException e) {
             ErrorLogger.log(e);
-//            System.out.println("Could not parse json GR.");
+            // System.out.println("Could not parse json GR.");
             return null;
         }
 
@@ -84,7 +84,7 @@ public class ResponseParser {
         } catch (JsonParseException e) {
             ErrorLogger.log(e);
             // TODO hantera exception CF
-//            System.out.println("parse error");
+            // System.out.println("parse error");
         }
         return url;
     }
@@ -99,8 +99,8 @@ public class ResponseParser {
         } catch (JsonParseException e) {
             ErrorLogger.log(e);
             // TODO Hantera exception CF
-//            System.err
-//                    .println("Could not parse url response for adding genome release.");
+            // System.err
+            // .println("Could not parse url response for adding genome release.");
         }
 
         return urls;
@@ -123,6 +123,16 @@ public class ResponseParser {
     // TODO: Not implemented get
     public static String[] getUserNamesResponse(String json) {
         String[] names = null;
+        try {
+            UserNameList list = gson.fromJson(json, UserNameList.class);
+            names = list.getNames();
+
+        } catch (JsonParseException e) {
+
+            ErrorLogger.log(e);
+            e.printStackTrace();
+
+        }
         return names;
     }
 
