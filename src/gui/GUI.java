@@ -105,7 +105,7 @@ public class GUI extends JFrame {
         mainPanel.add(statusPanel, BorderLayout.SOUTH);
         statusPanel.setPreferredSize(new Dimension(mainPanel.getWidth(), 16));
         statusPanel.setLayout(new BoxLayout(statusPanel, BoxLayout.X_AXIS));
-        
+
 
         this.setLocationRelativeTo(null);
     }
@@ -149,7 +149,7 @@ public class GUI extends JFrame {
                 statusSuccessOrFail = 1;
 
 
-                for (int i = 0; i < 60; i++) {
+                for (int i = 0; i < 80; i++) {
                     if (statusSuccessOrFail == 2
                             || (firstTime == 1 && nrOfThreads > 1)) {
                         break;
@@ -176,9 +176,9 @@ public class GUI extends JFrame {
 
                 statusSuccessOrFail = 2;
 
-         
 
-                for (int i = 0; i < 60; i++) {
+
+                for (int i = 0; i < 80; i++) {
                     if (statusSuccessOrFail == 1
                             || (firstTime == 1 && nrOfThreads > 1)) {
                         break;
@@ -199,83 +199,7 @@ public class GUI extends JFrame {
             firstTime = 0;
             nrOfThreads--;
 
-          nrOfThreads ++;
-          if(getCurrentStatus().equals("success")){
-              setColor(155,255,155);
 
-              if(nrOfThreads == 1){
-                  firstTime  = 1;
-              }
-
-              statusSuccessOrFail = 1;
-
-              try {
-                  Thread.sleep(2000);
-              } catch (InterruptedException e) {
-                  e.printStackTrace();
-              }
-
-              for(int i = 0; i < 60;i++){
-                  if(statusSuccessOrFail == 2 || (firstTime == 1 && nrOfThreads > 1)){
-                      break;
-                  }
-                  if(nrOfThreads > 1){
-                      firstTime  = 1;
-                  }
-                  try {
-                      Thread.sleep(60);
-                  } catch (InterruptedException e) {
-                      e.printStackTrace();
-                  }
-                  setColor(155,255-i,155);
-                  statusPanel.setBackground(getColor());
-
-              }
-
-
-          } else if(getCurrentStatus().equals("fail")){
-              setColor(255,155,155);
-              if(nrOfThreads == 1){
-                  firstTime = 1;
-              }
-
-              statusSuccessOrFail = 2;
-
-              try {
-                  Thread.sleep(2000);
-              } catch (InterruptedException e) {
-                  e.printStackTrace();
-              }
-
-              for(int i = 0; i < 60;i++){
-                  if(statusSuccessOrFail  == 1 || (firstTime == 1 && nrOfThreads > 1)){
-                      break;
-                  }
-                  if(nrOfThreads > 1){
-                      firstTime  = 1;
-                  }
-                  try {
-                      Thread.sleep(60);
-                  } catch (InterruptedException e) {
-                      e.printStackTrace();
-                  }
-
-                  if(interruptedColorGreen){
-                      setColor(155,255,155);
-                  } else if (interruptedColorRed){
-                      setColor(255,155,155);
-                  } else if (!(interruptedColorGreen && interruptedColorRed)){
-                      setColor(255-i,155,155);
-                  }
-
-                  statusPanel.setBackground(getColor());
-              }
-          }
-          firstTime = 0;
-          nrOfThreads--;
-
-          interruptedColorGreen = false;
-          interruptedColorRed = false;
 
       }
 
