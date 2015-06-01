@@ -250,7 +250,9 @@ public class WorkspaceTabController {
                 //button only active if experiment is selected
                 ExperimentData firstChosenExperiment = workspaceTab.getTable()
                         .getSelectedExperiment();
+
                 UploadTab ut = view.getUploadTab();
+                ut.getUploadToNewExpPanel().setSelectButtonEnabled(true);
                 view.getTabbedPane().setSelectedComponent(ut);
                 ut.getExperimentNameField().setText(
                         firstChosenExperiment.getName());
