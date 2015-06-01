@@ -363,8 +363,9 @@ public class UploadExpPanel extends JPanel implements ExperimentPanel {
         }
 
         comboBox.setPreferredSize(new Dimension(120, 31));
+        //TODO Boolean for edit exp
+        comboBox.setEnabled(true);
         // Listener for when the user chooses something in the combobox
-        comboBox.setEnabled(isNewExp);
         comboBox.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
@@ -385,7 +386,8 @@ public class UploadExpPanel extends JPanel implements ExperimentPanel {
 
         // Add listener for when the text in the textfield changes.
         textField.getDocument().addDocumentListener(new FreetextListener());
-        textField.setEnabled(isNewExp);
+        //TODO Boolean for edit exp
+        textField.setEnabled(true);
         return textField;
     }
 
@@ -399,13 +401,15 @@ public class UploadExpPanel extends JPanel implements ExperimentPanel {
     private String addExcistingAnnotations(AnnotationDataType a) {
         if (a.getValues().length == 1
                 && a.getValues()[0].equalsIgnoreCase("freetext")) {
-            annotationFields.get(a.getName()).setEnabled(isNewExp);
+            //TODO Boolean for edit exp.
+            annotationFields.get(a.getName()).setEnabled(true);
             return a.getName();
 
         } else if (annotationBoxes.containsKey(a.getName())) {
 
             JComboBox<String> currentBox = annotationBoxes.get(a.getName());
-            currentBox.setEnabled(isNewExp);
+            //TODO Boolean for edit exp
+            currentBox.setEnabled(true);
             // +1 for emty item.
             if (a.getValues().length + 1 == currentBox.getItemCount()) {
                 return a.getName();
@@ -560,8 +564,8 @@ public class UploadExpPanel extends JPanel implements ExperimentPanel {
             uploadButton.setText("Create with all files");
         } else {
             uploadSelectedBtn.setVisible(false);
-            selectButton.setText("Browse files");
-            uploadButton.setText("Upload files");
+            selectButton.setText("Add files");
+            uploadButton.setText("Save changes");
         }
     }
 
@@ -723,6 +727,7 @@ public class UploadExpPanel extends JPanel implements ExperimentPanel {
                 }
             } else {
                 if (!uploadFileRows.isEmpty()) {
+                    uploadButton.setText("Save & Upload");
                     uploadButton.setEnabled(true);
                 }
             }
@@ -733,7 +738,7 @@ public class UploadExpPanel extends JPanel implements ExperimentPanel {
             } else {
                 // TODO Sätt till true när edit annotation är implementerat
                 // CF
-                uploadButton.setEnabled(false);
+                uploadButton.setEnabled(true);
             }
         }
     }

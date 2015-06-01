@@ -173,8 +173,8 @@ public class UploadTabController {
                         // REMOVED IF BIT -
                         // Did not dare to touch it since it looks
                         // implortants. Check later!
-                        if (files != null && files.size() > 0
-                                && annotations != null && expName != null) {
+//                        if (files != null && files.size() > 0
+//                                && annotations != null && expName != null) {
 
                             HashMap<String, String> types = uploadTab
                                     .getNewExpPanel().getTypes();
@@ -186,8 +186,8 @@ public class UploadTabController {
                                 } else {
                                     // TODO Ska anv�ndas n�r edit annot
                                     // implementerats
-                                    // model.changeExperiment(expName,
-                                    // annotations);
+                                     model.changeExperiment(expName,
+                                     annotations);
                                 }
 
                                 uploadTab.getUploadToNewExpPanel()
@@ -230,7 +230,7 @@ public class UploadTabController {
                                 // TODO Auto-generated catch block
                                 e.printStackTrace();
                             }
-                        }
+//                        }s
                     };
                 }.start();
             }

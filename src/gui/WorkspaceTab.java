@@ -122,7 +122,7 @@ public class WorkspaceTab extends JPanel {
         });
         downloadButton = new JButton("Download");
         downloadButton.setPreferredSize(new Dimension(150, 40));
-        uploadToButton = new JButton("Upload to");
+        uploadToButton = new JButton("Edit");
         uploadToButton.setPreferredSize(new Dimension(150, 40));
         processButton = new JButton("Process");
         processButton.setPreferredSize(new Dimension(150, 40));
