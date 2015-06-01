@@ -244,8 +244,8 @@ public class SysadminController {
         } catch (IllegalArgumentException e) {
             // TODO: Consider statusPanel, and make messages similar
             JOptionPane.showMessageDialog(null, "Could not add genome release");
-        } catch (RequestException e) {
-            // TODO Auto-generated catch block
+        } catch (RequestException e) {  
+            new ErrorDialog("Could not upload Genome Release", e).showDialog();
             e.printStackTrace();
         } catch (IOException e) {
             // TODO Auto-generated catch block
