@@ -75,12 +75,12 @@ public class DownloadHandler {
             }
 
             totalDownload = 0;
-            //TODO Ta bort if-sats efter testning
+            // TODO Ta bort if-sats efter testning
             /* If not "binary file", treat as text file and copy to local file */
-         //   if (isBinaryFile()) {
-                downloadBinaryFile(file);
-         //       downloadTextFile(file);
-           // }
+            // if (isBinaryFile()) {
+            downloadBinaryFile(file);
+            // downloadTextFile(file);
+            // }
 
             finished = true;
             conn.disconnect();
@@ -96,36 +96,44 @@ public class DownloadHandler {
         return true;
     }
 
-    //TODO Ta bort skiten, men testa med alla olika filer innan.
-//    private void downloadTextFile(File file) throws IOException {
-//        int previousDownload = 0;
-//        Long previousTime = System.currentTimeMillis();
-//        InputStream in = conn.getInputStream();
-//        String buffer;
-//        BufferedReader reader = new BufferedReader(
-//                new InputStreamReader(in));
-//        BufferedWriter writer = new BufferedWriter(new FileWriter(file));
-//        while ((buffer = reader.readLine()) != null && !isFinished()) {
-//            writer.write(buffer);
-//            totalDownload += buffer.length();
-//            writer.newLine();
-//            totalDownload += System.getProperty("line.separator")
-//                    .length();
-//            if (System.currentTimeMillis() - previousTime > 1000) {
-//                previousTime = System.currentTimeMillis();
-//                perSecond = totalDownload - previousDownload;
-//                previousDownload = totalDownload;
-//            }
-//        }
-//        writer.close();
-//        reader.close();
-//        in.close();
-//    }
+    // TODO Ta bort skiten, men testa med alla olika filer innan.
+    // private void downloadTextFile(File file) throws IOException {
+    // int previousDownload = 0;
+    // Long previousTime = System.currentTimeMillis();
+    // InputStream in = conn.getInputStream();
+    // String buffer;
+    // BufferedReader reader = new BufferedReader(
+    // new InputStreamReader(in));
+    // BufferedWriter writer = new BufferedWriter(new FileWriter(file));
+    // while ((buffer = reader.readLine()) != null && !isFinished()) {
+    // writer.write(buffer);
+    // totalDownload += buffer.length();
+    // writer.newLine();
+    // totalDownload += System.getProperty("line.separator")
+    // .length();
+    // if (System.currentTimeMillis() - previousTime > 1000) {
+    // previousTime = System.currentTimeMillis();
+    // perSecond = totalDownload - previousDownload;
+    // previousDownload = totalDownload;
+    // }
+    // }
+    // writer.close();
+    // reader.close();
+    // in.close();
+    // }
 
     private void downloadBinaryFile(File file) throws IOException,
             FileNotFoundException {
+        Long previousTime = System.currentTimeMillis();
+        int previousDownload = 0;
+
         InputStream in = conn.getInputStream();
         FileOutputStream fileOut = new FileOutputStream(file);
+
+        if ( conn.getContentLength() == -1 ){
+            throw new IOException( "Could not get content length!");
+        }
+
         byte[] buff = new byte[conn.getContentLength() + 1];
         int count = in.read(buff, 0, conn.getContentLength());
         totalDownload += count;
@@ -134,6 +142,12 @@ public class DownloadHandler {
             totalDownload += count;
             if (count > 0) {
                 fileOut.write(buff, 0, count);
+            }
+
+            if (System.currentTimeMillis() - previousTime > 1000) {
+                previousTime = System.currentTimeMillis();
+                perSecond = totalDownload - previousDownload;
+                previousDownload = totalDownload;
             }
         }
         fileOut.close();
