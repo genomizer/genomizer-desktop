@@ -19,7 +19,7 @@ public class DownloadFileRequestTest {
     public void setUp() {
         fileName = "Name";
         fileFormat = "Format";
-        r = RequestFactory.makeDownloadFileRequest(fileName, fileFormat);
+        r = RequestFactory.makeDownloadFileRequest(fileName);
     }
 
     @Test

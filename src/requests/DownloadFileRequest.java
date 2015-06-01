@@ -16,7 +16,7 @@ public class DownloadFileRequest extends Request {
      * @param fileFormat
      *            String representing the format of the file.
      */
-    public DownloadFileRequest(String fileID, String fileFormat) {
+    public DownloadFileRequest(String fileID) {
         super("downloadfile", "/file/" + fileID, "GET");
     }
 

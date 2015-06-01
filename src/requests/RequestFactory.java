@@ -32,10 +32,9 @@ public class RequestFactory {
         return new LogoutRequest();
     }
 
-    public static DownloadFileRequest makeDownloadFileRequest(String fileName,
-            String fileFormat) {
+    public static DownloadFileRequest makeDownloadFileRequest(String fileName) {
         String urlFileName = decodeToURL(fileName);
-        return new DownloadFileRequest(urlFileName, fileFormat);
+        return new DownloadFileRequest(urlFileName);
     }
 
     public static EditAnnotationRequest makeChangeAnnotationRequest(

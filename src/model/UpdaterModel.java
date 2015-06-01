@@ -82,7 +82,7 @@ public class UpdaterModel {
             final String path, String fileName) throws RequestException {
         // TODO: Use this until search works on the server
         DownloadFileRequest request = RequestFactory.makeDownloadFileRequest(
-                fileID, ".wig");
+                fileID);
 
         Connection conn = SessionHandler.getInstance().makeConnection();
         conn.sendRequest(request, User.getInstance().getToken(),
