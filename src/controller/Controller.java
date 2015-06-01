@@ -91,6 +91,7 @@ public class Controller {
      */
     private void loginWindowUpdate() {
         view.getLoginWindow().addLoginListener(LoginListener());
+        
     }
 
     /**
@@ -227,6 +228,7 @@ public class Controller {
                             sessionHandler.setIP(ip);
 
                             try {
+
                                 sessionHandler.loginUser(username, password);
                                 view.updateLoginAccepted(username, password,
                                         "Desktop User");
@@ -235,6 +237,10 @@ public class Controller {
                                         .updateAnnotationTable();
                                 view.getSysAdminTab().getController()
                                         .updateGenomeReleaseTab();
+                                view.setStatusPanel("Login successful");
+                                view.setStatusPanelColor("success");
+
+
 
                             } catch (LoginException e) {
                                 ErrorLogger.log("Login", username

@@ -78,7 +78,7 @@ public class SessionHandler {
             int responseCode = conn.getResponseCode();
             System.out.println("resp code: " + responseCode);
             System.out.println("resp body: " + conn.getResponseBody());
-            
+
             if (responseCode == 0) {
                 throw new LoginException("Server not found");
             }
@@ -87,6 +87,8 @@ public class SessionHandler {
             if (loginResponse != null) {
                 User.getInstance().setToken(loginResponse.token);
                 User.getInstance().setName(username);
+                User.getInstance().setRole(loginResponse.role);
+                User.getInstance().setLoggedIn(true);
             }
 
         } catch (RequestException e) {
@@ -107,7 +109,11 @@ public class SessionHandler {
         try {
             String token = User.getInstance().getToken();
             conn.sendRequest(request, token, Constants.TEXT_PLAIN);
+
+            // TODO old code. might not be needed anymore. use setLoggedIn(T/F) instead.
             User.getInstance().setToken("");
+
+            User.getInstance().setLoggedIn(false);
             return true;
         } catch (RequestException e) {
             return false;

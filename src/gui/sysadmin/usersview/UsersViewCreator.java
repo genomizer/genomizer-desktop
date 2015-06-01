@@ -13,12 +13,14 @@ import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
+import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.JTextPane;
 
-public class UsersViewCreator {
+import model.User;
 
+public class UsersViewCreator {
 
     private JTextField newUserName;
     private JTextField newPassword;
@@ -37,6 +39,9 @@ public class UsersViewCreator {
     private JButton updateUserButton;
     private JButton deleteUserButton;
 
+    private JList<String> userNameList;
+    private JButton getNamesButton;
+
     public UsersViewCreator() {
 
     }
@@ -44,10 +49,7 @@ public class UsersViewCreator {
     public JPanel buildUsersView() {
 
         JPanel mainPanel = new JPanel();
-        JPanel megaMainPanel = new JPanel();
-
-
-
+        JPanel megaMainPanel = new JPanel(new BorderLayout());
 
         BoxLayout layout = new BoxLayout(mainPanel, BoxLayout.Y_AXIS);
         mainPanel.setLayout(layout);
@@ -57,16 +59,32 @@ public class UsersViewCreator {
         mainPanel.add(buildUpdateUserBar());
         mainPanel.add(buildDeleteUserBar());
 
-
-        megaMainPanel.add(mainPanel, BoxLayout.X_AXIS);
-
-
-        JPanel extraPanel = new JPanel();
-        extraPanel.setPreferredSize(new Dimension(700,500));
-
-
-        megaMainPanel.add(extraPanel);
+        megaMainPanel.add(mainPanel, BorderLayout.WEST);
+        megaMainPanel.add(buildUserNameListing(), BorderLayout.CENTER);
+        //
+        //
+        // JPanel extraPanel = new JPanel();
+        // extraPanel.setPreferredSize(new Dimension(700,500));
+        //
+        //
+        // megaMainPanel.add(extraPanel);
         return megaMainPanel;
+    }
+
+    public JPanel buildUserNameListing() {
+
+        JPanel listPanel = new JPanel(new BorderLayout());
+
+        userNameList = new JList<String>();
+        getNamesButton = new JButton("Get Names");
+
+        listPanel.add(userNameList, BorderLayout.CENTER);
+        listPanel.add(getNamesButton, BorderLayout.SOUTH);
+
+        listPanel.setBorder(BorderFactory.createTitledBorder("List Usernames"));
+
+        return listPanel;
+
     }
 
     @SuppressWarnings("unchecked")
@@ -111,13 +129,13 @@ public class UsersViewCreator {
         createUserButton.setPreferredSize(new Dimension(120, 40));
 
         namePanel.add(newUserNameLabel);
-        namePanel.add(Box.createRigidArea(new Dimension(5,20)));
+        namePanel.add(Box.createRigidArea(new Dimension(5, 20)));
         namePanel.add(newPasswordLabel);
-        namePanel.add(Box.createRigidArea(new Dimension(5,20)));
+        namePanel.add(Box.createRigidArea(new Dimension(5, 20)));
         namePanel.add(newRealNameLabel);
-        namePanel.add(Box.createRigidArea(new Dimension(5,20)));
+        namePanel.add(Box.createRigidArea(new Dimension(5, 20)));
         namePanel.add(newMailLabel);
-        namePanel.add(Box.createRigidArea(new Dimension(5,20)));
+        namePanel.add(Box.createRigidArea(new Dimension(5, 20)));
         namePanel.add(newRoleLabel);
 
         textPanel.add(newUserName);
@@ -139,7 +157,6 @@ public class UsersViewCreator {
         return creatorPanel;
     }
 
-
     @SuppressWarnings("unchecked")
     private JPanel buildUpdateUserBar() {
 
@@ -154,12 +171,10 @@ public class UsersViewCreator {
         BoxLayout textLayout = new BoxLayout(textPanel, BoxLayout.PAGE_AXIS);
         BorderLayout buttonLayout = new BorderLayout();
 
-
         namePanel.setLayout(nameLayout);
         textPanel.setLayout(textLayout);
         buttonPanel.setLayout(buttonLayout);
         buttonPanel.setBorder(null);
-        
 
         JLabel newUserNameLabel = new JLabel("Username   ");
         updateUserName = new JTextField();
@@ -184,13 +199,13 @@ public class UsersViewCreator {
         updateUserButton.setPreferredSize(new Dimension(120, 40));
 
         namePanel.add(newUserNameLabel);
-        namePanel.add(Box.createRigidArea(new Dimension(5,20)));
+        namePanel.add(Box.createRigidArea(new Dimension(5, 20)));
         namePanel.add(newPasswordLabel);
-        namePanel.add(Box.createRigidArea(new Dimension(5,20)));
+        namePanel.add(Box.createRigidArea(new Dimension(5, 20)));
         namePanel.add(newRealNameLabel);
-        namePanel.add(Box.createRigidArea(new Dimension(5,20)));
+        namePanel.add(Box.createRigidArea(new Dimension(5, 20)));
         namePanel.add(newMailLabel);
-        namePanel.add(Box.createRigidArea(new Dimension(5,20)));
+        namePanel.add(Box.createRigidArea(new Dimension(5, 20)));
         namePanel.add(newRoleLabel);
 
         textPanel.add(updateUserName);
@@ -212,8 +227,6 @@ public class UsersViewCreator {
         return updaterPanel;
     }
 
-
-
     private JPanel buildDeleteUserBar() {
 
         // TODO: Search panel not implemented (OO)
@@ -222,12 +235,10 @@ public class UsersViewCreator {
         JPanel namePanel = new JPanel();
         JPanel textPanel = new JPanel();
         JPanel buttonPanel = new JPanel();
-        
 
         BoxLayout nameLayout = new BoxLayout(namePanel, BoxLayout.PAGE_AXIS);
         BoxLayout textLayout = new BoxLayout(textPanel, BoxLayout.PAGE_AXIS);
         BorderLayout buttonLayout = new BorderLayout();
-
 
         namePanel.setLayout(nameLayout);
         textPanel.setLayout(textLayout);
@@ -261,9 +272,14 @@ public class UsersViewCreator {
      *            the listener.
      */
     public void createUserButtonListener(ActionListener actionListener) {
-        createUserButton.addActionListener(actionListener);
-        deleteUserButton.addActionListener(actionListener);
-        updateUserButton.addActionListener(actionListener);
+        if(User.getInstance().getRole().equalsIgnoreCase("ADMIN")) {
+            createUserButton.addActionListener(actionListener);
+            deleteUserButton.addActionListener(actionListener);
+            updateUserButton.addActionListener(actionListener);
+            getNamesButton.addActionListener(actionListener);
+        }
+
+
 
     }
 
@@ -311,4 +327,10 @@ public class UsersViewCreator {
         return updateMail.getText();
     }
 
+    public void setNameList(String[] names) {
+        userNameList.setListData(names);
+
+    }
+
 }
+

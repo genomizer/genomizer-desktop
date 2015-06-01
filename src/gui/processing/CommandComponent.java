@@ -1,16 +1,21 @@
 package gui.processing;
 
+import gui.CustomButtonFactory;
+
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Stack;
 
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.border.TitledBorder;
+
+import util.IconFactory;
 
 import net.miginfocom.swing.MigLayout;
 
@@ -27,7 +32,11 @@ import net.miginfocom.swing.MigLayout;
 @SuppressWarnings("serial")
 public abstract class CommandComponent extends JComponent {
 
+    private static final int BUTTON_WIDTH = 20;
+    private static final int BUTTON_HEIGHT = 20;
+
     public String commandName;
+    private JButton removeButton;
     protected Stack<CommandFileRowPanel> commandFileRowPanelStack;
 
     /**
@@ -40,16 +49,23 @@ public abstract class CommandComponent extends JComponent {
     public CommandComponent(String commandName) {
         this.commandName = commandName;
         this.setBorder(new TitledBorder(commandName));
-        this.setLayout(new MigLayout("wrap 1"));
+        this.setLayout(new MigLayout());
         commandFileRowPanelStack = new Stack<CommandFileRowPanel>();
 
-        JPanel removalPane = new JPanel(new BorderLayout());
-        JButton jb = new JButton("X");
-        jb.addActionListener(new RemoveCommandComponentListener());
-        removalPane.add(new JLabel("Remove Command:"),BorderLayout.CENTER);
-        removalPane.add(jb,BorderLayout.EAST);
-        this.add(removalPane, "gapleft 500");
+    }
 
+    private void addRemoveButton() {
+        removeButton = buildRemoveButton();
+        this.add(removeButton, "alignx right, wrap");
+
+    }
+
+
+    private JButton buildRemoveButton() {
+        ImageIcon icon = IconFactory.getClearIcon(BUTTON_WIDTH - 2 , BUTTON_HEIGHT - 2);
+        ImageIcon hoverIcon = IconFactory.getClearIcon(BUTTON_WIDTH, BUTTON_HEIGHT);
+        String tooltip = "Remove this command";
+        return CustomButtonFactory.makeCustomButton(icon, hoverIcon, BUTTON_WIDTH, 25, tooltip);
     }
 
     /**
@@ -80,7 +96,10 @@ public abstract class CommandComponent extends JComponent {
         fileRowPanel.setRemoveButtonEnabled(false);
 
         commandFileRowPanelStack.push(fileRowPanel);
+
+        addRemoveButton();
         this.add(fileRowPanel, "wrap");
+
 
     }
 
@@ -183,6 +202,11 @@ public abstract class CommandComponent extends JComponent {
 
     }
 
+    public void addRemoveButtonListener(ActionListener removeButtonListener) {
+        removeButton.addActionListener(removeButtonListener);
+
+    }
+
     private class RemoveCommandComponentListener implements ActionListener {
 
         @Override
@@ -190,7 +214,8 @@ public abstract class CommandComponent extends JComponent {
 
             JButton sourceButton = (JButton) e.getSource();
 
-            /* The parent of the parent*5 of the button is the file scrollpanel. */
+            // TODO: Come up with better solution.
+            /* The parent of the parent of the button is the file scroll panel. */
             CommandScrollPane parentPanel = (CommandScrollPane) sourceButton
                     .getParent().getParent().getParent().getParent().getParent();
 
