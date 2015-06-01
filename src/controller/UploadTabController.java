@@ -45,8 +45,7 @@ public class UploadTabController {
         uploadTab.addNewExpButtonListener(NewExpButtonListener());
         uploadTab.getNewExpPanel().addSelectButtonListener(
                 SelectFilesToNewExpListener());
-        uploadTab.getNewExpPanel().addUploadButtonListener(
-                uploadExpListener());
+        uploadTab.getNewExpPanel().addUploadButtonListener(uploadExpListener());
         uploadTab.getNewExpPanel().addUploadSelectedFilesListener(
                 uploadSelectedFilesListener());
         uploadTab.getNewExpPanel().addSpeciesSelectedListener(
@@ -165,7 +164,7 @@ public class UploadTabController {
                     public void run() {
                         JButton newExpButton = uploadTab.getNewExpButton();
                         newExpButton.setEnabled(false);
-//                        uploadTab
+                        // uploadTab
                         String expName = uploadTab.getNewExpPanel()
                                 .getNewExpID();
                         AnnotationDataValue[] annotations = uploadTab
@@ -173,71 +172,66 @@ public class UploadTabController {
 
                         ArrayList<File> files = uploadTab.getNewExpPanel()
                                 .getUploadFiles();
-                        // TODO: Now replaced your code bits, EXCEPT FOR
-                        // REMOVED IF BIT -
-                        // Did not dare to touch it since it looks
-                        // implortants. Check later!
-                        if (files != null && files.size() > 0
-                                && annotations != null && expName != null) {
 
-                            HashMap<String, String> types = uploadTab
-                                    .getNewExpPanel().getTypes();
+                        HashMap<String, String> types = uploadTab
+                                .getNewExpPanel().getTypes();
 
-                            try {
-                                if (uploadTab.getUploadToNewExpPanel()
-                                        .getIsNewExp()) {
-                                    model.addNewExperiment(expName, annotations);
-                                } else {
-                                    // TODO Ska anv�ndas n�r edit annot
-                                    // implementerats
-                                    // model.changeExperiment(expName,
-                                    // annotations);
-                                }
-
-                                uploadTab.getUploadToNewExpPanel()
-                                        .setSelectButtonEnabled(false);
-                                uploadTab.getUploadToNewExpPanel()
-                                        .enableUploadButton(false);
-                                uploadTab.setFileRowsEnabled(false);
-                                int count = 0;
-                                for (File f : files) {
-                                    System.out.println("testasdasd");
-                                    model.uploadFile(expName, f,
-                                            types.get(f.getName()), false,
-                                            uploadTab.getGenomeVersion(f));
-                                    uploadTab.getNewExpPanel().deleteFileRow(f);
-                                    for (HTTPURLUpload upload : model
-                                            .getOngoingUploads()) {
-                                        if (f.getName().equals(
-                                                upload.getFileName())) {
-                                            model.getOngoingUploads().remove(
-                                                    upload);
-                                        }
-                                    }
-                                    count++;
-                                    view.setStatusPanel("Upload "+count+"/"+files.size()+" done.");
-                                    // TODO: Decide whether to refresh this
-                                    // view part -
-                                    // view.getQuerySearchTab().refresh();
-
-                                    // TODO Beh�vs nog inte
-                                }
-                                uploadTab.getUploadToNewExpPanel()
-                                        .enableUploadButton(true);
-                                uploadTab.setFileRowsEnabled(true);
-                                String status = "Upload to experiment \""
-                                        + expName + "\" complete.";
-                                view.setStatusPanel(status);
-                                view.setStatusPanelColor("success");
-                            } catch (RequestException e) {
-                                new ErrorDialog("Could not upload file to experiment",e).showDialog();
-                            } catch (IllegalArgumentException e) {
-                                // TODO Auto-generated catch block
-                                e.printStackTrace();
-                            } catch (IOException e) {
-                                // TODO Auto-generated catch block
-                                e.printStackTrace();
+                        try {
+                            if (uploadTab.getUploadToNewExpPanel()
+                                    .getIsNewExp()) {
+                                model.addNewExperiment(expName, annotations);
+                            } else {
+                                // TODO Ska anv�ndas n�r edit annot
+                                // implementerats
+                                model.changeExperiment(expName, annotations);
                             }
+
+                            uploadTab.getUploadToNewExpPanel()
+                                    .setSelectButtonEnabled(false);
+                            uploadTab.getUploadToNewExpPanel()
+                                    .enableUploadButton(false);
+                            uploadTab.setFileRowsEnabled(false);
+                            int count = 0;
+                            for (File f : files) {
+                                System.out.println("testasdasd");
+                                model.uploadFile(expName, f,
+                                        types.get(f.getName()), false,
+                                        uploadTab.getGenomeVersion(f));
+                                uploadTab.getNewExpPanel().deleteFileRow(f);
+                                for (HTTPURLUpload upload : model
+                                        .getOngoingUploads()) {
+                                    if (f.getName()
+                                            .equals(upload.getFileName())) {
+                                        model.getOngoingUploads()
+                                                .remove(upload);
+                                    }
+                                }
+                                count++;
+                                view.setStatusPanel("Upload " + count + "/"
+                                        + files.size() + " done.");
+                                // TODO: Decide whether to refresh this
+                                // view part -
+                                // view.getQuerySearchTab().refresh();
+
+                                // TODO Beh�vs nog inte
+                            }
+                            uploadTab.getUploadToNewExpPanel()
+                                    .enableUploadButton(true);
+                            uploadTab.setFileRowsEnabled(true);
+                            String status = "Upload to experiment \"" + expName
+                                    + "\" complete.";
+                            view.setStatusPanel(status);
+                            view.setStatusPanelColor("success");
+                        } catch (RequestException e) {
+                            new ErrorDialog(
+                                    "Could not upload file to experiment", e)
+                                    .showDialog();
+                        } catch (IllegalArgumentException e) {
+                            // TODO Auto-generated catch block
+                            e.printStackTrace();
+                        } catch (IOException e) {
+                            // TODO Auto-generated catch block
+                            e.printStackTrace();
                         }
                         newExpButton.setEnabled(true);
                     };
@@ -287,7 +281,8 @@ public class UploadTabController {
                                         }
                                     }
                                     count++;
-                                    view.setStatusPanel("Upload "+count+"/"+files.size()+" done.");
+                                    view.setStatusPanel("Upload " + count + "/"
+                                            + files.size() + " done.");
                                 }
                                 // Shown when all files have been uploaded to
                                 // experiment.
@@ -299,7 +294,9 @@ public class UploadTabController {
                                 view.setStatusPanel(status);
                                 view.setStatusPanelColor("success");
                             } catch (RequestException e) {
-                                new ErrorDialog("Could not upload file to experiment",e).showDialog();
+                                new ErrorDialog(
+                                        "Could not upload file to experiment",
+                                        e).showDialog();
                             } catch (IllegalArgumentException e) {
                                 // TODO Auto-generated catch block
                                 e.printStackTrace();

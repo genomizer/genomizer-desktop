@@ -233,8 +233,7 @@ public class QuerySearchTab extends JPanel {
                 IconFactory.getBackIcon(27, 27), 25, 25, "Back to search view");
 
         addToWorkspaceButton = new JButton("Add to workspace");
-        // TODO Change text when edit annotation is implemented CF
-        addToUploadButton = new JButton("Upload to experiment");
+        addToUploadButton = new JButton("Edit experiment");
 
         eastPanel = new JPanel();
         eastPanel.add(addToWorkspaceButton);
