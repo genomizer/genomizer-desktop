@@ -45,7 +45,7 @@ public class SmoothingFileRow extends CommandFileRow {
         meanOrMedianLabel = new JLabel("Mean/median");
         minSmoothLabel = new JLabel("Min smoothing");
 
-        this.add(inFileLabel);
+        this.add(inFileLabel, CommandFileRow.WIDE);
         this.add(outFileLabel, CommandFileRow.WIDE);
         this.add(windowSizeLabel, CommandFileRow.NARROW);
         this.add(meanOrMedianLabel, CommandFileRow.MEDIUM);
@@ -68,7 +68,7 @@ public class SmoothingFileRow extends CommandFileRow {
 
         outFileTextField.setDocument(new JTextFieldLimit(512));
 
-        this.add(inFileComboBox);
+        this.add(inFileComboBox, CommandFileRow.WIDE);
         this.add(outFileTextField, CommandFileRow.WIDE);
         this.add(windowSizeSpinner, CommandFileRow.NARROW);
         this.add(meanOrMedianComboBox, CommandFileRow.MEDIUM);

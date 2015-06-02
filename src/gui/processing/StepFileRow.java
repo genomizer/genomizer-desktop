@@ -43,7 +43,7 @@ public class StepFileRow extends CommandFileRow {
         outFileLabel = new JLabel("Outfile");
         stepSizeLabel = new JLabel("Step size");
 
-        this.add(inFileLabel);
+        this.add(inFileLabel, CommandFileRow.WIDE);
         this.add(outFileLabel, CommandFileRow.WIDE);
         this.add(stepSizeLabel, "wrap");
     }
@@ -60,7 +60,7 @@ public class StepFileRow extends CommandFileRow {
 
         outFileTextField.setDocument(new JTextFieldLimit(512));
 
-        this.add(inFileComboBox);
+        this.add(inFileComboBox, CommandFileRow.WIDE);
         this.add(outFileTextField, CommandFileRow.WIDE);
         this.add(stepSizeSpinner, CommandFileRow.MEDIUM);
 

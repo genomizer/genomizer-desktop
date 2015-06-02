@@ -62,7 +62,7 @@ public class RawToProfileFileRow extends CommandFileRow {
         keepSamLabel = new JLabel("Keep .SAM");
         keepSamLabel.setHorizontalAlignment(JLabel.CENTER);
 
-        this.add(inFileLabel);
+        this.add(inFileLabel, CommandFileRow.WIDE);
         this.add(outFileLabel, CommandFileRow.WIDE);
         this.add(flagsLabel, CommandFileRow.WIDE);
         this.add(genomeReleaseLabel, CommandFileRow.NARROW);
@@ -83,7 +83,7 @@ public class RawToProfileFileRow extends CommandFileRow {
         outFileTextField.setDocument(new JTextFieldLimit(512));
         flagsTextField.setDocument(new JTextFieldLimit(256));
 
-        this.add(inFileComboBox);
+        this.add(inFileComboBox, CommandFileRow.WIDE);
         this.add(outFileTextField, CommandFileRow.WIDE);
         this.add(flagsTextField, CommandFileRow.EXTRA_WIDE);
         this.add(genomeReleaseComboBox, CommandFileRow.NARROW);
