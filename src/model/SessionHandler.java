@@ -15,6 +15,7 @@ import responses.LoginResponse;
 import responses.ResponseParser;
 import util.Constants;
 import util.LoginException;
+import util.LoginPreferences;
 import util.RequestException;
 import communication.Connection;
 import communication.ConnectionFactory;
@@ -70,6 +71,8 @@ public class SessionHandler {
      * @throws RequestException if the log in failed
      */
     public void loginUser(String username, String password) throws LoginException {
+
+        LoginPreferences prefs = new LoginPreferences();
         LoginRequest request = RequestFactory.makeLoginRequest(username, password);
         Connection conn = connFactory.makeConnection();
         try {
@@ -87,6 +90,8 @@ public class SessionHandler {
                 User.getInstance().setName(username);
                 User.getInstance().setRole(loginResponse.role);
                 User.getInstance().setLoggedIn(true);
+                prefs.setLastUsername(username);
+                prefs.setLastServer(getIP());
             }
 
         } catch (RequestException e) {

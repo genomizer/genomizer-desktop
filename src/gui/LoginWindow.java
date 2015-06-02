@@ -24,6 +24,7 @@ import model.ErrorLogger;
 
 import util.Constants;
 import util.IconFactory;
+import util.LoginPreferences;
 
 /**
  * Class for loginwindow. Presents a window that prompts for a username,
@@ -77,6 +78,9 @@ public class LoginWindow extends JFrame {
      * Sets the layout and looks to the login window
      */
     private void placeComponents() {
+
+        LoginPreferences prefs = new LoginPreferences();
+
         mainPanel = new JPanel(new BorderLayout());
         bottomPanel = new JPanel();
         logoPanel = new JPanel(new BorderLayout());
@@ -97,7 +101,7 @@ public class LoginWindow extends JFrame {
 
         usernameField = new JTextField(20);
         usernameField.setBounds(90, 40+60, 170, 28);
-        usernameField.setText(Constants.userName);
+        usernameField.setText(prefs.getLastUsername());
 
         bottomPanel.add(usernameField);
 
@@ -107,7 +111,6 @@ public class LoginWindow extends JFrame {
 
         passwordField = new JPasswordField(20);
         passwordField.setBounds(90, 70+60, 170, 28);
-        passwordField.setText(Constants.password);
         bottomPanel.add(passwordField);
 
         JLabel ipLabel = new JLabel("Server");
@@ -116,7 +119,7 @@ public class LoginWindow extends JFrame {
 
         ipField = new JTextField(20);
         ipField.setBounds(90, 100+60, 170, 28);
-        ipField.setText(Constants.serverAddress);
+        ipField.setText(prefs.getLastServer());
         bottomPanel.add(ipField);
 
         loginButton = new JButton("Login");
