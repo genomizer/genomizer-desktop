@@ -94,6 +94,10 @@ public class QuerySearchTabController {
         return new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+
+                // If none selected, return directly and do nothing
+                if ( view.getQuerySearchTab().getSelectedData().size() == 0 ) return;
+
                 ExperimentData firstChosenExperiment = view.getQuerySearchTab()
                         .getSelectedData().get(0);
 
