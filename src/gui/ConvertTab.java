@@ -170,12 +170,12 @@ public class ConvertTab extends JPanel {
      */
     private void setupDeletePanel() {
         deletePanel = new JPanel();
-        deleteSelectedFiles = new JButton("Delete selected files");
+        deleteSelectedFiles = new JButton("Remove selected files");
         removeAllConvertedFiles = new JButton("Clear converted files");
         deletePanel.add(deleteSelectedFiles);
         deletePanel.add(removeAllConvertedFiles);
         deleteSelectedFiles.setEnabled(false);
-        deletePanel.setBorder(BorderFactory.createTitledBorder("Delete"));
+        deletePanel.setBorder(BorderFactory.createTitledBorder("Remove"));
     }
 
     /**
