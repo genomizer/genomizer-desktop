@@ -17,7 +17,7 @@ import net.miginfocom.swing.MigLayout;
 @SuppressWarnings("serial")
 public class RawToProfileFileRow extends CommandFileRow {
 
-    private static final String FLAGS_DEFAULT = " -a -m 1 --best -p 10 -v 2 -q -S--phred33";
+    private static final String FLAGS_DEFAULT = "-a -S";
     private JComboBox<String> inFileComboBox;
     private JTextField outFileTextField;
     private JTextField flagsTextField;
@@ -78,6 +78,7 @@ public class RawToProfileFileRow extends CommandFileRow {
         flagsTextField = new JTextField();
         genomeReleaseComboBox = new JComboBox<String>(genomeReleases);
         keepSamCheckBox = new JCheckBox();
+        keepSamCheckBox.setSelected(true);
         keepSamCheckBox.setHorizontalAlignment(JCheckBox.CENTER);
 
         outFileTextField.setDocument(new JTextFieldLimit(512));
