@@ -7,16 +7,16 @@ public class RatioParameters implements ProcessParameters {
     public String outfile;
     public String mean;
     public int readsCutoff;
-    public String chromosome;
+    public String chromosomes;
 
     public RatioParameters(String preChipFile, String postChipFile,
-            String outfile, String mean, int readsCutoff, String chromosome) {
+            String outfile, String mean, int readsCutoff, String chromosomes) {
         this.preChipFile = preChipFile;
         this.postChipFile = postChipFile;
         this.outfile = outfile;
         this.mean = mean;
         this.readsCutoff = readsCutoff;
-        this.chromosome = chromosome;
+        this.chromosomes = chromosomes;
     }
 
     @Override
@@ -24,7 +24,7 @@ public class RatioParameters implements ProcessParameters {
         return "preChipFile: " + preChipFile + "\n" + "postChipFile: "
                 + postChipFile + "\n" + "outfile: " + outfile + "\n" + "mean: "
                 + mean + "\n" + "readsCutoff: " + readsCutoff + "\n"
-                + "chromosome: " + chromosome;
+                + "chromosomes: " + chromosomes;
     }
 
 }

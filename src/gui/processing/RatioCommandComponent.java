@@ -54,7 +54,7 @@ public class RatioCommandComponent extends CommandComponent {
     private RatioParameters buildProcessParameters(RatioFileRow fr) {
         return new RatioParameters(fr.getpreChipFile(), fr.getpostChipFile(),
                 fr.getOutFile(), fr.getMean(), fr.getReadsCutoff(),
-                fr.getChromosomeText());
+                fr.getChromosomesText());
     }
 
     /**

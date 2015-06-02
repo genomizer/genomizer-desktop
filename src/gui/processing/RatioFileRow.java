@@ -24,14 +24,14 @@ public class RatioFileRow extends CommandFileRow {
     private JTextField outFileTextField;
     private JComboBox<String> meanComboBox;
     private JSpinner readsCutoffSpinner;
-    private JTextField chromosomeTextField;
+    private JTextField chromosomesTextField;
 
     private JLabel preChipFileLabel;
     private JLabel postChipFileLabel;
     private JLabel outFileLabel;
     private JLabel meanLabel;
     private JLabel readsCutoffLabel;
-    private JLabel chromosomeLabel;
+    private JLabel chromosomesLabel;
 
     private String[] fileNames;
 
@@ -58,14 +58,14 @@ public class RatioFileRow extends CommandFileRow {
         outFileLabel = new JLabel("Outfile");
         meanLabel = new JLabel("Mean");
         readsCutoffLabel = new JLabel("ReadsCutoff");
-        chromosomeLabel = new JLabel("Chromosome");
+        chromosomesLabel = new JLabel("Chromosomes");
 
         this.add(preChipFileLabel, CommandFileRow.WIDE);
         this.add(postChipFileLabel, CommandFileRow.WIDE);
         this.add(outFileLabel, CommandFileRow.MEDIUM);
         this.add(meanLabel, CommandFileRow.NARROW);
         this.add(readsCutoffLabel, CommandFileRow.MEDIUM);
-        this.add(chromosomeLabel, "wrap");
+        this.add(chromosomesLabel, "wrap");
     }
 
     @Override
@@ -84,17 +84,17 @@ public class RatioFileRow extends CommandFileRow {
         SpinnerModel windowSizeSpinnerModel = new SpinnerNumberModel(1, 0,
                 Integer.MAX_VALUE, 1);
         readsCutoffSpinner = new JSpinner(windowSizeSpinnerModel);
-        chromosomeTextField = new JTextField();
+        chromosomesTextField = new JTextField();
 
         outFileTextField.setDocument(new JTextFieldLimit(512));
-        chromosomeTextField.setDocument(new JTextFieldLimit(512));
+        chromosomesTextField.setDocument(new JTextFieldLimit(512));
 
         this.add(preChipFileComboBox, CommandFileRow.WIDE);
         this.add(postChipFileComboBox, CommandFileRow.WIDE);
         this.add(outFileTextField, CommandFileRow.MEDIUM);
         this.add(meanComboBox, CommandFileRow.NARROW);
         this.add(readsCutoffSpinner, CommandFileRow.MEDIUM);
-        this.add(chromosomeTextField, CommandFileRow.NARROW);
+        this.add(chromosomesTextField, CommandFileRow.NARROW);
     }
 
     public String getpreChipFile() {
@@ -121,7 +121,7 @@ public class RatioFileRow extends CommandFileRow {
         return (int) readsCutoffSpinner.getValue();
     }
 
-    public String getChromosomeText() {
-        return chromosomeTextField.getText();
+    public String getChromosomesText() {
+        return chromosomesTextField.getText();
     }
 }

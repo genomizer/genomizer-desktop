@@ -52,16 +52,16 @@ public final class Process {
      * Data is fed as the Jtext/checkbox fields. (OO)
      * @param ratioWindowSize
      * @param inputReads
-     * @param chromosome
+     * @param chromosomes
      * @param ratioStepPosition
      * @return true if all values ar valid (correctly nonnegative numbers), else false
      */
     public static boolean isRatioCorrectToProcess(JTextField ratioWindowSize,
-            JTextField inputReads, JTextField chromosome,
+            JTextField inputReads, JTextField chromosomes,
             JTextField ratioStepPosition) {
         return aboveZero(ratioWindowSize.getText().trim())
                 && zeroOrAbove(inputReads.getText().trim())
-                && zeroOrAbove(chromosome.getText().trim())
+                && zeroOrAbove(chromosomes.getText().trim())
                 && zeroOrAbove(ratioStepPosition.getText().trim());
     }
 

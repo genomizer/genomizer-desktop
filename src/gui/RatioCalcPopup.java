@@ -39,7 +39,7 @@ public class RatioCalcPopup extends JFrame {
     private JPanel bottomPanel;
     public JButton okButton = new JButton("Ok");
     public final JTextField inputReads = new JTextField();
-    public final JTextField chromosome = new JTextField();
+    public final JTextField chromosomes = new JTextField();
     public final JTextField ratioWindowSize = new JTextField();
     public final JTextField ratioStepPosition = new JTextField();
     public final JCheckBox ratioPrintMean = new JCheckBox("Print mean");
@@ -100,7 +100,7 @@ public class RatioCalcPopup extends JFrame {
         
         topPanel.add(single);
         topPanel.add(inputReads);
-        topPanel.add(chromosome);
+        topPanel.add(chromosomes);
         centerPanel.add(ratioWindowSize);
         centerPanel.add(ratioSmoothType);
         centerPanel.add(ratioStepPosition);
@@ -113,8 +113,8 @@ public class RatioCalcPopup extends JFrame {
         inputReads.setBorder(BorderFactory
                 .createTitledBorder("Input reads cut-off"));
         inputReads.setPreferredSize(new Dimension(160, 60));
-        chromosome.setBorder(BorderFactory.createTitledBorder("Chromosomes"));
-        chromosome.setPreferredSize(new Dimension(120, 60));
+        chromosomes.setBorder(BorderFactory.createTitledBorder("Chromosomes"));
+        chromosomes.setPreferredSize(new Dimension(120, 60));
         
         ratioWindowSize.setBorder(BorderFactory
                 .createTitledBorder("Window size"));
@@ -135,7 +135,7 @@ public class RatioCalcPopup extends JFrame {
         single.removeAllItems();
         ratioSmoothType.removeAllItems();
         inputReads.setText("");
-        chromosome.setText("");
+        chromosomes.setText("");
         ratioWindowSize.setText("");
         ratioStepPosition.setText("");
         single.addItem("");
@@ -160,7 +160,7 @@ public class RatioCalcPopup extends JFrame {
         single.addItem(comboSingle.get(0));
         single.addItem(comboSingle.get(1));
         inputReads.setText("4");
-        chromosome.setText("0");
+        chromosomes.setText("0");
         ratioWindowSize.setText("150");
         ratioSmoothType.setSelectedIndex(0);
         ratioStepPosition.setText("7");
@@ -226,7 +226,7 @@ public class RatioCalcPopup extends JFrame {
     }
     
     private String getChromosomes() {
-        return chromosome.getText().trim();
+        return chromosomes.getText().trim();
     }
     
     private String getInputReads() {

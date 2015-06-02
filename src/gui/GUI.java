@@ -550,7 +550,7 @@ public class GUI extends JFrame {
 //        return !processTab.useRatio()
 //                || Process.isRatioCorrectToProcess(
 //                        ratioCalcPopup.ratioWindowSize,
-//                        ratioCalcPopup.inputReads, ratioCalcPopup.chromosome,
+//                        ratioCalcPopup.inputReads, ratioCalcPopup.chromosomes,
 //                        ratioCalcPopup.ratioStepPosition);
     }
 
