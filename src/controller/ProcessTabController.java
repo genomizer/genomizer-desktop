@@ -59,7 +59,7 @@ public class ProcessTabController {
             @Override
             public void actionPerformed(ActionEvent e) {
 
-                String []files = model.getFileNames();
+                String [] files = model.getFileNames();
                 String [] filenames = new String[files.length+1];
 
                 for( int i = 0; i < files.length; i++ )
